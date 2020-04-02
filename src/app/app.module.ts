@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ExampleCommonComponentComponent } from './components/example-common-component/example-common-component.component';
+import { ExampleCommonComponentComponent } from './core/components/example-common-component/example-common-component.component';
 
 @NgModule({
   declarations: [

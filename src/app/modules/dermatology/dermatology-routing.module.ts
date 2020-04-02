@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ExampleLocalComponentComponent } from './components/example-local-component/example-local-component.component';
-
 
 const routes: Routes = [
   {
     path: '',
-    component: ExampleLocalComponentComponent
+    loadChildren: () => import('./example-submodule-dermatology/example-submodule-dermatology.module')
+      .then(m => m.ExampleSubmoduleDermatologyModule)
   }
 ];
 
@@ -15,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ExampleModuleRoutingModule { }
+export class DermatologyRoutingModule { }

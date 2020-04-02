@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-
 const routes: Routes = [
   {
-    path: 'example',
-    loadChildren: () => import('./modules/example-module/example-module.module')
-      .then(m => m.ExampleModuleModule)
-
+    path: 'dermatology',
+    loadChildren: () => import('./modules/dermatology/dermatology.module')
+      .then(m => m.DermatologyModule)
   }
 ];
 
