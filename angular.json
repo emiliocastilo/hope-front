@@ -136,5 +136,8 @@
       }
     }
   },
-  "defaultProject": "apps-hopes-front"
+  "defaultProject": "apps-hopes-front",
+  "cli": {
+    "analytics": false
+  }
 }
