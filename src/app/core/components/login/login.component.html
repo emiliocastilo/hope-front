@@ -1,0 +1,49 @@
+<div class="app flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="wrapper fadeInDown">
+                            <div id="formContent">
+                                <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+                                    <div class="text-center mb-4">
+                                        <img src="assets/img/hopes-launch.png" class="center" />
+                                    </div>
+
+                                    <input type="text" id="username" formControlName="username"
+                                        class="form-control fadeIn second" name="username"
+                                        [ngClass]="{ 'is-invalid': submitted && formControl.username.errors }"
+                                        placeholder="username">
+                                    <div *ngIf="submitted && formControl.username.errors" class="invalid-feedback">
+                                        <div *ngIf="formControl.username.errors.required">El usuario es obligatorio.
+                                        </div>
+                                    </div>
+                                    <input type="password" id="password" formControlName="password"
+                                        class="form-control fadeIn third" name="password"
+                                        [ngClass]="{ 'is-invalid': submitted && formControl.password.errors }"
+                                        placeholder="contraseña">
+                                    <div *ngIf="submitted && formControl.password.errors" class="invalid-feedback">
+                                        <div *ngIf="formControl.password.errors.required">La contraseña es obligatoria
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-4 mb-2">
+                                        <button [disabled]="loading" class="btn btn-outline-primary fadeIn fourth">
+                                            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                            ENTRAR
+                                        </button>
+                                    </div>
+
+                                </form>
+
+                                <div id="formFooter">
+                                    <a class="underlineHover" href="#">Has olvidado la contraseña?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
