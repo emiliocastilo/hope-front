@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../../models/login.model';
 import { LoginService } from '../../services/login/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
+    public _translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -38,7 +40,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
+debugger
     const login = new LoginModel(this.formControl.username.value, this.formControl.password.value);
     this.loading = true;
     this._loginService.login(login)
