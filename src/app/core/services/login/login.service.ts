@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { LoginModel } from '../../models/login.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -23,17 +24,15 @@ export class LoginService {
   }
 
   login(login: LoginModel): Observable<any> {
-    return this._http.post('/login', login);
-    /*TODO: pipe realizado para procesar petición, por ver como nos lleva
-     .pipe(map(user => {
-       if (user && user.token) {
-         localStorage.setItem('currentUser', JSON.stringify(user.result));
-         this.currentUserSubject.next(user);
-       }
-    
-       return user;
-     }));
-    */
+    return this._http.post('/login', login)
+      .pipe(map(res => {
+        let response: any = res;
+        if (response && response.roles) {
+          localStorage.setItem('roles', JSON.stringify(response.roles));
+          //this.currentUserSubject.next(response);
+        }
+        return response;
+      }));
   }
 
   logout() {
@@ -44,6 +43,10 @@ export class LoginService {
   isLogin() {
     //comporbar token
     return (localStorage.getItem('token')) ? true : false;
+  }
+
+  resetPassword(email: String): Observable<any> {
+    return this._http.post('/reset-password', email);
   }
 
 }

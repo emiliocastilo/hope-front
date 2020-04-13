@@ -2,7 +2,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../../models/login.model';
 import { LoginService } from '../../services/login/login.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private _loginService: LoginService,
     private _formBuilder: FormBuilder,
-    private _route: ActivatedRoute,
     private _router: Router,
     public _translate: TranslateService
   ) { }

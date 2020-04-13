@@ -14,10 +14,12 @@ import { LoginService } from './core/services/login/login.service';
 import { InterceptorService } from './core/services/interceptor/interceptor.service';
 import { ButtonComponent } from './core/components/basics/button/button.component';
 import { InputComponent } from './core/components/basics/input/input.component';
+import { ResetPasswordComponent } from './core/components/reset-password/reset-password.component';
+import { SelectRoleComponent } from './core/components/select-role/select-role.component';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,9 @@ export function createTranslateLoader(http: HttpClient) {
     LoginComponent,
     DashboardComponent,
     ButtonComponent,
-    InputComponent
+    InputComponent,
+    ResetPasswordComponent,
+    SelectRoleComponent
   ],
   imports: [
     BrowserModule,
