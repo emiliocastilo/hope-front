@@ -1,0 +1,11 @@
+<ul class="nav navbar-light flex-column side-bar-menu">
+    <ngContainer *ngFor="let menuOption of menu">
+        <side-bar-link *ngIf="!menuOption.children"  [id]="menuOption.id" [linkText]="menuOption.title"></side-bar-link>    
+        <li class="nav-item" [ngClass]="'sub-side-bar-menu-level-'+level" *ngIf="menuOption.children">
+            <label class="nav-link">{{menuOption.title}}</label>
+            <p class="m-0 p-0">
+            <side-bar-menu [menu]="menuOption.children" [level]="level+LEVEL_ONE"></side-bar-menu>
+            </p>
+        </li>
+    </ngContainer>
+</ul>
