@@ -1,12 +1,15 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ToastrModule } from 'ngx-toastr';
+import { AppComponent } from './app.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { LoginComponent } from './core/components/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './core/components/dashboard/dashboard.component';
 import { LoginService } from './core/services/login/login.service';
 import { InterceptorService } from './core/services/interceptor/interceptor.service';
@@ -17,7 +20,6 @@ import { SideBarLinkComponent } from './core/components/side-bar/side-bar-link/s
 import { HomeDashboardComponent } from './core/components/home/home-dashboard/home-dashboard.component';
 import { SideBarMenuComponent } from './core/components/side-bar/side-bar-menu/side-bar-menu.component';
 import { HomeDashboardModuleComponent } from './core/components/home/home-dashboard/home-dashboard-module/home-dashboard-module.component';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ButtonComponent } from './core/components/basics/button/button.component';
 import { InputComponent } from './core/components/basics/input/input.component';
 import { ResetPasswordComponent } from './core/components/reset-password/reset-password.component';
@@ -55,6 +57,8 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [LoginService, TranslateService, { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }],
   bootstrap: [AppComponent]

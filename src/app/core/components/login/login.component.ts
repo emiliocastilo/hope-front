@@ -4,6 +4,7 @@ import { LoginModel } from '../../models/login.model';
 import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -15,13 +16,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
-  returnUrl: string;
 
   constructor(
     private _loginService: LoginService,
     private _formBuilder: FormBuilder,
     private _router: Router,
-    public _translate: TranslateService
+    public _translate: TranslateService,
+    private _toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -56,6 +57,7 @@ export class LoginComponent implements OnInit {
         error => {
           this.loading = false;
           console.log(<any>error);
+          this._toastr.error(error.status + " " + error.statusText);
         });
   }
 }
