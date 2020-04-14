@@ -1,4 +1,5 @@
 {
     "login.resetPassword":"Forgot Password?",
-    "btn.ENTRAR":"LOGIN"
+    "btn.ENTRAR":"LOGIN",
+    "btn.SELECCIONAR":"SELECT"
 }
