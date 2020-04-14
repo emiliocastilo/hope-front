@@ -17,7 +17,7 @@ const routes: Routes = [
     component: ResetPasswordComponent
   },
   {
-    path: 'app-select-role',
+    path: 'select-role',
     component: SelectRoleComponent,
     canActivate: [AuthGuard]
   },
