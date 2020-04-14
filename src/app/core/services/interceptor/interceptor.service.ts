@@ -11,6 +11,7 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    debugger
     let reqUrl = environment.URL_API;
     req = req.clone({
       headers: req.headers.set(
