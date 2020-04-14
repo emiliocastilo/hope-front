@@ -12,7 +12,6 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    debugger
     let reqUrl = environment.URL_API;
     req = req.clone({
       headers: req.headers.set(
@@ -23,7 +22,7 @@ export class InterceptorService implements HttpInterceptor {
     });
     return next.handle(req);
   }
-  
+
   private _setAuthorizations(): string {
     let token = localStorage.getItem("token") || '';
 
@@ -32,7 +31,7 @@ export class InterceptorService implements HttpInterceptor {
         token = "Bearer " + localStorage.getItem("token");
       }
     }
-    
+
     return token;
   }
 }
