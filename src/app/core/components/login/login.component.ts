@@ -39,13 +39,19 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-debugger
+
     const login = new LoginModel(this.formControl.username.value, this.formControl.password.value);
     this.loading = true;
     this._loginService.login(login)
       .subscribe(
         data => {
-          this._router.navigate(['/']);
+
+          if (data.url != null && data.url.includes("choose_profile")) {
+            this._router.navigate(['dermatology']);
+          } else {
+            this._router.navigate(['select-role']);
+          }
+
         },
         error => {
           this.loading = false;

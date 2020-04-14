@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ReturnStatement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,22 @@ export class InterceptorService implements HttpInterceptor {
     req = req.clone({
       headers: req.headers.set(
         "Authorization",
-        "Bearer " + localStorage.getItem("token")
+        this._setAuthorizations()
       ),
       url: reqUrl + "" + req.url
     });
     return next.handle(req);
+  }
+  
+  private _setAuthorizations(): string {
+    let token = localStorage.getItem("token") || '';
+
+    if (token !== null && token !== '') {
+      if (!token.includes("Bearer ")) {
+        token = "Bearer " + localStorage.getItem("token");
+      }
+    }
+    
+    return token;
   }
 }
