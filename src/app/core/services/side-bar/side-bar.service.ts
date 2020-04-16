@@ -7,10 +7,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SideBarService {
 
-  constructor(private _httpClient: HttpClient) {}
+  constructor(private _httpClient: HttpClient) { }
 
-  public getSideBar():Observable<any>{
-    return this._httpClient.get('5e8df57c310000391b429e73');
+  public getSideBar(): Observable<any> {
+    return null;//this._httpClient.get('5e8df57c310000391b429e73');
   }
 
 }

@@ -19,8 +19,6 @@ import { HomeDashboardModuleComponent } from '../../components/home/home-dashboa
 import { ResetPasswordComponent } from '../../components/reset-password/reset-password.component';
 import { SelectRoleComponent } from '../../components/select-role/select-role.component';
 
-
-
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

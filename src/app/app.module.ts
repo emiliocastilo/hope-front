@@ -31,7 +31,11 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    CoreModule
+    CoreModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   exports: [
   ],
