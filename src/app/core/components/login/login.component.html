@@ -8,8 +8,13 @@
                             <div id="formContent">
                                 <form [formGroup]="loginForm">
                                     <div class="text-center mb-4">
-                                        <img src="assets/img/hopes-launch.png" class="center"/>
+                                        <img src="assets/img/hopes-launch.png" class="center" />
                                     </div>
+
+                                    <app-input id="prueba" name="prueba" maxlength="4" label="{{ 'prueba' | translate}}"
+                                        formControlName="prueba" [isDisabled]="false" class="fadeIn second"
+                                        [ngClass]="{ 'is-invalid': submitted && formControl.prueba.errors }">
+                                    </app-input>
 
                                     <input type="text" id="username" formControlName="username"
                                         class="form-control fadeIn second" name="username"
@@ -34,7 +39,8 @@
                                 </form>
 
                                 <div id="formFooter">
-                                    <a class="underlineHover" routerLink="/reset-password">{{ "login.resetPassword" | translate}}</a>
+                                    <a class="underlineHover"
+                                        routerLink="/reset-password">{{ "login.resetPassword" | translate}}</a>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../../models/login.model';
 import { LoginService } from '../../services/login/login.service';
@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this._formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      prueba: new FormControl()
     });
 
   }
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
   get formControl() { return this.loginForm.controls; }
 
   onFormSubmit() {
+    debugger
     this.submitted = true;
     if (this.loginForm.invalid) {
       return;
@@ -43,12 +45,13 @@ export class LoginComponent implements OnInit {
 
     const login = new LoginModel(this.formControl.username.value, this.formControl.password.value);
     this.loading = true;
+    debugger
     this._loginService.login(login)
       .subscribe(
         data => {
 
           if (data.url != null && data.url.includes("choose_profile")) {
-            this._router.navigate(['dermatology']);
+            this._router.navigate(['/']);
           } else {
             this._router.navigate(['select-role']);
           }

@@ -1,36 +1,61 @@
-import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input, forwardRef } from '@angular/core';
+import { FormControl, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.sass']
+  styleUrls: ['./input.component.sass'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputComponent),
+      multi: true
+    }
+  ]
 })
-export class InputComponent {
+export class InputComponent implements ControlValueAccessor {
 
   @Input() label: String;
   @Input() maxlength: any = 256;
   @Input() type: String = 'text';
   @Input() id: String;
-  @Input() soloLectura: boolean = false;
   @Input() requerido: boolean = false;
-  @Input() obligatorio: String;
-  @Input() msjAyuda: String;
+  @Input() isDisabled: boolean;
+
+  value: string;
+  onChange = (_: any) => { }
+  onTouch = () => { }
 
   childControl = new FormControl();
 
-  writeValue(value: any) {
+  onInput(value: string) {
+    this.value = value;
+    this.onTouch();
+    this.onChange(this.value);
+  }
+
+  writeValue(value: any): void {
+    if (value) {
+      this.value = value || '';
+    } else {
+      this.value = '';
+    }
+
     this.childControl.setValue(value);
   }
 
   registerOnChange(fn: (value: any) => void) {
-    this.fn = fn;
+    this.onChange = fn;
   }
 
-  registerOnTouched() { }
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
 
-  fn = (value: any) => { }
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+  }
 
   constructor(
     public _translate: TranslateService
