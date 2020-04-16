@@ -1,5 +1,7 @@
 {
     "login.resetPassword":"Forgot Password?",
     "btn.ENTRAR":"LOGIN",
-    "btn.SELECCIONAR":"SELECT"
+    "btn.SELECCIONAR":"SELECT",
+    "validation.user":"Username is required.",
+    "validation.password":"Password is required."
 }

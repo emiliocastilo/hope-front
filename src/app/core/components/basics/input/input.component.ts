@@ -1,33 +1,32 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, Input, Self, OnInit } from '@angular/core';
+import { FormControl, ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.sass'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
-      multi: true
-    }
-  ]
+  styleUrls: ['./input.component.sass']
 })
-export class InputComponent implements ControlValueAccessor {
+export class InputComponent implements OnInit, ControlValueAccessor {
 
-  @Input() label: String;
+  @Input() label: String = "";
   @Input() maxlength: any = 256;
   @Input() type: String = 'text';
   @Input() id: String;
   @Input() requerido: boolean = false;
-  @Input() isDisabled: boolean;
+  @Input() isDisabled: boolean = false;
+  @Input() placeholder: string = "";
 
   value: string;
   onChange = (_: any) => { }
   onTouch = () => { }
 
   childControl = new FormControl();
+
+  ngOnInit() {
+    this.controlDirective.control.setValidators([this.validate.bind(this)]);
+    this.controlDirective.control.updateValueAndValidity();
+  }
 
   onInput(value: string) {
     this.value = value;
@@ -57,8 +56,17 @@ export class InputComponent implements ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
+  validate({ value }: FormControl) {
+    const isNotValid = this.value == "" || this.value == undefined || this.value == null;
+    return isNotValid && {
+      invalid: true
+    }
+  }
+
   constructor(
-    public _translate: TranslateService
-  ) { }
+    public _translate: TranslateService,
+    @Self() private controlDirective: NgControl) {
+    controlDirective.valueAccessor = this;
+  }
 
 }
