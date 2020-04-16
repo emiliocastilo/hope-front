@@ -15,8 +15,8 @@ const routes: Routes = [
     resolve: {
       menu: SideBarResolverService,
       homeDashboard: HomeDashboardResolverService
-    },
-    canActivate: [AuthGuard]
+    }//,
+    //canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -34,8 +34,8 @@ const routes: Routes = [
   {
     path: 'dermatology',
     loadChildren: () => import('./modules/dermatology/dermatology.module')
-      .then(m => m.DermatologyModule),
-    canActivate: [AuthGuard]
+      .then(m => m.DermatologyModule)//,
+    //canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' }
 ];

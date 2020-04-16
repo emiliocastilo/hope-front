@@ -5,8 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./example-submodule-dermatology/example-submodule-dermatology.module')
-      .then(m => m.ExampleSubmoduleDermatologyModule)
+    loadChildren: () => import('./patients/patients.module')
+      .then(m => m.PatientsModule)
   }
 ];
 
