@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  URL_API: 'http://localhost:8080'
+  URL_API: 'http://localhost:8080/v1'
   //URL_API: 'http://www.mocky.io/v2/'
 
 };
