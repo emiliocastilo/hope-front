@@ -2,6 +2,7 @@
     <span class="ui-float-label">
         <label for="{{id}}">{{ label | translate}}</label>
         <input type="{{type}}" id="{{id}}" attr.maxlength="{{maxlength}}" required="{{requerido}}"
-            (input)="onInput($event.target.value)" class="form-control" [value]="value" [disabled]="isDisabled">
+            (input)="onInput($event.target.value)" class="form-control" [value]="value" [disabled]="isDisabled"
+            attr.placeholder="{{placeholder}}">
     </span>
 </div>
