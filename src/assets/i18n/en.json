@@ -3,5 +3,6 @@
     "btn.ENTRAR":"LOGIN",
     "btn.SELECCIONAR":"SELECT",
     "validation.user":"Username is required.",
-    "validation.password":"Password is required."
+    "validation.password":"Password is required.",
+    "select.rol":"Select a Role"
 }

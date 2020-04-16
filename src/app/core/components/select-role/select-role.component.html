@@ -11,7 +11,7 @@
                                         <img src="assets/img/hopes-launch.png" class="center goHome" routerLink="/" />
                                     </div>
                                     <div class="text-center mb-4">
-                                        <h4>Seleccine un Rol</h4>
+                                        <h4>{{ "select.rol" | translate }}</h4>
                                     </div>
                                     <ul class="roles">
                                         <li *ngFor="let rol of roles" [class.selected]="rol === selectedRole"

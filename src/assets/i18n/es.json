@@ -3,5 +3,6 @@
     "btn.ENTRAR":"ENTRAR",
     "btn.SELECCIONAR":"SELECCIONAR",
     "validation.user":"El usuario es obligatorio.",
-    "validation.password":"La contraseña es obligatoria."
+    "validation.password":"La contraseña es obligatoria.",
+    "select.rol":"Seleccione un Rol"
 }

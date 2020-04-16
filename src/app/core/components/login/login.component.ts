@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
   get formControl() { return this.loginForm.controls; }
 
   onFormSubmit() {
-    debugger
+
     this.submitted = true;
     if (this.loginForm.invalid) {
       return;
@@ -44,17 +44,11 @@ export class LoginComponent implements OnInit {
 
     const login = new LoginModel(this.formControl.username.value, this.formControl.password.value);
     this.loading = true;
-    debugger
+
     this._loginService.login(login)
       .subscribe(
         data => {
-
-          if (data.url != null && data.url.includes("choose_profile")) {
-            this._router.navigate(['/']);
-          } else {
-            this._router.navigate(['select-role']);
-          }
-
+          this._router.navigate(['select-role']);
         },
         error => {
           this.loading = false;

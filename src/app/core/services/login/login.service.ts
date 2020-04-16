@@ -26,17 +26,11 @@ export class LoginService {
   login(login: LoginModel): Observable<any> {
     return this._http.post('/login', login, { observe: 'response' })
       .pipe(
-        switchMap(res => {
+        map(res => {
           this.currentUserSubject.next(res);
-          localStorage.setItem('token', res.headers.get('Authorization'));
-          return this._chooseRole(res.body);
+          this._storeData(res);
+          return res;
         })
-
-        // tap(res => {
-        //   this.currentUserSubject.next(res);
-        //   localStorage.setItem('token', res.headers.get('Authorization'));
-        //   return res;
-        // })
       );
   }
 
@@ -59,23 +53,12 @@ export class LoginService {
       .pipe(map(res => {
         this.currentUserSubject.next(res);
         //TODO: Acabar en tarea de enlace, cuando tengamos Back
-        let response: any = res;
-        if (response && response.roles) {
-
-          //this._chooseRole([response.roles]);
-          localStorage.setItem('rol', JSON.stringify(response.roles));
-        }
-        return response;
+        return res;
       }));
   }
 
-  private _chooseRole(data: any) {
-    let roles = data.roles;
-    localStorage.setItem('roles', JSON.stringify(roles));
-    if (roles.length <= 1) {
-      return this.postChooseProfile(roles[0])
-    } else {
-      return (Promise.resolve(data));
-    }
+  private _storeData(data: any): void {
+    localStorage.setItem('roles', JSON.stringify(data.body.roles));
+    localStorage.setItem('token', data.headers.get('Authorization'));
   }
 }
