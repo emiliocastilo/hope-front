@@ -1,11 +1,8 @@
 <div class="form-group">
     <span class="ui-float-label">
-        <input *ngIf="!soloLectura" attr.type="{{type}}" attr.id="{{id}}" attr.maxlength="{{maxlength}}"
-            attr.required="{{requerido}}" [formControl]="childControl" (input)="fn($event.target.value)"
-            class="form-control subirLabel {{obligatorio}}" pInputText pTooltip="{{msjAyuda}}" tooltipPosition="top">
-        <input *ngIf="soloLectura" attr.type="{{type}}" attr.id="{{id}}" attr.maxlength="{{maxlength}}"
-            attr.required="{{requerido}}" [formControl]="childControl" (input)="fn($event.target.value)"
-            class="form-control subirLabel soloLectura" pInputText readonly>
         <label for="{{id}}">{{ label | translate}}</label>
+        <input type="{{type}}" id="{{id}}" attr.maxlength="{{maxlength}}" required="{{requerido}}"
+            (input)="onInput($event.target.value)" class="form-control" [value]="value" [disabled]="isDisabled"
+            attr.placeholder="{{placeholder}}">
     </span>
 </div>
