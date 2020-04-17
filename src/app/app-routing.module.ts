@@ -9,14 +9,14 @@ import { ResetPasswordComponent } from './core/components/reset-password/reset-p
 import { SelectRoleComponent } from './core/components/select-role/select-role.component';
 
 const routes: Routes = [
-  { 
+  {
     path: '',
     component: HomeComponent,
     resolve: {
       menu: SideBarResolverService,
       homeDashboard: HomeDashboardResolverService
-    }//,
-    //canActivate: [AuthGuard]
+    },
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -27,15 +27,15 @@ const routes: Routes = [
     component: ResetPasswordComponent
   },
   {
-    path: 'app-select-role',
+    path: 'select-role',
     component: SelectRoleComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'dermatology',
     loadChildren: () => import('./modules/dermatology/dermatology.module')
-      .then(m => m.DermatologyModule)//,
-    //canActivate: [AuthGuard]
+      .then(m => m.DermatologyModule),
+    canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' }
 ];

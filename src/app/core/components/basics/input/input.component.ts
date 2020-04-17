@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input, Self, OnInit } from '@angular/core';
+import { FormControl, ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -7,33 +7,66 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.sass']
 })
-export class InputComponent {
+export class InputComponent implements OnInit, ControlValueAccessor {
 
-  @Input() label: String;
+  @Input() label: String = "";
   @Input() maxlength: any = 256;
   @Input() type: String = 'text';
   @Input() id: String;
-  @Input() soloLectura: boolean = false;
   @Input() requerido: boolean = false;
-  @Input() obligatorio: String;
-  @Input() msjAyuda: String;
+  @Input() isDisabled: boolean = false;
+  @Input() placeholder: string = "";
+
+  value: string;
+  onChange = (_: any) => { }
+  onTouch = () => { }
 
   childControl = new FormControl();
 
-  writeValue(value: any) {
+  ngOnInit() {
+    this.controlDirective.control.setValidators([this.validate.bind(this)]);
+    this.controlDirective.control.updateValueAndValidity();
+  }
+
+  onInput(value: string) {
+    this.value = value;
+    this.onTouch();
+    this.onChange(this.value);
+  }
+
+  writeValue(value: any): void {
+    if (value) {
+      this.value = value || '';
+    } else {
+      this.value = '';
+    }
+
     this.childControl.setValue(value);
   }
 
   registerOnChange(fn: (value: any) => void) {
-    this.fn = fn;
+    this.onChange = fn;
   }
 
-  registerOnTouched() { }
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
 
-  fn = (value: any) => { }
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+  }
+
+  validate({ value }: FormControl) {
+    const isNotValid = this.value == "" || this.value == undefined || this.value == null;
+    return isNotValid && {
+      invalid: true
+    }
+  }
 
   constructor(
-    public _translate: TranslateService
-  ) { }
+    public _translate: TranslateService,
+    @Self() private controlDirective: NgControl) {
+    controlDirective.valueAccessor = this;
+  }
 
 }

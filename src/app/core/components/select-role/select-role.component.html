@@ -11,9 +11,19 @@
                                         <img src="assets/img/hopes-launch.png" class="center goHome" routerLink="/" />
                                     </div>
                                     <div class="text-center mb-4">
-                                        <h4>Seleccine un Rol</h4>
+                                        <h4>{{ "select.rol" | translate }}</h4>
                                     </div>
-                                    PROCESAR PETICIÓN DEL BACK Y MOSTRAR OPCIONES.
+                                    <ul class="roles">
+                                        <li *ngFor="let rol of roles" [class.selected]="rol === selectedRole"
+                                            (click)="onSelect(rol)" class="text-center">
+                                            {{rol}}
+                                        </li>
+                                    </ul>
+                                    <div class="d-flex justify-content-center mt-4 mb-2">
+                                        <app-button clasesBtn="btn-outline-primary" [soloLectura]="selectedRole==null"
+                                            texto="btn.SELECCIONAR" [loading]="loading" (click)="onFormSubmit()">
+                                        </app-button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

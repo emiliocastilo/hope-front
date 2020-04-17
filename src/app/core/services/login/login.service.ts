@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { LoginModel } from '../../models/login.model';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  private currentUserSubject: BehaviorSubject<LoginModel>;
+  private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<LoginModel>;
 
   constructor(
@@ -24,15 +24,14 @@ export class LoginService {
   }
 
   login(login: LoginModel): Observable<any> {
-    return this._http.post('/login', login)
-      .pipe(map(res => {
-        let response: any = res;
-        if (response && response.roles) {
-          localStorage.setItem('roles', JSON.stringify(response.roles));
-          //this.currentUserSubject.next(response);
-        }
-        return response;
-      }));
+    return this._http.post('/login', login, { observe: 'response' })
+      .pipe(
+        map(res => {
+          this.currentUserSubject.next(res);
+          this._storeData(res);
+          return res;
+        })
+      );
   }
 
   logout() {
@@ -49,4 +48,17 @@ export class LoginService {
     return this._http.post('/reset-password', email);
   }
 
+  postChooseProfile(role: string): Observable<any> {
+    return this._http.post('/user/choose_profile/', role, { observe: 'response' })
+      .pipe(map(res => {
+        this.currentUserSubject.next(res);
+        //TODO: Acabar en tarea de enlace, cuando tengamos Back
+        return res;
+      }));
+  }
+
+  private _storeData(data: any): void {
+    localStorage.setItem('roles', JSON.stringify(data.body.roles));
+    localStorage.setItem('token', data.headers.get('Authorization'));
+  }
 }
