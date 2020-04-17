@@ -27,7 +27,7 @@ export class SelectRoleComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.roles = JSON.parse(localStorage.getItem('roles'));
-    console.log(this.roles);
+    console.log("ngOnInit: ", this.roles);
 
     if (this.roles.length <= 1) {
       this._loginService.postChooseProfile(this.roles[0])
@@ -56,6 +56,7 @@ export class SelectRoleComponent implements OnInit {
   get formControl() { return this.selectRoleForm.controls; }
 
   onFormSubmit() {
+    console.log("onFormSubmit: ", this.selectRoleForm);
     this.submitted = true;
     if (this.selectRoleForm.invalid) {
       return;

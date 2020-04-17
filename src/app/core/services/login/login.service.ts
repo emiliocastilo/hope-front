@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { LoginModel } from '../../models/login.model';
@@ -25,10 +25,12 @@ export class LoginService {
 
   login(login: LoginModel): Observable<any> {
     return this._http.post('/login', login, { observe: 'response' })
-      .pipe(
+      .pipe(                                
         map(res => {
           this.currentUserSubject.next(res);
+          console.log("login: ", res.headers.keys());
           this._storeData(res);
+          debugger
           return res;
         })
       );
@@ -51,6 +53,7 @@ export class LoginService {
   postChooseProfile(role: string): Observable<any> {
     return this._http.post('/user/choose_profile/', role, { observe: 'response' })
       .pipe(map(res => {
+        console.log("postChooseProfile:", role, res);
         this.currentUserSubject.next(res);
         //TODO: Acabar en tarea de enlace, cuando tengamos Back
         return res;

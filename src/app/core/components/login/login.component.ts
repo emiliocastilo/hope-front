@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           console.log(<any>error);
           this._toastr.error(error.status + " " + error.statusText);
+          this._toastr.error(`${error.status} ${error.statusText}`);
         });
   }
 }

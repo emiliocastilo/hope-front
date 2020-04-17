@@ -13,6 +13,7 @@ export class InterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let reqUrl = environment.URL_API;
+    console.log("HttpInterceptor: ", req.headers);
     req = req.clone({
       headers: req.headers.set(
         "Authorization",
@@ -31,7 +32,6 @@ export class InterceptorService implements HttpInterceptor {
         token = "Bearer " + localStorage.getItem("token");
       }
     }
-
     return token;
   }
 }
