@@ -18,6 +18,7 @@ import { SideBarMenuComponent } from '../../components/side-bar/side-bar-menu/si
 import { HomeDashboardModuleComponent } from '../../components/home/home-dashboard/home-dashboard-module/home-dashboard-module.component';
 import { ResetPasswordComponent } from '../../components/reset-password/reset-password.component';
 import { SelectRoleComponent } from '../../components/select-role/select-role.component';
+import { TableComponent } from '../../components/table/table.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -36,7 +37,8 @@ export function createTranslateLoader(http: HttpClient) {
     ButtonComponent,
     InputComponent,
     ResetPasswordComponent,
-    SelectRoleComponent],
+    SelectRoleComponent,
+    TableComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -63,7 +65,8 @@ export function createTranslateLoader(http: HttpClient) {
     ButtonComponent,
     InputComponent,
     ResetPasswordComponent,
-    SelectRoleComponent
+    SelectRoleComponent,
+    TableComponent
   ]
 })
 export class CoreModule { }
