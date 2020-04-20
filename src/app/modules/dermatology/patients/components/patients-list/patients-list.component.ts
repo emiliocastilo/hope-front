@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { PatientsService } from '../../services/patients.service';
 import { PatientModel } from '../../models/patient.model';
+import { PatientModelToRowModelAdapter } from '../../adapters/patient-model-to-row-model.adapter';
 
 @Component({
   selector: 'app-patients-list',
@@ -9,38 +10,44 @@ import { PatientModel } from '../../models/patient.model';
   styleUrls: ['./patients-list.component.sass']
 })
 export class PatientsListComponent implements OnInit {
-  public COLUMNS_HEADER:Array<string> = ['Id', 'Name', 'First Name', 'Last Surname', 'Nhc'
-    , 'Health Card', 'Dni', 'Address', 'Phone', 'Email', 'Birth Date', 'Hospital'
-    , 'Gender Code', 'Pathologies'];
+  public COLUMNS_HEADER:Array<string> = ['Patient Name', 'Nhc'
+    , 'Health Card', 'Dni', 'Phone', 'Gender Code', 'Pathologies'];
   public patients:Array<PatientModel>;
+  public selectedItem:number = 0;
 
-  constructor(private _patientsService:PatientsService) { }
+  constructor(private _patientsService:PatientsService,
+    private _patientModelToRowModelAdapter: PatientModelToRowModelAdapter) { }
 
   ngOnInit(): void {
     this._patientsService.getPatients().subscribe(
-      (data) => {this.patients = data}
+      (data) => {
+        this.patients = data;
+      }
     );
   }
 
-  public prepareData():Array<RowDataModel>{
-    let rows:Array<RowDataModel> = new Array<RowDataModel>();
-    let row:RowDataModel = new RowDataModel();
-    row.pushColumn('1');
-    row.pushColumn('Jorge');
-    row.pushColumn('Sanchez');
-    row.pushColumn('Ferreiro');
-    row.pushColumn('Nhc');
-    row.pushColumn('0000000001');
-    row.pushColumn('70000000k');
-    row.pushColumn('Test');
-    row.pushColumn('000000000');
-    row.pushColumn('test@test.com');
-    row.pushColumn('27/12/2020');
-    row.pushColumn('Santiago');
-    row.pushColumn('Male');
-    row.pushColumn('Pathologies');
-    rows.push(row);
+  public prepareTableData():Array<RowDataModel>{
+    debugger
+    let rows = this.patients.map(
+      (patient) => {
+        return this._patientModelToRowModelAdapter.adaptModelToRow(patient);
+      }
+    );
+    rows.push(rows[0]);
+    rows.push(rows[0]);
+    rows.push(rows[0]);
+    rows.push(rows[0]);
+    rows.push(rows[0]);
     return rows;
+  }
+
+  public onSelectedItem(event:number):void {
+    debugger
+    this.selectedItem = event;
+  }
+
+  public onFilter(event:string): void{
+
   }
 
 }

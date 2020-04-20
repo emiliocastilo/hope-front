@@ -19,6 +19,7 @@ import { HomeDashboardModuleComponent } from './components/home/home-dashboard/h
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SelectRoleComponent } from './components/select-role/select-role.component';
 import { SearchComponent } from './components/search/search.component';
+import { TableComponent } from './components/table/table.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -38,7 +39,8 @@ export function createTranslateLoader(http: HttpClient) {
     InputComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
-    SearchComponent
+    SearchComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +70,8 @@ export function createTranslateLoader(http: HttpClient) {
     InputComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
-    SearchComponent
+    SearchComponent,
+    TableComponent
   ]
 })
 export class CoreModule { }

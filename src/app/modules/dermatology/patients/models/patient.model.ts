@@ -12,7 +12,7 @@ export class PatientModel {
         public email:string,
         public birthDate:string,
         public hospital:string,
-        public genderCore:string,
-        public pathologies:string
+        public genderCode:string,
+        public pathologies:Array<any>
     ) { }
 }

@@ -11,7 +11,7 @@ export class PatientsService {
   constructor(private _httpClient:HttpClient) { }
 
   public getPatients():Observable<any>{
-    return this._httpClient.get("/patient");
+    return this._httpClient.get("/patient?pth=2");
   }
 
 }
