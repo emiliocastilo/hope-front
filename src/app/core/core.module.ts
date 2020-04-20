@@ -19,6 +19,8 @@ import { HomeDashboardModuleComponent } from './components/home/home-dashboard/h
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SelectRoleComponent } from './components/select-role/select-role.component';
 import { SearchComponent } from './components/search/search.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -38,12 +40,14 @@ export function createTranslateLoader(http: HttpClient) {
     InputComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
-    SearchComponent
+    SearchComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    NgbModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -68,7 +72,11 @@ export function createTranslateLoader(http: HttpClient) {
     InputComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
-    SearchComponent
+    SearchComponent,
+    ModalComponent
+  ],
+  providers: [
+    ModalComponent
   ]
 })
 export class CoreModule { }
