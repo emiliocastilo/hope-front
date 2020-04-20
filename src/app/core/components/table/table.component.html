@@ -1,0 +1,8 @@
+<div class="master-table">
+    <section class="row">
+        <article class="col" *ngFor="let columHeader of columnsHeader">{{columHeader}}</article>
+    </section>
+    <section class="row" *ngFor="let columnData of columnsData">
+        <article class="col" *ngFor="let item of columnData.columns">{{item}}</article>
+    </section>
+  </div>
