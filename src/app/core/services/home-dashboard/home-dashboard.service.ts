@@ -10,6 +10,8 @@ export class HomeDashboardService {
   constructor(private _httpClient: HttpClient) { }
 
   getHomeDashboardModules(): Observable<any> {
-    return null//; this._httpClient.get('5e94a0133100007dbb5e335e');
+    const role = localStorage.getItem('role');
+    console.log("getHomeDashboardModules: ", role);
+    return this._httpClient.get(`/menu?role=${role}`);
   }
 }

@@ -16,7 +16,7 @@ export class SelectRoleComponent implements OnInit {
   loading = false;
   submitted = false;
   roles: Array<string>;
-  selectedRole: String;
+  selectedRole: string;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -26,42 +26,56 @@ export class SelectRoleComponent implements OnInit {
     private _toastr: ToastrService
   ) { }
   ngOnInit() {
-    this.roles = JSON.parse(localStorage.getItem('roles'));
-    console.log(this.roles);
-
-    if (this.roles.length <= 1) {
-      this._loginService.postChooseProfile(this.roles[0])
-        .subscribe(
-          data => {
-            //TODO que hacer?
-            this._router.navigate(['/']);
-          },
-          error => {
-            this.loading = false;
-            console.log(<any>error);
-            this._toastr.error(error.status + " " + error.statusText);
-          });
-    }
-
+    
     this.selectRoleForm = this._formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
+
+    this.roles = this.checkVarValue(localStorage.getItem('roles')) ? JSON.parse(localStorage.getItem('roles')) : [];
+
+    if (this.roles.length === 1) {
+     this.chooseProfile(this.roles[0]);
+    }
   }
 
-  onSelect(selected: String): void {
+  checkVarValue(value: any) {
+    const pass = (value !== "undefined" && value !== "" && value !== null &&  value !== "null");
+    return pass;
+  }
+
+  onSelect(selected: string): void {
     this.selectedRole = selected;
+  }
+
+  chooseProfile(role: string): void {
+    this._loginService.postChooseProfile(role)
+    .subscribe(
+      data => {
+        const token = data.headers.get('Authorization');
+        this.setCurrentRole(role, token);
+        this._router.navigate(['/']);
+      },
+      error => {
+        this.loading = false;
+        console.log(<any>error);
+        this._toastr.error(error.status + " " + error.statusText);
+      });
+  }
+
+  setCurrentRole(role: string, token: string): void {
+    localStorage.setItem("role", role);
+    localStorage.setItem('token', token);
   }
 
   get formControl() { return this.selectRoleForm.controls; }
 
   onFormSubmit() {
     this.submitted = true;
-    if (this.selectRoleForm.invalid) {
+    if (!this.selectedRole) {
       return;
     }
-
     this.loading = true;
-    //TODO: Realizar la llamada al back para seleccionar un rol.
+    this.chooseProfile(this.selectedRole);
   }
 }
