@@ -3,7 +3,10 @@
     <section class="col-md-2 col-lg-2 m-0 p-0">
         <side-bar></side-bar>
     </section>
-    <section class="col-md-10 col-lg-10">
-        <h1>It works!!!</h1>
+    <section class="col-md-10 col-lg-10 patients-container">
+        <app-search (emitAction)="onFilter($event)"></app-search>
+        <app-table [columnsHeader]="COLUMNS_HEADER" 
+            [columnsData]="prepareTableData()"
+            (selectedItem)="onSelectedItem($event)"></app-table>
     </section>
 </div>
