@@ -37,6 +37,12 @@ const routes: Routes = [
       .then(m => m.DermatologyModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'management',
+    loadChildren: () => import('./modules/management/management.module')
+      .then(m => m.ManagementModule),
+    canActivate: [AuthGuard]
+  },
   { path: '**', redirectTo: '' }
 ];
 

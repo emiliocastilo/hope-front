@@ -22,6 +22,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "bootstrap": "^4.4.1",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "ngx-toastr": "^12.0.1",
     "npm-force-resolutions": "0.0.3",

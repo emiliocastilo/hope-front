@@ -4,7 +4,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { PatientsRoutingModule } from './patients-routing.module';
-import { CoreModule } from 'src/app/core/modules/core/core.module';
+import { CoreModule } from 'src/app/core/core.module';
 import { PatientsListComponent } from './components/patients-list/patients-list.component';
 
 export function createTranslateLoader(http: HttpClient) {
