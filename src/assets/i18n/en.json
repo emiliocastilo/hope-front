@@ -3,6 +3,9 @@
     "btn.ENTRAR":"LOGIN",
     "btn.SELECCIONAR":"SELECT",
     "btn.Search":"SEARCH",
+    "btn.New":"New",
+    "btn.Edit":"Edit",
+    "btn.Delete":"Delete",
     "validation.user":"Username is required.",
     "validation.password":"Password is required.",
     "select.rol":"Select a Role"
