@@ -17,7 +17,6 @@ export class MedicListComponent implements OnInit {
     searcherForm: new FormControl()
   });
 
-<<<<<<< HEAD
   @ViewChild('infoModal') public infoModal;
   @ViewChild('editModal') public editModal;
   @ViewChild("editModal", { static: false }) myModalInfo: TemplateRef<any>;
@@ -30,9 +29,6 @@ export class MedicListComponent implements OnInit {
   public isDetailModal = false;
   public isEditModal = false;
   public isNewModal = false;
-=======
-  elementoSeleccionado = null;
->>>>>>> #147425 Botonera para CRUD con intenacionalización.
 
   constructor(
     public translate: TranslateService,
