@@ -13,6 +13,9 @@ export class MedicListComponent implements OnInit {
   public medicListForm = new FormGroup({
     searcherForm: new FormControl()
   });
+
+  elementoSeleccionado = null;
+
   constructor(
     public translate: TranslateService,
     public medicService: MedicService,
@@ -30,5 +33,8 @@ export class MedicListComponent implements OnInit {
 
   filter(data: any) {
     console.log("datos de buscador " + data);
+  }
+  showModal(data: any) {
+
   }
 }
