@@ -14,7 +14,11 @@
         clasesBtn="btn-danger btn-sm mx-2" icono="fa fa-window-close" texto="btn.Delete" (click)="showModal();"
         [soloLectura]="elementoSeleccionado==null"></app-button>
 </div>
-
+<div class="container mt-4">
+    <app-table [columnsHeader]="COLUMNS_HEADER" [columnsData]="prepareTableData()"
+        (selectedItem)="onSelectedItem($event)">
+    </app-table>
+</div>
 
 
 

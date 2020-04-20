@@ -6,6 +6,9 @@ import { MedicService } from '../../services/medic/medic.service';
 import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { INFO_MODAL_CONSTANT } from './INFO_MODAL_CONSTANT';
+import { RowDataModel } from 'src/app/core/models/table/row-data.model';
+import { MedicModel } from '../../models/medic.model';
+import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-model.adapter';
 
 @Component({
   selector: 'app-medic-list',
@@ -30,13 +33,20 @@ export class MedicListComponent implements OnInit {
   public isEditModal = false;
   public isNewModal = false;
 
+  public COLUMNS_HEADER: Array<string> = ['Nombre', 'Apellidos'
+    , 'Dni', 'Phone', 'Código de Colegiado'];
+  public medics: Array<MedicModel>;
+  public selectedItem: number = 0;
+
   constructor(
     public translate: TranslateService,
     public medicService: MedicService,
     private _toastr: ToastrService,
     private _formBuilder: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter
   ) { }
+
   public medic = {
     name: "Prueba",
     surname: "",
@@ -48,7 +58,15 @@ export class MedicListComponent implements OnInit {
     password: "",
     email: "",
   }
+
   ngOnInit() {
+    this.medics = [new MedicModel(
+      "medico1",
+      "Apellidos",
+      "321654987",
+      "132456798D",
+      "98787879897879"
+    )];
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -71,6 +89,27 @@ export class MedicListComponent implements OnInit {
   filter(data: any) {
     console.log("datos de buscador " + data);
   }
+
+  public prepareTableData(): Array<RowDataModel> {
+    let rows = this.medics.map(
+      (patient) => {
+        return this._medicModelToRowModelAdapter.adaptModelToRow(patient);
+      }
+    );
+    rows.push(rows[0]);
+    rows.push(rows[0]);
+    rows.push(rows[0]);
+    rows.push(rows[0]);
+    rows.push(rows[0]);
+    return rows;
+  }
+
+  public onSelectedItem(event: number): void {
+    this.selectedItem = event;
+  }
+
+
+
   showModal(data: any) {
 
     this.isNewModal = data.isNew;
