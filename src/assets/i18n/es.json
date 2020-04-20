@@ -2,6 +2,7 @@
     "login.resetPassword":"¿Has olvidado la contraseña?",
     "btn.ENTRAR":"ENTRAR",
     "btn.SELECCIONAR":"SELECCIONAR",
+    "btn.Search":"BUSCAR",
     "validation.user":"El usuario es obligatorio.",
     "validation.password":"La contraseña es obligatoria.",
     "select.rol":"Seleccione un Rol"

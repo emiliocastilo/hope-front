@@ -16,6 +16,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() requerido: boolean = false;
   @Input() isDisabled: boolean = false;
   @Input() placeholder: string = "";
+  @Input() clases: String;
 
   value: string;
   onChange = (_: any) => { }

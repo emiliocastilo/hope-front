@@ -2,6 +2,7 @@
     "login.resetPassword":"Forgot Password?",
     "btn.ENTRAR":"LOGIN",
     "btn.SELECCIONAR":"SELECT",
+    "btn.Search":"SEARCH",
     "validation.user":"Username is required.",
     "validation.password":"Password is required.",
     "select.rol":"Select a Role"

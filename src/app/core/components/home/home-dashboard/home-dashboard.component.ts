@@ -13,7 +13,6 @@ export class HomeDashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
   }
 
 }

@@ -16,7 +16,6 @@ export class SideBarMenuComponent implements OnInit {
       private viewContainerRef:ViewContainerRef) { }
 
   ngOnInit(): void {
-    debugger
     if(!this.level){
       this.level = this.LEVEL_ONE;
     }

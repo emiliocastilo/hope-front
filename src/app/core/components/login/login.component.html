@@ -12,14 +12,14 @@
                                     </div>
 
                                     <app-input id="username" name="username" maxlength="20" formControlName="username"
-                                        [isDisabled]="false" class="fadeIn second" placeholder="usuario">
+                                        [isDisabled]="false" class="fadeIn second" clases="login" placeholder="usuario">
                                     </app-input>
                                     <div *ngIf="loginForm.get('username').hasError('invalid') && submitted"
                                         class="invalid-feedback">{{ "validation.user" | translate }}
                                     </div>
 
                                     <app-input id="password" name="password" type="password" formControlName="password"
-                                        class="fadeIn second" placeholder="contraseña">
+                                        class="fadeIn second" clases="login" placeholder="contraseña">
                                     </app-input>
                                     <div *ngIf="loginForm.get('password').hasError('invalid') && submitted"
                                         class="invalid-feedback">{{ "validation.password" | translate }}
