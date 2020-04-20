@@ -11,7 +11,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common
 import { AppRoutingModule } from './app-routing.module';
 import { LoginService } from './core/services/login/login.service';
 import { InterceptorService } from './core/services/interceptor/interceptor.service';
-import { CoreModule } from './core/modules/core/core.module';
+import { CoreModule } from './core/core.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

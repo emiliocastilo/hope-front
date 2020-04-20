@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this._activatedRoute.data.subscribe(
       response => {
-        debugger
         this.modules = response.homeDashboard;
       }
     );
