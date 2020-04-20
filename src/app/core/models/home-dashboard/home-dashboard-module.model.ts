@@ -3,8 +3,8 @@ export class HomeDashboardModule {
         public id: string,
         public order: string,
         public title: string,
-        public image: string,
-        public alternativeText: string, 
-        public link: string
+        public icon: string | null,
+        public url: string, 
+        public children: HomeDashboardModule[]
     ) { }
 }

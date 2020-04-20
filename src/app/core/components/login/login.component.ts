@@ -48,12 +48,12 @@ export class LoginComponent implements OnInit {
     this._loginService.login(login)
       .subscribe(
         data => {
-          this._router.navigate(['select-role']);
+          data.body.error ? this._toastr.error(data.body.error) : this._router.navigate(['select-role']);
+          this.loading = false;
         },
         error => {
           this.loading = false;
           console.log(<any>error);
-          this._toastr.error(error.status + " " + error.statusText);
           this._toastr.error(`${error.status} ${error.statusText}`);
         });
   }

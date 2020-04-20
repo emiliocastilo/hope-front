@@ -28,9 +28,7 @@ export class LoginService {
       .pipe(                                
         map(res => {
           this.currentUserSubject.next(res);
-          console.log("login: ", res.headers.keys());
           this._storeData(res);
-          debugger
           return res;
         })
       );

@@ -16,7 +16,6 @@ export class SideBarComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(
       response => {
-        debugger
         this.menu = response.menu;
       }
     );
