@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { MedicService } from '../../services/medic/medic.service';
-import { ToastrService } from 'ngx-toastr';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { MedicModel } from '../../models/medic.model';
 import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-model.adapter';
+import { MedicService } from '../../services/medic/medic.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RowDataModel } from 'src/app/core/models/table/row-data.model';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-medic-list',
@@ -14,9 +15,7 @@ import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-m
   styleUrls: ['./medic-list.component.sass']
 })
 export class MedicListComponent implements OnInit {
-  // public medicListForm = new FormGroup({
-  //   searcherForm: new FormControl()
-  // });
+  public menuId: number = environment.MENU_ID.CONTROL_PANEL;
 
   @ViewChild('editModal') public editModal;
 

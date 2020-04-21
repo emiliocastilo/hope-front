@@ -1,8 +1,7 @@
+import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
+import { MedicListComponent } from './medic-list/medic-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { MedicListComponent } from './medic-list/medic-list.component';
-import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
 
 
