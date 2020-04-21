@@ -18,7 +18,6 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     //const currentUser = this._loginService.currentUserValue;
-
     if (!this._controlExpirationToken(localStorage.getItem('token'))) {
       return true;
     }

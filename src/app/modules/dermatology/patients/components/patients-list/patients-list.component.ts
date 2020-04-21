@@ -5,6 +5,10 @@ import { PatientModel } from '../../models/patient.model';
 import { PatientModelToRowModelAdapter } from '../../adapters/patient-model-to-row-model.adapter';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
+import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-patients-list',
@@ -16,10 +20,24 @@ export class PatientsListComponent implements OnInit {
     , 'Health Card', 'Dni', 'Phone', 'Gender Code', 'Pathologies'];
   public patients:Array<PatientModel>;
   public selectedItem:number;
+  public menu:Array<SideBarItemModel>;
+  modalForm: FormGroup = this._formBuilder.group({
+    name: ['', Validators.required],
+    surname: ['', Validators.required],
+    phone: ['', Validators.required],
+    dni: ['', Validators.required],
+    collegeNumber: ['', Validators.required],
+    active: [Boolean, Validators.required],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+    email: ['', Validators.required]
+  });
 
   constructor(private _patientsService:PatientsService,
     private _patientModelToRowModelAdapter: PatientModelToRowModelAdapter,
-    private _toastr: ToastrService) { }
+    private _toastr: ToastrService,
+    private _formBuilder: FormBuilder,
+    private _modalService: NgbModal) { }
 
   ngOnInit(): void {
     this._patientsService.getPatients().subscribe(
@@ -55,9 +73,23 @@ export class PatientsListComponent implements OnInit {
     this._patientsService
       .deletePatient(this.patients[this.selectedItem].id).subscribe(
         (response) => {
-          debugger
           this._toastr.success("El paciente se ha borrado correctamente")}
       );
+  }
+
+  showModal(data: any) {
+    const modalRef = this._modalService.open(data.modal);
+
+    modalRef.result.then((result) => {
+      /*console.log(result);
+      this.medicService.postDoctor(result).subscribe(result => {
+      },
+        error => {
+          this._toastr.error(error.status + " " + error.statusText);
+        });*/
+    }).catch((error) => {
+      console.log("ERROR modal" + error);
+    });
   }
 
 }

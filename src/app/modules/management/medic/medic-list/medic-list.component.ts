@@ -111,9 +111,7 @@ export class MedicListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       console.log(result);
-      debugger
-      this.medicService.postDoctor(result).subscribe(result => {
-        debugger
+      this.medicService.postDoctor(result.value).subscribe(result => {
       },
         error => {
           this._toastr.error(error.status + " " + error.statusText);

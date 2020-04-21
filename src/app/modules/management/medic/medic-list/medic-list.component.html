@@ -1,24 +1,31 @@
 <app-header></app-header>
-<div class="container mt-4">
-    <app-search (emitAction)="filter($event)"></app-search>
-</div>
-<div class="container mt-4">
-    <app-button type="button" icono="fa fa-plus" clasesBtn="btn-primary btn-sm mx-2"
-        (click)="showModal({'modal':editModal,'isNew':true,'isEdit':false,'isDetail':false})" texto="btn.New">
-    </app-button>
-    <app-button type="button" icono="fa fa-pencil" clasesBtn="btn-primary btn-sm mx-2"
-        (click)="showModal({'modal':editModal,'isEdit':true,'isDetail':false,'isNew':false})" texto="btn.Edit"
-        [soloLectura]="elementoSeleccionado==null">
-    </app-button>
-    <app-button type="button"
-        *ngIf="elementoSeleccionado==null || (elementoSeleccionado!=null && elementoSeleccionado.deleted!=true)"
-        clasesBtn="btn-danger btn-sm mx-2" icono="fa fa-window-close" texto="btn.Delete"
-        (click)="showModal({'modal':editModal});" [soloLectura]="elementoSeleccionado==null"></app-button>
-</div>
-<div class="container mt-4">
-    <app-table [columnsHeader]="COLUMNS_HEADER" [columnsData]="prepareTableData()"
-        (selectedItem)="onSelectedItem($event)">
-    </app-table>
+<div class="row m-0 p-0">
+    <section class="col-md-2 col-lg-2 m-0 p-0">
+        <side-bar></side-bar>
+    </section>
+    <section class="col-md-10 col-lg-10 patients-container">
+        <div class="container mt-4">
+            <app-search (emitAction)="filter($event)"></app-search>
+        </div>
+        <div class="container mt-4">
+            <app-button type="button" icono="fa fa-plus" clasesBtn="btn-primary btn-sm mx-2"
+                (click)="showModal({'modal':editModal,'isNew':true,'isEdit':false,'isDetail':false})" texto="btn.New">
+            </app-button>
+            <app-button type="button" icono="fa fa-pencil" clasesBtn="btn-primary btn-sm mx-2"
+                (click)="showModal({'modal':editModal,'isEdit':true,'isDetail':false,'isNew':false})" texto="btn.Edit"
+                [soloLectura]="elementoSeleccionado==null">
+            </app-button>
+            <app-button type="button"
+                *ngIf="elementoSeleccionado==null || (elementoSeleccionado!=null && elementoSeleccionado.deleted!=true)"
+                clasesBtn="btn-danger btn-sm mx-2" icono="fa fa-window-close" texto="btn.Delete"
+                (click)="showModal({'modal':editModal});" [soloLectura]="elementoSeleccionado==null"></app-button>
+        </div>
+        <div class="container mt-4">
+            <app-table [columnsHeader]="COLUMNS_HEADER" [columnsData]="prepareTableData()"
+                (selectedItem)="onSelectedItem($event)">
+            </app-table>
+        </div>
+    </section>
 </div>
 
 

@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { MedicListComponent } from './medic-list/medic-list.component';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
+import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
 
 
 const routes: Routes = [
   {
     path: '',
     component: MedicListComponent,
+    resolve: {
+      menu: SideBarResolverService,
+    },
     canActivate: [AuthGuard]
   }
 
