@@ -4,8 +4,6 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { TranslateService } from '@ngx-translate/core';
 import { MedicService } from '../../services/medic/medic.service';
 import { ToastrService } from 'ngx-toastr';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
-import { INFO_MODAL_CONSTANT } from './INFO_MODAL_CONSTANT';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { MedicModel } from '../../models/medic.model';
 import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-model.adapter';
@@ -16,19 +14,25 @@ import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-m
   styleUrls: ['./medic-list.component.sass']
 })
 export class MedicListComponent implements OnInit {
-  public medicListForm = new FormGroup({
-    searcherForm: new FormControl()
+  // public medicListForm = new FormGroup({
+  //   searcherForm: new FormControl()
+  // });
+
+  @ViewChild('editModal') public editModal;
+
+  modalForm: FormGroup = this._formBuilder.group({
+    name: ['', Validators.required],
+    surname: ['', Validators.required],
+    phone: ['', Validators.required],
+    dni: ['', Validators.required],
+    collegeNumber: ['', Validators.required],
+    active: [Boolean, Validators.required],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+    email: ['', Validators.required]
   });
 
-  @ViewChild('infoModal') public infoModal;
-  @ViewChild('editModal') public editModal;
-  @ViewChild("editModal", { static: false }) myModalInfo: TemplateRef<any>;
-
-
-  modalForm: FormGroup;
-
   public elementoSeleccionado: any = null;
-  public show = true;
   public isDetailModal = false;
   public isEditModal = false;
   public isNewModal = false;
@@ -67,19 +71,8 @@ export class MedicListComponent implements OnInit {
       "132456798D",
       "98787879897879"
     )];
-    this.modalForm = this._formBuilder.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      // phone: ['', Validators.required],
-      // dni: ['', Validators.required],
-      // collegeNumber: ['', Validators.required],
-      // active: [Boolean, Validators.required],
-      // username: ['', Validators.required],
-      // password: ['', Validators.required],
-      // email: ['', Validators.required]
-    });
-
     this.medicService.getAll().subscribe(result => {
+      //this.medics= result.content;
     },
       error => {
         this._toastr.error(error.status + " " + error.statusText);
@@ -108,32 +101,27 @@ export class MedicListComponent implements OnInit {
     this.selectedItem = event;
   }
 
-
-
   showModal(data: any) {
 
     this.isNewModal = data.isNew;
     this.isEditModal = data.isEdit;
     this.isDetailModal = data.isDetail;
 
-    const modalRef = this.modalService.open(ModalComponent);
+    const modalRef = this.modalService.open(data.modal);
 
-    modalRef.componentInstance.dataModal = this.medic;
-    modalRef.componentInstance.title = "prueba";
-    modalRef.componentInstance.modalData = INFO_MODAL_CONSTANT.STOP_EDITING_MODAL_DATA;
-    modalRef.componentInstance.emitInfo
-      .subscribe({ next: this._confirmToStop });
     modalRef.result.then((result) => {
       console.log(result);
+      debugger
+      this.medicService.postDoctor(result).subscribe(result => {
+        debugger
+      },
+        error => {
+          this._toastr.error(error.status + " " + error.statusText);
+        });
     }).catch((error) => {
-      console.log(error);
+      console.log("ERROR modal" + error);
     });
+  }
 
-  }
-  private _confirmToStop = (response: { opStatus: string }) => {
-    if (response.opStatus.toLowerCase() === 'confirmed') {
-      // do operation
-      console.log('Perform operation here!');
-    }
-  }
+
 }
