@@ -41,11 +41,6 @@ export class SelectRoleComponent implements OnInit {
     }
   }
 
-  checkVarValue(value: any) {
-    const pass = (value !== "undefined" && value !== "" && value !== null &&  value !== "null");
-    return pass;
-  }
-
   onSelect(selected: string): void {
     this.selectedRole = selected;
   }

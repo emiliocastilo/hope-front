@@ -12,7 +12,12 @@ export class RoleService {
   }
 
   public get userRoles() {
-    return localStorage.getItem('roles') ? localStorage.getItem('roles') : "[]";
+    return this.checkVarValue(localStorage.getItem('roles')) ? localStorage.getItem('roles') : "[]";
+  }
+
+  checkVarValue(value: any) {
+    const pass = (value !== "undefined" && value !== "" && value !== null &&  value !== "null");
+    return pass;
   }
 
 }
