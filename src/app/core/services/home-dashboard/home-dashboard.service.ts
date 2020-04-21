@@ -1,17 +1,19 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { RoleService } from '../role/role.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeDashboardService {
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(
+    private _httpClient: HttpClient, 
+    public _roleServices: RoleService
+  ) { }
 
   getHomeDashboardModules(): Observable<any> {
-    const role = localStorage.getItem('role');
-    console.log("getHomeDashboardModules: ", role);
-    return this._httpClient.get(`/menu?role=${role}`);
+    return this._httpClient.get(`/menu?role=${this._roleServices.currentUserRole}`);
   }
 }

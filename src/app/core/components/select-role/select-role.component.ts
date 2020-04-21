@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login/login.service';
+import { RoleService } from '../../services/role/role.service';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-select-role',
@@ -23,7 +24,8 @@ export class SelectRoleComponent implements OnInit {
     private _loginService: LoginService,
     private _router: Router,
     public _translate: TranslateService,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    public _roleServices: RoleService
   ) { }
   ngOnInit() {
     
@@ -32,7 +34,7 @@ export class SelectRoleComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.roles = this.checkVarValue(localStorage.getItem('roles')) ? JSON.parse(localStorage.getItem('roles')) : [];
+    this.roles = JSON.parse(this._roleServices.userRoles);
 
     if (this.roles.length === 1) {
      this.chooseProfile(this.roles[0]);
