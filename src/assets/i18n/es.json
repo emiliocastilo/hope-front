@@ -3,10 +3,18 @@
     "btn.ENTRAR":"ENTRAR",
     "btn.SELECCIONAR":"SELECCIONAR",
     "btn.Search":"BUSCAR",
-    "btn.new": "Nuevo",
-    "btn.edit":"Editar",
-    "btn.disabled":"Eliminar",
+    "btn.New":"Nuevo",
+    "btn.Edit":"Editar",
+    "btn.Delete":"Borrar",
+    "btn.Cancel":"Cancelar",
+    "btn.Update":"Modificar",
+    "btn.Save":"Guardar",
     "validation.user":"El usuario es obligatorio.",
     "validation.password":"La contraseña es obligatoria.",
-    "select.rol":"Seleccione un Rol"
+    "select.rol":"Seleccione un Rol",
+    "Medic":"Médico",
+    "Modify":"Modificar",
+    "Create":"Crear",
+    "Detail":"Detalle",
+    "form.validate.required":"El campo es obligatorio"
 }

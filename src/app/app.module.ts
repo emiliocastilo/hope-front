@@ -7,11 +7,13 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { LoginService } from './core/services/login/login.service';
 import { InterceptorService } from './core/services/interceptor/interceptor.service';
 import { CoreModule } from './core/core.module';
+
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,6 +26,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgbModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -39,7 +42,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   exports: [
   ],
-  providers: [LoginService, TranslateService, { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }],
+  providers: [NgbActiveModal, LoginService, TranslateService, { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,10 +3,18 @@
     "btn.ENTRAR":"LOGIN",
     "btn.SELECCIONAR":"SELECT",
     "btn.Search":"SEARCH",
-    "btn.new":"New",
-    "btn.edit":"Edit",
-    "btn.disabled":"Delete",
+    "btn.New":"New",
+    "btn.Edit":"Edit",
+    "btn.Delete":"Delete",
+    "btn.Cancel":"Cancel",
+    "btn.Update":"Update",
+    "btn.Save":"Save",
     "validation.user":"Username is required.",
     "validation.password":"Password is required.",
-    "select.rol":"Select a Role"
+    "select.rol":"Select a Role",
+    "Medic":"Doctor",
+    "Modify":"Modify",
+    "Create":"Create",
+    "Detail":"Detail",
+    "form.validate.required":"Required field."
 }
