@@ -2,7 +2,7 @@ export class PatientModel {
     constructor(
         public id: string,
         public name: string,
-        public firstName: string,
+        public firstSurname: string,
         public lastSurname: string,
         public nhc: string, 
         public healthCard: string,

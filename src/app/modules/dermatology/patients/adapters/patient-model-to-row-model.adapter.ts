@@ -12,7 +12,7 @@ export class PatientModelToRowModelAdapter {
   public adaptModelToRow(patient:PatientModel):RowDataModel{
     let row = new RowDataModel();
     row.pushColumn(patient.name.concat(' ')
-      .concat(patient.firstName)
+      .concat(patient.firstSurname)
       .concat(' ')
       .concat(patient.lastSurname));
     row.pushColumn(patient.nhc);

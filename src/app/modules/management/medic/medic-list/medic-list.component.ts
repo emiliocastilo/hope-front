@@ -21,7 +21,6 @@ export class MedicListComponent implements OnInit {
 
   ngOnInit() {
     this.medicService.getAll().subscribe(result => {
-      debugger
     },
       error => {
         this._toastr.error(error.status + " " + error.statusText);
