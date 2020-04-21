@@ -1,16 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { RoleService } from '../role/role.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SideBarService {
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(
+    private _httpClient: HttpClient,
+    public _roleServices: RoleService
+  ) { }
 
   public getSideBar(): Observable<any> {
-    return null;//this._httpClient.get('5e8df57c310000391b429e73');
+    return this._httpClient.get(`/menu?role=${ this._roleServices.currentUserRole }`);
   }
 
 }
