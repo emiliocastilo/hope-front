@@ -27,6 +27,9 @@ export class AuthGuard implements CanActivate {
   }
   /**Funcionalidad para descodiicar token */
   private _controlExpirationToken(token: string = '') {
+    if(!token){
+      return true;
+    }
     let expired = false;
     const decodeToken = this._decodeToken(token);
     if (new Date(decodeToken.exp * 1000).getTime() < new Date().getTime()) {

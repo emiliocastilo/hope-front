@@ -89,11 +89,6 @@ export class MedicListComponent implements OnInit {
         return this._medicModelToRowModelAdapter.adaptModelToRow(patient);
       }
     );
-    rows.push(rows[0]);
-    rows.push(rows[0]);
-    rows.push(rows[0]);
-    rows.push(rows[0]);
-    rows.push(rows[0]);
     return rows;
   }
 
@@ -121,5 +116,12 @@ export class MedicListComponent implements OnInit {
     });
   }
 
+  public deleteDoctor(): void{
+    this.medicService
+      .deleteDoctor(this.medics[this.selectedItem].id).subscribe(
+        (response) => {
+          this._toastr.success("El doctor se ha borrado correctamente")}
+      );
+  }
 
 }

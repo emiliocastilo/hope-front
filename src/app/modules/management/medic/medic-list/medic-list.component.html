@@ -18,7 +18,7 @@
             <app-button type="button"
                 *ngIf="elementoSeleccionado==null || (elementoSeleccionado!=null && elementoSeleccionado.deleted!=true)"
                 clasesBtn="btn-danger btn-sm mx-2" icono="fa fa-window-close" texto="btn.Delete"
-                (click)="showModal({'modal':editModal});" [soloLectura]="elementoSeleccionado==null"></app-button>
+                (click)="deleteDoctor()"></app-button>
         </div>
         <div class="container mt-4">
             <app-table [columnsHeader]="COLUMNS_HEADER" [columnsData]="prepareTableData()"

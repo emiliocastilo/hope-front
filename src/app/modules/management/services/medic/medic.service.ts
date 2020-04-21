@@ -19,4 +19,8 @@ export class MedicService {
   postDoctor(medicModel: MedicModel): Observable<any> {
     return this._http.post('/doctor', medicModel);
   }
+
+  deleteDoctor(id:string): Observable<any> {
+    return this._http.delete('/doctor/'+id);
+  }
 }
