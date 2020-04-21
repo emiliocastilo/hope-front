@@ -5,8 +5,15 @@
     </section>
     <section class="col-md-10 col-lg-10 patients-container">
         <app-search (emitAction)="onFilter($event)"></app-search>
-        <app-table [columnsHeader]="COLUMNS_HEADER" 
-            [columnsData]="prepareTableData()"
+        <app-table [columnsHeader]="COLUMNS_HEADER" [columnsData]="prepareTableData()"
             (selectedItem)="onSelectedItem($event)"></app-table>
+        <section class="container mt-4">
+            <app-button type="button" icono="fa fa-plus" clasesBtn="btn-primary btn-sm mx-2" texto="btn.new"
+                [soloLectura]="true"></app-button>
+            <app-button type="button" icono="fa fa-pencil" clasesBtn="btn-primary btn-sm mx-2" texto="btn.edit"
+                [soloLectura]="true"></app-button>
+            <app-button type="button" clasesBtn="btn-danger btn-sm mx-2" icono="fa fa-window-close"
+                texto="btn.disabled" [soloLectura]="false" (click)="deletePatient()"></app-button>
+        </section>
     </section>
 </div>

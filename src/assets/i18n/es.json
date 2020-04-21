@@ -3,6 +3,9 @@
     "btn.ENTRAR":"ENTRAR",
     "btn.SELECCIONAR":"SELECCIONAR",
     "btn.Search":"BUSCAR",
+    "btn.new": "Nuevo",
+    "btn.edit":"Editar",
+    "btn.disabled":"Eliminar",
     "validation.user":"El usuario es obligatorio.",
     "validation.password":"La contraseña es obligatoria.",
     "select.rol":"Seleccione un Rol"
