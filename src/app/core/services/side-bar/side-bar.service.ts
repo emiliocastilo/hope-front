@@ -14,7 +14,7 @@ export class SideBarService {
   ) { }
 
   public getSideBar(): Observable<any> {
-    return this._httpClient.get(`/menu?role=${ this._roleServices.currentUserRole }`);
+    return this._httpClient.get('/menu');
   }
 
 }

@@ -23,14 +23,16 @@ export class PatientsListComponent implements OnInit {
   public menu:Array<SideBarItemModel>;
   modalForm: FormGroup = this._formBuilder.group({
     name: ['', Validators.required],
-    surname: ['', Validators.required],
-    phone: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    nhc: ['', Validators.required],
+    healthCard: ['', Validators.required],
     dni: ['', Validators.required],
-    collegeNumber: ['', Validators.required],
-    active: [Boolean, Validators.required],
-    username: ['', Validators.required],
-    password: ['', Validators.required],
-    email: ['', Validators.required]
+    address: ['', Validators.required],
+    phone: ['', Validators.required],
+    email: ['', Validators.required],
+    genderCode: ['', Validators.required],
+    birthDate: ['', Validators.required]
   });
 
   constructor(private _patientsService:PatientsService,
