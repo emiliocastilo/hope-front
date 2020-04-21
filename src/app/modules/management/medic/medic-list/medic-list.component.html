@@ -4,15 +4,16 @@
 </div>
 <div class="container mt-4">
     <app-button type="button" icono="fa fa-plus" clasesBtn="btn-primary btn-sm mx-2"
-        (click)="showModal({'isNew':true,'isEdit':false,'isDetail':false})" texto="btn.New"></app-button>
+        (click)="showModal({'modal':editModal,'isNew':true,'isEdit':false,'isDetail':false})" texto="btn.New">
+    </app-button>
     <app-button type="button" icono="fa fa-pencil" clasesBtn="btn-primary btn-sm mx-2"
-        (click)="showModal({'isEdit':true,'isDetail':false,'isNew':false})" texto="btn.Edit"
+        (click)="showModal({'modal':editModal,'isEdit':true,'isDetail':false,'isNew':false})" texto="btn.Edit"
         [soloLectura]="elementoSeleccionado==null">
     </app-button>
     <app-button type="button"
         *ngIf="elementoSeleccionado==null || (elementoSeleccionado!=null && elementoSeleccionado.deleted!=true)"
-        clasesBtn="btn-danger btn-sm mx-2" icono="fa fa-window-close" texto="btn.Delete" (click)="showModal();"
-        [soloLectura]="elementoSeleccionado==null"></app-button>
+        clasesBtn="btn-danger btn-sm mx-2" icono="fa fa-window-close" texto="btn.Delete"
+        (click)="showModal({'modal':editModal});" [soloLectura]="elementoSeleccionado==null"></app-button>
 </div>
 <div class="container mt-4">
     <app-table [columnsHeader]="COLUMNS_HEADER" [columnsData]="prepareTableData()"
@@ -24,58 +25,60 @@
 
 
 
-<!-- <ng-template #editModal let-modal>
-    <div class="modal-dialog modal-info modal-lg" role="document">
+<ng-template #editModal let-modal>
+    <div role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <span *ngIf="isEditModal">{{"Modify" | translate}} {{"Medic" | translate}}</span>
+                    <!-- <span *ngIf="isEditModal">{{"Modify" | translate}} {{"Medic" | translate}}</span>
                     <span *ngIf="isNewModal">{{"Create" | translate}} {{"Medic" | translate}}</span>
-                    <span *ngIf="isDetailModal">{{"Detail" | translate}} {{"Medic" | translate}}</span>
+                    <span *ngIf="isDetailModal">{{"Detail" | translate}} {{"Medic" | translate}}</span> -->
+                    <span>Modal {{"Medic" | translate}}</span>
                 </h4>
-                <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+                <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form [formGroup]="modalForm" (ngSubmit)="modalForm.valid && isEditModal? update() : create()" novalidate>
+            <form [formGroup]="modalForm" novalidate>
                 <div class="modal-body">
-                    <div class="row">
-                        <div *ngIf="isEditModal || isNewModal" class="col-sm-3">
-                            <app-input id="name" name="name" maxlength="20" formControlName="name" placeholder="Nombre">
-                            </app-input>
-                        </div>
-                        <div *ngIf="isDetailModal" class="col-sm-3">
-                            <app-input id="name" name="name" maxlength="20" formControlName="name" placeholder="Nombre">
-                            </app-input>
-                        </div>
-                        <app-input *ngIf="isEditModal || isNewModal" name="surname" formControlName="surname"
-                            class="col-sm-9" [maxlength]="50">
-                        </app-input>
-                        <app-input *ngIf="isDetailModal" name="surname" formControlName="surname" class="col-sm-9"
-                            [maxlength]="50" [soloLectura]="true"></app-input>
-
+                    <div class="row"></div>
+                    <div class="form-group">
+                        <app-input id="name" name="name" formControlName="name" placeholder="Nombre"></app-input>
                     </div>
-                    <div class="row" *ngIf="isEditModal || isNewModal">
-                        <div class="col-sm-3">
-                            <em class="errorField"
-                                *ngIf="!isEditModal && ((modalForm.value.name==null || modalForm.value.name=='') && modalForm.submitted)">{{"form.validate.required"
-                | translate}}</em>
-                        </div>
-                        <div class="col-sm-9">
-                            <em class="errorField"
-                                *ngIf="(modalForm.value.surname==null || modalForm.value.surname=='') && modalForm.submitted">{{"form.validate.required"
-                | translate}}</em>
-                        </div>
+                    <div class="form-group">
+                        <app-input id="surname" name="surname" formControlName="surname" placeholder="Apellidos">
+                        </app-input>
+                    </div>
+                    <div class="form-group">
+                        <app-input id="phone" name="phone" formControlName="phone" placeholder="Teléfono"></app-input>
+                    </div>
+                    <div class="form-group">
+                        <app-input id="dni" name="dni" formControlName="dni" placeholder="DNI"></app-input>
+                    </div>
+                    <div class="form-group">
+                        <app-input id="collegeNumber" name="collegeNumber" formControlName="collegeNumber"
+                            placeholder="Número colegiado"></app-input>
+                    </div>
+                    <div class="form-group">
+                        <app-input id="username" name="username" formControlName="username" placeholder="Usuario">
+                        </app-input>
+                    </div>
+                    <div class="form-group">
+                        <app-input id="password" name="password" formControlName="password" placeholder="Contraseña">
+                        </app-input>
+                    </div>
+                    <div class="form-group">
+                        <app-input id="email" name="email" formControlName="email" placeholder="Email"></app-input>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <app-button type="button" clasesBtn="btn-secondary" texto="btn.Cancel" (click)="editModal.hide()">
+                    <app-button type="button" clasesBtn="btn-secondary" texto="btn.Cancel"
+                        (click)="modal.close(modalForm)">
                     </app-button>
-                    <app-button type="submit" clasesBtn="btn-info" texto="btn.Save" *ngIf="isNewModal"></app-button>
-                    <app-button type="submit" clasesBtn="btn-info" texto="btn.Update" *ngIf="isEditModal">
+                    <app-button type="submit" clasesBtn="btn-info" texto="btn.Save" (click)="modal.close(modalForm)">
                     </app-button>
                 </div>
             </form>
         </div>
     </div>
-</ng-template> -->
+</ng-template>
