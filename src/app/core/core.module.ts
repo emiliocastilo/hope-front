@@ -21,6 +21,7 @@ import { SelectRoleComponent } from './components/select-role/select-role.compon
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { BoxDataComponent } from './components/box-data/box-data.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -43,7 +44,8 @@ export function createTranslateLoader(http: HttpClient) {
     SelectRoleComponent,
     SearchComponent,
     TableComponent,
-    ModalComponent
+    ModalComponent,
+    BoxDataComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +78,8 @@ export function createTranslateLoader(http: HttpClient) {
     SelectRoleComponent,
     SearchComponent,
     TableComponent,
-    ModalComponent
+    ModalComponent,
+    BoxDataComponent
   ],
   providers: [
     ModalComponent

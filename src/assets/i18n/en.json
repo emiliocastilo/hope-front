@@ -16,5 +16,17 @@
     "Modify":"Modify",
     "Create":"Create",
     "Detail":"Detail",
-    "form.validate.required":"Required field."
+    "form.validate.required":"Required field.",
+    "name": "Name",
+    "firstSurname": "First surname",
+    "lastSurname": "Last surname",
+    "nhc": "NHC",
+    "healthCard": "Health card",
+    "dni": "DNI",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "birthDate": "birthdate",
+    "hospital": "Hospital",
+    "genderCode": "Gender" 
 }

@@ -12,14 +12,54 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-patients-list',
   templateUrl: './patients-list.component.html',
-  styleUrls: ['./patients-list.component.sass']
+  styleUrls: ['./patients-list.component.sass'],
 })
 export class PatientsListComponent implements OnInit {
-  public COLUMNS_HEADER:Array<string> = ['Patient Name', 'Nhc'
-    , 'Health Card', 'Dni', 'Phone', 'Gender Code', 'Pathologies'];
-  public patients:Array<PatientModel>;
-  public selectedItem:number;
-  public menu:Array<SideBarItemModel>;
+  public columnsHeader: Array<string> = [
+    'Patient Name',
+    'Nhc',
+    'Health Card',
+    'Dni',
+    'Phone',
+    'Gender Code',
+    'Pathologies',
+  ];
+  public menu: Array<SideBarItemModel>;
+  public patients: Array<PatientModel> = [];
+  public patientKeysToShow: string[] = [
+    'name',
+    'firstSurname',
+    'lastSurname',
+    'nhc',
+    'healthCard',
+    'dni',
+    'address',
+    'phone',
+    'email',
+    'birthDate',
+    'hospital',
+    'genderCode'
+  ];
+  public selectedItem: number;
+  public selectedPatient: PatientModel = {
+    id: '',
+    name: '',
+    firstSurname: '',
+    lastSurname: '',
+    nhc: '',
+    healthCard: '',
+    dni: '',
+    address: '',
+    phone: '',
+    email: '',
+    birthDate: '',
+    hospital: '',
+    genderCode: '',
+    pathologies: [],
+  };
+  public menuId: number = environment.MENU_ID.PATIENTS;
+  
+
   modalForm: FormGroup = this._formBuilder.group({
     name: ['', Validators.required],
     firstName: ['', Validators.required],
@@ -31,60 +71,56 @@ export class PatientsListComponent implements OnInit {
     phone: ['', Validators.required],
     email: ['', Validators.required],
     genderCode: ['', Validators.required],
-    birthDate: ['', Validators.required]
+    birthDate: ['', Validators.required],
   });
 
-  public menuId: number = environment.MENU_ID.PATIENTS;
-
-  constructor(private _patientsService:PatientsService,
+  constructor(
+    private _patientsService:PatientsService,
     private _patientModelToRowModelAdapter: PatientModelToRowModelAdapter,
     private _toastr: ToastrService,
     private _formBuilder: FormBuilder,
-    private _modalService: NgbModal) { }
+    private _modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
-    this._patientsService.getPatients().subscribe(
-      (data) => {
-        this.patients = data;
-      }
-    );
+    this._patientsService.getPatients().subscribe((data) => {
+      this.patients = data;
+    });
   }
 
-  public prepareTableData():Array<RowDataModel>{
-    let rows = this.patients.map(
-      (patient) => {
-        return this._patientModelToRowModelAdapter.adaptModelToRow(patient);
-      }
-    );
+  public prepareTableData(): Array<RowDataModel> {
+    let rows = this.patients.map((patient) => {
+      return this._patientModelToRowModelAdapter.adaptModelToRow(patient);
+    });
     return rows;
   }
 
-  public onSelectedItem(event:number):void {
+  public onSelectedItem(event: number): void {
+    this.selectedPatient = this.patients[event];
     this.selectedItem = event;
   }
 
-  public onFilter(event:string): void{
-    this._patientsService.getPatientsById(event).subscribe(
-      (data) => {
-        this.patients = Array<PatientModel>();
-        this.patients.push(data);
-      }
-    );
+  public onFilter(event: string): void {
+    this._patientsService.getPatientsById(event).subscribe((data) => {
+      this.patients = Array<PatientModel>();
+      this.patients.push(data);
+    });
   }
 
-  public deletePatient(): void{
+  public deletePatient(): void {
     this._patientsService
-      .deletePatient(this.patients[this.selectedItem].id).subscribe(
-        (response) => {
-          this._toastr.success('El paciente se ha borrado correctamente')}
-      );
+      .deletePatient(this.patients[this.selectedItem].id)
+      .subscribe((response) => {
+        this._toastr.success('El paciente se ha borrado correctamente');
+      });
   }
 
   showModal(data: any) {
     const modalRef = this._modalService.open(data.modal);
 
-    modalRef.result.then((result) => {
-      /*console.log(result);
+    modalRef.result
+      .then((result) => {
+        /*console.log(result);
       this.medicService.postDoctor(result).subscribe(result => {
       },
         error => {
@@ -94,5 +130,4 @@ export class PatientsListComponent implements OnInit {
       console.log(`ERROR modal ${error}`);
     });
   }
-
 }
