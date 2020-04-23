@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { PatientsService } from '../../services/patients.service';
-import { PatientModel } from '../../models/patient.model';
-import { PatientModelToRowModelAdapter } from '../../adapters/patient-model-to-row-model.adapter';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PatientModel } from '../../models/patient.model';
+import { PatientModelToRowModelAdapter } from '../../adapters/patient-model-to-row-model.adapter';
+import { PatientsService } from '../../services/patients.service';
+import { RowDataModel } from 'src/app/core/models/table/row-data.model';
+import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-patients-list',
@@ -58,6 +57,7 @@ export class PatientsListComponent implements OnInit {
     genderCode: '',
     pathologies: [],
   };
+  public menuId: number = environment.MENU_ID.PATIENTS;
   
 
   modalForm: FormGroup = this._formBuilder.group({
@@ -75,7 +75,7 @@ export class PatientsListComponent implements OnInit {
   });
 
   constructor(
-    private _patientsService: PatientsService,
+    private _patientsService:PatientsService,
     private _patientModelToRowModelAdapter: PatientModelToRowModelAdapter,
     private _toastr: ToastrService,
     private _formBuilder: FormBuilder,
@@ -126,9 +126,8 @@ export class PatientsListComponent implements OnInit {
         error => {
           this._toastr.error(error.status + " " + error.statusText);
         });*/
-      })
-      .catch((error) => {
-        console.log('ERROR modal' + error);
-      });
+    }).catch((error) => {
+      console.log(`ERROR modal ${error}`);
+    });
   }
 }

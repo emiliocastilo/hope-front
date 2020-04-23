@@ -10,13 +10,21 @@ import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 })
 export class SideBarComponent implements OnInit {
   public menu:Array<SideBarItemModel>;
+  @Input() currentMenuId: number;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
+  showSideBar(menuArray: SideBarItemModel[]): SideBarItemModel[] {
+    console.log(this.currentMenuId);
+    const rootMenu = menuArray.filter((value: SideBarItemModel) => (value.id === this.currentMenuId));
+    return rootMenu; 
+  }
+
   ngOnInit(): void {
+
     this.activatedRoute.data.subscribe(
       response => {
-        this.menu = response.menu.children;
+        this.menu = this.showSideBar(response.menu.children);
       }
     );
   }
