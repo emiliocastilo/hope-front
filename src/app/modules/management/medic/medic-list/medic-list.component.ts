@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { MedicModel } from '../../models/medic.model';
 import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-model.adapter';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
+import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 
 @Component({
   selector: 'app-medic-list',
@@ -116,12 +118,64 @@ export class MedicListComponent implements OnInit {
     });
   }
 
-  public deleteDoctor(): void{
+  public deleteDoctor(): void {
     this.medicService
       .deleteDoctor(this.medics[this.selectedItem].id).subscribe(
         (response) => {
-          this._toastr.success("El doctor se ha borrado correctamente")}
+          this._toastr.success("El doctor se ha borrado correctamente")
+        }
       );
   }
 
+  @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+  // Pensado para validar previamente por si tenemos datos de BD y settearlos 
+  ngAfterViewInit() {
+    let previousValid = this.form.valid;
+    this.form.changes.subscribe(() => {
+      if (this.form.valid !== previousValid) {
+        previousValid = this.form.valid;
+        this.form.setDisabled('submit', !previousValid);
+      }
+    });
+
+    this.form.setDisabled('submit', true);
+    //Para setearlos
+    //this.form.setValue('name', 'Todd Motto');
+  }
+
+  // Json con Array de campos de form
+  config: FieldConfig[] = [
+    {
+      type: 'input',
+      label: 'Nombre',
+      name: 'name',
+      placeholder: 'nombre',
+      validation: [Validators.required, Validators.minLength(4), Validators.maxLength(6)]
+    },
+    {
+      type: 'select',
+      label: 'Comida',
+      name: 'food',
+      options: ['Pizza', 'Churrasco', 'Cofe', 'Postre'],
+      placeholder: 'Selecciones',
+      validation: [Validators.required]
+    },
+    {
+      type: 'checkbox',
+      label: 'Recordarme',
+      name: 'rememberme',
+      validation: [Validators.required]
+    },
+    {
+      label: 'Submit',
+      name: 'submit',
+      type: 'button',
+      disabled: true
+    }
+  ];
+
+  //Registrar el submit del Form
+  submit(value: { [name: string]: any }) {
+    console.log(value);
+  }
 }
