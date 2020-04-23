@@ -1,0 +1,4 @@
+<div class="dynamic-field" [formGroup]="group">
+    <label>{{ config.label | translate }}</label>
+    <input type="text" [attr.placeholder]="config.placeholder" [formControlName]="config.name">
+</div>
