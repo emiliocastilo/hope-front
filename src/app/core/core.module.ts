@@ -23,6 +23,12 @@ import { TableComponent } from './components/table/table.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { BoxDataComponent } from './components/box-data/box-data.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
+import { FormInputComponent } from './components/basics/form-input/form-input.component';
+import { FormSelectComponent } from './components/basics/form-select/form-select.component';
+import { FormButtonComponent } from './components/basics/form-button/form-button.component';
+import { DynamicFieldDirective } from './directives/dynamic-forms/dynamic-field.directive';
+import { FormCheckboxComponent } from './components/basics/form-checkbox/form-checkbox.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -45,7 +51,13 @@ export function createTranslateLoader(http: HttpClient) {
     SearchComponent,
     TableComponent,
     ModalComponent,
-    BoxDataComponent
+    BoxDataComponent,
+    DynamicFormComponent,
+    FormInputComponent,
+    FormSelectComponent,
+    FormButtonComponent,
+    DynamicFieldDirective,
+    FormCheckboxComponent,
   ],
   imports: [
     CommonModule,
@@ -79,10 +91,17 @@ export function createTranslateLoader(http: HttpClient) {
     SearchComponent,
     TableComponent,
     ModalComponent,
-    BoxDataComponent
+    BoxDataComponent,
+    DynamicFormComponent,
+    DynamicFieldDirective
   ],
   providers: [
     ModalComponent
-  ]
+  ],
+  entryComponents: [
+    FormButtonComponent,
+    FormInputComponent,
+    FormSelectComponent,
+  ],
 })
 export class CoreModule { }
