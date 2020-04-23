@@ -1,0 +1,4 @@
+<div class="dynamic-field" [formGroup]="group">
+    <input type="checkbox" [attr.placeholder]="config.placeholder" [formControlName]="config.name">
+    <label>{{ config.label | translate }}</label>
+</div>
