@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'side-bar-menu',
@@ -20,5 +21,4 @@ export class SideBarMenuComponent implements OnInit {
       this.level = this.LEVEL_ONE;
     }
   }
-
 }
