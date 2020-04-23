@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ReturnStatement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,6 @@ export class InterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let reqUrl = environment.URL_API;
-    console.log("HttpInterceptor: ", req.headers);
     req = req.clone({
       headers: req.headers.set(
         "Authorization",

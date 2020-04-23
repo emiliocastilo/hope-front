@@ -1,8 +1,16 @@
 <div class="form-group">
-    <span class="ui-float-label">
-        <label for="{{id}}">{{ label | translate}}</label>
-        <input type="{{type}}" id="{{id}}" attr.maxlength="{{maxlength}}" required="{{requerido}}"
-            (input)="onInput($event.target.value)" class="form-control {{clases}}" [value]="value"
-            [disabled]="isDisabled" attr.placeholder="{{placeholder | translate}}">
-    </span>
+  <span class="ui-float-label">
+    <label for="{{ id }}">{{ label | translate }}</label>
+    <input
+      (input)="onInput($event.target.value)"
+      [disabled]="isDisabled"
+      [value]="value"
+      attr.maxlength="{{ maxlength }}"
+      attr.placeholder="{{ placeholder | translate }}"
+      class="form-control {{ clases }}"
+      id="{{ id }}"
+      required="{{ required }}"
+      type="{{ type }}"
+    />
+  </span>
 </div>

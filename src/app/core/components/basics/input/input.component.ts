@@ -13,7 +13,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() maxlength: any = 256;
   @Input() type: String = 'text';
   @Input() id: String;
-  @Input() requerido: boolean = false;
+  @Input() required: boolean = false;
   @Input() isDisabled: boolean = false;
   @Input() placeholder: string = "";
   @Input() clases: String;

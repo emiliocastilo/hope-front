@@ -16,5 +16,17 @@
     "Modify":"Modificar",
     "Create":"Crear",
     "Detail":"Detalle",
-    "form.validate.required":"El campo es obligatorio"
+    "form.validate.required":"El campo es obligatorio",
+    "name": "Nombre",
+    "firstSurname": "Primer apellido",
+    "lastSurname": "Segundo apellido",
+    "nhc": "NSC",
+    "healthCard": "Tarjeta de sanitaria",
+    "dni": "DNI",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Correo",
+    "birthDate": "Fecha de nacimiento",
+    "hospital": "Hospital",
+    "genderCode": "Genero" 
 }
