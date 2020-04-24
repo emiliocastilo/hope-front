@@ -1,17 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HomeDashboardModule} from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
+import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 
 @Component({
   selector: 'home-dashboard-module',
   templateUrl: './home-dashboard-module.component.html',
-  styleUrls: ['./home-dashboard-module.component.sass']
+  styleUrls: ['./home-dashboard-module.component.sass'],
 })
 export class HomeDashboardModuleComponent implements OnInit {
-  @Input() module:HomeDashboardModule
+  @Input() module: HomeDashboardModule;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -14,40 +14,44 @@ const routes: Routes = [
     component: HomeComponent,
     resolve: {
       menu: SideBarResolverService,
-      homeDashboard: HomeDashboardResolverService
+      homeDashboard: HomeDashboardResolverService,
     },
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'reset-password',
-    component: ResetPasswordComponent
+    component: ResetPasswordComponent,
   },
   {
     path: 'select-role',
     component: SelectRoleComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'dermatology',
-    loadChildren: () => import('./modules/dermatology/dermatology.module')
-      .then(m => m.DermatologyModule),
-    canActivate: [AuthGuard]
+    loadChildren: () =>
+      import('./modules/dermatology/dermatology.module').then(
+        (m) => m.DermatologyModule
+      ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'management',
-    loadChildren: () => import('./modules/management/management.module')
-      .then(m => m.ManagementModule),
-    canActivate: [AuthGuard]
+    loadChildren: () =>
+      import('./modules/management/management.module').then(
+        (m) => m.ManagementModule
+      ),
+    canActivate: [AuthGuard],
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -4,16 +4,15 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.sass']
+  styleUrls: ['./search.component.sass'],
 })
 export class SearchComponent implements OnInit {
-  inputValue: String = "";
+  inputValue: String = '';
   @Output() emitAction = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   setValue(data: string) {
     if (data) {

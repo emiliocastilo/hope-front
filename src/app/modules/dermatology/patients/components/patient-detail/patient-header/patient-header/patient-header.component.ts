@@ -5,14 +5,12 @@ import { PatientModel } from '../../../../models/patient.model';
 @Component({
   selector: 'app-patient-header',
   templateUrl: './patient-header.component.html',
-  styleUrls: ['./patient-header.component.sass']
+  styleUrls: ['./patient-header.component.sass'],
 })
 export class PatientHeaderComponent implements OnInit {
-  @Input() patient:PatientModel
+  @Input() patient: PatientModel;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

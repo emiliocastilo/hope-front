@@ -5,14 +5,14 @@ import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./patients/patients.module')
-      .then(m => m.PatientsModule),
-    canActivate: [AuthGuard]
-  }
+    loadChildren: () =>
+      import('./patients/patients.module').then((m) => m.PatientsModule),
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DermatologyRoutingModule { }
+export class DermatologyRoutingModule {}

@@ -5,22 +5,21 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.sass']
+  styleUrls: ['./input.component.sass'],
 })
 export class InputComponent implements OnInit, ControlValueAccessor {
-
-  @Input() label: String = "";
+  @Input() label: String = '';
   @Input() maxlength: any = 256;
   @Input() type: String = 'text';
   @Input() id: String;
   @Input() required: boolean = false;
   @Input() isDisabled: boolean = false;
-  @Input() placeholder: string = "";
+  @Input() placeholder: string = '';
   @Input() clases: String;
 
   value: string;
-  onChange = (_: any) => { }
-  onTouch = () => { }
+  onChange = (_: any) => {};
+  onTouch = () => {};
 
   childControl = new FormControl();
 
@@ -58,16 +57,19 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
 
   validate({ value }: FormControl) {
-    const isNotValid = this.value == "" || this.value == undefined || this.value == null;
-    return isNotValid && {
-      invalid: true
-    }
+    const isNotValid =
+      this.value == '' || this.value == undefined || this.value == null;
+    return (
+      isNotValid && {
+        invalid: true,
+      }
+    );
   }
 
   constructor(
     public _translate: TranslateService,
-    @Self() private controlDirective: NgControl) {
+    @Self() private controlDirective: NgControl
+  ) {
     controlDirective.valueAccessor = this;
   }
-
 }

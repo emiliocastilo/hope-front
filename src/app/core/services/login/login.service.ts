@@ -5,17 +5,16 @@ import { LoginModel } from '../../models/login.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<LoginModel>;
 
-  constructor(
-    private _http: HttpClient,
-  ) {
-    this.currentUserSubject = new BehaviorSubject<LoginModel>(JSON.parse(localStorage.getItem('login')));
+  constructor(private _http: HttpClient) {
+    this.currentUserSubject = new BehaviorSubject<LoginModel>(
+      JSON.parse(localStorage.getItem('login'))
+    );
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -24,14 +23,13 @@ export class LoginService {
   }
 
   login(login: LoginModel): Observable<any> {
-    return this._http.post('/login', login, { observe: 'response' })
-      .pipe(                                
-        map(res => {
-          this.currentUserSubject.next(res);
-          this._storeData(res);
-          return res;
-        })
-      );
+    return this._http.post('/login', login, { observe: 'response' }).pipe(
+      map((res) => {
+        this.currentUserSubject.next(res);
+        this._storeData(res);
+        return res;
+      })
+    );
   }
 
   logout() {
@@ -41,7 +39,7 @@ export class LoginService {
 
   isLogin() {
     //comporbar token
-    return (localStorage.getItem('token')) ? true : false;
+    return localStorage.getItem('token') ? true : false;
   }
 
   resetPassword(email: String): Observable<any> {
@@ -49,13 +47,16 @@ export class LoginService {
   }
 
   postChooseProfile(role: string): Observable<any> {
-    return this._http.post('/user/choose_profile/', role, { observe: 'response' })
-      .pipe(map(res => {
-        console.log("postChooseProfile:", role, res);
-        this.currentUserSubject.next(res);
-        //TODO: Acabar en tarea de enlace, cuando tengamos Back
-        return res;
-      }));
+    return this._http
+      .post('/user/choose_profile/', role, { observe: 'response' })
+      .pipe(
+        map((res) => {
+          console.log('postChooseProfile:', role, res);
+          this.currentUserSubject.next(res);
+          //TODO: Acabar en tarea de enlace, cuando tengamos Back
+          return res;
+        })
+      );
   }
 
   private _storeData(data: any): void {

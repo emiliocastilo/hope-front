@@ -6,13 +6,15 @@ import { HomeDashboardService } from './home-dashboard.service';
 import { HomeDashboardModule } from '../../models/home-dashboard/home-dashboard-module.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class HomeDashboardResolverService implements Resolve<Array<HomeDashboardModule>>{
+export class HomeDashboardResolverService
+  implements Resolve<Array<HomeDashboardModule>> {
+  constructor(private _homeDashboardService: HomeDashboardService) {}
 
-  constructor(private _homeDashboardService: HomeDashboardService) { }
-
-  resolve(route: ActivatedRouteSnapshot): Observable<Array<HomeDashboardModule>> {
+  resolve(
+    route: ActivatedRouteSnapshot
+  ): Observable<Array<HomeDashboardModule>> {
     return this._homeDashboardService.getHomeDashboardModules();
   }
 }

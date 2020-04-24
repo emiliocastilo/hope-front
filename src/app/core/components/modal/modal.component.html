@@ -5,23 +5,38 @@
 </div> -->
 
 <div role="document" class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">{{title}}</h4>
-            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            {{modalData?.modalContent}}
-            <ng-content></ng-content>
-        </div>
-        <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button> -->
-            <button *ngIf="modalData?.primaryButton?.showButton" (click)="emitData()"
-                class="btn modal-body-button modal-body-button--primary">{{modalData?.primaryButton?.buttonText}}</button>
-            <button *ngIf="modalData?.secondaryButton?.showButton" (click)="closeModal()"
-                class="btn modal-body-button modal-body-button--secondary">{{modalData?.secondaryButton?.buttonText}}</button>
-        </div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{ title }}</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+    <div class="modal-body">
+      {{ modalData?.modalContent }}
+      <ng-content></ng-content>
+    </div>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button> -->
+      <button
+        *ngIf="modalData?.primaryButton?.showButton"
+        (click)="emitData()"
+        class="btn modal-body-button modal-body-button--primary"
+      >
+        {{ modalData?.primaryButton?.buttonText }}
+      </button>
+      <button
+        *ngIf="modalData?.secondaryButton?.showButton"
+        (click)="closeModal()"
+        class="btn modal-body-button modal-body-button--secondary"
+      >
+        {{ modalData?.secondaryButton?.buttonText }}
+      </button>
+    </div>
+  </div>
 </div>

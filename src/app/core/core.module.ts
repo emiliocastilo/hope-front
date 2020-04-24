@@ -45,7 +45,7 @@ export function createTranslateLoader(http: HttpClient) {
     SearchComponent,
     TableComponent,
     ModalComponent,
-    BoxDataComponent
+    BoxDataComponent,
   ],
   imports: [
     CommonModule,
@@ -56,9 +56,9 @@ export function createTranslateLoader(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   exports: [
     CommonModule,
@@ -79,10 +79,8 @@ export function createTranslateLoader(http: HttpClient) {
     SearchComponent,
     TableComponent,
     ModalComponent,
-    BoxDataComponent
+    BoxDataComponent,
   ],
-  providers: [
-    ModalComponent
-  ]
+  providers: [ModalComponent],
 })
-export class CoreModule { }
+export class CoreModule {}

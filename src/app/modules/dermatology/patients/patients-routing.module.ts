@@ -12,12 +12,12 @@ const routes: Routes = [
     resolve: {
       menu: SideBarResolverService,
     },
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PatientsRoutingModule { }
+export class PatientsRoutingModule {}

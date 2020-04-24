@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "prettier --check ./src/**/**.{ts,html}",
+    "reformat:ts": "prettier --write ./src/**/**.ts",
+    "reformat:html": "prettier --write ./src/**/**.html",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -42,6 +44,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "husky": "^4.2.5",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^5.0.1",
@@ -50,6 +53,7 @@
     "karma-jasmine": "~3.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
     "minimist": "^1.2.5",
+    "prettier": "^2.0.5",
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
@@ -57,5 +61,11 @@
   },
   "resolutions": {
     "minimist": "^1.2.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run reformat:ts && reformat:html"
+    }
   }
 }

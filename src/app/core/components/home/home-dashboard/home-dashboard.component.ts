@@ -5,14 +5,12 @@ import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-das
 @Component({
   selector: 'home-dashboard',
   templateUrl: './home-dashboard.component.html',
-  styleUrls: ['./home-dashboard.component.sass']
+  styleUrls: ['./home-dashboard.component.sass'],
 })
 export class HomeDashboardComponent implements OnInit {
   @Input() modules: Array<HomeDashboardModule>;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

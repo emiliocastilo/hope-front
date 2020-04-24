@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  UrlTree,
+  Router,
+} from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from '../login/login.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-
-  constructor(
-    private _loginService: LoginService,
-    private _router: Router
-  ) { }
+  constructor(private _loginService: LoginService, private _router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
+    state: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     //const currentUser = this._loginService.currentUserValue;
     if (!this._controlExpirationToken(localStorage.getItem('token'))) {
       return true;
@@ -27,7 +33,7 @@ export class AuthGuard implements CanActivate {
   }
   /**Funcionalidad para descodiicar token */
   private _controlExpirationToken(token: string = '') {
-    if(!token){
+    if (!token) {
       return true;
     }
     let expired = false;
@@ -55,7 +61,9 @@ export class AuthGuard implements CanActivate {
   }
 
   private _decodeToken(token: string = '') {
-    if (token === null || token === '') { return { 'upn': '' }; }
+    if (token === null || token === '') {
+      return { upn: '' };
+    }
     const parts = token.split('.');
     if (parts.length !== 3) {
       throw new Error('JWT must have 3 parts');

@@ -5,17 +5,16 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.sass']
+  styleUrls: ['./button.component.sass'],
 })
 export class ButtonComponent implements ControlValueAccessor {
-
-  @Input() id: String;
-  @Input() texto: String;
-  @Input() icono: String;
   @Input() clasesBtn: String;
-  @Input() type: String = 'button';
-  @Input() soloLectura = false;
+  @Input() icono: String;
+  @Input() id: String;
   @Input() loading = false;
+  @Input() soloLectura = false;
+  @Input() texto: String;
+  @Input() type: String = 'button';
 
   childControl = new FormControl();
 
@@ -26,11 +25,9 @@ export class ButtonComponent implements ControlValueAccessor {
     this.fn = fn;
   }
 
-  registerOnTouched() { }
+  registerOnTouched() {}
 
-  fn = (value: any) => { }
+  fn = (value: any) => {};
 
-  constructor(
-    public _translate: TranslateService
-  ) { }
+  constructor(public _translate: TranslateService) {}
 }

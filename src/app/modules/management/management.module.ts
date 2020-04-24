@@ -19,9 +19,9 @@ import { HttpClient } from '@angular/common/http';
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
-    })
-  ]
+        deps: [HttpClient],
+      },
+    }),
+  ],
 })
-export class ManagementModule { }
+export class ManagementModule {}

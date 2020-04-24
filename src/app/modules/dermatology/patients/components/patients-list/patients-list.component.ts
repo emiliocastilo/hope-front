@@ -38,7 +38,7 @@ export class PatientsListComponent implements OnInit {
     'email',
     'birthDate',
     'hospital',
-    'genderCode'
+    'genderCode',
   ];
   public selectedItem: number;
   public selectedPatient: PatientModel = {
@@ -58,7 +58,6 @@ export class PatientsListComponent implements OnInit {
     pathologies: [],
   };
   public menuId: number = environment.MENU_ID.PATIENTS;
-  
 
   modalForm: FormGroup = this._formBuilder.group({
     name: ['', Validators.required],
@@ -75,7 +74,7 @@ export class PatientsListComponent implements OnInit {
   });
 
   constructor(
-    private _patientsService:PatientsService,
+    private _patientsService: PatientsService,
     private _patientModelToRowModelAdapter: PatientModelToRowModelAdapter,
     private _toastr: ToastrService,
     private _formBuilder: FormBuilder,
@@ -126,8 +125,9 @@ export class PatientsListComponent implements OnInit {
         error => {
           this._toastr.error(error.status + " " + error.statusText);
         });*/
-    }).catch((error) => {
-      console.log(`ERROR modal ${error}`);
-    });
+      })
+      .catch((error) => {
+        console.log(`ERROR modal ${error}`);
+      });
   }
 }

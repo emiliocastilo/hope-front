@@ -9,10 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-select-role',
   templateUrl: './select-role.component.html',
-  styleUrls: ['./select-role.component.sass']
+  styleUrls: ['./select-role.component.sass'],
 })
 export class SelectRoleComponent implements OnInit {
-
   selectRoleForm: FormGroup;
   loading = false;
   submitted = false;
@@ -26,18 +25,17 @@ export class SelectRoleComponent implements OnInit {
     public _translate: TranslateService,
     private _toastr: ToastrService,
     public _roleServices: RoleService
-  ) { }
+  ) {}
   ngOnInit() {
-    
     this.selectRoleForm = this._formBuilder.group({
       email: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
 
     this.roles = JSON.parse(this._roleServices.userRoles);
 
     if (this.roles.length === 1) {
-     this.chooseProfile(this.roles[0]);
+      this.chooseProfile(this.roles[0]);
     }
   }
 
@@ -46,26 +44,28 @@ export class SelectRoleComponent implements OnInit {
   }
 
   chooseProfile(role: string): void {
-    this._loginService.postChooseProfile(role)
-    .subscribe(
-      data => {
+    this._loginService.postChooseProfile(role).subscribe(
+      (data) => {
         const token = data.headers.get('Authorization');
         this.setCurrentRole(role, token);
         this._router.navigate(['/']);
       },
-      error => {
+      (error) => {
         this.loading = false;
         console.log(<any>error);
-        this._toastr.error(error.status + " " + error.statusText);
-      });
+        this._toastr.error(error.status + ' ' + error.statusText);
+      }
+    );
   }
 
   setCurrentRole(role: string, token: string): void {
-    localStorage.setItem("role", role);
+    localStorage.setItem('role', role);
     localStorage.setItem('token', token);
   }
 
-  get formControl() { return this.selectRoleForm.controls; }
+  get formControl() {
+    return this.selectRoleForm.controls;
+  }
 
   onFormSubmit() {
     this.submitted = true;

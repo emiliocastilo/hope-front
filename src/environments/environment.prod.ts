@@ -4,6 +4,6 @@ export const environment = {
     CALENDAR: 2,
     PATIENTS: 3,
     CONTROL_PANEL: 4,
-    ALERTS: 5
-  }
+    ALERTS: 5,
+  },
 };

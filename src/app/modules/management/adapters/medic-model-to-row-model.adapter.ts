@@ -3,11 +3,10 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { MedicModel } from '../models/medic.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MedicModelToRowModelAdapter {
-
-  constructor() { }
+  constructor() {}
 
   public adaptModelToRow(medic: MedicModel): RowDataModel {
     let row = new RowDataModel();

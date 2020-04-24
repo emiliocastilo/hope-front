@@ -7,10 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [MedicListComponent],
-  imports: [
-    MedicRoutingModule,
-    CoreModule,
-    TranslateModule
-  ]
+  imports: [MedicRoutingModule, CoreModule, TranslateModule],
 })
-export class MedicModule { }
+export class MedicModule {}

@@ -10,19 +10,19 @@ export class BoxDataComponent implements OnInit {
   @Input() data: any = {};
   @Input() keysToShow: string[] = [];
 
-  constructor(
-    public _translate: TranslateService
-  ) {}
+  constructor(public _translate: TranslateService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   Parsedata(value: any): string {
-    let valuetoPrint = typeof value === "object" ? value.name || value.title : value;
+    let valuetoPrint =
+      typeof value === 'object' ? value.name || value.title : value;
 
-    if(Date.parse(valuetoPrint)) {
+    if (Date.parse(valuetoPrint)) {
       const date = new Date(valuetoPrint);
-      valuetoPrint = `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+      valuetoPrint = `${date.getDate()}-${
+        date.getMonth() + 1
+      }-${date.getFullYear()}`;
     }
     return valuetoPrint;
   }

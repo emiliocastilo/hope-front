@@ -13,7 +13,11 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 @NgModule({
-  declarations: [PatientsListComponent, PatientDetailComponent, PatientHeaderComponent],
+  declarations: [
+    PatientsListComponent,
+    PatientDetailComponent,
+    PatientHeaderComponent,
+  ],
   imports: [
     PatientsRoutingModule,
     CoreModule,
@@ -21,9 +25,9 @@ export function createTranslateLoader(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
-    })
-  ]
+        deps: [HttpClient],
+      },
+    }),
+  ],
 })
-export class PatientsModule { }
+export class PatientsModule {}

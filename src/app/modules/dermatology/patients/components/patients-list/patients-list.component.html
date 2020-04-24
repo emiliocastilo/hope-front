@@ -5,11 +5,8 @@
   </section>
   <section class="col-md-10 col-lg-10 patients-container">
     <section class="container">
-      <app-box-data 
-        [data]="selectedPatient" 
-        [keysToShow]="patientKeysToShow"
-      >
-    </app-box-data>
+      <app-box-data [data]="selectedPatient" [keysToShow]="patientKeysToShow">
+      </app-box-data>
     </section>
     <section class="container mt-4">
       <app-search (emitAction)="onFilter($event)"></app-search>
@@ -57,7 +54,7 @@
           <!-- <span *ngIf="isEditModal">{{"Modify" | translate}} {{"Medic" | translate}}</span>
                     <span *ngIf="isNewModal">{{"Create" | translate}} {{"Medic" | translate}}</span>
                     <span *ngIf="isDetailModal">{{"Detail" | translate}} {{"Medic" | translate}}</span> -->
-          <span>Modal {{ "Medic" | translate }}</span>
+          <span>Modal {{ 'Medic' | translate }}</span>
         </h4>
         <button
           type="button"
