@@ -5,7 +5,7 @@ import { HomeDashboardModule } from '../../models/home-dashboard/home-dashboard-
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.sass']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
@@ -13,11 +13,8 @@ export class HomeComponent implements OnInit {
   constructor(private _activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this._activatedRoute.data.subscribe(
-      response => {
-        this.modules = response.homeDashboard.children;
-      }
-    );
+    this._activatedRoute.data.subscribe((response) => {
+      this.modules = response.homeDashboard.children;
+    });
   }
-
 }

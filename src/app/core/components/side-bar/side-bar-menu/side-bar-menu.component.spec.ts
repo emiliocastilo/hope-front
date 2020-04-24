@@ -8,9 +8,8 @@ describe('SideBarDropdownComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SideBarMenuComponent ]
-    })
-    .compileComponents();
+      declarations: [SideBarMenuComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

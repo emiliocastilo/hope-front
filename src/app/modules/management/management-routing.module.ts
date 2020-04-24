@@ -7,18 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: ManagementComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'medic',
-    loadChildren: () => import('./medic/medic.module')
-      .then(m => m.MedicModule),
-    canActivate: [AuthGuard]
-  }
+    loadChildren: () =>
+      import('./medic/medic.module').then((m) => m.MedicModule),
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ManagementRoutingModule { }
+export class ManagementRoutingModule {}

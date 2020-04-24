@@ -5,20 +5,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.sass']
+  styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
-
   @Input() title: string;
   @Input() modalData: {
-    primaryButton: { showButton: boolean, buttonText: string },
-    secondaryButton: { showButton: boolean, buttonText: string }, modalContent: string
+    primaryButton: { showButton: boolean; buttonText: string };
+    secondaryButton: { showButton: boolean; buttonText: string };
+    modalContent: string;
   };
   @Output() emitInfo = new EventEmitter<{ opStatus: string }>();
   myForm: FormGroup;
   constructor(
     public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     console.log(this.modalData);
@@ -36,7 +37,7 @@ export class ModalComponent implements OnInit {
   createForm() {
     this.myForm = this.formBuilder.group({
       username: '',
-      password: ''
+      password: '',
     });
   }
   submitForm() {

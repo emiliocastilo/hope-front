@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { DermatologyRoutingModule } from './dermatology-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    DermatologyRoutingModule
-  ]
+  imports: [CommonModule, DermatologyRoutingModule],
 })
-export class DermatologyModule { }
+export class DermatologyModule {}

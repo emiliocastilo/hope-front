@@ -3,22 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PatientsService {
+  constructor(private _httpClient: HttpClient) {}
 
-  constructor(private _httpClient:HttpClient) { }
-
-  public getPatients():Observable<any>{
-    return this._httpClient.get("/patient?pth=2");
+  public getPatients(): Observable<any> {
+    return this._httpClient.get('/patient?pth=2');
   }
 
-  public getPatientsById(id:string):Observable<any>{
-    return this._httpClient.get("/patient/".concat(id));
+  public getPatientsById(id: string): Observable<any> {
+    return this._httpClient.get('/patient/'.concat(id));
   }
 
-  public deletePatient(id:string):Observable<any>{
-    return this._httpClient.delete("/patient/"+id);
+  public deletePatient(id: string): Observable<any> {
+    return this._httpClient.delete('/patient/' + id);
   }
-
 }

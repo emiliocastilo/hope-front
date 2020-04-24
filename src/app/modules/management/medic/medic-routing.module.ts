@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -12,13 +11,12 @@ const routes: Routes = [
     resolve: {
       menu: SideBarResolverService,
     },
-    canActivate: [AuthGuard]
-  }
-
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MedicRoutingModule { }
+export class MedicRoutingModule {}

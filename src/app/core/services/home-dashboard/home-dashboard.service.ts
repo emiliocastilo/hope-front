@@ -3,13 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HomeDashboardService {
-
-  constructor(
-    private _httpClient: HttpClient, 
-  ) { }
+  constructor(private _httpClient: HttpClient) {}
 
   getHomeDashboardModules(): Observable<any> {
     return this._httpClient.get('/menu');

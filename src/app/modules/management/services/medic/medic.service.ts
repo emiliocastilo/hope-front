@@ -4,13 +4,10 @@ import { Observable } from 'rxjs';
 import { MedicModel } from '../../models/medic.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MedicService {
-
-  constructor(
-    private _http: HttpClient,
-  ) { }
+  constructor(private _http: HttpClient) {}
 
   getAll(): Observable<any> {
     return this._http.get('/doctor');
@@ -20,7 +17,7 @@ export class MedicService {
     return this._http.post('/doctor', medicModel);
   }
 
-  deleteDoctor(id:string): Observable<any> {
-    return this._http.delete('/doctor/'+id);
+  deleteDoctor(id: string): Observable<any> {
+    return this._http.delete('/doctor/' + id);
   }
 }
