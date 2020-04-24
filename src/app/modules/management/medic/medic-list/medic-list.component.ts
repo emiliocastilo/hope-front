@@ -181,6 +181,12 @@ export class MedicListComponent implements OnInit {
       validation: [Validators.required]
     },
     {
+      type: 'radio',
+      label: 'radiobutton',
+      name: 'radiobutton',
+      disabled: false
+    },
+    {
       label: 'Submit',
       name: 'submit',
       type: 'button',
