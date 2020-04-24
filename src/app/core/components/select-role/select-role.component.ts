@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-select-role',
   templateUrl: './select-role.component.html',
-  styleUrls: ['./select-role.component.sass'],
+  styleUrls: ['./select-role.component.scss'],
 })
 export class SelectRoleComponent implements OnInit {
   selectRoleForm: FormGroup;

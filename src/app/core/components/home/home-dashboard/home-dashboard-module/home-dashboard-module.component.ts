@@ -4,7 +4,7 @@ import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-das
 @Component({
   selector: 'home-dashboard-module',
   templateUrl: './home-dashboard-module.component.html',
-  styleUrls: ['./home-dashboard-module.component.sass'],
+  styleUrls: ['./home-dashboard-module.component.scss'],
 })
 export class HomeDashboardModuleComponent implements OnInit {
   @Input() module: HomeDashboardModule;

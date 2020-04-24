@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-patients-list',
   templateUrl: './patients-list.component.html',
-  styleUrls: ['./patients-list.component.sass'],
+  styleUrls: ['./patients-list.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
   public columnsHeader: Array<string> = [

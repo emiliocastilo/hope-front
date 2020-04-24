@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-medic-list',
   templateUrl: './medic-list.component.html',
-  styleUrls: ['./medic-list.component.sass'],
+  styleUrls: ['./medic-list.component.scss'],
 })
 export class MedicListComponent implements OnInit {
   public menuId: number = environment.MENU_ID.CONTROL_PANEL;

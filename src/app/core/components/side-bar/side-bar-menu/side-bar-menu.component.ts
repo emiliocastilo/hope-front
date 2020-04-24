@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'side-bar-menu',
   templateUrl: './side-bar-menu.component.html',
-  styleUrls: ['./side-bar-menu.component.sass'],
+  styleUrls: ['./side-bar-menu.component.scss'],
 })
 export class SideBarMenuComponent implements OnInit {
   public LEVEL_ONE: number = 1;

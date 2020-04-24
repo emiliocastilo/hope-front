@@ -5,7 +5,7 @@ import { HomeDashboardModule } from '../../models/home-dashboard/home-dashboard-
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.sass'],
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   modules: Array<HomeDashboardModule>;

@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.sass'],
+  styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
   @Input() title: string;

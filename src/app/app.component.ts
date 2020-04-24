@@ -8,7 +8,7 @@ import defaultLanguage from './../assets/i18n/es.json';
 @Component({
   selector: 'body',
   template: '<router-outlet></router-outlet>',
-  styleUrls: ['./app.component.sass'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'apps-hopes-front';

@@ -7,8 +7,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "prettier --check ./src/**/**.{ts,html}",
+    "stylelint": "stylelint **/*.scss",
     "reformat:ts": "prettier --write ./src/**/**.ts",
     "reformat:html": "prettier --write ./src/**/**.html",
+    "reformat:scss": "stylelint --fix ./src/**/**.scss",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -55,6 +57,8 @@
     "minimist": "^1.2.5",
     "prettier": "^2.0.5",
     "protractor": "~5.4.3",
+    "stylelint": "^13.3.3",
+    "stylelint-config-standard": "^20.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.8.3"
@@ -64,8 +68,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run reformat:ts && npm run reformat:html",
-      "pre-push": "npm run lint"
+      "pre-commit": "npm run reformat:ts && npm run reformat:html && npm run reformat:scss",
+      "pre-push": "npm run lint && npm run stylelint"
     }
   }
 }

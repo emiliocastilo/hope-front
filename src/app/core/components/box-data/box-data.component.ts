@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-box-data',
   templateUrl: './box-data.component.html',
-  styleUrls: ['./box-data.component.sass'],
+  styleUrls: ['./box-data.component.scss'],
 })
 export class BoxDataComponent implements OnInit {
   @Input() data: any = {};
