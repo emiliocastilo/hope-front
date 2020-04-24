@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
 import { ControlValueAccessor, FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
