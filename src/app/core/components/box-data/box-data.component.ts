@@ -15,15 +15,19 @@ export class BoxDataComponent implements OnInit {
   ngOnInit(): void {}
 
   Parsedata(value: any): string {
-    let valuetoPrint =
-      typeof value === 'object' ? value.name || value.title : value;
+    if (value) {
+      let valuetoPrint =
+        typeof value === 'object' ? value.name || value.title : value;
 
-    if (Date.parse(valuetoPrint)) {
-      const date = new Date(valuetoPrint);
-      valuetoPrint = `${date.getDate()}-${
-        date.getMonth() + 1
-      }-${date.getFullYear()}`;
+      if (Date.parse(valuetoPrint)) {
+        const date = new Date(valuetoPrint);
+        valuetoPrint = `${date.getDate()}-${
+          date.getMonth() + 1
+        }-${date.getFullYear()}`;
+      }
+      return valuetoPrint;
+    } else {
+      return '';
     }
-    return valuetoPrint;
   }
 }

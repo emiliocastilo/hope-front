@@ -28,5 +28,16 @@
     "email": "Email",
     "birthDate": "birthdate",
     "hospital": "Hospital",
-    "genderCode": "Gender" 
+    "genderCode": "Gender",
+    "patientseditor.modal.editor.field.name": "Name",
+    "patientseditor.modal.editor.field.firstname": "First surname",
+    "patientseditor.modal.editor.field.lastname": "Last surname",
+    "patientseditor.modal.editor.field.nhc": "Nhc",
+    "patientseditor.modal.editor.field.healthcard": "Health card",
+    "patientseditor.modal.editor.field.dni": "Dni",
+    "patientseditor.modal.editor.field.address": "Address",
+    "patientseditor.modal.editor.field.phone": "Phone",
+    "patientseditor.modal.editor.field.email": "Email",
+    "patientseditor.modal.editor.field.gendercode": "Gender",
+    "patientseditor.modal.editor.field.birthdate": "Date of birth"
 }
