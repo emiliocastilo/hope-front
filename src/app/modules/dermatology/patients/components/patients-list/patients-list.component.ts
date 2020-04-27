@@ -88,7 +88,7 @@ export class PatientsListComponent implements OnInit {
   }
 
   public prepareTableData(): Array<RowDataModel> {
-    let rows = this.patients.map((patient) => {
+    const rows = this.patients.map((patient) => {
       return this._patientModelToRowModelAdapter.adaptModelToRow(patient);
     });
     return rows;

@@ -38,11 +38,11 @@ export class LoginService {
   }
 
   isLogin() {
-    //comporbar token
+    // comporbar token
     return localStorage.getItem('token') ? true : false;
   }
 
-  resetPassword(email: String): Observable<any> {
+  resetPassword(email: string): Observable<any> {
     return this._http.post('/reset-password', email);
   }
 
@@ -53,7 +53,7 @@ export class LoginService {
         map((res) => {
           console.log('postChooseProfile:', role, res);
           this.currentUserSubject.next(res);
-          //TODO: Acabar en tarea de enlace, cuando tengamos Back
+          // TODO: Acabar en tarea de enlace, cuando tengamos Back
           return res;
         })
       );

@@ -1,23 +1,25 @@
+@import '~src/app/variables.scss';
+
 .master-table {
   font-size: 12px;
 
   .master-table-column-headers {
-    background-color: #0d47a1;
-    color: white;
+    background-color: $app-color-blue-dark;
+    color: $app-color-white;
     font-weight: bold;
   }
 
   .master-table-data-row {
     &:nth-child(2n) {
-      background-color: #d1e7fa;
+      background-color: $app-color-blue-lighter;
     }
 
     &:hover {
-      background-color: #1e88e5;
+      background-color: $app-color-blue-medium-two;
     }
   }
 
   .row.master-table-data-row.activate {
-    background-color: #1e88e5;
+    background-color: $app-color-blue-medium-two;
   }
 }

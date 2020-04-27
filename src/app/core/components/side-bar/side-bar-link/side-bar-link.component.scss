@@ -1,10 +1,12 @@
+@import '~src/app/variables.scss';
+
 li {
   list-style: none;
 
   &.nav-item {
     a {
       cursor: pointer;
-      color: white;
+      color: $app-color-white;
     }
   }
 }
