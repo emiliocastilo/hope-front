@@ -1,4 +1,11 @@
-import { Directive, Input, OnInit, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
+import {
+  Directive,
+  Input,
+  OnInit,
+  ComponentFactoryResolver,
+  ViewContainerRef,
+  ComponentRef,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormButtonComponent } from '../../components/basics/form-button/form-button.component';
@@ -13,11 +20,11 @@ const components = {
   input: FormInputComponent,
   select: FormSelectComponent,
   checkbox: FormCheckboxComponent,
-  radio: FormRadioComponent
+  radio: FormRadioComponent,
 };
 
 @Directive({
-  selector: '[dynamicField]'
+  selector: '[dynamicField]',
 })
 export class DynamicFieldDirective implements OnInit {
   @Input() config;
@@ -28,7 +35,7 @@ export class DynamicFieldDirective implements OnInit {
   constructor(
     private resolver: ComponentFactoryResolver,
     private container: ViewContainerRef
-  ) { }
+  ) {}
 
   ngOnChanges() {
     if (this.component) {
@@ -45,7 +52,9 @@ export class DynamicFieldDirective implements OnInit {
         Supported types: ${supportedTypes}`
       );
     }
-    const component = this.resolver.resolveComponentFactory<Field>(components[this.config.type]);
+    const component = this.resolver.resolveComponentFactory<Field>(
+      components[this.config.type]
+    );
     this.component = this.container.createComponent(component);
     this.component.instance.config = this.config;
     this.component.instance.group = this.group;

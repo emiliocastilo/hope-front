@@ -1,9 +1,9 @@
 <div class="dynamic-field" [formGroup]="group">
-    <label>{{ config.label | translate }}</label>
-    <select [formControlName]="config.name">
-        <option value="">{{ config.placeholder | translate }}</option>
-        <option *ngFor="let option of config.options">
-            {{ option | translate }}
-        </option>
-    </select>
+  <label>{{ config.label | translate }}</label>
+  <select [formControlName]="config.name">
+    <option value="">{{ config.placeholder | translate }}</option>
+    <option *ngFor="let option of config.options">
+      {{ option | translate }}
+    </option>
+  </select>
 </div>

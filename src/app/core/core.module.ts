@@ -95,11 +95,9 @@ export function createTranslateLoader(http: HttpClient) {
     ModalComponent,
     BoxDataComponent,
     DynamicFormComponent,
-    DynamicFieldDirective
+    DynamicFieldDirective,
   ],
-  providers: [
-    ModalComponent
-  ],
+  providers: [ModalComponent],
   entryComponents: [
     FormButtonComponent,
     FormInputComponent,

@@ -6,7 +6,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 @Component({
   selector: 'app-form-select',
   templateUrl: './form-select.component.html',
-  styleUrls: ['./form-select.component.scss']
+  styleUrls: ['./form-select.component.scss'],
 })
 export class FormSelectComponent {
   config: FieldConfig;

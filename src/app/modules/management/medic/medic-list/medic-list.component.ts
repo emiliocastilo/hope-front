@@ -134,15 +134,13 @@ export class MedicListComponent implements OnInit {
   public deleteDoctor(): void {
     this.medicService
       .deleteDoctor(this.medics[this.selectedItem].id)
-      .subscribe(
-        (response) => {
-          this._toastr.success("El doctor se ha borrado correctamente")
-        }
-      );
+      .subscribe((response) => {
+        this._toastr.success('El doctor se ha borrado correctamente');
+      });
   }
 
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
-  // Pensado para validar previamente por si tenemos datos de BD y settearlos 
+  // Pensado para validar previamente por si tenemos datos de BD y settearlos
   ngAfterViewInit() {
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
@@ -164,7 +162,11 @@ export class MedicListComponent implements OnInit {
       label: 'Nombre',
       name: 'name',
       placeholder: 'nombre',
-      validation: [Validators.required, Validators.minLength(4), Validators.maxLength(6)]
+      validation: [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(6),
+      ],
     },
     {
       type: 'select',
@@ -172,26 +174,26 @@ export class MedicListComponent implements OnInit {
       name: 'food',
       options: ['Pizza', 'Churrasco', 'Cofe', 'Postre'],
       placeholder: 'Selecciones',
-      validation: [Validators.required]
+      validation: [Validators.required],
     },
     {
       type: 'checkbox',
       label: 'Recordarme',
       name: 'rememberme',
-      validation: [Validators.required]
+      validation: [Validators.required],
     },
     {
       type: 'radio',
       label: 'radiobutton',
       name: 'radiobutton',
-      disabled: false
+      disabled: false,
     },
     {
       label: 'Submit',
       name: 'submit',
       type: 'button',
-      disabled: true
-    }
+      disabled: true,
+    },
   ];
 
   //Registrar el submit del Form

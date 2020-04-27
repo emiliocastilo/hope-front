@@ -6,7 +6,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 @Component({
   selector: 'app-form-button',
   templateUrl: './form-button.component.html',
-  styleUrls: ['./form-button.component.scss']
+  styleUrls: ['./form-button.component.scss'],
 })
 export class FormButtonComponent {
   config: FieldConfig;

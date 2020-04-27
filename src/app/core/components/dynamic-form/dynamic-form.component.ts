@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
@@ -7,19 +14,27 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
   exportAs: 'dynamicForm',
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  styleUrls: ['./dynamic-form.component.sass']
+  styleUrls: ['./dynamic-form.component.sass'],
 })
 export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() config: FieldConfig[] = [];
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
 
-  get controls() { return this.config.filter(({ type }) => type !== 'button'); }
-  get changes() { return this.form.valueChanges; }
-  get valid() { return this.form.valid; }
-  get value() { return this.form.value; }
+  get controls() {
+    return this.config.filter(({ type }) => type !== 'button');
+  }
+  get changes() {
+    return this.form.valueChanges;
+  }
+  get valid() {
+    return this.form.valid;
+  }
+  get value() {
+    return this.form.value;
+  }
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -40,13 +55,14 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           const config = this.config.find((control) => control.name === name);
           this.form.addControl(name, this.createControl(config));
         });
-
     }
   }
 
   createGroup() {
     const group = this.fb.group({});
-    this.controls.forEach(control => group.addControl(control.name, this.createControl(control)));
+    this.controls.forEach((control) =>
+      group.addControl(control.name, this.createControl(control))
+    );
     return group;
   }
 

@@ -1,5 +1,13 @@
 <div class="dynamic-field form-check" [formGroup]="group">
-    <input type="checkbox" [formControlName]="config.name" [attr.name]="config.name" [attr.id]="config.name"
-        class="form-check-input" [disabled]="config.disabled">
-    <label [attr.for]="config.name" class="form-check-label">{{ config.label | translate }}</label>
+  <input
+    type="checkbox"
+    [formControlName]="config.name"
+    [attr.name]="config.name"
+    [attr.id]="config.name"
+    class="form-check-input"
+    [disabled]="config.disabled"
+  />
+  <label [attr.for]="config.name" class="form-check-label">{{
+    config.label | translate
+  }}</label>
 </div>

@@ -5,6 +5,15 @@
   width: 50%;
 }
 
+.dynamic-label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #9b9b9b;
+}
+
 .dynamic-field {
   font-family: inherit;
   width: 100%;
@@ -21,25 +30,14 @@
     color: transparent;
   }
 
-  &:placeholder-shown~.dynamic-label {
+  &:placeholder-shown ~ .dynamic-label {
     font-size: 1.3rem;
     cursor: text;
     top: 20px;
   }
-}
 
-.dynamic-label {
-  position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  color: #9b9b9b;
-}
-
-.dynamic-field {
   &:focus {
-    ~.dynamic-label {
+    ~ .dynamic-label {
       position: absolute;
       top: 0;
       display: block;
