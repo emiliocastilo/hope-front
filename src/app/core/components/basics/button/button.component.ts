@@ -8,13 +8,13 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent implements ControlValueAccessor {
-  @Input() clasesBtn: String;
-  @Input() icono: String;
-  @Input() id: String;
+  @Input() clasesBtn: string;
+  @Input() icono: string;
+  @Input() id: string;
   @Input() loading = false;
   @Input() soloLectura = false;
-  @Input() texto: String;
-  @Input() type: String = 'button';
+  @Input() texto: string;
+  @Input() type = 'button';
 
   childControl = new FormControl();
 

@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    //const currentUser = this._loginService.currentUserValue;
+    // const currentUser = this._loginService.currentUserValue;
     if (!this._controlExpirationToken(localStorage.getItem('token'))) {
       return true;
     }
@@ -57,7 +57,7 @@ export class AuthGuard implements CanActivate {
       default:
         throw new Error('Illegal base64url string!');
     }
-    return decodeURIComponent((<any>window).escape(window.atob(output)));
+    return decodeURIComponent((window as any).escape(window.atob(output)));
   }
 
   private _decodeToken(token: string = '') {

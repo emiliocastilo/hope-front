@@ -14,7 +14,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./side-bar-menu.component.scss'],
 })
 export class SideBarMenuComponent implements OnInit {
-  public LEVEL_ONE: number = 1;
+  public LEVEL_ONE = 1;
 
   @Input() menu: Array<SideBarItemModel>;
   @Input() level: number;

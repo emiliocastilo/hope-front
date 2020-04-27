@@ -1,5 +1,7 @@
+@import '~src/app/variables.scss';
+
 .master-header {
-  border-bottom: 0.2em solid #373c61;
+  border-bottom: 0.2em solid $app-color-violet;
 
   .row {
     width: 100%;
@@ -10,7 +12,7 @@
       }
 
       .loged-user {
-        color: #373c61;
+        color: $app-color-violet;
         font-weight: bold;
       }
     }

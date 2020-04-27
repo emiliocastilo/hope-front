@@ -16,7 +16,7 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let reqUrl = environment.URL_API;
+    const reqUrl = environment.URL_API;
     req = req.clone({
       headers: req.headers.set('Authorization', this._setAuthorizations()),
       url: reqUrl + '' + req.url,

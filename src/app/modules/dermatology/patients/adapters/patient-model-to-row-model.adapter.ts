@@ -9,7 +9,7 @@ export class PatientModelToRowModelAdapter {
   constructor() {}
 
   public adaptModelToRow(patient: PatientModel): RowDataModel {
-    let row = new RowDataModel();
+    const row = new RowDataModel();
     row.pushColumn(
       patient.name
         .concat(' ')
@@ -22,9 +22,9 @@ export class PatientModelToRowModelAdapter {
     row.pushColumn(patient.dni);
     row.pushColumn(patient.phone);
     row.pushColumn(patient.genderCode);
-    let pathologyList: string = '';
+    let pathologyList = '';
     patient.pathologies.forEach((pathology) => {
-      pathologyList = pathologyList.concat(pathology['name']).concat(';');
+      pathologyList = pathologyList.concat(pathology.name).concat(';');
     });
     row.pushColumn(pathologyList);
     return row;

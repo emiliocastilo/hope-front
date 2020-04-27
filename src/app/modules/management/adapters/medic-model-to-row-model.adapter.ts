@@ -9,7 +9,7 @@ export class MedicModelToRowModelAdapter {
   constructor() {}
 
   public adaptModelToRow(medic: MedicModel): RowDataModel {
-    let row = new RowDataModel();
+    const row = new RowDataModel();
     row.pushColumn(medic.name);
     row.pushColumn(medic.surname);
     row.pushColumn(medic.dni);

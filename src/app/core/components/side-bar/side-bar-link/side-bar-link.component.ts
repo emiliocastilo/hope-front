@@ -10,7 +10,7 @@ export class SideBarLinkComponent implements OnInit {
   @Input() linkText: string;
   @Output() onActionExecution: EventEmitter<string> = new EventEmitter();
 
-  isActive: boolean = false;
+  isActive = false;
 
   constructor() {}
 
