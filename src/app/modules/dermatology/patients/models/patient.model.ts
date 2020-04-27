@@ -1,3 +1,5 @@
+import { PathologyModel } from './pathology.model';
+
 export class PatientModel {
   constructor(
     public id: string,
@@ -13,6 +15,6 @@ export class PatientModel {
     public birthDate: string,
     public hospital: string,
     public genderCode: string,
-    public pathologies: Array<any>
+    public pathologies: Array<PathologyModel>
   ) {}
 }
