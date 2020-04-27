@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ButtonComponent } from './components/basics/button/button.component';
 import { InputComponent } from './components/basics/input/input.component';
@@ -20,9 +21,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { SelectRoleComponent } from './components/select-role/select-role.component';
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
-import { ModalComponent } from './components/modal/modal.component';
 import { BoxDataComponent } from './components/box-data/box-data.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { FormInputComponent } from './components/basics/form-input/form-input.component';
 import { FormSelectComponent } from './components/basics/form-select/form-select.component';
@@ -30,6 +29,10 @@ import { FormButtonComponent } from './components/basics/form-button/form-button
 import { DynamicFieldDirective } from './directives/dynamic-forms/dynamic-field.directive';
 import { FormCheckboxComponent } from './components/basics/form-checkbox/form-checkbox.component';
 import { FormRadioComponent } from './components/basics/form-radio/form-radio.component';
+import { EditorModalFooterComponent } from './components/modals/editor-modal/editor-modal-footer/editor-modal-footer.component';
+import { EditorModalBodyComponent } from './components/modals/editor-modal/editor-modal-body/editor-modal-body/editor-modal-body.component';
+import { EditorModalComponent } from './components/modals/editor-modal/editor-modal/editor-modal.component';
+import { GenericModalHeaderComponent } from './components/modals/generic-modal-header/generic-modal-header.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -51,7 +54,6 @@ export function createTranslateLoader(http: HttpClient) {
     SelectRoleComponent,
     SearchComponent,
     TableComponent,
-    ModalComponent,
     BoxDataComponent,
     DynamicFormComponent,
     FormInputComponent,
@@ -60,6 +62,10 @@ export function createTranslateLoader(http: HttpClient) {
     DynamicFieldDirective,
     FormCheckboxComponent,
     FormRadioComponent,
+    EditorModalComponent,
+    GenericModalHeaderComponent,
+    EditorModalFooterComponent,
+    EditorModalBodyComponent,
   ],
   imports: [
     CommonModule,
@@ -92,12 +98,12 @@ export function createTranslateLoader(http: HttpClient) {
     SelectRoleComponent,
     SearchComponent,
     TableComponent,
-    ModalComponent,
     BoxDataComponent,
     DynamicFormComponent,
     DynamicFieldDirective,
+    EditorModalComponent,
   ],
-  providers: [ModalComponent],
+  providers: [],
   entryComponents: [
     FormButtonComponent,
     FormInputComponent,

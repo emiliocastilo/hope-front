@@ -1,0 +1,11 @@
+<div class="modal-content">
+  <app-generic-modal-header
+    [title]="title"
+    (close)="onClose()"
+  ></app-generic-modal-header>
+  <app-editor-modal-body [id]="id" [form]="form"></app-editor-modal-body>
+  <app-editor-modal-footer
+    (close)="onClose()"
+    (save)="onSave()"
+  ></app-editor-modal-footer>
+</div>
