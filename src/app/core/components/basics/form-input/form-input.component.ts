@@ -6,7 +6,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 @Component({
   selector: 'app-form-input',
   templateUrl: './form-input.component.html',
-  styleUrls: ['./form-input.component.sass']
+  styleUrls: ['./form-input.component.scss']
 })
 export class FormInputComponent {
   config: FieldConfig;
