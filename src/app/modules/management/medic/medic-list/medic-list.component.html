@@ -59,6 +59,19 @@
       >
       </app-table>
     </div>
+
+    <div class="container mt-4">
+      <div class="PRIMER-FORMULARIO">
+        <dynamic-form
+          [config]="config"
+          #form="dynamicForm"
+          (submit)="submit($event)"
+        >
+        </dynamic-form>
+        {{ form.valid }}<br />
+        {{ form.value | json }}
+      </div>
+    </div>
   </section>
 </div>
 
