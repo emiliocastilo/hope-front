@@ -1,5 +1,5 @@
-<div class="dynamic-field" [formGroup]="group">
-  <button [disabled]="config.disabled" type="submit">
-    <i class="{{ config.icon }}"></i>{{ config.label | translate }}
+<div class="form-group dynamic-field" [formGroup]="group">
+  <button [disabled]="config.disabled" type="submit" class="btn btn-primary btn-sm">
+    <i class="{{ config.icon }}"></i> {{ config.label | translate }}
   </button>
 </div>

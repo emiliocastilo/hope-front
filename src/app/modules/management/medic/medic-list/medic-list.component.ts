@@ -29,7 +29,7 @@ export class MedicListComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter
-  ) {}
+  ) { }
   public menuId: number = environment.MENU_ID.CONTROL_PANEL;
 
   @ViewChild('editModal') public editModal;
@@ -95,6 +95,7 @@ export class MedicListComponent implements OnInit {
       options: ['Pizza', 'Churrasco', 'Cofe', 'Postre'],
       placeholder: 'Selecciones',
       validation: [Validators.required],
+      selectMultiple: false
     },
     {
       type: 'checkbox',
@@ -112,7 +113,7 @@ export class MedicListComponent implements OnInit {
       label: 'Submit',
       name: 'submit',
       type: 'button',
-      disabled: true,
+      disabled: true
     },
   ];
 
@@ -162,7 +163,7 @@ export class MedicListComponent implements OnInit {
       .then((result) => {
         console.log(result);
         this.medicService.postDoctor(result.value).subscribe(
-          (result) => {},
+          (result) => { },
           (error) => {
             this._toastr.error(error.status + ' ' + error.statusText);
           }
