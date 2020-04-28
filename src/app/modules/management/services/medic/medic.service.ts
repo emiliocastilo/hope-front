@@ -20,4 +20,8 @@ export class MedicService {
   deleteDoctor(id: string): Observable<any> {
     return this._http.delete('/doctor/' + id);
   }
+
+  updateDoctor(medicModel: MedicModel): Observable<any> {
+    return this._http.put('/doctor', medicModel);
+  }
 }

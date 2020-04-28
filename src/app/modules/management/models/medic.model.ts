@@ -11,6 +11,6 @@ export class MedicModel {
     public password?: string,
     public email?: string,
     public roleList?: string,
-    public serviceId?: string
+    public service?: string
   ) {}
 }

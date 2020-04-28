@@ -4,15 +4,11 @@
       <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
         <app-input
           [id]="formKey"
-          [label]="
-            id + '.modal.editor.field.' + formKey | lowercase | translate
-          "
+          [label]="'modal.editor.field.' + formKey | translate"
           [name]="formKey"
           [formControlName]="formKey"
           [value]="form.controls[formKey].value"
-          [placeholder]="
-            id + '.modal.editor.field.' + formKey | lowercase | translate
-          "
+          [placeholder]="'modal.editor.field.' + formKey | translate"
         >
         </app-input>
       </section>

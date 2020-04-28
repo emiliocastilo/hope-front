@@ -12,48 +12,31 @@
         type="button"
         icono="fa fa-plus"
         clasesBtn="btn-primary btn-sm mx-2"
-        (click)="
-          showModal({
-            modal: editModal,
-            isNew: true,
-            isEdit: false,
-            isDetail: false
-          })
-        "
-        texto="btn.New"
+        (click)="saveDoctors()"
+        texto="btn.new"
       >
       </app-button>
       <app-button
         type="button"
         icono="fa fa-pencil"
         clasesBtn="btn-primary btn-sm mx-2"
-        (click)="
-          showModal({
-            modal: editModal,
-            isEdit: true,
-            isDetail: false,
-            isNew: false
-          })
-        "
-        texto="btn.Edit"
-        [soloLectura]="elementoSeleccionado == null"
+        (click)="editDoctor()"
+        texto="btn.edit"
+        [soloLectura]="selectedItem == undefined"
       >
       </app-button>
       <app-button
         type="button"
-        *ngIf="
-          elementoSeleccionado == null ||
-          (elementoSeleccionado != null && elementoSeleccionado.deleted != true)
-        "
+        *ngIf="selectedItem !== undefined"
         clasesBtn="btn-danger btn-sm mx-2"
         icono="fa fa-window-close"
-        texto="btn.Delete"
+        texto="btn.delete"
         (click)="deleteDoctor()"
       ></app-button>
     </div>
     <div class="container mt-4">
       <app-table
-        [columnsHeader]="COLUMNS_HEADER"
+        [columnsHeader]="columHeaders"
         [columnsData]="prepareTableData()"
         (selectedItem)="onSelectedItem($event)"
       >
@@ -177,14 +160,14 @@
           <app-button
             type="button"
             clasesBtn="btn-secondary"
-            texto="btn.Cancel"
+            texto="btn.cancel"
             (click)="modal.close(modalForm)"
           >
           </app-button>
           <app-button
             type="submit"
             clasesBtn="btn-info"
-            texto="btn.Save"
+            texto="btn.save"
             (click)="modal.close(modalForm)"
           >
           </app-button>

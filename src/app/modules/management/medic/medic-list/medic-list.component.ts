@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
+import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
+import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { MedicModel } from '../../models/medic.model';
 import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-model.adapter';
 import { MedicService } from '../../services/medic/medic.service';
@@ -13,8 +11,6 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
-import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 
 @Component({
   selector: 'app-medic-list',
@@ -32,64 +28,40 @@ export class MedicListComponent implements OnInit {
     phone: ['', Validators.required],
     dni: ['', Validators.required],
     collegeNumber: ['', Validators.required],
-    active: [Boolean, Validators.required],
-    username: ['', Validators.required],
-    password: ['', Validators.required],
-    email: ['', Validators.required],
+    service: ['', Validators.required],
   });
 
-  public elementoSeleccionado: any = null;
   public isDetailModal = false;
   public isEditModal = false;
   public isNewModal = false;
 
-  public COLUMNS_HEADER: Array<string> = [
+  public columHeaders: Array<string> = [
     'Nombre',
     'Apellidos',
     'Dni',
     'Phone',
     'Código de Colegiado',
   ];
-  public medics: Array<MedicModel>;
-  public selectedItem: number = 0;
+  public medics: Array<MedicModel> = [];
+  public selectedItem: number;
+  public isEditing: boolean = false;
 
   constructor(
     public translate: TranslateService,
-    public medicService: MedicService,
+    public _medicService: MedicService,
     private _toastr: ToastrService,
     private _formBuilder: FormBuilder,
-    private modalService: NgbModal,
+    private _modalService: NgbModal,
     private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter
   ) {}
 
-  public medic = {
-    name: 'Prueba',
-    surname: '',
-    phone: '',
-    dni: '',
-    collegeNumber: '',
-    active: '',
-    username: '',
-    password: '',
-    email: '',
-  };
-
   ngOnInit() {
-    this.medics = [
-      new MedicModel(
-        'medico1',
-        'Apellidos',
-        '321654987',
-        '132456798D',
-        '98787879897879'
-      ),
-    ];
-    this.medicService.getAll().subscribe(
+    this._medicService.getAll().subscribe(
       (result) => {
-        //this.medics= result.content;
+        this.medics = result.content;
       },
       (error) => {
-        this._toastr.error(error.status + ' ' + error.statusText);
+        this._toastr.error(`${error.status} ${error.statusText}`);
       }
     );
   }
@@ -109,30 +81,81 @@ export class MedicListComponent implements OnInit {
     this.selectedItem = event;
   }
 
-  showModal(data: any) {
-    this.isNewModal = data.isNew;
-    this.isEditModal = data.isEdit;
-    this.isDetailModal = data.isDetail;
+  public saveDoctors(): void {
+    this.showModal();
+  }
 
-    const modalRef = this.modalService.open(data.modal);
-
-    modalRef.result
-      .then((result) => {
-        console.log(result);
-        this.medicService.postDoctor(result.value).subscribe(
-          (result) => {},
-          (error) => {
-            this._toastr.error(error.status + ' ' + error.statusText);
-          }
-        );
-      })
-      .catch((error) => {
-        console.log('ERROR modal' + error);
+  public editDoctor(): void {
+    if (this.selectedItem != undefined && this.selectedItem != null) {
+      this.isEditing = true;
+      this.modalForm.setValue({
+        name: this.medics[this.selectedItem].name,
+        surname: this.medics[this.selectedItem].surname,
+        phone: this.medics[this.selectedItem].phone,
+        dni: this.medics[this.selectedItem].dni,
+        collegeNumber: this.medics[this.selectedItem].collegeNumber,
+        service: this.medics[this.selectedItem].service,
       });
+    }
+    this.showModal();
+  }
+
+  private saveOrUpdate(event: any, modalRef: any): void {
+    let formValues: JSON = event.value;
+    let id;
+    if (this.isEditing) {
+      id = this.medics[this.selectedItem].id;
+    }
+
+    let doctor: MedicModel = new MedicModel(
+      id,
+      formValues['name'],
+      formValues['surname'],
+      formValues['phone'],
+      formValues['dni'],
+      formValues['collegeNumber'],
+      formValues['hospitalId'],
+      formValues['service']
+    );
+    if (this.isEditing) {
+      this._medicService.updateDoctor(doctor).subscribe((response) => {
+        this.isEditing = false;
+        modalRef.close();
+        this.refreshData();
+      });
+    } else {
+      this._medicService.postDoctor(doctor).subscribe((response) => {
+        this.modalForm.reset();
+        modalRef.close();
+        this.refreshData();
+      });
+    }
+  }
+
+  private showModal() {
+    let modalRef = this._modalService.open(EditorModalComponent, {
+      size: 'lg',
+    });
+    modalRef.componentInstance.id = 'doctoreditor';
+    modalRef.componentInstance.title = 'Medico';
+    modalRef.componentInstance.form = this.modalForm;
+    modalRef.componentInstance.close.subscribe((event) => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.save.subscribe((event) => {
+      this.saveOrUpdate(event, modalRef);
+    });
+  }
+
+  private refreshData(): void {
+    this.modalForm.reset();
+    this._medicService.getAll().subscribe((data) => {
+      this.medics = data.content;
+    });
   }
 
   public deleteDoctor(): void {
-    this.medicService
+    this._medicService
       .deleteDoctor(this.medics[this.selectedItem].id)
       .subscribe((response) => {
         this._toastr.success('El doctor se ha borrado correctamente');

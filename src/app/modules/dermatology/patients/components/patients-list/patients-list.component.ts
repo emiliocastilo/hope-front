@@ -65,8 +65,8 @@ export class PatientsListComponent implements OnInit {
 
   modalForm: FormGroup = this._formBuilder.group({
     name: ['', Validators.required],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
+    firstSurname: ['', Validators.required],
+    lastSurname: ['', Validators.required],
     nhc: ['', Validators.required],
     healthCard: ['', Validators.required],
     dni: ['', Validators.required],
@@ -121,8 +121,8 @@ export class PatientsListComponent implements OnInit {
       this.isEditing = true;
       this.modalForm.setValue({
         name: this.patients[this.selectedItem].name,
-        firstName: this.patients[this.selectedItem].firstSurname,
-        lastName: this.patients[this.selectedItem].lastSurname,
+        firstSurname: this.patients[this.selectedItem].firstSurname,
+        lastSurname: this.patients[this.selectedItem].lastSurname,
         nhc: this.patients[this.selectedItem].nhc,
         healthCard: this.patients[this.selectedItem].healthCard,
         dni: this.patients[this.selectedItem].dni,
@@ -172,8 +172,8 @@ export class PatientsListComponent implements OnInit {
     let patient: PatientModel = new PatientModel(
       id,
       formValues['name'],
-      formValues['firstName'],
-      formValues['lastName'],
+      formValues['firstSurname'],
+      formValues['lastSurname'],
       formValues['nhc'],
       formValues['healthCard'],
       formValues['dni'],
