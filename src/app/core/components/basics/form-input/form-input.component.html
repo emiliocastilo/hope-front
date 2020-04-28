@@ -1,6 +1,12 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
-  <input type="input" [formControlName]="config.name" [attr.placeholder]="config.placeholder" [attr.name]="config.name"
-    [attr.id]="config.name" class="dynamic-field" />
+  <input
+    type="input"
+    [formControlName]="config.name"
+    [attr.placeholder]="config.placeholder"
+    [attr.name]="config.name"
+    [attr.id]="config.name"
+    class="dynamic-field"
+  />
   <label [attr.for]="config.name" class="dynamic-label">{{
     config.label | translate
   }}</label>
