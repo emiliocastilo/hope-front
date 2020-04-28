@@ -10,4 +10,5 @@ export interface FieldConfig {
   validation?: ValidatorFn[];
   value?: any;
   icon?: string;
+  selectMultiple?: boolean;
 }

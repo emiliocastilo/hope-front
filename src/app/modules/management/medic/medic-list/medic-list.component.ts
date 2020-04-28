@@ -95,6 +95,7 @@ export class MedicListComponent implements OnInit {
       options: ['Pizza', 'Churrasco', 'Cofe', 'Postre'],
       placeholder: 'Selecciones',
       validation: [Validators.required],
+      selectMultiple: false,
     },
     {
       type: 'checkbox',
