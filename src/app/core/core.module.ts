@@ -33,6 +33,8 @@ import { EditorModalFooterComponent } from './components/modals/editor-modal/edi
 import { EditorModalBodyComponent } from './components/modals/editor-modal/editor-modal-body/editor-modal-body/editor-modal-body.component';
 import { EditorModalComponent } from './components/modals/editor-modal/editor-modal/editor-modal.component';
 import { GenericModalHeaderComponent } from './components/modals/generic-modal-header/generic-modal-header.component';
+import { FormSwitchComponent } from './components/basics/form-switch/form-switch.component';
+import { SwitchComponent } from './components/basics/app-switch/app-switch.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -66,6 +68,8 @@ export function createTranslateLoader(http: HttpClient) {
     GenericModalHeaderComponent,
     EditorModalFooterComponent,
     EditorModalBodyComponent,
+    FormSwitchComponent,
+    SwitchComponent,
   ],
   imports: [
     CommonModule,
@@ -102,6 +106,8 @@ export function createTranslateLoader(http: HttpClient) {
     DynamicFormComponent,
     DynamicFieldDirective,
     EditorModalComponent,
+    FormSwitchComponent,
+    SwitchComponent
   ],
   providers: [],
   entryComponents: [

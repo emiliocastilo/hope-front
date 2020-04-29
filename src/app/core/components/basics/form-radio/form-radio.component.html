@@ -1,39 +1,7 @@
-<!-- <div class="dynamic-field form-check" [formGroup]="group">
-  <input type="radio" [formControlName]="config.name" [attr.name]="config.name" [attr.id]="config.name"
-    class="form-check-input" [disabled]="config.disabled" />
-  <label [attr.for]="config.name" class="form-check-label">{{
-    config.label | translate
-  }}</label>
-</div> -->
 <div class="dynamic-field" [formGroup]="group">
-  <div class="form-check" *ngFor="let field of config.radioButton">
-    <input
-      type="radio"
-      [formControlName]="config.name"
-      [attr.name]="config.name"
-      [attr.value]="field"
-      [attr.id]="field"
-      class="form-check-input"
-    />
-    <label class="form-check-label" [attr.for]="field">{{
-      field | translate
-    }}</label>
+  <div *ngFor="let option of config.radioButton" class="form-check">
+    <input [formControlName]="config.name" type="radio" [name]="config.name" [value]="option.value"
+      class="form-check-input">
+    <label [for]="config.name" class="form-check-label"> {{option.optionName| translate}}</label>
   </div>
 </div>
-
-<!-- <div class="demo-full-width margin-top" [formGroup]="group">
-  <label class="radio-label-padding">{{field.label}}:</label>
-  <mat-radio-group [formControlName]="field.name">
-    <mat-radio-button *ngFor="let item of field.options" [value]="item">{{item}}</mat-radio-button>
-  </mat-radio-group>
-</div> -->
-
-<!-- <div class="dynamic-field" [formGroup]="group">
-  <label>{{config.label | translate}}</label>
-  <div class="form-check" *ngFor="let field of config.radioButton">
-    <input type="radio" [formControlName]="config.name" [attr.name]="config.name" [attr.value]="field.value"
-      class="form-check-input" />
-    <label [attr.for]="field" class="form-check-label">{{field | translate}}</label>
-  </div>
-
-</div> -->
