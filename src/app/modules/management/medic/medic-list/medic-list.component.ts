@@ -102,12 +102,28 @@ export class MedicListComponent implements OnInit {
       label: 'Recordarme',
       name: 'rememberme',
       validation: [Validators.required],
+      disabled: false,
     },
     {
       type: 'radio',
-      label: 'radiobutton',
       name: 'radiobutton',
-      disabled: false,
+      radioButton: ['Pizza', 'Churrasco'],
+      label: 'prueba radio',
+      // radioButton: [{
+      //   type: 'radio',
+      //   names: 'name1',
+      //   disabled: true,
+      //   label: 'name1',
+      //   value: 'nameX1'
+      // },
+      // {
+      //   type: 'radio',
+      //   names: 'p1',
+      //   disabled: false,
+      //   label: 'name2',
+      //   value: 'nameX2'
+      // }
+      // ]
     },
     {
       label: 'Submit',
