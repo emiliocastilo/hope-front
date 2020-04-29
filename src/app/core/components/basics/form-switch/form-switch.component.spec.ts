@@ -8,9 +8,8 @@ describe('FormSwitchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormSwitchComponent ]
-    })
-    .compileComponents();
+      declarations: [FormSwitchComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

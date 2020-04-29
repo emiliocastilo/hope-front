@@ -5,7 +5,7 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-form-switch',
   templateUrl: './form-switch.component.html',
-  styleUrls: ['./form-switch.component.scss']
+  styleUrls: ['./form-switch.component.scss'],
 })
 export class FormSwitchComponent {
   config: FieldConfig;

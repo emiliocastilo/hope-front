@@ -29,7 +29,7 @@ export class MedicListComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter
-  ) { }
+  ) {}
   public menuId: number = environment.MENU_ID.CONTROL_PANEL;
 
   @ViewChild('editModal') public editModal;
@@ -107,13 +107,16 @@ export class MedicListComponent implements OnInit {
     {
       type: 'radio',
       name: 'radiobutton',
-      radioButton: [{
-        optionName: 'Moto',
-        value: 'bike'
-      }, {
-        optionName: 'coche',
-        value: 'car'
-      }],
+      radioButton: [
+        {
+          optionName: 'Moto',
+          value: 'bike',
+        },
+        {
+          optionName: 'coche',
+          value: 'car',
+        },
+      ],
       label: 'prueba',
     },
     {
@@ -170,7 +173,7 @@ export class MedicListComponent implements OnInit {
       .then((result) => {
         console.log(result);
         this.medicService.postDoctor(result.value).subscribe(
-          (result) => { },
+          (result) => {},
           (error) => {
             this._toastr.error(error.status + ' ' + error.statusText);
           }

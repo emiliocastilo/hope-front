@@ -4,10 +4,9 @@ import { ControlValueAccessor } from '@angular/forms';
 @Component({
   selector: 'app-app-switch',
   templateUrl: './app-switch.component.html',
-  styleUrls: ['./app-switch.component.scss']
+  styleUrls: ['./app-switch.component.scss'],
 })
 export class SwitchComponent implements ControlValueAccessor {
-
   @HostBinding('attr.id') externalId = '';
 
   @Input()
@@ -23,8 +22,8 @@ export class SwitchComponent implements ControlValueAccessor {
   private _ID = '';
 
   @Input('value') _value = false;
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   get value() {
     return this._value;
@@ -36,7 +35,7 @@ export class SwitchComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  constructor() { }
+  constructor() {}
 
   registerOnChange(fn) {
     this.onChange = fn;
@@ -56,4 +55,3 @@ export class SwitchComponent implements ControlValueAccessor {
     this.value = !this.value;
   }
 }
-

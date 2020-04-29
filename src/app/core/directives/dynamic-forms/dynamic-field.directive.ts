@@ -22,7 +22,7 @@ const components = {
   select: FormSelectComponent,
   checkbox: FormCheckboxComponent,
   radio: FormRadioComponent,
-  switch: FormSwitchComponent
+  switch: FormSwitchComponent,
 };
 
 @Directive({
