@@ -171,6 +171,16 @@ export class PatientsListComponent implements OnInit {
         label: 'modal.editor.field.genderCode',
         name: 'genderCode',
         placeholder: 'modal.editor.field.genderCode',
+        radioButton: [
+          {
+            optionName: 'Femenino',
+            value: 'F',
+          },
+          {
+            optionName: 'Masculino',
+            value: 'M',
+          },
+        ],
         validation: [Validators.required],
       },
       {
