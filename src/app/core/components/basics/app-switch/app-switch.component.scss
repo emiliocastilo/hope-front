@@ -30,11 +30,11 @@
   font-size: 16px;
   font-weight: normal;
   text-transform: uppercase;
-  background: $app-color-gray-light;
+  background: $app-switch-gray;
   border-radius: 4px;
   transition: 0.15s ease-out;
   transition-property: opacity background;
-  color: $app-color-gray-dark;
+  color: $app-switch-dark-gray;
 
   &::before,
   &::after {
@@ -67,13 +67,13 @@
   height: 18px;
   background: $app-color-white;
   border-radius: 10px;
-  box-shadow: 1px 1px 5px $app-color-gray-medium;
+  box-shadow: 1px 1px 5px $app-switch-dark-gray;
   transition: left 0.15s ease-out;
 }
 
 .checked {
   .switch-label {
-    background: $app-color-green;
+    background: $app-switch-green;
     box-shadow: inset 0 1px 2px $app-color-gray-dark, inset 0 0 3px lighten($app-color-black, 75%);
 
     &::before {
