@@ -42,5 +42,7 @@
   "modal.editor.field.birthDate": "Date of birth",
   "modal.editor.field.surname": "Surname",
   "modal.editor.field.collegeNumber": "College number",
-  "modal.editor.field.service": "Service"
+  "modal.editor.field.service": "Service",
+  "modal.editor.field.hospital": "Hospital",
+  "modal.editor.field.username": "Username"
 }

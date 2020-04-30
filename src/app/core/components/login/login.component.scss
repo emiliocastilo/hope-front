@@ -1,6 +1,8 @@
+@import '~src/app/variables.scss';
+
 .underlineHover {
   &:hover {
-    color: #0d0d0d;
+    color: $app-color-black;
   }
 }
 

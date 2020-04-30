@@ -7,14 +7,14 @@ import {
   OnChanges,
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
+import { UserModel } from '../../models/user/user.model';
 
 @Component({
   exportAs: 'dynamicForm',
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  styleUrls: ['./dynamic-form.component.sass'],
+  styleUrls: ['./dynamic-form.component.scss'],
 })
 export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() config: FieldConfig[] = [];

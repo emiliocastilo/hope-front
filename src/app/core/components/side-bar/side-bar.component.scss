@@ -1,4 +1,6 @@
+@import '~src/app/variables.scss';
+
 .side-bar {
-  border: 1px solid #373c61;
-  background-color: #0d47a1;
+  border: 1px solid $app-color-violet;
+  background-color: $app-color-blue-dark;
 }

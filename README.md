@@ -40,6 +40,17 @@ https://nodejs.org/en/
 10. Pull request de la rama de release a master
 
 
+# Fromato y reglas de Lint
+Los archivos .ts y .html seran revisados y formateador por prettier (https://prettier.io/) bajo las reglas estandar de prettire excepto por las reglas escritas en el archivo: .prettierrc 
+* npm run lint (revisa el formato de todos los archivos ts y html). 
+* npm run reformat:ts (revisa y modifica los archivos ts). 
+* npm run reformat:html (revisa y modifica los archivos html).
+
+# Fromato y reglas de Stylelint
+Los archivos scss (sass) seran revisados y formateados por Stylelint (https://stylelint.io/) bajo la configuración "stylelint-config-standard" excepto por las reglas reglas escritas en .stylelintrc.json 
+* npm run stylelint (revisa el formato de todos los archivos scss). 
+* npm run reformat:scss (revisa y modifica los archivos scss)
+
 # AngularDevelopmentCLI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-beta.32.3.

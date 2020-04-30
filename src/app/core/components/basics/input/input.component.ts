@@ -8,20 +8,27 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./input.component.scss'],
 })
 export class InputComponent implements OnInit, ControlValueAccessor {
-  @Input() label: String = '';
+  constructor(
+    public _translate: TranslateService,
+    @Self() private controlDirective: NgControl
+  ) {
+    controlDirective.valueAccessor = this;
+  }
+  @Input() clases: string;
+  @Input() id: string;
+  @Input() isDisabled = false;
+  @Input() label = '';
   @Input() maxlength: any = 256;
-  @Input() type: String = 'text';
-  @Input() id: String;
-  @Input() required: boolean = false;
-  @Input() isDisabled: boolean = false;
-  @Input() placeholder: string = '';
-  @Input() clases: String;
+  @Input() name: string;
+  @Input() placeholder = '';
+  @Input() required = false;
+  @Input() type = 'text';
 
   value: string;
-  onChange = (_: any) => {};
-  onTouch = () => {};
 
   childControl = new FormControl();
+  onChange = (_: any) => {};
+  onTouch = () => {};
 
   ngOnInit() {
     this.controlDirective.control.setValidators([this.validate.bind(this)]);
@@ -64,12 +71,5 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         invalid: true,
       }
     );
-  }
-
-  constructor(
-    public _translate: TranslateService,
-    @Self() private controlDirective: NgControl
-  ) {
-    controlDirective.valueAccessor = this;
   }
 }

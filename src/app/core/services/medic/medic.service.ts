@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MedicModel } from '../../models/medic.model';
+import { MedicModel } from '../../models/medic/medic.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +14,12 @@ export class MedicService {
   }
 
   postDoctor(medicModel: MedicModel): Observable<any> {
+    console.log('medicModel:', medicModel);
     return this._http.post('/doctor', medicModel);
   }
 
-  deleteDoctor(id: string): Observable<any> {
-    return this._http.delete('/doctor/' + id);
+  deleteDoctor(id: number): Observable<any> {
+    return this._http.delete(`/doctor/${id}`);
   }
 
   updateDoctor(medicModel: MedicModel): Observable<any> {

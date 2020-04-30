@@ -42,6 +42,8 @@
   "modal.editor.field.genderCode": "Genero",
   "modal.editor.field.birthDate": "Fecha de nacimiento",
   "modal.editor.field.surname": "Apellido",
-  "modal.editor.field.collegeNumber": "College number",
-  "modal.editor.field.service": "Service"
+  "modal.editor.field.collegeNumber": "Número de colegiado",
+  "modal.editor.field.service": "Service",
+  "modal.editor.field.hospital": "Hospital",
+  "modal.editor.field.username": "Nombre de usuario"
 }

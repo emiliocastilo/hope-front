@@ -1,8 +1,10 @@
+@import '~src/app/variables.scss';
+
 .dynamic-group {
   position: relative;
   padding: 15px 0 0;
   margin-top: 10px;
-  width: 50%;
+  margin-right: 10px;
 }
 
 .dynamic-label {
@@ -11,17 +13,17 @@
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: #9b9b9b;
+  color: $app-color-gray-dark;
 }
 
 .dynamic-field {
   font-family: inherit;
   width: 100%;
   border: 0;
-  border-bottom: 2px solid #9b9b9b;
+  border-bottom: 2px solid $app-color-gray-dark;
   outline: 0;
   font-size: 1rem;
-  color: #000;
+  color: $app-color-black;
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
@@ -43,12 +45,12 @@
       display: block;
       transition: 0.2s;
       font-size: 1rem;
-      color: #249cf1;
+      color: $app-color-blue-medium;
     }
 
     padding-bottom: 6px;
     border-width: 3px;
-    border-image: linear-gradient(to right, #249cf1, #2894e0);
+    border-image: linear-gradient(to right, $app-color-blue-medium, $app-color-blue-light);
     border-image-slice: 1;
   }
 

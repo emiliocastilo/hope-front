@@ -52,7 +52,7 @@ export class SelectRoleComponent implements OnInit {
       },
       (error) => {
         this.loading = false;
-        console.log(<any>error);
+        console.log(error as any);
         this._toastr.error(error.status + ' ' + error.statusText);
       }
     );

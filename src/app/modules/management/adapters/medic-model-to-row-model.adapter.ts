@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { MedicModel } from '../models/medic.model';
+import { MedicModel } from '../../../core/models/medic/medic.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ export class MedicModelToRowModelAdapter {
   constructor() {}
 
   public adaptModelToRow(medic: MedicModel): RowDataModel {
-    let row = new RowDataModel();
+    const row = new RowDataModel();
     row.pushColumn(medic.name);
     row.pushColumn(medic.surname);
     row.pushColumn(medic.dni);
