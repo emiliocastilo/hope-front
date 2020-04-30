@@ -14,6 +14,7 @@ import { FormSelectComponent } from '../../components/basics/form-select/form-se
 import { Field } from '../../interfaces/dynamic-forms/field.interface';
 import { FormCheckboxComponent } from '../../components/basics/form-checkbox/form-checkbox.component';
 import { FormRadioComponent } from '../../components/basics/form-radio/form-radio.component';
+import { FormSwitchComponent } from '../../components/basics/form-switch/form-switch.component';
 
 const components = {
   button: FormButtonComponent,
@@ -21,6 +22,7 @@ const components = {
   select: FormSelectComponent,
   checkbox: FormCheckboxComponent,
   radio: FormRadioComponent,
+  switch: FormSwitchComponent,
 };
 
 @Directive({

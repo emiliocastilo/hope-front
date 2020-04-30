@@ -1,52 +1,14 @@
-<div class="dynamic-field form-check" [formGroup]="group">
-  <input
-    type="radio"
-    [formControlName]="config.name"
-    [attr.name]="config.name"
-    [attr.id]="config.name"
-    class="form-check-input"
-    [disabled]="config.disabled"
-  />
-  <label [attr.for]="config.name" class="form-check-label">{{
-    config.label | translate
-  }}</label>
-</div>
-
-<div class="form-check">
-  <input
-    class="form-check-input"
-    type="radio"
-    name="exampleRadios"
-    id="exampleRadios1"
-    value="option1"
-    checked
-  />
-  <label class="form-check-label" for="exampleRadios1">
-    Default radio
-  </label>
-</div>
-<div class="form-check">
-  <input
-    class="form-check-input"
-    type="radio"
-    name="exampleRadios"
-    id="exampleRadios2"
-    value="option2"
-  />
-  <label class="form-check-label" for="exampleRadios2">
-    Second default radio
-  </label>
-</div>
-<div class="form-check disabled">
-  <input
-    class="form-check-input"
-    type="radio"
-    name="exampleRadios"
-    id="exampleRadios3"
-    value="option3"
-    disabled
-  />
-  <label class="form-check-label" for="exampleRadios3">
-    Disabled radio
-  </label>
+<div class="dynamic-field" [formGroup]="group">
+  <div *ngFor="let option of config.radioButton" class="form-check">
+    <input
+      [formControlName]="config.name"
+      type="radio"
+      [name]="config.name"
+      [value]="option.value"
+      class="form-check-input"
+    />
+    <label [for]="config.name" class="form-check-label">
+      {{ option.optionName | translate }}</label
+    >
+  </div>
 </div>
