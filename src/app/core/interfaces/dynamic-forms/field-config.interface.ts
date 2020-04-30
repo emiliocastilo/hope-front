@@ -11,4 +11,5 @@ export interface FieldConfig {
   value?: any;
   icon?: string;
   selectMultiple?: boolean;
+  radioButton?: any;
 }
