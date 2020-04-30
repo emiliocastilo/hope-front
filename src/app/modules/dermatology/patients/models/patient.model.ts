@@ -1,4 +1,5 @@
 import { PathologyModel } from './pathology.model';
+import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 
 export class PatientModel {
   constructor(
@@ -13,7 +14,7 @@ export class PatientModel {
     public phone: string,
     public email: string,
     public birthDate: string,
-    public hospital: string,
+    public hospital: HospitalModel,
     public genderCode: string,
     public pathologies: Array<PathologyModel>
   ) {}

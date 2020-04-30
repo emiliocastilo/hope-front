@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { MedicModel } from '../models/medic.model';
+import { MedicModel } from '../../../core/models/medic/medic.model';
 
 @Injectable({
   providedIn: 'root',

@@ -1,0 +1,8 @@
+.modal-body {
+  &.editor-modal-body {
+    section {
+      display: inline-flex;
+      margin-right: 2rem;
+    }
+  }
+}

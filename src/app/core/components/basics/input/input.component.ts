@@ -14,14 +14,15 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   ) {
     controlDirective.valueAccessor = this;
   }
+  @Input() clases: string;
+  @Input() id: string;
+  @Input() isDisabled = false;
   @Input() label = '';
   @Input() maxlength: any = 256;
-  @Input() type = 'text';
-  @Input() id: string;
-  @Input() required = false;
-  @Input() isDisabled = false;
+  @Input() name: string;
   @Input() placeholder = '';
-  @Input() clases: string;
+  @Input() required = false;
+  @Input() type = 'text';
 
   value: string;
 

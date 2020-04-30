@@ -1,21 +1,8 @@
 <div class="modal-body editor-modal-body m-2">
-  <form [formGroup]="form" novalidate>
-    <ng-container *ngFor="let formKey of formKeys; index as fieldIndex">
-      <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
-        <app-input
-          [id]="formKey"
-          [label]="
-            id + '.modal.editor.field.' + formKey | lowercase | translate
-          "
-          [name]="formKey"
-          [formControlName]="formKey"
-          [value]="form.controls[formKey].value"
-          [placeholder]="
-            id + '.modal.editor.field.' + formKey | lowercase | translate
-          "
-        >
-        </app-input>
-      </section>
-    </ng-container>
-  </form>
+  <dynamic-form
+    [config]="formConfig"
+    #formValue="dynamicForm"
+    (submit)="submitModalBody($event)"
+  >
+  </dynamic-form>
 </div>

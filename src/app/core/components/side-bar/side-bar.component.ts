@@ -22,7 +22,6 @@ export class SideBarComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) {}
 
   showSideBar(menuArray: SideBarItemModel[]): SideBarItemModel[] {
-    console.log(this.currentMenuId);
     const rootMenu = menuArray.filter(
       (value: SideBarItemModel) => value.id === this.currentMenuId
     );

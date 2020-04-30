@@ -1,16 +1,18 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
+import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { PathologyModel } from '../../models/pathology.model';
 import { PatientModel } from '../../models/patient.model';
 import { PatientModelToRowModelAdapter } from '../../adapters/patient-model-to-row-model.adapter';
 import { PatientsService } from '../../services/patients.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ToastrService } from 'ngx-toastr';
+import { Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { PathologyModel } from '../../models/pathology.model';
+import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 
 @Component({
   selector: 'app-patients-list',
@@ -18,7 +20,7 @@ import { PathologyModel } from '../../models/pathology.model';
   styleUrls: ['./patients-list.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
-  public columnsHeader: Array<string> = [
+  public columnsHeader: string[] = [
     'Patient Name',
     'Nhc',
     'Health Card',
@@ -27,8 +29,8 @@ export class PatientsListComponent implements OnInit {
     'Gender Code',
     'Pathologies',
   ];
-  public menu: Array<SideBarItemModel>;
-  public patients: Array<PatientModel> = [];
+  public menu: SideBarItemModel[];
+  public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = [
     'name',
     'firstSurname',
@@ -56,39 +58,138 @@ export class PatientsListComponent implements OnInit {
     phone: '',
     email: '',
     birthDate: '',
-    hospital: '',
+    hospital: null,
     genderCode: '',
     pathologies: [],
   };
   public menuId: number = environment.MENU_ID.PATIENTS;
   public isEditing: boolean = false;
-
-  modalForm: FormGroup = this._formBuilder.group({
-    name: ['', Validators.required],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    nhc: ['', Validators.required],
-    healthCard: ['', Validators.required],
-    dni: ['', Validators.required],
-    address: ['', Validators.required],
-    phone: ['', Validators.required],
-    email: ['', Validators.required],
-    genderCode: ['', Validators.required],
-    birthDate: ['', Validators.required],
-  });
+  public formConfig: FieldConfig[] = [];
+  private hospitals: HospitalModel[] = [];
 
   constructor(
     private _patientsService: PatientsService,
     private _patientModelToRowModelAdapter: PatientModelToRowModelAdapter,
     private _toastr: ToastrService,
-    private _formBuilder: FormBuilder,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private _activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this._patientsService.getPatients().subscribe((data) => {
-      this.patients = data.content;
-    });
+    this.hospitals = this._activatedRoute.snapshot.data.hospitals;
+    this.patients = this._activatedRoute.snapshot.data.patients.content;
+
+    this.formConfig = [
+      {
+        type: 'input',
+        label: 'modal.editor.field.name',
+        name: 'name',
+        placeholder: 'modal.editor.field.name',
+        validation: [Validators.required, Validators.minLength(2)],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.firstSurname',
+        name: 'firstSurname',
+        placeholder: 'modal.editor.field.firstSurname',
+        validation: [Validators.required, Validators.minLength(1)],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.lastSurname',
+        name: 'lastSurname',
+        placeholder: 'modal.editor.field.lastSurname',
+        validation: [Validators.required, Validators.minLength(3)],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.nhc',
+        name: 'nhc',
+        placeholder: 'modal.editor.field.nhc',
+        validation: [Validators.required],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.healthCard',
+        name: 'healthCard',
+        placeholder: 'modal.editor.field.healthCard',
+        validation: [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(6),
+        ],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.dni',
+        name: 'dni',
+        placeholder: 'modal.editor.field.dni',
+        validation: [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(6),
+        ],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.address',
+        name: 'address',
+        placeholder: 'modal.editor.field.address',
+        validation: [Validators.required],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.phone',
+        name: 'phone',
+        placeholder: 'modal.editor.field.phone',
+        validation: [Validators.required],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.email',
+        name: 'email',
+        placeholder: 'modal.editor.field.email',
+        validation: [Validators.required],
+      },
+      {
+        type: 'input',
+        label: 'modal.editor.field.birthDate',
+        name: 'birthDate',
+        placeholder: 'modal.editor.field.birthDate',
+        validation: [Validators.required],
+      },
+      {
+        type: 'select',
+        label: 'modal.editor.field.hospital',
+        name: 'hospital',
+        placeholder: 'modal.editor.field.hospital',
+        options: this.hospitals,
+        validation: [Validators.required],
+      },
+      {
+        type: 'radio',
+        label: 'modal.editor.field.genderCode',
+        name: 'genderCode',
+        placeholder: 'modal.editor.field.genderCode',
+        radioButton: [
+          {
+            optionName: 'Femenino',
+            value: 'F',
+          },
+          {
+            optionName: 'Masculino',
+            value: 'M',
+          },
+        ],
+        validation: [Validators.required],
+      },
+      {
+        label: 'btn.save',
+        name: 'btn.save',
+        type: 'button',
+        disabled: false,
+      },
+    ];
   }
 
   public prepareTableData(): Array<RowDataModel> {
@@ -103,6 +204,13 @@ export class PatientsListComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedPatient = this.patients[event];
     this.selectedItem = event;
+    Object.keys(this.selectedPatient).map((patientKey: string) => {
+      this.formConfig.map((valueFrom: any, keyform: number) => {
+        if (valueFrom.name === patientKey) {
+          this.formConfig[keyform].value = this.selectedPatient[patientKey];
+        }
+      });
+    });
   }
 
   public onFilter(event: string): void {
@@ -113,36 +221,31 @@ export class PatientsListComponent implements OnInit {
   }
 
   public savePatient(): void {
+    this.formConfig.map((valueFrom: any, keyform: number) => {
+      this.formConfig[keyform].value = null;
+    });
+    this.isEditing = false;
+    this.selectedItem = null;
     this.showModal();
   }
 
   public editPatient(): void {
-    if (this.selectedItem != undefined && this.selectedItem != null) {
-      this.isEditing = true;
-      this.modalForm.setValue({
-        name: this.patients[this.selectedItem].name,
-        firstName: this.patients[this.selectedItem].firstSurname,
-        lastName: this.patients[this.selectedItem].lastSurname,
-        nhc: this.patients[this.selectedItem].nhc,
-        healthCard: this.patients[this.selectedItem].healthCard,
-        dni: this.patients[this.selectedItem].dni,
-        address: this.patients[this.selectedItem].address,
-        phone: this.patients[this.selectedItem].phone,
-        email: this.patients[this.selectedItem].email,
-        genderCode: this.patients[this.selectedItem].genderCode,
-        birthDate: this.patients[this.selectedItem].birthDate,
-      });
-    }
+    this.isEditing = true;
     this.showModal();
   }
 
   public deletePatient(): void {
     this._patientsService
       .deletePatient(this.patients[this.selectedItem].id)
-      .subscribe((response) => {
-        this._toastr.success('El paciente se ha borrado correctamente');
-        this.refreshData();
-      });
+      .subscribe(
+        (response) => {
+          this._toastr.success('El paciente se ha borrado correctamente');
+          this.refreshData();
+        },
+        (error) => {
+          this._toastr.success(error.error.error);
+        }
+      );
   }
 
   private showModal() {
@@ -151,7 +254,7 @@ export class PatientsListComponent implements OnInit {
     });
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
-    modalRef.componentInstance.form = this.modalForm;
+    modalRef.componentInstance.formConfig = this.formConfig;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
     });
@@ -161,7 +264,7 @@ export class PatientsListComponent implements OnInit {
   }
 
   private saveOrUpdate(event: any, modalRef: any): void {
-    let formValues: JSON = event.value;
+    let formValues: PatientModel = event;
     let id;
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;
@@ -172,8 +275,8 @@ export class PatientsListComponent implements OnInit {
     let patient: PatientModel = new PatientModel(
       id,
       formValues['name'],
-      formValues['firstName'],
-      formValues['lastName'],
+      formValues['firstSurname'],
+      formValues['lastSurname'],
       formValues['nhc'],
       formValues['healthCard'],
       formValues['dni'],
@@ -181,27 +284,35 @@ export class PatientsListComponent implements OnInit {
       formValues['phone'],
       formValues['email'],
       formValues['birthDate'],
-      formValues['hospital'],
+      formValues['hospital'][0],
       formValues['genderCode'],
       pathologies
     );
     if (this.isEditing) {
-      this._patientsService.updatePatient(patient).subscribe((response) => {
-        this.isEditing = false;
-        modalRef.close();
-        this.refreshData();
-      });
+      this._patientsService.updatePatient(patient).subscribe(
+        (response) => {
+          this.isEditing = false;
+          modalRef.close();
+          this.refreshData();
+        },
+        (error) => {
+          this._toastr.error(error.error.error);
+        }
+      );
     } else {
-      this._patientsService.createPatient(patient).subscribe((response) => {
-        this.modalForm.reset();
-        modalRef.close();
-        this.refreshData();
-      });
+      this._patientsService.createPatient(patient).subscribe(
+        (response) => {
+          modalRef.close();
+          this.refreshData();
+        },
+        (error) => {
+          this._toastr.error(error.error.error);
+        }
+      );
     }
   }
 
   private refreshData(): void {
-    this.modalForm.reset();
     this._patientsService.getPatients().subscribe((data) => {
       this.patients = data.content;
     });

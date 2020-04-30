@@ -3,7 +3,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-editor-modal-footer',
   templateUrl: './editor-modal-footer.component.html',
-  styleUrls: ['./editor-modal-footer.component.sass'],
+  styleUrls: ['./editor-modal-footer.component.scss'],
 })
 export class EditorModalFooterComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
@@ -17,7 +17,7 @@ export class EditorModalFooterComponent implements OnInit {
     this.close.emit(null);
   }
 
-  public onSave() {
+  public onSave(value: any) {
     this.save.emit(null);
   }
 }
