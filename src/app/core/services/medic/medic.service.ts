@@ -9,8 +9,9 @@ import { MedicModel } from '../../models/medic/medic.model';
 export class MedicService {
   constructor(private _http: HttpClient) {}
 
-  getAll(): Observable<any> {
-    return this._http.get('/doctor');
+  getAll(query: string): Observable<any> {
+    query = query ? query : '';
+    return this._http.get(`/doctor?${query}`);
   }
 
   postDoctor(medicModel: MedicModel): Observable<any> {

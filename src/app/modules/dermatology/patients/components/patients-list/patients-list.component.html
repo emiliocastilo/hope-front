@@ -43,5 +43,10 @@
         ></app-table>
       </section>
     </section>
+    <app-pagination
+      (selectPage)="selectPage($event)"
+      [paginationData]="paginationData"
+    >
+    </app-pagination>
   </section>
 </div>

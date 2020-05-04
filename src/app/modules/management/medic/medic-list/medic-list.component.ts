@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
+import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 
 @Component({
   selector: 'app-medic-list',
@@ -49,11 +50,14 @@ export class MedicListComponent implements OnInit {
   public menuId: number = environment.MENU_ID.CONTROL_PANEL;
   public selectedItem: number;
   public services: ServiceModel[] = [];
+  public paginationData: PaginationModel;
+  private currentPage: number = 0;
 
   ngOnInit() {
     this.services = this._activatedRoute.snapshot.data.services;
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.medics = this._activatedRoute.snapshot.data.medics.content;
+    this.paginationData = this._activatedRoute.snapshot.data.medics;
     this.formConfig = [
       {
         type: 'input',
@@ -197,7 +201,7 @@ export class MedicListComponent implements OnInit {
         (response) => {
           this.isEditing = false;
           modalRef.close();
-          this.refreshData();
+          this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
           this._toastr.error(error.error.error);
@@ -207,7 +211,7 @@ export class MedicListComponent implements OnInit {
       this._medicService.postDoctor(doctor).subscribe(
         (response) => {
           modalRef.close();
-          this.refreshData();
+          this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
           this._toastr.error(error.error.error);
@@ -231,9 +235,18 @@ export class MedicListComponent implements OnInit {
     });
   }
 
-  private refreshData(): void {
-    this._medicService.getAll().subscribe((data) => {
+  public selectPage(page: number): void {
+    this.currentPage = page;
+    const query: string = `&page=${page}`;
+    this.refreshData(query);
+  }
+
+  private refreshData(query: string): void {
+    this._medicService.getAll(query).subscribe((data) => {
       this.medics = data.content;
+      if (this.paginationData.totalElements !== data.totalElements) {
+        this.paginationData = data;
+      }
     });
   }
 
@@ -242,7 +255,7 @@ export class MedicListComponent implements OnInit {
       .deleteDoctor(this.medics[this.selectedItem].id)
       .subscribe(
         (response) => {
-          this.refreshData();
+          this.refreshData(`&page=${this.currentPage}`);
           this._toastr.success('El doctor se ha borrado correctamente');
         },
         (error) => {
