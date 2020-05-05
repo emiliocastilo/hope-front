@@ -11,6 +11,6 @@ export class PatientsResolverService implements Resolve<Array<PatientModel>> {
   constructor(private patientsService: PatientsService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Array<PatientModel>> {
-    return this.patientsService.getPatients();
+    return this.patientsService.getPatients('&page=0');
   }
 }

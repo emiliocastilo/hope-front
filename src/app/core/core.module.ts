@@ -35,6 +35,7 @@ import { EditorModalComponent } from './components/modals/editor-modal/editor-mo
 import { GenericModalHeaderComponent } from './components/modals/generic-modal-header/generic-modal-header.component';
 import { FormSwitchComponent } from './components/basics/form-switch/form-switch.component';
 import { SwitchComponent } from './components/basics/app-switch/app-switch.component';
+import { PaginationComponent } from './components/basics/pagination/pagination.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -70,6 +71,7 @@ export function createTranslateLoader(http: HttpClient) {
     EditorModalBodyComponent,
     FormSwitchComponent,
     SwitchComponent,
+    PaginationComponent,
   ],
   imports: [
     CommonModule,
@@ -108,6 +110,7 @@ export function createTranslateLoader(http: HttpClient) {
     EditorModalComponent,
     FormSwitchComponent,
     SwitchComponent,
+    PaginationComponent,
   ],
   providers: [],
   entryComponents: [

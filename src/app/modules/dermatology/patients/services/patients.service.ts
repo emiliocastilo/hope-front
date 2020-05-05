@@ -9,12 +9,13 @@ import { PatientModel } from '../models/patient.model';
 export class PatientsService {
   constructor(private _httpClient: HttpClient) {}
 
-  public getPatients(): Observable<any> {
-    return this._httpClient.get('/patient?pth=1');
+  public getPatients(query: string): Observable<any> {
+    query = query ? query : '';
+    return this._httpClient.get(`/patient?pth=1${query}`);
   }
 
   public getPatientsById(id: string): Observable<any> {
-    return this._httpClient.get('/patient/'.concat(id));
+    return this._httpClient.get(`/patient/${id}`);
   }
 
   public createPatient(request: PatientModel): Observable<any> {
@@ -26,6 +27,6 @@ export class PatientsService {
   }
 
   public deletePatient(id: string): Observable<any> {
-    return this._httpClient.delete('/patient/' + id);
+    return this._httpClient.delete(`/patient/${id}`);
   }
 }

@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
+import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 
 @Component({
   selector: 'app-patients-list',
@@ -66,6 +67,8 @@ export class PatientsListComponent implements OnInit {
   public isEditing: boolean = false;
   public formConfig: FieldConfig[] = [];
   private hospitals: HospitalModel[] = [];
+  private currentPage: number = 0;
+  public paginationData: PaginationModel;
 
   constructor(
     private _patientsService: PatientsService,
@@ -78,6 +81,7 @@ export class PatientsListComponent implements OnInit {
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
+    this.paginationData = this._activatedRoute.snapshot.data.patients;
 
     this.formConfig = [
       {
@@ -240,7 +244,7 @@ export class PatientsListComponent implements OnInit {
       .subscribe(
         (response) => {
           this._toastr.success('El paciente se ha borrado correctamente');
-          this.refreshData();
+          this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
           this._toastr.success(error.error.error);
@@ -272,6 +276,11 @@ export class PatientsListComponent implements OnInit {
     let pathologies: Array<PathologyModel> = new Array();
     let pathology: PathologyModel = new PathologyModel('1', 'Dermatología', '');
     pathologies.push(pathology);
+    const hospital = formValues['hospital']
+      ? formValues['hospital'][0]
+        ? formValues['hospital'][0]
+        : formValues['hospital']
+      : formValues['hospital'];
     let patient: PatientModel = new PatientModel(
       id,
       formValues['name'],
@@ -284,16 +293,17 @@ export class PatientsListComponent implements OnInit {
       formValues['phone'],
       formValues['email'],
       formValues['birthDate'],
-      formValues['hospital'][0],
+      hospital,
       formValues['genderCode'],
       pathologies
     );
+    this.selectedPatient = new PatientModel();
     if (this.isEditing) {
       this._patientsService.updatePatient(patient).subscribe(
         (response) => {
           this.isEditing = false;
           modalRef.close();
-          this.refreshData();
+          this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
           this._toastr.error(error.error.error);
@@ -303,7 +313,7 @@ export class PatientsListComponent implements OnInit {
       this._patientsService.createPatient(patient).subscribe(
         (response) => {
           modalRef.close();
-          this.refreshData();
+          this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
           this._toastr.error(error.error.error);
@@ -312,9 +322,18 @@ export class PatientsListComponent implements OnInit {
     }
   }
 
-  private refreshData(): void {
-    this._patientsService.getPatients().subscribe((data) => {
+  public selectPage(page: number): void {
+    this.currentPage = page;
+    const query: string = `&page=${page}`;
+    this.refreshData(query);
+  }
+
+  private refreshData(query: string): void {
+    this._patientsService.getPatients(query).subscribe((data) => {
       this.patients = data.content;
+      if (this.paginationData.totalElements !== data.totalElements) {
+        this.paginationData = data;
+      }
     });
   }
 }
