@@ -26,7 +26,7 @@ export class SelectRoleComponent implements OnInit {
     public _translate: TranslateService,
     private _toastr: ToastrService,
     public _roleServices: RoleService
-  ) { }
+  ) {}
   ngOnInit() {
     this.selectRoleForm = this._formBuilder.group({
       email: ['', Validators.required],
