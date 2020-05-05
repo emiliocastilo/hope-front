@@ -43,7 +43,9 @@
   "modal.editor.field.birthDate": "Fecha de nacimiento",
   "modal.editor.field.surname": "Apellido",
   "modal.editor.field.collegeNumber": "Número de colegiado",
-  "modal.editor.field.service": "Service",
+  "modal.editor.field.service": "Servicio",
   "modal.editor.field.hospital": "Hospital",
-  "modal.editor.field.username": "Nombre de usuario"
+  "modal.editor.field.username": "Nombre de usuario",
+  "modal.editor.field.password": "Contraseña",
+  "logout":"Desconectar"
 }
