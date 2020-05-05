@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
-    this.name = user.username + ' (' + user.rolSelected.name + ')';
+    this.name = user.username + ' (' + user.rolSelected.traduction + ')';
     this.description = user.rolSelected.description;
   }
 
