@@ -3,18 +3,25 @@
 .master-header {
   border-bottom: 0.2em solid $app-color-violet;
 
-  .row {
-    width: 100%;
+  section {
+    .banner {
+      height: 2.5em;
+    }
 
-    section {
-      .banner {
-        height: 2.5em;
-      }
+    .loged-user {
+      color: $app-color-violet;
+      font-weight: bold;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
 
-      .loged-user {
-        color: $app-color-violet;
-        font-weight: bold;
-      }
+    .logout {
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      width: 30px;
+      height: 30px;
     }
   }
+
 }

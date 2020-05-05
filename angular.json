@@ -85,6 +85,8 @@
           "configurations": {
             "production": {
               "browserTarget": "apps-hopes-front:build:production"
+            },"pre": {
+              "browserTarget": "apps-hopes-front:build:preproduction"
             }
           }
         },
