@@ -45,5 +45,6 @@
   "modal.editor.field.collegeNumber": "Número de colegiado",
   "modal.editor.field.service": "Service",
   "modal.editor.field.hospital": "Hospital",
-  "modal.editor.field.username": "Nombre de usuario"
+  "modal.editor.field.username": "Nombre de usuario",
+  "logout":"Desconectar"
 }

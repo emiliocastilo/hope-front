@@ -1,15 +1,24 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login/login.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @Input() activateMenu: boolean;
+  name: string = "";
+  description: string = "";
+  constructor(private _loginSevice: LoginService, private _translate: TranslateService) { }
 
-  constructor(public _loginSevice: LoginService) {}
+  ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.name = user.username + " (" + user.rolSelected.name + ")";
+    this.description = user.rolSelected.description
+  }
+
   submit() {
     this._loginSevice.logout();
   }
