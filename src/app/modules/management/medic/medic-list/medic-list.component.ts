@@ -29,7 +29,7 @@ export class MedicListComponent implements OnInit {
     private _modalService: NgbModal,
     private _toastr: ToastrService,
     public _medicService: MedicService,
-    public translate: TranslateService,
+    public _translate: TranslateService,
     private _activatedRoute: ActivatedRoute
   ) {}
 
@@ -225,7 +225,7 @@ export class MedicListComponent implements OnInit {
       size: 'lg',
     });
     modalRef.componentInstance.id = 'doctoreditor';
-    modalRef.componentInstance.title = 'Medico';
+    modalRef.componentInstance.title = 'Médico';
     modalRef.componentInstance.formConfig = this.formConfig;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();

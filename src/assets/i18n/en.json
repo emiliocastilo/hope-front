@@ -45,5 +45,6 @@
   "modal.editor.field.service": "Service",
   "modal.editor.field.hospital": "Hospital",
   "modal.editor.field.username": "Username",
+  "modal.editor.field.password": "Password",
   "logout":"Logout"
 }
