@@ -26,7 +26,7 @@ export class SelectRoleComponent implements OnInit {
     public _translate: TranslateService,
     private _toastr: ToastrService,
     public _roleServices: RoleService
-  ) { }
+  ) {}
   ngOnInit() {
     this.selectRoleForm = this._formBuilder.group({
       email: ['', Validators.required],
@@ -48,7 +48,9 @@ export class SelectRoleComponent implements OnInit {
     this._loginService.postChooseProfile(role).subscribe(
       (data) => {
         const token = data.headers.get('Authorization');
-        this.setCurrentRole(new ProfileModel(role, token, JSON.stringify(data.body)));
+        this.setCurrentRole(
+          new ProfileModel(role, token, JSON.stringify(data.body))
+        );
         this._router.navigate(['/']);
       },
       (error) => {
