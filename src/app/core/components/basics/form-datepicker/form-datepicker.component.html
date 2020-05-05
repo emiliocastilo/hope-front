@@ -1,0 +1,15 @@
+<div class="form-group dynamic-group field" [formGroup]="group">
+  <input
+    [attr.id]="config.name"
+    [attr.name]="config.name"
+    [attr.placeholder]="config.placeholder"
+    [formControlName]="config.name"
+    class="dynamic-field"
+    type="date"
+    max="2100-12-31"
+    min="1900-01-01"
+  />
+  <label [attr.for]="config.name" class="dynamic-label">{{
+    config.label | translate
+  }}</label>
+</div>
