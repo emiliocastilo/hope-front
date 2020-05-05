@@ -9,9 +9,7 @@ import { LoginService } from '../../services/login/login.service';
 export class HeaderComponent {
   @Input() activateMenu: boolean;
 
-  constructor(public _loginSevice: LoginService) {
-
-  }
+  constructor(public _loginSevice: LoginService) {}
   submit() {
     this._loginSevice.logout();
   }
