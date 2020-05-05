@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { LoginModel } from '../../models/login.model';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class LoginService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<LoginModel>;
 
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private _router: Router) {
     this.currentUserSubject = new BehaviorSubject<LoginModel>(
       JSON.parse(localStorage.getItem('login'))
     );
@@ -33,8 +34,9 @@ export class LoginService {
   }
 
   logout() {
-    localStorage.removeItem('login');
+    localStorage.clear();
     this.currentUserSubject.next(null);
+    this._router.navigate(['/login']);
   }
 
   isLogin() {
