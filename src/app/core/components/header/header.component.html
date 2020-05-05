@@ -1,17 +1,35 @@
 <nav class="navbar navbar-light master-header">
   <section class="col-md-6 col-lg-6">
-    <button *ngIf="activateMenu" class="navbar-toggler mr-2" type="button" data-toggle="collapse"
-      data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false"
-      aria-label="Toggle navigation">
+    <button
+      *ngIf="activateMenu"
+      class="navbar-toggler mr-2"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarToggleExternalContent"
+      aria-controls="navbarToggleExternalContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <a href=""><img class="banner" src="assets/img/hopes-launch.png" /></a>
   </section>
   <section class="col-md-6 col-lg-6 justify-content-end">
     <div class="d-flex justify-content-end">
-      <span class="loged-user mr-2" placement="bottom" ngbTooltip="{{description}}">{{name}}</span>
-      <img alt="desconectar" src="../../../../assets/img/modules/logout.png" (click)="submit()" class="logout"
-        placement="bottom" ngbTooltip="{{'logout' | translate}}" />
+      <span
+        class="loged-user mr-2"
+        placement="bottom"
+        ngbTooltip="{{ description }}"
+        >{{ name }}</span
+      >
+      <img
+        alt="desconectar"
+        src="../../../../assets/img/modules/logout.png"
+        (click)="submit()"
+        class="logout"
+        placement="bottom"
+        ngbTooltip="{{ 'logout' | translate }}"
+      />
     </div>
   </section>
 </nav>
