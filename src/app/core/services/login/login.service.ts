@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { LoginModel } from '../../models/login.model';
+import { LoginModel } from '../../models/login/login.model';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 

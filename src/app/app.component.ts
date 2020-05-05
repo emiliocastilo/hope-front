@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginModel } from './core/models/login.model';
+import { LoginModel } from './core/models/login/login.model';
 import { LoginService } from './core/services/login/login.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
