@@ -9,14 +9,17 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
   @Input() activateMenu: boolean;
-  name: string = "";
-  description: string = "";
-  constructor(private _loginSevice: LoginService, private _translate: TranslateService) { }
+  name: string = '';
+  description: string = '';
+  constructor(
+    private _loginSevice: LoginService,
+    private _translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
-    this.name = user.username + " (" + user.rolSelected.name + ")";
-    this.description = user.rolSelected.description
+    this.name = user.username + ' (' + user.rolSelected.name + ')';
+    this.description = user.rolSelected.description;
   }
 
   submit() {
