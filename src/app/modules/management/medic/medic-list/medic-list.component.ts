@@ -52,6 +52,7 @@ export class MedicListComponent implements OnInit {
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
   private currentPage: number = 0;
+  public selectedDoctor = new MedicModel();
 
   ngOnInit() {
     this.services = this._activatedRoute.snapshot.data.services;
@@ -148,8 +149,15 @@ export class MedicListComponent implements OnInit {
     ];
   }
 
-  filter(data: any) {
-    console.log('datos de buscador ' + data);
+  onSearch(data: any) {
+    this._medicService.findDoctors(data).subscribe(
+      (response) => {
+        this.medics = response.content;
+      },
+      (error) => {
+        this._toastr.error(error.error.error);
+      }
+    );
   }
 
   public prepareTableData(): Array<RowDataModel> {
@@ -161,14 +169,13 @@ export class MedicListComponent implements OnInit {
 
   public onSelectedItem(event: number): void {
     this.selectedItem = event;
-    const selectedDoctor = new MedicModel();
 
-    selectedDoctor.setValuesFromObject(this.medics[event]);
+    this.selectedDoctor.setValuesFromObject(this.medics[event]);
 
-    Object.keys(selectedDoctor).map((doctorKey: string) => {
+    Object.keys(this.selectedDoctor).map((doctorKey: string) => {
       this.formConfig.map((valueFrom: any, keyform: number) => {
         if (valueFrom.name === doctorKey) {
-          this.formConfig[keyform].value = selectedDoctor[doctorKey];
+          this.formConfig[keyform].value = this.selectedDoctor[doctorKey];
         }
       });
     });
@@ -194,8 +201,10 @@ export class MedicListComponent implements OnInit {
     if (this.isEditing) {
       id = this.medics[this.selectedItem].id;
     }
+
     let doctor: MedicModel = new MedicModel(id);
     doctor.setValuesFromDinamicForm(formValues);
+
     if (this.isEditing) {
       this._medicService.updateDoctor(doctor).subscribe(
         (response) => {

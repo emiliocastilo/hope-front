@@ -15,7 +15,7 @@ export class PatientsService {
   }
 
   public getPatientsById(id: string): Observable<any> {
-    return this._httpClient.get(`/patient/${id}`);
+    return this._httpClient.get(`/patient/findPatientBySearch?search=${id}`);
   }
 
   public createPatient(request: PatientModel): Observable<any> {
