@@ -14,6 +14,11 @@ export class MedicService {
     return this._http.get(`/doctor?${query}`);
   }
 
+  findDoctors(medicModel: string): Observable<any> {
+    console.log('medicModel:', medicModel);
+    return this._http.get('/doctor/findDoctorsBySearch?search=' + medicModel);
+  }
+
   postDoctor(medicModel: MedicModel): Observable<any> {
     console.log('medicModel:', medicModel);
     return this._http.post('/doctor', medicModel);
