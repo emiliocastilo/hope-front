@@ -217,10 +217,9 @@ export class PatientsListComponent implements OnInit {
     });
   }
 
-  public onFilter(event: string): void {
+  public onSearch(event: string): void {
     this._patientsService.getPatientsById(event).subscribe((data) => {
-      this.patients = Array<PatientModel>();
-      this.patients.push(data);
+      this.patients = data.content;
     });
   }
 
