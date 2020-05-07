@@ -134,6 +134,7 @@ export class PatientsListComponent implements OnInit {
         name: 'phone',
         placeholder: 'modal.editor.field.phone',
         validation: [Validators.required],
+        inputType: 'number',
       },
       {
         type: 'input',
