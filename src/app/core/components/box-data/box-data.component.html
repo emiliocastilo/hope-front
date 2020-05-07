@@ -1,13 +1,16 @@
 <div class="app-box-data-section">
-  <ul class="box-data-body">
-    <li
-      *ngFor="let key of keysToShow"
-      placement="top"
-      [ngbTooltip]="Parsedata(currentData, key)"
-    >
+  <ul
+    class="box-data-body"
+    [ngbTooltip]="parserDataToShowInTooltip()"
+    placement="bottom"
+  >
+    <li *ngFor="let key of keysToShow" placement="top">
       <p>
-        <strong>{{ key | translate }}:</strong>
-        {{ Parsedata(currentData, key) | translate }}
+        <strong
+          >{{ showKey(key) | translate }}
+          {{ showKey(key) ? ':' : null }}</strong
+        >
+        {{ parsedata(currentData, key) | translate }}
       </p>
     </li>
   </ul>

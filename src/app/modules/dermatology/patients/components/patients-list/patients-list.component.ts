@@ -32,7 +32,7 @@ export class PatientsListComponent implements OnInit {
   ];
   public menu: SideBarItemModel[];
   public patients: PatientModel[] = [];
-  public patientKeysToShow: string[] = ['fullName', 'age', 'gender'];
+  public patientKeysToShow: string[] = ['fullName', 'age', 'genderCode'];
   public selectedItem: number;
   public selectedPatient: PatientModel = {
     id: '',

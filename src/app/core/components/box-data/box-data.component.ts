@@ -14,6 +14,9 @@ export class BoxDataComponent implements OnInit {
   constructor(public _translate: TranslateService) {}
 
   public currentData: PatientModel;
+  private keysNotShow: any = {
+    fullName: true,
+  };
 
   ngOnInit(): void {
     this.currentData = this.data
@@ -30,11 +33,11 @@ export class BoxDataComponent implements OnInit {
     localStorage.setItem('selectedUser', JSON.stringify(object));
   }
 
-  public Parsedata(object: PatientModel, key: string): string {
+  public parsedata(object: PatientModel, key: string): string {
     const customFields = {
       fullName: this.calculateFullName(object),
       age: this.calculateAge(object),
-      gender: this.showGender(object),
+      genderCode: this.showGender(object),
     };
 
     const valuetoPrint = customFields[key]
@@ -61,5 +64,19 @@ export class BoxDataComponent implements OnInit {
   private showGender(object: PatientModel): string {
     const gender = object.genderCode === 'F' ? 'female' : 'male';
     return object.genderCode ? gender : '';
+  }
+
+  public showKey(key: string): string {
+    return this.keysNotShow[key] ? '' : key;
+  }
+
+  public parserDataToShowInTooltip() {
+    let text = '';
+
+    if (this.currentData.hospital) {
+      text = `${this.currentData.hospital.name} | ${this.currentData.address} | ${this.currentData.email}`;
+    }
+
+    return text;
   }
 }
