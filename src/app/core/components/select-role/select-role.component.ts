@@ -26,7 +26,7 @@ export class SelectRoleComponent implements OnInit {
     public _translate: TranslateService,
     private _toastr: ToastrService,
     public _roleServices: RoleService
-  ) {}
+  ) { }
   ngOnInit() {
     this.selectRoleForm = this._formBuilder.group({
       email: ['', Validators.required],
@@ -59,6 +59,7 @@ export class SelectRoleComponent implements OnInit {
         this._toastr.error(error.status + ' ' + error.statusText);
       }
     );
+
   }
 
   setCurrentRole(data: ProfileModel): void {
@@ -72,11 +73,9 @@ export class SelectRoleComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.submitted = true;
     if (!this.selectedRole) {
       return;
     }
-    this.loading = true;
     this.chooseProfile(this.selectedRole);
   }
 }
