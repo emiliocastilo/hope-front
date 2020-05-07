@@ -28,7 +28,7 @@
   "email": "Email",
   "birthDate": "Fecha de nacimiento",
   "hospital": "Hospital",
-  "genderCode": "Genero",
+  "genderCode": "Género",
   "form.validate.required": "El campo es obligatorio",
   "modal.editor.field.name": "Nombre",
   "modal.editor.field.firstSurname": "Primer apellido",
