@@ -15,6 +15,7 @@ import { Field } from '../../interfaces/dynamic-forms/field.interface';
 import { FormCheckboxComponent } from '../../components/basics/form-checkbox/form-checkbox.component';
 import { FormRadioComponent } from '../../components/basics/form-radio/form-radio.component';
 import { FormSwitchComponent } from '../../components/basics/form-switch/form-switch.component';
+import { FormTextareaComponent } from '../../components/basics/form-textarea/form-textarea.component';
 
 const components = {
   button: FormButtonComponent,
@@ -23,6 +24,7 @@ const components = {
   checkbox: FormCheckboxComponent,
   radio: FormRadioComponent,
   switch: FormSwitchComponent,
+  textarea: FormTextareaComponent,
 };
 
 @Directive({
