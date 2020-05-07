@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { PatientModel } from 'src/app/modules/dermatology/patients/models/patient.model';
 
 @Component({
   selector: 'app-box-data',
@@ -12,22 +13,53 @@ export class BoxDataComponent implements OnInit {
 
   constructor(public _translate: TranslateService) {}
 
-  ngOnInit(): void {}
+  public currentData: PatientModel;
 
-  Parsedata(value: any): string {
-    if (value) {
-      let valuetoPrint =
-        typeof value === 'object' ? value.name || value.title : value;
+  ngOnInit(): void {
+    this.currentData = this.data
+      ? this.data
+      : JSON.parse(localStorage.getItem('selectedUser') || '{}');
+  }
 
-      if (Date.parse(valuetoPrint)) {
-        const date = new Date(valuetoPrint);
-        valuetoPrint = `${date.getDate()}-${
-          date.getMonth() + 1
-        }-${date.getFullYear()}`;
-      }
-      return valuetoPrint;
-    } else {
-      return '';
-    }
+  ngOnChanges(changes: SimpleChanges) {
+    this.currentData = changes.data.currentValue;
+    this.setObjectOnLocalStorage(changes.data.currentValue);
+  }
+
+  private setObjectOnLocalStorage(object: PatientModel) {
+    localStorage.setItem('selectedUser', JSON.stringify(object));
+  }
+
+  public Parsedata(object: PatientModel, key: string): string {
+    const customFields = {
+      fullName: this.calculateFullName(object),
+      age: this.calculateAge(object),
+      gender: this.showGender(object),
+    };
+
+    const valuetoPrint = customFields[key]
+      ? customFields[key]
+      : object[key]
+      ? object[key]
+      : '';
+    return valuetoPrint;
+  }
+
+  private calculateFullName(object: PatientModel): string {
+    const fullName = `${object.name} ${object.firstSurname} ${object.lastSurname}`;
+    return object ? fullName : '';
+  }
+
+  private calculateAge(object: PatientModel): number {
+    const today = Date.now();
+    const birthDate = new Date(object.birthDate);
+    const ageDate = new Date(today - birthDate.getTime());
+    const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+    return object.birthDate ? age : null;
+  }
+
+  private showGender(object: PatientModel): string {
+    const gender = object.genderCode === 'F' ? 'female' : 'male';
+    return object.genderCode ? gender : '';
   }
 }
