@@ -84,6 +84,7 @@ export class MedicListComponent implements OnInit {
           Validators.minLength(9),
           Validators.maxLength(9),
         ],
+        inputType: 'number',
       },
       {
         type: 'input',
@@ -116,6 +117,7 @@ export class MedicListComponent implements OnInit {
         name: 'password',
         placeholder: 'modal.editor.field.password',
         validation: [Validators.required],
+        inputType: 'password',
       },
       {
         type: 'input',
