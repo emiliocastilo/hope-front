@@ -4,9 +4,9 @@ import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynam
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { Validators } from '@angular/forms';
-import { MedicModel } from 'src/app/core/models/medic/medic.model';
+import { MedicModel } from 'src/app/modules/management/models/medic/medic.model';
 import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-model.adapter';
-import { MedicService } from 'src/app/core/services/medic/medic.service';
+import { MedicService } from 'src/app/modules/management/services/medic/medic.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { ServiceModel } from 'src/app/core/models/service/service.model';
@@ -84,6 +84,7 @@ export class MedicListComponent implements OnInit {
           Validators.minLength(9),
           Validators.maxLength(9),
         ],
+        inputType: 'number',
       },
       {
         type: 'input',
@@ -116,6 +117,7 @@ export class MedicListComponent implements OnInit {
         name: 'password',
         placeholder: 'modal.editor.field.password',
         validation: [Validators.required],
+        inputType: 'password',
       },
       {
         type: 'input',

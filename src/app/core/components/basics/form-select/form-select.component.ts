@@ -11,4 +11,12 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 export class FormSelectComponent {
   config: FieldConfig;
   group: FormGroup;
+  optionSelected: boolean;
+
+  /* TODO: Hay que revisar el value que recibimos del select para evitar una comprobación por string
+   * y usar una comprobación por null o vacío.
+   */
+  onSelect(event): void {
+    this.optionSelected = !event.target.value.startsWith('0: ');
+  }
 }

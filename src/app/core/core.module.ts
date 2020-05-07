@@ -36,6 +36,7 @@ import { GenericModalHeaderComponent } from './components/modals/generic-modal-h
 import { FormSwitchComponent } from './components/basics/form-switch/form-switch.component';
 import { SwitchComponent } from './components/basics/app-switch/app-switch.component';
 import { PaginationComponent } from './components/basics/pagination/pagination.component';
+import { FormTextareaComponent } from './components/basics/form-textarea/form-textarea.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -72,6 +73,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormSwitchComponent,
     SwitchComponent,
     PaginationComponent,
+    FormTextareaComponent,
   ],
   imports: [
     CommonModule,

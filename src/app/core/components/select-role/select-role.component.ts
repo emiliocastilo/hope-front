@@ -72,11 +72,9 @@ export class SelectRoleComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.submitted = true;
     if (!this.selectedRole) {
       return;
     }
-    this.loading = true;
     this.chooseProfile(this.selectedRole);
   }
 }

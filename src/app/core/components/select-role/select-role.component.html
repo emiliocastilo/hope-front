@@ -6,7 +6,7 @@
           <div class="card-body">
             <div class="wrapper fadeInDown">
               <div id="formContent">
-                <form [formGroup]="selectRoleForm" (ngSubmit)="onFormSubmit()">
+                <form [formGroup]="selectRoleForm">
                   <div class="text-center mb-4">
                     <img
                       src="assets/img/hopes-launch.png"
@@ -22,21 +22,12 @@
                       *ngFor="let rol of roles"
                       [class.selected]="rol === selectedRole"
                       (click)="onSelect(rol)"
+                      (dblclick)="onFormSubmit($event)"
                       class="text-center"
                     >
                       {{ rol }}
                     </li>
                   </ul>
-                  <div class="d-flex justify-content-center mt-4 mb-2">
-                    <app-button
-                      clasesBtn="btn-outline-primary"
-                      [soloLectura]="selectedRole == null"
-                      texto="btn.select"
-                      [loading]="loading"
-                      (click)="onFormSubmit()"
-                    >
-                    </app-button>
-                  </div>
                 </form>
               </div>
             </div>

@@ -1,14 +1,14 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
-  <input
+  <textarea
     [attr.id]="config.name"
     [attr.name]="config.name"
     [attr.placeholder]="config.placeholder"
     [formControlName]="config.name"
     class="dynamic-field"
-    type="{{ config.inputType ? config.inputType : 'input' }}"
-    [attr.autocomplete]="config.inputType == 'password' ? 'nope' : ''"
-  />
+    [attr.rows]="config.rows"
+  ></textarea>
   <label [attr.for]="config.name" class="dynamic-label">{{
     config.label | translate
   }}</label>
+  {{ config.rows }}
 </div>

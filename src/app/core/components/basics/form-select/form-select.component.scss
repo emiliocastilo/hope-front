@@ -4,13 +4,14 @@
   position: relative;
   padding: 15px 0 0;
   margin-top: 10px;
+  margin-right: 10px;
 
   .dynamic-label {
     position: absolute;
-    top: -12px;
+    top: 5px;
     display: block;
     transition: 0.2s;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: $app-color-gray-dark;
   }
 
@@ -26,12 +27,18 @@
       border-image-slice: 1;
 
       ~ .dynamic-label {
+        color: $app-color-blue-medium;
+      }
+    }
+
+    &.option-selected,
+    &:focus {
+      ~ .dynamic-label {
         position: absolute;
         top: -10px;
         display: block;
         transition: 0.2s;
         font-size: 1rem;
-        color: $app-color-blue-medium;
       }
     }
   }

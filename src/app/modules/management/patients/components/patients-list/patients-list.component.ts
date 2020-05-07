@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PathologyModel } from '../../models/pathology.model';
-import { PatientModel } from '../../models/patient.model';
-import { PatientModelToRowModelAdapter } from '../../adapters/patient-model-to-row-model.adapter';
-import { PatientsService } from '../../services/patients.service';
+import { PathologyModel } from '../../../models/patients/pathology.model';
+import { PatientModel } from '../../../models/patients/patient.model';
+import { PatientModelToRowModelAdapter } from '../../../adapters/patient-model-to-row-model.adapter';
+import { PatientsService } from '../../../services/patients/patients.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ToastrService } from 'ngx-toastr';
@@ -32,7 +32,20 @@ export class PatientsListComponent implements OnInit {
   ];
   public menu: SideBarItemModel[];
   public patients: PatientModel[] = [];
-  public patientKeysToShow: string[] = ['fullName', 'age', 'genderCode'];
+  public patientKeysToShow: string[] = [
+    'name',
+    'firstSurname',
+    'lastSurname',
+    'nhc',
+    'healthCard',
+    'dni',
+    'address',
+    'phone',
+    'email',
+    'birthDate',
+    'hospital',
+    'genderCode',
+  ];
   public selectedItem: number;
   public selectedPatient: PatientModel = {
     id: '',
