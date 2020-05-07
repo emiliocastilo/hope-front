@@ -156,7 +156,7 @@ export class PatientsListComponent implements OnInit {
         validation: [Validators.required],
       },
       {
-        type: 'input',
+        type: 'datepicker',
         label: 'modal.editor.field.birthDate',
         name: 'birthDate',
         placeholder: 'modal.editor.field.birthDate',

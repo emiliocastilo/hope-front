@@ -34,6 +34,7 @@ import { EditorModalBodyComponent } from './components/modals/editor-modal/edito
 import { EditorModalComponent } from './components/modals/editor-modal/editor-modal/editor-modal.component';
 import { GenericModalHeaderComponent } from './components/modals/generic-modal-header/generic-modal-header.component';
 import { FormSwitchComponent } from './components/basics/form-switch/form-switch.component';
+import { FormDatepickerComponent } from './components/basics/form-datepicker/form-datepicker.component';
 import { SwitchComponent } from './components/basics/app-switch/app-switch.component';
 import { PaginationComponent } from './components/basics/pagination/pagination.component';
 
@@ -70,6 +71,7 @@ export function createTranslateLoader(http: HttpClient) {
     EditorModalFooterComponent,
     EditorModalBodyComponent,
     FormSwitchComponent,
+    FormDatepickerComponent,
     SwitchComponent,
     PaginationComponent,
   ],
