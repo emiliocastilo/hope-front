@@ -1,6 +1,6 @@
-import { ServiceModel } from '../service/service.model';
-import { UserModel } from '../user/user.model';
-import { HospitalModel } from '../hospital/hospital.model';
+import { ServiceModel } from '../../../../core/models/service/service.model';
+import { UserModel } from '../../../../core/models/user/user.model';
+import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 
 export class MedicModel {
   constructor(
