@@ -14,6 +14,7 @@ import { Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-patients-list',
