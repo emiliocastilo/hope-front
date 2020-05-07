@@ -8,45 +8,6 @@
       <app-box-data [data]="selectedPatient" [keysToShow]="patientKeysToShow">
       </app-box-data>
     </section>
-    <section class="col-md-10 col-lg-10 patients-container">
-      <section class="container mt-4">
-        <app-search (emitAction)="onSearch($event)"></app-search>
-      </section>
-      <section class="container mt-4">
-        <app-button
-          type="button"
-          icono="fa fa-plus"
-          clasesBtn="btn-primary btn-sm mx-2"
-          texto="btn.new"
-          (click)="savePatient()"
-        ></app-button>
-        <app-button
-          type="button"
-          icono="fa fa-pencil"
-          clasesBtn="btn-primary btn-sm mx-2"
-          texto="btn.edit"
-          (click)="editPatient()"
-        ></app-button>
-        <app-button
-          type="button"
-          clasesBtn="btn-danger btn-sm mx-2"
-          icono="fa fa-window-close"
-          texto="btn.delete"
-          (click)="deletePatient()"
-        ></app-button>
-      </section>
-      <section class="container mt-4">
-        <app-table
-          [columnsHeader]="columnsHeader"
-          [columnsData]="prepareTableData()"
-          (selectedItem)="onSelectedItem($event)"
-        ></app-table>
-      </section>
-    </section>
-    <app-pagination
-      (selectPage)="selectPage($event)"
-      [paginationData]="paginationData"
-    >
-    </app-pagination>
+    Cuadro de pacientes
   </section>
 </div>
