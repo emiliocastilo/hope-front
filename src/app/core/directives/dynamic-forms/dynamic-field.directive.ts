@@ -16,6 +16,7 @@ import { FormCheckboxComponent } from '../../components/basics/form-checkbox/for
 import { FormRadioComponent } from '../../components/basics/form-radio/form-radio.component';
 import { FormSwitchComponent } from '../../components/basics/form-switch/form-switch.component';
 import { FormDatepickerComponent } from '../../components/basics/form-datepicker/form-datepicker.component';
+import { FormTextareaComponent } from '../../components/basics/form-textarea/form-textarea.component';
 
 const components = {
   button: FormButtonComponent,
@@ -25,6 +26,7 @@ const components = {
   radio: FormRadioComponent,
   switch: FormSwitchComponent,
   datepicker: FormDatepickerComponent,
+  textarea: FormTextareaComponent,
 };
 
 @Directive({

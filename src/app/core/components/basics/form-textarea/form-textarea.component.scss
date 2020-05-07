@@ -1,0 +1,61 @@
+@import '~src/app/variables.scss';
+
+.dynamic-group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.dynamic-label {
+  position: absolute;
+  top: -5px;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: $app-color-gray-dark;
+}
+
+.dynamic-field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid $app-color-gray-dark;
+  outline: 0;
+  font-size: 1rem;
+  color: $app-color-black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .dynamic-label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
+
+  &:focus {
+    ~ .dynamic-label {
+      position: absolute;
+      top: -5;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: $app-color-blue-medium;
+    }
+
+    padding-bottom: 6px;
+    border-width: 3px;
+    border-image: linear-gradient(to right, $app-color-blue-medium, $app-color-blue-light);
+    border-image-slice: 1;
+  }
+
+  &:required,
+  &:invalid {
+    box-shadow: none;
+  }
+}
