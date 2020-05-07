@@ -1,25 +1,29 @@
 @import '~src/app/variables.scss';
 
-.box-data-body {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: 0;
-  padding-left: 0;
+.app-box-data-section {
+  width: 100%;
 
-  li {
-    background-color: $app-color-white;
-    border: 1px solid $app-color-gray-dark;
-    display: block;
-    height: 3em;
-    padding: 0.75rem 1.25rem;
-    position: relative;
-    width: 33%;
+  .box-data-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    padding-left: 0;
 
-    p {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    li {
+      background-color: $app-color-white;
+      border: 1px solid $app-color-gray-dark;
+      display: block;
+      height: 3em;
+      padding: 0.75rem 1.25rem;
+      position: relative;
+      width: 33%;
+
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 }

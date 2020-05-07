@@ -42,12 +42,11 @@
         (selectedItem)="onSelectedItem($event)"
       >
       </app-table>
+      <app-pagination
+        (selectPage)="selectPage($event)"
+        [paginationData]="paginationData"
+      >
+      </app-pagination>
     </div>
-
-    <app-pagination
-      (selectPage)="selectPage($event)"
-      [paginationData]="paginationData"
-    >
-    </app-pagination>
   </section>
 </div>
