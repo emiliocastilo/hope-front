@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
+import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 
 @Component({
   selector: 'app-medic-list',
@@ -34,12 +35,13 @@ export class MedicListComponent implements OnInit {
   ) {}
 
   public formConfig: FieldConfig[] = [];
-  public columHeaders: string[] = [
-    'Nombre',
-    'Apellidos',
-    'Dni',
-    'Phone',
-    'Código de Colegiado',
+  public columHeaders: Array<ColumnHeaderModel> = [
+    new ColumnHeaderModel('Nombre', 2),
+    new ColumnHeaderModel('Apellidos', 2),
+    new ColumnHeaderModel('Dni', 2),
+    new ColumnHeaderModel('Telefono', 2),
+    new ColumnHeaderModel('Código de Colegiado', 2),
+    new ColumnHeaderModel('Acciones', 2)
   ];
   public hospitals: HospitalModel[] = [];
   public isDetailModal = false;
@@ -181,6 +183,14 @@ export class MedicListComponent implements OnInit {
         }
       });
     });
+  }
+
+  public onIconButtonClick(event:any):void{
+    if(event && event.type === 'edit'){
+      this.editDoctor();
+    }else{
+      this.deleteDoctor();
+    }
   }
 
   public saveDoctor(): void {
