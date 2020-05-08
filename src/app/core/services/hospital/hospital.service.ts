@@ -9,6 +9,6 @@ export class HospitalService {
   constructor(private _http: HttpClient) {}
 
   getAll(): Observable<any> {
-    return this._http.get('/hospital');
+    return this._http.get('/hospitals');
   }
 }

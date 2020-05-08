@@ -9,6 +9,6 @@ export class SideBarService {
   constructor(private _httpClient: HttpClient) {}
 
   public getSideBar(): Observable<any> {
-    return this._httpClient.get('/menu');
+    return this._httpClient.get('/menus');
   }
 }

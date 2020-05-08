@@ -11,24 +11,24 @@ export class MedicService {
 
   getAll(query: string): Observable<any> {
     query = query ? query : '';
-    return this._http.get(`/doctor?${query}`);
+    return this._http.get(`/doctors?${query}`);
   }
 
   findDoctors(medicModel: string): Observable<any> {
     console.log('medicModel:', medicModel);
-    return this._http.get('/doctor/findDoctorsBySearch?search=' + medicModel);
+    return this._http.get('/doctors/searches?search=' + medicModel);
   }
 
   postDoctor(medicModel: MedicModel): Observable<any> {
     console.log('medicModel:', medicModel);
-    return this._http.post('/doctor', medicModel);
+    return this._http.post('/doctors', medicModel);
   }
 
   deleteDoctor(id: number): Observable<any> {
-    return this._http.delete(`/doctor/${id}`);
+    return this._http.delete(`/doctors/${id}`);
   }
 
   updateDoctor(medicModel: MedicModel): Observable<any> {
-    return this._http.put('/doctor', medicModel);
+    return this._http.put('/doctors', medicModel);
   }
 }
