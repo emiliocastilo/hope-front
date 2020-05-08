@@ -32,11 +32,10 @@
         ></app-button>
         <app-button
           type="button"
-          icono="fa fa-plus"
           clasesBtn="btn-primary btn-sm mx-2"
           texto="btn.select"
           (click)="goToDermatologiPatients()"
-          *ngIf="selectedPatient.id"
+          [readOnly]="!selectedPatient.id"
         ></app-button>
       </section>
       <section class="container-fluid mt-4">
