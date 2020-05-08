@@ -12,6 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
+import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
+import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import {
   PATIENT_TABLE_HEADERS,
   PATIENT_TABLE_KEYS,
@@ -25,7 +27,7 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./patients-list.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
-  public columnsHeader: string[] = PATIENT_TABLE_HEADERS;
+  public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
   public menu: SideBarItemModel[];
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
@@ -251,22 +253,38 @@ export class PatientsListComponent implements OnInit {
   private _adaptModelToRow(patient: PatientModel): RowDataModel {
     const row = new RowDataModel();
     row.pushColumn(
-      patient.name
-        .concat(' ')
-        .concat(patient.firstSurname)
-        .concat(' ')
-        .concat(patient.lastSurname)
+      new ColumnDataModel(
+        'text',
+        patient.name
+          .concat(' ')
+          .concat(patient.firstSurname)
+          .concat(' ')
+          .concat(patient.lastSurname)
+      )
     );
-    row.pushColumn(patient.nhc);
-    row.pushColumn(patient.healthCard);
-    row.pushColumn(patient.dni);
-    row.pushColumn(patient.phone);
-    row.pushColumn(patient.genderCode);
+    row.pushColumn(new ColumnDataModel('text', patient.nhc));
+    row.pushColumn(new ColumnDataModel('text', patient.healthCard));
+    row.pushColumn(new ColumnDataModel('text', patient.dni));
+    row.pushColumn(new ColumnDataModel('text', patient.phone));
+    row.pushColumn(new ColumnDataModel('text', patient.genderCode));
     let pathologyList = '';
     patient.pathologies.forEach((pathology) => {
       pathologyList = pathologyList.concat(pathology.name).concat(';');
     });
-    row.pushColumn(pathologyList);
+    row.pushColumn(
+      new ColumnDataModel('iconButtons', {
+        iconButtons: [
+          {
+            type: 'edit',
+            icon: 'fa-lg fa-pencil',
+          },
+          {
+            type: 'delete',
+            icon: 'fa-lg fa-window-close cfa-red',
+          },
+        ],
+      })
+    );
     return row;
   }
 }
