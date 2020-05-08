@@ -5,7 +5,8 @@
     [attr.placeholder]="config.placeholder"
     [formControlName]="config.name"
     class="dynamic-field"
-    type="input"
+    type="{{ config.inputType ? config.inputType : 'input' }}"
+    [attr.autocomplete]="config.inputType == 'password' ? 'nope' : ''"
   />
   <label [attr.for]="config.name" class="dynamic-label">{{
     config.label | translate

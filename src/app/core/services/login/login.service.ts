@@ -45,12 +45,12 @@ export class LoginService {
   }
 
   resetPassword(email: string): Observable<any> {
-    return this._http.post('/reset-password', email);
+    return this._http.post('/reset-passwords', email);
   }
 
   postChooseProfile(role: string): Observable<any> {
     return this._http
-      .post('/user/choose_profile/', role, { observe: 'response' })
+      .post('/users/choose-profiles/', role, { observe: 'response' })
       .pipe(
         map((res) => {
           console.log('postChooseProfile:', role, res);

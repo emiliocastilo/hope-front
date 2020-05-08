@@ -13,4 +13,5 @@ export interface FieldConfig {
   selectMultiple?: boolean;
   radioButton?: any;
   rows?: number;
+  inputType?: string;
 }

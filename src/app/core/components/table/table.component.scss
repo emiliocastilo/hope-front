@@ -2,24 +2,24 @@
 
 .master-table {
   font-size: 12px;
+  word-break: break-all;
 
   .master-table-column-headers {
-    background-color: $app-color-blue-dark;
-    color: $app-color-white;
+    height: 2rem;
     font-weight: bold;
+    background-color: $app-color-blue-medium;
+    color: $app-color-white;
   }
 
   .master-table-data-row {
-    &:nth-child(2n) {
-      background-color: $app-color-blue-lighter;
-    }
+    border-bottom: 1px solid $app-color-gray-medium;
 
     &:hover {
-      background-color: $app-color-blue-medium-two;
+      background-color: $app-color-gray-light;
     }
   }
 
   .row.master-table-data-row.activate {
-    background-color: $app-color-blue-medium-two;
+    background-color: $app-color-blue-lighter;
   }
 }

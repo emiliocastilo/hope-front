@@ -12,7 +12,7 @@ export class ButtonComponent implements ControlValueAccessor {
   @Input() icono: string;
   @Input() id: string;
   @Input() loading = false;
-  @Input() soloLectura = false;
+  @Input() readOnly = false;
   @Input() texto: string;
   @Input() type = 'button';
 

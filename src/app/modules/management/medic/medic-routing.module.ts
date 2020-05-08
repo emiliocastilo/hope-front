@@ -4,12 +4,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
 import { ServiceResolverService } from 'src/app/core/services/service/service-resolver.service';
-import { MedicResolverService } from 'src/app/core/services/medic/medic-resolver.service';
+import { MedicResolverService } from 'src/app/modules/management/services/medic/medic-resolver.service';
 import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'medics',
     component: MedicListComponent,
     resolve: {
       hospitals: HospitalResolverService,

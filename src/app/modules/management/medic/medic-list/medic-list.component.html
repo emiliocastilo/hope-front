@@ -1,9 +1,9 @@
 <app-header></app-header>
 <div class="row m-0 p-0">
-  <section class="col-md-2 col-lg-2 m-0 p-0">
+  <section class="col-md-4 col-lg-3 m-0 p-0">
     <side-bar [currentMenuId]="menuId"></side-bar>
   </section>
-  <section class="col-md-10 col-lg-10 patients-container">
+  <section class="col-md-8 col-lg-9 patients-container">
     <div class="container mt-4">
       <app-search (emitAction)="onSearch($event)"></app-search>
     </div>
@@ -16,38 +16,20 @@
         texto="btn.new"
       >
       </app-button>
-      <app-button
-        type="button"
-        icono="fa fa-pencil"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="editDoctor()"
-        texto="btn.edit"
-        [soloLectura]="selectedItem == undefined"
-      >
-      </app-button>
-      <app-button
-        type="button"
-        *ngIf="selectedItem !== undefined"
-        clasesBtn="btn-danger btn-sm mx-2"
-        icono="fa fa-window-close"
-        texto="btn.delete"
-        (click)="deleteDoctor()"
-      >
-      </app-button>
     </div>
     <div class="container mt-4">
       <app-table
         [columnsHeader]="columHeaders"
         [columnsData]="prepareTableData()"
         (selectedItem)="onSelectedItem($event)"
+        (iconButtonClick)="onIconButtonClick($event)"
       >
       </app-table>
+      <app-pagination
+        (selectPage)="selectPage($event)"
+        [paginationData]="paginationData"
+      >
+      </app-pagination>
     </div>
-
-    <app-pagination
-      (selectPage)="selectPage($event)"
-      [paginationData]="paginationData"
-    >
-    </app-pagination>
   </section>
 </div>
