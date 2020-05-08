@@ -1,25 +1,47 @@
-<div class="master-table">
+<div class="container-fluid master-table">
   <section class="row master-table-column-headers">
-    <article
-      class="col"
-      [ngClass]="'master-table-column-header-' + headerIndex"
-      *ngFor="let columHeader of columnsHeader; index as headerIndex"
-    >
-      {{ columHeader }}
+    <article *ngFor="let columHeader of columnsHeader; index as headerIndex"
+      class="d-flex align-items-center"
+      [ngClass]="['master-table-column-header-'+ headerIndex, 'col-md-'+columHeader.colSize]"
+      >
+      {{ columHeader.text }}
     </article>
   </section>
-  <section
-    class="row master-table-data-row"
+  <section class="row master-table-data-row"
     [ngClass]="{ activate: rowDataIndex === internalSelectedItem }"
     *ngFor="let columnData of columnsData; index as rowDataIndex"
-    (click)="activate(rowDataIndex)"
-  >
-    <article
-      class="col"
-      [ngClass]="'master-table-data-col-' + colDataIndex"
-      *ngFor="let item of columnData.columns; index as colDataIndex"
-    >
-      {{ item }}
-    </article>
+    (click)="activate(rowDataIndex)">
+    <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
+      <ng-container [ngSwitch]="item.type">
+        <!-- DATE -->
+        <article *ngSwitchCase="'date'"
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'col-md-'+columnsHeader[colDataIndex].colSize]"
+          >{{item.value | date:'dd/MM'}}</article>
+        <!-- HOUR -->
+        <article *ngSwitchCase="'hour'" class="col"
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'col-md-'+columnsHeader[colDataIndex].colSize]"
+          >{{item.value | date:'hh:mm'}}</article>
+        <!-- LINK -->
+        <article *ngSwitchCase="'link'" class="col"
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'col-md-'+columnsHeader[colDataIndex].colSize]">
+          <a href="#" (click)="$event.preventDefault()" [routerLink]="item.value.link">{{item.value.label}}</a>
+        </article>
+        <!-- ICON BUTTONS -->
+        <article *ngSwitchCase="'iconButtons'" class="col"
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'col-md-'+columnsHeader[colDataIndex].colSize]">
+          <div><a *ngFor="let iconButton of item.value.iconButtons"
+            href="#" (click)="emitIconButtonClick(iconButton.type, rowDataIndex)"><i class="mr-2 fa" [ngClass]="iconButton.icon"></i></a></div>
+        </article>
+        <!-- TEXT -->
+        <article *ngSwitchDefault class="col"
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'col-md-'+columnsHeader[colDataIndex].colSize]"
+        >{{item.value}}</article>
+      </ng-container>
+    </ng-container>
   </section>
 </div>
