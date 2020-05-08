@@ -18,19 +18,12 @@ export class BoxDataComponent implements OnInit {
     fullName: true,
   };
 
-  ngOnInit(): void {
-    this.currentData = this.data
-      ? this.data
-      : JSON.parse(localStorage.getItem('selectedUser') || '{}');
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
-    this.currentData = changes.data.currentValue;
-    this.setObjectOnLocalStorage(changes.data.currentValue);
-  }
-
-  private setObjectOnLocalStorage(object: PatientModel) {
-    localStorage.setItem('selectedUser', JSON.stringify(object));
+    this.currentData = changes.data
+      ? changes.data.currentValue
+      : JSON.parse(localStorage.getItem('selectedUser') || '{}');
   }
 
   public parsedata(object: PatientModel, key: string): string {

@@ -70,6 +70,7 @@ export class PatientsListComponent implements OnInit {
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
 
+    this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
     this.formConfig = [
       {
         type: 'input',
