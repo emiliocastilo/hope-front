@@ -131,7 +131,7 @@ export class MedicListComponent implements OnInit {
       {
         type: 'select',
         label: 'modal.editor.field.service',
-        name: 'service',
+        name: 'services',
         placeholder: 'modal.editor.field.service',
         options: this.services,
         validation: [Validators.required],
@@ -139,7 +139,7 @@ export class MedicListComponent implements OnInit {
       {
         type: 'select',
         label: 'modal.editor.field.hospital',
-        name: 'hospitals',
+        name: 'hospital',
         placeholder: 'modal.editor.field.hospital',
         options: this.hospitals,
         validation: [Validators.required],
@@ -174,7 +174,7 @@ export class MedicListComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedItem = event;
 
-    this.selectedDoctor.setValuesFromObject(this.medics[event]);
+    this.selectedDoctor.setValuesFromObject(this.medics[event], this.hospitals);
 
     Object.keys(this.selectedDoctor).map((doctorKey: string) => {
       this.formConfig.map((valueFrom: any, keyform: number) => {
@@ -208,18 +208,21 @@ export class MedicListComponent implements OnInit {
   }
 
   private saveOrUpdate(event: any, modalRef: any): void {
-    let formValues: FieldConfig = event;
+    let formValues: MedicModel = event;
     let id: number;
+    const currentDoctor = this.medics[this.selectedItem];
     if (this.isEditing) {
-      id = this.medics[this.selectedItem].id;
+      id = currentDoctor.id;
+      formValues.user = currentDoctor.user;
     }
-
+    console.log('saveOrUpdate:', formValues, event);
     let doctor: MedicModel = new MedicModel(id);
     doctor.setValuesFromDinamicForm(formValues);
 
     if (this.isEditing) {
       this._medicService.updateDoctor(doctor).subscribe(
         (response) => {
+          this._toastr.success('Usuario actualizado exitosamente');
           this.isEditing = false;
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
@@ -231,6 +234,7 @@ export class MedicListComponent implements OnInit {
     } else {
       this._medicService.postDoctor(doctor).subscribe(
         (response) => {
+          this._toastr.success('Usuario creado exitosamente');
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },

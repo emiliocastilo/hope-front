@@ -5,28 +5,31 @@ import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 export class MedicModel {
   constructor(
     public id?: number,
+    public user?: UserModel,
     public name?: string,
     public surname?: string,
     public phone?: string,
     public dni?: string,
     public collegeNumber?: string,
-    public user?: UserModel,
     public username?: string,
     public password?: string,
     public email?: string,
     public service?: ServiceModel,
-    public hospital?: HospitalModel
+    public services?: ServiceModel[],
+    public hospital?: HospitalModel[]
   ) {}
 
   public setValuesFromDinamicForm(form: any) {
-    const service: ServiceModel = form.service ? form.service[0] : null;
+    const service: ServiceModel = form.services ? form.services[0] : null;
+    const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
 
     const user: UserModel = {
+      id: form.user ? form.user.id : null,
       username: form.username,
       password: form.password,
       email: form.email,
       roles: [2],
-      hospitalId: form.hospitals ? form.hospitals[0].id : null,
+      hospitalId: hospital.id,
     };
 
     this.name = form.name;
@@ -38,10 +41,17 @@ export class MedicModel {
     this.service = service;
   }
 
-  public setValuesFromObject(object: MedicModel) {
+  public setValuesFromObject(object: MedicModel, hospitals: HospitalModel[]) {
     const service: ServiceModel = object.service;
+    const services: ServiceModel[] = [];
+    services.push(service);
 
     const user: UserModel = object.user;
+
+    const hospital: HospitalModel[] = this.setHospital(
+      user.hospitalId,
+      hospitals
+    );
 
     this.id = object.id;
     this.username = user.username;
@@ -52,6 +62,11 @@ export class MedicModel {
     this.dni = object.dni;
     this.collegeNumber = object.collegeNumber;
     this.user = user;
-    this.service = service;
+    this.services = services;
+    this.hospital = hospital;
+  }
+
+  private setHospital(id: number, hospitals: HospitalModel[]): HospitalModel[] {
+    return hospitals.filter((value: HospitalModel) => value.id === id);
   }
 }
