@@ -115,6 +115,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormSwitchComponent,
     SwitchComponent,
     PaginationComponent,
+    HomeDashboardModuleComponent,
   ],
   providers: [],
   entryComponents: [

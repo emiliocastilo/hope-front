@@ -39,7 +39,7 @@ export class MedicListComponent implements OnInit {
     new ColumnHeaderModel('Nombre', 2),
     new ColumnHeaderModel('Apellidos', 2),
     new ColumnHeaderModel('Dni', 2),
-    new ColumnHeaderModel('Telefono', 2),
+    new ColumnHeaderModel('Teléfono', 2),
     new ColumnHeaderModel('Código de Colegiado', 2),
     new ColumnHeaderModel('Acciones', 2),
   ];

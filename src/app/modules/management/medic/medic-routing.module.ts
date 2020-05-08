@@ -9,7 +9,7 @@ import { HospitalResolverService } from 'src/app/core/services/hospital/hospital
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'medics',
     component: MedicListComponent,
     resolve: {
       hospitals: HospitalResolverService,
