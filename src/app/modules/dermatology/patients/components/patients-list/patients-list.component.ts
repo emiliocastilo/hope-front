@@ -59,17 +59,10 @@ export class PatientsListComponent implements OnInit {
   private currentPage: number = 0;
   public paginationData: PaginationModel;
 
-  constructor(
-    private _patientsService: PatientsService,
-    private _toastr: ToastrService,
-    private _modalService: NgbModal,
-    private _activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private _activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
-    this.paginationData = this._activatedRoute.snapshot.data.patients;
 
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
     this.formConfig = [
