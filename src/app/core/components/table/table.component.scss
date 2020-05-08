@@ -3,6 +3,7 @@
 .master-table {
   font-size: 12px;
   word-break: break-all;
+
   .master-table-column-headers {
     height: 2rem;
     font-weight: bold;
@@ -12,6 +13,7 @@
 
   .master-table-data-row {
     border-bottom: 1px solid $app-color-gray-medium;
+
     &:hover {
       background-color: $app-color-gray-light;
     }

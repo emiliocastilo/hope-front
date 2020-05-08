@@ -11,13 +11,16 @@ export class PatientModelToRowModelAdapter {
 
   public adaptModelToRow(patient: PatientModel): RowDataModel {
     const row = new RowDataModel();
-    row.pushColumn(new ColumnDataModel('text',
-      patient.name
-        .concat(' ')
-        .concat(patient.firstSurname)
-        .concat(' ')
-        .concat(patient.lastSurname)
-    ));
+    row.pushColumn(
+      new ColumnDataModel(
+        'text',
+        patient.name
+          .concat(' ')
+          .concat(patient.firstSurname)
+          .concat(' ')
+          .concat(patient.lastSurname)
+      )
+    );
     row.pushColumn(new ColumnDataModel('text', patient.nhc));
     row.pushColumn(new ColumnDataModel('text', patient.healthCard));
     row.pushColumn(new ColumnDataModel('text', patient.dni));
@@ -27,15 +30,20 @@ export class PatientModelToRowModelAdapter {
     patient.pathologies.forEach((pathology) => {
       pathologyList = pathologyList.concat(pathology.name).concat(';');
     });
-    row.pushColumn(new ColumnDataModel('iconButtons', {
-      iconButtons: [{
-        type: 'edit',
-        icon: 'fa-lg fa-pencil'
-      },{
-        type: 'delete',
-        icon: 'fa-lg fa-window-close cfa-red'
-      }]
-    }))
+    row.pushColumn(
+      new ColumnDataModel('iconButtons', {
+        iconButtons: [
+          {
+            type: 'edit',
+            icon: 'fa-lg fa-pencil',
+          },
+          {
+            type: 'delete',
+            icon: 'fa-lg fa-window-close cfa-red',
+          },
+        ],
+      })
+    );
     return row;
   }
 }

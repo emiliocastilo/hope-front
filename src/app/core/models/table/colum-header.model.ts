@@ -1,6 +1,3 @@
 export class ColumnHeaderModel {
-    constructor(
-        public text:string,
-        public colSize: number
-    ) { }
+  constructor(public text: string, public colSize: number) {}
 }
