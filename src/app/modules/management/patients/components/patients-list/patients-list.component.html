@@ -4,7 +4,7 @@
     <side-bar [currentMenuId]="menuId"></side-bar>
   </section>
   <section class="col-md-8 col-lg-9 patients-container">
-    <section class="col-md-10 col-lg-10 patients-container">
+    <section class="patients-container">
       <section class="container-fluid mt-4">
         <app-search (emitAction)="onSearch($event)"></app-search>
       </section>
@@ -16,33 +16,13 @@
           texto="btn.new"
           (click)="savePatient()"
         ></app-button>
-        <app-button
-          type="button"
-          icono="fa fa-pencil"
-          clasesBtn="btn-primary btn-sm mx-2"
-          texto="btn.edit"
-          (click)="editPatient()"
-        ></app-button>
-        <app-button
-          type="button"
-          clasesBtn="btn-danger btn-sm mx-2"
-          icono="fa fa-window-close"
-          texto="btn.delete"
-          (click)="deletePatient()"
-        ></app-button>
-        <app-button
-          type="button"
-          clasesBtn="btn-primary btn-sm mx-2"
-          texto="btn.select"
-          (click)="goToDermatologiPatients()"
-          [readOnly]="!selectedPatient.id"
-        ></app-button>
       </section>
       <section class="container-fluid mt-4">
         <app-table
           [columnsHeader]="columnsHeader"
           [columnsData]="prepareTableData()"
           (selectedItem)="onSelectedItem($event)"
+          (iconButtonClick)="onIconButtonClick($event)"
         ></app-table>
 
         <app-pagination

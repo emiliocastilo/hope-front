@@ -1,7 +1,9 @@
-export class RowDataModel {
-  constructor(public columns: Array<any> = new Array<any>()) {}
+import { ColumnDataModel } from './colum-data.model';
 
-  public pushColumn(value: any) {
+export class RowDataModel {
+  constructor(public columns: Array<ColumnDataModel> = new Array<any>()) {}
+
+  public pushColumn(value: ColumnDataModel) {
     this.columns.push(value);
   }
 

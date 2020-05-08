@@ -16,30 +16,13 @@
         texto="btn.new"
       >
       </app-button>
-      <app-button
-        type="button"
-        icono="fa fa-pencil"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="editDoctor()"
-        texto="btn.edit"
-        [readOnly]="selectedItem == undefined"
-      >
-      </app-button>
-      <app-button
-        type="button"
-        *ngIf="selectedItem !== undefined"
-        clasesBtn="btn-danger btn-sm mx-2"
-        icono="fa fa-window-close"
-        texto="btn.delete"
-        (click)="deleteDoctor()"
-      >
-      </app-button>
     </div>
     <div class="container mt-4">
       <app-table
         [columnsHeader]="columHeaders"
         [columnsData]="prepareTableData()"
         (selectedItem)="onSelectedItem($event)"
+        (iconButtonClick)="onIconButtonClick($event)"
       >
       </app-table>
       <app-pagination
