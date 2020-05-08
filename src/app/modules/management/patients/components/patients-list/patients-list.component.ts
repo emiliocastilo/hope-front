@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
@@ -75,7 +75,8 @@ export class PatientsListComponent implements OnInit {
     private _patientModelToRowModelAdapter: PatientModelToRowModelAdapter,
     private _toastr: ToastrService,
     private _modalService: NgbModal,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -206,8 +207,14 @@ export class PatientsListComponent implements OnInit {
     return rows;
   }
 
+  public goToDermatologiPatients(): void {
+    this._router.navigate(['dermatology/patients']);
+  }
+
   public onSelectedItem(event: number): void {
     this.selectedPatient = this.patients[event];
+    const selectedUser = JSON.stringify(this.selectedPatient || {});
+    localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
     Object.keys(this.selectedPatient).map((patientKey: string) => {
       this.formConfig.map((valueFrom: any, keyform: number) => {
