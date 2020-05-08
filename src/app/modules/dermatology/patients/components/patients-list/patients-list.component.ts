@@ -32,20 +32,7 @@ export class PatientsListComponent implements OnInit {
   ];
   public menu: SideBarItemModel[];
   public patients: PatientModel[] = [];
-  public patientKeysToShow: string[] = [
-    'name',
-    'firstSurname',
-    'lastSurname',
-    'nhc',
-    'healthCard',
-    'dni',
-    'address',
-    'phone',
-    'email',
-    'birthDate',
-    'hospital',
-    'genderCode',
-  ];
+  public patientKeysToShow: string[] = ['fullName', 'age', 'genderCode'];
   public selectedItem: number;
   public selectedPatient: PatientModel = {
     id: '',
@@ -83,6 +70,7 @@ export class PatientsListComponent implements OnInit {
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
 
+    this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
     this.formConfig = [
       {
         type: 'input',

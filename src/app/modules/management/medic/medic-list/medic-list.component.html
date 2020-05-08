@@ -22,7 +22,7 @@
         clasesBtn="btn-primary btn-sm mx-2"
         (click)="editDoctor()"
         texto="btn.edit"
-        [soloLectura]="selectedItem == undefined"
+        [readOnly]="selectedItem == undefined"
       >
       </app-button>
       <app-button
@@ -42,12 +42,11 @@
         (selectedItem)="onSelectedItem($event)"
       >
       </app-table>
+      <app-pagination
+        (selectPage)="selectPage($event)"
+        [paginationData]="paginationData"
+      >
+      </app-pagination>
     </div>
-
-    <app-pagination
-      (selectPage)="selectPage($event)"
-      [paginationData]="paginationData"
-    >
-    </app-pagination>
   </section>
 </div>

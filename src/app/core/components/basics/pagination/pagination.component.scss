@@ -1,4 +1,7 @@
-.pagination {
-  margin-top: 0.5rem !important;
-  justify-content: center !important;
+.app-pagination-section {
+  display: flex;
+  margin-top: 2rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }

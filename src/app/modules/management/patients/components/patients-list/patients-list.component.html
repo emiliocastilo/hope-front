@@ -30,6 +30,13 @@
           texto="btn.delete"
           (click)="deletePatient()"
         ></app-button>
+        <app-button
+          type="button"
+          clasesBtn="btn-primary btn-sm mx-2"
+          texto="btn.select"
+          (click)="goToDermatologiPatients()"
+          [readOnly]="!selectedPatient.id"
+        ></app-button>
       </section>
       <section class="container-fluid mt-4">
         <app-table
@@ -37,12 +44,13 @@
           [columnsData]="prepareTableData()"
           (selectedItem)="onSelectedItem($event)"
         ></app-table>
+
+        <app-pagination
+          (selectPage)="selectPage($event)"
+          [paginationData]="paginationData"
+        >
+        </app-pagination>
       </section>
     </section>
-    <app-pagination
-      (selectPage)="selectPage($event)"
-      [paginationData]="paginationData"
-    >
-    </app-pagination>
   </section>
 </div>
