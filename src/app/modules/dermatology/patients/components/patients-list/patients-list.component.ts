@@ -5,7 +5,6 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PathologyModel } from '../../models/pathology.model';
 import { PatientModel } from '../../models/patient.model';
-import { PatientModelToRowModelAdapter } from '../../adapters/patient-model-to-row-model.adapter';
 import { PatientsService } from '../../services/patients.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
@@ -61,7 +60,6 @@ export class PatientsListComponent implements OnInit {
 
   constructor(
     private _patientsService: PatientsService,
-    private _patientModelToRowModelAdapter: PatientModelToRowModelAdapter,
     private _toastr: ToastrService,
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute
@@ -190,7 +188,7 @@ export class PatientsListComponent implements OnInit {
   public prepareTableData(): Array<RowDataModel> {
     let rows = this.patients
       ? this.patients.map((patient) => {
-          return this._patientModelToRowModelAdapter.adaptModelToRow(patient);
+          return this._adaptModelToRow(patient);
         })
       : [];
     return rows;
@@ -325,5 +323,27 @@ export class PatientsListComponent implements OnInit {
         this.paginationData = data;
       }
     });
+  }
+
+  private _adaptModelToRow(patient: PatientModel): RowDataModel {
+    const row = new RowDataModel();
+    row.pushColumn(
+      patient.name
+        .concat(' ')
+        .concat(patient.firstSurname)
+        .concat(' ')
+        .concat(patient.lastSurname)
+    );
+    row.pushColumn(patient.nhc);
+    row.pushColumn(patient.healthCard);
+    row.pushColumn(patient.dni);
+    row.pushColumn(patient.phone);
+    row.pushColumn(patient.genderCode);
+    let pathologyList = '';
+    patient.pathologies.forEach((pathology) => {
+      pathologyList = pathologyList.concat(pathology.name).concat(';');
+    });
+    row.pushColumn(pathologyList);
+    return row;
   }
 }
