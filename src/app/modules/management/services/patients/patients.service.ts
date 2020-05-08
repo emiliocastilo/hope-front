@@ -11,22 +11,22 @@ export class PatientsService {
 
   public getPatients(query: string): Observable<any> {
     query = query ? query : '';
-    return this._httpClient.get(`/patient?pth=1${query}`);
+    return this._httpClient.get(`/patients?pth=1${query}`);
   }
 
   public getPatientsById(id: string): Observable<any> {
-    return this._httpClient.get(`/patient/findPatientBySearch?search=${id}`);
+    return this._httpClient.get(`/patients/searches?pth=1&search=${id}`);
   }
 
   public createPatient(request: PatientModel): Observable<any> {
-    return this._httpClient.post('/patient', request);
+    return this._httpClient.post('/patients', request);
   }
 
   public updatePatient(request: PatientModel): Observable<any> {
-    return this._httpClient.put('/patient', request);
+    return this._httpClient.put('/patients', request);
   }
 
   public deletePatient(id: string): Observable<any> {
-    return this._httpClient.delete(`/patient/${id}`);
+    return this._httpClient.delete(`/patients/${id}`);
   }
 }
