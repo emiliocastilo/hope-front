@@ -41,7 +41,7 @@ export class MedicListComponent implements OnInit {
     new ColumnHeaderModel('Dni', 2),
     new ColumnHeaderModel('Telefono', 2),
     new ColumnHeaderModel('Código de Colegiado', 2),
-    new ColumnHeaderModel('Acciones', 2)
+    new ColumnHeaderModel('Acciones', 2),
   ];
   public hospitals: HospitalModel[] = [];
   public isDetailModal = false;
@@ -185,10 +185,10 @@ export class MedicListComponent implements OnInit {
     });
   }
 
-  public onIconButtonClick(event:any):void{
-    if(event && event.type === 'edit'){
+  public onIconButtonClick(event: any): void {
+    if (event && event.type === 'edit') {
       this.editDoctor();
-    }else{
+    } else {
       this.deleteDoctor();
     }
   }

@@ -30,7 +30,7 @@ export class PatientsListComponent implements OnInit {
     new ColumnHeaderModel('Phone', 2),
     new ColumnHeaderModel('Gender Code', 1),
     new ColumnHeaderModel('Pathologies', 1),
-    new ColumnHeaderModel('Actions', 1)
+    new ColumnHeaderModel('Actions', 1),
   ];
   public menu: SideBarItemModel[];
   public patients: PatientModel[] = [];

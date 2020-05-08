@@ -3,7 +3,7 @@
     <side-bar-link
       *ngIf="!menuOption.children"
       [id]="menuOption.id"
-      [linkText]="menuOption.description"
+      [linkText]="menuOption.title"
     >
     </side-bar-link>
     <li
@@ -11,7 +11,7 @@
       [ngClass]="'sub-side-bar-menu-level-' + level"
       class="nav-item"
     >
-      <label class="nav-link">{{ menuOption.description }}</label>
+      <label class="nav-link">{{ menuOption.title }}</label>
       <p class="m-0 p-0">
         <side-bar-menu [level]="level + LEVEL_ONE" [menu]="menuOption.children">
         </side-bar-menu>

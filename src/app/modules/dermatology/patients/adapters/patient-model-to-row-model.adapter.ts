@@ -41,6 +41,6 @@ export class PatientModelToRowModelAdapter {
       ]
     }));
     return row;*/
-      return null;
+    return null;
   }
 }

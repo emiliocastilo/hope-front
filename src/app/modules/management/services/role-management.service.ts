@@ -3,13 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoleManagementService {
+  constructor(private _httpClient: HttpClient) {}
 
-  constructor(private _httpClient:HttpClient) { }
-
-  public getRoles():Observable<any>{
+  public getRoles(): Observable<any> {
     return this._httpClient.get('/role');
   }
 }

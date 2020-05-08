@@ -29,7 +29,7 @@ export class PatientsListComponent implements OnInit {
     new ColumnHeaderModel('Dni', 1),
     new ColumnHeaderModel('Teléfono', 2),
     new ColumnHeaderModel('Genero', 1),
-    new ColumnHeaderModel('Acciones', 2)
+    new ColumnHeaderModel('Acciones', 2),
   ];
   public menu: SideBarItemModel[];
   public patients: PatientModel[] = [];
@@ -232,10 +232,10 @@ export class PatientsListComponent implements OnInit {
     });
   }
 
-  public onIconButtonClick(event:any){
-    if(event && event.type === 'edit'){
+  public onIconButtonClick(event: any) {
+    if (event && event.type === 'edit') {
       this.editPatient();
-    } else if(event && event.type === 'delete'){
+    } else if (event && event.type === 'delete') {
       this.deletePatient();
     }
   }

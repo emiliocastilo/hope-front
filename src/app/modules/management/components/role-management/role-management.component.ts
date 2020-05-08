@@ -8,33 +8,28 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 @Component({
   selector: 'app-role-management',
   templateUrl: './role-management.component.html',
-  styleUrls: ['./role-management.component.scss']
+  styleUrls: ['./role-management.component.scss'],
 })
 export class RoleManagementComponent implements OnInit {
-  public roles:Array<RolModel>;
-  public tableHeaders:Array<string> = ['Nombre', 'Descripción'];
-  public tableData:Array<RowDataModel>;
+  public roles: Array<RolModel>;
+  public tableHeaders: Array<string> = ['Nombre', 'Descripción'];
+  public tableData: Array<RowDataModel>;
 
-  constructor(private _roleManagementService:RoleManagementService) { }
+  constructor(private _roleManagementService: RoleManagementService) {}
 
   ngOnInit(): void {
-    this._roleManagementService.getRoles().subscribe(
-      (data)=> {
-        this.roles = data;
-        this.tableData = this.prepareTableData(data);
-      }
-    );
+    this._roleManagementService.getRoles().subscribe((data) => {
+      this.roles = data;
+      this.tableData = this.prepareTableData(data);
+    });
   }
 
-  private prepareTableData(roles:Array<RolModel>):Array<RowDataModel>{
-    return roles.map(
-      (rol) => {
-        let row:RowDataModel = new RowDataModel();
-        row.pushColumn(new ColumnDataModel('text', rol.name));
-        row.pushColumn(new ColumnDataModel('text', rol.description));
-        return row;
-      }
-    );
+  private prepareTableData(roles: Array<RolModel>): Array<RowDataModel> {
+    return roles.map((rol) => {
+      let row: RowDataModel = new RowDataModel();
+      row.pushColumn(new ColumnDataModel('text', rol.name));
+      row.pushColumn(new ColumnDataModel('text', rol.description));
+      return row;
+    });
   }
-
 }

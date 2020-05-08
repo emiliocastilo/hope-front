@@ -23,12 +23,12 @@ export class TableComponent implements OnInit {
     this.internalSelectedItem = selectedItem;
   }
 
-  emitIconButtonClick(type:string, selectedItem:number): void{
+  emitIconButtonClick(type: string, selectedItem: number): void {
     event.preventDefault();
     this.activate(selectedItem);
     this.iconButtonClick.emit({
-      selectedItem: selectedItem, 
-      type: type
+      selectedItem: selectedItem,
+      type: type,
     });
   }
 }

@@ -25,8 +25,8 @@ const routes: Routes = [
   {
     path: 'role',
     component: RoleManagementComponent,
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
