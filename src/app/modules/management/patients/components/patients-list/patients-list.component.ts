@@ -19,7 +19,7 @@ import {
   PATIENT_TABLE_KEYS,
   PATIENT_FORM,
 } from '../../../constants/patients.constants';
-import { Validators } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-patients-list',
@@ -35,7 +35,7 @@ export class PatientsListComponent implements OnInit {
   public selectedPatient: PatientModel = new PatientModel();
   public menuId: number = environment.MENU_ID.PATIENTS;
   public isEditing: boolean = false;
-  public formConfig: FieldConfig[] = [];
+  public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
   private currentPage: number = 0;
   public paginationData: PaginationModel;
@@ -45,7 +45,8 @@ export class PatientsListComponent implements OnInit {
     private _toastr: ToastrService,
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -62,44 +63,19 @@ export class PatientsListComponent implements OnInit {
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
 
-    this.formConfig = PATIENT_FORM;
-
-    /* Hace falta que se pushee al menos estos elementos dado que los hospitales
-     * se obtienen desde la snapshot de la activatedRoute
-     */
-    this.formConfig.push(
-      {
-        type: 'select',
-        label: 'modal.editor.field.hospital',
-        name: 'hospital',
-        placeholder: 'modal.editor.field.hospital',
-        options: this.hospitals,
-        validation: [Validators.required],
-      },
-      {
-        type: 'radio',
-        label: 'modal.editor.field.genderCode',
-        name: 'genderCode',
-        placeholder: 'modal.editor.field.genderCode',
-        radioButton: [
-          {
-            optionName: 'Femenino',
-            value: 'F',
-          },
-          {
-            optionName: 'Masculino',
-            value: 'M',
-          },
-        ],
-        validation: [Validators.required],
-      },
-      {
-        label: 'btn.save',
-        name: 'btn.save',
-        type: 'button',
-        disabled: false,
-      }
-    );
+    this.modalForm = this._formBuilder.group({
+      name: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      nhc: ['', Validators.required],
+      healthCard: ['', Validators.required],
+      dni: ['', Validators.required],
+      address: ['', Validators.required],
+      phone: ['', Validators.required],
+      email: ['', Validators.required],
+      genderCode: ['', Validators.required],
+      birthDate: ['', Validators.required],
+    });
   }
 
   public prepareTableData(): Array<RowDataModel> {
@@ -120,13 +96,13 @@ export class PatientsListComponent implements OnInit {
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
-    Object.keys(this.selectedPatient).map((patientKey: string) => {
-      this.formConfig.map((valueFrom: any, keyform: number) => {
+    /*Object.keys(this.selectedPatient).map((patientKey: string) => {
+      this.modalForm.con.map((valueFrom: any, keyform: number) => {
         if (valueFrom.name === patientKey) {
-          this.formConfig[keyform].value = this.selectedPatient[patientKey];
+          this.modalForm[keyform].value = this.selectedPatient[patientKey];
         }
       });
-    });
+    });*/
   }
 
   public onSearch(event: string): void {
@@ -144,9 +120,9 @@ export class PatientsListComponent implements OnInit {
   }
 
   public savePatient(): void {
-    this.formConfig.map((valueFrom: any, keyform: number) => {
+    /*this.formConfig.map((valueFrom: any, keyform: number) => {
       this.formConfig[keyform].value = null;
-    });
+    });*/
     this.isEditing = false;
     this.selectedItem = null;
     this.showModal();
@@ -177,7 +153,8 @@ export class PatientsListComponent implements OnInit {
     });
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
-    modalRef.componentInstance.formConfig = this.formConfig;
+    debugger
+    modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
     });

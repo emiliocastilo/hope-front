@@ -9,7 +9,7 @@ import { PatientsService } from '../../services/patients.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ToastrService } from 'ngx-toastr';
-import { Validators } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -53,7 +53,7 @@ export class PatientsListComponent implements OnInit {
   };
   public menuId: number = environment.MENU_ID.PATIENTS;
   public isEditing: boolean = false;
-  public formConfig: FieldConfig[] = [];
+  public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
   private currentPage: number = 0;
   public paginationData: PaginationModel;
