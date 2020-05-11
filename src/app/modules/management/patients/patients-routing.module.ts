@@ -9,7 +9,7 @@ import { PatientsResolverService } from '../services/patients/patients-resolver.
 
 const routes: Routes = [
   {
-    path: 'patients',
+    path: '',
     component: PatientsListComponent,
     resolve: {
       hospitals: HospitalResolverService,
