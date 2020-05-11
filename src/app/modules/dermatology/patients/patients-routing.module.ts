@@ -5,6 +5,7 @@ import { PatientsListComponent } from './components/patients-list/patients-list.
 import { Routes, RouterModule } from '@angular/router';
 import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
 import { PatientsResolverService } from './services/patients-resolver.service';
+import { DashboardPatientsComponent } from './components/dashboard-patients/dashboard-patients.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,15 @@ const routes: Routes = [
     component: PatientsListComponent,
     resolve: {
       hospitals: HospitalResolverService,
+      menu: SideBarResolverService,
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/dashboard',
+    component: DashboardPatientsComponent,
+    resolve: {
       menu: SideBarResolverService,
       patients: PatientsResolverService,
     },

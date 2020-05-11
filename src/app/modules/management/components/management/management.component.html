@@ -4,9 +4,11 @@
   <section class="col-md-4 col-lg-3 m-0 p-0 sidemenu">
     <side-bar [menu]="menu" [currentMenuId]="menuId"></side-bar>
   </section>
-  <section class="col-md-8 col-lg-9 m-0 p-0 management-fluid">
+  <section
+    class="col-md-8 col-lg-9 m-0 p-0 management-fluid mt-4 justify-content-center"
+  >
     <ng-container *ngFor="let module of modules">
-      <article *ngIf="module.icon" class="col-sm-6 col-md-3 col-lg-3">
+      <article *ngIf="module.icon" class="col-sm-6 col-md-3 col-lg-3 mt-2">
         <home-dashboard-module [module]="module"></home-dashboard-module>
       </article>
     </ng-container>

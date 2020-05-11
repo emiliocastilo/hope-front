@@ -21,8 +21,7 @@
                     <li
                       *ngFor="let rol of roles"
                       [class.selected]="rol === selectedRole"
-                      (click)="onSelect(rol)"
-                      (dblclick)="onFormSubmit($event)"
+                      (click)="onFormSubmit(rol)"
                       class="text-center"
                     >
                       {{ rol }}
