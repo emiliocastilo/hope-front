@@ -22,7 +22,7 @@
                       *ngFor="let rol of roles"
                       [class.selected]="rol === selectedRole"
                       (click)="onSelect(rol)"
-                      (dblclick)="onFormSubmit($event)"
+                      (click)="onFormSubmit($event)"
                       class="text-center"
                     >
                       {{ rol }}

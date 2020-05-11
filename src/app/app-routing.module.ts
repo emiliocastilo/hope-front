@@ -32,10 +32,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'dermatology',
+    path: 'pathology',
     loadChildren: () =>
-      import('./modules/dermatology/dermatology.module').then(
-        (m) => m.DermatologyModule
+      import('./modules/pathology/pathology.module').then(
+        (m) => m.PathologyModule
       ),
     canActivate: [AuthGuard],
   },
@@ -51,7 +51,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

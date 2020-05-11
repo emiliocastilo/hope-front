@@ -1,16 +1,16 @@
-import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
-import { PatientsListComponent } from './components/patients-list/patients-list.component';
 import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
-import { PatientsResolverService } from '../services/patients/patients-resolver.service';
+import { PatientsResolverService } from '../management/services/patients/patients-resolver.service';
+import { PatientsComponent } from './patients/components/patients/patients.component';
+import { DashboardComponent } from 'src/app/core/components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: PatientsListComponent,
+    path: 'patients',
+    component: PatientsComponent,
     resolve: {
       hospitals: HospitalResolverService,
       menu: SideBarResolverService,
@@ -18,11 +18,15 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard],
   },
+  {
+    path: 'patients/dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [HospitalResolverService, PatientsResolverService],
 })
-export class PatientsRoutingModule {}
+export class DermatologyRoutingModule {}

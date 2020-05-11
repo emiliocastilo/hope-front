@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { PatientModel } from 'src/app/modules/dermatology/patients/models/patient.model';
+import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Component({
   selector: 'app-box-data',
