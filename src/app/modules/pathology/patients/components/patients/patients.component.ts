@@ -1,15 +1,8 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PathologyModel } from '../../models/pathology.model';
 import { PatientModel } from '../../models/patient.model';
-import { PatientsService } from '../../services/patients.service';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { ToastrService } from 'ngx-toastr';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -17,11 +10,11 @@ import { debounceTime } from 'rxjs/operators';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 
 @Component({
-  selector: 'app-patients-list',
-  templateUrl: './patients-list.component.html',
-  styleUrls: ['./patients-list.component.scss'],
+  selector: 'app-patients',
+  templateUrl: './patients.component.html',
+  styleUrls: ['./patients.component.scss'],
 })
-export class PatientsListComponent implements OnInit {
+export class PatientsComponent implements OnInit {
   public columnsHeader: Array<ColumnHeaderModel> = [
     new ColumnHeaderModel('Patient Name', 2),
     new ColumnHeaderModel('Nhc', 2),

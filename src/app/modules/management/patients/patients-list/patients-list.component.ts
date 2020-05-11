@@ -1,11 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PatientModel } from '../../../models/patients/patient.model';
-import { PathologyModel } from '../../../models/patients/pathology.model';
-import { PatientsService } from '../../../services/patients/patients.service';
+import { PatientModel } from '../../models/patients/patient.model';
+import { PathologyModel } from '../../models/patients/pathology.model';
+import { PatientsService } from '../../services/patients/patients.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ToastrService } from 'ngx-toastr';
@@ -17,8 +16,7 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import {
   PATIENT_TABLE_HEADERS,
   PATIENT_TABLE_KEYS,
-  PATIENT_FORM,
-} from '../../../constants/patients.constants';
+} from '../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
