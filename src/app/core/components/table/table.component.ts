@@ -11,6 +11,7 @@ export class TableComponent implements OnInit {
   @Input() columnsHeader: Array<ColumnHeaderModel>;
   @Input() columnsData: Array<RowDataModel>;
   @Output() selectedItem: EventEmitter<number> = new EventEmitter();
+  @Output() selectedItemDobleClick: EventEmitter<number> = new EventEmitter();
   @Output() iconButtonClick: EventEmitter<any> = new EventEmitter();
   public internalSelectedItem: number;
 
@@ -20,6 +21,11 @@ export class TableComponent implements OnInit {
 
   activate(selectedItem: number): void {
     this.selectedItem.emit(selectedItem);
+    this.internalSelectedItem = selectedItem;
+  }
+
+  activateDobleClick(selectedItem: number): void {
+    this.selectedItemDobleClick.emit(selectedItem);
     this.internalSelectedItem = selectedItem;
   }
 

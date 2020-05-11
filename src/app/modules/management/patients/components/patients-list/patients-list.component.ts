@@ -78,7 +78,7 @@ export class PatientsListComponent implements OnInit {
     return rows;
   }
 
-  public goToDermatologiPatients(): void {
+  private goToDermatologiPatients(): void {
     this._router.navigate(['dermatology/patients']);
   }
 
@@ -94,6 +94,13 @@ export class PatientsListComponent implements OnInit {
         }
       });
     });*/
+  }
+
+  public onSelectItemDobleClick(event: number): void {
+    this.selectedPatient = this.patients[event];
+    const selectedUser = JSON.stringify(this.selectedPatient || {});
+    localStorage.setItem('selectedUser', selectedUser);
+    this.goToDermatologiPatients();
   }
 
   public onSearch(event: string): void {
