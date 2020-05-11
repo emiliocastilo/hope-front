@@ -8,6 +8,7 @@ import { CoreModule } from 'src/app/core/core.module';
 import { PatientsListComponent } from './components/patients-list/patients-list.component';
 import { PatientDetailComponent } from './components/patient-detail/patient-detail/patient-detail.component';
 import { PatientHeaderComponent } from './components/patient-detail/patient-header/patient-header/patient-header.component';
+import { DashboardPatientsComponent } from './components/dashboard-patients/dashboard-patients.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -17,6 +18,7 @@ export function createTranslateLoader(http: HttpClient) {
     PatientsListComponent,
     PatientDetailComponent,
     PatientHeaderComponent,
+    DashboardPatientsComponent,
   ],
   imports: [
     PatientsRoutingModule,
