@@ -3,9 +3,9 @@
     [title]="title"
     (close)="onClose()"
   ></app-generic-modal-header>
-  <app-editor-modal-body
-    [id]="id"
-    [formConfig]="formConfig"
-    (submitBody)="onSave($event)"
-  ></app-editor-modal-body>
+  <app-editor-modal-body [id]="id" [form]="form"></app-editor-modal-body>
+  <app-editor-modal-footer
+    (close)="onClose()"
+    (save)="onSave()"
+  ></app-editor-modal-footer>
 </div>
