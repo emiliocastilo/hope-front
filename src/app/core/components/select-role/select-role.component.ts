@@ -40,10 +40,6 @@ export class SelectRoleComponent implements OnInit {
     }
   }
 
-  onSelect(selected: string): void {
-    this.selectedRole = selected;
-  }
-
   chooseProfile(role: string): void {
     this._loginService.postChooseProfile(role).subscribe(
       (data) => {
@@ -71,7 +67,8 @@ export class SelectRoleComponent implements OnInit {
     return this.selectRoleForm.controls;
   }
 
-  onFormSubmit() {
+  onFormSubmit(selected: string) {
+    this.selectedRole = selected;
     if (!this.selectedRole) {
       return;
     }
