@@ -3,6 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { ManagementComponent } from './components/management/management.component';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { MedicListComponent } from './medic/medic-list/medic-list.component';
+import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
+import { MedicResolverService } from './services/medic/medic-resolver.service';
+import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
+import { ServiceResolverService } from 'src/app/core/services/service/service-resolver.service';
+import { PatientsListComponent } from './patients/components/patients-list/patients-list.component';
+import { PatientsResolverService } from './services/patients/patients-resolver.service';
 
 const routes: Routes = [
   {
@@ -12,14 +19,23 @@ const routes: Routes = [
   },
   {
     path: 'medics',
-    loadChildren: () =>
-      import('./medic/medic.module').then((m) => m.MedicModule),
+    component: MedicListComponent,
+    resolve: {
+      hospitals: HospitalResolverService,
+      medics: MedicResolverService,
+      menu: SideBarResolverService,
+      services: ServiceResolverService,
+    },
     canActivate: [AuthGuard],
   },
   {
     path: 'patients',
-    loadChildren: () =>
-      import('./patients/patients.module').then((m) => m.PatientsModule),
+    component: PatientsListComponent,
+    resolve: {
+      hospitals: HospitalResolverService,
+      menu: SideBarResolverService,
+      patients: PatientsResolverService,
+    },
     canActivate: [AuthGuard],
   },
   {
@@ -30,7 +46,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [],
   exports: [RouterModule],
 })
 export class ManagementRoutingModule {}
