@@ -8,7 +8,7 @@ import { HospitalResolverService } from 'src/app/core/services/hospital/hospital
 import { MedicResolverService } from './services/medic/medic-resolver.service';
 import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
 import { ServiceResolverService } from 'src/app/core/services/service/service-resolver.service';
-import { PatientsListComponent } from './patients/patients-list/patients-list.component';
+import { PatientsListComponent } from './patients/components/patients-list/patients-list.component';
 import { PatientsResolverService } from './services/patients/patients-resolver.service';
 
 const routes: Routes = [
@@ -46,7 +46,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [],
   exports: [RouterModule],
 })
 export class ManagementRoutingModule {}

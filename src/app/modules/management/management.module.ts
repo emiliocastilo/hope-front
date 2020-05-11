@@ -8,7 +8,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { MedicListComponent } from './medic/medic-list/medic-list.component';
-import { PatientsListComponent } from './patients/patients-list/patients-list.component';
+import { PatientsListComponent } from './patients/components/patients-list/patients-list.component';
 
 @NgModule({
   declarations: [
