@@ -3,17 +3,22 @@ import { CommonModule } from '@angular/common';
 
 import { ManagementComponent } from './components/management/management.component';
 import { CoreModule, createTranslateLoader } from 'src/app/core/core.module';
-import { MedicRoutingModule } from './medic/medic-routing.module';
 import { ManagementRoutingModule } from './management-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { MedicListComponent } from './medic/medic-list/medic-list.component';
+import { PatientsListComponent } from './patients/components/patients-list/patients-list.component';
 
 @NgModule({
-  declarations: [ManagementComponent, RoleManagementComponent],
+  declarations: [
+    ManagementComponent,
+    RoleManagementComponent,
+    MedicListComponent,
+    PatientsListComponent,
+  ],
   imports: [
     CommonModule,
-    MedicRoutingModule,
     CoreModule,
     ManagementRoutingModule,
     TranslateModule.forChild({
