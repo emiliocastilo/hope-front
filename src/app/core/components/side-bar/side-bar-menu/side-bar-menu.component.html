@@ -1,11 +1,5 @@
 <ul class="nav navbar-light flex-column side-bar-menu">
   <ngContainer *ngFor="let menuOption of menu">
-    <side-bar-link
-      *ngIf="menuOption.principal"
-      [id]="menuOption.id"
-      [linkText]="menuOption.title"
-    >
-    </side-bar-link>
     <li
       *ngIf="menuOption.children"
       [ngClass]="'sub-side-bar-menu-level-' + level"

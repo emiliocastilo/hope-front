@@ -6,6 +6,7 @@ export class HomeDashboardModule {
     public icon: string | null,
     public url: string,
     public children: HomeDashboardModule[],
-    public description: string
+    public description: string,
+    public principal: boolean
   ) {}
 }
