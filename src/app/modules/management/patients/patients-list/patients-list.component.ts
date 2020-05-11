@@ -1,8 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PatientModel } from '../../models/patient.model';
-import { PatientsService } from '../../services/patients.service';
+import { PatientModel } from '../../models/patients/patient.model';
+import { PathologyModel } from '../../models/patients/pathology.model';
+import { PatientsService } from '../../services/patients/patients.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ToastrService } from 'ngx-toastr';
