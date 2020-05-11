@@ -65,8 +65,8 @@ export class PatientsListComponent implements OnInit {
 
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstSurname: ['', Validators.required],
+      lastSurname: ['', Validators.required],
       nhc: ['', Validators.required],
       healthCard: ['', Validators.required],
       dni: ['', Validators.required],
@@ -96,13 +96,13 @@ export class PatientsListComponent implements OnInit {
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
-    /*Object.keys(this.selectedPatient).map((patientKey: string) => {
-      this.modalForm.con.map((valueFrom: any, keyform: number) => {
-        if (valueFrom.name === patientKey) {
-          this.modalForm[keyform].value = this.selectedPatient[patientKey];
-        }
-      });
-    });*/
+    Object.keys(this.patients[event]).map((patientKey: string) => {
+      if (this.modalForm.controls[patientKey]) {
+        this.modalForm.controls[patientKey].setValue(
+          this.patients[event][patientKey]
+        );
+      }
+    });
   }
 
   public onSearch(event: string): void {
@@ -153,7 +153,7 @@ export class PatientsListComponent implements OnInit {
     });
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
-    debugger
+    //   debugger
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
@@ -164,7 +164,7 @@ export class PatientsListComponent implements OnInit {
   }
 
   private saveOrUpdate(event: any, modalRef: any): void {
-    const formValues: PatientModel = event;
+    const formValues: PatientModel = event.value;
     let id;
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;
