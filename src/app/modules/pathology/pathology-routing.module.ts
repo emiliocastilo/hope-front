@@ -25,6 +25,11 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard],
   },
+  {
+    path: 'patients/dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
