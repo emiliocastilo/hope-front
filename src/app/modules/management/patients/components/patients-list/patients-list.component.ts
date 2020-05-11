@@ -78,7 +78,7 @@ export class PatientsListComponent implements OnInit {
     return rows;
   }
 
-  private goToDermatologiPatients(): void {
+  public goToDermatologiPatients(): void {
     this._router.navigate(['dermatology/patients']);
   }
 
