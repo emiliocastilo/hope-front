@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
-import { UserModel } from 'src/app/core/models/user/user.model';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-editor-modal',
@@ -10,9 +9,9 @@ import { UserModel } from 'src/app/core/models/user/user.model';
 export class EditorModalComponent implements OnInit {
   @Input() id: string;
   @Input() title: string;
-  @Input() formConfig: FieldConfig;
+  @Input() form: FormGroup;
   @Output() close: EventEmitter<any> = new EventEmitter();
-  @Output() save: EventEmitter<FieldConfig> = new EventEmitter();
+  @Output() save: EventEmitter<FormGroup> = new EventEmitter();
   public type: string = 'lg';
 
   constructor() {}
@@ -23,7 +22,7 @@ export class EditorModalComponent implements OnInit {
     this.close.emit(null);
   }
 
-  public onSave(value: any) {
-    this.save.emit(value);
+  public onSave() {
+    this.save.emit(this.form);
   }
 }
