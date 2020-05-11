@@ -32,7 +32,7 @@ export class PatientsListComponent implements OnInit {
     new ColumnHeaderModel('Pathologies', 1),
     new ColumnHeaderModel('Actions', 1),
   ];
-  public menu: SideBarItemModel[];
+  public menu: SideBarItemModel[] = [];
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = ['fullName', 'age', 'genderCode'];
   public selectedItem: number;
@@ -62,6 +62,11 @@ export class PatientsListComponent implements OnInit {
   constructor(private _activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
+    // Carga menú lateral
+    const rootMenu = JSON.parse(localStorage.getItem('menu'));
+    this.menu = rootMenu.filter((item) => item.title === 'Paciente');
+    // fin carga menú lateral
+
     this.patients = this._activatedRoute.snapshot.data.patients.content;
 
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));

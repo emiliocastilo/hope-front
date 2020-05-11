@@ -28,7 +28,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 })
 export class PatientsListComponent implements OnInit {
   public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
-  public menu: SideBarItemModel[];
+  public menu: SideBarItemModel[] = [];
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;
@@ -50,6 +50,15 @@ export class PatientsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Carga menú lateral
+    const rootMenu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+      item.url.endsWith('/management')
+    )[0].children;
+    this.menu = rootMenu.filter((item) =>
+      item.url.endsWith('/management/patients')
+    );
+    // fin carga menú lateral
+
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;

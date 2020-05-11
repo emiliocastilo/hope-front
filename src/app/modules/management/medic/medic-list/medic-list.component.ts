@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
+import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 
 @Component({
   selector: 'app-medic-list',
@@ -24,6 +25,7 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model'
 })
 export class MedicListComponent implements OnInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+  public menu: SideBarItemModel[] = [];
 
   constructor(
     private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter,
@@ -57,6 +59,15 @@ export class MedicListComponent implements OnInit {
   public selectedDoctor = new MedicModel();
 
   ngOnInit() {
+    // Carga menú lateral
+    const rootMenu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+      item.url.endsWith('/management')
+    )[0].children;
+    this.menu = rootMenu.filter((item) =>
+      item.url.endsWith('/management/medics')
+    );
+    // fin carga menú lateral
+
     this.services = this._activatedRoute.snapshot.data.services;
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.medics = this._activatedRoute.snapshot.data.medics.content;
