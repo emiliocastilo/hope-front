@@ -96,13 +96,13 @@ export class PatientsListComponent implements OnInit {
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
-    Object.keys(this.patients[event]).map((patientKey: string) => {
-      if (this.modalForm.controls[patientKey]) {
-        this.modalForm.controls[patientKey].setValue(
-          this.patients[event][patientKey]
-        );
-      }
-    });
+    /*Object.keys(this.selectedPatient).map((patientKey: string) => {
+      this.modalForm.con.map((valueFrom: any, keyform: number) => {
+        if (valueFrom.name === patientKey) {
+          this.modalForm[keyform].value = this.selectedPatient[patientKey];
+        }
+      });
+    });*/
   }
 
   public onSelectItemDobleClick(event: number): void {
