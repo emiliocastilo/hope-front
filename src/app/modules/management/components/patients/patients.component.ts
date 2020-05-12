@@ -145,7 +145,7 @@ export class PatientsComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Paciente';
-    modalRef.componentInstance.messageModal = `Estas seguro que quieres eliminar el paciente 
+    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el paciente 
       ${this.patients[this.selectedItem].name} ${
       this.patients[this.selectedItem].firstSurname
     }?`;
