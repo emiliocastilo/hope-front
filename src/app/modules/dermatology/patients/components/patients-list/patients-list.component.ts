@@ -25,8 +25,6 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 export class PatientsListComponent implements OnInit {
   public PATIENTS_HEADER = PATIENT_DERMA_HEADERS;
   public columnsHeader: Array<ColumnHeaderModel>;
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;

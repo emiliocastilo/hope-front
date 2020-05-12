@@ -16,7 +16,7 @@
       for="{{ id }}"
       [ngClass]="{
         'date-label': type === 'date',
-        'dynamic-label': type === 'text'
+        'dynamic-label': type === 'text' || type === 'password'
       }"
       >{{ label | translate }}</label
     >
