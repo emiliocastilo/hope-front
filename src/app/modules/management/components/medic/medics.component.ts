@@ -2,7 +2,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import {
   Validators,
   FormGroup,
