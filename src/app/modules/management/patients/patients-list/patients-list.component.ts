@@ -1,10 +1,8 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PatientModel } from '../../models/patients/patient.model';
-import { PathologyModel } from '../../models/patients/pathology.model';
-import { PatientsService } from '../../services/patients/patients.service';
+import { PatientModel } from '../../models/patient.model';
+import { PatientsService } from '../../services/patients.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ToastrService } from 'ngx-toastr';
@@ -18,6 +16,8 @@ import {
   PATIENT_TABLE_KEYS,
 } from '../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
+import { PathologyModel } from 'src/app/modules/pathology/patients/models/pathology.model';
 
 @Component({
   selector: 'app-patients-list',
@@ -25,7 +25,8 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./patients-list.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
-  public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
+  public PATIENTS_HEADER = PATIENT_TABLE_HEADERS;
+  public columnsHeader: Array<ColumnHeaderModel>;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
@@ -49,6 +50,8 @@ export class PatientsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.PATIENTS_HEADER.splice(-1, 1);
+    this.columnsHeader = this.PATIENTS_HEADER;
     // Carga menú lateral
     this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
       item.url.endsWith('/management')
@@ -263,6 +266,7 @@ export class PatientsListComponent implements OnInit {
     patient.pathologies.forEach((pathology) => {
       pathologyList = pathologyList.concat(pathology.name).concat(';');
     });
+<<<<<<< HEAD:src/app/modules/management/patients/patients-list/patients-list.component.ts
     row.pushColumn(
       new ColumnDataModel('iconButtons', {
         iconButtons: [
@@ -277,6 +281,9 @@ export class PatientsListComponent implements OnInit {
         ],
       })
     );
+=======
+
+>>>>>>> Ajustes de estilos:src/app/modules/dermatology/patients/components/patients-list/patients-list.component.ts
     return row;
   }
 }
