@@ -137,7 +137,7 @@ export class PatientsListComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.success(error.error.error);
+          this._toastr.error(error.message);
         }
       );
   }
@@ -201,7 +201,8 @@ export class PatientsListComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          debugger;
+          this._toastr.error(error.message);
         }
       );
     } else {
@@ -211,7 +212,8 @@ export class PatientsListComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          debugger;
+          this._toastr.error(error.message);
         }
       );
     }
@@ -247,7 +249,8 @@ export class PatientsListComponent implements OnInit {
     row.pushColumn(new ColumnDataModel('text', patient.healthCard));
     row.pushColumn(new ColumnDataModel('text', patient.dni));
     row.pushColumn(new ColumnDataModel('text', patient.phone));
-    row.pushColumn(new ColumnDataModel('text', patient.genderCode));
+    const genderValue = patient.genderCode === 'M' ? 'Hombre' : 'Mujer';
+    row.pushColumn(new ColumnDataModel('text', genderValue));
     let pathologyList = '';
     patient.pathologies.forEach((pathology) => {
       pathologyList = pathologyList.concat(pathology.name).concat(';');

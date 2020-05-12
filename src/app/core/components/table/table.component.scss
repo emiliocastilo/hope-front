@@ -4,6 +4,12 @@
   font-size: 12px;
   word-break: break-all;
 
+  .col-md-1,
+  .col-md-2,
+  .col-md-3 {
+    padding: 0 6px;
+  }
+
   .master-table-column-headers {
     height: 2rem;
     font-weight: bold;
