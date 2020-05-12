@@ -2,12 +2,12 @@ import { Validators } from '@angular/forms';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 
 export const PATIENT_TABLE_HEADERS = [
-  new ColumnHeaderModel('Nombre paciente', 2),
+  new ColumnHeaderModel('Nombre', 2),
   new ColumnHeaderModel('Nhc', 2),
   new ColumnHeaderModel('Tarjeta sanitaria', 2),
   new ColumnHeaderModel('Dni', 1),
   new ColumnHeaderModel('Teléfono', 2),
-  new ColumnHeaderModel('Genero', 1),
+  new ColumnHeaderModel('Género', 1),
   new ColumnHeaderModel('Acciones', 2),
 ];
 export const PATIENT_TABLE_KEYS = [

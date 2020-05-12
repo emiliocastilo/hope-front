@@ -47,7 +47,6 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     } else {
       this.value = '';
     }
-    console.log('writeValue:', value);
     this.childControl.setValue(value);
   }
 

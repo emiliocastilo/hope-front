@@ -177,7 +177,7 @@ export class MedicListComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          this._toastr.error(error.message);
         }
       );
     } else {
@@ -188,7 +188,7 @@ export class MedicListComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          this._toastr.error(error.message);
         }
       );
     }

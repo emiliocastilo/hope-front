@@ -1,9 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PathologyModel } from '../../models/pathology.model';
 import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from '../../services/patients.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
@@ -26,7 +23,8 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
   styleUrls: ['./patients-list.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
-  public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
+  public PATIENTS_HEADER = PATIENT_TABLE_HEADERS;
+  public columnsHeader: Array<ColumnHeaderModel>;
   public menu: SideBarItemModel[] = [];
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
@@ -49,6 +47,8 @@ export class PatientsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.PATIENTS_HEADER.splice(-1, 1);
+    this.columnsHeader = this.PATIENTS_HEADER;
     // Carga menú lateral
     const rootMenu = JSON.parse(localStorage.getItem('menu'));
     this.menu = rootMenu.filter((item) => item.title === 'Paciente');
@@ -141,20 +141,7 @@ export class PatientsListComponent implements OnInit {
     patient.pathologies.forEach((pathology) => {
       pathologyList = pathologyList.concat(pathology.name).concat(';');
     });
-    // row.pushColumn(
-    //   new ColumnDataModel('iconButtons', {
-    //     iconButtons: [
-    //       {
-    //         type: 'edit',
-    //         icon: 'fa-lg fa-pencil',
-    //       },
-    //       {
-    //         type: 'delete',
-    //         icon: 'fa-lg fa-window-close cfa-red',
-    //       },
-    //     ],
-    //   })
-    // );
+
     return row;
   }
 }
