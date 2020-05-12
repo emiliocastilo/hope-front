@@ -5,15 +5,35 @@
       [ngSwitch]="formKey"
     >
       <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
-        <span class="ng-button" *ngSwitchCase="'genderCode'">
-          <label for="formKey" class="dynamic-label">
-            {{ 'modal.editor.field.' + formKey | lowercase | translate }}</label
-          >
-          <br />
-          <div
-            class="btn-group btn-group-toggle"
-            ngbRadioGroup
-            name="radioBasic"
+        <span *ngIf="!showSelect(formKey)">
+          <span class="ui-float-label" *ngSwitchCase="'genderCode'">
+            <label for="formKey" class="dynamic-label">
+              {{
+                'modal.editor.field.' + formKey | lowercase | translate
+              }}</label
+            >
+            <br />
+            <div
+              class="btn-group btn-group-toggle"
+              ngbRadioGroup
+              name="radioBasic"
+              [formControlName]="formKey"
+            >
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" value="M" /> Masculino
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" value="F" /> Femenino
+              </label>
+            </div>
+          </span>
+
+          <app-input
+            *ngSwitchDefault
+            [clases]="'dynamic'"
+            [id]="formKey"
+            [label]="'modal.editor.field.' + formKey | lowercase | translate"
+            [name]="formKey"
             [formControlName]="formKey"
           >
             <label ngbButtonLabel class="btn-primary">
