@@ -47,6 +47,7 @@
   "modal.editor.field.hospital": "Hospital",
   "modal.editor.field.username": "Nombre de usuario",
   "modal.editor.field.password": "Contraseña",
+  "modal.editor.field.description": "Descripción",
   "logout": "Desconectar",
   "fullName": "Nombre completo",
   "age": "Edad",

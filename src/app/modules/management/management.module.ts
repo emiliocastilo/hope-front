@@ -7,10 +7,10 @@ import { MedicRoutingModule } from './medic/medic-routing.module';
 import { ManagementRoutingModule } from './management-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { RolesComponent } from './roles/roles.component';
 
 @NgModule({
-  declarations: [ManagementComponent, RoleManagementComponent],
+  declarations: [ManagementComponent, RolesComponent],
   imports: [
     CommonModule,
     MedicRoutingModule,

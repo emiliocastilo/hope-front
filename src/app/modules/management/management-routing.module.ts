@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { ManagementComponent } from './components/management/management.component';
-import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { RolesComponent } from './roles/roles.component';
 
 const routes: Routes = [
   {
@@ -23,8 +23,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'role',
-    component: RoleManagementComponent,
+    path: 'roles',
+    component: RolesComponent,
     canActivate: [AuthGuard],
   },
 ];
