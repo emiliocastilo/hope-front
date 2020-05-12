@@ -16,21 +16,21 @@ import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
   styleUrls: ['./side-bar.component.scss'],
 })
 export class SideBarComponent implements OnInit {
-  public menu: Array<SideBarItemModel>;
+  @Input() menu: Array<SideBarItemModel>;
   @Input() currentMenuId: number;
 
   constructor(private activatedRoute: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    // this.activatedRoute.data.subscribe((response) => {
+    //   this.menu = this.showSideBar(response.menu.children);
+    // });
+  }
 
   showSideBar(menuArray: SideBarItemModel[]): SideBarItemModel[] {
     const rootMenu = menuArray.filter(
       (value: SideBarItemModel) => value.id === this.currentMenuId
     );
     return rootMenu;
-  }
-
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe((response) => {
-      this.menu = this.showSideBar(response.menu.children);
-    });
   }
 }

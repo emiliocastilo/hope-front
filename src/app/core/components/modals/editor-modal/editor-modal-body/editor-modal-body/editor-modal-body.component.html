@@ -1,8 +1,35 @@
 <div class="modal-body editor-modal-body m-2">
-  <dynamic-form
-    [config]="formConfig"
-    #formValue="dynamicForm"
-    (submit)="submitModalBody($event)"
-  >
-  </dynamic-form>
+  <form [formGroup]="form" novalidate>
+    <ng-container *ngFor="let formKey of formKeys; index as fieldIndex">
+      <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
+        <app-input
+          [id]="formKey"
+          [label]="'modal.editor.field.' + formKey | lowercase | translate"
+          [name]="formKey"
+          [formControlName]="formKey"
+          [value]="form.controls[formKey].value"
+          [placeholder]="
+            'modal.editor.field.' + formKey | lowercase | translate
+          "
+          *ngIf="!showSelect(formKey)"
+        >
+        </app-input>
+        <app-input-select
+          [id]="formKey"
+          [isDisabled]="false"
+          [labelValue]="'modal.editor.field.' + formKey | lowercase | translate"
+          [name]="formKey"
+          [options]="options[formKey]"
+          [currentValue]="form.controls[formKey].value"
+          [placeholder]="
+            'modal.editor.field.' + formKey | lowercase | translate
+          "
+          [selectMultiple]="false"
+          *ngIf="showSelect(formKey)"
+        >
+        </app-input-select>
+      </section>
+    </ng-container>
+    {{ form.value | json }}
+  </form>
 </div>

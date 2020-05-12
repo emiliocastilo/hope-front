@@ -5,18 +5,18 @@ import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 export class MedicModel {
   constructor(
     public id?: number,
-    public user?: UserModel,
     public name?: string,
     public surname?: string,
     public phone?: string,
     public dni?: string,
     public collegeNumber?: string,
+    public user?: UserModel,
     public username?: string,
     public password?: string,
     public email?: string,
     public service?: ServiceModel,
-    public services?: ServiceModel[],
-    public hospital?: HospitalModel[]
+    public hospital?: HospitalModel[],
+    public services?: ServiceModel[]
   ) {}
 
   public setValuesFromDinamicForm(form: any) {

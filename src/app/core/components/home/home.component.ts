@@ -15,6 +15,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this._activatedRoute.data.subscribe((response) => {
       this.modules = response.homeDashboard.children;
+      localStorage.setItem(
+        'menu',
+        JSON.stringify(response.homeDashboard.children)
+      );
     });
   }
 }

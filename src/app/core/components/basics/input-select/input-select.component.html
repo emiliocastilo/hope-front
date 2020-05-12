@@ -1,0 +1,20 @@
+<div class="form-group">
+  <span class="ui-float-label">
+    <label for="{{ id }}">
+      {{ labelValue | translate }}
+    </label>
+    <select
+      class="form-control"
+      name="{{ name }}"
+      id="{{ id }}"
+      [ngClass]="{ 'option-selected': optionSelected }"
+      (input)="onInput($event.target.value)"
+    >
+      <option *ngIf="!currentValue" value="">{{ placeholder }}</option>
+      <option *ngFor="let option of options" [ngValue]="option">
+        {{ option.name | translate }}
+      </option>
+    </select>
+    {{ value | json }}
+  </span>
+</div>

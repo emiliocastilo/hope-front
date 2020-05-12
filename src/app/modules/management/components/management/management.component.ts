@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 
 @Component({
   selector: 'app-management',
@@ -10,13 +11,16 @@ import { environment } from 'src/environments/environment';
 })
 export class ManagementComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
+  menu: SideBarItemModel[] = [];
   public menuId: number = environment.MENU_ID.CONTROL_PANEL;
 
-  constructor(private _activatedRoute: ActivatedRoute) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this._activatedRoute.data.subscribe((response) => {
-      this.modules = response.homeDashboard.children;
-    });
+    const rootMenu = JSON.parse(localStorage.getItem('menu'));
+    this.menu = rootMenu.filter((item) => item.url.endsWith('/management'));
+    this.modules = rootMenu.filter((item) =>
+      item.url.endsWith('/management')
+    )[0].children;
   }
 }

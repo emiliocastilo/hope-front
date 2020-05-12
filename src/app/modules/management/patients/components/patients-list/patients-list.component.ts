@@ -19,7 +19,7 @@ import {
   PATIENT_TABLE_KEYS,
   PATIENT_FORM,
 } from '../../../constants/patients.constants';
-import { Validators } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-patients-list',
@@ -28,14 +28,14 @@ import { Validators } from '@angular/forms';
 })
 export class PatientsListComponent implements OnInit {
   public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
-  public menu: SideBarItemModel[];
+  public menu: SideBarItemModel[] = [];
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;
   public selectedPatient: PatientModel = new PatientModel();
   public menuId: number = environment.MENU_ID.PATIENTS;
   public isEditing: boolean = false;
-  public formConfig: FieldConfig[] = [];
+  public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
   private currentPage: number = 0;
   public paginationData: PaginationModel;
@@ -45,52 +45,37 @@ export class PatientsListComponent implements OnInit {
     private _toastr: ToastrService,
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    // Carga menú lateral
+    const rootMenu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+      item.url.endsWith('/management')
+    )[0].children;
+    this.menu = rootMenu.filter((item) =>
+      item.url.endsWith('/management/patients')
+    );
+    // fin carga menú lateral
+
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
 
-    this.formConfig = PATIENT_FORM;
-
-    /* Hace falta que se pushee al menos estos elementos dado que los hospitales
-     * se obtienen desde la snapshot de la activatedRoute
-     */
-    this.formConfig.push(
-      {
-        type: 'select',
-        label: 'modal.editor.field.hospital',
-        name: 'hospital',
-        placeholder: 'modal.editor.field.hospital',
-        options: this.hospitals,
-        validation: [Validators.required],
-      },
-      {
-        type: 'radio',
-        label: 'modal.editor.field.genderCode',
-        name: 'genderCode',
-        placeholder: 'modal.editor.field.genderCode',
-        radioButton: [
-          {
-            optionName: 'Femenino',
-            value: 'F',
-          },
-          {
-            optionName: 'Masculino',
-            value: 'M',
-          },
-        ],
-        validation: [Validators.required],
-      },
-      {
-        label: 'btn.save',
-        name: 'btn.save',
-        type: 'button',
-        disabled: false,
-      }
-    );
+    this.modalForm = this._formBuilder.group({
+      name: ['', Validators.required],
+      firstSurname: ['', Validators.required],
+      lastSurname: ['', Validators.required],
+      nhc: ['', Validators.required],
+      healthCard: ['', Validators.required],
+      dni: ['', Validators.required],
+      address: ['', Validators.required],
+      phone: ['', Validators.required],
+      email: ['', Validators.required],
+      genderCode: ['', Validators.required],
+      birthDate: ['', Validators.required],
+    });
   }
 
   public prepareTableData(): Array<RowDataModel> {
@@ -111,12 +96,12 @@ export class PatientsListComponent implements OnInit {
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
-    Object.keys(this.selectedPatient).map((patientKey: string) => {
-      this.formConfig.map((valueFrom: any, keyform: number) => {
-        if (valueFrom.name === patientKey) {
-          this.formConfig[keyform].value = this.selectedPatient[patientKey];
-        }
-      });
+    Object.keys(this.patients[event]).map((patientKey: string) => {
+      if (this.modalForm.controls[patientKey]) {
+        this.modalForm.controls[patientKey].setValue(
+          this.patients[event][patientKey]
+        );
+      }
     });
   }
 
@@ -142,9 +127,9 @@ export class PatientsListComponent implements OnInit {
   }
 
   public savePatient(): void {
-    this.formConfig.map((valueFrom: any, keyform: number) => {
+    /*this.formConfig.map((valueFrom: any, keyform: number) => {
       this.formConfig[keyform].value = null;
-    });
+    });*/
     this.isEditing = false;
     this.selectedItem = null;
     this.showModal();
@@ -175,7 +160,8 @@ export class PatientsListComponent implements OnInit {
     });
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
-    modalRef.componentInstance.formConfig = this.formConfig;
+    //   debugger
+    modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
     });
@@ -185,7 +171,7 @@ export class PatientsListComponent implements OnInit {
   }
 
   private saveOrUpdate(event: any, modalRef: any): void {
-    const formValues: PatientModel = event;
+    const formValues: PatientModel = event.value;
     let id;
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;

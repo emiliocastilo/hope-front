@@ -1,8 +1,9 @@
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
-import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
 import { NgModule } from '@angular/core';
-import { PatientsListComponent } from './components/patients-list/patients-list.component';
 import { Routes, RouterModule } from '@angular/router';
+
+import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
+import { PatientsListComponent } from './components/patients-list/patients-list.component';
 import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
 import { PatientsResolverService } from '../services/patients/patients-resolver.service';
 
