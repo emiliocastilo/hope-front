@@ -17,6 +17,7 @@ export class SideBarMenuComponent implements OnInit {
   public LEVEL_ONE = 1;
 
   @Input() menu: Array<SideBarItemModel>;
+  @Input() selected: SideBarItemModel;
   @Input() level: number;
 
   constructor(
