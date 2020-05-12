@@ -1,22 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
-import {
-  PATIENT_TABLE_HEADERS,
-  PATIENT_TABLE_KEYS,
-} from 'src/app/modules/management/constants/patients.constants';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PatientModel } from '../../models/patient.model';
 import { environment } from 'src/environments/environment';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { PatientsService } from '../../services/patients.service';
-import { ToastrService } from 'ngx-toastr';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-
-import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-patients',
