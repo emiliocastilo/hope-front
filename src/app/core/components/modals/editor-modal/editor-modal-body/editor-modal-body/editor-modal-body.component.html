@@ -45,13 +45,11 @@
         <app-input-select
           [id]="formKey"
           [isDisabled]="false"
-          [labelValue]="'modal.editor.field.' + formKey | lowercase | translate"
+          [labelValue]="'modal.editor.field.' + formKey | translate"
           [name]="formKey"
           [options]="options[formKey]"
           [currentValue]="form.controls[formKey].value"
-          [placeholder]="
-            'modal.editor.field.' + formKey | lowercase | translate
-          "
+          [placeholder]="'modal.editor.field.' + formKey | translate"
           [selectMultiple]="false"
           [form]="form"
           *ngIf="showSelect(formKey)"

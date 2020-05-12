@@ -3,7 +3,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import {
+  Validators,
+  FormGroup,
+  FormBuilder,
+  FormControl,
+} from '@angular/forms';
 import { MedicModel } from 'src/app/modules/management/models/medic/medic.model';
 import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-model.adapter';
 import { MedicService } from 'src/app/modules/management/services/medic/medic.service';
@@ -83,7 +88,7 @@ export class MedicListComponent implements OnInit {
       phone: ['', Validators.required],
       email: ['', Validators.required],
       collegeNumber: ['', Validators.required],
-      service: [null, Validators.required],
+      serviceDTO: [null, Validators.required],
       hospital: [null, Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -111,7 +116,7 @@ export class MedicListComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedItem = event;
 
-    this.medics[event].service = [this.medics[event].service as any];
+    this.medics[event].serviceDTO = [this.medics[event].serviceDTO as any];
 
     this.selectedDoctor.setValuesFromObject(this.medics[event], this.hospitals);
 
@@ -133,6 +138,8 @@ export class MedicListComponent implements OnInit {
   }
 
   public saveDoctor(): void {
+    const control = new FormControl('', Validators.required);
+    this.modalForm.addControl('password', control);
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
@@ -140,6 +147,7 @@ export class MedicListComponent implements OnInit {
   }
 
   public editDoctor(): void {
+    this.modalForm.removeControl('password');
     this.isEditing = true;
     this.showModal();
   }
@@ -150,7 +158,7 @@ export class MedicListComponent implements OnInit {
     const currentDoctor = this.medics[this.selectedItem];
     if (this.isEditing) {
       id = currentDoctor.id;
-      formValues.user = currentDoctor.user;
+      formValues.userDTO = currentDoctor.userDTO;
     }
 
     const doctor: MedicModel = new MedicModel(
@@ -160,11 +168,11 @@ export class MedicListComponent implements OnInit {
       formValues.phone,
       formValues.dni,
       formValues.collegeNumber,
-      formValues.user,
+      formValues.userDTO,
       formValues.username,
       formValues.password,
       formValues.email,
-      formValues.service,
+      formValues.serviceDTO,
       formValues.hospital
     );
 
@@ -202,7 +210,7 @@ export class MedicListComponent implements OnInit {
     });
     const options = {
       hospital: this.hospitals,
-      service: this.services,
+      serviceDTO: this.services,
     };
     modalRef.componentInstance.id = 'doctoreditor';
     modalRef.componentInstance.title = 'Médico';
