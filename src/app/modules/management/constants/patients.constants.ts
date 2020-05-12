@@ -5,10 +5,19 @@ export const PATIENT_TABLE_HEADERS = [
   new ColumnHeaderModel('Nombre', 2),
   new ColumnHeaderModel('Nhc', 2),
   new ColumnHeaderModel('Tarjeta sanitaria', 2),
-  new ColumnHeaderModel('Dni', 1),
+  new ColumnHeaderModel('Dni', 2),
   new ColumnHeaderModel('Teléfono', 2),
   new ColumnHeaderModel('Género', 1),
-  new ColumnHeaderModel('Acciones', 2),
+  new ColumnHeaderModel('Acciones', 1),
+];
+
+export const PATIENT_DERMA_HEADERS = [
+  new ColumnHeaderModel('Nombre', 2),
+  new ColumnHeaderModel('Nhc', 2),
+  new ColumnHeaderModel('Tarjeta sanitaria', 2),
+  new ColumnHeaderModel('Dni', 2),
+  new ColumnHeaderModel('Teléfono', 2),
+  new ColumnHeaderModel('Género', 2),
 ];
 export const PATIENT_TABLE_KEYS = [
   'name',

@@ -12,7 +12,7 @@ import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import {
-  PATIENT_TABLE_HEADERS,
+  PATIENT_DERMA_HEADERS,
   PATIENT_TABLE_KEYS,
 } from 'src/app/modules/management/constants/patients.constants';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
@@ -23,7 +23,7 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
   styleUrls: ['./patients-list.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
-  public PATIENTS_HEADER = PATIENT_TABLE_HEADERS;
+  public PATIENTS_HEADER = PATIENT_DERMA_HEADERS;
   public columnsHeader: Array<ColumnHeaderModel>;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
@@ -48,7 +48,7 @@ export class PatientsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.PATIENTS_HEADER.splice(-1, 1);
+    // this.PATIENTS_HEADER.splice(-1, 1);
     this.columnsHeader = this.PATIENTS_HEADER;
     // Carga menú lateral
     this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
@@ -138,7 +138,8 @@ export class PatientsListComponent implements OnInit {
     row.pushColumn(new ColumnDataModel('text', patient.healthCard));
     row.pushColumn(new ColumnDataModel('text', patient.dni));
     row.pushColumn(new ColumnDataModel('text', patient.phone));
-    row.pushColumn(new ColumnDataModel('text', patient.genderCode));
+    const genderValue = patient.genderCode === 'M' ? 'Hombre' : 'Mujer';
+    row.pushColumn(new ColumnDataModel('text', genderValue));
     let pathologyList = '';
     patient.pathologies.forEach((pathology) => {
       pathologyList = pathologyList.concat(pathology.name).concat(';');
