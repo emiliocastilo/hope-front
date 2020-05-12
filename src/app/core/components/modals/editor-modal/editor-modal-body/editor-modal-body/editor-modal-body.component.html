@@ -5,8 +5,8 @@
       [ngSwitch]="formKey"
     >
       <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
-        <span class="ui-float-label" *ngSwitchCase="'genderCode'">
-          <label for="formKey">
+        <span class="ng-button" *ngSwitchCase="'genderCode'">
+          <label for="formKey" class="dynamic-label">
             {{ 'modal.editor.field.' + formKey | lowercase | translate }}</label
           >
           <br />
