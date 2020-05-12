@@ -20,6 +20,7 @@ import {
   PATIENT_FORM,
 } from '../../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-patients-list',
@@ -112,7 +113,7 @@ export class PatientsListComponent implements OnInit {
     if (event && event.type === 'edit') {
       this.editPatient();
     } else if (event && event.type === 'delete') {
-      this.deletePatient();
+      this.showModalConfirm();
     }
   }
 
@@ -142,13 +143,29 @@ export class PatientsListComponent implements OnInit {
       );
   }
 
+  private showModalConfirm() {
+    const modalRef = this._modalService.open(ConfirmModalComponent);
+
+    modalRef.componentInstance.title = 'Eliminar Paciente';
+    modalRef.componentInstance.messageModal = `Estas seguro que quieres eliminar el paciente 
+      ${this.patients[this.selectedItem].name} ${
+      this.patients[this.selectedItem].firstSurname
+    }?`;
+    modalRef.componentInstance.cancel.subscribe((event) => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.accept.subscribe((event) => {
+      this.deletePatient();
+      modalRef.close();
+    });
+  }
+
   private showModal() {
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
-    //   debugger
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
