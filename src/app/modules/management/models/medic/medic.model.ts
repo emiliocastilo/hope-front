@@ -14,13 +14,13 @@ export class MedicModel {
     public username?: string,
     public password?: string,
     public email?: string,
-    public service?: ServiceModel,
-    public services?: ServiceModel[],
-    public hospital?: HospitalModel[]
+    public service?: ServiceModel[],
+    public hospital?: HospitalModel[],
+    public services?: ServiceModel[]
   ) {}
 
   public setValuesFromDinamicForm(form: any) {
-    const service: ServiceModel = form.services ? form.services[0] : null;
+    const service: ServiceModel = form.service ? form.service[0] : null;
     const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
 
     const user: UserModel = {
@@ -29,7 +29,7 @@ export class MedicModel {
       password: form.password,
       email: form.email,
       roles: [2],
-      hospitalId: hospital.id,
+      hospitalId: hospital ? hospital.id : null,
     };
 
     this.name = form.name;
@@ -38,13 +38,11 @@ export class MedicModel {
     this.dni = form.dni;
     this.collegeNumber = form.collegeNumber;
     this.user = user;
-    this.service = service;
+    this.service = service as any;
   }
 
   public setValuesFromObject(object: MedicModel, hospitals: HospitalModel[]) {
-    const service: ServiceModel = object.service;
-    const services: ServiceModel[] = [];
-    services.push(service);
+    const services: ServiceModel[] = object.service;
 
     const user: UserModel = object.user;
 
@@ -62,7 +60,7 @@ export class MedicModel {
     this.dni = object.dni;
     this.collegeNumber = object.collegeNumber;
     this.user = user;
-    this.services = services;
+    this.service = services;
     this.hospital = hospital;
   }
 

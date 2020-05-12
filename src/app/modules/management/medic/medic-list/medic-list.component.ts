@@ -111,9 +111,11 @@ export class MedicListComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedItem = event;
 
+    this.medics[event].service = [this.medics[event].service as any];
+
     this.selectedDoctor.setValuesFromObject(this.medics[event], this.hospitals);
 
-    Object.keys(this.medics[event]).map((doctorKey: string) => {
+    Object.keys(this.selectedDoctor).map((doctorKey: string) => {
       if (this.modalForm.controls[doctorKey]) {
         this.modalForm.controls[doctorKey].setValue(
           this.medics[event][doctorKey]
@@ -144,6 +146,7 @@ export class MedicListComponent implements OnInit {
     // });
     this.isEditing = false;
     this.selectedItem = null;
+    this.modalForm.reset();
     this.showModal();
   }
 
@@ -161,18 +164,6 @@ export class MedicListComponent implements OnInit {
       formValues.user = currentDoctor.user;
     }
 
-    const services = formValues.service
-      ? formValues.service[0]
-        ? formValues.service[0]
-        : formValues.service
-      : formValues.service;
-
-    // const hospital = formValues.hospital
-    //   ? formValues.hospital[0]
-    //     ? formValues.hospital[0]
-    //     : formValues.hospital
-    //   : formValues.hospital;
-
     const doctor: MedicModel = new MedicModel(
       id,
       formValues.name,
@@ -184,12 +175,11 @@ export class MedicListComponent implements OnInit {
       formValues.username,
       formValues.password,
       formValues.email,
-      services
-      // hospital
+      formValues.service,
+      formValues.hospital
     );
 
-    //   let doctor: MedicModel = new MedicModel(id);
-    //   doctor.setValuesFromDinamicForm(formValues);
+    doctor.setValuesFromDinamicForm(formValues);
 
     if (this.isEditing) {
       this._medicService.updateDoctor(doctor).subscribe(
