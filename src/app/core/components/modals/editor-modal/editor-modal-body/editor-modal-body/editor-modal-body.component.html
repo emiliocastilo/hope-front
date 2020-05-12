@@ -30,6 +30,7 @@
 
           <app-input
             *ngSwitchDefault
+            [clases]="'dynamic'"
             [id]="formKey"
             [label]="'modal.editor.field.' + formKey | lowercase | translate"
             [name]="formKey"

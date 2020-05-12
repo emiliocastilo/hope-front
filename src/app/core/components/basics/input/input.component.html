@@ -6,7 +6,11 @@
       [value]="value"
       attr.maxlength="{{ maxlength }}"
       attr.placeholder="{{ placeholder | translate }}"
-      class="dynamic-field"
+      class="form-control {{ clases }}"
+      [ngClass]="{
+        'form-control': clases === '',
+        'dynamic-field': clases === 'dynamic'
+      }"
       id="{{ id }}"
       name="{{ name }}"
       required="{{ required }}"
