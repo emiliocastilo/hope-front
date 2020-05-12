@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ButtonComponent } from './components/basics/button/button.component';
 import { InputComponent } from './components/basics/input/input.component';
+import { InputSelectComponent } from './components/basics/input-select/input-select.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -37,6 +38,7 @@ import { FormSwitchComponent } from './components/basics/form-switch/form-switch
 import { SwitchComponent } from './components/basics/app-switch/app-switch.component';
 import { PaginationComponent } from './components/basics/pagination/pagination.component';
 import { FormTextareaComponent } from './components/basics/form-textarea/form-textarea.component';
+import { Router, RouterModule } from '@angular/router';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -54,6 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
     HomeDashboardModuleComponent,
     ButtonComponent,
     InputComponent,
+    InputSelectComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,
@@ -80,6 +83,7 @@ export function createTranslateLoader(http: HttpClient) {
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
+    RouterModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -102,6 +106,7 @@ export function createTranslateLoader(http: HttpClient) {
     HomeDashboardModuleComponent,
     ButtonComponent,
     InputComponent,
+    InputSelectComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,

@@ -29,6 +29,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 export class PatientsListComponent implements OnInit {
   public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
   public menu: SideBarItemModel[] = [];
+  public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;
@@ -51,10 +52,10 @@ export class PatientsListComponent implements OnInit {
 
   ngOnInit(): void {
     // Carga menú lateral
-    const rootMenu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
       item.url.endsWith('/management')
-    )[0].children;
-    this.menu = rootMenu.filter((item) =>
+    );
+    this.menuSelected = this.menu[0].children.find((item) =>
       item.url.endsWith('/management/patients')
     );
     // fin carga menú lateral
@@ -87,10 +88,6 @@ export class PatientsListComponent implements OnInit {
     return rows;
   }
 
-  public goToDermatologiPatients(): void {
-    this._router.navigate(['dermatology/patients']);
-  }
-
   public onSelectedItem(event: number): void {
     this.selectedPatient = this.patients[event];
     const selectedUser = JSON.stringify(this.selectedPatient || {});
@@ -120,11 +117,9 @@ export class PatientsListComponent implements OnInit {
   }
 
   public savePatient(): void {
-    /*this.formConfig.map((valueFrom: any, keyform: number) => {
-      this.formConfig[keyform].value = null;
-    });*/
     this.isEditing = false;
     this.selectedItem = null;
+    this.modalForm.reset();
     this.showModal();
   }
 

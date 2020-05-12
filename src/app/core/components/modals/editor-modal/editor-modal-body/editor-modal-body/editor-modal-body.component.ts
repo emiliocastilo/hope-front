@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class EditorModalBodyComponent implements OnInit {
   @Input() id: string;
   @Input() form: FormGroup;
+  @Input() options: any = {};
   public formKeys: Array<string> = [];
 
   constructor() {}
@@ -16,7 +17,14 @@ export class EditorModalBodyComponent implements OnInit {
   ngOnInit(): void {
     if (this.form) {
       this.formKeys = Object.keys(this.form.controls);
-      // debugger;
     }
+  }
+
+  public showSelect(key: string) {
+    const selectType = {
+      hospital: true,
+      service: true,
+    };
+    return selectType[key];
   }
 }

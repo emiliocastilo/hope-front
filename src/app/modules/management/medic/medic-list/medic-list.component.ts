@@ -26,6 +26,7 @@ import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.mod
 export class MedicListComponent implements OnInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
   public menu: SideBarItemModel[] = [];
+  public menuSelected: SideBarItemModel;
 
   constructor(
     private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter,
@@ -37,7 +38,6 @@ export class MedicListComponent implements OnInit {
     private _activatedRoute: ActivatedRoute
   ) {}
 
-  //  public formConfig: FieldConfig[] = [];
   public modalForm: FormGroup;
   public columHeaders: Array<ColumnHeaderModel> = [
     new ColumnHeaderModel('Nombre', 2),
@@ -62,12 +62,13 @@ export class MedicListComponent implements OnInit {
 
   ngOnInit() {
     // Carga menú lateral
-    const rootMenu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
       item.url.endsWith('/management')
-    )[0].children;
-    this.menu = rootMenu.filter((item) =>
+    );
+    this.menuSelected = this.menu[0].children.find((item) =>
       item.url.endsWith('/management/medics')
     );
+    console.log(this.menuSelected);
     // fin carga menú lateral
 
     this.services = this._activatedRoute.snapshot.data.services;
@@ -82,7 +83,8 @@ export class MedicListComponent implements OnInit {
       phone: ['', Validators.required],
       email: ['', Validators.required],
       collegeNumber: ['', Validators.required],
-      service: ['', Validators.required],
+      service: [null, Validators.required],
+      hospital: [null, Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
@@ -109,23 +111,17 @@ export class MedicListComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedItem = event;
 
-    this.selectedDoctor.setValuesFromObject(this.medics[event]);
+    this.medics[event].service = [this.medics[event].service as any];
 
-    Object.keys(this.medics[event]).map((doctorKey: string) => {
+    this.selectedDoctor.setValuesFromObject(this.medics[event], this.hospitals);
+
+    Object.keys(this.selectedDoctor).map((doctorKey: string) => {
       if (this.modalForm.controls[doctorKey]) {
         this.modalForm.controls[doctorKey].setValue(
-          this.medics[event][doctorKey]
+          this.selectedDoctor[doctorKey]
         );
       }
     });
-
-    // Object.keys(this.,selectedDoctor).map((doctorKey: string) => {
-    //   this.formConfig.map((valueFrom: any, keyform: number) => {
-    //     if (valueFrom.name === doctorKey) {
-    //       this.formConfig[keyform].value = this.selectedDoctor[doctorKey];
-    //     }
-    //   });
-    // });
   }
 
   public onIconButtonClick(event: any): void {
@@ -137,11 +133,9 @@ export class MedicListComponent implements OnInit {
   }
 
   public saveDoctor(): void {
-    // this.formConfig.map((valueFrom: any, keyform: number) => {
-    //   this.formConfig[keyform].value = null;
-    // });
     this.isEditing = false;
     this.selectedItem = null;
+    this.modalForm.reset();
     this.showModal();
   }
 
@@ -153,21 +147,11 @@ export class MedicListComponent implements OnInit {
   private saveOrUpdate(event: any, modalRef: any): void {
     const formValues: MedicModel = event.value;
     let id: number;
+    const currentDoctor = this.medics[this.selectedItem];
     if (this.isEditing) {
-      id = this.medics[this.selectedItem].id;
+      id = currentDoctor.id;
+      formValues.user = currentDoctor.user;
     }
-
-    const services = formValues.service
-      ? formValues.service[0]
-        ? formValues.service[0]
-        : formValues.service
-      : formValues.service;
-
-    // const hospital = formValues.hospital
-    //   ? formValues.hospital[0]
-    //     ? formValues.hospital[0]
-    //     : formValues.hospital
-    //   : formValues.hospital;
 
     const doctor: MedicModel = new MedicModel(
       id,
@@ -180,32 +164,33 @@ export class MedicListComponent implements OnInit {
       formValues.username,
       formValues.password,
       formValues.email,
-      services
-      // hospital
+      formValues.service,
+      formValues.hospital
     );
 
-    //   let doctor: MedicModel = new MedicModel(id);
-    //   doctor.setValuesFromDinamicForm(formValues);
+    doctor.setValuesFromDinamicForm(formValues);
 
     if (this.isEditing) {
       this._medicService.updateDoctor(doctor).subscribe(
         (response) => {
+          this._toastr.success('Usuario actualizado exitosamente');
           this.isEditing = false;
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          this._toastr.error(error.message);
         }
       );
     } else {
       this._medicService.postDoctor(doctor).subscribe(
         (response) => {
+          this._toastr.success('Usuario creado exitosamente');
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          this._toastr.error(error.message);
         }
       );
     }
@@ -215,8 +200,13 @@ export class MedicListComponent implements OnInit {
     let modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
+    const options = {
+      hospital: this.hospitals,
+      service: this.services,
+    };
     modalRef.componentInstance.id = 'doctoreditor';
     modalRef.componentInstance.title = 'Médico';
+    modalRef.componentInstance.options = options;
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();

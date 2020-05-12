@@ -14,19 +14,22 @@ export class MedicModel {
     public username?: string,
     public password?: string,
     public email?: string,
-    public service?: ServiceModel,
-    public hospital?: HospitalModel
+    public service?: ServiceModel[],
+    public hospital?: HospitalModel[],
+    public services?: ServiceModel[]
   ) {}
 
   public setValuesFromDinamicForm(form: any) {
     const service: ServiceModel = form.service ? form.service[0] : null;
+    const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
 
     const user: UserModel = {
+      id: form.user ? form.user.id : null,
       username: form.username,
       password: form.password,
       email: form.email,
       roles: [2],
-      hospitalId: form.hospitals ? form.hospitals[0].id : null,
+      hospitalId: hospital ? hospital.id : null,
     };
 
     this.name = form.name;
@@ -35,13 +38,18 @@ export class MedicModel {
     this.dni = form.dni;
     this.collegeNumber = form.collegeNumber;
     this.user = user;
-    this.service = service;
+    this.service = service as any;
   }
 
-  public setValuesFromObject(object: MedicModel) {
-    const service: ServiceModel = object.service;
+  public setValuesFromObject(object: MedicModel, hospitals: HospitalModel[]) {
+    const services: ServiceModel[] = object.service;
 
     const user: UserModel = object.user;
+
+    const hospital: HospitalModel[] = this.setHospital(
+      user.hospitalId,
+      hospitals
+    );
 
     this.id = object.id;
     this.username = user.username;
@@ -52,6 +60,11 @@ export class MedicModel {
     this.dni = object.dni;
     this.collegeNumber = object.collegeNumber;
     this.user = user;
-    this.service = service;
+    this.service = services;
+    this.hospital = hospital;
+  }
+
+  private setHospital(id: number, hospitals: HospitalModel[]): HospitalModel[] {
+    return hospitals.filter((value: HospitalModel) => value.id === id);
   }
 }

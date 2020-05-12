@@ -12,6 +12,7 @@ export class EditorModalComponent implements OnInit {
   @Input() form: FormGroup;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<FormGroup> = new EventEmitter();
+  @Input() options: any = {};
   public type: string = 'lg';
 
   constructor() {}
