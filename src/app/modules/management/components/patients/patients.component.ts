@@ -140,6 +140,23 @@ export class PatientsComponent implements OnInit {
       );
   }
 
+  private showModalConfirm() {
+    const modalRef = this._modalService.open(ConfirmModalComponent);
+
+    modalRef.componentInstance.title = 'Eliminar Paciente';
+    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el paciente 
+      ${this.patients[this.selectedItem].name} ${
+      this.patients[this.selectedItem].firstSurname
+    }?`;
+    modalRef.componentInstance.cancel.subscribe((event) => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.accept.subscribe((event) => {
+      this.deletePatient();
+      modalRef.close();
+    });
+  }
+
   private showModal() {
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
