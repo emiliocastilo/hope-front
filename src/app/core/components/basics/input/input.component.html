@@ -6,11 +6,7 @@
       [value]="value"
       attr.maxlength="{{ maxlength }}"
       attr.placeholder="{{ placeholder | translate }}"
-      class="form-control {{ clases }}"
-      [ngClass]="{
-        'form-control': clases === '',
-        'dynamic-field': clases === 'dynamic'
-      }"
+      class="dynamic-field"
       id="{{ id }}"
       name="{{ name }}"
       required="{{ required }}"
@@ -20,7 +16,7 @@
       for="{{ id }}"
       [ngClass]="{
         'date-label': type === 'date',
-        'dynamic-label': type === 'text'
+        'dynamic-label': type === 'text' || type === 'password'
       }"
       >{{ label | translate }}</label
     >

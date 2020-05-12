@@ -4,37 +4,37 @@
   margin-bottom: 0;
 }
 
-input.login {
-  &[type='text'],
-  &[type='password'] {
-    background-color: $app-color-gray-light;
-    color: $app-color-black;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 5px;
-    width: 100%;
-    border: 2px solid $app-color-gray-light;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -ms-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
-  }
+// input.login {
+//   &[type='text'],
+//   &[type='password'] {
+//     background-color: $app-color-gray-light;
+//     color: $app-color-black;
+//     padding: 15px 32px;
+//     text-align: center;
+//     text-decoration: none;
+//     display: inline-block;
+//     font-size: 16px;
+//     margin: 5px;
+//     width: 100%;
+//     border: 2px solid $app-color-gray-light;
+//     -webkit-transition: all 0.5s ease-in-out;
+//     -moz-transition: all 0.5s ease-in-out;
+//     -ms-transition: all 0.5s ease-in-out;
+//     -o-transition: all 0.5s ease-in-out;
+//     transition: all 0.5s ease-in-out;
+//     -webkit-border-radius: 5px 5px 5px 5px;
+//     border-radius: 5px 5px 5px 5px;
+//   }
 
-  &:focus {
-    background-color: $app-color-white;
-    border-bottom: 2px solid $app-color-blue-light;
-  }
+//   &:focus {
+//     background-color: $app-color-white;
+//     border-bottom: 2px solid $app-color-blue-light;
+//   }
 
-  &:placeholder {
-    color: $app-color-gray-medium;
-  }
-}
+//   &:placeholder {
+//     color: $app-color-gray-medium;
+//   }
+// }
 
 .fadeInDown {
   -webkit-animation-name: fadeindown;
