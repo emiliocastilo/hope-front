@@ -23,7 +23,7 @@ export class EditorModalBodyComponent implements OnInit {
   public showSelect(key: string) {
     const selectType = {
       hospital: true,
-      service: true,
+      serviceDTO: true,
     };
     return selectType[key];
   }
