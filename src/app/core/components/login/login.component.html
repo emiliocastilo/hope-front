@@ -17,9 +17,7 @@
                     maxlength="20"
                     formControlName="username"
                     [isDisabled]="false"
-                    class="fadeIn second"
-                    clases="login"
-                    placeholder="usuario"
+                    [label]="'modal.editor.field.username' | translate"
                   >
                   </app-input>
                   <div
@@ -36,9 +34,7 @@
                     name="password"
                     type="password"
                     formControlName="password"
-                    class="fadeIn second"
-                    clases="login"
-                    placeholder="contraseña"
+                    [label]="'modal.editor.field.password' | translate"
                   >
                   </app-input>
                   <div
