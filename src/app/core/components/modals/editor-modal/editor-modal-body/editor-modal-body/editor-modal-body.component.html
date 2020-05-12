@@ -5,39 +5,58 @@
       [ngSwitch]="formKey"
     >
       <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
-        <span class="ui-float-label" *ngSwitchCase="'genderCode'">
-          <label for="formKey">
-            {{ 'modal.editor.field.' + formKey | lowercase | translate }}</label
-          >
-          <br />
-          <div
-            class="btn-group btn-group-toggle"
-            ngbRadioGroup
-            name="radioBasic"
-            [formControlName]="formKey"
-          >
-            <label ngbButtonLabel class="btn-primary">
-              <input ngbButton type="radio" value="M" /> Masculino
-            </label>
-            <label ngbButtonLabel class="btn-primary">
-              <input ngbButton type="radio" value="F" /> Femenino
-            </label>
-          </div>
-        </span>
+        <span *ngIf="!showSelect(formKey)">
+          <span class="ui-float-label" *ngSwitchCase="'genderCode'">
+            <label for="formKey">
+              {{
+                'modal.editor.field.' + formKey | lowercase | translate
+              }}</label
+            >
+            <br />
+            <div
+              class="btn-group btn-group-toggle"
+              ngbRadioGroup
+              name="radioBasic"
+              [formControlName]="formKey"
+            >
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" value="M" /> Masculino
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" value="F" /> Femenino
+              </label>
+            </div>
+          </span>
 
-        <app-input
-          *ngSwitchDefault
+          <app-input
+            *ngSwitchDefault
+            [id]="formKey"
+            [label]="'modal.editor.field.' + formKey | lowercase | translate"
+            [name]="formKey"
+            [formControlName]="formKey"
+            [value]="form.controls[formKey].value"
+            [placeholder]="
+              'modal.editor.field.' + formKey | lowercase | translate
+            "
+            [type]="formKey === 'birthDate' ? 'date' : 'text'"
+          >
+          </app-input>
+        </span>
+        <app-input-select
           [id]="formKey"
-          [label]="'modal.editor.field.' + formKey | lowercase | translate"
+          [isDisabled]="false"
+          [labelValue]="'modal.editor.field.' + formKey | lowercase | translate"
           [name]="formKey"
-          [formControlName]="formKey"
-          [value]="form.controls[formKey].value"
+          [options]="options[formKey]"
+          [currentValue]="form.controls[formKey].value"
           [placeholder]="
             'modal.editor.field.' + formKey | lowercase | translate
           "
-          [type]="formKey === 'birthDate' ? 'date' : 'text'"
+          [selectMultiple]="false"
+          [form]="form"
+          *ngIf="showSelect(formKey)"
         >
-        </app-input>
+        </app-input-select>
       </section>
     </ng-container>
   </form>

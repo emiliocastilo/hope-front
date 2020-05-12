@@ -15,12 +15,10 @@ export class MedicService {
   }
 
   findDoctors(medicModel: string): Observable<any> {
-    console.log('medicModel:', medicModel);
     return this._http.get('/doctors/searches?search=' + medicModel);
   }
 
   postDoctor(medicModel: MedicModel): Observable<any> {
-    console.log('medicModel:', medicModel);
     return this._http.post('/doctors', medicModel);
   }
 
