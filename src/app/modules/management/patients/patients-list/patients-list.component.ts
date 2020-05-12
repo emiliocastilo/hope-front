@@ -135,7 +135,7 @@ export class PatientsListComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.success(error.error.error);
+          this._toastr.error(error.message);
         }
       );
   }
@@ -199,7 +199,8 @@ export class PatientsListComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          debugger;
+          this._toastr.error(error.message);
         }
       );
     } else {
@@ -209,7 +210,8 @@ export class PatientsListComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          debugger;
+          this._toastr.error(error.message);
         }
       );
     }
