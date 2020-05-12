@@ -17,6 +17,7 @@ import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 })
 export class SideBarComponent implements OnInit {
   @Input() menu: Array<SideBarItemModel>;
+  @Input() selected: SideBarItemModel;
   @Input() currentMenuId: number;
 
   constructor(private activatedRoute: ActivatedRoute) {}
