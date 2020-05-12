@@ -5,7 +5,7 @@ import { HospitalResolverService } from 'src/app/core/services/hospital/hospital
 import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-resolver.service';
 import { PatientsResolverService } from '../management/services/patients/patients-resolver.service';
 import { PatientsComponent } from './patients/components/patients/patients.component';
-import { DashboardComponent } from 'src/app/core/components/dashboard/dashboard.component';
+import { DashboardPatientsComponent } from './patients/components/dashboard-patients/dashboard-patients.component';
 
 const routes: Routes = [
   {
@@ -13,14 +13,16 @@ const routes: Routes = [
     component: PatientsComponent,
     resolve: {
       hospitals: HospitalResolverService,
-      menu: SideBarResolverService,
       patients: PatientsResolverService,
     },
     canActivate: [AuthGuard],
   },
   {
     path: 'patients/dashboard',
-    component: DashboardComponent,
+    component: DashboardPatientsComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
     canActivate: [AuthGuard],
   },
 ];
@@ -29,4 +31,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DermatologyRoutingModule {}
+export class PathologyRoutingModule {}

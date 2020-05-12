@@ -21,9 +21,9 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 
 @Component({
-  selector: 'app-patients-list',
-  templateUrl: './patients-list.component.html',
-  styleUrls: ['./patients-list.component.scss'],
+  selector: 'app-patients',
+  templateUrl: './patients.component.html',
+  styleUrls: ['./patients.component.scss'],
 })
 export class PatientsListComponent implements OnInit {
   public PATIENTS_HEADER = PATIENT_TABLE_HEADERS;

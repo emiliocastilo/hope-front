@@ -2,8 +2,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PatientModel } from '../../models/patient.model';
+import { PatientsService } from '../../services/patients.service';
+import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -13,17 +16,15 @@ import {
   PATIENT_TABLE_KEYS,
 } from 'src/app/modules/management/constants/patients.constants';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
-import { PatientsService } from '../../services/patients.service';
-import { ToastrService } from 'ngx-toastr';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss'],
 })
-export class PatientsListComponent implements OnInit {
+export class PatientsComponent implements OnInit {
   public PATIENTS_HEADER = PATIENT_DERMA_HEADERS;
+
   public columnsHeader: Array<ColumnHeaderModel>;
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
@@ -46,13 +47,7 @@ export class PatientsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.PATIENTS_HEADER.splice(-1, 1);
     this.columnsHeader = this.PATIENTS_HEADER;
-    // Carga menú lateral
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/dermatology/patients')
-    );
-    // fin carga menú lateral
 
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
