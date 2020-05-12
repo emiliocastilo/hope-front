@@ -1,0 +1,16 @@
+@import '~src/app/variables.scss';
+
+.modal-header {
+  &.editor-modal-header {
+    background-color: $app-color-blue-medium;
+    color: $app-color-white;
+  }
+
+  .close {
+    color: $app-color-white;
+  }
+}
+
+.modal-message {
+  padding: 2rem;
+}
