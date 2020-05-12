@@ -11,20 +11,20 @@ export class MedicModel {
     public phone?: string,
     public dni?: string,
     public collegeNumber?: string,
+    public userDTO?: UserModel,
     public username?: string,
     public password?: string,
     public email?: string,
-    public service?: ServiceModel[],
-    public hospital?: HospitalModel[],
-    public services?: ServiceModel[]
+    public serviceDTO?: ServiceModel[],
+    public hospital?: HospitalModel[]
   ) {}
 
   public setValuesFromDinamicForm(form: any) {
-    const service: ServiceModel = form.service ? form.service[0] : null;
+    const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
     const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
 
     const user: UserModel = {
-      id: form.user ? form.user.id : null,
+      id: form.userDTO ? form.userDTO.id : null,
       username: form.username,
       password: form.password,
       email: form.email,
@@ -37,14 +37,14 @@ export class MedicModel {
     this.phone = form.phone;
     this.dni = form.dni;
     this.collegeNumber = form.collegeNumber;
-    this.user = user;
-    this.service = service as any;
+    this.userDTO = user;
+    this.serviceDTO = service as any;
   }
 
   public setValuesFromObject(object: MedicModel, hospitals: HospitalModel[]) {
-    const services: ServiceModel[] = object.service;
+    const services: ServiceModel[] = object.serviceDTO;
 
-    const user: UserModel = object.user;
+    const user: UserModel = object.userDTO;
 
     const hospital: HospitalModel[] = this.setHospital(
       user.hospitalId,
@@ -59,8 +59,8 @@ export class MedicModel {
     this.phone = object.phone;
     this.dni = object.dni;
     this.collegeNumber = object.collegeNumber;
-    this.user = user;
-    this.service = services;
+    this.userDTO = user;
+    this.serviceDTO = services;
     this.hospital = hospital;
   }
 

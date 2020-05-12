@@ -19,4 +19,12 @@ export class EditorModalBodyComponent implements OnInit {
       // debugger;
     }
   }
+
+  public showSelect(key: string) {
+    const selectType = {
+      hospital: true,
+      serviceDTO: true,
+    };
+    return selectType[key];
+  }
 }
