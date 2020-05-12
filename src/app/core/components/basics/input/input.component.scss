@@ -1,141 +1,223 @@
+// @import '~src/app/variables.scss';
+
+// .form-group {
+//   margin-bottom: 0;
+// }
+
+// input.login {
+//   &[type='text'],
+//   &[type='password'] {
+//     background-color: $app-color-gray-light;
+//     color: $app-color-black;
+//     padding: 15px 32px;
+//     text-align: center;
+//     text-decoration: none;
+//     display: inline-block;
+//     font-size: 16px;
+//     margin: 5px;
+//     width: 100%;
+//     border: 2px solid $app-color-gray-light;
+//     -webkit-transition: all 0.5s ease-in-out;
+//     -moz-transition: all 0.5s ease-in-out;
+//     -ms-transition: all 0.5s ease-in-out;
+//     -o-transition: all 0.5s ease-in-out;
+//     transition: all 0.5s ease-in-out;
+//     -webkit-border-radius: 5px 5px 5px 5px;
+//     border-radius: 5px 5px 5px 5px;
+//   }
+
+//   &:focus {
+//     background-color: $app-color-white;
+//     border-bottom: 2px solid $app-color-blue-light;
+//   }
+
+//   &:placeholder {
+//     color: $app-color-gray-medium;
+//   }
+// }
+
+// .fadeInDown {
+//   -webkit-animation-name: fadeindown;
+//   animation-name: fadeInDown;
+//   -webkit-animation-duration: 1s;
+//   animation-duration: 1s;
+//   -webkit-animation-fill-mode: both;
+//   animation-fill-mode: both;
+// }
+
+// @-webkit-keyframes fadeInDown {
+//   0% {
+//     opacity: 0;
+//     -webkit-transform: translate3d(0, -100%, 0);
+//     transform: translate3d(0, -100%, 0);
+//   }
+
+//   100% {
+//     opacity: 1;
+//     -webkit-transform: none;
+//     transform: none;
+//   }
+// }
+
+// @keyframes fadeInDown {
+//   0% {
+//     opacity: 0;
+//     -webkit-transform: translate3d(0, -100%, 0);
+//     transform: translate3d(0, -100%, 0);
+//   }
+
+//   100% {
+//     opacity: 1;
+//     -webkit-transform: none;
+//     transform: none;
+//   }
+// }
+
+// @-webkit-keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//   }
+
+//   to {
+//     opacity: 1;
+//   }
+// }
+
+// @-moz-keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//   }
+
+//   to {
+//     opacity: 1;
+//   }
+// }
+
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//   }
+
+//   to {
+//     opacity: 1;
+//   }
+// }
+
+// .fadeIn {
+//   opacity: 0;
+//   -webkit-animation: fadein ease-in 1;
+//   -moz-animation: fadein ease-in 1;
+//   animation: fadeIn ease-in 1;
+//   -webkit-animation-fill-mode: forwards;
+//   -moz-animation-fill-mode: forwards;
+//   animation-fill-mode: forwards;
+//   -webkit-animation-duration: 1s;
+//   -moz-animation-duration: 1s;
+//   animation-duration: 1s;
+
+//   &.first {
+//     -webkit-animation-delay: 0.4s;
+//     -moz-animation-delay: 0.4s;
+//     animation-delay: 0.4s;
+//   }
+
+//   &.second {
+//     -webkit-animation-delay: 0.6s;
+//     -moz-animation-delay: 0.6s;
+//     animation-delay: 0.6s;
+//   }
+
+//   &.third {
+//     -webkit-animation-delay: 0.8s;
+//     -moz-animation-delay: 0.8s;
+//     animation-delay: 0.8s;
+//   }
+
+//   &.fourth {
+//     -webkit-animation-delay: 1s;
+//     -moz-animation-delay: 1s;
+//     animation-delay: 1s;
+//   }
+// }
 @import '~src/app/variables.scss';
 
-.form-group {
-  margin-bottom: 0;
+.date-label {
+  position: relative;
+  top: -3.5rem;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: $app-color-gray-dark;
 }
 
-input.login {
-  &[type='text'],
-  &[type='password'] {
-    background-color: $app-color-gray-light;
-    color: $app-color-black;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 5px;
-    width: 100%;
-    border: 2px solid $app-color-gray-light;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -ms-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
+.dynamic-group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.dynamic-label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: $app-color-gray-dark;
+}
+
+.dynamic-field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid $app-color-gray-dark;
+  outline: 0;
+  font-size: 1rem;
+  color: $app-color-black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .dynamic-label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
   }
 
   &:focus {
-    background-color: $app-color-white;
-    border-bottom: 2px solid $app-color-blue-light;
+    ~ .dynamic-label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: $app-color-blue-medium;
+    }
+
+    ~ .date-label {
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: $app-color-blue-medium;
+    }
+
+    padding-bottom: 6px;
+    border-width: 3px;
+    border-image:
+      linear-gradient(
+        to right,
+        $app-color-blue-medium,
+        $app-color-blue-light
+      );
+    border-image-slice: 1;
   }
 
-  &:placeholder {
-    color: $app-color-gray-medium;
-  }
-}
-
-.fadeInDown {
-  -webkit-animation-name: fadeindown;
-  animation-name: fadeInDown;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-@-webkit-keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@-moz-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.fadeIn {
-  opacity: 0;
-  -webkit-animation: fadein ease-in 1;
-  -moz-animation: fadein ease-in 1;
-  animation: fadeIn ease-in 1;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-duration: 1s;
-  -moz-animation-duration: 1s;
-  animation-duration: 1s;
-
-  &.first {
-    -webkit-animation-delay: 0.4s;
-    -moz-animation-delay: 0.4s;
-    animation-delay: 0.4s;
-  }
-
-  &.second {
-    -webkit-animation-delay: 0.6s;
-    -moz-animation-delay: 0.6s;
-    animation-delay: 0.6s;
-  }
-
-  &.third {
-    -webkit-animation-delay: 0.8s;
-    -moz-animation-delay: 0.8s;
-    animation-delay: 0.8s;
-  }
-
-  &.fourth {
-    -webkit-animation-delay: 1s;
-    -moz-animation-delay: 1s;
-    animation-delay: 1s;
+  &:required,
+  &:invalid {
+    box-shadow: none;
   }
 }
