@@ -7,15 +7,15 @@ import { ManagementRoutingModule } from './management-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
-import { MedicListComponent } from './medic/medic-list/medic-list.component';
-import { PatientsListComponent } from './patients/patients-list/patients-list.component';
+import { MedicsComponent } from './components/medic/medics.component';
+import { PatientsComponent } from './components/patients/patients.component';
 
 @NgModule({
   declarations: [
     ManagementComponent,
     RoleManagementComponent,
-    MedicListComponent,
-    PatientsListComponent,
+    MedicsComponent,
+    PatientsComponent,
   ],
   imports: [
     CommonModule,

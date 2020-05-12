@@ -20,11 +20,11 @@ import {
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-patients-list',
-  templateUrl: './patients-list.component.html',
-  styleUrls: ['./patients-list.component.scss'],
+  selector: 'app-patients',
+  templateUrl: './patients.component.html',
+  styleUrls: ['./patients.component.scss'],
 })
-export class PatientsListComponent implements OnInit {
+export class PatientsComponent implements OnInit {
   public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
