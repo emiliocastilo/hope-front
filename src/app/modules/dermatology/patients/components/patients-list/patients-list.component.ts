@@ -26,6 +26,7 @@ export class PatientsListComponent implements OnInit {
   public PATIENTS_HEADER = PATIENT_TABLE_HEADERS;
   public columnsHeader: Array<ColumnHeaderModel>;
   public menu: SideBarItemModel[] = [];
+  public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;
@@ -50,8 +51,10 @@ export class PatientsListComponent implements OnInit {
     this.PATIENTS_HEADER.splice(-1, 1);
     this.columnsHeader = this.PATIENTS_HEADER;
     // Carga menú lateral
-    const rootMenu = JSON.parse(localStorage.getItem('menu'));
-    this.menu = rootMenu.filter((item) => item.title === 'Paciente');
+    this.menu = JSON.parse(localStorage.getItem('menu'));
+    this.menuSelected = this.menu[0].children.find(
+      (item) => item.title === 'Paciente'
+    );
     // fin carga menú lateral
 
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;

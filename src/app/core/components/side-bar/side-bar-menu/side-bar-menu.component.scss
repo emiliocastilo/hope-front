@@ -1,7 +1,12 @@
 @import '~src/app/variables.scss';
 
-.side-bar-menu {
+.side-bar-menu,
+.side-bar-menu .nav-link {
   color: $app-color-white;
+}
+
+.side-bar-menu .nav-link.active {
+  background-color: $app-color-blue-dark;
 }
 
 .sub-side-bar-menu-level-1 {
