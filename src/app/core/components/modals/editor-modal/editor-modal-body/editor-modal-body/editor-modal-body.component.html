@@ -7,7 +7,7 @@
       <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
         <span *ngIf="!showSelect(formKey)">
           <span class="ui-float-label" *ngSwitchCase="'genderCode'">
-            <label for="formKey">
+            <label for="formKey" class="dynamic-label">
               {{
                 'modal.editor.field.' + formKey | lowercase | translate
               }}</label
