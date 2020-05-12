@@ -54,10 +54,7 @@ export class PatientsListComponent implements OnInit {
     this.columnsHeader = this.PATIENTS_HEADER;
     // Carga menú lateral
     this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/management')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/management/patients')
+      item.url.endsWith('/dermatology/patients')
     );
     // fin carga menú lateral
 
@@ -266,7 +263,6 @@ export class PatientsListComponent implements OnInit {
     patient.pathologies.forEach((pathology) => {
       pathologyList = pathologyList.concat(pathology.name).concat(';');
     });
-<<<<<<< HEAD:src/app/modules/management/patients/patients-list/patients-list.component.ts
     row.pushColumn(
       new ColumnDataModel('iconButtons', {
         iconButtons: [
@@ -281,9 +277,6 @@ export class PatientsListComponent implements OnInit {
         ],
       })
     );
-=======
-
->>>>>>> Ajustes de estilos:src/app/modules/dermatology/patients/components/patients-list/patients-list.component.ts
     return row;
   }
 }

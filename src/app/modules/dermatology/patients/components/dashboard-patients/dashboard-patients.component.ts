@@ -66,9 +66,11 @@ export class DashboardPatientsComponent implements OnInit {
 
   ngOnInit(): void {
     // Carga menú lateral
-    this.menu = JSON.parse(localStorage.getItem('menu'));
-    this.menuSelected = this.menu[0].children.find(
-      (item) => item.title === 'Paciente'
+    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+      item.url.endsWith('/dermatology/patients')
+    );
+    this.menuSelected = this.menu[0].children.find((item) =>
+      item.url.endsWith('/dermatology/patients/dashboard')
     );
     // fin carga menú lateral
 

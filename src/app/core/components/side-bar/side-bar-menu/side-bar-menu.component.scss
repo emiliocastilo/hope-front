@@ -5,8 +5,16 @@
   color: $app-color-white;
 }
 
+.sub-side-bar-menu-level-2 .nav-link {
+  transition: 0.5s;
+
+  &:hover {
+    background-color: $app-color-blue-medium-hover;
+  }
+}
+
 .side-bar-menu .nav-link.active {
-  background-color: $app-color-blue-dark;
+  background-color: $app-color-blue-medium-active;
 }
 
 .sub-side-bar-menu-level-1 {
