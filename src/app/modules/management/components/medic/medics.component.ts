@@ -19,11 +19,11 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model'
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 
 @Component({
-  selector: 'app-medic-list',
-  templateUrl: './medic-list.component.html',
-  styleUrls: ['./medic-list.component.scss'],
+  selector: 'app-medics',
+  templateUrl: './medics.component.html',
+  styleUrls: ['./medics.component.scss'],
 })
-export class MedicListComponent implements OnInit {
+export class MedicsComponent implements OnInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
