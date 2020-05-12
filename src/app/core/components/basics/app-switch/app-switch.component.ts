@@ -2,7 +2,7 @@ import { Component, OnInit, HostBinding, Input } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 @Component({
-  selector: 'app-app-switch',
+  selector: 'app-switch',
   templateUrl: './app-switch.component.html',
   styleUrls: ['./app-switch.component.scss'],
 })
