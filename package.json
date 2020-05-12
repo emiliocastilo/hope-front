@@ -11,6 +11,7 @@
     "reformat:ts": "prettier --write ./src/**/**.ts",
     "reformat:html": "prettier --write ./src/**/**.html",
     "reformat:scss": "stylelint --fix ./src/**/**.scss",
+    "reformat:all": "stylelint --fix ./src/**/**.scss && prettier --write ./src/**/**.html && prettier --write ./src/**/**.ts",
     "e2e": "ng e2e"
   },
   "private": true,
