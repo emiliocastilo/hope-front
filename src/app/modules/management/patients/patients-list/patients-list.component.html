@@ -16,20 +16,12 @@
           texto="btn.new"
           (click)="savePatient()"
         ></app-button>
-        <app-button
-          type="button"
-          clasesBtn="btn-primary btn-sm mx-2"
-          texto="btn.select"
-          (click)="goToDermatologiPatients()"
-          [readOnly]="!selectedPatient.id"
-        ></app-button>
       </section>
       <section class="container-fluid mt-4">
         <app-table
           [columnsHeader]="columnsHeader"
           [columnsData]="prepareTableData()"
           (selectedItem)="onSelectedItem($event)"
-          (selectedItemDobleClick)="onSelectItemDobleClick($event)"
           (iconButtonClick)="onIconButtonClick($event)"
         ></app-table>
 

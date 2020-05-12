@@ -86,10 +86,6 @@ export class PatientsListComponent implements OnInit {
     return rows;
   }
 
-  public goToDermatologiPatients(): void {
-    this._router.navigate(['dermatology/patients']);
-  }
-
   public onSelectedItem(event: number): void {
     this.selectedPatient = this.patients[event];
     const selectedUser = JSON.stringify(this.selectedPatient || {});
@@ -102,13 +98,6 @@ export class PatientsListComponent implements OnInit {
         );
       }
     });
-  }
-
-  public onSelectItemDobleClick(event: number): void {
-    this.selectedPatient = this.patients[event];
-    const selectedUser = JSON.stringify(this.selectedPatient || {});
-    localStorage.setItem('selectedUser', selectedUser);
-    this.goToDermatologiPatients();
   }
 
   public onSearch(event: string): void {
@@ -126,11 +115,9 @@ export class PatientsListComponent implements OnInit {
   }
 
   public savePatient(): void {
-    /*this.formConfig.map((valueFrom: any, keyform: number) => {
-      this.formConfig[keyform].value = null;
-    });*/
     this.isEditing = false;
     this.selectedItem = null;
+    this.modalForm.reset();
     this.showModal();
   }
 
