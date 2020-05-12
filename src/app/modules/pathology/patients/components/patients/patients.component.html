@@ -1,0 +1,32 @@
+<app-header></app-header>
+<div class="row m-0 p-0">
+  <section class="col-md-12 col-lg-12 patients-container">
+    <section class="patients-container">
+      <section class="container-fluid mt-4">
+        <app-search (emitAction)="onSearch($event)"></app-search>
+      </section>
+      <section class="container-fluid mt-4">
+        <app-button
+          type="button"
+          clasesBtn="btn-primary btn-sm mx-2"
+          texto="btn.select"
+          (click)="goToDermatologiPatients()"
+          [readOnly]="!selectedPatient.id"
+        ></app-button>
+      </section>
+      <section class="container-fluid mt-4">
+        <app-table
+          [columnsHeader]="columnsHeader"
+          [columnsData]="prepareTableData()"
+          (selectedItem)="onSelectedItem($event)"
+        ></app-table>
+
+        <app-pagination
+          (selectPage)="selectPage($event)"
+          [paginationData]="paginationData"
+        >
+        </app-pagination>
+      </section>
+    </section>
+  </section>
+</div>

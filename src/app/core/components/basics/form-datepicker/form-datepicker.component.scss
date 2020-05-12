@@ -50,11 +50,12 @@
 
     padding-bottom: 6px;
     border-width: 3px;
-    border-image: linear-gradient(
-      to right,
-      $app-color-blue-medium,
-      $app-color-blue-light
-    );
+    border-image:
+      linear-gradient(
+        to right,
+        $app-color-blue-medium,
+        $app-color-blue-light
+      );
     border-image-slice: 1;
   }
 

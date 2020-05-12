@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --base-href=/hopes/",
     "build": "ng build",
     "test": "ng test",
     "lint": "prettier --check ./src/**/**.{ts,html}",
@@ -11,6 +11,7 @@
     "reformat:ts": "prettier --write ./src/**/**.ts",
     "reformat:html": "prettier --write ./src/**/**.html",
     "reformat:scss": "stylelint --fix ./src/**/**.scss",
+    "reformat:all": "stylelint --fix ./src/**/**.scss && prettier --write ./src/**/**.html && prettier --write ./src/**/**.ts",
     "e2e": "ng e2e"
   },
   "private": true,

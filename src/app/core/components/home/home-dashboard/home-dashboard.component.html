@@ -1,7 +1,9 @@
 <div class="home-dashboard">
-  <section class="row mt-4">
-    <article *ngFor="let module of modules" class="col-sm-6 col-md-3 col-lg-3">
-      <home-dashboard-module [module]="module"></home-dashboard-module>
-    </article>
+  <section class="row justify-content-center">
+    <ng-container *ngFor="let module of modules">
+      <article *ngIf="module.principal" class="col-sm-6 col-md-3 col-lg-3 mt-4">
+        <home-dashboard-module [module]="module"></home-dashboard-module>
+      </article>
+    </ng-container>
   </section>
 </div>

@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
-import { UserModel } from 'src/app/core/models/user/user.model';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-editor-modal-body',
@@ -9,14 +8,23 @@ import { UserModel } from 'src/app/core/models/user/user.model';
 })
 export class EditorModalBodyComponent implements OnInit {
   @Input() id: string;
-  @Input() formConfig: FieldConfig[];
-  @Output() submitBody: EventEmitter<any> = new EventEmitter();
+  @Input() form: FormGroup;
+  @Input() options: any = {};
+  public formKeys: Array<string> = [];
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.form) {
+      this.formKeys = Object.keys(this.form.controls);
+    }
+  }
 
-  public submitModalBody(formValue: any) {
-    this.submitBody.emit(formValue);
+  public showSelect(key: string) {
+    const selectType = {
+      hospital: true,
+      serviceDTO: true,
+    };
+    return selectType[key];
   }
 }

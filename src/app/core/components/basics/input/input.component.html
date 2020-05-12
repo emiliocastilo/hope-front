@@ -1,17 +1,24 @@
-<div class="form-group">
+<div class="form-group dynamic-group field">
   <span class="ui-float-label">
-    <label for="{{ id }}">{{ label | translate }}</label>
     <input
       (input)="onInput($event.target.value)"
       [disabled]="isDisabled"
       [value]="value"
       attr.maxlength="{{ maxlength }}"
       attr.placeholder="{{ placeholder | translate }}"
-      class="form-control {{ clases }}"
+      class="dynamic-field"
       id="{{ id }}"
       name="{{ name }}"
       required="{{ required }}"
       type="{{ type }}"
     />
+    <label
+      for="{{ id }}"
+      [ngClass]="{
+        'date-label': type === 'date',
+        'dynamic-label': type === 'text' || type === 'password'
+      }"
+      >{{ label | translate }}</label
+    >
   </span>
 </div>

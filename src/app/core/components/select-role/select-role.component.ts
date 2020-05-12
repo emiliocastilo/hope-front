@@ -5,6 +5,7 @@ import { RoleService } from '../../services/role/role.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { ProfileModel } from '../../models/login/profile.model';
 
 @Component({
   selector: 'app-select-role',
@@ -39,15 +40,13 @@ export class SelectRoleComponent implements OnInit {
     }
   }
 
-  onSelect(selected: string): void {
-    this.selectedRole = selected;
-  }
-
   chooseProfile(role: string): void {
     this._loginService.postChooseProfile(role).subscribe(
       (data) => {
         const token = data.headers.get('Authorization');
-        this.setCurrentRole(role, token);
+        this.setCurrentRole(
+          new ProfileModel(role, token, JSON.stringify(data.body))
+        );
         this._router.navigate(['/']);
       },
       (error) => {
@@ -58,21 +57,21 @@ export class SelectRoleComponent implements OnInit {
     );
   }
 
-  setCurrentRole(role: string, token: string): void {
-    localStorage.setItem('role', role);
-    localStorage.setItem('token', token);
+  setCurrentRole(data: ProfileModel): void {
+    localStorage.setItem('role', data.role);
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', data.user);
   }
 
   get formControl() {
     return this.selectRoleForm.controls;
   }
 
-  onFormSubmit() {
-    this.submitted = true;
+  onFormSubmit(selected: string) {
+    this.selectedRole = selected;
     if (!this.selectedRole) {
       return;
     }
-    this.loading = true;
     this.chooseProfile(this.selectedRole);
   }
 }

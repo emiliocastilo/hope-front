@@ -9,6 +9,6 @@ export class ServicesService {
   constructor(private _http: HttpClient) {}
 
   getAll(): Observable<any> {
-    return this._http.get('/service');
+    return this._http.get('/services');
   }
 }

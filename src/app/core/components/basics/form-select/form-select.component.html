@@ -4,13 +4,12 @@
     [formControlName]="config.name"
     [attr.name]="config.name"
     [attr.id]="config.name"
+    (change)="onSelect($event)"
+    [ngClass]="{ 'option-selected': optionSelected }"
   >
-    <option *ngIf="config.value" [ngValue]="config.value">{{
-      config.value.name ? config.value.name : config.value
-    }}</option>
     <option *ngIf="!config.value" value=""> </option>
     <option *ngFor="let option of config.options" [ngValue]="option">
-      {{ option.name ? option.name : (option | translate) }}
+      {{ option.name | translate }}
     </option>
   </select>
   <label [attr.for]="config.name" class="dynamic-label">{{

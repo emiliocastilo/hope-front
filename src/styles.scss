@@ -1,5 +1,18 @@
+@import './app/variables.scss';
+
 .app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+/* EXTENSION FOR FONT AWESOME */
+.cfa-red {
+  color: $app-color-red;
+}
+
+@media (min-width: 1200px) {
+  .col-md-4.col-lg-3.sidemenu {
+    max-width: 330px;
+  }
 }

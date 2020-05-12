@@ -32,10 +32,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'dermatology',
+    path: 'dermatology', //pathology
     loadChildren: () =>
-      import('./modules/dermatology/dermatology.module').then(
-        (m) => m.DermatologyModule
+      import('./modules/pathology/pathology.module').then(
+        (m) => m.PathologyModule
       ),
     canActivate: [AuthGuard],
   },
