@@ -144,14 +144,6 @@ export class MedicsComponent implements OnInit {
     }
   }
 
-  public onIconButtonClick(event: any): void {
-    if (event && event.type === 'edit') {
-      this.editDoctor();
-    } else {
-      this.deleteDoctor();
-    }
-  }
-
   public saveDoctor(): void {
     const control = new FormControl('', Validators.required);
     this.modalForm.addControl('password', control);
