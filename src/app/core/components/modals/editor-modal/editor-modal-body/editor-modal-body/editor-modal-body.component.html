@@ -1,8 +1,32 @@
 <div class="modal-body editor-modal-body m-2">
   <form [formGroup]="form" novalidate>
-    <ng-container *ngFor="let formKey of formKeys; index as fieldIndex">
+    <ng-container
+      *ngFor="let formKey of formKeys; index as fieldIndex"
+      [ngSwitch]="formKey"
+    >
       <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
+        <span class="ui-float-label" *ngSwitchCase="'genderCode'">
+          <label for="formKey">
+            {{ 'modal.editor.field.' + formKey | lowercase | translate }}</label
+          >
+          <br />
+          <div
+            class="btn-group btn-group-toggle"
+            ngbRadioGroup
+            name="radioBasic"
+            [formControlName]="formKey"
+          >
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="M" /> Masculino
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="F" /> Femenino
+            </label>
+          </div>
+        </span>
+
         <app-input
+          *ngSwitchDefault
           [id]="formKey"
           [label]="'modal.editor.field.' + formKey | lowercase | translate"
           [name]="formKey"
@@ -11,6 +35,7 @@
           [placeholder]="
             'modal.editor.field.' + formKey | lowercase | translate
           "
+          [type]="formKey === 'birthDate' ? 'date' : 'text'"
         >
         </app-input>
       </section>
