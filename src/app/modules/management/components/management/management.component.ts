@@ -19,8 +19,8 @@ export class ManagementComponent implements OnInit {
   ngOnInit(): void {
     const rootMenu = JSON.parse(localStorage.getItem('menu'));
     this.menu = rootMenu.filter((item) => item.url.endsWith('/management'));
-    this.modules = rootMenu.filter((item) =>
+    this.modules = rootMenu.find((item) =>
       item.url.endsWith('/management')
-    )[0].children;
+    ).children;
   }
 }

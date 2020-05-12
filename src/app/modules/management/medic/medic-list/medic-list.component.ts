@@ -26,6 +26,7 @@ import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.mod
 export class MedicListComponent implements OnInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
   public menu: SideBarItemModel[] = [];
+  public menuSelected: SideBarItemModel;
 
   constructor(
     private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter,
@@ -62,12 +63,13 @@ export class MedicListComponent implements OnInit {
 
   ngOnInit() {
     // Carga menú lateral
-    const rootMenu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
       item.url.endsWith('/management')
-    )[0].children;
-    this.menu = rootMenu.filter((item) =>
+    );
+    this.menuSelected = this.menu[0].children.find((item) =>
       item.url.endsWith('/management/medics')
     );
+    console.log(this.menuSelected);
     // fin carga menú lateral
 
     this.services = this._activatedRoute.snapshot.data.services;

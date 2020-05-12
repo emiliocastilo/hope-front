@@ -27,6 +27,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 export class PatientsListComponent implements OnInit {
   public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
   public menu: SideBarItemModel[] = [];
+  public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;
@@ -49,10 +50,10 @@ export class PatientsListComponent implements OnInit {
 
   ngOnInit(): void {
     // Carga menú lateral
-    const rootMenu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
       item.url.endsWith('/management')
-    )[0].children;
-    this.menu = rootMenu.filter((item) =>
+    );
+    this.menuSelected = this.menu[0].children.find((item) =>
       item.url.endsWith('/management/patients')
     );
     // fin carga menú lateral
