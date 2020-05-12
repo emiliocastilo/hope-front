@@ -2,8 +2,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PatientModel } from '../../models/patient.model';
+import { PatientsService } from '../../services/patients.service';
+import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -13,9 +16,6 @@ import {
   PATIENT_TABLE_KEYS,
 } from 'src/app/modules/management/constants/patients.constants';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
-import { PatientsService } from '../../services/patients.service';
-import { ToastrService } from 'ngx-toastr';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 
 @Component({
   selector: 'app-patients',

@@ -27,7 +27,10 @@ const routes: Routes = [
   },
   {
     path: 'patients/dashboard',
-    component: DashboardComponent,
+    component: DashboardPatientsComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
     canActivate: [AuthGuard],
   },
 ];
