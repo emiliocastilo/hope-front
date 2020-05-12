@@ -51,9 +51,8 @@ export class PatientsListComponent implements OnInit {
     this.PATIENTS_HEADER.splice(-1, 1);
     this.columnsHeader = this.PATIENTS_HEADER;
     // Carga menú lateral
-    this.menu = JSON.parse(localStorage.getItem('menu'));
-    this.menuSelected = this.menu[0].children.find(
-      (item) => item.title === 'Paciente'
+    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
+      item.url.endsWith('/dermatology/patients')
     );
     // fin carga menú lateral
 
