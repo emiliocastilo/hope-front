@@ -36,29 +36,14 @@
             [label]="'modal.editor.field.' + formKey | lowercase | translate"
             [name]="formKey"
             [formControlName]="formKey"
+            [value]="form.controls[formKey].value"
+            [placeholder]="
+              'modal.editor.field.' + formKey | lowercase | translate
+            "
+            [type]="formKey === 'birthDate' ? 'date' : 'text'"
           >
-            <label ngbButtonLabel class="btn-primary">
-              <input ngbButton type="radio" value="M" /> Masculino
-            </label>
-            <label ngbButtonLabel class="btn-primary">
-              <input ngbButton type="radio" value="F" /> Femenino
-            </label>
-          </div>
+          </app-input>
         </span>
-
-        <app-input
-          *ngSwitchDefault
-          [id]="formKey"
-          [label]="'modal.editor.field.' + formKey | lowercase | translate"
-          [name]="formKey"
-          [formControlName]="formKey"
-          [value]="form.controls[formKey].value"
-          [placeholder]="
-            'modal.editor.field.' + formKey | lowercase | translate
-          "
-          [type]="formKey === 'birthDate' ? 'date' : 'text'"
-        >
-        </app-input>
         <app-input-select
           [id]="formKey"
           [isDisabled]="false"

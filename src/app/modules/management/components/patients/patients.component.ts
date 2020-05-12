@@ -18,6 +18,7 @@ import {
   PATIENT_TABLE_KEYS,
 } from '../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-patients',
@@ -110,7 +111,7 @@ export class PatientsComponent implements OnInit {
     if (event && event.type === 'edit') {
       this.editPatient();
     } else if (event && event.type === 'delete') {
-      this.deletePatient();
+      this.showModalConfirm();
     }
   }
 
@@ -163,7 +164,6 @@ export class PatientsComponent implements OnInit {
     });
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
-    //   debugger
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();

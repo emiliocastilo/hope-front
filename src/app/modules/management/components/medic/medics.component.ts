@@ -42,7 +42,6 @@ export class MedicsComponent implements OnInit {
     private _activatedRoute: ActivatedRoute
   ) {}
 
-  //  public formConfig: FieldConfig[] = [];
   public modalForm: FormGroup;
   public columHeaders: Array<ColumnHeaderModel> = [
     new ColumnHeaderModel('Nombre', 2),
@@ -123,7 +122,7 @@ export class MedicsComponent implements OnInit {
     Object.keys(this.selectedDoctor).map((doctorKey: string) => {
       if (this.modalForm.controls[doctorKey]) {
         this.modalForm.controls[doctorKey].setValue(
-          this.medics[event][doctorKey]
+          this.selectedDoctor[doctorKey]
         );
       }
     });
@@ -135,6 +134,14 @@ export class MedicsComponent implements OnInit {
     //     }
     //   });
     // });
+  }
+
+  public onIconButtonClick(event: any): void {
+    if (event && event.type === 'edit') {
+      this.editDoctor();
+    } else {
+      this.deleteDoctor();
+    }
   }
 
   public onIconButtonClick(event: any): void {
@@ -195,7 +202,7 @@ export class MedicsComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          this._toastr.error(error.message);
         }
       );
     } else {
@@ -206,7 +213,7 @@ export class MedicsComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          this._toastr.error(error.error.error);
+          this._toastr.error(error.message);
         }
       );
     }
@@ -222,6 +229,7 @@ export class MedicsComponent implements OnInit {
     };
     modalRef.componentInstance.id = 'doctoreditor';
     modalRef.componentInstance.title = 'Médico';
+    modalRef.componentInstance.options = options;
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();

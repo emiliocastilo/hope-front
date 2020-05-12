@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ButtonComponent } from './components/basics/button/button.component';
 import { InputComponent } from './components/basics/input/input.component';
+import { InputSelectComponent } from './components/basics/input-select/input-select.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -56,6 +57,7 @@ export function createTranslateLoader(http: HttpClient) {
     HomeDashboardModuleComponent,
     ButtonComponent,
     InputComponent,
+    InputSelectComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,
@@ -106,6 +108,7 @@ export function createTranslateLoader(http: HttpClient) {
     HomeDashboardModuleComponent,
     ButtonComponent,
     InputComponent,
+    InputSelectComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,

@@ -5,7 +5,6 @@ import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 export class MedicModel {
   constructor(
     public id?: number,
-    public user?: UserModel,
     public name?: string,
     public surname?: string,
     public phone?: string,
