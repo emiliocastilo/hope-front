@@ -9,12 +9,16 @@
       id="{{ id }}"
       [ngClass]="{ 'option-selected': optionSelected }"
       (input)="onInput($event.target.value)"
+      [value]="currentValue"
     >
-      <option *ngIf="!currentValue" value="">{{ placeholder }}</option>
-      <option *ngFor="let option of options" [ngValue]="option">
+      <option *ngIf="!currentValue" value=""> </option>
+      <option
+        *ngFor="let option of options"
+        [ngValue]="option"
+        [selected]="option.name == value"
+      >
         {{ option.name | translate }}
       </option>
     </select>
-    {{ value | json }}
   </span>
 </div>

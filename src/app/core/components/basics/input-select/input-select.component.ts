@@ -1,12 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input, Self, OnInit } from '@angular/core';
+import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-input-select',
   templateUrl: './input-select.component.html',
   styleUrls: ['./input-select.component.scss'],
 })
-export class InputSelectComponent implements OnInit {
+export class InputSelectComponent implements OnInit, ControlValueAccessor {
+  constructor() {}
+
   @Input() id: string;
   @Input() isDisabled: boolean = false;
   @Input() labelValue: string = '';
@@ -15,27 +17,21 @@ export class InputSelectComponent implements OnInit {
   @Input() currentValue: any;
   @Input() placeholder: string = '';
   @Input() selectMultiple: boolean = false;
+  @Input() form: FormGroup;
 
-  public value: any = null;
+  public value: string = null;
   childControl = new FormControl();
 
   optionSelected: boolean;
 
   ngOnInit(): void {
-    console.log('ngOnInit:', this.currentValue);
+    if (this.currentValue) {
+      this.value = this.currentValue[0].name;
+    }
   }
 
   onChange(value: any): void {
-    console.log('onSelect: ', this.currentValue, value);
     this.optionSelected = this.currentValue ? true : false;
-  }
-
-  onTouch = () => {};
-
-  onInput(value: string) {
-    this.value = value;
-    this.onTouch();
-    this.onChange(this.value);
   }
 
   writeValue(value: any): void {
@@ -44,8 +40,18 @@ export class InputSelectComponent implements OnInit {
     } else {
       this.value = '';
     }
-
     this.childControl.setValue(value);
+  }
+
+  onTouch = () => {};
+
+  onInput(value: any) {
+    this.value = value;
+    this.setCurrentValue(value, this.options);
+    this.childControl.setValue(this.currentValue);
+    this.form.controls[this.id].setValue([this.currentValue]);
+    this.onChange(this.value);
+    this.onTouch();
   }
 
   registerOnChange(fn: (value: any) => void) {
@@ -54,5 +60,11 @@ export class InputSelectComponent implements OnInit {
 
   registerOnTouched(fn: any): void {
     this.onTouch = fn;
+  }
+
+  setCurrentValue(name: string, objectArray: any[]) {
+    objectArray.map((object: any) => {
+      if (object.name == name) this.currentValue = object;
+    });
   }
 }

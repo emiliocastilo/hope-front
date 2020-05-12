@@ -25,11 +25,11 @@
             'modal.editor.field.' + formKey | lowercase | translate
           "
           [selectMultiple]="false"
+          [form]="form"
           *ngIf="showSelect(formKey)"
         >
         </app-input-select>
       </section>
     </ng-container>
-    {{ form.value | json }}
   </form>
 </div>

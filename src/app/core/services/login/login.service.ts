@@ -53,7 +53,6 @@ export class LoginService {
       .post('/users/choose-profiles/', role, { observe: 'response' })
       .pipe(
         map((res) => {
-          console.log('postChooseProfile:', role, res);
           this.currentUserSubject.next(res);
           // TODO: Acabar en tarea de enlace, cuando tengamos Back
           return res;
