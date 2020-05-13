@@ -1,0 +1,9 @@
+<div class="app-pagination-section">
+  <ngb-pagination
+    [(page)]="paginationData.number"
+    [pageSize]="paginationData.size"
+    [collectionSize]="paginationData.totalElements"
+    (pageChange)="pageChange($event)"
+  >
+  </ngb-pagination>
+</div>

@@ -1,0 +1,17 @@
+<div class="app-box-data-section">
+  <ul
+    class="box-data-body"
+    [ngbTooltip]="parserDataToShowInTooltip()"
+    placement="bottom"
+  >
+    <li *ngFor="let key of keysToShow" placement="top">
+      <p>
+        <strong
+          >{{ showKey(key) | translate }}
+          {{ showKey(key) ? ':' : null }}</strong
+        >
+        {{ parsedata(currentData, key) | translate }}
+      </p>
+    </li>
+  </ul>
+</div>

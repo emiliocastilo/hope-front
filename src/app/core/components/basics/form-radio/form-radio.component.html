@@ -1,0 +1,14 @@
+<div class="dynamic-field" [formGroup]="group">
+  <div *ngFor="let option of config.radioButton" class="form-check">
+    <input
+      [formControlName]="config.name"
+      type="radio"
+      [name]="config.name"
+      [value]="option.value"
+      class="form-check-input"
+    />
+    <label [for]="config.name" class="form-check-label">
+      {{ option.optionName | translate }}</label
+    >
+  </div>
+</div>

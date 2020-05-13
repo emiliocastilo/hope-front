@@ -1,0 +1,11 @@
+@import '~src/app/variables.scss';
+
+.underlineHover {
+  &:hover {
+    color: $app-color-black;
+  }
+}
+
+.invalid-feedback {
+  display: block;
+}

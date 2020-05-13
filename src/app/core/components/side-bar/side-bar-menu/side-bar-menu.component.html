@@ -1,0 +1,24 @@
+<ul class="nav navbar-light flex-column side-bar-menu">
+  <ng-container *ngFor="let menuOption of menu">
+    <li
+      *ngIf="menuOption.children"
+      [ngClass]="'sub-side-bar-menu-level-' + level"
+      class="nav-item"
+    >
+      <a
+        class="nav-link"
+        [ngClass]="{ active: menuOption === selected }"
+        [href]="menuOption.url"
+        >{{ menuOption.title }}</a
+      >
+      <p class="m-0 p-0">
+        <side-bar-menu
+          [level]="level + LEVEL_ONE"
+          [menu]="menuOption.children"
+          [selected]="selected"
+        >
+        </side-bar-menu>
+      </p>
+    </li>
+  </ng-container>
+</ul>

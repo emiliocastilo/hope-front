@@ -1,0 +1,26 @@
+@import '~src/app/variables.scss';
+
+.master-header {
+  border-bottom: 0.2em solid $app-color-violet;
+
+  section {
+    .banner {
+      height: 2.5em;
+    }
+
+    .loged-user {
+      color: $app-color-violet;
+      font-weight: bold;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .logout {
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
