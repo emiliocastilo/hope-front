@@ -37,7 +37,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'role',
+    path: 'roles',
     component: RoleManagementComponent,
     canActivate: [AuthGuard],
   },

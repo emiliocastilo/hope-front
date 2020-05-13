@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RoleManagementService } from '../services/role-management.service';
+import { RoleManagementService } from '../../services/roles/role-management.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { RolModel } from '../models/rol.model';
+import { RolModel } from '../../models/rol.model';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -11,13 +11,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { ActivatedRoute } from '@angular/router';
+import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss'],
+  selector: 'app-role-management',
+  templateUrl: './role-management.component.html',
+  styleUrls: ['./role-management.component.scss'],
 })
-export class RolesComponent implements OnInit {
+export class RoleManagementComponent implements OnInit {
   public columnsHeader: Array<ColumnHeaderModel> = [
     new ColumnHeaderModel('Nombre', 3),
     new ColumnHeaderModel('Descripcion', 8),
@@ -52,7 +53,7 @@ export class RolesComponent implements OnInit {
     );
     // fin carga menú lateral
 
-    this._roleManagementService.getRoles().subscribe((data) => {
+    this._roleManagementService.getRoles('').subscribe((data) => {
       this.roles = data;
     });
 
@@ -92,9 +93,8 @@ export class RolesComponent implements OnInit {
   }
 
   public onSearch(event: string): void {
-    this._roleManagementService.getRolSearches(event).subscribe((data) => {
-      console.log(data);
-      // this.roles = data;
+    this._roleManagementService.getRolSearches(event).subscribe((data: any) => {
+      this.roles = data.content;
     });
   }
 
@@ -113,7 +113,46 @@ export class RolesComponent implements OnInit {
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
     });
-    modalRef.componentInstance.save.subscribe((event) => {});
+    modalRef.componentInstance.save.subscribe((event) => {
+      this.saveOrUpdate(event, modalRef);
+    });
+  }
+
+  private saveOrUpdate(event: any, modalRef: any): void {
+    const formValues: RolModel = event.value;
+    let id;
+    if (this.isEditing) {
+      id = this.roles[this.selectedItem].id;
+    }
+
+    const rol: RolModel = new RolModel(
+      id,
+      formValues.name,
+      formValues.description
+    );
+    this.selectedRole = new RolModel();
+    if (this.isEditing) {
+      this._roleManagementService.updateRole(rol).subscribe(
+        (response) => {
+          this.isEditing = false;
+          modalRef.close();
+          this.refreshData(`&page=${this.currentPage}`);
+        },
+        (error) => {
+          this._toastr.error(error.message);
+        }
+      );
+    } else {
+      this._roleManagementService.createRole(rol).subscribe(
+        (response) => {
+          modalRef.close();
+          this.refreshData(`&page=${this.currentPage}`);
+        },
+        (error) => {
+          this._toastr.error(error.message);
+        }
+      );
+    }
   }
 
   public newRole() {
@@ -127,8 +166,23 @@ export class RolesComponent implements OnInit {
     if (event && event.type === 'edit') {
       this.editRole();
     } else if (event && event.type === 'delete') {
-      this.deleteRole();
+      this.showModalConfirm();
     }
+  }
+
+  private showModalConfirm() {
+    const modalRef = this._modalService.open(ConfirmModalComponent);
+
+    modalRef.componentInstance.title = 'Eliminar Rol';
+    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el rol 
+      ${this.roles[this.selectedItem].name}?`;
+    modalRef.componentInstance.cancel.subscribe((event) => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.accept.subscribe((event) => {
+      this.deleteRole();
+      modalRef.close();
+    });
   }
 
   public editRole(): void {
@@ -151,7 +205,7 @@ export class RolesComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._roleManagementService.getRoles().subscribe((data) => {
+    this._roleManagementService.getRoles(query).subscribe((data) => {
       this.roles = data.content;
       if (this.paginationData.totalElements !== data.totalElements) {
         this.paginationData = data;
