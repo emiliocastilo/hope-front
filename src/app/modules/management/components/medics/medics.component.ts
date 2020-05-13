@@ -16,11 +16,11 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { ServiceModel } from 'src/app/core/models/service/service.model';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-medics',
@@ -29,8 +29,6 @@ import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.mod
 })
 export class MedicsComponent implements OnInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
 
   constructor(
     private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter,
@@ -42,6 +40,8 @@ export class MedicsComponent implements OnInit {
     private _activatedRoute: ActivatedRoute
   ) {}
 
+  public menu: SideBarItemModel[] = [];
+  public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
   public columHeaders: Array<ColumnHeaderModel> = [
     new ColumnHeaderModel('Nombre', 2),
@@ -57,7 +57,6 @@ export class MedicsComponent implements OnInit {
   public isEditing: boolean = false;
   public isNewModal = false;
   public medics: MedicModel[] = [];
-  public menuId: number = environment.MENU_ID.CONTROL_PANEL;
   public selectedItem: number;
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
@@ -126,22 +125,31 @@ export class MedicsComponent implements OnInit {
         );
       }
     });
-
-    // Object.keys(this.,selectedDoctor).map((doctorKey: string) => {
-    //   this.formConfig.map((valueFrom: any, keyform: number) => {
-    //     if (valueFrom.name === doctorKey) {
-    //       this.formConfig[keyform].value = this.selectedDoctor[doctorKey];
-    //     }
-    //   });
-    // });
   }
 
   public onIconButtonClick(event: any): void {
     if (event && event.type === 'edit') {
       this.editDoctor();
     } else {
-      this.deleteDoctor();
+      this.showModalConfirm();
     }
+  }
+
+  private showModalConfirm() {
+    const modalRef = this._modalService.open(ConfirmModalComponent);
+
+    modalRef.componentInstance.title = 'Eliminar Médico';
+    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el médico 
+      ${this.medics[this.selectedItem].name} ${
+      this.medics[this.selectedItem].surname
+    }?`;
+    modalRef.componentInstance.cancel.subscribe((event) => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.accept.subscribe((event) => {
+      this.deleteDoctor();
+      modalRef.close();
+    });
   }
 
   public saveDoctor(): void {

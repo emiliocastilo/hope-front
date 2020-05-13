@@ -40,7 +40,8 @@
             [placeholder]="
               'modal.editor.field.' + formKey | lowercase | translate
             "
-            [type]="formKey === 'birthDate' ? 'date' : 'text'"
+            [type]="setType(formKey)"
+            [accept]="setAccept(formKey)"
           >
           </app-input>
         </span>

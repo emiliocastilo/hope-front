@@ -16,13 +16,14 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
   @Input() clases: string;
   @Input() id: string;
-  @Input() isDisabled = false;
-  @Input() label = '';
+  @Input() isDisabled: boolean = false;
+  @Input() label: string = '';
   @Input() maxlength: any = 256;
   @Input() name: string;
   @Input() placeholder = '';
-  @Input() required = false;
-  @Input() type = 'text';
+  @Input() required: boolean = false;
+  @Input() type: string = 'text';
+  @Input() accept: string;
 
   value: string;
 
@@ -36,6 +37,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
 
   onInput(value: string) {
+    console.log('onInput: ', value);
     this.value = value;
     this.onTouch();
     this.onChange(this.value);
@@ -70,5 +72,20 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         invalid: true,
       }
     );
+  }
+
+  public handleFileInput(files: FileList) {
+    if (this.type === 'file') {
+      // const fileToUpload = files.item(0);
+      // const fileExtension = fileToUpload.name.split('.').pop();
+      // console.log("handleFileInput", files);
+      // if (fileExtension === this.config.fileType) {
+      //   this.group.value.fileDispensation = fileToUpload;
+      //   this.showError = false;
+      // } else {
+      //   this.showError = true;
+      //   this.group.value.fileDispensation = null;
+      // }
+    }
   }
 }

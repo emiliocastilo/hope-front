@@ -27,4 +27,23 @@ export class EditorModalBodyComponent implements OnInit {
     };
     return selectType[key];
   }
+
+  public setType(key: string) {
+    const types = {
+      birthDate: 'date',
+      startPeriod: 'date',
+      endPeriod: 'date',
+      fileDispensation: 'file',
+    };
+
+    return types[key] ? types[key] : 'text';
+  }
+
+  public setAccept(key: string) {
+    const types = {
+      fileDispensation: '.csv',
+    };
+
+    return types[key] ? types[key] : null;
+  }
 }

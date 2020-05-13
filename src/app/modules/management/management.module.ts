@@ -7,8 +7,9 @@ import { ManagementRoutingModule } from './management-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
-import { MedicsComponent } from './components/medic/medics.component';
+import { MedicsComponent } from './components/medics/medics.component';
 import { PatientsComponent } from './components/patients/patients.component';
+import { DispensationsComponent } from './components/dispensations/dispensations.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PatientsComponent } from './components/patients/patients.component';
     RoleManagementComponent,
     MedicsComponent,
     PatientsComponent,
+    DispensationsComponent,
   ],
   imports: [
     CommonModule,
