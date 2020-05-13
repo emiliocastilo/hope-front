@@ -16,6 +16,7 @@ export class EditorModalBodyComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.form) {
+      console.log(this.form.controls);
       this.formKeys = Object.keys(this.form.controls);
     }
   }
@@ -27,4 +28,23 @@ export class EditorModalBodyComponent implements OnInit {
     };
     return selectType[key];
   }
+
+  public getType(formKey: string): string {
+    let type = 'text';
+    const key = formKey.toLowerCase();
+    if (key.includes('date')) {
+      type = 'date';
+    }
+    if (key.includes('number')) {
+      type = 'number';
+    }
+    return type;
+  }
 }
+
+// getInvalidLabel(formKey: string): string {
+//   let invalidLabel = "mod"
+//   switch(formKey){
+
+//   }
+// }

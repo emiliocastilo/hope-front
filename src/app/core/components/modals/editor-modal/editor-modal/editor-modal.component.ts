@@ -26,4 +26,8 @@ export class EditorModalComponent implements OnInit {
   public onSave() {
     this.save.emit(this.form);
   }
+
+  get validForm(): boolean {
+    return this.form.valid;
+  }
 }

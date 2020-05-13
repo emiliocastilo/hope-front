@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -45,7 +45,6 @@ export class PatientsComponent implements OnInit {
     private _toastr: ToastrService,
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router,
     private _formBuilder: FormBuilder
   ) {}
 
@@ -72,7 +71,7 @@ export class PatientsComponent implements OnInit {
       dni: ['', Validators.required],
       address: ['', Validators.required],
       phone: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       genderCode: ['', Validators.required],
       birthDate: ['', Validators.required],
     });
@@ -145,7 +144,7 @@ export class PatientsComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Paciente';
-    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el paciente 
+    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el paciente
       ${this.patients[this.selectedItem].name} ${
       this.patients[this.selectedItem].firstSurname
     }?`;

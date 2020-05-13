@@ -42,5 +42,15 @@
         font-size: 1rem;
       }
     }
+
+    &.ng-invalid.ng-dirty,
+    &:focus.ng-invalid.ng-dirty {
+      border-image: linear-gradient(to right, rgb(242, 0, 0), rgb(245, 0, 0));
+      border-image-slice: 1;
+
+      ~ .dynamic-label {
+        color: rgb(242, 0, 0);
+      }
+    }
   }
 }

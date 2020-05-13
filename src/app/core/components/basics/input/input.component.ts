@@ -23,22 +23,25 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() placeholder = '';
   @Input() required = false;
   @Input() type = 'text';
+  @Input() invalidLabel: string;
 
-  value: string;
+  @Input() value: string;
 
   childControl = new FormControl();
   onChange = (_: any) => {};
   onTouch = () => {};
 
   ngOnInit() {
-    this.controlDirective.control.setValidators([this.validate.bind(this)]);
-    this.controlDirective.control.updateValueAndValidity();
+    // this.controlDirective.control.setValidators([this.validate.bind(this)]);
+    // this.controlDirective.control.updateValueAndValidity();
+    // console.log(this.controlDirective.control);
   }
 
   onInput(value: string) {
     this.value = value;
     this.onTouch();
     this.onChange(this.value);
+    console.log(this.controlDirective.control.valid);
   }
 
   writeValue(value: any): void {
@@ -70,5 +73,12 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         invalid: true,
       }
     );
+  }
+
+  get invalid(): boolean {
+    return !this.controlDirective.valid && this.controlDirective.dirty;
+  }
+  get validator(): string {
+    return JSON.stringify(this.controlDirective.control.validator);
   }
 }

@@ -8,5 +8,6 @@
   <app-editor-modal-footer
     (close)="onClose()"
     (save)="onSave()"
+    [disableSave]="!validForm"
   ></app-editor-modal-footer>
 </div>
