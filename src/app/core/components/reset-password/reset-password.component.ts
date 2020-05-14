@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reset-password',
@@ -16,12 +17,12 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private _loginService: LoginService,
     private _formBuilder: FormBuilder,
-    private _router: Router
+    private _router: Router,
+    private _toastr: ToastrService
   ) {}
   ngOnInit() {
     this.resetPasswordForm = this._formBuilder.group({
       email: ['', Validators.required],
-      password: ['', Validators.required],
     });
   }
 
@@ -43,6 +44,7 @@ export class ResetPasswordComponent implements OnInit {
       (error) => {
         this.loading = false;
         console.log(error as any);
+        this._toastr.error(`${error.status} ${error.statusText}`);
       }
     );
   }
