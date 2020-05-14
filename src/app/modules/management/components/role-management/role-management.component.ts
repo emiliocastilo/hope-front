@@ -118,6 +118,7 @@ export class RoleManagementComponent implements OnInit {
       formValues.name,
       formValues.description
     );
+
     this.selectedRole = new RolModel();
     if (this.isEditing) {
       this._roleManagementService.updateRole(rol).subscribe(
@@ -183,7 +184,7 @@ export class RoleManagementComponent implements OnInit {
       .deleteRole(this.roles[this.selectedItem].id)
       .subscribe(
         (response) => {
-          this._toastr.success('El paciente se ha borrado correctamente');
+          this._toastr.success('El rol se ha borrado correctamente');
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
