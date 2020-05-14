@@ -49,7 +49,7 @@ export class DispensationsComponent implements OnInit {
     this.modalForm = this._formBuilder.group({
       startPeriod: ['', Validators.required],
       endPeriod: ['', Validators.required],
-      fileDispensation: ['', [Validators.required, Validators.pattern]],
+      fileDispensation: [null, Validators.required],
     });
 
     this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
@@ -107,7 +107,7 @@ export class DispensationsComponent implements OnInit {
     });
   }
 
-  public deleteDispensation(): void {
+  private deleteDispensation(): void {
     const currenDispensation = this.dispensations[this.selectedItem];
     this._dispensationsService.delete(currenDispensation.id).subscribe(
       (data) => {
@@ -141,8 +141,9 @@ export class DispensationsComponent implements OnInit {
     });
   }
 
-  private saveDispensation(data: DispensationModel, modal: any) {
-    this._dispensationsService.save(data).subscribe(
+  private saveDispensation(data: FormGroup, modal: any) {
+    console.log(' saveDispensation:', data);
+    this._dispensationsService.save(data.value).subscribe(
       (response) => {
         modal.close();
         this.refreshData(`&page=${this.currentPage}`);

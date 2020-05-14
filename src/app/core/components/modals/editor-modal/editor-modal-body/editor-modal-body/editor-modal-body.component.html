@@ -5,7 +5,9 @@
       [ngSwitch]="formKey"
     >
       <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
-        <span *ngIf="!showSelect(formKey)">
+        <span
+          *ngIf="setType(formKey) !== 'select' && setType(formKey) !== 'file'"
+        >
           <span class="ui-float-label ng-button" *ngSwitchCase="'genderCode'">
             <label for="formKey" class="dynamic-label">
               {{
@@ -41,7 +43,6 @@
               'modal.editor.field.' + formKey | lowercase | translate
             "
             [type]="setType(formKey)"
-            [accept]="setAccept(formKey)"
           >
           </app-input>
         </span>
@@ -55,9 +56,24 @@
           [placeholder]="'modal.editor.field.' + formKey | translate"
           [selectMultiple]="false"
           [form]="form"
-          *ngIf="showSelect(formKey)"
+          *ngIf="setType(formKey) == 'select'"
         >
         </app-input-select>
+
+        <app-input-file
+          [id]="formKey"
+          [label]="'modal.editor.field.' + formKey | lowercase | translate"
+          [name]="formKey"
+          [currentValue]="form.controls[formKey].value"
+          [placeholder]="
+            'modal.editor.field.' + formKey | lowercase | translate
+          "
+          type="file"
+          [accept]="setAccept(formKey)"
+          *ngIf="setType(formKey) == 'file'"
+          [formGroup]="form"
+        >
+        </app-input-file>
       </section>
     </ng-container>
   </form>

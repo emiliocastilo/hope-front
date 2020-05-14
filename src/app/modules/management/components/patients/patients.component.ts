@@ -45,7 +45,6 @@ export class PatientsComponent implements OnInit {
     private _toastr: ToastrService,
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router,
     private _formBuilder: FormBuilder
   ) {}
 

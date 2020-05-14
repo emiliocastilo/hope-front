@@ -20,22 +20,15 @@ export class EditorModalBodyComponent implements OnInit {
     }
   }
 
-  public showSelect(key: string) {
-    const selectType = {
-      hospital: true,
-      serviceDTO: true,
-    };
-    return selectType[key];
-  }
-
   public setType(key: string) {
     const types = {
       birthDate: 'date',
       startPeriod: 'date',
       endPeriod: 'date',
       fileDispensation: 'file',
+      hospital: 'select',
+      serviceDTO: 'select',
     };
-
     return types[key] ? types[key] : 'text';
   }
 

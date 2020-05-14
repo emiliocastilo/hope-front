@@ -167,7 +167,7 @@ export class MedicsComponent implements OnInit {
     this.showModal();
   }
 
-  private saveOrUpdate(event: any, modalRef: any): void {
+  private saveOrUpdate(event: FormGroup, modalRef: any): void {
     const formValues: MedicModel = event.value;
     let id: number;
     const currentDoctor = this.medics[this.selectedItem];

@@ -1,4 +1,4 @@
-import { Component, Input, Self, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
 
 @Component({

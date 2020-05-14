@@ -23,9 +23,8 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() placeholder = '';
   @Input() required: boolean = false;
   @Input() type: string = 'text';
-  @Input() accept: string;
 
-  value: string;
+  public value: string | File = '';
 
   childControl = new FormControl();
   onChange = (_: any) => {};
@@ -37,7 +36,6 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
 
   onInput(value: string) {
-    console.log('onInput: ', value);
     this.value = value;
     this.onTouch();
     this.onChange(this.value);
@@ -72,20 +70,5 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         invalid: true,
       }
     );
-  }
-
-  public handleFileInput(files: FileList) {
-    if (this.type === 'file') {
-      // const fileToUpload = files.item(0);
-      // const fileExtension = fileToUpload.name.split('.').pop();
-      // console.log("handleFileInput", files);
-      // if (fileExtension === this.config.fileType) {
-      //   this.group.value.fileDispensation = fileToUpload;
-      //   this.showError = false;
-      // } else {
-      //   this.showError = true;
-      //   this.group.value.fileDispensation = null;
-      // }
-    }
   }
 }
