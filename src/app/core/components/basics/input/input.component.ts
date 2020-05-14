@@ -21,19 +21,17 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() maxlength: any = 256;
   @Input() name: string;
   @Input() placeholder = '';
-  @Input() required: boolean = false;
-  @Input() type: string = 'text';
+  @Input() required = false;
+  @Input() type = 'text';
+  @Input() invalidLabel: string;
 
-  public value: string | File = '';
+  @Input() value: string;
 
   childControl = new FormControl();
   onChange = (_: any) => {};
   onTouch = () => {};
 
-  ngOnInit() {
-    this.controlDirective.control.setValidators([this.validate.bind(this)]);
-    this.controlDirective.control.updateValueAndValidity();
-  }
+  ngOnInit() {}
 
   onInput(value: string) {
     this.value = value;
@@ -70,5 +68,12 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         invalid: true,
       }
     );
+  }
+
+  get invalid(): boolean {
+    return !this.controlDirective.valid && this.controlDirective.dirty;
+  }
+  get validator(): string {
+    return JSON.stringify(this.controlDirective.control.validator);
   }
 }

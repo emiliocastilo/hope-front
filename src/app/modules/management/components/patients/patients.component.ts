@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -71,7 +71,13 @@ export class PatientsComponent implements OnInit {
       dni: ['', Validators.required],
       address: ['', Validators.required],
       phone: ['', Validators.required],
-      email: ['', Validators.required],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+        ],
+      ],
       genderCode: ['', Validators.required],
       birthDate: ['', Validators.required],
     });
@@ -144,7 +150,7 @@ export class PatientsComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Paciente';
-    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el paciente 
+    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el paciente
       ${this.patients[this.selectedItem].name} ${
       this.patients[this.selectedItem].firstSurname
     }?`;
@@ -168,7 +174,9 @@ export class PatientsComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event) => {
-      this.saveOrUpdate(event, modalRef);
+      if (this.modalForm.valid) {
+        this.saveOrUpdate(event, modalRef);
+      }
     });
   }
 
@@ -215,7 +223,6 @@ export class PatientsComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          debugger;
           this._toastr.error(error.message);
         }
       );
@@ -226,7 +233,6 @@ export class PatientsComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          debugger;
           this._toastr.error(error.message);
         }
       );

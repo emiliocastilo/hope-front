@@ -4,8 +4,12 @@
       *ngFor="let formKey of formKeys; index as fieldIndex"
       [ngSwitch]="formKey"
     >
-      <section [ngClass]="id + '-modal-field-group-' + fieldIndex">
-        <span
+      <section
+        [ngClass]="id + '-modal-field-group-' + fieldIndex"
+        class="col-sm-12 col-md-6 col-lg-4"
+      >
+        <div
+          class="w-100"
           *ngIf="setType(formKey) !== 'select' && setType(formKey) !== 'file'"
         >
           <span class="ui-float-label ng-button" *ngSwitchCase="'genderCode'">
@@ -42,10 +46,11 @@
             [placeholder]="
               'modal.editor.field.' + formKey | lowercase | translate
             "
-            [type]="setType(formKey)"
+            [invalidLabel]="getInvalidLabel(formKey)"
+            [type]="getType(formKey)"
           >
           </app-input>
-        </span>
+        </div>
         <app-input-select
           [id]="formKey"
           [isDisabled]="false"
