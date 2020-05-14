@@ -10,6 +10,7 @@ export class EditorModalBodyComponent implements OnInit {
   @Input() id: string;
   @Input() form: FormGroup;
   @Input() options: any = {};
+  @Input() validationLabels: Map<string, string>;
   public formKeys: Array<string> = [];
 
   constructor() {}
@@ -35,16 +36,16 @@ export class EditorModalBodyComponent implements OnInit {
     if (key.includes('date')) {
       type = 'date';
     }
-    if (key.includes('number')) {
+    if (key.includes('number') || key.includes('phone')) {
       type = 'number';
     }
     return type;
   }
+
+  getInvalidLabel(formKey: string): string {
+    const label = this.validationLabels
+      ? this.validationLabels.get(formKey)
+      : undefined;
+    return label ? label : 'form.validate.required';
+  }
 }
-
-// getInvalidLabel(formKey: string): string {
-//   let invalidLabel = "mod"
-//   switch(formKey){
-
-//   }
-// }

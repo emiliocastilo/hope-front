@@ -19,6 +19,8 @@ export class EditorModalFooterComponent implements OnInit {
   }
 
   public onSave(value: any) {
-    this.save.emit(null);
+    if (this.disableSave) {
+      this.save.emit(null);
+    }
   }
 }

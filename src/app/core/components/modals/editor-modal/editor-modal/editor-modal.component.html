@@ -3,7 +3,12 @@
     [title]="title"
     (close)="onClose()"
   ></app-generic-modal-header>
-  <app-editor-modal-body [id]="id" [form]="form" [options]="options">
+  <app-editor-modal-body
+    [id]="id"
+    [form]="form"
+    [options]="options"
+    [validationLabels]="validationLabels"
+  >
   </app-editor-modal-body>
   <app-editor-modal-footer
     (close)="onClose()"

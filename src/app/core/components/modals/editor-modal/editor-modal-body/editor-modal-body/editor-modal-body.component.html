@@ -43,7 +43,7 @@
             [placeholder]="
               'modal.editor.field.' + formKey | lowercase | translate
             "
-            [invalidLabel]="'form.validate.required'"
+            [invalidLabel]="getInvalidLabel(formKey)"
             [type]="getType(formKey)"
           >
           </app-input>

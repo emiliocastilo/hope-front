@@ -10,6 +10,7 @@ export class EditorModalComponent implements OnInit {
   @Input() id: string;
   @Input() title: string;
   @Input() form: FormGroup;
+  @Input() validationLabels: Map<string, string>;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<FormGroup> = new EventEmitter();
   @Input() options: any = {};

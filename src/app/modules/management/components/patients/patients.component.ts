@@ -71,7 +71,13 @@ export class PatientsComponent implements OnInit {
       dni: ['', Validators.required],
       address: ['', Validators.required],
       phone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+        ],
+      ],
       genderCode: ['', Validators.required],
       birthDate: ['', Validators.required],
     });
@@ -168,7 +174,9 @@ export class PatientsComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event) => {
-      this.saveOrUpdate(event, modalRef);
+      if (this.modalForm.valid) {
+        this.saveOrUpdate(event, modalRef);
+      }
     });
   }
 
@@ -215,7 +223,6 @@ export class PatientsComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          debugger;
           this._toastr.error(error.message);
         }
       );
@@ -226,7 +233,6 @@ export class PatientsComponent implements OnInit {
           this.refreshData(`&page=${this.currentPage}`);
         },
         (error) => {
-          debugger;
           this._toastr.error(error.message);
         }
       );

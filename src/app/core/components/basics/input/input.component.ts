@@ -34,14 +34,12 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {
     // this.controlDirective.control.setValidators([this.validate.bind(this)]);
     // this.controlDirective.control.updateValueAndValidity();
-    // console.log(this.controlDirective.control);
   }
 
   onInput(value: string) {
     this.value = value;
     this.onTouch();
     this.onChange(this.value);
-    console.log(this.controlDirective.control.valid);
   }
 
   writeValue(value: any): void {
