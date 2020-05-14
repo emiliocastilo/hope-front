@@ -50,7 +50,7 @@ export class LoginService {
 
   postChooseProfile(role: string): Observable<any> {
     return this._http
-      .post('/users/choose_profile/', role, { observe: 'response' })
+      .post('/users/choose-profiles/', role, { observe: 'response' })
       .pipe(
         map((res) => {
           this.currentUserSubject.next(res);
