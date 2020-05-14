@@ -141,9 +141,29 @@ export class DispensationsComponent implements OnInit {
     });
   }
 
+  private parseDate(date: string) {
+    let formatedDate = null;
+    if (date) {
+      const dateObject = new Date(date);
+      const day =
+        dateObject.getDate() < 10
+          ? `0${dateObject.getDate()}`
+          : dateObject.getDate();
+      const month = Math.round(dateObject.getMonth() + 1);
+      const monthWithCero = month < 10 ? `0${month}` : month;
+      const year = dateObject.getFullYear();
+      formatedDate = `${day}-${monthWithCero}-${year} 00:00:00`;
+    }
+    return formatedDate;
+  }
+
   private saveDispensation(data: FormGroup, modal: any) {
-    console.log(' saveDispensation:', data);
-    this._dispensationsService.save(data.value).subscribe(
+    const value = data.value;
+
+    value.startPeriod = this.parseDate(value.startPeriod);
+    value.endPeriod = this.parseDate(value.endPeriod);
+
+    this._dispensationsService.save(value).subscribe(
       (response) => {
         modal.close();
         this.refreshData(`&page=${this.currentPage}`);

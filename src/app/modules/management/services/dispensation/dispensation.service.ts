@@ -17,7 +17,15 @@ export class DispensationService {
   save(dispensationModel: DispensationModel): Observable<any> {
     const formData: FormData = new FormData();
     Object.keys(dispensationModel).map((key: string) => {
-      formData.append(key, dispensationModel[key]);
+      if (key == 'fileDispensation') {
+        formData.append(
+          key,
+          dispensationModel[key],
+          dispensationModel[key].name
+        );
+      } else {
+        formData.append(key, dispensationModel[key]);
+      }
     });
 
     const headers = new HttpHeaders();
