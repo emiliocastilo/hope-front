@@ -51,10 +51,6 @@ export class RoleManagementComponent implements OnInit {
       item.url.endsWith('/management/roles')
     );
 
-    this._roleManagementService.getRoles('page=0').subscribe((data: any) => {
-      this.roles = data;
-    });
-
     this.paginationData = this._activatedRoute.snapshot.data.roles;
 
     this.modalForm = this._formBuilder.group({
@@ -74,8 +70,6 @@ export class RoleManagementComponent implements OnInit {
 
   public onSelectedItem(event: number): void {
     this.selectedRole = this.roles[event];
-    const selectedUser = JSON.stringify(this.selectedRole || {});
-    localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
     Object.keys(this.roles[event]).map((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
