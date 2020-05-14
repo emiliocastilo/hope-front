@@ -10,6 +10,7 @@
   "btn.update": "Modificar",
   "btn.save": "Guardar",
   "btn.close": "Cerrar",
+  "btn.proceed": "Proceder",
   "validation.user": "El usuario es obligatorio.",
   "validation.password": "La contraseña es obligatoria.",
   "select.rol": "Seleccione un Rol",

@@ -17,8 +17,13 @@ export class InterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const reqUrl = environment.URL_API;
+    if (req.url.includes('/users/request-password-changes')) {
+      localStorage.setItem('token', '');
+    }
     req = req.clone({
-      headers: req.headers.set('Authorization', this._setAuthorizations()),
+      headers: req.headers
+        .set('Authorization', this._setAuthorizations())
+        .set('Content-Type', 'application/json'),
       url: reqUrl + '' + req.url,
     });
     return next.handle(req);
