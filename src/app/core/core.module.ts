@@ -39,8 +39,8 @@ import { FormDatepickerComponent } from './components/basics/form-datepicker/for
 import { SwitchComponent } from './components/basics/app-switch/app-switch.component';
 import { PaginationComponent } from './components/basics/pagination/pagination.component';
 import { FormTextareaComponent } from './components/basics/form-textarea/form-textarea.component';
-import { Router, RouterModule } from '@angular/router';
 import { InputFileComponent } from './components/basics/input-file/input-file.component';
+import { RouterModule } from '@angular/router';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

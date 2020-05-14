@@ -58,9 +58,11 @@
                 </form>
 
                 <div id="formFooter">
-                  <a class="underlineHover" routerLink="/reset-password">{{
-                    'login.resetPassword' | translate
-                  }}</a>
+                  <a
+                    class="underlineHover"
+                    [routerLink]="['/reset-password']"
+                    >{{ 'login.resetPassword' | translate }}</a
+                  >
                 </div>
               </div>
             </div>

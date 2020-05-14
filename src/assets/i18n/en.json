@@ -10,6 +10,7 @@
   "btn.update": "Update",
   "btn.save": "Save",
   "btn.close": "Close",
+  "btn.proceed": "Proceed",
   "validation.user": "Username is required.",
   "validation.password": "Password is required.",
   "select.rol": "Select a Role",
