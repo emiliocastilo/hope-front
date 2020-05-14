@@ -58,4 +58,13 @@
   &:invalid {
     box-shadow: none;
   }
+
+  &.ng-invalid.ng-dirty,
+  &:focus.ng-invalid.ng-dirty {
+    border-bottom: rgb(242, 0, 0);
+
+    ~ .dynamic-label {
+      color: rgb(242, 0, 0);
+    }
+  }
 }

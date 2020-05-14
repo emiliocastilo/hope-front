@@ -72,7 +72,6 @@ export class MedicsComponent implements OnInit {
     this.menuSelected = this.menu[0].children.find((item) =>
       item.url.endsWith('/management/medics')
     );
-    console.log(this.menuSelected);
     // fin carga menú lateral
 
     this.services = this._activatedRoute.snapshot.data.services;
@@ -85,7 +84,13 @@ export class MedicsComponent implements OnInit {
       surname: ['', Validators.required],
       dni: ['', Validators.required],
       phone: ['', Validators.required],
-      email: ['', Validators.required],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+        ],
+      ],
       collegeNumber: ['', Validators.required],
       serviceDTO: [null, Validators.required],
       hospital: [null, Validators.required],

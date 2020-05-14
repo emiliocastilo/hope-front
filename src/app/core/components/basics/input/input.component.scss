@@ -182,7 +182,7 @@
   }
 
   &:placeholder-shown ~ .dynamic-label {
-    font-size: 1.3rem;
+    font-size: 1rem;
     cursor: text;
     top: 20px;
   }
@@ -193,14 +193,14 @@
       top: 0;
       display: block;
       transition: 0.2s;
-      font-size: 1rem;
+      font-size: 0.8rem;
       color: $app-color-blue-medium;
     }
 
     ~ .date-label {
       display: block;
       transition: 0.2s;
-      font-size: 1rem;
+      font-size: 0.8rem;
       color: $app-color-blue-medium;
     }
 
@@ -219,4 +219,19 @@
   &:invalid {
     box-shadow: none;
   }
+
+  &.invalid,
+  &.invalid:focus {
+    border-image: linear-gradient(to right, rgb(242, 0, 0), rgb(245, 0, 0));
+    border-image-slice: 1;
+
+    ~ .dynamic-label {
+      color: rgb(242, 0, 0);
+    }
+  }
+}
+
+.invalid-value {
+  color: rgb(242, 0, 0);
+  font-size: 0.7rem;
 }
