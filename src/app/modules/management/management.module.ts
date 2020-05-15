@@ -20,7 +20,10 @@ import { ContextMenuModule } from 'ngx-contextmenu';
     RoleManagementComponent,
     MedicsComponent,
     PatientsComponent,
+<<<<<<< HEAD
     DispensationsComponent,
+=======
+>>>>>>> wip: added sections table list
     SectionsComponent,
   ],
   imports: [
