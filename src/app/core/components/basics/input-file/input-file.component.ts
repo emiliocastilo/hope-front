@@ -22,10 +22,7 @@ export class InputFileComponent implements OnInit {
   @Input() currentValue: File;
   @Input() formGroup: FormGroup;
 
-  ngOnInit(): void {
-    console.log('ngOnInit:', this.formGroup);
-    // this.currentValue = this.formGroup[this.name];
-  }
+  ngOnInit(): void {}
 
   public handleFileInput(files: FileList): void {
     const fileToUpload = files.item(0);

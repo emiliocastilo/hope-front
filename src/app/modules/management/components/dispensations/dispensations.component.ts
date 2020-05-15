@@ -159,18 +159,18 @@ export class DispensationsComponent implements OnInit {
 
   private saveDispensation(data: FormGroup, modal: any) {
     const value = data.value;
-
     value.startPeriod = this.parseDate(value.startPeriod);
     value.endPeriod = this.parseDate(value.endPeriod);
 
-    this._dispensationsService.save(value).subscribe(
-      (response) => {
+    this._dispensationsService
+      .save(value)
+      .then((response: any) => {
         modal.close();
         this.refreshData(`&page=${this.currentPage}`);
-      },
-      (error) => {
-        this._toastr.error(error.message);
-      }
-    );
+        this._toastr.success('Registrado correctamente');
+      })
+      .catch((error: any) => {
+        this._toastr.error('Error inesperado.');
+      });
   }
 }

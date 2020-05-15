@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-editor-modal-body',
@@ -45,7 +45,7 @@ export class EditorModalBodyComponent implements OnInit {
   public getType(formKey: string): string {
     let type = 'text';
     const key = formKey.toLowerCase();
-    if (key.includes('date')) {
+    if (key.includes('date') || key.includes('period')) {
       type = 'date';
     }
     if (key.includes('number') || key.includes('phone')) {
