@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsService } from '../../services/forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 
 @Component({
   selector: 'app-forms',
@@ -9,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./forms.component.scss'],
 })
 export class FormsComponent implements OnInit {
+  config: FieldConfig[] = [];
+
   constructor(
     private _formsService: FormsService,
     public _translate: TranslateService,
@@ -17,12 +20,12 @@ export class FormsComponent implements OnInit {
 
   ngOnInit(): void {
     this._formsService.get().subscribe(
-      (response) => {
-        debugger;
-      },
-      (error) => {
-        this._toastr.error(error.message);
-      }
+      (data) => console.log('success', JSON.stringify(data)),
+      (error) => this._toastr.error(error.message)
     );
+  }
+
+  submit(value: { [name: string]: any }) {
+    console.log(value);
   }
 }

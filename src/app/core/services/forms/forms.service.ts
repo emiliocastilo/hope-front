@@ -9,7 +9,10 @@ const PATH = '/templates';
 export class FormsService {
   constructor(private _http: HttpClient) {}
 
-  get(): Observable<any> {
-    return this._http.get(PATH + '?key=PLANTILLA_PRUEBA');
+  public get(): Observable<any> {
+    //DATOS_ SOCIODEMOGRAFICOS
+    return this._http.get(PATH + '?key=PLANTILLA_PRUEBA', {
+      observe: 'response',
+    });
   }
 }
