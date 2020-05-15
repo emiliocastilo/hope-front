@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { MedicsComponent } from './components/medic/medics.component';
 import { PatientsComponent } from './components/patients/patients.component';
+import { SectionsComponent } from './components/sections/sections.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PatientsComponent } from './components/patients/patients.component';
     RoleManagementComponent,
     MedicsComponent,
     PatientsComponent,
+    SectionsComponent,
   ],
   imports: [
     CommonModule,
