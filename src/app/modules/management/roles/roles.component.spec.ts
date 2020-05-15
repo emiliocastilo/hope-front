@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RolesComponent } from './roles.component';
 
 describe('RolesComponent', () => {
@@ -13,6 +12,7 @@ describe('RolesComponent', () => {
   }));
 
   beforeEach(() => {
+    fixture = TestBed.createComponent(RolesComponent);
     fixture = TestBed.createComponent(RolesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
