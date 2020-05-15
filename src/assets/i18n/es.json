@@ -51,6 +51,7 @@
   "modal.editor.field.startperiod": "Periodo de inicio",
   "modal.editor.field.endperiod": "Periodo fin",
   "modal.editor.field.filedispensation": "Archivo csv",
+  "modal.editor.field.description": "Descripción",
   "logout": "Desconectar",
   "fullName": "Nombre completo",
   "age": "Edad",

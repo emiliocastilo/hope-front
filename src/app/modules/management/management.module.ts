@@ -10,6 +10,7 @@ import { RoleManagementComponent } from './components/role-management/role-manag
 import { MedicsComponent } from './components/medics/medics.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { DispensationsComponent } from './components/dispensations/dispensations.component';
+// import { RolesComponent } from './roles/roles.component';
 
 @NgModule({
   declarations: [
