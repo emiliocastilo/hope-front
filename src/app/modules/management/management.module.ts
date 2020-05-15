@@ -11,6 +11,7 @@ import { MedicsComponent } from './components/medics/medics.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { DispensationsComponent } from './components/dispensations/dispensations.component';
 // import { RolesComponent } from './roles/roles.component';
+import { SectionsComponent } from './components/sections/sections.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { DispensationsComponent } from './components/dispensations/dispensations
     MedicsComponent,
     PatientsComponent,
     DispensationsComponent,
+    SectionsComponent,
   ],
   imports: [
     CommonModule,
