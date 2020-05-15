@@ -7,6 +7,7 @@ import { SideBarResolverService } from './core/services/side-bar/side-bar-resolv
 import { HomeDashboardResolverService } from './core/services/home-dashboard/home-dashboard-resolver.service';
 import { ResetPasswordComponent } from './core/components/reset-password/reset-password.component';
 import { SelectRoleComponent } from './core/components/select-role/select-role.component';
+import { FormsComponent } from './core/components/forms/forms.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
   {
     path: 'select-role',
     component: SelectRoleComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'forms',
+    component: FormsComponent,
     canActivate: [AuthGuard],
   },
   {
