@@ -6,15 +6,15 @@ import { CoreModule, createTranslateLoader } from 'src/app/core/core.module';
 import { ManagementRoutingModule } from './management-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-// import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { MedicsComponent } from './components/medic/medics.component';
 import { PatientsComponent } from './components/patients/patients.component';
-import { RolesComponent } from './roles/roles.component';
+// import { RolesComponent } from './roles/roles.component';
 
 @NgModule({
   declarations: [
     ManagementComponent,
-    RolesComponent,
+    RoleManagementComponent,
     MedicsComponent,
     PatientsComponent,
   ],

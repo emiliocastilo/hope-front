@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RolModel } from '../models/rol.model';
+import { RolModel } from '../../models/rol.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,20 +9,21 @@ import { RolModel } from '../models/rol.model';
 export class RoleManagementService {
   constructor(private _httpClient: HttpClient) {}
 
-  public getRoles(): Observable<any> {
-    return this._httpClient.get('/roles');
+  public getRoles(query: string): Observable<any> {
+    query = query ? query : '';
+    return this._httpClient.get(`/roles?${query}`);
   }
 
   public getRoleById(id: string): Observable<any> {
     return this._httpClient.get(`/roles/${id}`);
   }
 
-  public createRole(request: RolModel): Observable<any> {
-    return this._httpClient.post('/roles', request);
+  public createRole(rol: RolModel): Observable<any> {
+    return this._httpClient.post('/roles', rol);
   }
 
-  public updateRole(request: RolModel): Observable<any> {
-    return this._httpClient.put('/roles', request);
+  public updateRole(rol: RolModel): Observable<any> {
+    return this._httpClient.put('/roles', rol);
   }
 
   public deleteRole(id: string): Observable<any> {
@@ -34,6 +35,6 @@ export class RoleManagementService {
   }
 
   public getRolSearches(search?: string) {
-    return this._httpClient.get(`/roles/searches&name=${search ? search : ''}`);
+    return this._httpClient.get(`/roles/searches?name=${search}`);
   }
 }
