@@ -22,13 +22,7 @@ export class SearchComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     fromEvent(this.input.nativeElement, 'keyup')
-      .pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-        tap((text) => {
-          console.log(this.input.nativeElement.value);
-        })
-      )
+      .pipe(debounceTime(1000), distinctUntilChanged())
       .subscribe(() => this.emitAction.emit(this.input.nativeElement.value));
   }
 }

@@ -10,6 +10,7 @@ import { SideBarResolverService } from 'src/app/core/services/side-bar/side-bar-
 import { ServiceResolverService } from 'src/app/core/services/service/service-resolver.service';
 import { PatientsComponent } from './components/patients/patients.component';
 import { PatientsResolverService } from './services/patients/patients-resolver.service';
+import { RoleManagementResolverService } from './services/roles/role-management-resolver.service';
 
 const routes: Routes = [
   {
@@ -37,8 +38,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'role',
+    path: 'roles',
     component: RoleManagementComponent,
+    resolve: {
+      roles: RoleManagementResolverService,
+    },
     canActivate: [AuthGuard],
   },
 ];
