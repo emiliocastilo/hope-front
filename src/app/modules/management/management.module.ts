@@ -10,6 +10,7 @@ import { RoleManagementComponent } from './components/role-management/role-manag
 import { MedicsComponent } from './components/medic/medics.component';
 import { PatientsComponent } from './components/patients/patients.component';
 // import { RolesComponent } from './roles/roles.component';
+import { SectionsComponent } from './components/sections/sections.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { PatientsComponent } from './components/patients/patients.component';
     RoleManagementComponent,
     MedicsComponent,
     PatientsComponent,
+    SectionsComponent,
   ],
   imports: [
     CommonModule,
