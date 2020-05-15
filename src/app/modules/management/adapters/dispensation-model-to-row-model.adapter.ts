@@ -19,6 +19,10 @@ export class DispensationModelToRowModelAdapter {
       new ColumnDataModel('iconButtons', {
         iconButtons: [
           {
+            type: 'details',
+            icon: 'fa-lg fa-search cfa-blue',
+          },
+          {
             type: 'delete',
             icon: 'fa-lg fa-window-close cfa-red',
           },

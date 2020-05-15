@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DispensationModel } from '../../models/dispensation/dispensation.model';
 import { environment } from 'src/environments/environment';
-import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +13,11 @@ export class DispensationService {
   getAll(query: string): Observable<any> {
     query = query ? query : '';
     return this._http.get(`/dispensations?${query}`);
+  }
+
+  getDetailsById(query: string): Observable<any> {
+    query = query ? query : '';
+    return this._http.get(`/dispensation-details?${query}`);
   }
 
   save(dispensationModel: DispensationModel): any {

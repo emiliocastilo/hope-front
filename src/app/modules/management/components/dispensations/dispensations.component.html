@@ -6,6 +6,7 @@
   <section class="col-md-8 col-lg-9">
     <div class="container-fluid mt-4">
       <app-button
+        *ngIf="!showDetails"
         type="button"
         icono="fa fa-plus"
         clasesBtn="btn-primary btn-sm mx-2"
@@ -13,15 +14,34 @@
         texto="btn.new"
       >
       </app-button>
+      <app-button
+        *ngIf="showDetails"
+        type="button"
+        icono="fa fa-arrow-left"
+        clasesBtn="btn-primary btn-sm mx-2"
+        (click)="goBackToDispensations()"
+        texto="btn.back"
+      >
+      </app-button>
     </div>
     <section class="container-fluid mt-4">
-      <app-table
-        [columnsHeader]="columHeaders"
-        [columnsData]="prepareTableData()"
-        (selectedItem)="onSelectedItem($event)"
-        (iconButtonClick)="onIconButtonClick($event)"
-      >
-      </app-table>
+      <div *ngIf="!showDetails">
+        <app-table
+          [columnsHeader]="columHeaders"
+          [columnsData]="prepareTableData()"
+          (selectedItem)="onSelectedItem($event)"
+          (iconButtonClick)="onIconButtonClick($event)"
+        >
+        </app-table>
+      </div>
+
+      <div *ngIf="showDetails">
+        <app-table
+          [columnsHeader]="dispensationDetailHeaders"
+          [columnsData]="prepareTableDataDetails()"
+        >
+        </app-table>
+      </div>
       <app-pagination
         (selectPage)="selectPage($event)"
         [paginationData]="paginationData"

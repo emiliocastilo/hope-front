@@ -11,6 +11,7 @@
   "btn.save": "Save",
   "btn.close": "Close",
   "btn.proceed": "Proceed",
+  "btn.back": "Back",
   "validation.user": "Username is required.",
   "validation.password": "Password is required.",
   "select.rol": "Select a Role",

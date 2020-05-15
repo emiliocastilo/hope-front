@@ -12,6 +12,8 @@ import { EditorModalComponent } from 'src/app/core/components/modals/editor-moda
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
+import { DetailDispensationModel } from '../../models/dispensation/detail-dispensation.model';
+import { DetailDispensationModelToRowModelAdapter } from '../../adapters/detail-dispensation-model-to-row-model.adapter';
 
 @Component({
   selector: 'app-dispensations',
@@ -22,7 +24,8 @@ export class DispensationsComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _dispensationsService: DispensationService,
-    private _rowModelAdapter: DispensationModelToRowModelAdapter,
+    private _dispensationrowModelAdapter: DispensationModelToRowModelAdapter,
+    private _detailsDispensationrRowModelAdapter: DetailDispensationModelToRowModelAdapter,
     private _toastr: ToastrService,
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder
@@ -30,18 +33,33 @@ export class DispensationsComponent implements OnInit {
 
   private currentPage: number = 0;
   private dispensations: DispensationModel[] = [];
+  private detailDispensations: DetailDispensationModel[] = [];
   public paginationData: PaginationModel;
-  public columHeaders: Array<ColumnHeaderModel> = [
+
+  public columHeaders: ColumnHeaderModel[] = [
     new ColumnHeaderModel('Fecha', 2),
     new ColumnHeaderModel('Periodo inicio', 2),
     new ColumnHeaderModel('Periodo fin', 2),
     new ColumnHeaderModel('Num. Registros', 2),
     new ColumnHeaderModel('Acciones', 2),
   ];
-  public selectedItem: number;
+
+  private dispensationDetailHeaders: ColumnHeaderModel[] = [
+    new ColumnHeaderModel('Fecha', 2),
+    new ColumnHeaderModel('Nhc', 2),
+    new ColumnHeaderModel('Code', 2),
+    new ColumnHeaderModel('Código nacional', 2),
+    new ColumnHeaderModel('Descripcion', 2),
+    new ColumnHeaderModel('Cantidad', 2),
+    new ColumnHeaderModel('Precio', 2),
+    new ColumnHeaderModel('Días', 2),
+  ];
+
+  public selectedItem: DispensationModel;
   private modalForm: FormGroup;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
+  public showDetails: boolean = false;
 
   ngOnInit(): void {
     this.dispensations = this._activatedRoute.snapshot.data.dispensations.content;
@@ -62,7 +80,7 @@ export class DispensationsComponent implements OnInit {
 
   public prepareTableData(): Array<RowDataModel> {
     const rows = this.dispensations.map((dispensation) => {
-      return this._rowModelAdapter.adaptModelToRow(dispensation);
+      return this._dispensationrowModelAdapter.adaptModelToRow(dispensation);
     });
     return rows;
   }
@@ -70,7 +88,12 @@ export class DispensationsComponent implements OnInit {
   public selectPage(page: number): void {
     this.currentPage = page;
     const query: string = `&page=${page}`;
-    this.refreshData(query);
+    if (this.showDetails) {
+      const id = `dsp=${this.selectedItem.id}${query}`;
+      this.getDetails(id);
+    } else {
+      this.refreshData(query);
+    }
   }
 
   private refreshData(query: string): void {
@@ -82,14 +105,44 @@ export class DispensationsComponent implements OnInit {
     });
   }
 
+  private getDetails(query: string): void {
+    this._dispensationsService.getDetailsById(query).subscribe((data) => {
+      this.detailDispensations = data.content;
+      if (this.paginationData.totalElements !== data.totalElements) {
+        this.paginationData = data;
+      }
+    });
+  }
+
+  public prepareTableDataDetails(): RowDataModel[] {
+    const rows = this.detailDispensations.map((detail) => {
+      return this._detailsDispensationrRowModelAdapter.adaptModelToRow(detail);
+    });
+    return rows;
+  }
+
   public onSelectedItem(event: number): void {
-    this.selectedItem = event;
+    this.selectedItem = this.dispensations[event];
   }
 
   public onIconButtonClick(event: any): void {
-    if (event && event.type === 'delete') {
-      this.showModalConfirm();
+    switch (event.type) {
+      case 'delete':
+        this.showModalConfirm();
+        this.showDetails = false;
+        break;
+
+      case 'details':
+        this.showDetails = true;
+        this.getDetails(`dsp=${this.selectedItem.id}`);
+        break;
     }
+  }
+
+  public goBackToDispensations() {
+    this.showDetails = false;
+    const query: string = '&page=0';
+    this.refreshData(query);
   }
 
   private showModalConfirm() {
@@ -97,7 +150,7 @@ export class DispensationsComponent implements OnInit {
 
     modalRef.componentInstance.title = 'Eliminar Dispensacion';
     modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar la despiensacion de la fecha 
-      ${this.dispensations[this.selectedItem].date}?`;
+      ${this.selectedItem.date}?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
     });
@@ -108,8 +161,7 @@ export class DispensationsComponent implements OnInit {
   }
 
   private deleteDispensation(): void {
-    const currenDispensation = this.dispensations[this.selectedItem];
-    this._dispensationsService.delete(currenDispensation.id).subscribe(
+    this._dispensationsService.delete(this.selectedItem.id).subscribe(
       (data) => {
         this.refreshData(`&page=${this.currentPage}`);
         this._toastr.success('Eliminado exitosamente.');

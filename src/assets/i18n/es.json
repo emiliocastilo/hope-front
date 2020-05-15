@@ -11,6 +11,7 @@
   "btn.save": "Guardar",
   "btn.close": "Cerrar",
   "btn.proceed": "Proceder",
+  "btn.back": "Regresar",
   "validation.user": "El usuario es obligatorio.",
   "validation.password": "La contraseña es obligatoria.",
   "select.rol": "Seleccione un Rol",
