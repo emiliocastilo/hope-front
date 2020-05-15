@@ -40,6 +40,7 @@ import { SwitchComponent } from './components/basics/app-switch/app-switch.compo
 import { PaginationComponent } from './components/basics/pagination/pagination.component';
 import { FormTextareaComponent } from './components/basics/form-textarea/form-textarea.component';
 import { RouterModule } from '@angular/router';
+import { FormsComponent } from './components/forms/forms.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -79,6 +80,7 @@ export function createTranslateLoader(http: HttpClient) {
     SwitchComponent,
     PaginationComponent,
     FormTextareaComponent,
+    FormsComponent,
   ],
   imports: [
     CommonModule,
