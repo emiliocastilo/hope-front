@@ -11,6 +11,6 @@ export class RoleManagementResolverService implements Resolve<Array<RolModel>> {
   constructor(private roleService: RoleManagementService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Array<RolModel>> {
-    return this.roleService.getRoles('&page=0');
+    return this.roleService.getRoles('page=0');
   }
 }
