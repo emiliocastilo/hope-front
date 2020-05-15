@@ -1,17 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { SectionModel } from '../../models/section.model';
-import { SectionsService } from '../../services/sections/sections.service';
-import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ITreeOptions, TREE_ACTIONS } from 'angular-tree-component';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
+import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
+import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SECTIONS_TABLE_HEADERS } from 'src/app/modules/management/constants/sections.constants';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { ITreeOptions, TREE_ACTIONS } from 'angular-tree-component';
-import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
+import { SectionModel } from '../../models/section.model';
+import { SectionsService } from '../../services/sections/sections.service';
 
 @Component({
   selector: 'app-sections',
