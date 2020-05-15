@@ -3,7 +3,6 @@ import { FormsService } from '../../services/forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
-import { FormsModel } from '../../models/forms/forms.model';
 
 @Component({
   selector: 'app-forms',
@@ -21,7 +20,7 @@ export class FormsComponent implements OnInit {
 
   ngOnInit(): void {
     this._formsService.get().subscribe(
-      (data: FormsModel) => console.log('success', data, JSON.stringify(data)),
+      (data) => console.log('success', JSON.stringify(data)),
       (error) => this._toastr.error(error.message)
     );
   }
