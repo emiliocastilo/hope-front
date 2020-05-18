@@ -26,7 +26,8 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
   styleUrls: ['./patients.component.scss'],
 })
 export class PatientsComponent implements OnInit {
-  public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
+  //public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
+  public columnsHeader: Array<string> = PATIENT_TABLE_KEYS;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
@@ -117,6 +118,10 @@ export class PatientsComponent implements OnInit {
     } else if (event && event.type === 'delete') {
       this.showModalConfirm();
     }
+  }
+
+  public onSort(event: any) {
+    this.refreshData(`&sort=${event.column},${event.direction}`);
   }
 
   public savePatient(): void {
@@ -274,20 +279,20 @@ export class PatientsComponent implements OnInit {
     patient.pathologies.forEach((pathology) => {
       pathologyList = pathologyList.concat(pathology.name).concat(';');
     });
-    row.pushColumn(
-      new ColumnDataModel('iconButtons', {
-        iconButtons: [
-          {
-            type: 'edit',
-            icon: 'fa-lg fa-pencil',
-          },
-          {
-            type: 'delete',
-            icon: 'fa-lg fa-window-close cfa-red',
-          },
-        ],
-      })
-    );
+    // row.pushColumn(
+    //   new ColumnDataModel('iconButtons', {
+    //     iconButtons: [
+    //       {
+    //         type: 'edit',
+    //         icon: 'fa-lg fa-pencil',
+    //       },
+    //       {
+    //         type: 'delete',
+    //         icon: 'fa-lg fa-window-close cfa-red',
+    //       },
+    //     ],
+    //   })
+    // );
     return row;
   }
 }

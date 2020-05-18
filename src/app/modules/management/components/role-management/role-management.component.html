@@ -22,6 +22,8 @@
           [columnsHeader]="columnsHeader"
           [columnsData]="prepareTableData()"
           (selectedItem)="onSelectedItem($event)"
+          (sort)="onSort($event)"
+          [showActionButtons]="true"
           (iconButtonClick)="onIconButtonClick($event)"
         ></app-table>
 
