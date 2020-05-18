@@ -27,9 +27,11 @@
     <section class="container-fluid mt-4">
       <div *ngIf="!showDetails">
         <app-table
-          [columnsHeader]="columHeaders"
+          [columnsHeader]="columnHeaders"
           [columnsData]="prepareTableData()"
           (selectedItem)="onSelectedItem($event)"
+          (sort)="onSort($event)"
+          [showActionButtons]="true"
           (iconButtonClick)="onIconButtonClick($event)"
         >
         </app-table>
@@ -39,6 +41,7 @@
         <app-table
           [columnsHeader]="dispensationDetailHeaders"
           [columnsData]="prepareTableDataDetails()"
+          (sort)="onSort($event)"
         >
         </app-table>
       </div>

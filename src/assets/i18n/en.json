@@ -60,5 +60,14 @@
   "fullName": "full name",
   "age": "Age",
   "male": "Male",
-  "female": "Female"
+  "female": "Female",
+  "date": "Date",
+  "startPeriod": "Start Period",
+  "endPeriod": "End Period",
+  "numRecords": "Registries number",
+  "nationalCode": "National code",
+  "quantity": "Quantity",
+  "price": "Price",
+  "daysDispensation": "Days",
+  "code": "Code"
 }
