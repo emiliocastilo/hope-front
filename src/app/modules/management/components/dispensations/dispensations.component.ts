@@ -36,24 +36,35 @@ export class DispensationsComponent implements OnInit {
   private detailDispensations: DetailDispensationModel[] = [];
   public paginationData: PaginationModel;
 
-  public columHeaders: ColumnHeaderModel[] = [
-    new ColumnHeaderModel('Fecha', 2),
-    new ColumnHeaderModel('Periodo inicio', 2),
-    new ColumnHeaderModel('Periodo fin', 2),
-    new ColumnHeaderModel('Num. Registros', 2),
-    new ColumnHeaderModel('Acciones', 2),
+  // public columHeaders: ColumnHeaderModel[] = [
+  //   new ColumnHeaderModel('Fecha', 2),
+  //   new ColumnHeaderModel('Periodo inicio', 2),
+  //   new ColumnHeaderModel('Periodo fin', 2),
+  //   new ColumnHeaderModel('Num. Registros', 2),
+  //   new ColumnHeaderModel('Acciones', 2),
+  // ];
+  public columnHeaders = ['date', 'startPeriod', 'endPeriod', 'numRecords'];
+  private dispensationDetailHeaders = [
+    'date',
+    'nhc',
+    'code',
+    'nationalCode',
+    'description',
+    'quantity',
+    'price',
+    'daysDispensation',
   ];
 
-  private dispensationDetailHeaders: ColumnHeaderModel[] = [
-    new ColumnHeaderModel('Fecha', 2),
-    new ColumnHeaderModel('Nhc', 2),
-    new ColumnHeaderModel('Code', 2),
-    new ColumnHeaderModel('Código nacional', 2),
-    new ColumnHeaderModel('Descripcion', 2),
-    new ColumnHeaderModel('Cantidad', 2),
-    new ColumnHeaderModel('Precio', 2),
-    new ColumnHeaderModel('Días', 2),
-  ];
+  // private dispensationDetailHeaders: ColumnHeaderModel[] = [
+  //   new ColumnHeaderModel('Fecha', 2),
+  //   new ColumnHeaderModel('Nhc', 2),
+  //   new ColumnHeaderModel('Code', 2),
+  //   new ColumnHeaderModel('Código nacional', 2),
+  //   new ColumnHeaderModel('Descripcion', 2),
+  //   new ColumnHeaderModel('Cantidad', 2),
+  //   new ColumnHeaderModel('Precio', 2),
+  //   new ColumnHeaderModel('Días', 2),
+  // ];
 
   public selectedItem: DispensationModel;
   private modalForm: FormGroup;
@@ -103,6 +114,11 @@ export class DispensationsComponent implements OnInit {
         this.paginationData = data;
       }
     });
+  }
+
+  public onSort(event: any) {
+    console.log(event);
+    this.refreshData(`&sort=${event.column},${event.direction}`);
   }
 
   private getDetails(query: string): void {
