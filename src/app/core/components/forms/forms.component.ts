@@ -20,10 +20,16 @@ export class FormsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._formsService.get().subscribe(
-      (data: FormsModel) => console.log('success', data, JSON.stringify(data)),
-      (error) => this._toastr.error(error.message)
-    );
+    this._formsService
+      .get()
+      .then((response: any) => {
+        console.log('DATOS->', response);
+
+        this._toastr.success('Registrado correctamente');
+      })
+      .catch((error: any) => {
+        this._toastr.error('Error inesperado.');
+      });
   }
 
   submit(value: { [name: string]: any }) {
