@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
-import { UserModel } from '../../models/user/user.model';
 
 @Component({
   exportAs: 'dynamicForm',
