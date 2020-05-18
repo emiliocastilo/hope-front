@@ -43,14 +43,15 @@ export class MedicsComponent implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
-  public columHeaders: Array<ColumnHeaderModel> = [
-    new ColumnHeaderModel('Nombre', 2),
-    new ColumnHeaderModel('Apellidos', 2),
-    new ColumnHeaderModel('Dni', 2),
-    new ColumnHeaderModel('Teléfono', 2),
-    new ColumnHeaderModel('Código de Colegiado', 2),
-    new ColumnHeaderModel('Acciones', 2),
-  ];
+  public columHeaders = ['name', 'surname', 'dni', 'phone', 'collegeNumber'];
+  // public columHeaders: Array<ColumnHeaderModel> = [
+  //   new ColumnHeaderModel('Nombre', 2),
+  //   new ColumnHeaderModel('Apellidos', 2),
+  //   new ColumnHeaderModel('Dni', 2),
+  //   new ColumnHeaderModel('Teléfono', 2),
+  //   new ColumnHeaderModel('Código de Colegiado', 2),
+  //   new ColumnHeaderModel('Acciones', 2),
+  // ];
   public hospitals: HospitalModel[] = [];
   public isDetailModal = false;
   public isEditModal = false;
@@ -248,6 +249,10 @@ export class MedicsComponent implements OnInit {
     this.currentPage = page;
     const query: string = `&page=${page}`;
     this.refreshData(query);
+  }
+
+  public onSort(event: any) {
+    this.refreshData(`&sort=${event.column},${event.direction}`);
   }
 
   private refreshData(query: string): void {

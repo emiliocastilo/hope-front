@@ -19,11 +19,7 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
   styleUrls: ['./role-management.component.scss'],
 })
 export class RoleManagementComponent implements OnInit {
-  public columnsHeader: Array<ColumnHeaderModel> = [
-    new ColumnHeaderModel('Nombre', 3),
-    new ColumnHeaderModel('Descripcion', 8),
-    new ColumnHeaderModel('Acciones', 1),
-  ];
+  public columnsHeader: Array<string> = ['name', 'description'];
   public roles: Array<RolModel>;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
@@ -202,24 +198,28 @@ export class RoleManagementComponent implements OnInit {
     });
   }
 
+  public onSort(event: any) {
+    this.refreshData(`&sort=${event.column},${event.direction}`);
+  }
+
   private _adaptModelToRow(rol: RolModel): RowDataModel {
     const row = new RowDataModel();
     row.pushColumn(new ColumnDataModel('text', rol.name));
     row.pushColumn(new ColumnDataModel('text', rol.description));
-    row.pushColumn(
-      new ColumnDataModel('iconButtons', {
-        iconButtons: [
-          {
-            type: 'edit',
-            icon: 'fa-lg fa-pencil',
-          },
-          {
-            type: 'delete',
-            icon: 'fa-lg fa-window-close cfa-red',
-          },
-        ],
-      })
-    );
+    // row.pushColumn(
+    //   new ColumnDataModel('iconButtons', {
+    //     iconButtons: [
+    //       {
+    //         type: 'edit',
+    //         icon: 'fa-lg fa-pencil',
+    //       },
+    //       {
+    //         type: 'delete',
+    //         icon: 'fa-lg fa-window-close cfa-red',
+    //       },
+    //     ],
+    //   })
+    // );
     return row;
   }
 }

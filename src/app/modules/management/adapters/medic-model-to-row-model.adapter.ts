@@ -16,20 +16,20 @@ export class MedicModelToRowModelAdapter {
     row.pushColumn(new ColumnDataModel('text', medic.dni));
     row.pushColumn(new ColumnDataModel('text', medic.phone));
     row.pushColumn(new ColumnDataModel('text', medic.collegeNumber));
-    row.pushColumn(
-      new ColumnDataModel('iconButtons', {
-        iconButtons: [
-          {
-            type: 'edit',
-            icon: 'fa-lg fa-pencil',
-          },
-          {
-            type: 'delete',
-            icon: 'fa-lg fa-window-close cfa-red',
-          },
-        ],
-      })
-    );
+    // row.pushColumn(
+    //   new ColumnDataModel('iconButtons', {
+    //     iconButtons: [
+    //       {
+    //         type: 'edit',
+    //         icon: 'fa-lg fa-pencil',
+    //       },
+    //       {
+    //         type: 'delete',
+    //         icon: 'fa-lg fa-window-close cfa-red',
+    //       },
+    //     ],
+    //   })
+    // );
     return row;
   }
 }
