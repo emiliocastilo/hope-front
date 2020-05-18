@@ -25,7 +25,7 @@ export class SectionsService {
     return this._httpClient.put('/sections', request);
   }
 
-  public deleteSection(id: string): Observable<any> {
+  public deleteSection(id: number): Observable<any> {
     return this._httpClient.delete(`/sections/${id}`);
   }
 }
