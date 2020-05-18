@@ -1,4 +1,4 @@
-<div class="container-fluid master-table">
+<!-- <div class="container-fluid master-table">
   <section class="row master-table-column-headers">
     <article
       *ngFor="let columHeader of columnsHeader; index as headerIndex"
@@ -21,7 +21,6 @@
       *ngFor="let item of columnData.columns; index as colDataIndex"
     >
       <ng-container [ngSwitch]="item.type">
-        <!-- DATE -->
         <article
           *ngSwitchCase="'date'"
           [ngClass]="[
@@ -31,7 +30,6 @@
         >
           {{ item.value | date: 'dd/MM' }}
         </article>
-        <!-- HOUR -->
         <article
           *ngSwitchCase="'hour'"
           class="col"
@@ -42,7 +40,6 @@
         >
           {{ item.value | date: 'hh:mm' }}
         </article>
-        <!-- LINK -->
         <article
           *ngSwitchCase="'link'"
           class="col"
@@ -58,7 +55,6 @@
             >{{ item.value.label }}</a
           >
         </article>
-        <!-- ICON BUTTONS -->
         <article
           *ngSwitchCase="'iconButtons'"
           class="col"
@@ -76,7 +72,6 @@
             ></a>
           </div>
         </article>
-        <!-- TEXT -->
         <article
           *ngSwitchDefault
           class="col"
@@ -90,4 +85,38 @@
       </ng-container>
     </ng-container>
   </section>
+</div> -->
+
+<div class="container-fluid master-table">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th
+          *ngFor="let header of columnsHeader"
+          scope="col"
+          sortable="{{ header }}"
+          (sort)="emitOnSort($event)"
+        >
+          {{ header | translate }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of columnsData; index as i">
+        <td *ngFor="let colum of row.columns">
+          {{ colum.value }}
+        </td>
+        <td>
+          <div>
+            <a href="" (click)="emitIconButtonClick('edit', i)"
+              ><i class="mr-2 fa fa-pencil"></i
+            ></a>
+            <a href="" (click)="emitIconButtonClick('delete', i)"
+              ><i class="mr-2 fa fa-close cfa-red"></i
+            ></a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

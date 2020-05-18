@@ -23,6 +23,7 @@
           [columnsHeader]="columHeaders"
           [columnsData]="prepareTableData()"
           (selectedItem)="onSelectedItem($event)"
+          (sort)="onSort($event)"
           (iconButtonClick)="onIconButtonClick($event)"
         >
         </app-table>

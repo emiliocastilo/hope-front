@@ -1,6 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
 import { RowDataModel } from '../../models/table/row-data.model';
 import { ColumnHeaderModel } from '../../models/table/colum-header.model';
+import { TranslateService } from '@ngx-translate/core';
+import {
+  NgbdSortableHeader,
+  SortEvent,
+} from '../../directives/sortable.directive';
 
 @Component({
   selector: 'app-table',
@@ -12,11 +25,18 @@ export class TableComponent implements OnInit {
   @Input() columnsData: Array<RowDataModel>;
   @Output() selectedItem: EventEmitter<number> = new EventEmitter();
   @Output() iconButtonClick: EventEmitter<any> = new EventEmitter();
+  @Output() sort: EventEmitter<any> = new EventEmitter();
   public internalSelectedItem: number;
 
-  constructor() {}
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
+  constructor(public _translate: TranslateService) {}
 
   ngOnInit(): void {}
+
+  emitOnSort({ column, direction }: SortEvent) {
+    this.sort.emit({ column, direction });
+  }
 
   activate(selectedItem: number): void {
     this.selectedItem.emit(selectedItem);
