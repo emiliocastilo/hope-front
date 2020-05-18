@@ -42,6 +42,7 @@ import { FormTextareaComponent } from './components/basics/form-textarea/form-te
 import { InputFileComponent } from './components/basics/input-file/input-file.component';
 import { RouterModule } from '@angular/router';
 import { NgbdSortableHeader } from './directives/sortable.directive';
+import { FormsComponent } from './components/forms/forms.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -83,6 +84,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormTextareaComponent,
     InputFileComponent,
     NgbdSortableHeader,
+    FormsComponent,
   ],
   imports: [
     CommonModule,
