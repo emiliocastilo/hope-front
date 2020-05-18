@@ -106,7 +106,7 @@
         <td *ngFor="let colum of row.columns">
           {{ colum.value }}
         </td>
-        <td>
+        <td *ngIf="showActionButtons">
           <div>
             <a href="" (click)="emitIconButtonClick('edit', i)"
               ><i class="mr-2 fa fa-pencil"></i
