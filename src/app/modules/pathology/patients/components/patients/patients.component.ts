@@ -113,6 +113,10 @@ export class PatientsComponent implements OnInit {
     });
   }
 
+  public onSort(event: any) {
+    this.refreshData(`&sort=${event.column},${event.direction}`);
+  }
+
   private _adaptModelToRow(patient: PatientModel): RowDataModel {
     const row = new RowDataModel();
     row.pushColumn(

@@ -21,6 +21,7 @@ import {
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit {
+  @Input() showActionButtons: boolean;
   @Input() columnsHeader: Array<ColumnHeaderModel>;
   @Input() columnsData: Array<RowDataModel>;
   @Output() selectedItem: EventEmitter<number> = new EventEmitter();

@@ -41,6 +41,7 @@ import { PaginationComponent } from './components/basics/pagination/pagination.c
 import { FormTextareaComponent } from './components/basics/form-textarea/form-textarea.component';
 import { InputFileComponent } from './components/basics/input-file/input-file.component';
 import { RouterModule } from '@angular/router';
+import { NgbdSortableHeader } from './directives/sortable.directive';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -81,6 +82,7 @@ export function createTranslateLoader(http: HttpClient) {
     PaginationComponent,
     FormTextareaComponent,
     InputFileComponent,
+    NgbdSortableHeader,
   ],
   imports: [
     CommonModule,
