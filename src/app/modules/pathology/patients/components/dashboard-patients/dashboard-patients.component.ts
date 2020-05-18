@@ -45,7 +45,6 @@ export class DashboardPatientsComponent implements OnInit {
     genderCode: '',
     pathologies: [],
   };
-  public menuId: number = environment.MENU_ID.PATIENTS;
   public isEditing: boolean = false;
   public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];

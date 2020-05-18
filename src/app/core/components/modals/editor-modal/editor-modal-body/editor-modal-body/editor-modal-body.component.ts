@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-editor-modal-body',
@@ -17,23 +17,34 @@ export class EditorModalBodyComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.form) {
-      console.log(this.form.controls);
       this.formKeys = Object.keys(this.form.controls);
     }
   }
 
-  public showSelect(key: string) {
-    const selectType = {
-      hospital: true,
-      serviceDTO: true,
+  public setType(key: string) {
+    const types = {
+      birthDate: 'date',
+      startPeriod: 'date',
+      endPeriod: 'date',
+      fileDispensation: 'file',
+      hospital: 'select',
+      serviceDTO: 'select',
     };
-    return selectType[key];
+    return types[key] ? types[key] : 'text';
+  }
+
+  public setAccept(key: string) {
+    const types = {
+      fileDispensation: '.csv',
+    };
+
+    return types[key] ? types[key] : null;
   }
 
   public getType(formKey: string): string {
     let type = 'text';
     const key = formKey.toLowerCase();
-    if (key.includes('date')) {
+    if (key.includes('date') || key.includes('period')) {
       type = 'date';
     }
     if (key.includes('number') || key.includes('phone')) {

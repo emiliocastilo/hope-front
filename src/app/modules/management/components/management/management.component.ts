@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
-import { ActivatedRoute } from '@angular/router';
-import { environment } from 'src/environments/environment';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 
 @Component({
@@ -12,7 +10,7 @@ import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.mod
 export class ManagementComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
   menu: SideBarItemModel[] = [];
-  public menuId: number = environment.MENU_ID.CONTROL_PANEL;
+  public menuId: number = 4;
 
   constructor() {}
 

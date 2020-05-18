@@ -33,7 +33,6 @@ export class PatientsComponent implements OnInit {
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;
   public selectedPatient: PatientModel = new PatientModel();
-  public menuId: number = environment.MENU_ID.PATIENTS;
   public isEditing: boolean = false;
   public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];

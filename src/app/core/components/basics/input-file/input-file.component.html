@@ -1,0 +1,14 @@
+<form class="form-group dynamic-group field" [formGroup]="formGroup">
+  <input
+    (change)="handleFileInput($event.target.files)"
+    class="dynamic-field"
+    id="{{ id }}"
+    name="{{ name }}"
+    required="{{ required }}"
+    type="{{ type }}"
+    accept="{{ accept }}"
+  />
+  <label for="{{ id }}" class="dynamic-label">
+    {{ label | translate }}
+  </label>
+</form>

@@ -16,8 +16,8 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
   @Input() clases: string;
   @Input() id: string;
-  @Input() isDisabled = false;
-  @Input() label = '';
+  @Input() isDisabled: boolean = false;
+  @Input() label: string = '';
   @Input() maxlength: any = 256;
   @Input() name: string;
   @Input() placeholder = '';
@@ -31,10 +31,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   onChange = (_: any) => {};
   onTouch = () => {};
 
-  ngOnInit() {
-    // this.controlDirective.control.setValidators([this.validate.bind(this)]);
-    // this.controlDirective.control.updateValueAndValidity();
-  }
+  ngOnInit() {}
 
   onInput(value: string) {
     this.value = value;
