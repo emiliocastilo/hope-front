@@ -6,35 +6,47 @@
   <section class="col-md-8 col-lg-9 patients-container">
     <section class="patients-container">
       <section class="container-fluid mt-4">
-        <!-- <app-search (emitAction)="onSearch($event)"></app-search> -->
-      </section>
-      <section class="container-fluid mt-4">
-        <!-- <app-button
+        <app-button
           type="button"
           icono="fa fa-plus"
           clasesBtn="btn-primary btn-sm mx-2"
           texto="btn.new"
           (click)="saveSection()"
-        ></app-button> -->
+        ></app-button>
       </section>
       <section class="container-fluid mt-4">
-        <app-table
-          [columnsHeader]="tableHeaders"
-          [columnsData]="tableData"
-        ></app-table>
-
-        <!-- <app-table
-          [columnsHeader]="columnsHeader"
-          [columnsData]="prepareTableData()"
-          (selectedItem)="onSelectedItem($event)"
-          (iconButtonClick)="onIconButtonClick($event)"
-        ></app-table>
-
-        <app-pagination
-          (selectPage)="selectPage($event)"
-          [paginationData]="paginationData"
-        >
-        </app-pagination> -->
+        <tree-root #tree [nodes]="sections" [options]="options">
+          <ng-template let-node #treeNodeTemplate>
+            <div
+              [contextMenu]="ctxMenu"
+              [ngClass]="{ inactive: !node.data.active }"
+            >
+              {{ node.data.title }}
+            </div>
+            <context-menu #ctxMenu>
+              <ng-template contextMenuItem (execute)="saveSection()"
+                ><div>
+                  <i class="fa fa-plus"></i
+                  ><span> {{ 'btn.new' | translate }}</span>
+                </div></ng-template
+              >
+              <ng-template contextMenuItem (execute)="editSection(node.data)"
+                ><div class="edit">
+                  <i class="fa fa-edit"></i
+                  ><span> {{ 'btn.edit' | translate }}</span>
+                </div></ng-template
+              >
+              <ng-template
+                contextMenuItem
+                (execute)="showConfirmRemove(node.data)"
+                ><div class="remove">
+                  <i class="fa fa-trash"></i
+                  ><span> {{ 'btn.delete' | translate }}</span>
+                </div></ng-template
+              >
+            </context-menu>
+          </ng-template>
+        </tree-root>
       </section>
     </section>
   </section>

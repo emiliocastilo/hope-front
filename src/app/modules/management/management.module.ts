@@ -12,6 +12,8 @@ import { PatientsComponent } from './components/patients/patients.component';
 import { DispensationsComponent } from './components/dispensations/dispensations.component';
 // import { RolesComponent } from './roles/roles.component';
 import { SectionsComponent } from './components/sections/sections.component';
+import { TreeModule } from 'angular-tree-component';
+import { ContextMenuModule } from 'ngx-contextmenu';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,10 @@ import { SectionsComponent } from './components/sections/sections.component';
         useFactory: createTranslateLoader,
         deps: [HttpClient],
       },
+    }),
+    TreeModule.forRoot(),
+    ContextMenuModule.forRoot({
+      autoFocus: true,
     }),
   ],
 })

@@ -1,15 +1,15 @@
 export class SectionModel {
   constructor(
-    public active?: boolean,
-    public children?: SectionModel,
+    public id?: number,
     public description?: string,
     public icon?: string,
-    public id?: number,
+    public active?: boolean,
     public order?: number,
     public principal?: boolean,
     public title?: string,
     public url?: string,
+    public roles?: string,
     public fatherSection?: string,
-    public roles?: string
+    public children?: SectionModel
   ) {}
 }
