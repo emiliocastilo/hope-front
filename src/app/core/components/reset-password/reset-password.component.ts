@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,7 +18,7 @@ export class ResetPasswordComponent implements OnInit {
     private _loginService: LoginService,
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _toastr: ToastrService
+    private _notification: NotificationService
   ) {}
   ngOnInit() {
     this.resetPasswordForm = this._formBuilder.group({
@@ -41,10 +41,9 @@ export class ResetPasswordComponent implements OnInit {
       (data) => {
         this._router.navigate(['/']);
       },
-      (error) => {
+      ({ error }) => {
         this.loading = false;
-        console.log(error as any);
-        this._toastr.error(`${error.status} ${error.statusText}`);
+        this._notification.showErrorToast(error.errorCode);
       }
     );
   }
