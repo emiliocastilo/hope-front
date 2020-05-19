@@ -44,14 +44,15 @@ export class MedicsComponent implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
-  public columHeaders: Array<ColumnHeaderModel> = [
-    new ColumnHeaderModel('Nombre', 2),
-    new ColumnHeaderModel('Apellidos', 2),
-    new ColumnHeaderModel('Dni', 2),
-    new ColumnHeaderModel('Teléfono', 2),
-    new ColumnHeaderModel('Código de Colegiado', 2),
-    new ColumnHeaderModel('Acciones', 2),
-  ];
+  public columHeaders = ['name', 'surname', 'dni', 'phone', 'collegeNumber'];
+  // public columHeaders: Array<ColumnHeaderModel> = [
+  //   new ColumnHeaderModel('Nombre', 2),
+  //   new ColumnHeaderModel('Apellidos', 2),
+  //   new ColumnHeaderModel('Dni', 2),
+  //   new ColumnHeaderModel('Teléfono', 2),
+  //   new ColumnHeaderModel('Código de Colegiado', 2),
+  //   new ColumnHeaderModel('Acciones', 2),
+  // ];
   public hospitals: HospitalModel[] = [];
   public isDetailModal = false;
   public isEditModal = false;
@@ -63,99 +64,6 @@ export class MedicsComponent implements OnInit {
   public paginationData: PaginationModel;
   private currentPage: number = 0;
   public selectedDoctor = new MedicModel();
-
-  public dynamicForm: FieldConfig[] = [
-    {
-      type: 'title',
-      name: 'title',
-      rows: 12,
-    },
-    {
-      disabled: false,
-      label: 'test',
-      name: 'test1',
-      placeholder: 'test',
-      type: 'input',
-      validation: [Validators.required],
-      value: 'test',
-      rows: 3,
-      inputType: 'text',
-    },
-    {
-      type: 'divider',
-      name: 'vertical',
-    },
-    {
-      disabled: false,
-      label: 'test',
-      name: 'test2',
-      placeholder: 'test',
-      type: 'input',
-      validation: [Validators.required],
-      value: 'test',
-      rows: 3,
-      inputType: 'date',
-    },
-    {
-      disabled: false,
-      label: 'test1.1',
-      name: 'test1.1',
-      placeholder: 'test',
-      type: 'input',
-      validation: [Validators.required],
-      value: 'test',
-      rows: 8,
-      inputType: 'text',
-    },
-    {
-      disabled: false,
-      label: 'test',
-      name: 'test3',
-      placeholder: 'test',
-      type: 'input',
-      validation: [Validators.required],
-      value: 'test',
-      rows: 1,
-      inputType: 'radio',
-    },
-    {
-      type: 'divider',
-      name: 'horizontal',
-    },
-    {
-      disabled: false,
-      label: 'test4',
-      name: 'test4',
-      placeholder: 'test4',
-      type: 'input',
-      validation: [Validators.required],
-      value: 'test',
-      rows: 3,
-      inputType: 'text',
-    },
-    {
-      disabled: false,
-      label: 'test5',
-      name: 'test5',
-      placeholder: 'test5',
-      type: 'input',
-      validation: [Validators.required],
-      rows: 3,
-      inputType: 'date',
-    },
-    {
-      disabled: true,
-      label: 'test6',
-      name: 'test6',
-      placeholder: 'test6',
-      type: 'input',
-      validation: [Validators.required],
-      rows: 3,
-      inputType: 'radio',
-    },
-  ];
-
-  public formTest: FormGroup;
 
   ngOnInit() {
     // Carga menú lateral
@@ -342,6 +250,10 @@ export class MedicsComponent implements OnInit {
     this.currentPage = page;
     const query: string = `&page=${page}`;
     this.refreshData(query);
+  }
+
+  public onSort(event: any) {
+    this.refreshData(`&sort=${event.column},${event.direction}`);
   }
 
   private refreshData(query: string): void {

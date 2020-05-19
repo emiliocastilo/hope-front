@@ -20,6 +20,7 @@
   "create": "Create",
   "detail": "Detail",
   "name": "Name",
+  "surname": "Surname",
   "firstSurname": "First surname",
   "lastSurname": "Last surname",
   "nhc": "Nhc",
@@ -31,6 +32,8 @@
   "birthDate": "Birthdate",
   "hospital": "Hospital",
   "genderCode": "Gender",
+  "collegeNumber": "College number",
+  "description": "Description",
   "form.validate.required": "This field is required",
   "modal.editor.field.name": "Name",
   "modal.editor.field.firstSurname": "First surname",
@@ -57,5 +60,14 @@
   "fullName": "full name",
   "age": "Age",
   "male": "Male",
-  "female": "Female"
+  "female": "Female",
+  "date": "Date",
+  "startPeriod": "Start Period",
+  "endPeriod": "End Period",
+  "numRecords": "Registries number",
+  "nationalCode": "National code",
+  "quantity": "Quantity",
+  "price": "Price",
+  "daysDispensation": "Days",
+  "code": "Code"
 }

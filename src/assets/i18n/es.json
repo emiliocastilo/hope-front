@@ -20,6 +20,7 @@
   "create": "Crear",
   "detail": "Detalle",
   "name": "Nombre",
+  "surname": "Apellido",
   "firstSurname": "Primer apellido",
   "lastSurname": "Segundo apellido",
   "nhc": "Nhc",
@@ -31,6 +32,8 @@
   "birthDate": "Fecha de nacimiento",
   "hospital": "Hospital",
   "genderCode": "Género",
+  "collegeNumber": "Num. de colegiado",
+  "description": "Descripción",
   "form.validate.required": "El campo es obligatorio",
   "modal.editor.field.name": "Nombre",
   "modal.editor.field.firstsurname": "Primer apellido",
@@ -57,5 +60,14 @@
   "fullName": "Nombre completo",
   "age": "Edad",
   "male": "Masculino",
-  "female": "Femenino"
+  "female": "Femenino",
+  "date": "Fecha",
+  "startPeriod": "Periodo de inicio",
+  "endPeriod": "Periodo fin",
+  "numRecords": "Num. Registros",
+  "nationalCode": "Codigo nacional",
+  "quantity": "Cantidad",
+  "price": "Precio",
+  "daysDispensation": "Dias",
+  "code": "Code"
 }

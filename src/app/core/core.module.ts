@@ -43,6 +43,8 @@ import { InputFileComponent } from './components/basics/input-file/input-file.co
 import { RouterModule } from '@angular/router';
 import { FromDividerComponent } from './components/basics/from-divider/from-divider.component';
 import { FromTitleComponent } from './components/basics/from-title/from-title.component';
+import { NgbdSortableHeader } from './directives/sortable.directive';
+import { FormsComponent } from './components/forms/forms.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -85,6 +87,8 @@ export function createTranslateLoader(http: HttpClient) {
     InputFileComponent,
     FromDividerComponent,
     FromTitleComponent,
+    NgbdSortableHeader,
+    FormsComponent,
   ],
   imports: [
     CommonModule,
