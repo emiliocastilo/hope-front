@@ -5,7 +5,6 @@ import { DispensationService } from 'src/app/modules/management/services/dispens
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { DispensationModelToRowModelAdapter } from 'src/app/modules/management/adapters/dispensation-model-to-row-model.adapter';
-import { ToastrService } from 'ngx-toastr';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
@@ -14,6 +13,7 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model'
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { DetailDispensationModel } from '../../models/dispensation/detail-dispensation.model';
 import { DetailDispensationModelToRowModelAdapter } from '../../adapters/detail-dispensation-model-to-row-model.adapter';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-dispensations',
@@ -26,7 +26,7 @@ export class DispensationsComponent implements OnInit {
     private _dispensationsService: DispensationService,
     private _dispensationrowModelAdapter: DispensationModelToRowModelAdapter,
     private _detailsDispensationrRowModelAdapter: DetailDispensationModelToRowModelAdapter,
-    private _toastr: ToastrService,
+    private _notification: NotificationService,
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder
   ) {}
@@ -164,10 +164,10 @@ export class DispensationsComponent implements OnInit {
     this._dispensationsService.delete(this.selectedItem.id).subscribe(
       (data) => {
         this.refreshData(`&page=${this.currentPage}`);
-        this._toastr.success('Eliminado exitosamente.');
+        this._notification.showSuccessToast('element_deleted');
       },
-      (error) => {
-        this._toastr.error(error.error);
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
       }
     );
   }
@@ -219,10 +219,10 @@ export class DispensationsComponent implements OnInit {
       .then((response: any) => {
         modal.close();
         this.refreshData(`&page=${this.currentPage}`);
-        this._toastr.success('Registrado correctamente');
+        this._notification.showSuccessToast('element_created');
       })
       .catch((error: any) => {
-        this._toastr.error('Error inesperado.');
+        this._notification.showErrorToast(error.errorCode);
       });
   }
 }

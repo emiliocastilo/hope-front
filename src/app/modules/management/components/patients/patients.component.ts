@@ -19,6 +19,7 @@ import {
 } from '../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-patients',
@@ -41,9 +42,9 @@ export class PatientsComponent implements OnInit {
 
   constructor(
     private _patientsService: PatientsService,
-    private _toastr: ToastrService,
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
+    private _notification: NotificationService,
     private _formBuilder: FormBuilder
   ) {}
 
@@ -136,11 +137,11 @@ export class PatientsComponent implements OnInit {
       .deletePatient(this.patients[this.selectedItem].id)
       .subscribe(
         (response) => {
-          this._toastr.success('El paciente se ha borrado correctamente');
+          this._notification.showSuccessToast('element_deleted');
           this.refreshData(`&page=${this.currentPage}`);
         },
-        (error) => {
-          this._toastr.error(error.message);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
   }
@@ -221,8 +222,8 @@ export class PatientsComponent implements OnInit {
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
-        (error) => {
-          this._toastr.error(error.message);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
     } else {
@@ -231,8 +232,8 @@ export class PatientsComponent implements OnInit {
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
-        (error) => {
-          this._toastr.error(error.message);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
     }
