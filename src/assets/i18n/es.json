@@ -10,6 +10,8 @@
   "btn.update": "Modificar",
   "btn.save": "Guardar",
   "btn.close": "Cerrar",
+  "switch.yes": "Sí",
+  "switch.no": "No",
   "btn.proceed": "Proceder",
   "btn.back": "Regresar",
   "validation.user": "El usuario es obligatorio.",

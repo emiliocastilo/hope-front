@@ -18,5 +18,13 @@
         top: -1.55rem;
       }
     }
+
+    .switch-type {
+      position: absolute;
+
+      @media (min-width: 768px) {
+        top: -2.5rem;
+      }
+    }
   }
 }

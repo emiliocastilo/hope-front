@@ -73,7 +73,4 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   get invalid(): boolean {
     return !this.controlDirective.valid && this.controlDirective.dirty;
   }
-  get validator(): string {
-    return JSON.stringify(this.controlDirective.control.validator);
-  }
 }
