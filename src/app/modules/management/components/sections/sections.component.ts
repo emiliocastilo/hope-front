@@ -39,7 +39,7 @@ export class SectionsComponent implements OnInit {
     this.modalForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      icon: ['', Validators.required],
+      icon: [''],
       order: ['', Validators.required],
       principal: ['', Validators.required],
       active: ['', Validators.required],

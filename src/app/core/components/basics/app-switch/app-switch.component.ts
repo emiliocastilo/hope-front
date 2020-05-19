@@ -1,5 +1,5 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { Component, OnInit, HostBinding, Input, Self } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'app-switch',
@@ -8,6 +8,8 @@ import { ControlValueAccessor } from '@angular/forms';
 })
 export class SwitchComponent implements ControlValueAccessor {
   @HostBinding('attr.id') externalId = '';
+
+  @Input() label: string;
 
   @Input()
   set id(value: string) {
@@ -35,7 +37,9 @@ export class SwitchComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  constructor() {}
+  constructor(@Self() private controlDirective: NgControl) {
+    controlDirective.valueAccessor = this;
+  }
 
   registerOnChange(fn) {
     this.onChange = fn;
