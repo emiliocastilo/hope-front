@@ -6,12 +6,5 @@
   </section>
   <section
     class="col-md-8 col-lg-9 p-0 management-fluid justify-content-center"
-  >
-    <ul ngbNav #nav="ngbNav" [(activeId)]="currentSection" class="nav-tabs">
-      <li *ngFor="let module of modules" [ngbNavItem]="module.id">
-        <a ngbNavLink>{{ module.title }}</a>
-        <ng-template ngbNavContent> </ng-template>
-      </li>
-    </ul>
-  </section>
+  ></section>
 </div>
