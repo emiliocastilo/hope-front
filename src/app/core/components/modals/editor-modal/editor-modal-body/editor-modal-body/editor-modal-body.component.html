@@ -2,14 +2,17 @@
   <form [formGroup]="form" novalidate>
     <ng-container
       *ngFor="let formKey of formKeys; index as fieldIndex"
-      [ngSwitch]="formKey"
+      [ngSwitch]="true"
     >
       <section
         [ngClass]="id + '-modal-field-group-' + fieldIndex"
         class="col-sm-12 col-md-6 col-lg-4"
       >
         <div class="w-100" *ngIf="!showSelect(formKey)">
-          <span class="ui-float-label ng-button" *ngSwitchCase="'genderCode'">
+          <span
+            class="ui-float-label ng-button"
+            *ngSwitchCase="formKey === 'genderCode'"
+          >
             <label for="formKey" class="dynamic-label">
               {{
                 'modal.editor.field.' + formKey | lowercase | translate
@@ -31,6 +34,15 @@
                 {{ 'female' | translate }}
               </label>
             </div>
+          </span>
+          <span
+            class="ui-float-label switch-type"
+            *ngSwitchCase="formKey === 'active' || formKey === 'principal'"
+          >
+            <app-switch
+              [label]="'modal.editor.field.' + formKey | lowercase | translate"
+              [formControlName]="formKey"
+            ></app-switch>
           </span>
 
           <app-input
@@ -63,5 +75,6 @@
         </app-input-select>
       </section>
     </ng-container>
+    <!-- <app-switch></app-switch> -->
   </form>
 </div>

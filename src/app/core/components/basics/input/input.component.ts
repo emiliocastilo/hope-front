@@ -32,7 +32,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   onTouch = () => {};
 
   ngOnInit() {
-    // this.controlDirective.control.setValidators([this.validate.bind(this)]);
+    // this.controlDirective.control.set<Validator>s([this.validate.bind(this)]);
     // this.controlDirective.control.updateValueAndValidity();
   }
 
@@ -75,8 +75,5 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   get invalid(): boolean {
     return !this.controlDirective.valid && this.controlDirective.dirty;
-  }
-  get validator(): string {
-    return JSON.stringify(this.controlDirective.control.validator);
   }
 }

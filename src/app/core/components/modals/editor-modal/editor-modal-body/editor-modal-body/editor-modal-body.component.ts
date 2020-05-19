@@ -17,8 +17,8 @@ export class EditorModalBodyComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.form) {
-      console.log(this.form.controls);
       this.formKeys = Object.keys(this.form.controls);
+      console.log(this.formKeys);
     }
   }
 
