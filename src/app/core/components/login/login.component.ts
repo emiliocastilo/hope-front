@@ -5,6 +5,7 @@ import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _router: Router,
     public _translate: TranslateService,
-    private _toastr: ToastrService
+    public _notification: NotificationService // private _toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -50,14 +51,13 @@ export class LoginComponent implements OnInit {
     this._loginService.login(login).subscribe(
       (data) => {
         data.body.error
-          ? this._toastr.error(data.body.error)
+          ? this._notification.showErrorToast(data.body.error)
           : this._router.navigate(['select-role']);
         this.loading = false;
       },
-      (error) => {
+      ({ error }) => {
         this.loading = false;
-        console.log(error as any);
-        this._toastr.error(`${error.status} ${error.statusText}`);
+        this._notification.showErrorToast(error.errorCode);
       }
     );
   }

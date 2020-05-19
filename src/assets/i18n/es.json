@@ -69,5 +69,16 @@
   "quantity": "Cantidad",
   "price": "Precio",
   "daysDispensation": "Dias",
-  "code": "Code"
+  "code": "Code",
+  "notifications": {
+    "API-001": "Algo ha ido mal",
+    "IE_001": "Excepcion desconocida",
+    "IE_002": "Elemento no encontrado",
+    "IE-003": "Nombre de usuario duplicado",
+    "IE-004": "Se encontraron demasiados elementos",
+    "IE-005": "Nombre de usuario o contraseña no validos",
+    "element_deleted": "Elemento eliminado correctamente",
+    "element_created": "Elemento creado correctamente",
+    "element_updated": "Elemento editado correctamente"
+  }
 }

@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-role-management',
@@ -35,7 +36,7 @@ export class RoleManagementComponent implements OnInit {
     private _roleManagementService: RoleManagementService,
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
-    private _toastr: ToastrService,
+    private _notification: NotificationService,
     private _formBuilder: FormBuilder
   ) {}
 
@@ -123,8 +124,8 @@ export class RoleManagementComponent implements OnInit {
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
-        (error) => {
-          this._toastr.error(error.message);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
     } else {
@@ -133,8 +134,8 @@ export class RoleManagementComponent implements OnInit {
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
-        (error) => {
-          this._toastr.error(error.message);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
     }
@@ -180,11 +181,11 @@ export class RoleManagementComponent implements OnInit {
       .deleteRole(this.roles[this.selectedItem].id)
       .subscribe(
         (response) => {
-          this._toastr.success('El rol se ha borrado correctamente');
+          this._notification.showSuccessToast('element_deleted');
           this.refreshData(`&page=${this.currentPage}`);
         },
-        (error) => {
-          this._toastr.error(error.message);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
   }
