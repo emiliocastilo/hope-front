@@ -14,13 +14,13 @@ import { MedicService } from 'src/app/modules/management/services/medic/medic.se
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { ServiceModel } from 'src/app/core/models/service/service.model';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-medics',
@@ -33,7 +33,7 @@ export class MedicsComponent implements OnInit {
   constructor(
     private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter,
     private _modalService: NgbModal,
-    private _toastr: ToastrService,
+    private _notification: NotificationService,
     public _medicService: MedicService,
     public _translate: TranslateService,
     private _formBuilder: FormBuilder,
@@ -104,8 +104,8 @@ export class MedicsComponent implements OnInit {
       (response) => {
         this.medics = response.content;
       },
-      (error) => {
-        this._toastr.error(error.error.error);
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
       }
     );
   }
@@ -202,24 +202,24 @@ export class MedicsComponent implements OnInit {
     if (this.isEditing) {
       this._medicService.updateDoctor(doctor).subscribe(
         (response) => {
-          this._toastr.success('Usuario actualizado exitosamente');
+          this._notification.showSuccessToast('element_updated');
           this.isEditing = false;
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
-        (error) => {
-          this._toastr.error(error.message);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
     } else {
       this._medicService.postDoctor(doctor).subscribe(
         (response) => {
-          this._toastr.success('Usuario creado exitosamente');
+          this._notification.showSuccessToast('element_created');
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
-        (error) => {
-          this._toastr.error(error.message);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
     }
@@ -270,10 +270,10 @@ export class MedicsComponent implements OnInit {
       .subscribe(
         (response) => {
           this.refreshData(`&page=${this.currentPage}`);
-          this._toastr.success('El doctor se ha borrado correctamente');
+          this._notification.showSuccessToast('element_deleted');
         },
-        (error) => {
-          this._toastr.error(error.error);
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
       );
   }
