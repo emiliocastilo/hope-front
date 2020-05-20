@@ -1,92 +1,3 @@
-<!-- <div class="container-fluid master-table">
-  <section class="row master-table-column-headers">
-    <article
-      *ngFor="let columHeader of columnsHeader; index as headerIndex"
-      class="d-flex align-items-center"
-      [ngClass]="[
-        'master-table-column-header-' + headerIndex,
-        'col-md-' + columHeader.colSize
-      ]"
-    >
-      {{ columHeader.text }}
-    </article>
-  </section>
-  <section
-    class="row master-table-data-row"
-    [ngClass]="{ activate: rowDataIndex === internalSelectedItem }"
-    *ngFor="let columnData of columnsData; index as rowDataIndex"
-    (click)="activate(rowDataIndex)"
-  >
-    <ng-container
-      *ngFor="let item of columnData.columns; index as colDataIndex"
-    >
-      <ng-container [ngSwitch]="item.type">
-        <article
-          *ngSwitchCase="'date'"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          {{ item.value | date: 'dd/MM' }}
-        </article>
-        <article
-          *ngSwitchCase="'hour'"
-          class="col"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          {{ item.value | date: 'hh:mm' }}
-        </article>
-        <article
-          *ngSwitchCase="'link'"
-          class="col"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          <a
-            href="#"
-            (click)="$event.preventDefault()"
-            [routerLink]="item.value.link"
-            >{{ item.value.label }}</a
-          >
-        </article>
-        <article
-          *ngSwitchCase="'iconButtons'"
-          class="col"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          <div>
-            <a
-              *ngFor="let iconButton of item.value.iconButtons"
-              href="#"
-              (click)="emitIconButtonClick(iconButton.type, rowDataIndex)"
-              ><i class="mr-2 fa" [ngClass]="iconButton.icon"></i
-            ></a>
-          </div>
-        </article>
-        <article
-          *ngSwitchDefault
-          class="col"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          {{ item.value }}
-        </article>
-      </ng-container>
-    </ng-container>
-  </section>
-</div> -->
-
 <div class="container-fluid master-table">
   <table class="table table-striped">
     <thead>
@@ -99,12 +10,15 @@
         >
           {{ header | translate }}
         </th>
+        <th *ngIf="showActionButtons || showDetailButton">
+          {{ 'actions' | translate }}
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let row of columnsData; index as i">
-        <td *ngFor="let colum of row.columns">
-          {{ colum.value }}
+        <td *ngFor="let header of columnsHeader">
+          {{ row[header] }}
         </td>
         <td *ngIf="showActionButtons">
           <div>
@@ -113,6 +27,13 @@
             ></a>
             <a href="" (click)="emitIconButtonClick('delete', i)"
               ><i class="mr-2 fa fa-close cfa-red"></i
+            ></a>
+          </div>
+        </td>
+        <td *ngIf="showDetailButton">
+          <div>
+            <a href="" (click)="emitIconButtonClick('detail', i)"
+              ><i class="mr-2 fa fa-eye"></i
             ></a>
           </div>
         </td>

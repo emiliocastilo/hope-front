@@ -19,8 +19,8 @@
       </section>
       <section class="container-fluid mt-4">
         <app-table
-          [columnsHeader]="columnsHeader"
-          [columnsData]="prepareTableData()"
+          [columnsHeader]="patientKeysToShow"
+          [columnsData]="patients"
           (selectedItem)="onSelectedItem($event)"
           (sort)="onSort($event)"
           [showActionButtons]="true"

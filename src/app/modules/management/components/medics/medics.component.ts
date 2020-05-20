@@ -9,10 +9,8 @@ import {
   FormControl,
 } from '@angular/forms';
 import { MedicModel } from 'src/app/modules/management/models/medic/medic.model';
-import { MedicModelToRowModelAdapter } from '../../adapters/medic-model-to-row-model.adapter';
 import { MedicService } from 'src/app/modules/management/services/medic/medic.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { ServiceModel } from 'src/app/core/models/service/service.model';
 import { TranslateService } from '@ngx-translate/core';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
@@ -30,7 +28,6 @@ export class MedicsComponent implements OnInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
   constructor(
-    private _medicModelToRowModelAdapter: MedicModelToRowModelAdapter,
     private _modalService: NgbModal,
     private _notification: NotificationService,
     public _medicService: MedicService,
@@ -43,14 +40,6 @@ export class MedicsComponent implements OnInit {
   public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
   public columHeaders = ['name', 'surname', 'dni', 'phone', 'collegeNumber'];
-  // public columHeaders: Array<ColumnHeaderModel> = [
-  //   new ColumnHeaderModel('Nombre', 2),
-  //   new ColumnHeaderModel('Apellidos', 2),
-  //   new ColumnHeaderModel('Dni', 2),
-  //   new ColumnHeaderModel('Teléfono', 2),
-  //   new ColumnHeaderModel('Código de Colegiado', 2),
-  //   new ColumnHeaderModel('Acciones', 2),
-  // ];
   public hospitals: HospitalModel[] = [];
   public isDetailModal = false;
   public isEditModal = false;
@@ -107,13 +96,6 @@ export class MedicsComponent implements OnInit {
         this._notification.showErrorToast(error.errorCode);
       }
     );
-  }
-
-  public prepareTableData(): Array<RowDataModel> {
-    const rows = this.medics.map((doctor) => {
-      return this._medicModelToRowModelAdapter.adaptModelToRow(doctor);
-    });
-    return rows;
   }
 
   public onSelectedItem(event: number): void {

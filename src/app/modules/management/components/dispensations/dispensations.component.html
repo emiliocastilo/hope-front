@@ -28,7 +28,7 @@
       <div *ngIf="!showDetails">
         <app-table
           [columnsHeader]="columnHeaders"
-          [columnsData]="prepareTableData()"
+          [columnsData]="dispensations"
           (selectedItem)="onSelectedItem($event)"
           (sort)="onSort($event)"
           [showActionButtons]="true"
@@ -40,7 +40,7 @@
       <div *ngIf="showDetails">
         <app-table
           [columnsHeader]="dispensationDetailHeaders"
-          [columnsData]="prepareTableDataDetails()"
+          [columnsData]="detailDispensations"
           (sort)="onSort($event)"
         >
         </app-table>

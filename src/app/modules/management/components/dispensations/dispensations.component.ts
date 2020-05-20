@@ -3,16 +3,12 @@ import { DispensationModel } from 'src/app/modules/management/models/dispensatio
 import { ActivatedRoute } from '@angular/router';
 import { DispensationService } from 'src/app/modules/management/services/dispensation/dispensation.service';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { DispensationModelToRowModelAdapter } from 'src/app/modules/management/adapters/dispensation-model-to-row-model.adapter';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { DetailDispensationModel } from '../../models/dispensation/detail-dispensation.model';
-import { DetailDispensationModelToRowModelAdapter } from '../../adapters/detail-dispensation-model-to-row-model.adapter';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
@@ -24,8 +20,6 @@ export class DispensationsComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _dispensationsService: DispensationService,
-    private _dispensationrowModelAdapter: DispensationModelToRowModelAdapter,
-    private _detailsDispensationrRowModelAdapter: DetailDispensationModelToRowModelAdapter,
     private _notification: NotificationService,
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder
@@ -36,13 +30,6 @@ export class DispensationsComponent implements OnInit {
   private detailDispensations: DetailDispensationModel[] = [];
   public paginationData: PaginationModel;
 
-  // public columHeaders: ColumnHeaderModel[] = [
-  //   new ColumnHeaderModel('Fecha', 2),
-  //   new ColumnHeaderModel('Periodo inicio', 2),
-  //   new ColumnHeaderModel('Periodo fin', 2),
-  //   new ColumnHeaderModel('Num. Registros', 2),
-  //   new ColumnHeaderModel('Acciones', 2),
-  // ];
   public columnHeaders = ['date', 'startPeriod', 'endPeriod', 'numRecords'];
   private dispensationDetailHeaders = [
     'date',
@@ -54,17 +41,6 @@ export class DispensationsComponent implements OnInit {
     'price',
     'daysDispensation',
   ];
-
-  // private dispensationDetailHeaders: ColumnHeaderModel[] = [
-  //   new ColumnHeaderModel('Fecha', 2),
-  //   new ColumnHeaderModel('Nhc', 2),
-  //   new ColumnHeaderModel('Code', 2),
-  //   new ColumnHeaderModel('Código nacional', 2),
-  //   new ColumnHeaderModel('Descripcion', 2),
-  //   new ColumnHeaderModel('Cantidad', 2),
-  //   new ColumnHeaderModel('Precio', 2),
-  //   new ColumnHeaderModel('Días', 2),
-  // ];
 
   public selectedItem: DispensationModel;
   private modalForm: FormGroup;
@@ -87,13 +63,6 @@ export class DispensationsComponent implements OnInit {
     this.menuSelected = this.menu[0].children.find((item) =>
       item.url.endsWith('/management/dispensations')
     );
-  }
-
-  public prepareTableData(): Array<RowDataModel> {
-    const rows = this.dispensations.map((dispensation) => {
-      return this._dispensationrowModelAdapter.adaptModelToRow(dispensation);
-    });
-    return rows;
   }
 
   public selectPage(page: number): void {
@@ -128,13 +97,6 @@ export class DispensationsComponent implements OnInit {
         this.paginationData = data;
       }
     });
-  }
-
-  public prepareTableDataDetails(): RowDataModel[] {
-    const rows = this.detailDispensations.map((detail) => {
-      return this._detailsDispensationrRowModelAdapter.adaptModelToRow(detail);
-    });
-    return rows;
   }
 
   public onSelectedItem(event: number): void {

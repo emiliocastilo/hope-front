@@ -21,8 +21,8 @@ export const PATIENT_DERMA_HEADERS = [
 ];
 export const PATIENT_TABLE_KEYS = [
   'name',
-  // 'firstSurname',
-  // 'lastSurname',
+  'firstSurname',
+  'lastSurname',
   'nhc',
   'healthCard',
   'dni',

@@ -3,10 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from '../../services/patients.service';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { ToastrService } from 'ngx-toastr';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
@@ -14,7 +11,6 @@ import {
   PATIENT_DERMA_HEADERS,
   PATIENT_TABLE_KEYS,
 } from 'src/app/modules/management/constants/patients.constants';
-import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 
 @Component({
   selector: 'app-patients',
@@ -37,7 +33,6 @@ export class PatientsComponent implements OnInit {
 
   constructor(
     private _patientsService: PatientsService,
-    private _toastr: ToastrService,
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
@@ -64,15 +59,6 @@ export class PatientsComponent implements OnInit {
       genderCode: ['', Validators.required],
       birthDate: ['', Validators.required],
     });
-  }
-
-  public prepareTableData(): Array<RowDataModel> {
-    const rows = this.patients
-      ? this.patients.map((patient) => {
-          return this._adaptModelToRow(patient);
-        })
-      : [];
-    return rows;
   }
 
   public goToDermatologiPatients(): void {
@@ -115,31 +101,5 @@ export class PatientsComponent implements OnInit {
 
   public onSort(event: any) {
     this.refreshData(`&sort=${event.column},${event.direction}`);
-  }
-
-  private _adaptModelToRow(patient: PatientModel): RowDataModel {
-    const row = new RowDataModel();
-    row.pushColumn(
-      new ColumnDataModel(
-        'text',
-        patient.name
-          .concat(' ')
-          .concat(patient.firstSurname)
-          .concat(' ')
-          .concat(patient.lastSurname)
-      )
-    );
-    row.pushColumn(new ColumnDataModel('text', patient.nhc));
-    row.pushColumn(new ColumnDataModel('text', patient.healthCard));
-    row.pushColumn(new ColumnDataModel('text', patient.dni));
-    row.pushColumn(new ColumnDataModel('text', patient.phone));
-    const genderValue = patient.genderCode === 'M' ? 'Hombre' : 'Mujer';
-    row.pushColumn(new ColumnDataModel('text', genderValue));
-    let pathologyList = '';
-    patient.pathologies.forEach((pathology) => {
-      pathologyList = pathologyList.concat(pathology.name).concat(';');
-    });
-
-    return row;
   }
 }
