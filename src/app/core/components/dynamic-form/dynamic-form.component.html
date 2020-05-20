@@ -1,13 +1,12 @@
 <form
-  class="dynamic-form col-12"
+  class="dynamic-form row"
   [formGroup]="form"
   (submit)="handleSubmit($event)"
 >
-  <ng-container
+  <div
     *ngFor="let field of config"
-    dynamicField
-    [config]="field"
-    [group]="form"
+    class="{{ field.rows ? 'col-' + field.rows : 'col-12' }}"
   >
-  </ng-container>
+    <ng-container dynamicField [config]="field" [group]="form"> </ng-container>
+  </div>
 </form>

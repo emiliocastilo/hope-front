@@ -5,6 +5,7 @@ import {
   ComponentFactoryResolver,
   ViewContainerRef,
   ComponentRef,
+  HostBinding,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -17,6 +18,9 @@ import { FormRadioComponent } from '../../components/basics/form-radio/form-radi
 import { FormSwitchComponent } from '../../components/basics/form-switch/form-switch.component';
 import { FormDatepickerComponent } from '../../components/basics/form-datepicker/form-datepicker.component';
 import { FormTextareaComponent } from '../../components/basics/form-textarea/form-textarea.component';
+import { FromTitleComponent } from 'src/app/core/components/basics/from-title/from-title.component';
+import { FromDividerComponent } from 'src/app/core/components/basics/from-divider/from-divider.component';
+import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 
 const components = {
   button: FormButtonComponent,
@@ -27,14 +31,19 @@ const components = {
   switch: FormSwitchComponent,
   datepicker: FormDatepickerComponent,
   textarea: FormTextareaComponent,
+  title: FromTitleComponent,
+  divider: FromDividerComponent,
 };
 
 @Directive({
   selector: '[dynamicField]',
 })
 export class DynamicFieldDirective implements OnInit {
-  @Input() config;
+  @Input() config: FieldConfig;
   @Input() group: FormGroup;
+
+  @HostBinding('class')
+  elementClass = 'col-12';
 
   component: ComponentRef<Field>;
 

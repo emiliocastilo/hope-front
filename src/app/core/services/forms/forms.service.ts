@@ -17,10 +17,8 @@ export class FormsService {
       responseType: 'text',
       observe: 'response',
     };
-    //DATOS_ SOCIODEMOGRAFICOS
     return this._http.get(PATH + '?key=PLANTILLA_PRUEBA', HTTPOptions).pipe(
       map((res) => {
-        console.log('hola', res);
         return res;
       })
     );

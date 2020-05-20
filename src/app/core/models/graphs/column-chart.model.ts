@@ -1,4 +1,3 @@
-
 export class ColumnChartModel {
   constructor(
     public view: number[],

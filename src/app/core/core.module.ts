@@ -42,9 +42,12 @@ import { PaginationComponent } from './components/basics/pagination/pagination.c
 import { FormTextareaComponent } from './components/basics/form-textarea/form-textarea.component';
 import { InputFileComponent } from './components/basics/input-file/input-file.component';
 import { RouterModule } from '@angular/router';
+import { FromDividerComponent } from './components/basics/from-divider/from-divider.component';
+import { FromTitleComponent } from './components/basics/from-title/from-title.component';
 import { NgbdSortableHeader } from './directives/sortable.directive';
 import { FormsComponent } from './components/forms/forms.component';
-import { ColumnChartComponent } from './components/column-chart/column-chart.component';
+import { ColumnChartComponent } from './components/charts/column-chart/column-chart.component';
+import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -85,9 +88,12 @@ export function createTranslateLoader(http: HttpClient) {
     PaginationComponent,
     FormTextareaComponent,
     InputFileComponent,
+    FromDividerComponent,
+    FromTitleComponent,
     NgbdSortableHeader,
     FormsComponent,
     ColumnChartComponent,
+    PieChartComponent,
   ],
   imports: [
     CommonModule,
@@ -129,8 +135,9 @@ export function createTranslateLoader(http: HttpClient) {
     EditorModalComponent,
     FormSwitchComponent,
     SwitchComponent,
+    PieChartComponent,
+    ColumnChartComponent,
     PaginationComponent,
-
     HomeDashboardModuleComponent,
   ],
   providers: [],
