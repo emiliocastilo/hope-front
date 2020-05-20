@@ -6,13 +6,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { DashboardRoutingModule } from 'src/app/modules/dashboard/dashboard-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-// import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, Cie9Component],
   imports: [
     NgbModule,
-    // NgxChartsModule,
     CommonModule,
     CoreModule,
     DashboardRoutingModule,

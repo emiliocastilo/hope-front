@@ -80,5 +80,9 @@
     "element_deleted": "Element removed correctly",
     "element_created": "Element created correctly",
     "element_updated": "Element updated correctly"
-  }
+  },
+  "actions": "Actions",
+  "patients": "Patients",
+  "cie9Diagnostic": "CIE9 Diagnostic",
+  "patientsDiagnosticCIE9": "Patients by CIE9 diagnostic"
 }
