@@ -171,19 +171,7 @@ export class DispensationsComponent implements OnInit {
   }
 
   private parseDate(date: string) {
-    let formatedDate = null;
-    if (date) {
-      const dateObject = new Date(date);
-      const day =
-        dateObject.getDate() < 10
-          ? `0${dateObject.getDate()}`
-          : dateObject.getDate();
-      const month = Math.round(dateObject.getMonth() + 1);
-      const monthWithCero = month < 10 ? `0${month}` : month;
-      const year = dateObject.getFullYear();
-      formatedDate = `${day}-${monthWithCero}-${year} 00:00:00`;
-    }
-    return formatedDate;
+    return new Date(date).toISOString();
   }
 
   private saveDispensation(data: FormGroup, modal: any) {
