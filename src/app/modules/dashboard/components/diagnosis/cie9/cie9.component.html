@@ -1,0 +1,23 @@
+<app-header></app-header>
+<div class="row m-0 p-0">
+  <section class="col-md-4 col-lg-3 m-0 p-0 sidemenu">
+    <side-bar [menu]="menu" [selected]="menuSelected"></side-bar>
+  </section>
+  <section
+    class="col-md-8 col-lg-9 p-0 management-fluid justify-content-center"
+  >
+    <section class="cie9-container">
+      <div class="chart-container">
+        <app-pie-chart
+          [chartTitle]="'patientsDiagnosticCIE9'"
+          [results]="data"
+          [showLabels]="false"
+        ></app-pie-chart>
+      </div>
+      <div class="table-container">
+        <app-table [columnsHeader]="columHeaders" [columnsData]="array">
+        </app-table>
+      </div>
+    </section>
+  </section>
+</div>
