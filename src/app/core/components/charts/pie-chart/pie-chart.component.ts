@@ -15,15 +15,9 @@ export class PieChartComponent {
   @Input() gradient: boolean = false;
   @Input() legendPosition: string = 'right';
 
-  @Output() select: EventEmitter<any> = new EventEmitter();
-
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
   };
 
   constructor() {}
-
-  onSelect(data: any): void {
-    this.select.emit(data);
-  }
 }
