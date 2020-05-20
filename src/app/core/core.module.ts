@@ -46,6 +46,7 @@ import { FromDividerComponent } from './components/basics/from-divider/from-divi
 import { FromTitleComponent } from './components/basics/from-title/from-title.component';
 import { NgbdSortableHeader } from './directives/sortable.directive';
 import { FormsComponent } from './components/forms/forms.component';
+import { ColumnChartComponent } from './components/charts/column-chart/column-chart.component';
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -91,6 +92,7 @@ export function createTranslateLoader(http: HttpClient) {
     FromTitleComponent,
     NgbdSortableHeader,
     FormsComponent,
+    ColumnChartComponent,
     PieChartComponent,
   ],
   imports: [
@@ -134,6 +136,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormSwitchComponent,
     SwitchComponent,
     PieChartComponent,
+    ColumnChartComponent,
     PaginationComponent,
     HomeDashboardModuleComponent,
   ],

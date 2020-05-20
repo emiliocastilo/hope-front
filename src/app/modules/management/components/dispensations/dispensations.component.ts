@@ -117,7 +117,6 @@ export class DispensationsComponent implements OnInit {
   }
 
   public onSort(event: any) {
-    console.log(event);
     this.refreshData(`&sort=${event.column},${event.direction}`);
   }
 

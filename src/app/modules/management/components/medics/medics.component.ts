@@ -43,14 +43,6 @@ export class MedicsComponent implements OnInit {
   public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
   public columHeaders = ['name', 'surname', 'dni', 'phone', 'collegeNumber'];
-  // public columHeaders: Array<ColumnHeaderModel> = [
-  //   new ColumnHeaderModel('Nombre', 2),
-  //   new ColumnHeaderModel('Apellidos', 2),
-  //   new ColumnHeaderModel('Dni', 2),
-  //   new ColumnHeaderModel('Teléfono', 2),
-  //   new ColumnHeaderModel('Código de Colegiado', 2),
-  //   new ColumnHeaderModel('Acciones', 2),
-  // ];
   public hospitals: HospitalModel[] = [];
   public isDetailModal = false;
   public isEditModal = false;
