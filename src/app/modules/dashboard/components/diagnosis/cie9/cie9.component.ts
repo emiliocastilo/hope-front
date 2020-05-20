@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { TranslateService } from '@ngx-translate/core';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-cie9',
@@ -12,17 +11,28 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 export class Cie9Component implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
-  data = [
-    { name: 'hola', value: 2 },
-    { name: 'adios', value: 6 },
+  public showingDetail: boolean = false;
+  public data = [
+    { name: 'PARAPSORIASIS', value: 2 },
+    { name: 'CARCINOMA IN SITU DE LARINGE', value: 6 },
+    { name: 'PSORIASIS Y ALTERACIONES SIMILARES', value: 3 },
   ];
   public columHeaders = ['cie9Diagnostic', 'patients'];
+  public listHeaders = ['name', 'surname'];
+  public listData = [
+    { name: 'Pacient', surname: 'testing' },
+    { name: 'pacient', surname: 'one' },
+  ];
   public array = [
-    { cie9Diagnostic: 'hola', patients: 2 },
-    { cie9Diagnostic: 'adios', patients: 6 },
+    { cie9Diagnostic: 'PARAPSORIASIS', patients: 2 },
+    { cie9Diagnostic: 'CARCINOMA IN SITU DE LARINGE', patients: 6 },
+    { cie9Diagnostic: 'PSORIASIS Y ALTERACIONES SIMILARES', patients: 3 },
   ];
 
-  constructor(private _translate: TranslateService) {}
+  constructor(
+    private _translate: TranslateService,
+    private _modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
@@ -31,5 +41,11 @@ export class Cie9Component implements OnInit {
     this.menuSelected = this.menu[0].children.find((item) =>
       item.url.endsWith('/dashboard/diagnostic')
     );
+  }
+
+  onIconButtonClick(event: any) {
+    if (event && event.type === 'detail') {
+      this.showingDetail = !this.showingDetail;
+    }
   }
 }

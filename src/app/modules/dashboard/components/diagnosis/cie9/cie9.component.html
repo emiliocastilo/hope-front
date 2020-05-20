@@ -6,7 +6,7 @@
   <section
     class="col-md-8 col-lg-9 p-0 management-fluid justify-content-center"
   >
-    <section class="cie9-container">
+    <section class="cie9-container" *ngIf="!showingDetail">
       <div class="chart-container">
         <app-pie-chart
           [chartTitle]="'patientsDiagnosticCIE9'"
@@ -15,8 +15,25 @@
         ></app-pie-chart>
       </div>
       <div class="table-container">
-        <app-table [columnsHeader]="columHeaders" [columnsData]="array">
+        <app-table
+          [columnsHeader]="columHeaders"
+          [columnsData]="array"
+          [showDetailButton]="true"
+          (iconButtonClick)="onIconButtonClick($event)"
+        >
         </app-table>
+      </div>
+    </section>
+    <section class="cie9-container" *ngIf="showingDetail">
+      <div class="table-container">
+        <app-table [columnsHeader]="listHeaders" [columnsData]="listData">
+        </app-table>
+        <app-button
+          type="button"
+          clasesBtn="btn-primary btn-sm mx-2"
+          texto="backToChart"
+          (click)="onIconButtonClick({ type: 'detail' })"
+        ></app-button>
       </div>
     </section>
   </section>
