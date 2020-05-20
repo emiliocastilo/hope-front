@@ -22,6 +22,7 @@ import {
 })
 export class TableComponent implements OnInit {
   @Input() showActionButtons: boolean;
+  @Input() showDetailButton: boolean;
   @Input() columnsHeader: Array<ColumnHeaderModel>;
   @Input() columnsData: Array<RowDataModel>;
   @Output() selectedItem: EventEmitter<number> = new EventEmitter();

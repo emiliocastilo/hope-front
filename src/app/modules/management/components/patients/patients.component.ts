@@ -5,18 +5,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PatientModel } from '../../models/patients/patient.model';
 import { PathologyModel } from '../../models/patients/pathology.model';
 import { PatientsService } from '../../services/patients/patients.service';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { ToastrService } from 'ngx-toastr';
-import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
-import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
-import {
-  PATIENT_TABLE_HEADERS,
-  PATIENT_TABLE_KEYS,
-} from '../../constants/patients.constants';
+import { PATIENT_TABLE_KEYS } from '../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -27,8 +19,6 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./patients.component.scss'],
 })
 export class PatientsComponent implements OnInit {
-  //public columnsHeader: Array<ColumnHeaderModel> = PATIENT_TABLE_HEADERS;
-  public columnsHeader: Array<string> = PATIENT_TABLE_KEYS;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
@@ -82,15 +72,6 @@ export class PatientsComponent implements OnInit {
       genderCode: ['', Validators.required],
       birthDate: ['', Validators.required],
     });
-  }
-
-  public prepareTableData(): Array<RowDataModel> {
-    const rows = this.patients
-      ? this.patients.map((patient) => {
-          return this._adaptModelToRow(patient);
-        })
-      : [];
-    return rows;
   }
 
   public onSelectedItem(event: number): void {
@@ -256,44 +237,5 @@ export class PatientsComponent implements OnInit {
         this.paginationData = data;
       }
     });
-  }
-
-  private _adaptModelToRow(patient: PatientModel): RowDataModel {
-    const row = new RowDataModel();
-    row.pushColumn(
-      new ColumnDataModel(
-        'text',
-        patient.name
-          .concat(' ')
-          .concat(patient.firstSurname)
-          .concat(' ')
-          .concat(patient.lastSurname)
-      )
-    );
-    row.pushColumn(new ColumnDataModel('text', patient.nhc));
-    row.pushColumn(new ColumnDataModel('text', patient.healthCard));
-    row.pushColumn(new ColumnDataModel('text', patient.dni));
-    row.pushColumn(new ColumnDataModel('text', patient.phone));
-    const genderValue = patient.genderCode === 'M' ? 'Hombre' : 'Mujer';
-    row.pushColumn(new ColumnDataModel('text', genderValue));
-    let pathologyList = '';
-    patient.pathologies.forEach((pathology) => {
-      pathologyList = pathologyList.concat(pathology.name).concat(';');
-    });
-    // row.pushColumn(
-    //   new ColumnDataModel('iconButtons', {
-    //     iconButtons: [
-    //       {
-    //         type: 'edit',
-    //         icon: 'fa-lg fa-pencil',
-    //       },
-    //       {
-    //         type: 'delete',
-    //         icon: 'fa-lg fa-window-close cfa-red',
-    //       },
-    //     ],
-    //   })
-    // );
-    return row;
   }
 }

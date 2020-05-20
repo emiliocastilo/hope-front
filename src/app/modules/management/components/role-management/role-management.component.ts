@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { RoleManagementService } from '../../services/roles/role-management.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { RolModel } from '../../models/rol.model';
-import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
@@ -54,15 +51,6 @@ export class RoleManagementComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required],
     });
-  }
-
-  public prepareTableData(): Array<RowDataModel> {
-    const rows = this.roles
-      ? this.roles.map((rol) => {
-          return this._adaptModelToRow(rol);
-        })
-      : [];
-    return rows;
   }
 
   public onSelectedItem(event: number): void {
@@ -201,26 +189,5 @@ export class RoleManagementComponent implements OnInit {
 
   public onSort(event: any) {
     this.refreshData(`&sort=${event.column},${event.direction}`);
-  }
-
-  private _adaptModelToRow(rol: RolModel): RowDataModel {
-    const row = new RowDataModel();
-    row.pushColumn(new ColumnDataModel('text', rol.name));
-    row.pushColumn(new ColumnDataModel('text', rol.description));
-    // row.pushColumn(
-    //   new ColumnDataModel('iconButtons', {
-    //     iconButtons: [
-    //       {
-    //         type: 'edit',
-    //         icon: 'fa-lg fa-pencil',
-    //       },
-    //       {
-    //         type: 'delete',
-    //         icon: 'fa-lg fa-window-close cfa-red',
-    //       },
-    //     ],
-    //   })
-    // );
-    return row;
   }
 }

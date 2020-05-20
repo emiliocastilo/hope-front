@@ -21,7 +21,7 @@
       <div class="container-fluid mt-4">
         <app-table
           [columnsHeader]="columHeaders"
-          [columnsData]="prepareTableData()"
+          [columnsData]="medics"
           (selectedItem)="onSelectedItem($event)"
           (sort)="onSort($event)"
           [showActionButtons]="true"
