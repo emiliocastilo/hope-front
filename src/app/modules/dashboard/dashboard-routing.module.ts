@@ -10,7 +10,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'cie9',
+    path: 'diagnosis/cie9',
     component: Cie9Component,
     canActivate: [AuthGuard],
   },

@@ -84,5 +84,6 @@
   "actions": "Actions",
   "patients": "Patients",
   "cie9Diagnostic": "CIE9 Diagnostic",
-  "patientsDiagnosticCIE9": "Patients by CIE9 diagnostic"
+  "patientsDiagnosticCIE9": "Patients by CIE9 diagnostic",
+  "backToChart": "Back to chart"
 }
