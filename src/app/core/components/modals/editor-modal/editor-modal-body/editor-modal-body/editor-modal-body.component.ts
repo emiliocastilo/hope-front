@@ -18,7 +18,23 @@ export class EditorModalBodyComponent implements OnInit {
   ngOnInit(): void {
     if (this.form) {
       this.formKeys = Object.keys(this.form.controls);
+      this.parseDate(this.formKeys);
     }
+  }
+
+  parseDate(keys: any) {
+    keys.forEach((key) => {
+      if (this.form.controls[key].value) {
+        if (
+          key.toLowerCase().includes('date') ||
+          key.toLowerCase().includes('period')
+        ) {
+          this.form.controls[key].setValue(
+            this.form.controls[key].value.split('T')[0]
+          );
+        }
+      }
+    });
   }
 
   public setType(key: string) {
