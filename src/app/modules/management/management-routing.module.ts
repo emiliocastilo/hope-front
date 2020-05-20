@@ -53,9 +53,6 @@ const routes: Routes = [
     resolve: {
       dispensations: DispensationResolverService,
     },
-    path: 'sections',
-    component: SectionsComponent,
-    canActivate: [AuthGuard],
   },
   {
     path: 'sections',
