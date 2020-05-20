@@ -59,11 +59,6 @@ const routes: Routes = [
     component: SectionsComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'sections',
-    component: SectionsComponent,
-    canActivate: [AuthGuard],
-  },
 ];
 
 @NgModule({
