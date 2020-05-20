@@ -5,6 +5,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { ButtonComponent } from './components/basics/button/button.component';
 import { InputComponent } from './components/basics/input/input.component';
@@ -43,6 +44,7 @@ import { InputFileComponent } from './components/basics/input-file/input-file.co
 import { RouterModule } from '@angular/router';
 import { NgbdSortableHeader } from './directives/sortable.directive';
 import { FormsComponent } from './components/forms/forms.component';
+import { ColumnChartComponent } from './components/column-chart/column-chart.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -85,12 +87,14 @@ export function createTranslateLoader(http: HttpClient) {
     InputFileComponent,
     NgbdSortableHeader,
     FormsComponent,
+    ColumnChartComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
+    NgxChartsModule,
     RouterModule,
     TranslateModule.forChild({
       loader: {
@@ -126,6 +130,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormSwitchComponent,
     SwitchComponent,
     PaginationComponent,
+
     HomeDashboardModuleComponent,
   ],
   providers: [],
