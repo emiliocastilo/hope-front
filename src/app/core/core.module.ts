@@ -41,6 +41,8 @@ import { PaginationComponent } from './components/basics/pagination/pagination.c
 import { FormTextareaComponent } from './components/basics/form-textarea/form-textarea.component';
 import { InputFileComponent } from './components/basics/input-file/input-file.component';
 import { RouterModule } from '@angular/router';
+import { FromDividerComponent } from './components/basics/from-divider/from-divider.component';
+import { FromTitleComponent } from './components/basics/from-title/from-title.component';
 import { NgbdSortableHeader } from './directives/sortable.directive';
 import { FormsComponent } from './components/forms/forms.component';
 
@@ -83,6 +85,8 @@ export function createTranslateLoader(http: HttpClient) {
     PaginationComponent,
     FormTextareaComponent,
     InputFileComponent,
+    FromDividerComponent,
+    FromTitleComponent,
     NgbdSortableHeader,
     FormsComponent,
   ],

@@ -17,7 +17,6 @@ import { ServiceModel } from 'src/app/core/models/service/service.model';
 import { TranslateService } from '@ngx-translate/core';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
