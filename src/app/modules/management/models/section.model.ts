@@ -1,3 +1,5 @@
+import { RolModel } from './rol.model';
+
 export class SectionModel {
   constructor(
     public id?: number,
@@ -8,8 +10,8 @@ export class SectionModel {
     public principal?: boolean,
     public title?: string,
     public url?: string,
-    public roles?: string,
-    public fatherSection?: string,
-    public children?: SectionModel
+    public roles?: Array<RolModel>,
+    public fatherSection?: SectionModel,
+    public children?: Array<SectionModel>
   ) {}
 }

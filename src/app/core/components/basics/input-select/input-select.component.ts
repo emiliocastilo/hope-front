@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
 
 @Component({
@@ -17,7 +17,10 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   @Input() currentValue: any;
   @Input() placeholder: string = '';
   @Input() selectMultiple: boolean = false;
+  @Input() clearAfterSelect: boolean = false;
   @Input() form: FormGroup;
+
+  @Output() selectTrigger: EventEmitter<any> = new EventEmitter<any>();
 
   public value: string = null;
   childControl = new FormControl();
@@ -25,13 +28,17 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   optionSelected: boolean;
 
   ngOnInit(): void {
-    if (this.currentValue) {
+    if (this.currentValue && this.clearAfterSelect) {
       this.value = this.currentValue[0].name;
     }
   }
 
   onChange(value: any): void {
     this.optionSelected = this.currentValue ? true : false;
+    this.selectTrigger.emit(value);
+    if (this.clearAfterSelect && this.value) {
+      this.writeValue('');
+    }
   }
 
   writeValue(value: any): void {
@@ -49,7 +56,9 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
     this.value = value;
     this.setCurrentValue(value, this.options);
     this.childControl.setValue(this.currentValue);
-    this.form.controls[this.id].setValue([this.currentValue]);
+    if (this.form) {
+      this.form.controls[this.id].setValue([this.currentValue]);
+    }
     this.onChange(this.value);
     this.onTouch();
   }

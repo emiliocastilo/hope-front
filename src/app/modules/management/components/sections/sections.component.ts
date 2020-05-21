@@ -9,8 +9,11 @@ import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.mod
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SECTIONS_TABLE_HEADERS } from 'src/app/modules/management/constants/sections.constants';
+import { RolModel } from '../../models/rol.model';
 import { SectionModel } from '../../models/section.model';
+import { RoleManagementService } from '../../services/roles/role-management.service';
 import { SectionsService } from '../../services/sections/sections.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-sections',
@@ -28,9 +31,12 @@ export class SectionsComponent implements OnInit {
   public selectedSection: SectionModel = new SectionModel();
   public modalForm: FormGroup;
   public options: ITreeOptions;
+  public roles: Array<RolModel> = [];
+  public activeRoles: Array<RolModel> = [];
 
   constructor(
     private sectionsService: SectionsService,
+    private rolService: RoleManagementService,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private formBuilder: FormBuilder
@@ -40,11 +46,11 @@ export class SectionsComponent implements OnInit {
       description: ['', Validators.required],
       icon: [''],
       order: ['', Validators.required],
-      principal: ['', Validators.required],
-      active: ['', Validators.required],
+      principal: [false],
+      active: [false],
       url: ['', Validators.required],
-      // fatherSection: ['', Validators.required],
-      rolesList: ['', Validators.required],
+      fatherSection: [{ value: '', disabled: true }, Validators.required],
+      roles: [null],
     });
   }
 
@@ -79,13 +85,24 @@ export class SectionsComponent implements OnInit {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
-    this.showModal();
+    this.makeRequests(parentNode ? parentNode.id : 1);
   }
 
   public editSection(node: SectionModel): void {
     this.isEditing = true;
-    this.setFormValues(node);
-    this.showModal(node);
+    this.makeRequests(node.id);
+  }
+
+  private makeRequests(id: number): void {
+    const getRoles = this.rolService.getAllRoles();
+    const getNodeData = this.sectionsService.getSectionById(id);
+
+    forkJoin([getRoles, getNodeData]).subscribe((responseData) => {
+      this.roles = responseData[0];
+      this.activeRoles = this.isEditing ? responseData[1].roles : [];
+      this.setFormValues(responseData[1]);
+      this.showModal(responseData[1]);
+    });
   }
 
   public showConfirmRemove(node?: SectionModel) {
@@ -117,7 +134,17 @@ export class SectionsComponent implements OnInit {
   private setFormValues(node: SectionModel): void {
     Object.keys(node).map((nodeKey) => {
       if (this.modalForm.controls[nodeKey]) {
-        this.modalForm.controls[nodeKey].setValue(node[nodeKey]);
+        if (nodeKey === 'fatherSection') {
+          if (node[nodeKey] && this.isEditing) {
+            this.modalForm.controls[nodeKey].setValue(
+              (node[nodeKey] as SectionModel).title
+            );
+          } else {
+            this.modalForm.controls[nodeKey].setValue(node.title);
+          }
+        } else if (nodeKey !== 'roles' && this.isEditing === true) {
+          this.modalForm.controls[nodeKey].setValue(node[nodeKey]);
+        }
       }
     });
   }
@@ -129,6 +156,8 @@ export class SectionsComponent implements OnInit {
     modalRef.componentInstance.id = 'sectionsEditor';
     modalRef.componentInstance.title = 'Sección';
     modalRef.componentInstance.form = this.modalForm;
+    modalRef.componentInstance.options = { roles: this.roles };
+    modalRef.componentInstance.activeRoles = this.activeRoles;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
     });
@@ -142,22 +171,23 @@ export class SectionsComponent implements OnInit {
   private saveOrUpdate(event: any, modalRef: any, node?: SectionModel): void {
     const formValues: SectionModel = event.value;
     let id;
+    let fatherSection = node;
     if (this.isEditing && node) {
       id = node.id;
+      fatherSection = node.fatherSection;
     }
     const section: SectionModel = new SectionModel(
       id,
       formValues.description,
-      formValues.icon,
-      formValues.active,
+      formValues.icon ? formValues.icon : '',
+      formValues.active ? formValues.active : false,
       formValues.order,
-      formValues.principal,
+      formValues.principal ? formValues.principal : false,
       formValues.title,
       formValues.url,
-      formValues.roles,
-      formValues.fatherSection
+      modalRef.componentInstance.activeRoles,
+      fatherSection
     );
-    this.selectedSection = new SectionModel();
     if (this.isEditing) {
       this.sectionsService.updateSection(section).subscribe(
         (response) => {
