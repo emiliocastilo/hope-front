@@ -10,14 +10,14 @@
       <div class="chart-container">
         <app-pie-chart
           [chartTitle]="'patientsDiagnosticCIE9'"
-          [results]="data"
+          [results]="dataChart"
           [showLabels]="false"
         ></app-pie-chart>
       </div>
       <div class="table-container">
         <app-table
           [columnsHeader]="columHeaders"
-          [columnsData]="array"
+          [columnsData]="dataTable"
           [showDetailButton]="true"
           (iconButtonClick)="onIconButtonClick($event)"
         >
@@ -32,7 +32,7 @@
           type="button"
           clasesBtn="btn-primary btn-sm mx-2"
           texto="backToChart"
-          (click)="onIconButtonClick({ type: 'detail' })"
+          (click)="onIconButtonClick({ type: 'back' })"
         ></app-button>
       </div>
     </section>
