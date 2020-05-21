@@ -13,8 +13,8 @@ export class SectionsService {
     return this._httpClient.get(`/sections`);
   }
 
-  public getSectionsById(id: string): Observable<any> {
-    return this._httpClient.get(`/sections/searches?search=${id}`);
+  public getSectionById(id: number): Observable<any> {
+    return this._httpClient.get(`/sections/${id}`);
   }
 
   public createSection(request: SectionModel): Observable<any> {

@@ -24,7 +24,7 @@
               {{ node.data.title }}
             </div>
             <context-menu #ctxMenu>
-              <ng-template contextMenuItem (execute)="saveSection()"
+              <ng-template contextMenuItem (execute)="saveSection(node.data)"
                 ><div>
                   <i class="fa fa-plus"></i
                   ><span> {{ 'btn.new' | translate }}</span>

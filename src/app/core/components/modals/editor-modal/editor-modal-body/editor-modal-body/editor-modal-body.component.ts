@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { RolModel } from 'src/app/modules/management/models/rol.model';
 
 @Component({
   selector: 'app-editor-modal-body',
@@ -9,6 +10,7 @@ import { FormGroup } from '@angular/forms';
 export class EditorModalBodyComponent implements OnInit {
   @Input() id: string;
   @Input() form: FormGroup;
+  @Input() activeRoles: Array<RolModel>;
   @Input() options: any = {};
   @Input() validationLabels: Map<string, string>;
   public formKeys: Array<string> = [];
@@ -18,7 +20,6 @@ export class EditorModalBodyComponent implements OnInit {
   ngOnInit(): void {
     if (this.form) {
       this.formKeys = Object.keys(this.form.controls);
-      console.log(this.formKeys);
     }
   }
 
@@ -32,6 +33,23 @@ export class EditorModalBodyComponent implements OnInit {
       serviceDTO: 'select',
     };
     return types[key] ? types[key] : 'text';
+  }
+
+  onRolSelected(event: string) {
+    if (this.activeRoles.length > 0) {
+      const indexRol = this.activeRoles.findIndex((rol) => rol.name === event);
+      if (indexRol >= 0) {
+        this.activeRoles.splice(indexRol, 1);
+      } else {
+        this.activeRoles.push(
+          this.options.roles.find((rol) => rol.name === event)
+        );
+      }
+    } else {
+      this.activeRoles.push(
+        this.options.roles.find((rol) => rol.name === event)
+      );
+    }
   }
 
   public setAccept(key: string) {

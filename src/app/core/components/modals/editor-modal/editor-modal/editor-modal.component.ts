@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { RolModel } from 'src/app/modules/management/models/rol.model';
 
 @Component({
   selector: 'app-editor-modal',
@@ -9,6 +10,7 @@ import { FormGroup } from '@angular/forms';
 export class EditorModalComponent implements OnInit {
   @Input() id: string;
   @Input() title: string;
+  @Input() activeRoles: Array<RolModel>;
   @Input() form: FormGroup;
   @Input() validationLabels: Map<string, string>;
   @Output() close: EventEmitter<any> = new EventEmitter();
