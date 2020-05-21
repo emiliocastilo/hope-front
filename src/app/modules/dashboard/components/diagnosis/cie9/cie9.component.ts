@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { GraphsService } from '../../../services/graphs.service';
+import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 
 @Component({
   selector: 'app-cie9',
@@ -8,26 +9,34 @@ import { GraphsService } from '../../../services/graphs.service';
   styleUrls: ['./cie9.component.scss'],
 })
 export class Cie9Component implements OnInit {
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
+  modules: Array<HomeDashboardModule>;
+  menu: SideBarItemModel[] = [];
+  menuId: number = 2;
+  currentSection: number = 1;
   public showingDetail: boolean = false;
   public dataChart: any[];
   public dataTable: any[];
   public columHeaders = ['cie9Diagnostic', 'patients'];
   public listHeaders = ['name', 'surname'];
   public listData: any[];
+  paginationData: any;
 
   constructor(private charts: GraphsService) {}
 
   ngOnInit(): void {
+    this.getMenu();
     this.getData();
+    this.paginationData = { size: 10 };
+  }
 
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/dashboard')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/dashboard/diagnostic')
-    );
+  getMenu() {
+    const rootMenu = JSON.parse(localStorage.getItem('menu'));
+    this.menu = rootMenu.filter((item) => item.url.endsWith('dashboard'));
+    if (this.menu.length) {
+      this.modules = rootMenu.find((item) =>
+        item.url.endsWith('dashboard')
+      ).children;
+    }
   }
 
   getData() {
