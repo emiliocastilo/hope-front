@@ -8,6 +8,7 @@ import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model'
 })
 export class ColumnChartComponent implements OnInit {
   @Input() config: ColumnChartModel;
+  @Input() stacked: boolean = false;
   @Output() select: EventEmitter<any> = new EventEmitter<any>();
 
   private defaultValues = {

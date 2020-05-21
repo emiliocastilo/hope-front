@@ -6,9 +6,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { DashboardRoutingModule } from 'src/app/modules/dashboard/dashboard-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, PatientsIndicationComponent],
   imports: [
     NgbModule,
     CommonModule,

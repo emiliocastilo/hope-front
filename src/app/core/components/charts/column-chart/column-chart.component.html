@@ -1,17 +1,33 @@
-<div class="app-column-chart">
-  <ngx-charts-bar-vertical
-    [view]="config.view"
-    [scheme]="config.scheme"
-    [results]="config.results"
-    [gradient]="config.gradient"
-    [xAxis]="config.xAxis"
-    [yAxis]="config.yAxis"
-    [legend]="config.legend"
-    [showXAxisLabel]="config.showXAxisLabel"
-    [showYAxisLabel]="config.showYAxisLabel"
-    [xAxisLabel]="config.xAxisLabel"
-    [yAxisLabel]="config.yAxisLabel"
-    (select)="onSelect($event)"
-  >
-  </ngx-charts-bar-vertical>
-</div>
+<ngx-charts-bar-vertical
+  *ngIf="stacked"
+  [view]="config.view"
+  [scheme]="config.scheme"
+  [results]="config.results"
+  [gradient]="config.gradient"
+  [xAxis]="config.xAxis"
+  [yAxis]="config.yAxis"
+  [legend]="config.legend"
+  [showXAxisLabel]="config.showXAxisLabel"
+  [showYAxisLabel]="config.showYAxisLabel"
+  [xAxisLabel]="config.xAxisLabel"
+  [yAxisLabel]="config.yAxisLabel"
+  (select)="onSelect($event)"
+>
+</ngx-charts-bar-vertical>
+
+<ngx-charts-bar-vertical-stacked
+  *ngIf="!stacked"
+  [view]="config.view"
+  [scheme]="config.scheme"
+  [results]="config.results"
+  [gradient]="config.gradient"
+  [xAxis]="config.xAxis"
+  [yAxis]="config.yAxis"
+  [legend]="config.legend"
+  [showXAxisLabel]="config.showXAxisLabel"
+  [showYAxisLabel]="config.showYAxisLabel"
+  [xAxisLabel]="config.xAxisLabel"
+  [yAxisLabel]="config.yAxisLabel"
+  (select)="onSelect($event)"
+>
+</ngx-charts-bar-vertical-stacked>
