@@ -1,6 +1,11 @@
 .cie9-container {
   padding: 2rem;
 
+  .export-buttons {
+    text-align: right;
+    padding-bottom: 1rem;
+  }
+
   .chart-container {
     padding: 1rem;
 
@@ -11,5 +16,6 @@
 
   .table-container {
     padding: 1rem;
+    padding-top: 5rem;
   }
 }

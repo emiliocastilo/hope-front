@@ -15,6 +15,9 @@
         ></app-pie-chart>
       </div>
       <div class="table-container">
+        <div class="export-buttons">
+          <app-export-buttons></app-export-buttons>
+        </div>
         <app-table
           [columnsHeader]="columHeaders"
           [columnsData]="dataTable"
@@ -25,21 +28,22 @@
       </div>
     </section>
     <section class="cie9-container" *ngIf="showingDetail">
-      <div class="table-container">
-        <app-table [columnsHeader]="listHeaders" [columnsData]="listData">
-        </app-table>
-        <app-pagination
-          (selectPage)="selectPage($event)"
-          [paginationData]="paginationData"
-        >
-        </app-pagination>
-        <app-button
-          type="button"
-          clasesBtn="btn-primary btn-sm mx-2"
-          texto="backToChart"
-          (click)="onIconButtonClick({ type: 'back' })"
-        ></app-button>
+      <div class="export-buttons">
+        <app-export-buttons></app-export-buttons>
       </div>
+      <app-table [columnsHeader]="listHeaders" [columnsData]="listData">
+      </app-table>
+      <app-pagination
+        (selectPage)="selectPage($event)"
+        [paginationData]="paginationData"
+      >
+      </app-pagination>
+      <app-button
+        type="button"
+        clasesBtn="btn-primary btn-sm"
+        texto="backToChart"
+        (click)="onIconButtonClick({ type: 'back' })"
+      ></app-button>
     </section>
   </section>
 </div>
