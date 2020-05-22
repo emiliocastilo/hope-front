@@ -1,5 +1,5 @@
 export interface PhotoModel {
-  id: number;
+  id?: number;
   pathologyId: number;
   patientId: number;
   title: string;

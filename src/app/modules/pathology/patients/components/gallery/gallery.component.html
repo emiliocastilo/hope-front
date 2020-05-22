@@ -8,7 +8,7 @@
     <hr />
     <div class="photo-button">
       <button type="button" class="btn btn-primary" (click)="addPhoto()">
-        New photo
+        {{ 'addPhoto' | translate }}
       </button>
     </div>
     <section class="photos-container">
@@ -29,14 +29,16 @@
       <button
         type="button"
         class="btn btn-outline-primary"
-        (click)="isCollapsed = !isCollapsed"
+        (click)="generateQR()"
       >
         {{ 'generateQR' | translate }}
       </button>
       <div class="qr" *ngIf="isCollapsed">
         <div class="card">
           <div class="card-body">
-            This is a qr
+            {{ 'qrString' | translate }}
+            <br />
+            <img src="qrcode" />
           </div>
         </div>
       </div>
