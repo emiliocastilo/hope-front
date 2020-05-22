@@ -7,9 +7,14 @@ import { HttpClient } from '@angular/common/http';
 import { DashboardRoutingModule } from 'src/app/modules/dashboard/dashboard-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
+import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
 
 @NgModule({
-  declarations: [DashboardComponent, Cie9Component],
+  declarations: [
+    DashboardComponent,
+    Cie9Component,
+    PatientsIndicationComponent,
+  ],
   imports: [
     NgbModule,
     CommonModule,

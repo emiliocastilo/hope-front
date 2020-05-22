@@ -1,8 +1,10 @@
+import { ChartObjectModel } from './chart-object.model';
+
 export class ColumnChartModel {
   constructor(
     public view: number[],
     public scheme: any,
-    public results: any[],
+    public results: ChartObjectModel[],
     public gradient?: boolean,
     public xAxis?: boolean,
     public yAxis?: boolean,
