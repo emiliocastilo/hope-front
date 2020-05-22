@@ -92,5 +92,7 @@
   "exportExcel": "Export to excel",
   "copy": "Copy",
   "gallery": "Photo gallery",
-  "generateQR": "Generate QR"
+  "addPhoto": "Upload photo",
+  "generateQR": "Generate QR",
+  "qrString": "Use this QR code to upload photos from your device"
 }
