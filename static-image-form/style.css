@@ -1,14 +1,21 @@
 body {
 	height: 100vh;
-	background-color: #333;
-	color: white;
+	background-color: rgb(255, 255, 255);
+	color: rgb(37, 44, 78);
 }
 
-.btn-secondary {
-	color: #333;
+.btn-primary {
+	background-color: rgb(41, 169, 224);
+	border-radius: 0;
+	border: .05rem solid rgb(41, 169, 224);
+	color: rgb(255, 255, 255);
 	text-shadow: none;
-	background-color: #fff;
-	border: .05rem solid #fff;
+}
+
+.btn-primary:hover{
+	background-color: rgb(255, 255, 255);
+	color: rgb(41, 169, 224);
+	border: .05rem solid rgb(41, 169, 224);
 }
 
 .form {

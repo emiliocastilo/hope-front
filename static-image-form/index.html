@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <title>Hopes</title>
     <meta charset="utf-8" />
@@ -10,14 +10,10 @@
       integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
       crossorigin="anonymous"
     />
-    <link 
-      rel="stylesheet"
-      href="./style.css"
-    />
+    <link rel="stylesheet" href="./style.css" />
     <link rel="icon" type="image/x-icon" href="./favicon.ico" />
   </head>
   <body class="text-center" data-gr-c-s-loaded="true">
-
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
@@ -26,34 +22,49 @@
           </h1>
         </div>
       </header>
-  
+
       <main role="main" class="inner cover align-middle">
-        <form class="form">
+        <section class="row m-4" id="img-container"></section>
+
+        <form class="form needs-validation">
           <div class="form-group">
             <template for="files">Imagenes</template>
             <input
               accept="image/*"
+              capture="camera"
               class="form-control-file"
               id="files"
               multiple
               name="files"
               required
               type="file"
+              onchange="loadFile(event)"
             />
-            <small id="filesHelp" class="form-text">
+            <small class="form-text">
               Puede subir una o mas imagenes.
-            </small
-            >
+            </small>
+            <div class="row">
+              <div class="col-12">
+                <div class="invalid-tooltip">
+                  Debe seleccionar una o mas imagenes
+                </div>
+                <div class="valid-tooltip">
+                  Imagen guardada
+                </div>
+              </div>
+            </div>
           </div>
-          <button type="submit" class="btn btn-lg btn-secondary">Guardar</button>
+          <button type="submit" class="btn btn-lg btn-primary">Guardar</button>
         </form>
       </main>
-  
+
       <footer class="mastfoot mt-auto">
         <div class="inner">
           <p>hopes by plexus</p>
         </div>
       </footer>
     </div>
+
+    <script src="./index.js"></script>
   </body>
 </html>
