@@ -1,0 +1,33 @@
+.gallery-container {
+  padding: 2rem;
+
+  .photo-button {
+    text-align: right;
+  }
+
+  .photos-container {
+    padding-bottom: 3rem;
+
+    .photo {
+      width: 20%;
+      height: 10rem;
+      border: 2px black solid;
+      padding: 1rem;
+      margin: 1rem;
+      display: inline-block;
+
+      .buttons-photo {
+        position: relative;
+        top: 7rem;
+        left: 9rem;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .qr-container {
+    .qr {
+      margin: 1rem;
+    }
+  }
+}

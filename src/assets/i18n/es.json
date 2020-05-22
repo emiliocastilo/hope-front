@@ -58,6 +58,7 @@
   "modal.editor.field.startperiod": "Periodo de inicio",
   "modal.editor.field.endperiod": "Periodo fin",
   "modal.editor.field.filedispensation": "Archivo csv",
+  "modal.editor.field.photo": "Archivo imagen",
   "modal.editor.field.description": "Descripción",
   "modal.editor.field.icon": "Icono",
   "modal.editor.field.order": "Orden",
@@ -99,5 +100,7 @@
   "backToChart": "Volver a grafica",
   "exportCsv": "Exportar a csv",
   "exportExcel": "Exportar a excel",
-  "copy": "Copiar"
+  "copy": "Copiar",
+  "gallery": "Galeria de imagenes",
+  "generateQR": "Generar QR"
 }

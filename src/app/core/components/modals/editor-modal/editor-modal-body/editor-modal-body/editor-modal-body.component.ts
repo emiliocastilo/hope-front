@@ -45,6 +45,7 @@ export class EditorModalBodyComponent implements OnInit {
       startPeriod: 'date',
       endPeriod: 'date',
       fileDispensation: 'file',
+      photo: 'file',
       hospital: 'select',
       serviceDTO: 'select',
     };
@@ -71,6 +72,7 @@ export class EditorModalBodyComponent implements OnInit {
   public setAccept(key: string) {
     const types = {
       fileDispensation: '.csv',
+      photo: '.jpg' || '.png',
     };
 
     return types[key] ? types[key] : null;

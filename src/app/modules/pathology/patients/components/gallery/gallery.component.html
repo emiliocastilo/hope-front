@@ -1,0 +1,45 @@
+<app-header></app-header>
+<div class="row m-0 p-0">
+  <section class="col-md-4 col-lg-3 m-0 p-0 sidemenu">
+    <side-bar [menu]="menu" [selected]="menuSelected"></side-bar>
+  </section>
+  <section class="col-md-8 col-lg-9 gallery-container">
+    <div>{{ 'gallery' | translate }}</div>
+    <hr />
+    <div class="photo-button">
+      <button type="button" class="btn btn-primary" (click)="addPhoto()">
+        New photo
+      </button>
+    </div>
+    <section class="photos-container">
+      <span class="photo" *ngFor="let photo of photos">
+        <div class="buttons-photo">
+          <a (click)="editPhoto()"
+            ><i class="mr-2 fa fa-pencil cfa-blue"></i
+          ></a>
+          <a (click)="removePhoto()"
+            ><i class="mr-2 fa fa-close cfa-red"></i
+          ></a>
+        </div>
+      </span>
+    </section>
+
+    <section class="qr-container">
+      <hr />
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="isCollapsed = !isCollapsed"
+      >
+        {{ 'generateQR' | translate }}
+      </button>
+      <div class="qr" *ngIf="isCollapsed">
+        <div class="card">
+          <div class="card-body">
+            This is a qr
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>
