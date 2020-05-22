@@ -168,6 +168,7 @@ export class PatientsComponent implements OnInit {
 
   private saveOrUpdate(event: any, modalRef: any): void {
     const formValues: PatientModel = event.value;
+    const birthDate = new Date(formValues.birthDate).toISOString();
     let id;
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;
@@ -195,7 +196,7 @@ export class PatientsComponent implements OnInit {
       formValues.address,
       formValues.phone,
       formValues.email,
-      formValues.birthDate,
+      birthDate,
       hospital,
       formValues.genderCode,
       pathologies

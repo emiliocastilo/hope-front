@@ -18,7 +18,12 @@
     <tbody>
       <tr *ngFor="let row of columnsData; index as i">
         <td *ngFor="let header of columnsHeader">
-          {{ row[header] }}
+          {{
+            header.toLowerCase().includes('date') ||
+            header.toLowerCase().includes('period')
+              ? (row[header] | date)
+              : row[header]
+          }}
         </td>
         <td *ngIf="showActionButtons">
           <div>

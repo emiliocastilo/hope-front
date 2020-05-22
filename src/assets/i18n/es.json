@@ -80,5 +80,13 @@
     "element_deleted": "Elemento eliminado correctamente",
     "element_created": "Elemento creado correctamente",
     "element_updated": "Elemento editado correctamente"
-  }
+  },
+  "actions": "Acciones",
+  "patients": "Pacientes",
+  "cie9Diagnostic": "Diagnostico CIE9",
+  "patientsDiagnosticCIE9": "Pacientes por diagnostico CIE9",
+  "backToChart": "Volver a grafica",
+  "exportCsv": "Exportar a csv",
+  "exportExcel": "Exportar a excel",
+  "copy": "Copiar"
 }

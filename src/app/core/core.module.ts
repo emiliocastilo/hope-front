@@ -48,6 +48,7 @@ import { NgbdSortableHeader } from './directives/sortable.directive';
 import { FormsComponent } from './components/forms/forms.component';
 import { ColumnChartComponent } from './components/charts/column-chart/column-chart.component';
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
+import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -94,6 +95,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormsComponent,
     ColumnChartComponent,
     PieChartComponent,
+    ExportButtonsComponent,
   ],
   imports: [
     CommonModule,
@@ -136,6 +138,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormSwitchComponent,
     SwitchComponent,
     PieChartComponent,
+    ExportButtonsComponent,
     ColumnChartComponent,
     PaginationComponent,
     HomeDashboardModuleComponent,
