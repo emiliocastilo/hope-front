@@ -15,7 +15,7 @@
   </head>
   <body class="text-center" data-gr-c-s-loaded="true">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
+      <header class="masthead mb-auto pt-4">
         <div class="inner">
           <h1 class="masthead-brand">
             Cargar imagenes a Hopes
@@ -26,8 +26,8 @@
       <main role="main" class="inner cover align-middle">
         <section class="row m-4" id="img-container"></section>
 
-        <form class="form needs-validation">
-          <div class="form-group">
+        <form class="form" onsubmit="submitImage(event)" method="post" novalidate>
+          <div class="form-group m-4">
             <template for="files">Imagenes</template>
             <input
               accept="image/*"
@@ -43,13 +43,13 @@
             <small class="form-text">
               Puede subir una o mas imagenes.
             </small>
-            <div class="row">
+            <div class="row m-4">
               <div class="col-12">
-                <div class="invalid-tooltip">
-                  Debe seleccionar una o mas imagenes
+                <div class="invalid-feedback">
+                  <p>Debe seleccionar una o mas imagenes</p>
                 </div>
-                <div class="valid-tooltip">
-                  Imagen guardada
+                <div class="valid-feedback">
+                  <p>Imagen guardada</p>
                 </div>
               </div>
             </div>
