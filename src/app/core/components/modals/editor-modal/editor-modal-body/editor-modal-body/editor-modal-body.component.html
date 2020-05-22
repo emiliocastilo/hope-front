@@ -2,17 +2,23 @@
   <form [formGroup]="form" novalidate>
     <ng-container
       *ngFor="let formKey of formKeys; index as fieldIndex"
-      [ngSwitch]="formKey"
+      [ngSwitch]="true"
     >
       <section
-        [ngClass]="id + '-modal-field-group-' + fieldIndex"
-        class="col-sm-12 col-md-6 col-lg-4"
+        [class]="id + '-modal-field-group-' + fieldIndex"
+        [ngClass]="{
+          'col-sm-12 col-md-6 col-lg-4': formKey !== 'roles',
+          'col-12': formKey === 'roles'
+        }"
       >
         <div
           class="w-100"
           *ngIf="setType(formKey) !== 'select' && setType(formKey) !== 'file'"
         >
-          <span class="ui-float-label ng-button" *ngSwitchCase="'genderCode'">
+          <span
+            class="ui-float-label ng-button"
+            *ngSwitchCase="formKey === 'genderCode'"
+          >
             <label for="formKey" class="dynamic-label">
               {{
                 'modal.editor.field.' + formKey | lowercase | translate
@@ -35,7 +41,40 @@
               </label>
             </div>
           </span>
-
+          <span
+            class="ui-float-label switch-type"
+            *ngSwitchCase="formKey === 'active' || formKey === 'principal'"
+          >
+            <app-switch
+              [label]="'modal.editor.field.' + formKey | lowercase | translate"
+              [formControlName]="formKey"
+            ></app-switch>
+          </span>
+          <span class="w-100" *ngSwitchCase="formKey === 'roles'">
+            <app-input-select
+              [id]="formKey"
+              [isDisabled]="false"
+              [labelValue]="'modal.editor.field.' + formKey | translate"
+              [name]="formKey"
+              [options]="options[formKey]"
+              [placeholder]="'modal.editor.field.' + formKey | translate"
+              [selectMultiple]="false"
+              [clearAfterSelect]="true"
+              (selectTrigger)="onRolSelected($event)"
+            ></app-input-select>
+            <span>{{ 'modal.editor.field.active' + formKey | translate }}</span>
+            <hr />
+            <div class="container-fluid">
+              <div class="row">
+                <div
+                  class="col-sm-12 col-md-6 col-lg-4"
+                  *ngFor="let rol of activeRoles"
+                >
+                  {{ rol.name }}
+                </div>
+              </div>
+            </div>
+          </span>
           <app-input
             *ngSwitchDefault
             [id]="formKey"
@@ -64,7 +103,6 @@
           *ngIf="setType(formKey) == 'select'"
         >
         </app-input-select>
-
         <app-input-file
           [id]="formKey"
           [label]="'modal.editor.field.' + formKey | lowercase | translate"
@@ -81,5 +119,6 @@
         </app-input-file>
       </section>
     </ng-container>
+    <!-- <app-switch></app-switch> -->
   </form>
 </div>

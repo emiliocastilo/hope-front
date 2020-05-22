@@ -8,6 +8,7 @@
     [value]="currentValue"
   >
     <option *ngIf="!currentValue" value=""> </option>
+    <option *ngIf="currentValue && clearAfterSelect" value=""> </option>
     <option
       *ngFor="let option of options"
       [ngValue]="option"

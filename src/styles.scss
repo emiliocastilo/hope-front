@@ -1,4 +1,5 @@
 @import './app/variables.scss';
+@import '~angular-tree-component/dist/angular-tree-component.css';
 
 .app {
   display: flex;
@@ -9,6 +10,70 @@
 /* EXTENSION FOR FONT AWESOME */
 .cfa-red {
   color: $app-color-red;
+}
+
+.angular-tree-component {
+  .toggle-children {
+    background-image: none;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-radius: 1px;
+    height: 9px;
+    width: 9px;
+    transition: 0.25s;
+  }
+
+  .toggle-children-wrapper-expanded .toggle-children {
+    transform: rotate(45deg);
+  }
+
+  .toggle-children-wrapper-collapsed .toggle-children {
+    transform: rotate(-45deg);
+  }
+
+  .node-content-wrapper {
+    width: 100%;
+  }
+
+  .inactive {
+    color: rgb(170, 170, 170);
+  }
+}
+
+.dropdown.ngx-contextmenu {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: white;
+
+  .dropdown-menu {
+    border: none;
+    outline: none;
+    user-select: none;
+    padding: 0;
+
+    li {
+      padding: 0.25rem 0.5rem;
+      width: 100%;
+      transition: background-color 0.25s;
+
+      a {
+        text-decoration: none;
+      }
+
+      &:hover {
+        background-color: rgb(235, 235, 235);
+      }
+    }
+
+    .edit {
+      color: rgb(0, 172, 43);
+    }
+
+    .remove {
+      color: $app-color-red;
+    }
+  }
 }
 
 @media (min-width: 1200px) {
