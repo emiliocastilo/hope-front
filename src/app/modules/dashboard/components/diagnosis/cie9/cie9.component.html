@@ -21,8 +21,9 @@
         <app-table
           [columnsHeader]="columHeaders"
           [columnsData]="dataTable"
-          [showDetailButton]="true"
           (iconButtonClick)="onIconButtonClick($event)"
+          [actions]="actions"
+          [showActionButtons]="true"
         >
         </app-table>
       </div>

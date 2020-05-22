@@ -10,6 +10,7 @@ import { EditorModalComponent } from 'src/app/core/components/modals/editor-moda
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 
 @Component({
   selector: 'app-role-management',
@@ -28,6 +29,16 @@ export class RoleManagementComponent implements OnInit {
   public paginationData: PaginationModel;
   private currentPage: number = 0;
   public modalForm: FormGroup;
+  public actions: TableActionsModel[] = [
+    {
+      name: 'edit',
+      icon: 'fa fa-pecinl',
+    },
+    {
+      name: 'delete',
+      icon: 'fa fa-close cfa-red',
+    },
+  ];
 
   constructor(
     private _roleManagementService: RoleManagementService,

@@ -12,6 +12,7 @@ import { PATIENT_TABLE_KEYS } from '../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 
 @Component({
   selector: 'app-patients',
@@ -30,6 +31,16 @@ export class PatientsComponent implements OnInit {
   private hospitals: HospitalModel[] = [];
   private currentPage: number = 0;
   public paginationData: PaginationModel;
+  public actions: TableActionsModel[] = [
+    {
+      name: 'edit',
+      icon: 'fa fa-pencil',
+    },
+    {
+      name: 'delete',
+      icon: 'fa fa-close cfa-red',
+    },
+  ];
 
   constructor(
     private _patientsService: PatientsService,

@@ -18,6 +18,7 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 
 @Component({
   selector: 'app-medics',
@@ -51,6 +52,16 @@ export class MedicsComponent implements OnInit {
   public paginationData: PaginationModel;
   private currentPage: number = 0;
   public selectedDoctor = new MedicModel();
+  public actions: TableActionsModel[] = [
+    {
+      name: 'edit',
+      icon: 'fa fa-pencil',
+    },
+    {
+      name: 'delete',
+      icon: 'fa fa-close cfa-red',
+    },
+  ];
 
   ngOnInit() {
     // Carga menú lateral
