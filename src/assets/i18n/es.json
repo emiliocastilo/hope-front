@@ -104,5 +104,7 @@
   "remove_element": "¿Estás seguro de borrar este elemento?",
   "patientsForIndications": "Pacientes por indicación",
   "gallery": "Galeria de imagenes",
-  "generateQR": "Generar QR"
+  "addPhoto": "Subir imagen",
+  "generateQR": "Generar QR",
+  "qrString": "Usa este codigo para subir imagenes desde tu movil"
 }

@@ -21,6 +21,7 @@ export class GalleryComponent implements OnInit {
   public photos: any = ['', '', '', '', '', ''];
   public modalForm: FormGroup;
   public selectedPhoto: number;
+  public qrcode: any;
 
   constructor(
     private _photos: PhotosService,
@@ -53,7 +54,7 @@ export class GalleryComponent implements OnInit {
       size: 'lg',
     });
     modalRef.componentInstance.id = 'createPhoto';
-    modalRef.componentInstance.title = 'Imagenes';
+    modalRef.componentInstance.title = 'Subir imagen';
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event: any) => {
       modalRef.close();
@@ -64,17 +65,30 @@ export class GalleryComponent implements OnInit {
   }
 
   savePhoto(event: any, modal: any) {
-    const photo = event.value;
-    console.log(photo);
-    this._photos.addPhoto(photo).subscribe(
-      (response) => {
-        this._notification.showSuccessToast('element_created');
-      },
-      ({ error }) => {
-        this._notification.showErrorToast(error.errorCode);
-      }
-    );
-    modal.close();
+    const reader = new FileReader();
+    reader.readAsDataURL(event.value.photo);
+    reader.onload = () => {
+      const photo: PhotoModel = {
+        pathologyId: 1,
+        patientId: 21,
+        title: event.value.title,
+        description: event.value.description,
+        userId: 1,
+        name: 'foto',
+        typePhoto: '',
+        photoBytes: reader.result.toString(),
+      };
+
+      this._photos.addPhoto(photo).subscribe(
+        (response) => {
+          this._notification.showSuccessToast('element_created');
+        },
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
+        }
+      );
+      modal.close();
+    };
   }
 
   removePhoto() {
@@ -104,4 +118,11 @@ export class GalleryComponent implements OnInit {
   }
 
   editPhoto(photo: any) {}
+
+  generateQR() {
+    this.isCollapsed = !this.isCollapsed;
+    this._photos.generateQR(1, 1).subscribe((response: any) => {
+      this.qrcode = 'data:image/png;base64,' + response;
+    });
+  }
 }
