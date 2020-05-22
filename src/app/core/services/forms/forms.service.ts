@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { FormsModel } from '../../models/forms/forms.model';
 const PATH = '/templates';
 
 @Injectable({
@@ -10,17 +11,6 @@ export class FormsService {
   constructor(private _http: HttpClient) {}
 
   public get(): any {
-    let HTTPOptions: Object = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      responseType: 'text',
-      observe: 'response',
-    };
-    return this._http.get(PATH + '?key=PLANTILLA_PRUEBA', HTTPOptions).pipe(
-      map((res) => {
-        return res;
-      })
-    );
+    return this._http.get<FormsModel>(PATH + '?key=DATOS_ GENERALES_PACIENTE');
   }
 }
