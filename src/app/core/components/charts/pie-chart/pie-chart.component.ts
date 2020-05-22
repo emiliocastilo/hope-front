@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pie-chart',
@@ -6,8 +7,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./pie-chart.component.scss'],
 })
 export class PieChartComponent {
+  @Input() chartTitle: string;
   @Input() results: any[];
-  @Input() view: number[] = [500, 500];
+  @Input() view: number[] = [700, 300];
   @Input() showLegend: boolean = true;
   @Input() showLabels: boolean = true;
   @Input() legendTitle: string = '';
@@ -19,5 +21,5 @@ export class PieChartComponent {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
   };
 
-  constructor() {}
+  constructor(private _translate: TranslateService) {}
 }

@@ -1,11 +1,15 @@
-<ngx-charts-pie-chart
-  [view]="view"
-  [gradient]="gradient"
-  [doughnut]="doughnut"
-  [results]="results"
-  [legend]="showLegend"
-  [labels]="showLabels"
-  [legendPosition]="legendPosition"
-  [legendTitle]="legendTitle"
->
-</ngx-charts-pie-chart>
+<div>
+  {{ chartTitle | translate }}
+  <hr />
+  <ngx-charts-pie-chart
+    [view]="view"
+    [gradient]="gradient"
+    [doughnut]="doughnut"
+    [results]="results"
+    [legend]="showLegend"
+    [labels]="showLabels"
+    [legendPosition]="legendPosition"
+    [legendTitle]="legendTitle"
+  >
+  </ngx-charts-pie-chart>
+</div>
