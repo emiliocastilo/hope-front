@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hopes</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link 
+      rel="stylesheet"
+      href="./style.css"
+    />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+  </head>
+  <body class="text-center" data-gr-c-s-loaded="true">
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h1 class="masthead-brand">
+            Cargar imagenes a Hopes
+          </h1>
+        </div>
+      </header>
+  
+      <main role="main" class="inner cover align-middle">
+        <form class="form">
+          <div class="form-group">
+            <template for="files">Imagenes</template>
+            <input
+              accept="image/*"
+              class="form-control-file"
+              id="files"
+              multiple
+              name="files"
+              required
+              type="file"
+            />
+            <small id="filesHelp" class="form-text">
+              Puede subir una o mas imagenes.
+            </small
+            >
+          </div>
+          <button type="submit" class="btn btn-lg btn-secondary">Guardar</button>
+        </form>
+      </main>
+  
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>hopes by plexus</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
