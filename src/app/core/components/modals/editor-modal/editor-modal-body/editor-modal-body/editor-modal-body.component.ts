@@ -67,10 +67,8 @@ export class EditorModalBodyComponent implements OnInit {
 
   onRolSelected(event: string) {
     if (this.activeRoles.length > 0) {
-      const indexRol = this.activeRoles.findIndex((rol) => rol.name === event);
-      if (indexRol >= 0) {
-        this.activeRoles.splice(indexRol, 1);
-      } else {
+      const rolFound = this.activeRoles.find((rol) => rol.name === event);
+      if (!rolFound) {
         this.activeRoles.push(
           this.options.roles.find((rol) => rol.name === event)
         );
@@ -80,6 +78,13 @@ export class EditorModalBodyComponent implements OnInit {
         this.options.roles.find((rol) => rol.name === event)
       );
     }
+  }
+
+  removeActiveRol(rol: RolModel) {
+    this.activeRoles.splice(
+      this.activeRoles.findIndex((activeRol) => activeRol.id === rol.id),
+      1
+    );
   }
 
   public setAccept(key: string) {
@@ -106,6 +111,22 @@ export class EditorModalBodyComponent implements OnInit {
       type = 'password';
     }
     return type;
+  }
+
+  public getRequired(formKey: string): boolean {
+    const requiredFields = [
+      'name',
+      'firstSurname',
+      'dni',
+      'healthCard',
+      'nhc',
+      'birthDate',
+    ];
+    if (requiredFields.find((e) => e === formKey)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getInvalidLabel(formKey: string): string {

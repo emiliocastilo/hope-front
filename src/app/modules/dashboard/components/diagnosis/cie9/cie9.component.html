@@ -6,44 +6,41 @@
   <section
     class="col-md-8 col-lg-9 p-0 management-fluid justify-content-center"
   >
-    <section class="cie9-container" *ngIf="!showingDetail">
-      <div class="chart-container">
-        <app-pie-chart
-          [chartTitle]="'patientsDiagnosticCIE9'"
-          [results]="dataChart"
-          [showLabels]="false"
-        ></app-pie-chart>
-      </div>
+    <section class="cie9-container">
+      <app-pie-chart
+        [chartTitle]="'patientsDiagnosticCIE9'"
+        [results]="dataChart"
+        [showLabels]="false"
+      ></app-pie-chart>
       <div class="table-container">
         <div class="export-buttons">
           <app-export-buttons></app-export-buttons>
         </div>
         <app-table
+          *ngIf="!showingDetail"
           [columnsHeader]="columHeaders"
           [columnsData]="dataTable"
-          [showDetailButton]="true"
           (iconButtonClick)="onIconButtonClick($event)"
+          [actions]="actions"
+          [showActionButtons]="true"
         >
         </app-table>
+        <div *ngIf="showingDetail">
+          <app-table [columnsHeader]="listHeaders" [columnsData]="listData">
+          </app-table>
+          <app-pagination
+            (selectPage)="selectPage($event)"
+            [paginationData]="paginationData"
+          >
+          </app-pagination>
+          <app-button
+            type="button"
+            clasesBtn="btn-primary btn-sm"
+            texto="btn.back"
+            (click)="onIconButtonClick({ type: 'back' })"
+          ></app-button>
+        </div>
       </div>
-    </section>
-    <section class="cie9-container" *ngIf="showingDetail">
-      <div class="export-buttons">
-        <app-export-buttons></app-export-buttons>
-      </div>
-      <app-table [columnsHeader]="listHeaders" [columnsData]="listData">
-      </app-table>
-      <app-pagination
-        (selectPage)="selectPage($event)"
-        [paginationData]="paginationData"
-      >
-      </app-pagination>
-      <app-button
-        type="button"
-        clasesBtn="btn-primary btn-sm"
-        texto="backToChart"
-        (click)="onIconButtonClick({ type: 'back' })"
-      ></app-button>
     </section>
   </section>
 </div>

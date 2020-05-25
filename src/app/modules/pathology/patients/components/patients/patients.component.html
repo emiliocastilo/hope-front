@@ -16,6 +16,8 @@
       </section>
       <section class="container-fluid mt-4">
         <app-table
+          [actions]="actions"
+          [showActionButtons]="true"
           [columnsHeader]="patientKeysToShow"
           [columnsData]="patients"
           (sort)="onSort($event)"

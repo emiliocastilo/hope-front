@@ -10,7 +10,7 @@
         >
           {{ header | translate }}
         </th>
-        <th *ngIf="showActionButtons || showDetailButton">
+        <th *ngIf="showActionButtons">
           {{ 'actions' | translate }}
         </th>
       </tr>
@@ -21,25 +21,21 @@
           {{
             header.toLowerCase().includes('date') ||
             header.toLowerCase().includes('period')
-              ? (row[header] | date)
+              ? (row[header] | date: 'dd/MM/yy')
+              : header.toLowerCase().includes('gender')
+              ? (row[header] | genderFormatter)
               : row[header]
           }}
         </td>
         <td *ngIf="showActionButtons">
           <div>
-            <a href="" (click)="emitIconButtonClick('edit', i)"
-              ><i class="mr-2 fa fa-pencil"></i
-            ></a>
-            <a href="" (click)="emitIconButtonClick('delete', i)"
-              ><i class="mr-2 fa fa-close cfa-red"></i
-            ></a>
-          </div>
-        </td>
-        <td *ngIf="showDetailButton">
-          <div>
-            <a href="" (click)="emitIconButtonClick('detail', i)"
-              ><i class="mr-2 fa fa-eye"></i
-            ></a>
+            <a
+              *ngFor="let action of actions"
+              href=""
+              (click)="emitIconButtonClick(action.name, i)"
+            >
+              <i class="mr-2 {{ action.icon }}"></i>
+            </a>
           </div>
         </td>
       </tr>

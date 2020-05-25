@@ -14,6 +14,7 @@ import {
   NgbdSortableHeader,
   SortEvent,
 } from '../../directives/sortable.directive';
+import { TableActionsModel } from '../../models/table/table-actions-model';
 
 @Component({
   selector: 'app-table',
@@ -22,12 +23,12 @@ import {
 })
 export class TableComponent implements OnInit {
   @Input() showActionButtons: boolean;
-  @Input() showDetailButton: boolean;
   @Input() columnsHeader: Array<ColumnHeaderModel>;
   @Input() columnsData: Array<RowDataModel>;
   @Output() selectedItem: EventEmitter<number> = new EventEmitter();
   @Output() iconButtonClick: EventEmitter<any> = new EventEmitter();
   @Output() sort: EventEmitter<any> = new EventEmitter();
+  @Input() actions: TableActionsModel[];
   public internalSelectedItem: number;
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;

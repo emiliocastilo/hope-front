@@ -47,7 +47,7 @@
   "modal.editor.field.address": "Dirección",
   "modal.editor.field.phone": "Teléfono",
   "modal.editor.field.email": "Email",
-  "modal.editor.field.gendercode": "Genero",
+  "modal.editor.field.gendercode": "Género",
   "modal.editor.field.birthdate": "Fecha de nacimiento",
   "modal.editor.field.surname": "Apellidos",
   "modal.editor.field.collegenumber": "Número de colegiado",
@@ -70,8 +70,6 @@
   "logout": "Desconectar",
   "fullName": "Nombre completo",
   "age": "Edad",
-  "male": "Masculino",
-  "female": "Femenino",
   "date": "Fecha",
   "startPeriod": "Periodo de inicio",
   "endPeriod": "Periodo fin",
@@ -92,12 +90,15 @@
     "element_created": "Elemento creado correctamente",
     "element_updated": "Elemento editado correctamente"
   },
+  "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
+  "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",
   "actions": "Acciones",
   "patients": "Pacientes",
   "cie9Diagnostic": "Diagnostico CIE9",
   "patientsDiagnosticCIE9": "Pacientes por diagnostico CIE9",
-  "backToChart": "Volver a grafica",
-  "exportCsv": "Exportar a csv",
-  "exportExcel": "Exportar a excel",
-  "copy": "Copiar"
+  "exportPDF": "Exportar a PDF",
+  "exportExcel": "Exportar a Excel",
+  "F": "Femenino",
+  "M": "Masculino",
+  "remove_element": "¿Estás seguro de borrar este elemento?"
 }

@@ -33,11 +33,11 @@
             >
               <label ngbButtonLabel class="btn-primary">
                 <input ngbButton type="radio" value="M" />
-                {{ 'male' | translate }}
+                {{ 'M' | translate }}
               </label>
               <label ngbButtonLabel class="btn-primary">
                 <input ngbButton type="radio" value="F" />
-                {{ 'female' | translate }}
+                {{ 'F' | translate }}
               </label>
             </div>
           </span>
@@ -62,15 +62,17 @@
               [clearAfterSelect]="true"
               (selectTrigger)="onRolSelected($event)"
             ></app-input-select>
+            <p class="legend">{{ 'sections.legend.select' | translate }}</p>
             <span>{{ 'modal.editor.field.active' + formKey | translate }}</span>
             <hr />
             <div class="container-fluid">
               <div class="row">
                 <div
-                  class="col-sm-12 col-md-6 col-lg-4"
+                  class="chip"
                   *ngFor="let rol of activeRoles"
+                  (click)="removeActiveRol(rol)"
                 >
-                  {{ rol.name }}
+                  <span>{{ rol.name }} <i class="fa fa-close"></i></span>
                 </div>
               </div>
             </div>
@@ -78,6 +80,7 @@
           <app-input
             *ngSwitchDefault
             [id]="formKey"
+            [required]="getRequired(formKey)"
             [label]="'modal.editor.field.' + formKey | lowercase | translate"
             [name]="formKey"
             [formControlName]="formKey"

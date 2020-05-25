@@ -10,6 +10,8 @@ import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.mod
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { DetailDispensationModel } from '../../models/dispensation/detail-dispensation.model';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 
 @Component({
   selector: 'app-dispensations',
@@ -47,6 +49,7 @@ export class DispensationsComponent implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public showDetails: boolean = false;
+  public dispensationsTableActions: TableActionsModel[] = new TableActionsBuilder().getDetailAndDelete();
 
   ngOnInit(): void {
     this.dispensations = this._activatedRoute.snapshot.data.dispensations.content;
@@ -109,7 +112,7 @@ export class DispensationsComponent implements OnInit {
         this.showDetails = false;
         break;
 
-      case 'details':
+      case 'detail':
         this.showDetails = true;
         this.getDetails(`dsp=${this.selectedItem.id}`);
         break;

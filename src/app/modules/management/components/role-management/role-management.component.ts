@@ -10,6 +10,8 @@ import { EditorModalComponent } from 'src/app/core/components/modals/editor-moda
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 
 @Component({
   selector: 'app-role-management',
@@ -28,6 +30,7 @@ export class RoleManagementComponent implements OnInit {
   public paginationData: PaginationModel;
   private currentPage: number = 0;
   public modalForm: FormGroup;
+  public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
 
   constructor(
     private _roleManagementService: RoleManagementService,
@@ -148,7 +151,7 @@ export class RoleManagementComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Rol';
-    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el rol 
+    modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el rol 
       ${this.roles[this.selectedItem].name}?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();

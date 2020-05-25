@@ -7,7 +7,16 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./export-buttons.component.scss'],
 })
 export class ExportButtonsComponent implements OnInit {
+  @Input() dataToExport: any = [];
   constructor(public _translate: TranslateService) {}
 
   ngOnInit(): void {}
+
+  exportToPDF() {
+    window.print();
+  }
+
+  exportToExcel() {
+    console.log('to excel', this.dataToExport);
+  }
 }
