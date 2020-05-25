@@ -1,9 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from '../../services/patients.service';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
@@ -11,6 +9,8 @@ import {
   PATIENT_DERMA_HEADERS,
   PATIENT_TABLE_KEYS,
 } from 'src/app/modules/management/constants/patients.constants';
+import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 
 @Component({
   selector: 'app-patients',
@@ -26,17 +26,15 @@ export class PatientsComponent implements OnInit {
   public selectedItem: number;
   public selectedPatient: PatientModel = new PatientModel();
   public isEditing: boolean = false;
-  public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
   private currentPage: number = 0;
   public paginationData: PaginationModel;
+  public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
   constructor(
     private _patientsService: PatientsService,
-    private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router,
-    private _formBuilder: FormBuilder
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,38 +43,18 @@ export class PatientsComponent implements OnInit {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
-
-    this.modalForm = this._formBuilder.group({
-      name: ['', Validators.required],
-      firstSurname: ['', Validators.required],
-      lastSurname: ['', Validators.required],
-      nhc: ['', Validators.required],
-      healthCard: ['', Validators.required],
-      dni: ['', Validators.required],
-      address: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', Validators.required],
-      genderCode: ['', Validators.required],
-      birthDate: ['', Validators.required],
-    });
   }
 
   public goToDermatologiPatients(): void {
-    this._router.navigate(['dermatology/patients/dashboard']);
+    this._router.navigate(['management/patients']);
   }
 
   public onSelectedItem(event: number): void {
+    console.log('onSelectedItem:', event);
     this.selectedPatient = this.patients[event];
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
-    Object.keys(this.patients[event]).map((patientKey: string) => {
-      if (this.modalForm.controls[patientKey]) {
-        this.modalForm.controls[patientKey].setValue(
-          this.patients[event][patientKey]
-        );
-      }
-    });
   }
 
   public onSearch(event: string): void {

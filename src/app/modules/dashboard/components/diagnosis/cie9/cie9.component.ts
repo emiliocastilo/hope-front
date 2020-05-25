@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { GraphsService } from '../../../services/graphs.service';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
+import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 
 @Component({
   selector: 'app-cie9',
@@ -20,6 +22,7 @@ export class Cie9Component implements OnInit {
   public listHeaders = ['name', 'surname'];
   public listData: any[];
   paginationData: any;
+  public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
   constructor(private charts: GraphsService) {}
 
