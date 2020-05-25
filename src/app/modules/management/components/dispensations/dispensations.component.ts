@@ -57,10 +57,6 @@ export class DispensationsComponent implements OnInit {
       name: 'delete',
       icon: 'fa fa-trash cfa-red',
     },
-    // {
-    //   name: 'edit',
-    //   icon: 'fa fa-pencil'
-    // }
   ];
 
   ngOnInit(): void {
