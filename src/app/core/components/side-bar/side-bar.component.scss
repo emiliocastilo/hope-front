@@ -1,6 +1,97 @@
 @import '~src/app/variables.scss';
 
 .side-bar {
-  border: 1px solid $app-color-violet;
-  background-color: $app-color-blue-dark;
+  display: flex;
+  flex-direction: column;
+  background-color: $app-menu-blue-principal;
+  height: 100vh;
+  position: fixed;
+  box-shadow: 4px 0 6px rgba(0, 0, 0, 0.5);
+  max-width: 200px;
+  color: white;
+  transition: 0.25s ease-in-out;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: $app-color-blue-dark;
+    padding: 0.5rem 0.75rem;
+
+    .logo {
+      transition: 0.25s ease-in-out;
+    }
+
+    .toggler {
+      cursor: pointer;
+
+      .fa {
+        padding: 4px 6px;
+        margin-right: 8px;
+
+        &::before {
+          margin-right: 2px;
+        }
+      }
+
+      .fa-chevron-left {
+        background-color: rgb(204, 224, 242);
+        border-radius: 12px;
+      }
+    }
+
+    .logo,
+    .logo-img {
+      max-width: 120px;
+    }
+  }
+
+  .user-item {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    background-color: $app-menu-blue-user;
+
+    .user-data {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      transition: 0.25s ease-in-out;
+
+      .username {
+        font-weight: 300;
+      }
+
+      .rol {
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+  .icon {
+    min-width: 50px;
+    height: 30px;
+    text-align: center;
+    color: rgb(146, 149, 166);
+
+    &.logout {
+      cursor: pointer;
+      transition: 0.25s ease-in-out;
+
+      &:hover {
+        color: $app-color-red;
+      }
+    }
+  }
+
+  &.collapsed {
+    overflow-x: hidden;
+    max-width: 50px;
+
+    .brand .logo,
+    .user-item .user-data,
+    .user-data .icon.logout {
+      opacity: 0;
+    }
+  }
 }

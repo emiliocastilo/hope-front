@@ -1,14 +1,7 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ComponentFactoryResolver,
-  ViewContainerRef,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
+import { LoginService } from '../../services/login/login.service';
 
 @Component({
   selector: 'side-bar',
@@ -19,13 +12,21 @@ export class SideBarComponent implements OnInit {
   @Input() menu: Array<SideBarItemModel>;
   @Input() selected: SideBarItemModel;
   @Input() currentMenuId: number;
+  name: string;
+  rol: string;
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  collapsed = false;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private loginService: LoginService
+  ) {}
 
   ngOnInit(): void {
-    // this.activatedRoute.data.subscribe((response) => {
-    //   this.menu = this.showSideBar(response.menu.children);
-    // });
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.rol =
+      user.rolSelected && user.rolSelected.name ? user.rolSelected.name : '';
+    this.name = user.username;
   }
 
   showSideBar(menuArray: SideBarItemModel[]): SideBarItemModel[] {
@@ -33,5 +34,13 @@ export class SideBarComponent implements OnInit {
       (value: SideBarItemModel) => value.id === this.currentMenuId
     );
     return rootMenu;
+  }
+
+  toggleCollapse(): void {
+    this.collapsed = !this.collapsed;
+  }
+
+  logout(): void {
+    this.loginService.logout();
   }
 }

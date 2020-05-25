@@ -5,12 +5,10 @@
       [ngClass]="'sub-side-bar-menu-level-' + level"
       class="nav-item"
     >
-      <a
-        class="nav-link"
-        [ngClass]="{ active: menuOption === selected }"
-        [href]="menuOption.url"
-        >{{ menuOption.title }}</a
-      >
+      <span class="item" [ngClass]="{ active: menuOption === selected }">
+        <span class="icon"><i class="fa fa-chevron-right"></i></span>
+        <a class="nav-link" [href]="menuOption.url"> {{ menuOption.title }}</a>
+      </span>
       <p class="m-0 p-0">
         <side-bar-menu
           [level]="level + LEVEL_ONE"

@@ -1,26 +1,42 @@
 @import '~src/app/variables.scss';
 
 .side-bar-menu,
-.side-bar-menu .nav-link {
-  color: $app-color-white;
-}
+.side-bar-menu .item {
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.sub-side-bar-menu-level-2 .nav-link {
-  transition: 0.5s;
-
-  &:hover {
-    background-color: $app-color-blue-medium-hover;
+  .nav-link {
+    color: $app-color-white;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
   }
 }
 
-.side-bar-menu .nav-link.active {
-  background-color: $app-color-blue-medium-active;
+.sub-side-bar-menu-level-2 .item {
+  transition: 0.5s;
+
+  .nav-link {
+    font-size: 0.75rem;
+  }
+
+  &:hover {
+    background-color: $app-menu-blue-secondary-active;
+  }
+}
+
+.side-bar-menu .item.active {
+  background-color: $app-menu-blue-secondary-active;
+  border-right: 4px solid $app-menu-blue-secondary-active-border;
 }
 
 .sub-side-bar-menu-level-1 {
   p {
-    background-color: $app-color-blue-medium-two;
-    text-indent: 1em;
+    background-color: $app-menu-blue-secondary;
 
     a {
       font-weight: normal !important;
