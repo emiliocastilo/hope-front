@@ -151,7 +151,7 @@ export class RoleManagementComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Rol';
-    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el rol 
+    modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el rol 
       ${this.roles[this.selectedItem].name}?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();

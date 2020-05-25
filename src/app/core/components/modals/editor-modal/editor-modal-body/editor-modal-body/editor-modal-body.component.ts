@@ -93,6 +93,22 @@ export class EditorModalBodyComponent implements OnInit {
     return type;
   }
 
+  public getRequired(formKey: string): boolean {
+    const requiredFields = [
+      'name',
+      'firstSurname',
+      'dni',
+      'healthCard',
+      'nhc',
+      'birthDate',
+    ];
+    if (requiredFields.find((e) => e === formKey)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   getInvalidLabel(formKey: string): string {
     const label = this.validationLabels
       ? this.validationLabels.get(formKey)

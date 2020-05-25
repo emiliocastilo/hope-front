@@ -36,6 +36,11 @@
 //   }
 // }
 
+.required-label::after {
+  content: ' *';
+  color: red;
+}
+
 .fadeInDown {
   -webkit-animation-name: fadeindown;
   animation-name: fadeInDown;
