@@ -47,7 +47,7 @@
   "modal.editor.field.address": "Dirección",
   "modal.editor.field.phone": "Teléfono",
   "modal.editor.field.email": "Email",
-  "modal.editor.field.gendercode": "Genero",
+  "modal.editor.field.gendercode": "Género",
   "modal.editor.field.birthdate": "Fecha de nacimiento",
   "modal.editor.field.surname": "Apellido",
   "modal.editor.field.collegenumber": "Número de colegiado",
@@ -70,8 +70,6 @@
   "logout": "Desconectar",
   "fullName": "Nombre completo",
   "age": "Edad",
-  "male": "Masculino",
-  "female": "Femenino",
   "date": "Fecha",
   "startPeriod": "Periodo de inicio",
   "endPeriod": "Periodo fin",
@@ -96,8 +94,9 @@
   "patients": "Pacientes",
   "cie9Diagnostic": "Diagnostico CIE9",
   "patientsDiagnosticCIE9": "Pacientes por diagnostico CIE9",
-  "backToChart": "Volver a grafica",
-  "exportCsv": "Exportar a csv",
-  "exportExcel": "Exportar a excel",
-  "copy": "Copiar"
+  "exportPDF": "Exportar a PDF",
+  "exportExcel": "Exportar a Excel",
+  "F": "Femenino",
+  "M": "Masculino",
+  "remove_element": "¿Estás seguro de borrar este elemento?"
 }

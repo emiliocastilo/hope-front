@@ -56,20 +56,17 @@ export class PatientsComponent implements OnInit {
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
       firstSurname: ['', Validators.required],
-      lastSurname: ['', Validators.required],
+      lastSurname: [''],
       nhc: ['', Validators.required],
       healthCard: ['', Validators.required],
       dni: ['', Validators.required],
-      address: ['', Validators.required],
-      phone: ['', Validators.required],
+      address: [''],
+      phone: [''],
       email: [
         '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
-        ],
+        [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
       ],
-      genderCode: ['', Validators.required],
+      genderCode: [''],
       birthDate: ['', Validators.required],
     });
   }
@@ -136,10 +133,8 @@ export class PatientsComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Paciente';
-    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el paciente
-      ${this.patients[this.selectedItem].name} ${
-      this.patients[this.selectedItem].firstSurname
-    }?`;
+    modalRef.componentInstance.messageModal =
+      '¿Estás seguro de borrar este paciente?';
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
     });

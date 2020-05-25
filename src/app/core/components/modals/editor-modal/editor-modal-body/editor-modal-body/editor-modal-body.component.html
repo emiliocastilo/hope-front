@@ -33,11 +33,11 @@
             >
               <label ngbButtonLabel class="btn-primary">
                 <input ngbButton type="radio" value="M" />
-                {{ 'male' | translate }}
+                {{ 'M' | translate }}
               </label>
               <label ngbButtonLabel class="btn-primary">
                 <input ngbButton type="radio" value="F" />
-                {{ 'female' | translate }}
+                {{ 'F' | translate }}
               </label>
             </div>
           </span>
@@ -78,6 +78,7 @@
           <app-input
             *ngSwitchDefault
             [id]="formKey"
+            [required]="getRequired(formKey)"
             [label]="'modal.editor.field.' + formKey | lowercase | translate"
             [name]="formKey"
             [formControlName]="formKey"
