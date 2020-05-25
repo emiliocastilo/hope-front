@@ -59,8 +59,6 @@
   "logout": "Logout",
   "fullName": "full name",
   "age": "Age",
-  "male": "Male",
-  "female": "Female",
   "date": "Date",
   "startPeriod": "Start Period",
   "endPeriod": "End Period",
@@ -85,8 +83,8 @@
   "patients": "Patients",
   "cie9Diagnostic": "CIE9 Diagnostic",
   "patientsDiagnosticCIE9": "Patients by CIE9 diagnostic",
-  "backToChart": "Back to chart",
-  "exportCsv": "Export to csv",
-  "exportExcel": "Export to excel",
-  "copy": "Copy"
+  "exportPDF": "Export to PDF",
+  "exportExcel": "Export to Excel",
+  "F": "Female",
+  "M": "Male"
 }

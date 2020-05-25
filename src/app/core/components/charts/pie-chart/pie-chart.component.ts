@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class PieChartComponent {
   @Input() chartTitle: string;
   @Input() results: any[];
-  @Input() view: number[] = [700, 300];
+  @Input() view: number[];
   @Input() showLegend: boolean = true;
   @Input() showLabels: boolean = true;
   @Input() legendTitle: string = '';

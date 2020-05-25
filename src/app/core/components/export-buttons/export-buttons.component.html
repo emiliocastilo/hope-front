@@ -1,17 +1,16 @@
-<div>
+<div class="buttons-container">
   <app-button
+    class="export"
     type="button"
-    clasesBtn="btn-primary btn-sm"
-    texto="copy"
+    clasesBtn="btn-primary btn-sm export"
+    texto="exportPDF"
+    (click)="exportToPDF()"
   ></app-button>
   <app-button
+    class="export"
     type="button"
-    clasesBtn="btn-primary btn-sm"
-    texto="exportCsv"
-  ></app-button>
-  <app-button
-    type="button"
-    clasesBtn="btn-primary btn-sm"
+    clasesBtn="btn-primary btn-sm export"
     texto="exportExcel"
+    (click)="exportToExcel()"
   ></app-button>
 </div>
