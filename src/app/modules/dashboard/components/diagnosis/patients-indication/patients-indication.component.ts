@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PatientsIndicationService } from 'src/app/modules/management/services/patients-indication/patients-indication.service';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
 
 @Component({
   selector: 'app-patients-indication',
@@ -44,12 +44,7 @@ export class PatientsIndicationComponent implements OnInit {
   public detailsDataTable: any[];
   private selectedDisease: string;
 
-  public actions: TableActionsModel[] = [
-    {
-      name: 'detail',
-      icon: 'fa fa-eye',
-    },
-  ];
+  public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
 
   constructor(
     public _activatedRoute: ActivatedRoute,
