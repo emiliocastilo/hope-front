@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 import { RolModel } from 'src/app/modules/management/models/rol.model';
 
 @Component({
@@ -37,6 +37,20 @@ export class EditorModalBodyComponent implements OnInit {
         }
       }
     });
+  }
+
+  public checkIfRequired(key: string) {
+    let isRequired: boolean = false;
+
+    const field = this.form.get(key);
+
+    if (field.validator) {
+      if (field.validator({} as any)) {
+        isRequired = field.validator({} as any).required;
+      }
+    }
+
+    return isRequired;
   }
 
   public setType(key: string) {
@@ -84,11 +98,17 @@ export class EditorModalBodyComponent implements OnInit {
   public getType(formKey: string): string {
     let type = 'text';
     const key = formKey.toLowerCase();
+
     if (key.includes('date') || key.includes('period')) {
       type = 'date';
     }
-    if (key.includes('number') || key.includes('phone')) {
+
+    if (key.includes('phone')) {
       type = 'number';
+    }
+
+    if (key.includes('password')) {
+      type = 'password';
     }
     return type;
   }

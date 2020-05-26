@@ -9,6 +9,6 @@
     accept="{{ accept }}"
   />
   <label for="{{ id }}" class="dynamic-label">
-    {{ label | translate }}
+    {{ label | translate }} {{ required ? '*' : null }}
   </label>
 </form>

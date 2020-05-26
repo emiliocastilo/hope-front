@@ -2,12 +2,13 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PatientsIndicationService } from 'src/app/modules/management/services/patients-indication/patients-indication.service';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
+import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 
 @Component({
   selector: 'app-patients-indication',
@@ -46,9 +47,12 @@ export class PatientsIndicationComponent implements OnInit {
 
   public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
 
+  public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
+
   constructor(
     public _activatedRoute: ActivatedRoute,
-    public _patientsIndicationService: PatientsIndicationService
+    public _patientsIndicationService: PatientsIndicationService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -61,13 +65,14 @@ export class PatientsIndicationComponent implements OnInit {
       ).children;
     }
 
-    const view = [600, 400];
+    const chartTitle = 'patientsForIndications';
+    const view = null;
     const scheme = {
       domain: ['#249cf1', '#000'],
     };
     this.dataChart = this.parseDataToChart();
 
-    this.data = new ColumnChartModel(view, scheme, this.dataChart);
+    this.data = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
 
     this.dataTable = this.parseDataToTable(this.patientsIndications, false);
   }
@@ -123,6 +128,18 @@ export class PatientsIndicationComponent implements OnInit {
       this.getPatientsDetail(this.selectedDisease);
     } else {
       this.showingDetail = false;
+    }
+  }
+
+  public onPatientClick(event: any) {
+    console.log('onPatient:', event);
+
+    if (event.type === 'detail') {
+      const currentUser = this.detailsDataTable[event.selectedItem];
+      const selectedUser = JSON.stringify(currentUser || {});
+      // TODO: data from back comes incompleted.
+      localStorage.setItem('selectedUser', selectedUser);
+      this._router.navigate(['pathology/patients']);
     }
   }
 

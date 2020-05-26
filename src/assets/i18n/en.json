@@ -46,7 +46,7 @@
   "modal.editor.field.email": "Email",
   "modal.editor.field.genderCode": "Gender",
   "modal.editor.field.birthDate": "Date of birth",
-  "modal.editor.field.surname": "Surname",
+  "modal.editor.field.surname": "Surnames",
   "modal.editor.field.collegeNumber": "College number",
   "modal.editor.field.serviceDTO": "Service",
   "modal.editor.field.hospital": "Hospital",
@@ -86,5 +86,6 @@
   "exportPDF": "Export to PDF",
   "exportExcel": "Export to Excel",
   "F": "Female",
-  "M": "Male"
+  "M": "Male",
+  "patientsForIndications": "Patients indications"
 }
