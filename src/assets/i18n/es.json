@@ -58,6 +58,7 @@
   "modal.editor.field.startperiod": "Periodo de inicio",
   "modal.editor.field.endperiod": "Periodo fin",
   "modal.editor.field.filedispensation": "Archivo csv",
+  "modal.editor.field.photo": "Archivo imagen",
   "modal.editor.field.description": "Descripción",
   "modal.editor.field.icon": "Icono",
   "modal.editor.field.order": "Orden",
@@ -100,5 +101,6 @@
   "exportExcel": "Exportar a Excel",
   "F": "Femenino",
   "M": "Masculino",
-  "remove_element": "¿Estás seguro de borrar este elemento?"
+  "gallery": "Galeria de imagenes",
+  "generateQR": "Generar QR"
 }
