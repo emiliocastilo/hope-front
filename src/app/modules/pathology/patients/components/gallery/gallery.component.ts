@@ -17,8 +17,8 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
 export class GalleryComponent implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
-  public isCollapsed = false;
-  public photos: any = ['', '', '', '', '', ''];
+  public isCollapsed = true;
+  public photos: any = [];
   public modalForm: FormGroup;
   public selectedPhoto: number;
   public qrcode: any;
@@ -66,7 +66,7 @@ export class GalleryComponent implements OnInit {
 
   savePhoto(event: any, modal: any) {
     const reader = new FileReader();
-    reader.readAsDataURL(event.value.photo);
+    reader.readAsBinaryString(event.value.photo);
     reader.onload = () => {
       const photo: PhotoModel = {
         pathologyId: 1,
@@ -74,8 +74,8 @@ export class GalleryComponent implements OnInit {
         title: event.value.title,
         description: event.value.description,
         userId: 1,
-        name: 'foto',
-        typePhoto: '',
+        name: event.value.title,
+        typePhoto: '.jpg',
         photoBytes: reader.result.toString(),
       };
 

@@ -5,7 +5,7 @@ export interface PhotoModel {
   title: string;
   description: string;
   userId: number;
-  name: string;
-  typePhoto: string;
+  name?: string;
+  typePhoto?: string;
   photoBytes: string;
 }

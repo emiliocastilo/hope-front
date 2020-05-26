@@ -106,5 +106,6 @@
   "gallery": "Galeria de imagenes",
   "addPhoto": "Subir imagen",
   "generateQR": "Generar QR",
-  "qrString": "Usa este codigo para subir imagenes desde tu movil"
+  "qrString": "Usa este codigo para subir imagenes desde tu movil",
+  "no_photos": "En este momento no hay fotos en la galería"
 }

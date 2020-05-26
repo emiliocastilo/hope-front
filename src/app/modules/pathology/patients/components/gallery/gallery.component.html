@@ -22,6 +22,9 @@
           ></a>
         </div>
       </span>
+      <span class="no-photos" *ngIf="!photos || photos.length === 0">{{
+        'no_photos' | translate
+      }}</span>
     </section>
 
     <section class="qr-container">
@@ -33,12 +36,12 @@
       >
         {{ 'generateQR' | translate }}
       </button>
-      <div class="qr" *ngIf="isCollapsed">
+      <div class="qr" *ngIf="!isCollapsed">
         <div class="card">
           <div class="card-body">
             {{ 'qrString' | translate }}
             <br />
-            <img src="qrcode" />
+            <img [src]="qrcode" />
           </div>
         </div>
       </div>

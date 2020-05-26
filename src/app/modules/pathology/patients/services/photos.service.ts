@@ -34,6 +34,8 @@ export class PhotosService {
   }
 
   public generateQR(patient: number, pathology: number) {
-    return this._httpClient.get(`/photos/qr?pac=${patient}&pth=${pathology}`);
+    return this._httpClient.get(`/photos/qr?pac=${patient}&pth=${pathology}`, {
+      responseType: 'text',
+    });
   }
 }
