@@ -16,7 +16,8 @@ export class ColumnChartComponent implements OnInit {
     xAxis: true,
     yAxis: true,
     legend: true,
-    legendPosition: 'below',
+    legendTitle: '',
+    legendPosition: 'right',
     showXAxisLabel: false,
     showYAxisLabel: false,
   };

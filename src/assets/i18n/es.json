@@ -100,5 +100,6 @@
   "exportExcel": "Exportar a Excel",
   "F": "Femenino",
   "M": "Masculino",
-  "remove_element": "¿Estás seguro de borrar este elemento?"
+  "remove_element": "¿Estás seguro de borrar este elemento?",
+  "patientsForIndications": "Pacientes por indicación"
 }

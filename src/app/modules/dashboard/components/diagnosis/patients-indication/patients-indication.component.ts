@@ -65,13 +65,14 @@ export class PatientsIndicationComponent implements OnInit {
       ).children;
     }
 
-    const view = [600, 400];
+    const chartTitle = 'patientsForIndications';
+    const view = null;
     const scheme = {
       domain: ['#249cf1', '#000'],
     };
     this.dataChart = this.parseDataToChart();
 
-    this.data = new ColumnChartModel(view, scheme, this.dataChart);
+    this.data = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
 
     this.dataTable = this.parseDataToTable(this.patientsIndications, false);
   }

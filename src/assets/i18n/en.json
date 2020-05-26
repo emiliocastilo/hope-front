@@ -86,5 +86,6 @@
   "exportPDF": "Export to PDF",
   "exportExcel": "Export to Excel",
   "F": "Female",
-  "M": "Male"
+  "M": "Male",
+  "patientsForIndications": "Patients indications"
 }
