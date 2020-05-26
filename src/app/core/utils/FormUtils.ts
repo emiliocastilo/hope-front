@@ -3,9 +3,12 @@ import { FieldConfigModel } from '../models/forms/field-config.model';
 import StringUtils from './StringUtils';
 
 export default class FormUtils {
-  static createFieldConfig(form): FieldConfig[] {
+  static createFieldConfig(form, filled?): FieldConfig[] {
     let fieldConfig: FieldConfig[] = [];
     for (let key in form) {
+      if (filled) {
+        form[key].value = filled[key].value;
+      }
       fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key]));
     }
     return fieldConfig;
@@ -34,5 +37,17 @@ export default class FormUtils {
     //     fieldConfig.validation = value.validation;
     // }
     return fieldConfig;
+  }
+
+  static parseEntriesForm(values: any) {
+    const form = [];
+    Object.entries(values).map((e) => {
+      const entry = {
+        name: e[0],
+        value: e[1],
+      };
+      form.push(entry);
+    });
+    return form;
   }
 }
