@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { FormsModel } from '../../models/forms/forms.model';
-const PATH = '/templates';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +8,17 @@ const PATH = '/templates';
 export class FormsService {
   constructor(private _http: HttpClient) {}
 
-  public get(): any {
-    return this._http.get<FormsModel>(PATH + '?key=DATOS_ GENERALES_PACIENTE');
+  public async get(key: string) {
+    return this._http.get(`/templates?key=${key}`).toPromise();
+  }
+
+  public fillForm(form: any) {
+    return this._http.post('/forms', form);
+  }
+
+  public async retrieveForm(template: string, patientId: number) {
+    return this._http
+      .get(`/forms?template=${template}&patientId=${patientId}`)
+      .toPromise();
   }
 }
