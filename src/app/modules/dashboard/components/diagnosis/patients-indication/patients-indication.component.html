@@ -65,6 +65,8 @@
         [columnsHeader]="headersDetailsTable"
         [columnsData]="detailsDataTable"
         [showActionButtons]="true"
+        [actions]="actionsPatient"
+        (iconButtonClick)="onPatientClick($event)"
       >
       </app-table>
       <app-pagination
