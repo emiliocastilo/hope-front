@@ -1,3 +1,5 @@
+@import '~src/app/variables.scss';
+
 .gallery-container {
   padding: 2rem;
 
@@ -6,7 +8,8 @@
   }
 
   .photos-container {
-    padding-bottom: 3rem;
+    padding: 3rem;
+    text-align: center;
 
     .photo {
       width: 20%;
@@ -26,8 +29,20 @@
   }
 
   .qr-container {
+    text-align: center;
+
     .qr {
       margin: 1rem;
+      text-align: center;
+
+      img {
+        margin: 2rem;
+      }
     }
+  }
+
+  .no-photos {
+    font-size: 1.3rem;
+    color: $app-color-gray-dark;
   }
 }
