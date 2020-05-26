@@ -1,27 +1,44 @@
-@import '~src/app/variables.scss';
+@import '~src/assets/styles/variables.scss';
 
-.roles {
-  margin: 0 0 2em 0;
-  list-style-type: none;
-  padding: 0;
+.app-select-role-background {
+  background-color: $app-color-blue-lighter;
+  background-image: url('~src/assets/img/login-background.png');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
 
-  li {
-    cursor: pointer;
-    position: relative;
-    left: 0;
-    background-color: $app-color-blue-lighter;
-    margin: 0.5em;
-    padding: 0.6em;
-    border-radius: 5px;
+  .app-select-role-card {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    border: none;
+  }
 
-    &.selected {
-      background-color: $app-color-blue-medium-two;
-      color: $app-color-white;
-    }
+  .app-img-size {
+    width: 8rem;
+  }
 
-    &:hover {
-      background-color: $app-color-blue-dark;
-      color: $app-color-white;
+  .roles {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      cursor: pointer;
+      position: relative;
+      left: 0;
+      background-color: $app-color-blue-lighter;
+      margin: 0.5em;
+      padding: 0.6em;
+      border-radius: 0;
+
+      &.selected {
+        background-color: $app-color-blue-medium-two;
+        color: $app-color-white;
+      }
+
+      &:hover {
+        background-color: $app-color-blue-main;
+        color: $app-color-white;
+      }
     }
   }
 }

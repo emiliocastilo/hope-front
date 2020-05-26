@@ -4,7 +4,6 @@ import { LoginModel } from '../../models/login/login.model';
 import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({
@@ -22,7 +21,7 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _router: Router,
     public _translate: TranslateService,
-    public _notification: NotificationService // private _toastr: ToastrService
+    public _notification: NotificationService
   ) {}
 
   ngOnInit() {

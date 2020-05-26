@@ -1,4 +1,30 @@
-@import '~src/app/variables.scss';
+@import '~src/assets/styles/variables.scss';
+
+.app-login-background {
+  background-color: $app-color-blue-lighter;
+  background-image: url('~src/assets/img/login-background.png');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  .app-login-card {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    border: none;
+
+    .app-login-container-body {
+      padding: 4rem;
+
+      .app-img-size {
+        width: 8rem;
+      }
+    }
+  }
+
+  .app-text-recover-password {
+    text-align: end;
+    color: $app-color-blue-main;
+  }
+}
 
 .underlineHover {
   &:hover {
