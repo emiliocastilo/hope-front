@@ -1,5 +1,10 @@
-@import './app/variables.scss';
+@import './assets/styles/variables.scss';
 @import '~angular-tree-component/dist/angular-tree-component.css';
+@import './assets/styles/button-boostrap-theme.scss';
+
+body {
+  font-family: "Raleway", sans-serif;
+}
 
 .app {
   display: flex;
