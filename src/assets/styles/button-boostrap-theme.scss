@@ -5,6 +5,11 @@
   background-color: $app-color-blue-main;
   border-color: $app-color-blue-main;
   border-radius: 0;
+
+  &:hover {
+    background-color: $app-color-blue-main-hover;
+    border-color: $app-color-blue-main-hover;
+  }
 }
 
 .btn-outline-primary {
@@ -17,4 +22,16 @@
     border-color: $app-color-blue-main;
     color: $app-color-white;
   }
+}
+
+.btn-link {
+  color: $app-color-blue-main;
+
+  &:hover {
+    color: $app-color-blue-main;
+  }
+}
+
+.btn-danger {
+  border-radius: 0;
 }

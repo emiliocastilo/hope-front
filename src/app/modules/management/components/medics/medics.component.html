@@ -6,7 +6,11 @@
   <section class="col-md-8 col-lg-9 medics-container">
     <section class="medics-container">
       <div class="container-fluid mt-4">
-        <app-search (emitAction)="onSearch($event)"></app-search>
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <app-search (emitAction)="onSearch($event)"></app-search>
+          </div>
+        </div>
       </div>
       <div class="container-fluid mt-4">
         <app-button

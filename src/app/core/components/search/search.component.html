@@ -1,21 +1,26 @@
-<div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
-  <div class="input-group">
-    <input
-      type="search"
-      #input
-      id="inputSearch"
-      name="inputSearch"
-      placeholder="Buscar..."
-      class="form-control border-0 bg-light"
-    />
-    <div class="input-group-append">
-      <button
-        id="button-addon1"
-        type="submit"
-        class="btn btn-link text-primary"
-      >
-        <i class="fa fa-search"></i>
-      </button>
-    </div>
+<label class="sr-only" for="inputSearch">Search</label>
+<div class="input-group mb-2 mr-sm-2 app-search-container">
+  <div class="input-group-prepend">
+    <button id="button-search" type="submit" class="btn btn-link">
+      <i class="fa fa-search"></i>
+    </button>
+  </div>
+  <input
+    type="text"
+    #input
+    id="inputSearch"
+    name="inputSearch"
+    placeholder="Buscar..."
+    class="form-control border-0"
+  />
+  <div class="input-group-append">
+    <button
+      id="button-cancel"
+      type="submit"
+      class="btn btn-link"
+      (click)="clearSearch()"
+    >
+      <i class="fa fa-times-circle-o"></i>
+    </button>
   </div>
 </div>

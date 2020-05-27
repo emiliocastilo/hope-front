@@ -3,7 +3,11 @@
   <section class="col-md-12 col-lg-12 patients-container">
     <section class="patients-container">
       <section class="container-fluid mt-4">
-        <app-search (emitAction)="onSearch($event)"></app-search>
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <app-search (emitAction)="onSearch($event)"></app-search>
+          </div>
+        </div>
       </section>
       <section class="container-fluid mt-4">
         <app-button
