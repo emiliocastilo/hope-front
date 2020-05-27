@@ -6,9 +6,14 @@ import { CoreModule, createTranslateLoader } from 'src/app/core/core.module';
 import { PathologyRoutingModule } from './pathology-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
+import { GalleryComponent } from './patients/components/gallery/gallery.component';
 
 @NgModule({
-  declarations: [DashboardPatientsComponent, PatientsComponent],
+  declarations: [
+    DashboardPatientsComponent,
+    PatientsComponent,
+    GalleryComponent,
+  ],
   imports: [
     CommonModule,
     CoreModule,
