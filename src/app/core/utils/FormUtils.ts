@@ -9,6 +9,9 @@ export default class FormUtils {
       this.fillFormWithValues(form, filled);
     }
     for (let key in form) {
+      if (filled) {
+        form[key].value = filled[key].value;
+      }
       fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key]));
     }
     return fieldConfig;
