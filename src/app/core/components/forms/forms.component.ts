@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormsService } from '../../services/forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
+import { ToastrComponentlessModule } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forms',
@@ -14,7 +15,7 @@ import { NotificationService } from '../../services/notification.service';
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  key = 'TESTING';
+  @Input() key: string = 'DATOS_SOCIODEMOGRAFICOS';
   patient = 1;
 
   constructor(
@@ -47,8 +48,7 @@ export class FormsComponent implements OnInit {
       patientId: this.patient,
     };
 
-    console.log(form);
-    // this.fillForm(form);
+    this.fillForm(form);
   }
 
   fillForm(form: any) {
