@@ -58,6 +58,7 @@
   "modal.editor.field.startperiod": "Periodo de inicio",
   "modal.editor.field.endperiod": "Periodo fin",
   "modal.editor.field.filedispensation": "Archivo csv",
+  "modal.editor.field.photo": "Archivo imagen",
   "modal.editor.field.description": "Descripción",
   "modal.editor.field.icon": "Icono",
   "modal.editor.field.order": "Orden",
@@ -101,5 +102,10 @@
   "F": "Femenino",
   "M": "Masculino",
   "remove_element": "¿Estás seguro de borrar este elemento?",
-  "patientsForIndications": "Pacientes por indicación"
+  "patientsForIndications": "Pacientes por indicación",
+  "gallery": "Galeria de imagenes",
+  "addPhoto": "Subir imagen",
+  "generateQR": "Generar QR",
+  "qrString": "Usa este codigo para subir imagenes desde tu movil",
+  "no_photos": "En este momento no hay fotos en la galería"
 }
