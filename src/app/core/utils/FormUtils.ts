@@ -5,10 +5,10 @@ import StringUtils from './StringUtils';
 export default class FormUtils {
   static createFieldConfig(form, filled?): FieldConfig[] {
     let fieldConfig: FieldConfig[] = [];
+    if (filled && filled.length > 0) {
+      this.fillFormWithValues(form, filled);
+    }
     for (let key in form) {
-      if (filled) {
-        form[key].value = filled[key].value;
-      }
       fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key]));
     }
     return fieldConfig;
@@ -37,6 +37,16 @@ export default class FormUtils {
     //     fieldConfig.validation = value.validation;
     // }
     return fieldConfig;
+  }
+
+  static fillFormWithValues(form, filled) {
+    form.forEach((element) => {
+      filled.forEach((e) => {
+        if (element.name === e.name) {
+          element.value = e.value;
+        }
+      });
+    });
   }
 
   static parseEntriesForm(values: any) {
