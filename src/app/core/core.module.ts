@@ -138,6 +138,7 @@ export function createTranslateLoader(http: HttpClient) {
     DynamicFieldDirective,
     EditorModalComponent,
     FormSwitchComponent,
+    FormsComponent,
     SwitchComponent,
     PieChartComponent,
     ExportButtonsComponent,

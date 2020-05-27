@@ -52,7 +52,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         .filter((control) => !controls.includes(control))
         .forEach((name) => {
           const config = this.config.find((control) => control.name === name);
-          this.form.addControl(name, this.createControl(config));
+          if (config.type !== 'title') {
+            this.form.addControl(name, this.createControl(config));
+          }
         });
     }
   }
