@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { saveAs } from 'file-saver';
 import { PhotosService } from '../../services/photos.service';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PhotoModel } from '../../models/photo.model';
@@ -20,8 +21,9 @@ export class GalleryComponent implements OnInit {
   public isCollapsed = true;
   public photos: any = [];
   public modalForm: FormGroup;
-  public selectedPhoto: number;
   public qrcode: any;
+  public isEditing = false;
+  public selectedPhoto: PhotoModel;
 
   constructor(
     private _photos: PhotosService,
@@ -33,10 +35,11 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMenu();
+    this.getPhotos();
     this.modalForm = this._formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      photo: [null, Validators.required],
+      photo: [null],
     });
   }
 
@@ -49,7 +52,18 @@ export class GalleryComponent implements OnInit {
     );
   }
 
-  addPhoto() {
+  getPhotos() {
+    this._photos.getPhotos(21, 1).subscribe(
+      (res) => {
+        this.photos = res;
+      },
+      ({ error }) => {
+        console.log(error);
+      }
+    );
+  }
+
+  showModal() {
     let modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
@@ -60,38 +74,91 @@ export class GalleryComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event: any) => {
-      this.savePhoto(event, modalRef);
+      this.createOrUpdatePhoto(event, modalRef);
     });
   }
 
-  savePhoto(event: any, modal: any) {
-    const reader = new FileReader();
-    reader.readAsBinaryString(event.value.photo);
-    reader.onload = () => {
-      const photo: PhotoModel = {
-        pathologyId: 1,
-        patientId: 21,
-        title: event.value.title,
-        description: event.value.description,
-        userId: 1,
-        name: event.value.title,
-        typePhoto: '.jpg',
-        photoBytes: reader.result.toString(),
-      };
-
-      this._photos.addPhoto(photo).subscribe(
-        (response) => {
-          this._notification.showSuccessToast('element_created');
-        },
-        ({ error }) => {
-          this._notification.showErrorToast(error.errorCode);
-        }
-      );
-      modal.close();
-    };
+  public showModalNew(): void {
+    this.isEditing = false;
+    this.modalForm.reset();
+    this.showModal();
   }
 
-  removePhoto() {
+  public showModalEdit(photo: PhotoModel): void {
+    this.selectedPhoto = photo;
+    Object.keys(photo).map((key: string) => {
+      if (this.modalForm.controls[key]) {
+        this.modalForm.controls[key].setValue(photo[key]);
+      }
+    });
+    this.isEditing = true;
+    this.showModal();
+  }
+
+  readFileAsync(file: any) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async createOrUpdatePhoto(event: any, modal: any) {
+    const photobytes = this.isEditing
+      ? null
+      : (await this.readFileAsync(event.value.photo)).toString();
+    const type = this.isEditing
+      ? event.value.typePhoto
+      : photobytes.split(';')[0].split('/')[1];
+    const id = this.isEditing ? this.selectedPhoto.id : null;
+    const photo: PhotoModel = {
+      id,
+      pathologyId: 1,
+      patientId: 21,
+      title: event.value.title,
+      description: event.value.description,
+      userId: 11,
+      name: event.value.title,
+      typePhoto: `.${type}`,
+      photoBytes: photobytes,
+    };
+
+    if (this.isEditing) {
+      this.editPhoto(photo);
+    } else {
+      this.addPhoto(photo);
+    }
+    modal.close();
+  }
+
+  editPhoto(editedPhoto: PhotoModel) {
+    this._photos.editPhoto(editedPhoto).subscribe(
+      (response) => {
+        this._notification.showSuccessToast('element_updated');
+        this.getPhotos();
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
+  }
+
+  addPhoto(newPhoto: PhotoModel) {
+    this._photos.addPhoto(newPhoto).subscribe(
+      (response) => {
+        this._notification.showSuccessToast('element_created');
+        this.getPhotos();
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
+  }
+
+  showModalConfirm(photoId: number) {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar imagen';
@@ -101,23 +168,27 @@ export class GalleryComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.accept.subscribe((event) => {
-      // this.deletePhoto();
-      modalRef.close();
+      this.deletePhoto(photoId, modalRef);
     });
   }
 
-  deletePhoto() {
-    this._photos.deletePhoto(this.photos[this.selectedPhoto].id).subscribe(
+  deletePhoto(id: number, modal: any) {
+    this._photos.deletePhoto(id).subscribe(
       (response) => {
         this._notification.showSuccessToast('element_deleted');
+        this.getPhotos();
+        modal.close();
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
+        modal.close();
       }
     );
   }
 
-  editPhoto(photo: any) {}
+  downloadPhoto(photo: PhotoModel) {
+    saveAs(photo.photoBytes.toString(), `${photo.title}${photo.typePhoto}`);
+  }
 
   generateQR() {
     this.isCollapsed = !this.isCollapsed;
