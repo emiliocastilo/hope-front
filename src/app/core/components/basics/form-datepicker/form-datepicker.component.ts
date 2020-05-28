@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
@@ -11,4 +11,9 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 export class FormDatepickerComponent {
   config: FieldConfig;
   group: FormGroup;
+  @Output() change: EventEmitter<any> = new EventEmitter<any>();
+
+  onChange(event) {
+    this.change.emit(event);
+  }
 }
