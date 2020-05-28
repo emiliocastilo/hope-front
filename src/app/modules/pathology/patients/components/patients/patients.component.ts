@@ -50,11 +50,11 @@ export class PatientsComponent implements OnInit {
   }
 
   public onSelectedItem(event: number): void {
-    console.log('onSelectedItem:', event);
     this.selectedPatient = this.patients[event];
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
+    this._router.navigate(['pathology/patients/dashboard']);
   }
 
   public onSearch(event: string): void {
