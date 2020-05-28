@@ -14,7 +14,7 @@ import { NotificationService } from '../../services/notification.service';
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  @Input() key: string = 'DATOS_SOCIODEMOGRAFICOS';
+  @Input() key: string = 'TEST';
   patient = 1;
 
   constructor(
@@ -38,6 +38,18 @@ export class FormsComponent implements OnInit {
     const data: any = await this._formsService.get(this.key);
     const form = this._parseStringToJSON(data.form);
     this.config = FormUtils.createFieldConfig(form, this.filledForm);
+  }
+
+  change(e) {
+    const birthdate = e.target.value;
+    const calculated = this.config.find((e) => e.type === 'calculated_front');
+    if (calculated) {
+      this[calculated.formula](birthdate);
+    }
+  }
+
+  ageBybirthdate(date) {
+    console.log('age by birthdate', date);
   }
 
   submit(value: { [name: string]: any }) {
