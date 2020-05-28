@@ -25,6 +25,7 @@ export class GalleryComponent implements OnInit {
   public isEditing = false;
   public selectedPhoto: PhotoModel;
   public selectedPatient: any;
+  public pathologyId: number;
 
   constructor(
     private _photos: PhotosService,
@@ -37,6 +38,7 @@ export class GalleryComponent implements OnInit {
   ngOnInit(): void {
     this.loadMenu();
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.pathologyId = this.selectedPatient.pathologies[0].id;
     this.modalForm = this._formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -55,7 +57,7 @@ export class GalleryComponent implements OnInit {
   }
 
   getPhotos() {
-    this._photos.getPhotos(this.selectedPatient.id, 1).subscribe(
+    this._photos.getPhotos(this.selectedPatient.id, this.pathologyId).subscribe(
       (res) => {
         this.photos = res;
       },
@@ -118,7 +120,7 @@ export class GalleryComponent implements OnInit {
     const id = this.isEditing ? this.selectedPhoto.id : null;
     const photo: PhotoModel = {
       id,
-      pathologyId: 1,
+      pathologyId: this.pathologyId,
       patientId: this.selectedPatient.id,
       title: event.value.title,
       description: event.value.description,
@@ -194,8 +196,10 @@ export class GalleryComponent implements OnInit {
 
   generateQR() {
     this.isCollapsed = !this.isCollapsed;
-    this._photos.generateQR(1, 1).subscribe((response: any) => {
-      this.qrcode = 'data:image/png;base64,' + response;
-    });
+    this._photos
+      .generateQR(this.selectedPatient.id, this.pathologyId)
+      .subscribe((response: any) => {
+        this.qrcode = 'data:image/png;base64,' + response;
+      });
   }
 }
