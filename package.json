@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --base-href=/hopes/",
     "build": "ng build",
+    "build:pre": "ng build --configuration=preproduction --base-href /hopes/",
     "test": "ng test",
     "lint": "prettier --check ./src/**/**.{ts,html}",
     "stylelint": "stylelint **/*.scss",
