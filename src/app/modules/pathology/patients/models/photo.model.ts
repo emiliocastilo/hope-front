@@ -7,5 +7,5 @@ export interface PhotoModel {
   userId: number;
   name?: string;
   typePhoto?: string;
-  photoBytes: string | ArrayBuffer;
+  photoBytes?: string;
 }
