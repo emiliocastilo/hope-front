@@ -59,12 +59,19 @@ export class GalleryComponent implements OnInit {
   getPhotos() {
     this._photos.getPhotos(this.selectedPatient.id, this.pathologyId).subscribe(
       (res) => {
-        this.photos = res;
+        this.photos = this.parsePhotos(res);
       },
       ({ error }) => {
         console.log(error);
       }
     );
+  }
+
+  parsePhotos(res) {
+    res.forEach((element) => {
+      element.photoBytes = `data:image/${element.typePhoto};base64,${element.photoBytes}`;
+    });
+    return res;
   }
 
   showModal() {
@@ -112,10 +119,10 @@ export class GalleryComponent implements OnInit {
 
   async createOrUpdatePhoto(event: any, modal: any) {
     const photobytes = this.isEditing
-      ? null
+      ? this.selectedPhoto.photoBytes
       : (await this.readFileAsync(event.value.photo)).toString();
     const type = this.isEditing
-      ? event.value.typePhoto
+      ? this.selectedPhoto.typePhoto
       : photobytes.split(';')[0].split('/')[1];
     const id = this.isEditing ? this.selectedPhoto.id : null;
     const photo: PhotoModel = {
@@ -125,9 +132,9 @@ export class GalleryComponent implements OnInit {
       title: event.value.title,
       description: event.value.description,
       userId: 11,
-      name: event.value.title,
-      typePhoto: `.${type}`,
-      photoBytes: photobytes,
+      name: this.isEditing ? this.selectedPhoto.name : event.value.title,
+      typePhoto: type,
+      photoBytes: photobytes.split(',')[1],
     };
 
     if (this.isEditing) {
@@ -191,7 +198,7 @@ export class GalleryComponent implements OnInit {
   }
 
   downloadPhoto(photo: PhotoModel) {
-    saveAs(photo.photoBytes.toString(), `${photo.title}${photo.typePhoto}`);
+    saveAs(photo.photoBytes.toString(), `${photo.name}.${photo.typePhoto}`);
   }
 
   generateQR() {
