@@ -33,5 +33,17 @@
 }
 
 .btn-danger {
+  background-color: $app-color-red;
+  border-color: $app-color-red;
   border-radius: 0;
+}
+
+.page-item .page-link {
+  border: 0;
+  color: $app-color-black;
+}
+
+.page-item.active .page-link {
+  background-color: $app-color-white;
+  color: $app-color-blue-main;
 }
