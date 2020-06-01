@@ -1,6 +1,5 @@
 <div class="form-group dynamic-field" [formGroup]="group">
   <select
-    [multiple]="config.selectMultiple"
     [formControlName]="config.name"
     [attr.name]="config.name"
     [attr.id]="config.name"
@@ -8,7 +7,7 @@
     [ngClass]="{ 'option-selected': optionSelected }"
   >
     <option *ngIf="!config.value" value=""> </option>
-    <option *ngFor="let option of config.options" [ngValue]="option">
+    <option *ngFor="let option of config.options" [ngValue]="option.value">
       {{ option.name | translate }}
     </option>
   </select>

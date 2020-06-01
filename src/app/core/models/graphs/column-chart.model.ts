@@ -2,6 +2,7 @@ import { ChartObjectModel } from './chart-object.model';
 
 export class ColumnChartModel {
   constructor(
+    public chartTitle: string,
     public view: number[],
     public scheme: any,
     public results: ChartObjectModel[],

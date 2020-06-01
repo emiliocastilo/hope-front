@@ -19,7 +19,7 @@
         'dynamic-label': type !== 'date',
         'required-label': required
       }"
-      >{{ label | translate }}</label
+      >{{ label | translate }} {{ required ? '*' : null }}</label
     >
   </span>
   <span *ngIf="invalid && invalidLabel" class="invalid-value">{{

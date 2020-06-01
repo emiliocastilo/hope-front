@@ -19,6 +19,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   @Input() selectMultiple: boolean = false;
   @Input() clearAfterSelect: boolean = false;
   @Input() form: FormGroup;
+  @Input() required: boolean = false;
 
   @Output() selectTrigger: EventEmitter<any> = new EventEmitter<any>();
 
