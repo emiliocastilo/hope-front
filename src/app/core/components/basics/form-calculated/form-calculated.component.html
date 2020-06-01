@@ -4,8 +4,10 @@
     [attr.name]="config.name"
     [formControlName]="config.name"
     class="dynamic-field"
-    type="input"
-    disabled="config.disabled"
+    type="number"
+    min="0"
+    [attr.value]="config.value"
+    [attr.disabled]="config.disabled"
   />
   <label [attr.for]="config.name" class="dynamic-label">
     {{ config.label | translate }}

@@ -1,10 +1,11 @@
 import { FieldConfig } from '../interfaces/dynamic-forms/field-config.interface';
 import { FieldConfigModel } from '../models/forms/field-config.model';
 import StringUtils from './StringUtils';
+import moment from 'moment';
 
 export default class FormUtils {
   static createFieldConfig(form, filled?): FieldConfig[] {
-    let fieldConfig: FieldConfig[] = [];
+    const fieldConfig: FieldConfig[] = [];
     if (filled && filled.length > 0) {
       this.fillFormWithValues(form, filled);
     }
@@ -61,5 +62,9 @@ export default class FormUtils {
       form.push(entry);
     });
     return form;
+  }
+
+  static ageBybirthdate(date) {
+    return moment().diff(date, 'years');
   }
 }
