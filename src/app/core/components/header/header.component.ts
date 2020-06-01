@@ -11,6 +11,21 @@ export class HeaderComponent implements OnInit {
   @Input() activateMenu: boolean;
   name: string = '';
   description: string = '';
+  public crumbs: any = [
+    {
+      url: '/hopes/',
+      title: 'Home',
+    },
+    {
+      url: '/hopes/management',
+      title: 'management',
+    },
+    {
+      url: '/hopes/management/medics',
+      title: 'medics',
+    },
+  ];
+
   constructor(
     private _loginSevice: LoginService,
     private _translate: TranslateService

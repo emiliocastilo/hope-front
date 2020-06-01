@@ -1,0 +1,46 @@
+@import '~src/assets/styles/variables.scss';
+
+.breadcrumbs_list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+
+  .breadcrumbs_list-item {
+    color: $app-color-blue-main;
+    margin: 0 0 0 1rem;
+
+    a {
+      text-decoration: none;
+      color: $app-color-blue-main;
+      vertical-align: middle;
+    }
+
+    i {
+      margin: 0 0 0 1rem;
+      vertical-align: middle;
+    }
+
+    .fa-chevron-right {
+      color: $app-color-blue-border;
+    }
+
+    .breadcrumbs_list-item_home {
+      font-size: 2rem;
+    }
+  }
+
+  .breadcrumbs_list-item-active {
+    a {
+      color: $app-color-black;
+      font-weight: 600;
+    }
+  }
+}
