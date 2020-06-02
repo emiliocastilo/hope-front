@@ -75,7 +75,7 @@ export class GalleryComponent implements OnInit {
   }
 
   showModal() {
-    let modalRef = this._modalService.open(EditorModalComponent, {
+    const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
     modalRef.componentInstance.id = 'createPhoto';
@@ -97,7 +97,7 @@ export class GalleryComponent implements OnInit {
 
   public showModalEdit(photo: PhotoModel): void {
     this.selectedPhoto = photo;
-    Object.keys(photo).map((key: string) => {
+    Object.keys(photo).forEach((key: string) => {
       if (this.modalForm.controls[key]) {
         this.modalForm.controls[key].setValue(photo[key]);
       }

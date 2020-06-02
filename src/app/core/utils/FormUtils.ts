@@ -4,11 +4,11 @@ import StringUtils from './StringUtils';
 
 export default class FormUtils {
   static createFieldConfig(form, filled?): FieldConfig[] {
-    let fieldConfig: FieldConfig[] = [];
+    const fieldConfig: FieldConfig[] = [];
     if (filled && filled.length > 0) {
       this.fillFormWithValues(form, filled);
     }
-    for (let key in form) {
+    for (const key in form) {
       fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key]));
     }
     return fieldConfig;
@@ -28,7 +28,7 @@ export default class FormUtils {
     fieldConfig.radioButton = value.radioButton;
     fieldConfig.rows = value.rows;
     fieldConfig.inputType = value.inputType;
-    //TODO: PARSEAR validaciones, no pueden venir como tal,habrá que hacer un switch case o algo así.
+    // TODO: PARSEAR validaciones, no pueden venir como tal,habrá que hacer un switch case o algo así.
     // if (value.validation) {
     //     const validations = StringUtils.stringToArray(value.validation);
     //     validations.forEach(element => {
@@ -51,7 +51,7 @@ export default class FormUtils {
 
   static parseEntriesForm(values: any) {
     const form = [];
-    Object.entries(values).map((e) => {
+    Object.entries(values).forEach((e) => {
       const entry = {
         name: e[0],
         value: e[1],

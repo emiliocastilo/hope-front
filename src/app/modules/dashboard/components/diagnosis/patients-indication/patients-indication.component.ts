@@ -19,8 +19,8 @@ export class PatientsIndicationComponent implements OnInit {
   private patientsIndications: any;
   public modules: Array<HomeDashboardModule>;
   public menu: SideBarItemModel[] = [];
-  public menuId: number = 2;
-  public currentSection: number = 1;
+  public menuId = 2;
+  public currentSection = 1;
   public data: ColumnChartModel;
   public dataTable: any[];
   private dataChart: ChartObjectModel[];
@@ -35,8 +35,8 @@ export class PatientsIndicationComponent implements OnInit {
     'Diagnóstico principal',
     'fecha',
   ];
-  public showingDetail: boolean = false;
-  private currentPage: number = 0;
+  public showingDetail = false;
+  private currentPage = 0;
   public paginationData: PaginationModel = {
     number: 0,
     size: 0,
@@ -80,7 +80,7 @@ export class PatientsIndicationComponent implements OnInit {
   private parseDataToChart(): ChartObjectModel[] {
     const results: ChartObjectModel[] = [];
 
-    Object.keys(this.patientsIndications).map((key: string) => {
+    Object.keys(this.patientsIndications).forEach((key: string) => {
       const objectData: ChartObjectModel = {
         name: key,
         value: this.patientsIndications[key],
@@ -90,8 +90,8 @@ export class PatientsIndicationComponent implements OnInit {
     return results;
 
     // TODO: data migth come in this format:
-    //Map{key, value}
-    //value: int, [{string, int}]
+    // Map{key, value}
+    // value: int, [{string, int}]
   }
 
   private parseDataToTable(list: any[], details: boolean) {
@@ -99,7 +99,7 @@ export class PatientsIndicationComponent implements OnInit {
     const data = [];
     let dataObject = {};
     if (details) {
-      list.map((value: any) => {
+      list.forEach((value: any) => {
         dataObject = {
           Nombe: value.fullName,
           'Diagnóstico principal': value.principalDiagnose,
@@ -108,7 +108,7 @@ export class PatientsIndicationComponent implements OnInit {
         data.push(dataObject);
       });
     } else {
-      Object.keys(list).map((key: string) => {
+      Object.keys(list).forEach((key: string) => {
         dataObject = {
           'Tipo Psoriasis': key,
           'Sin artritis psoriásica': 1,
