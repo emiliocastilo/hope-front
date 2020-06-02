@@ -56,8 +56,6 @@ export class AppComponent implements OnInit {
   }
 
   public showSidebar(): boolean {
-    console.log(this._router);
-
-    return !this._router.url.includes('login') || this._router.url !== '/';
+    return !this._router.url.includes('login');
   }
 }
