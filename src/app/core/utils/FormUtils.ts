@@ -31,6 +31,8 @@ export default class FormUtils {
     fieldConfig.inputType = value.inputType;
     fieldConfig.formula = value.formula;
     fieldConfig.params = value.params;
+    fieldConfig.actions = value.actions;
+    fieldConfig.columns = value.columns;
     // TODO: PARSEAR validaciones, no pueden venir como tal,habrá que hacer un switch case o algo así.
     // if (value.validation) {
     //     const validations = StringUtils.stringToArray(value.validation);

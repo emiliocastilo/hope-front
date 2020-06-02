@@ -22,6 +22,7 @@ import { FromTitleComponent } from 'src/app/core/components/basics/from-title/fr
 import { FromDividerComponent } from 'src/app/core/components/basics/from-divider/from-divider.component';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import { FormCalculatedComponent } from '../../components/basics/form-calculated/form-calculated.component';
+import { FormListComponent } from '../../components/basics/form-list/form-list.component';
 
 const components = {
   button: FormButtonComponent,
@@ -35,6 +36,7 @@ const components = {
   title: FromTitleComponent,
   divider: FromDividerComponent,
   calculated_front: FormCalculatedComponent,
+  table: FormListComponent,
 };
 
 @Directive({

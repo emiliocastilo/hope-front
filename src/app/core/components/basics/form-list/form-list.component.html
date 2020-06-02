@@ -1,0 +1,45 @@
+{{ config | json }}
+
+<div class="form-group dynamic-group field" [formGroup]="group">
+  <app-button (click)="newRow()" clasesBtn="btn-primary" icono="fa fa-plus">
+  </app-button>
+  <div class="container-fluid master-table">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th *ngFor="let header of headers" scope="col">
+            {{ header | translate }}
+          </th>
+          <th *ngIf="config.actions">
+            {{ 'actions' | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows; index as i">
+          <td *ngFor="let header of headers">
+            {{
+              header.toLowerCase().includes('date') ||
+              header.toLowerCase().includes('period')
+                ? (row[header] | date: 'dd/MM/yy')
+                : header.toLowerCase().includes('gender')
+                ? (row[header] | genderFormatter)
+                : row[header]
+            }}
+          </td>
+          <td *ngIf="config.actions">
+            <div>
+              <a
+                *ngFor="let action of config.actions"
+                href=""
+                (click)="emitIconButtonClick(action, i)"
+              >
+                <i class="mr-2 fa fa-{{ action }}"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
