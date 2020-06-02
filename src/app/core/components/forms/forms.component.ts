@@ -40,6 +40,18 @@ export class FormsComponent implements OnInit {
     this.config = FormUtils.createFieldConfig(form, this.filledForm);
   }
 
+  change(e) {
+    const birthdate = e.target.value;
+    const calculated = this.config.find((e) => e.type === 'calculated_front');
+    if (calculated) {
+      this[calculated.formula](birthdate);
+    }
+  }
+
+  ageBybirthdate(date) {
+    console.log('age by birthdate', date);
+  }
+
   submit(value: { [name: string]: any }) {
     const form = {
       template: this.key,
