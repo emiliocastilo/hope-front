@@ -64,7 +64,19 @@ export default class FormUtils {
     return form;
   }
 
-  static ageBybirthdate(date) {
-    return moment().diff(date, 'years');
+  static ageBybirthdate(params: Array<any>) {
+    return moment().diff(params[0], 'years');
+  }
+
+  static calculateIMC(params: Array<any>) {
+    const imc = params[0] / (params[1] * params[1]);
+    return imc.toFixed(2);
+  }
+
+  static calculateBodyArea(params: Array<any>) {
+    const weight = Math.pow(params[0], 0.425);
+    const height = Math.pow(params[1], 0.725);
+    const bodyArea = (0.7184 * height * weight) / 100;
+    return bodyArea.toFixed(2);
   }
 }
