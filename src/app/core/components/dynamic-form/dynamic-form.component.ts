@@ -43,10 +43,15 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   detectCalculated() {
     this.changes.subscribe((change) => {
       const calculated = this.config.find((e) => e.type === 'calculated_front');
+      const params = [];
       if (calculated) {
-        const params = change[calculated.params[0]];
-        const age = FormUtils[calculated.formula](params);
-        this.form.controls[calculated.name].setValue(age, { emitEvent: false });
+        calculated.params.forEach((e, i) => {
+          params[i] = change[e];
+        });
+        const value = FormUtils[calculated.formula](params);
+        this.form.controls[calculated.name].setValue(value, {
+          emitEvent: false,
+        });
       }
     });
   }

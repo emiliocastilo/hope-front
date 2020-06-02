@@ -15,5 +15,5 @@ export interface FieldConfig {
   rows?: number;
   inputType?: string;
   formula?: any;
-  params?: string;
+  params?: Array<string>;
 }
