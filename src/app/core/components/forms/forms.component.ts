@@ -14,7 +14,7 @@ import { NotificationService } from '../../services/notification.service';
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  @Input() key: string = 'TEST';
+  @Input() key: string = 'LIST';
   patient = 1;
 
   constructor(

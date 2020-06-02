@@ -16,4 +16,6 @@ export interface FieldConfig {
   inputType?: string;
   formula?: any;
   params?: Array<string>;
+  actions?: Array<string>;
+  columns?: Array<any>;
 }
