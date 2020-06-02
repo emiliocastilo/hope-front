@@ -1,3 +1,28 @@
+@import '~src/assets/styles/variables';
+
 .form-control:focus {
   box-shadow: none;
+}
+
+.app-search-container {
+  border: solid 0.8px $app-color-blue-border;
+  background-color: $app-color-white;
+
+  .input-group-prepend {
+    background-color: $app-color-blue-lighter;
+    padding: 0.6rem;
+
+    i {
+      font-size: 2rem;
+    }
+  }
+
+  .form-control {
+    margin: auto 0;
+  }
+
+  #button-cancel {
+    padding-right: 1.6rem;
+    font-size: 1.8rem;
+  }
 }

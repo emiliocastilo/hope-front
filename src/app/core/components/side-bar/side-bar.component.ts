@@ -24,9 +24,11 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
-    this.rol =
-      user.rolSelected && user.rolSelected.name ? user.rolSelected.name : '';
-    this.name = user.username;
+    if (user) {
+      this.rol =
+        user.rolSelected && user.rolSelected.name ? user.rolSelected.name : '';
+      this.name = user.username;
+    }
   }
 
   showSideBar(menuArray: SideBarItemModel[]): SideBarItemModel[] {

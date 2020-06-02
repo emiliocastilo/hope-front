@@ -50,6 +50,7 @@ import { ColumnChartComponent } from './components/charts/column-chart/column-ch
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
 import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
 import { GenderFormatter } from './pipes/gender.pipe';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -98,6 +99,7 @@ export function createTranslateLoader(http: HttpClient) {
     PieChartComponent,
     ExportButtonsComponent,
     GenderFormatter,
+    BreadcrumbComponent,
   ],
   imports: [
     CommonModule,
@@ -138,6 +140,7 @@ export function createTranslateLoader(http: HttpClient) {
     DynamicFieldDirective,
     EditorModalComponent,
     FormSwitchComponent,
+    FormsComponent,
     SwitchComponent,
     PieChartComponent,
     ExportButtonsComponent,
@@ -145,6 +148,7 @@ export function createTranslateLoader(http: HttpClient) {
     PaginationComponent,
     HomeDashboardModuleComponent,
     GenderFormatter,
+    BreadcrumbComponent,
   ],
   providers: [],
   entryComponents: [

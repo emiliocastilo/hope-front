@@ -80,6 +80,7 @@ export class MedicsComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+          Validators.email,
         ],
       ],
       collegeNumber: ['', Validators.required],
@@ -126,10 +127,12 @@ export class MedicsComponent implements OnInit {
   }
 
   private showModalConfirm() {
-    const modalRef = this._modalService.open(ConfirmModalComponent);
+    const modalRef = this._modalService.open(ConfirmModalComponent, {
+      size: 'lg',
+    });
 
     modalRef.componentInstance.title = 'Eliminar Médico';
-    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar el médico
+    modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el médico
       ${this.medics[this.selectedItem].name} ${
       this.medics[this.selectedItem].surname
     }?`;

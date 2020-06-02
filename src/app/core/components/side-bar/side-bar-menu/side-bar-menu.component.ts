@@ -6,7 +6,6 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'side-bar-menu',

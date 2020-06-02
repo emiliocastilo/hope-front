@@ -1,12 +1,12 @@
-<app-header></app-header>
 <div class="row m-0 p-0">
-  <section class="col-md-4 col-lg-3 m-0 p-0 sidemenu">
-    <side-bar [menu]="menu" [selected]="menuSelected"></side-bar>
-  </section>
-  <section class="col-md-8 col-lg-9 patients-container">
+  <section class="col-md-12 p-0 col-lg-12">
     <section class="patients-container">
       <section class="container-fluid mt-4">
-        <app-search (emitAction)="onSearch($event)"></app-search>
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <app-search (emitAction)="onSearch($event)"></app-search>
+          </div>
+        </div>
       </section>
       <section class="container-fluid mt-4">
         <app-button

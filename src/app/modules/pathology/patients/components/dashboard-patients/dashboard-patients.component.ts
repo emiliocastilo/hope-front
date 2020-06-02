@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PatientModel } from '../../models/patient.model';
-import { environment } from 'src/environments/environment';
 import { FormGroup } from '@angular/forms';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -56,10 +55,10 @@ export class DashboardPatientsComponent implements OnInit {
   ngOnInit(): void {
     // Carga menú lateral
     this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/dermatology/patients')
+      item.url.endsWith('/pathology/patients')
     );
     this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/dermatology/patients/dashboard')
+      item.url.endsWith('/pathology/patients/dashboard')
     );
     // fin carga menú lateral
 

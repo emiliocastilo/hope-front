@@ -1,13 +1,10 @@
-@import '~src/app/variables.scss';
+@import '~src/assets/styles/variables.scss';
 
 .side-bar {
   display: flex;
   flex-direction: column;
   background-color: $app-menu-blue-principal;
   height: 100vh;
-  position: fixed;
-  box-shadow: 4px 0 6px rgba(0, 0, 0, 0.5);
-  max-width: 200px;
   color: white;
   transition: 0.25s ease-in-out;
 

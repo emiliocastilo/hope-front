@@ -49,7 +49,7 @@
   "modal.editor.field.email": "Email",
   "modal.editor.field.gendercode": "Género",
   "modal.editor.field.birthdate": "Fecha de nacimiento",
-  "modal.editor.field.surname": "Apellido",
+  "modal.editor.field.surname": "Apellidos",
   "modal.editor.field.collegenumber": "Número de colegiado",
   "modal.editor.field.serviceDTO": "Servicio",
   "modal.editor.field.hospital": "Hospital",
@@ -58,6 +58,7 @@
   "modal.editor.field.startperiod": "Periodo de inicio",
   "modal.editor.field.endperiod": "Periodo fin",
   "modal.editor.field.filedispensation": "Archivo csv",
+  "modal.editor.field.photo": "Archivo imagen",
   "modal.editor.field.description": "Descripción",
   "modal.editor.field.icon": "Icono",
   "modal.editor.field.order": "Orden",
@@ -100,5 +101,13 @@
   "exportExcel": "Exportar a Excel",
   "F": "Femenino",
   "M": "Masculino",
-  "remove_element": "¿Estás seguro de borrar este elemento?"
+  "remove_element": "¿Estás seguro de borrar este elemento?",
+  "patientsForIndications": "Pacientes por indicación",
+  "gallery": "Galeria de imagenes",
+  "addPhoto": "Subir imagen",
+  "generateQR": "Generar QR",
+  "qrString": "Usa este codigo para subir imagenes desde tu movil",
+  "no_photos": "En este momento no hay fotos en la galería",
+  "withArthritis": "Con artritis psoriásica",
+  "withoutArthritis": "Sin artritis psoriásica"
 }

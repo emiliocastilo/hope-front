@@ -1,0 +1,53 @@
+<div class="row m-0 p-0">
+  <section class="col-md-8 col-lg-9 gallery-container">
+    <div>{{ 'gallery' | translate }}</div>
+    <hr />
+    <div class="photo-button">
+      <button type="button" class="btn btn-primary" (click)="showModalNew()">
+        {{ 'addPhoto' | translate }}
+      </button>
+    </div>
+
+    <section class="photos-container">
+      <div class="row" *ngIf="photos">
+        <div class="col-3 photo" *ngFor="let photo of photos">
+          <img [src]="photo.photoBytes" height="90%" />
+          <div class="buttons-photo">
+            <a (click)="showModalEdit(photo)"
+              ><i class="mr-2 fa fa-pencil cfa-blue"></i
+            ></a>
+            <a (click)="downloadPhoto(photo)"
+              ><i class="mr-2 fa fa-download cfa-blue"></i
+            ></a>
+            <a (click)="showModalConfirm(photo.id)"
+              ><i class="mr-2 fa fa-close cfa-red"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <span class="no-photos" *ngIf="!photos || photos.length === 0">{{
+        'no_photos' | translate
+      }}</span>
+    </section>
+
+    <section class="qr-container">
+      <hr />
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="generateQR()"
+      >
+        {{ 'generateQR' | translate }}
+      </button>
+      <div class="qr" *ngIf="!isCollapsed">
+        <div class="card">
+          <div class="card-body">
+            {{ 'qrString' | translate }}
+            <br />
+            <img [src]="qrcode" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>

@@ -1,0 +1,49 @@
+// CHANGE BOOSTRAP BUTTON STYLES
+@import './assets/styles/variables.scss';
+
+.btn-primary {
+  background-color: $app-color-blue-main;
+  border-color: $app-color-blue-main;
+  border-radius: 0;
+
+  &:hover {
+    background-color: $app-color-blue-main-hover;
+    border-color: $app-color-blue-main-hover;
+  }
+}
+
+.btn-outline-primary {
+  border-color: $app-color-blue-main;
+  border-radius: 0;
+  color: $app-color-blue-main;
+
+  &:hover {
+    background-color: $app-color-blue-main;
+    border-color: $app-color-blue-main;
+    color: $app-color-white;
+  }
+}
+
+.btn-link {
+  color: $app-color-blue-main;
+
+  &:hover {
+    color: $app-color-blue-main;
+  }
+}
+
+.btn-danger {
+  background-color: $app-color-red;
+  border-color: $app-color-red;
+  border-radius: 0;
+}
+
+.page-item .page-link {
+  border: 0;
+  color: $app-color-black;
+}
+
+.page-item.active .page-link {
+  background-color: $app-color-white;
+  color: $app-color-blue-main;
+}

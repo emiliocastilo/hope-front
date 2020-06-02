@@ -1,20 +1,30 @@
 <nav class="side-bar" [ngClass]="{ collapsed: collapsed }">
   <div class="brand">
     <span class="toggler" (click)="toggleCollapse()">
-      <i class="fa" [ngClass]="collapsed ? 'fa-bars' : 'fa-chevron-left'"></i>
+      <i
+        class="fa"
+        [ngClass]="collapsed ? 'fa-bars' : 'fa-chevron-left'"
+        aria-hidden="true"
+      ></i>
     </span>
-    <a class="logo" href=""
-      ><img class="logo-img" src="assets/img/hopes-launch.png"
-    /></a>
+    <a class="logo" href="">
+      <img
+        class="logo-img"
+        src="assets/img/hopes-launch.png"
+        alt="Hopes image, click here and it takes you home."
+      />
+    </a>
   </div>
   <div class="user-item">
-    <span class="icon"><i class="fa fa-user-circle-o"></i></span>
+    <span class="icon">
+      <i class="fa fa-user-circle-o" aria-hidden="true"> </i
+    ></span>
     <span class="user-data">
       <span>{{ name }}</span>
       <span class="rol">{{ rol }}</span>
     </span>
     <span class="icon logout" (click)="logout()"
-      ><i class="fa fa-power-off"></i
+      ><i class="fa fa-power-off" aria-hidden="true"></i
     ></span>
   </div>
   <side-bar-menu [menu]="menu" [selected]="selected"></side-bar-menu>

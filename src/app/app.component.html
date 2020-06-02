@@ -1,0 +1,17 @@
+<section class="container-flex">
+  <div class="row m-0 p-0">
+    <div class="col-md-2 col-lg-2 m-0 p-0" *ngIf="!showOnlyMainContainer">
+      <side-bar [menu]="menu" [currentMenuId]="menuId"></side-bar>
+    </div>
+    <div
+      [ngClass]="{
+        'col-md-10 col-lg-10': !showOnlyMainContainer,
+        'col-12 p-0 m-0': true,
+        'management-fluid justify-content-center': true
+      }"
+    >
+      <app-header *ngIf="!showOnlyMainContainer"></app-header>
+      <router-outlet> </router-outlet>
+    </div>
+  </div>
+</section>

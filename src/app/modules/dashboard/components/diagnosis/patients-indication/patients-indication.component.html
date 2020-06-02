@@ -1,82 +1,46 @@
-<app-header></app-header>
-
 <div class="row m-0 p-0">
-  <section class="col-md-4 col-lg-3 m-0 p-0 sidemenu">
-    <side-bar [menu]="menu" [currentMenuId]="menuId"></side-bar>
-  </section>
   <section
-    class="col-md-8 col-lg-9 p-0 management-fluid justify-content-center"
+    class="col-md-12 col-lg-12 p-0 management-fluid justify-content-center"
   >
-    <div class="chart-container">
+    <div class="patients-chart-container">
       <app-column-chart [stacked]="true" [config]="data"> </app-column-chart>
-    </div>
 
-    <div class="container-fluid mt-4 mb-4">
-      <app-button
-        type="button"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="buttonAction()"
-        texto="copiar"
-      >
-      </app-button>
-      <app-button
-        type="button"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="buttonAction()"
-        texto="CSV"
-      >
-      </app-button>
-      <app-button
-        type="button"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="buttonAction()"
-        texto="Excel"
-      >
-      </app-button>
-      <app-button
-        type="button"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="buttonAction()"
-        texto="PDF"
-      >
-      </app-button>
-      <app-button
-        type="button"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="buttonAction()"
-        texto="Imprimir"
-      >
-      </app-button>
-    </div>
+      <div class="table-container" *ngIf="!showingDetail">
+        <div class="export-buttons">
+          <app-export-buttons></app-export-buttons>
+        </div>
 
-    <div class="table-container" *ngIf="!showingDetail">
-      <app-table
-        [columnsHeader]="columHeaders"
-        [columnsData]="dataTable"
-        (iconButtonClick)="onIconButtonClick($event)"
-        [actions]="actions"
-        [showActionButtons]="true"
-      >
-      </app-table>
-    </div>
+        <app-table
+          [columnsHeader]="columHeaders"
+          [columnsData]="dataTable"
+          (iconButtonClick)="onIconButtonClick($event)"
+          [actions]="actions"
+          [showActionButtons]="true"
+        >
+        </app-table>
+      </div>
 
-    <div *ngIf="showingDetail" class="table-container">
-      <app-table
-        [columnsHeader]="headersDetailsTable"
-        [columnsData]="detailsDataTable"
-      >
-      </app-table>
-      <app-pagination
-        (selectPage)="selectPage($event)"
-        [paginationData]="paginationData"
-      >
-      </app-pagination>
-      <app-button
-        type="button"
-        clasesBtn="btn-primary btn-sm mx-2"
-        texto="backToChart"
-        (click)="onIconButtonClick({ type: 'back' })"
-      ></app-button>
+      <div *ngIf="showingDetail" class="table-container">
+        <app-table
+          [columnsHeader]="headersDetailsTable"
+          [columnsData]="detailsDataTable"
+          [showActionButtons]="true"
+          [actions]="actionsPatient"
+          (iconButtonClick)="onPatientClick($event)"
+        >
+        </app-table>
+        <app-pagination
+          (selectPage)="selectPage($event)"
+          [paginationData]="paginationData"
+        >
+        </app-pagination>
+        <app-button
+          type="button"
+          clasesBtn="btn-primary btn-sm mx-2"
+          texto="backToChart"
+          (click)="onIconButtonClick({ type: 'back' })"
+        ></app-button>
+      </div>
     </div>
   </section>
 </div>

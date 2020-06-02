@@ -20,10 +20,10 @@
             *ngSwitchCase="formKey === 'genderCode'"
           >
             <label for="formKey" class="dynamic-label">
-              {{
-                'modal.editor.field.' + formKey | lowercase | translate
-              }}</label
-            >
+              {{ 'modal.editor.field.' + formKey | lowercase | translate }}
+
+              {{ checkIfRequired(formKey) ? '*' : null }}
+            </label>
             <br />
             <div
               class="btn-group btn-group-toggle"
@@ -90,6 +90,7 @@
             "
             [invalidLabel]="getInvalidLabel(formKey)"
             [type]="getType(formKey)"
+            [required]="checkIfRequired(formKey)"
           >
           </app-input>
         </div>
@@ -103,25 +104,29 @@
           [placeholder]="'modal.editor.field.' + formKey | translate"
           [selectMultiple]="false"
           [form]="form"
+          [required]="checkIfRequired(formKey)"
           *ngIf="setType(formKey) == 'select'"
         >
         </app-input-select>
-        <app-input-file
-          [id]="formKey"
-          [label]="'modal.editor.field.' + formKey | lowercase | translate"
-          [name]="formKey"
-          [currentValue]="form.controls[formKey].value"
-          [placeholder]="
-            'modal.editor.field.' + formKey | lowercase | translate
-          "
-          type="file"
-          [accept]="setAccept(formKey)"
-          *ngIf="setType(formKey) == 'file'"
-          [formGroup]="form"
-        >
-        </app-input-file>
+
+        <span class="w-100">
+          <app-input-file
+            [id]="formKey"
+            [label]="'modal.editor.field.' + formKey | lowercase | translate"
+            [name]="formKey"
+            [currentValue]="form.controls[formKey].value"
+            [placeholder]="
+              'modal.editor.field.' + formKey | lowercase | translate
+            "
+            type="file"
+            [accept]="setAccept(formKey)"
+            *ngIf="setType(formKey) == 'file'"
+            [formGroup]="form"
+            [required]="checkIfRequired(formKey)"
+          >
+          </app-input-file>
+        </span>
       </section>
     </ng-container>
-    <!-- <app-switch></app-switch> -->
   </form>
 </div>

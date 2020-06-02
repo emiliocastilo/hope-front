@@ -129,7 +129,7 @@ export class DispensationsComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Dispensacion';
-    modalRef.componentInstance.messageModal = `Estas seguro de que quieres eliminar la despiensacion de la fecha 
+    modalRef.componentInstance.messageModal = `¿Estas seguro de que quieres eliminar la despiensacion de la fecha 
       ${this.selectedItem.date}?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
