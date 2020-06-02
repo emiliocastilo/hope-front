@@ -9,6 +9,7 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-patients-indication',
@@ -52,11 +53,15 @@ export class PatientsIndicationComponent implements OnInit {
   constructor(
     public _activatedRoute: ActivatedRoute,
     public _patientsIndicationService: PatientsIndicationService,
-    private _router: Router
+    private _router: Router,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit(): void {
     this.patientsIndications = this._activatedRoute.snapshot.data.patientsIndications;
+
+    console.log(this.patientsIndications);
+
     const rootMenu = JSON.parse(localStorage.getItem('menu'));
     this.menu = rootMenu.filter((item) => item.url.endsWith('dashboard'));
     if (this.menu.length) {
@@ -68,7 +73,7 @@ export class PatientsIndicationComponent implements OnInit {
     const chartTitle = 'patientsForIndications';
     const view = null;
     const scheme = {
-      domain: ['#249cf1', '#000'],
+      domain: ['#000', '#249cf1'],
     };
     this.dataChart = this.parseDataToChart();
 
@@ -83,19 +88,28 @@ export class PatientsIndicationComponent implements OnInit {
     Object.keys(this.patientsIndications).map((key: string) => {
       const objectData: ChartObjectModel = {
         name: key,
-        value: this.patientsIndications[key],
+        series: [
+          {
+            name: this._translate.instant('withArthritis'),
+            value: this.patientsIndications[key].true
+              ? this.patientsIndications[key].true
+              : 0,
+          },
+          {
+            name: this._translate.instant('withoutArthritis'),
+            value: this.patientsIndications[key].false
+              ? this.patientsIndications[key].false
+              : 0,
+          },
+        ],
       };
       results.push(objectData);
     });
+    console.log(results);
     return results;
-
-    // TODO: data migth come in this format:
-    //Map{key, value}
-    //value: int, [{string, int}]
   }
 
   private parseDataToTable(list: any[], details: boolean) {
-    // TODO: data structure migth change.
     const data = [];
     let dataObject = {};
     if (details) {
@@ -111,14 +125,23 @@ export class PatientsIndicationComponent implements OnInit {
       Object.keys(list).map((key: string) => {
         dataObject = {
           'Tipo Psoriasis': key,
-          'Sin artritis psoriásica': 1,
-          'Con artritis psoriásica': 2,
-          TOTAL: list[key],
+          'Sin artritis psoriásica': list[key].false ? list[key].false : 0,
+          'Con artritis psoriásica': list[key].true ? list[key].true : 0,
+          TOTAL: this.sumAllCases(list[key]),
         };
         data.push(dataObject);
       });
     }
     return data;
+  }
+
+  private sumAllCases(object: any): number {
+    let total = 0;
+
+    total += object.true ? object.true : 0;
+    total += object.false ? object.false : 0;
+
+    return total;
   }
 
   public onIconButtonClick(event: any) {

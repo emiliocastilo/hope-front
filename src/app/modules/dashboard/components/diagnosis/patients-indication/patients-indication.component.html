@@ -3,7 +3,7 @@
     class="col-md-12 col-lg-12 p-0 management-fluid justify-content-center"
   >
     <div class="patients-chart-container">
-      <app-column-chart [stacked]="false" [config]="data"> </app-column-chart>
+      <app-column-chart [stacked]="true" [config]="data"> </app-column-chart>
 
       <div class="table-container" *ngIf="!showingDetail">
         <div class="export-buttons">
