@@ -11,9 +11,4 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 export class FormDatepickerComponent {
   config: FieldConfig;
   group: FormGroup;
-  @Output() change: EventEmitter<any> = new EventEmitter<any>();
-
-  onChange(event) {
-    this.change.emit(event);
-  }
 }
