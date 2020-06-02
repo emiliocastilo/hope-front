@@ -27,8 +27,8 @@ export class PatientsIndicationComponent implements OnInit {
   private dataChart: ChartObjectModel[];
   public columHeaders: string[] = [
     'Tipo Psoriasis',
-    'Sin artritis psoriásica',
-    'Con artritis psoriásica',
+    this._translate.instant('withoutArthritis'),
+    this._translate.instant('withArthritis'),
     'TOTAL',
   ];
   public headersDetailsTable: string[] = [
@@ -59,8 +59,6 @@ export class PatientsIndicationComponent implements OnInit {
 
   ngOnInit(): void {
     this.patientsIndications = this._activatedRoute.snapshot.data.patientsIndications;
-
-    console.log(this.patientsIndications);
 
     const rootMenu = JSON.parse(localStorage.getItem('menu'));
     this.menu = rootMenu.filter((item) => item.url.endsWith('dashboard'));
@@ -105,7 +103,6 @@ export class PatientsIndicationComponent implements OnInit {
       };
       results.push(objectData);
     });
-    console.log(results);
     return results;
   }
 
@@ -125,10 +122,16 @@ export class PatientsIndicationComponent implements OnInit {
       Object.keys(list).map((key: string) => {
         dataObject = {
           'Tipo Psoriasis': key,
-          'Sin artritis psoriásica': list[key].false ? list[key].false : 0,
-          'Con artritis psoriásica': list[key].true ? list[key].true : 0,
           TOTAL: this.sumAllCases(list[key]),
         };
+        dataObject[this._translate.instant('withoutArthritis')] = list[key]
+          .false
+          ? list[key].false
+          : 0;
+        dataObject[this._translate.instant('withArthritis')] = list[key].true
+          ? list[key].true
+          : 0;
+
         data.push(dataObject);
       });
     }
@@ -155,8 +158,6 @@ export class PatientsIndicationComponent implements OnInit {
   }
 
   public onPatientClick(event: any) {
-    console.log('onPatient:', event);
-
     if (event.type === 'detail') {
       const currentUser = this.detailsDataTable[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
