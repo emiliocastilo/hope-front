@@ -13,9 +13,9 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 export class Cie9Component implements OnInit {
   modules: Array<HomeDashboardModule>;
   menu: SideBarItemModel[] = [];
-  menuId: number = 2;
-  currentSection: number = 1;
-  public showingDetail: boolean = false;
+  menuId = 2;
+  currentSection = 1;
+  public showingDetail = false;
   public dataChart: any[];
   public dataTable: any[];
   public columHeaders = ['cie9Diagnostic', 'patients'];
@@ -57,7 +57,7 @@ export class Cie9Component implements OnInit {
   parseData(data: any) {
     this.dataChart = [];
     this.dataTable = [];
-    Object.entries(data).map((entry) => {
+    Object.entries(data).forEach((entry) => {
       this.dataChart.push({ name: entry[0], value: entry[1] });
       this.dataTable.push({ cie9Diagnostic: entry[0], patients: entry[1] });
     });

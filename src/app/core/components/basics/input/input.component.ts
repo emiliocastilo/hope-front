@@ -16,12 +16,12 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
   @Input() clases: string;
   @Input() id: string;
-  @Input() isDisabled: boolean = false;
-  @Input() label: string = '';
+  @Input() isDisabled = false;
+  @Input() label = '';
   @Input() maxlength: any = 256;
   @Input() name: string;
   @Input() placeholder = '';
-  @Input() required: boolean = false;
+  @Input() required = false;
   @Input() type = 'text';
   @Input() invalidLabel: string;
 
@@ -41,7 +41,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: any): void {
     if (value) {
-      this.value = value || '';
+      this.value = value;
     } else {
       this.value = '';
     }
@@ -62,7 +62,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   validate({ value }: FormControl) {
     const isNotValid =
-      this.value == '' || this.value == undefined || this.value == null;
+      this.value === '' || this.value === undefined || this.value === null;
     return (
       isNotValid && {
         invalid: true,
