@@ -221,7 +221,7 @@ export class MedicsComponent implements OnInit {
       serviceDTO: this.services,
     };
     modalRef.componentInstance.id = 'doctoreditor';
-    modalRef.componentInstance.title = 'Médico';
+    modalRef.componentInstance.title = 'Nuevo Médico';
     modalRef.componentInstance.options = options;
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {

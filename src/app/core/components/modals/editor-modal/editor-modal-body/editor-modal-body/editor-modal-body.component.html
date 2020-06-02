@@ -12,7 +12,6 @@
         }"
       >
         <div
-          class="w-100"
           *ngIf="setType(formKey) !== 'select' && setType(formKey) !== 'file'"
         >
           <span
@@ -50,7 +49,7 @@
               [formControlName]="formKey"
             ></app-switch>
           </span>
-          <span class="w-100" *ngSwitchCase="formKey === 'roles'">
+          <span *ngSwitchCase="formKey === 'roles'">
             <app-input-select
               [id]="formKey"
               [isDisabled]="false"
@@ -109,7 +108,7 @@
         >
         </app-input-select>
 
-        <span class="w-100">
+        <span>
           <app-input-file
             [id]="formKey"
             [label]="'modal.editor.field.' + formKey | lowercase | translate"

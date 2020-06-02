@@ -1,23 +1,31 @@
 <div class="form-group dynamic-field">
-  <select
-    class="form-control"
-    name="{{ name }}"
-    id="{{ id }}"
-    [ngClass]="{ 'option-selected': optionSelected }"
-    (input)="onInput($event.target.value)"
-    [value]="currentValue"
-  >
-    <option *ngIf="!currentValue" value=""> </option>
-    <option *ngIf="currentValue && clearAfterSelect" value=""> </option>
-    <option
-      *ngFor="let option of options"
-      [ngValue]="option"
-      [selected]="option.name == value"
+  <span class="ui-float-label">
+    <label
+      for="{{ id }}"
+      [ngClass]="{
+        'dynamic-label': true,
+        'required-label': required
+      }"
     >
-      {{ option.name | translate }}
-    </option>
-  </select>
-  <label for="{{ id }}" class="dynamic-label">
-    {{ labelValue | translate }} {{ required ? '*' : null }}
-  </label>
+      {{ labelValue | translate }}
+    </label>
+    <select
+      class="form-control"
+      name="{{ name }}"
+      id="{{ id }}"
+      [ngClass]="{ 'option-selected': optionSelected }"
+      (input)="onInput($event.target.value)"
+      [value]="currentValue"
+    >
+      <option *ngIf="!currentValue" value=""> </option>
+      <option *ngIf="currentValue && clearAfterSelect" value=""> </option>
+      <option
+        *ngFor="let option of options"
+        [ngValue]="option"
+        [selected]="option.name == value"
+      >
+        {{ option.name | translate }}
+      </option>
+    </select>
+  </span>
 </div>
