@@ -16,11 +16,6 @@ input[type='number'] {
   margin-bottom: 0;
 }
 
-.required-label::after {
-  content: ' *';
-  color: red;
-}
-
 .dynamic-field {
   font-family: inherit;
   width: 100%;
