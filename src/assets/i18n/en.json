@@ -96,5 +96,6 @@
   "addPhoto": "Upload photo",
   "generateQR": "Generate QR",
   "qrString": "Use this QR code to upload photos from your device",
-  "no_photos": "There is no photos right now"
+  "no_photos": "There is no photos right now",
+  "noData": "No data to show right now"
 }

@@ -1,7 +1,7 @@
 @import '~src/assets/styles/variables.scss';
 
 .dynamic-field {
-  position: absolute;
+  position: relative;
   padding: 15px 0 0;
 
   .dynamic-label {
@@ -39,7 +39,7 @@
     -moz-appearance: none;
 
     &.option-selected {
-      width: 13rem;
+      width: 100%;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -54,12 +54,12 @@
 
 @supports (-moz-appearance: none) {
   .dynamic-field {
-    top: -2.85rem !important;
+    top: -0.2rem !important;
   }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
   .dynamic-field {
-    top: 0;
+    top: 2.5rem;
   }
 }

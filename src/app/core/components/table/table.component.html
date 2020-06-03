@@ -15,7 +15,7 @@
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="columnsData && columnsData.length > 0">
       <tr *ngFor="let row of columnsData; index as i">
         <td *ngFor="let header of columnsHeader">
           {{
@@ -41,4 +41,7 @@
       </tr>
     </tbody>
   </table>
+  <div *ngIf="columnsData && columnsData.length === 0" class="no-data">
+    {{ 'noData' | translate }}
+  </div>
 </div>

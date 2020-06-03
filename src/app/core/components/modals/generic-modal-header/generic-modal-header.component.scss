@@ -1,7 +1,7 @@
 @import '~src/assets/styles/variables.scss';
 
 .modal-header {
-  border-bottom: unset;
+  border-bottom: none;
   padding: 0;
 
   &.editor-modal-header {
