@@ -26,9 +26,9 @@ export class RoleManagementComponent implements OnInit {
   public tableData: Array<RowDataModel>;
   public selectedItem: number;
   public selectedRole: RolModel;
-  public isEditing: boolean = false;
+  public isEditing = false;
   public paginationData: PaginationModel;
-  private currentPage: number = 0;
+  private currentPage = 0;
   public modalForm: FormGroup;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
 
@@ -59,7 +59,7 @@ export class RoleManagementComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedRole = this.roles[event];
     this.selectedItem = event;
-    Object.keys(this.roles[event]).map((patientKey: string) => {
+    Object.keys(this.roles[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
         this.modalForm.controls[patientKey].setValue(
           this.roles[event][patientKey]
@@ -151,8 +151,9 @@ export class RoleManagementComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Rol';
-    modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el rol 
-      ${this.roles[this.selectedItem].name}?`;
+    modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el rol ${
+      this.roles[this.selectedItem].name
+    }?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
     });

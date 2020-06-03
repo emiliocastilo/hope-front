@@ -9,7 +9,7 @@ import { LoginService } from '../../services/login/login.service';
   styleUrls: ['./side-bar.component.scss'],
 })
 export class SideBarComponent implements OnInit {
-  @Input() menu: Array<SideBarItemModel>;
+  @Input() menu: SideBarItemModel;
   @Input() selected: SideBarItemModel;
   @Input() currentMenuId: number;
   name: string;

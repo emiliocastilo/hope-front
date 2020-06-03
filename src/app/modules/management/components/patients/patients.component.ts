@@ -27,10 +27,10 @@ export class PatientsComponent implements OnInit {
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;
   public selectedPatient: PatientModel = new PatientModel();
-  public isEditing: boolean = false;
+  public isEditing = false;
   public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
-  private currentPage: number = 0;
+  private currentPage = 0;
   public paginationData: PaginationModel;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
 
@@ -79,7 +79,7 @@ export class PatientsComponent implements OnInit {
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
-    Object.keys(this.patients[event]).map((patientKey: string) => {
+    Object.keys(this.patients[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
         this.modalForm.controls[patientKey].setValue(
           this.patients[event][patientKey]

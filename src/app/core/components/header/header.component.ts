@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login/login.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 
 @Component({
   selector: 'app-header',
@@ -9,22 +10,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
   @Input() activateMenu: boolean;
+  @Input() crumbs: SideBarItemModel[];
   name: string = '';
   description: string = '';
-  public crumbs: any = [
-    {
-      url: '/hopes/',
-      title: 'Home',
-    },
-    {
-      url: '/hopes/management',
-      title: 'management',
-    },
-    {
-      url: '/hopes/management/medics',
-      title: 'medics',
-    },
-  ];
 
   constructor(
     private _loginSevice: LoginService,

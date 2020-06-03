@@ -10,16 +10,16 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   constructor() {}
 
   @Input() id: string;
-  @Input() isDisabled: boolean = false;
-  @Input() labelValue: string = '';
+  @Input() isDisabled = false;
+  @Input() labelValue = '';
   @Input() name: string;
   @Input() options: any[] = [];
   @Input() currentValue: any;
-  @Input() placeholder: string = '';
-  @Input() selectMultiple: boolean = false;
-  @Input() clearAfterSelect: boolean = false;
+  @Input() placeholder = '';
+  @Input() selectMultiple = false;
+  @Input() clearAfterSelect = false;
   @Input() form: FormGroup;
-  @Input() required: boolean = false;
+  @Input() required = false;
 
   @Output() selectTrigger: EventEmitter<any> = new EventEmitter<any>();
 
@@ -35,7 +35,11 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   onChange(value: any): void {
-    this.optionSelected = this.currentValue ? true : false;
+    if (this.currentValue) {
+      this.optionSelected = true;
+    } else {
+      this.optionSelected = false;
+    }
     this.selectTrigger.emit(value);
     if (this.clearAfterSelect && this.value) {
       this.writeValue('');
@@ -44,7 +48,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: any): void {
     if (value) {
-      this.value = value || '';
+      this.value = value;
     } else {
       this.value = '';
     }
@@ -73,8 +77,10 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   setCurrentValue(name: string, objectArray: any[]) {
-    objectArray.map((object: any) => {
-      if (object.name == name) this.currentValue = object;
+    objectArray.forEach((object: any) => {
+      if (object.name === name) {
+        this.currentValue = object;
+      }
     });
   }
 }

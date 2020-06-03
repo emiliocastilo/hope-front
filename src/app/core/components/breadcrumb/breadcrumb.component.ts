@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -6,13 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-  @Input() crumbs: any;
+  @Input() crumbs: SideBarItemModel[];
 
   public homeUrl: string = '/hopes';
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log('crumbs:', this.crumbs);
-  }
+  ngOnInit(): void {}
 }

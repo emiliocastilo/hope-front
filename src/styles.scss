@@ -9,7 +9,7 @@ body {
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 /* EXTENSION FOR FONT AWESOME */
@@ -67,6 +67,7 @@ body {
       transition: background-color 0.25s;
 
       a {
+        cursor: pointer;
         text-decoration: none;
       }
 

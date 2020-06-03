@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HomeDashboardModule } from '../../models/home-dashboard/home-dashboard-module.model';
+import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
 
 @Component({
   selector: 'home',
@@ -10,15 +10,20 @@ import { HomeDashboardModule } from '../../models/home-dashboard/home-dashboard-
 export class HomeComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
 
-  constructor(private _activatedRoute: ActivatedRoute) {}
+  constructor(private _sideBar: SideBarService) {}
 
   ngOnInit(): void {
-    this._activatedRoute.data.subscribe((response) => {
-      this.modules = response.homeDashboard.children;
-      localStorage.setItem(
-        'menu',
-        JSON.stringify(response.homeDashboard.children)
-      );
+    this.getMenu();
+  }
+
+  private getMenu(): void {
+    this._sideBar.getSideBar().subscribe((response) => {
+      if (response.children) {
+        this.modules = response.children;
+        localStorage.setItem('menu', JSON.stringify(this.modules));
+      }
     });
+
+    // this.modules = JSON.parse(localStorage.getItem('menu'));
   }
 }

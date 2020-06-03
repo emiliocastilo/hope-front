@@ -49,6 +49,7 @@ import { FormsComponent } from './components/forms/forms.component';
 import { ColumnChartComponent } from './components/charts/column-chart/column-chart.component';
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
 import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
+import { FormCalculatedComponent } from './components/basics/form-calculated/form-calculated.component';
 import { GenderFormatter } from './pipes/gender.pipe';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
@@ -93,6 +94,7 @@ export function createTranslateLoader(http: HttpClient) {
     InputFileComponent,
     FromDividerComponent,
     FromTitleComponent,
+    FormCalculatedComponent,
     NgbdSortableHeader,
     FormsComponent,
     ColumnChartComponent,

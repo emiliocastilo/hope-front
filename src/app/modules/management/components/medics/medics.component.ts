@@ -45,13 +45,13 @@ export class MedicsComponent implements OnInit {
   public hospitals: HospitalModel[] = [];
   public isDetailModal = false;
   public isEditModal = false;
-  public isEditing: boolean = false;
+  public isEditing = false;
   public isNewModal = false;
   public medics: MedicModel[] = [];
   public selectedItem: number;
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
-  private currentPage: number = 0;
+  private currentPage = 0;
   public selectedDoctor = new MedicModel();
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
 
@@ -109,7 +109,7 @@ export class MedicsComponent implements OnInit {
 
     this.selectedDoctor.setValuesFromObject(this.medics[event], this.hospitals);
 
-    Object.keys(this.selectedDoctor).map((doctorKey: string) => {
+    Object.keys(this.selectedDoctor).forEach((doctorKey: string) => {
       if (this.modalForm.controls[doctorKey]) {
         this.modalForm.controls[doctorKey].setValue(
           this.selectedDoctor[doctorKey]
@@ -213,7 +213,7 @@ export class MedicsComponent implements OnInit {
   }
 
   private showModal() {
-    let modalRef = this._modalService.open(EditorModalComponent, {
+    const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
     const options = {
@@ -234,7 +234,7 @@ export class MedicsComponent implements OnInit {
 
   public selectPage(page: number): void {
     this.currentPage = page;
-    const query: string = `&page=${page}`;
+    const query = `&page=${page}`;
     this.refreshData(query);
   }
 

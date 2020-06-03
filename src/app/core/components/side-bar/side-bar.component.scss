@@ -4,19 +4,22 @@
   display: flex;
   flex-direction: column;
   background-color: $app-menu-blue-principal;
-  height: 100vh;
-  color: white;
+  min-height: 100%;
+  color: $app-color-white;
   transition: 0.25s ease-in-out;
+  width: 15rem;
 
   .brand {
     display: flex;
     align-items: center;
-    background-color: white;
+    background-color: $app-color-white;
     color: $app-color-blue-dark;
-    padding: 0.5rem 0.75rem;
+    padding: 0.8rem;
+    height: 5rem;
 
     .logo {
       transition: 0.25s ease-in-out;
+      margin: 0 auto;
     }
 
     .toggler {
@@ -39,15 +42,16 @@
 
     .logo,
     .logo-img {
-      max-width: 120px;
+      height: 2.4rem;
     }
   }
 
   .user-item {
-    padding: 0.5rem 0;
+    padding: 0.8rem;
     display: flex;
     align-items: center;
     background-color: $app-menu-blue-user;
+    height: 4rem;
 
     .user-data {
       flex-grow: 1;
@@ -56,7 +60,7 @@
       transition: 0.25s ease-in-out;
 
       .username {
-        font-weight: 300;
+        font-weight: 600;
       }
 
       .rol {
@@ -66,14 +70,17 @@
   }
 
   .icon {
-    min-width: 50px;
-    height: 30px;
-    text-align: center;
     color: rgb(146, 149, 166);
+    font-size: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+    text-align: center;
+    width: 2rem;
 
     &.logout {
       cursor: pointer;
       transition: 0.25s ease-in-out;
+      font-size: 1.4rem;
 
       &:hover {
         color: $app-color-red;
@@ -83,7 +90,7 @@
 
   &.collapsed {
     overflow-x: hidden;
-    max-width: 50px;
+    max-width: 4rem;
 
     .brand .logo,
     .user-item .user-data,
