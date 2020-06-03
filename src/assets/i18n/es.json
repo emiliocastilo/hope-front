@@ -111,5 +111,6 @@
   "no_photos": "En este momento no hay fotos en la galería",
   "withArthritis": "Con artritis psoriásica",
   "withoutArthritis": "Sin artritis psoriásica",
-  "noData": "No hay datos que mostrar"
+  "noData": "No hay datos que mostrar",
+  "backToChart": "Regresar a la gráfica"
 }
