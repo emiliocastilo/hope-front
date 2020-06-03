@@ -4,9 +4,9 @@
   position: relative;
   display: inline-block;
   vertical-align: top;
-  width: 80px;
-  height: 28px;
-  padding: 3px;
+  width: 5rem;
+  height: 2.2rem;
+  padding: 0;
   background-color: none;
   cursor: pointer;
   overflow: visible;
@@ -25,18 +25,18 @@
 
 .switch-title {
   margin: 0;
-  color: $app-color-gray-dark;
+  font-size: 0.8rem;
+  color: $app-color-blue-main;
 }
 
 .switch-label {
   position: relative;
   display: block;
   height: inherit;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: normal;
   text-transform: uppercase;
-  background: $app-color-red;
-  border-radius: 4px;
+  background: $app-color-red-main;
   transition: 0.15s ease-out;
   transition-property: opacity background;
 
@@ -65,18 +65,17 @@
 
 .switch-handle {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 30px;
-  height: 18px;
+  top: 0.3rem;
+  left: 0.3rem;
+  width: 2.1rem;
+  height: 1.6rem;
   background: $app-color-white;
-  border-radius: 4px;
   transition: left 0.15s ease-out;
 }
 
 .checked {
   .switch-label {
-    background: $app-color-blue-medium;
+    background: $app-color-blue-main;
 
     &::before {
       opacity: 0;

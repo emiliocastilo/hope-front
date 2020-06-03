@@ -7,6 +7,7 @@
   "btn.edit": "Edit",
   "btn.delete": "Delete",
   "btn.cancel": "Cancel",
+  "btn.accept": "Accept",
   "btn.update": "Update",
   "btn.save": "Save",
   "btn.close": "Close",
@@ -97,5 +98,6 @@
   "qrString": "Use this QR code to upload photos from your device",
   "no_photos": "There is no photos right now",
   "withArthritis": "With psoriatic arthritis",
-  "withoutArthritis": "Without psoriatic arthritis"
+  "withoutArthritis": "Without psoriatic arthritis",
+  "noData": "No data to show right now"
 }

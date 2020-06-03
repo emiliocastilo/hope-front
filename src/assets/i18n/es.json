@@ -7,6 +7,7 @@
   "btn.edit": "Editar",
   "btn.delete": "Borrar",
   "btn.cancel": "Cancelar",
+  "btn.accept": "Aceptar",
   "btn.update": "Modificar",
   "btn.save": "Guardar",
   "btn.close": "Cerrar",
@@ -109,5 +110,6 @@
   "qrString": "Usa este codigo para subir imagenes desde tu movil",
   "no_photos": "En este momento no hay fotos en la galería",
   "withArthritis": "Con artritis psoriásica",
-  "withoutArthritis": "Sin artritis psoriásica"
+  "withoutArthritis": "Sin artritis psoriásica",
+  "noData": "No hay datos que mostrar"
 }

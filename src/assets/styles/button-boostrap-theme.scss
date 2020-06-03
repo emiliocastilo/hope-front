@@ -12,6 +12,12 @@
   }
 }
 
+.btn-danger {
+  background-color: $app-color-red-main;
+  border-color: $app-color-red-main;
+  border-radius: 0;
+}
+
 .btn-outline-primary {
   border-color: $app-color-blue-main;
   border-radius: 0;
@@ -30,12 +36,6 @@
   &:hover {
     color: $app-color-blue-main;
   }
-}
-
-.btn-danger {
-  background-color: $app-color-red;
-  border-color: $app-color-red;
-  border-radius: 0;
 }
 
 .page-item .page-link {
