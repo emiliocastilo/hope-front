@@ -97,5 +97,7 @@
   "generateQR": "Generate QR",
   "qrString": "Use this QR code to upload photos from your device",
   "no_photos": "There is no photos right now",
+  "withArthritis": "With psoriatic arthritis",
+  "withoutArthritis": "Without psoriatic arthritis",
   "noData": "No data to show right now"
 }

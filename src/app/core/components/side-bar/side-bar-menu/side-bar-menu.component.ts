@@ -6,7 +6,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'side-bar-menu',
@@ -22,12 +22,17 @@ export class SideBarMenuComponent implements OnInit {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
     if (!this.level) {
       this.level = this.LEVEL_ONE;
     }
+  }
+
+  public toggleColapseMenu(menu: SideBarItemModel): void {
+    menu.collapsed = !menu.collapsed;
   }
 }

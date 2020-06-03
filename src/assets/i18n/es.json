@@ -109,5 +109,7 @@
   "generateQR": "Generar QR",
   "qrString": "Usa este codigo para subir imagenes desde tu movil",
   "no_photos": "En este momento no hay fotos en la galería",
+  "withArthritis": "Con artritis psoriásica",
+  "withoutArthritis": "Sin artritis psoriásica",
   "noData": "No hay datos que mostrar"
 }

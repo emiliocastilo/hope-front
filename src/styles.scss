@@ -9,7 +9,7 @@ body {
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 /* EXTENSION FOR FONT AWESOME */
@@ -67,6 +67,7 @@ body {
       transition: background-color 0.25s;
 
       a {
+        cursor: pointer;
         text-decoration: none;
       }
 
@@ -95,6 +96,29 @@ body {
   color: $app-color-gray-dark;
   font-size: 0.8rem;
   margin-top: 1rem;
+}
+
+.side-bar {
+  .nav-item {
+    .item {
+      display: flex;
+
+      .icon {
+        min-width: 50px;
+      }
+
+      .nav-link {
+        flex-grow: 1;
+        transition: 0.25 ease-in-out;
+      }
+    }
+  }
+
+  &.collapsed {
+    .nav-item .item .nav-link {
+      opacity: 0;
+    }
+  }
 }
 
 .no-data {

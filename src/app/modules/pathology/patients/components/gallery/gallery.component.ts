@@ -62,7 +62,7 @@ export class GalleryComponent implements OnInit {
         this.photos = this.parsePhotos(res);
       },
       ({ error }) => {
-        console.log(error);
+        console.error(error);
       }
     );
   }

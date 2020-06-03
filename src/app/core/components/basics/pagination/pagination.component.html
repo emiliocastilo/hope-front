@@ -3,6 +3,7 @@
     [(page)]="paginationData.number"
     [pageSize]="paginationData.size"
     [collectionSize]="paginationData.totalElements"
+    [boundaryLinks]="true"
     (pageChange)="pageChange($event)"
   >
   </ngb-pagination>

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login/login.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +10,10 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
   @Input() activateMenu: boolean;
+  @Input() crumbs: SideBarItemModel[];
   name: string = '';
   description: string = '';
+
   constructor(
     private _loginSevice: LoginService,
     private _translate: TranslateService
