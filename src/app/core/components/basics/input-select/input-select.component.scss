@@ -3,7 +3,6 @@
 .dynamic-field {
   position: absolute;
   padding: 15px 0 0;
-  top: -46px;
 
   .dynamic-label {
     position: absolute;
@@ -50,5 +49,17 @@
   .required-label::after {
     content: ' *';
     color: red;
+  }
+}
+
+@supports (-moz-appearance: none) {
+  .dynamic-field {
+    top: -2.85rem !important;
+  }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+  .dynamic-field {
+    top: 0;
   }
 }

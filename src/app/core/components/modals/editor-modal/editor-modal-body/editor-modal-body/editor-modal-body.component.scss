@@ -8,16 +8,27 @@
       display: inline-flex;
     }
 
+    label.btn-primary {
+      padding: 0.5rem 0.8rem;
+    }
+
     .dynamic-label {
-      font-size: 1rem;
-      color: $app-color-gray-dark;
+      font-size: 0.8rem;
+      color: $app-color-blue-main;
+      margin-bottom: 0;
     }
 
     .ng-button {
       position: relative;
 
       @media (min-width: 768px) {
-        top: -1.55rem;
+        @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+          top: 0.75rem;
+        }
+
+        @supports (-moz-appearance: none) {
+          top: -2.3rem;
+        }
       }
     }
 

@@ -96,3 +96,10 @@ body {
   font-size: 0.8rem;
   margin-top: 1rem;
 }
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: none;
+}
