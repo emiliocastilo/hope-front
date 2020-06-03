@@ -130,6 +130,11 @@ body {
   color: $app-color-gray-dark;
 }
 
+.required-label::after {
+  content: ' *';
+  color: red;
+}
+
 button,
 [type='button'],
 [type='reset'],
