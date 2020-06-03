@@ -3,7 +3,7 @@
 @import './assets/styles/button-boostrap-theme.scss';
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 .app {
@@ -95,4 +95,11 @@ body {
   color: $app-color-gray-dark;
   font-size: 0.8rem;
   margin-top: 1rem;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: none;
 }
