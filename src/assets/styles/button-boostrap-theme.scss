@@ -40,10 +40,44 @@
 
 .page-item .page-link {
   border: 0;
-  color: $app-color-black;
+  color: $app-color-blue-main;
+  font-size: 1.2rem;
 }
 
 .page-item.active .page-link {
   background-color: $app-color-white;
-  color: $app-color-blue-main;
+  color: $app-color-blue-border;
+}
+
+.page-item.disabled .page-link {
+  background-color: $app-color-white;
+  color: $app-color-blue-border;
+}
+
+.app-pagination-section {
+  ul.pagination li {
+    &:first-child a {
+      span {
+        display: none;
+      }
+    }
+
+    &:nth-child(2) a {
+      span {
+        display: none;
+      }
+    }
+
+    &:nth-last-child(2) a {
+      span {
+        display: none;
+      }
+    }
+
+    &:last-child a {
+      span {
+        display: none;
+      }
+    }
+  }
 }
