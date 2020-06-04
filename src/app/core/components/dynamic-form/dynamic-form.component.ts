@@ -72,6 +72,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           if (config.type !== 'title') {
             this.form.addControl(name, this.createControl(config));
           }
+          if (config.type === 'table') {
+            this.form.addControl(name, this.createArray(config));
+          }
         });
       this.detectCalculated();
     }
@@ -88,6 +91,15 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   createControl(config: FieldConfig) {
     const { disabled, validation, value } = config;
     return this.fb.control({ disabled, value }, validation);
+  }
+
+  createArray(config: FieldConfig) {
+    const group = this.fb.group({});
+    config.columns.forEach((c) => {
+      const key = Object.keys(c)[0];
+      group.addControl(key, this.createControl(config));
+    });
+    return this.fb.array([group]);
   }
 
   handleSubmit(event: Event) {
