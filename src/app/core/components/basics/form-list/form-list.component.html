@@ -1,8 +1,8 @@
-{{ config | json }}
-
 <div class="form-group dynamic-group field" [formGroup]="group">
-  <app-button (click)="newRow()" clasesBtn="btn-primary" icono="fa fa-plus">
-  </app-button>
+  <div class="add-btn">
+    <app-button (click)="newRow()" clasesBtn="btn-primary" icono="fa fa-plus">
+    </app-button>
+  </div>
   <div class="container-fluid master-table">
     <table class="table table-striped">
       <thead>
@@ -16,25 +16,28 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of rows; index as i">
+        <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
           <td *ngFor="let header of headers">
-            {{
-              header.toLowerCase().includes('date') ||
-              header.toLowerCase().includes('period')
-                ? (row[header] | date: 'dd/MM/yy')
-                : header.toLowerCase().includes('gender')
-                ? (row[header] | genderFormatter)
-                : row[header]
-            }}
+            <div *ngIf="!isEditing">{{ row[header] }}</div>
+            <input
+              *ngIf="isEditing"
+              [fromControlName]="config.name[header]"
+              [value]="row[header]"
+            />
           </td>
           <td *ngIf="config.actions">
-            <div>
+            <div *ngIf="!isEditing">
               <a
                 *ngFor="let action of config.actions"
                 href=""
                 (click)="emitIconButtonClick(action, i)"
               >
                 <i class="mr-2 fa fa-{{ action }}"></i>
+              </a>
+            </div>
+            <div *ngIf="isEditing">
+              <a href="" (click)="onSaveRow(row)">
+                save
               </a>
             </div>
           </td>
