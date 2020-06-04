@@ -92,6 +92,20 @@ export class DispensationsComponent implements OnInit {
     this.refreshData(`&sort=${event.column},${event.direction}`);
   }
 
+  public onSortDetail(event: any) {
+    const id = `dsp=${this.selectedItem.id}`;
+    this.getDetails(`${id}&sort=${event.column},${event.direction}`);
+  }
+
+  public itemsPerPage(number: number) {
+    this.refreshData(`&size=${number}`);
+  }
+
+  public itemsPerPageDetail(number: number) {
+    const id = `dsp=${this.selectedItem.id}`;
+    this.getDetails(`${id}&size=${number}`);
+  }
+
   private getDetails(query: string): void {
     this._dispensationsService.getDetailsById(query).subscribe((data) => {
       this.detailDispensations = data.content;

@@ -1,14 +1,14 @@
 <div class="row m-0 p-0">
   <section class="col-md-12 p-0 col-lg-12">
     <section class="patients-container">
-      <section class="container-fluid mt-4">
+      <section class="mt-4">
         <div class="row">
           <div class="col-lg-6 col-sm-12">
             <app-search (emitAction)="onSearch($event)"></app-search>
           </div>
         </div>
       </section>
-      <section class="container-fluid mt-4">
+      <section class="mt-4">
         <app-button
           type="button"
           icono="fa fa-plus"
@@ -17,7 +17,14 @@
           (click)="savePatient()"
         ></app-button>
       </section>
-      <section class="container-fluid mt-4">
+      <div class="mt-4">
+        <app-results-per-page
+          (itemsPerPage)="itemsPerPage($event)"
+          [paginationData]="paginationData"
+        >
+        </app-results-per-page>
+      </div>
+      <section class="mt-4">
         <app-table
           [columnsHeader]="patientKeysToShow"
           [columnsData]="patients"

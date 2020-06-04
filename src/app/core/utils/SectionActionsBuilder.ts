@@ -28,8 +28,6 @@ export default class SectionActionBuilder {
       item.url.includes(url)
     );
 
-    console.log('selectedByUrl:', selectedArray, url);
-
     selectedArray = selectedArray.length
       ? selectedArray
       : menu.map((item: SideBarItemModel) =>

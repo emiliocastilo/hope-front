@@ -52,6 +52,7 @@ import { ExportButtonsComponent } from './components/export-buttons/export-butto
 import { FormCalculatedComponent } from './components/basics/form-calculated/form-calculated.component';
 import { GenderFormatter } from './pipes/gender.pipe';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { ResultsPerPageComponent } from './components/results-per-page/results-per-page.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -102,6 +103,7 @@ export function createTranslateLoader(http: HttpClient) {
     ExportButtonsComponent,
     GenderFormatter,
     BreadcrumbComponent,
+    ResultsPerPageComponent,
   ],
   imports: [
     CommonModule,
@@ -151,6 +153,7 @@ export function createTranslateLoader(http: HttpClient) {
     HomeDashboardModuleComponent,
     GenderFormatter,
     BreadcrumbComponent,
+    ResultsPerPageComponent,
   ],
   providers: [],
   entryComponents: [

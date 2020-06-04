@@ -100,5 +100,7 @@
   "withArthritis": "With psoriatic arthritis",
   "withoutArthritis": "Without psoriatic arthritis",
   "noData": "No data to show right now",
-  "backToChart": "Go Back to chart"
+  "backToChart": "Go Back to chart",
+  "results": "Results",
+  "showRegisterParams": "Show registers from :start to :end of :total registers" 
 }

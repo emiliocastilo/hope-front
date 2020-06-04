@@ -6,6 +6,7 @@ export default class TableActionsBuilder {
   }
 
   private actions: TableActionsModel[];
+  private itemsPerPage: any[];
 
   private addEdit() {
     const editObject = new TableActionsModel('edit', 'fa fa-pencil');
@@ -14,7 +15,7 @@ export default class TableActionsBuilder {
   }
 
   private addDelete() {
-    const deleteObject = new TableActionsModel('delete', 'fa fa-close cfa-red');
+    const deleteObject = new TableActionsModel('delete', 'fa fa-close');
 
     this.actions.push(deleteObject);
   }

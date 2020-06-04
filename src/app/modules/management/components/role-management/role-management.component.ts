@@ -194,4 +194,8 @@ export class RoleManagementComponent implements OnInit {
   public onSort(event: any) {
     this.refreshData(`&sort=${event.column},${event.direction}`);
   }
+
+  public itemsPerPage(number: number) {
+    this.refreshData(`&size=${number}`);
+  }
 }

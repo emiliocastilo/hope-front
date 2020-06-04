@@ -112,5 +112,7 @@
   "withArthritis": "Con artritis psoriásica",
   "withoutArthritis": "Sin artritis psoriásica",
   "noData": "No hay datos que mostrar",
-  "backToChart": "Regresar a la gráfica"
+  "backToChart": "Regresar a la gráfica",
+  "results": "Resultados",
+  "showRegisterParams": "Mostrar registros del {{start}} al {{end}} de un total de {{total}} registros"
 }
