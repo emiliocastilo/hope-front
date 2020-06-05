@@ -2,6 +2,16 @@
 @import '~angular-tree-component/dist/angular-tree-component.css';
 @import './assets/styles/button-boostrap-theme.scss';
 
+@font-face {
+  font-family: 'Raleway-light';
+  src: url(assets/fonts/Raleway/Raleway-Light.ttf);
+}
+
+@font-face {
+  font-family: 'Raleway-thin';
+  src: url(assets/fonts/Raleway/Raleway-Thin.ttf);
+}
+
 body {
   font-family: 'Raleway', sans-serif;
 }
@@ -109,7 +119,6 @@ body {
 
       .nav-link {
         flex-grow: 1;
-        transition: 0.25 ease-in-out;
       }
     }
   }

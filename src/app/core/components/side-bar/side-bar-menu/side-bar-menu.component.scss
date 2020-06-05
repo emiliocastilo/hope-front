@@ -11,10 +11,22 @@
 
   .nav-link {
     color: $app-color-white;
-    min-height: 50px;
+    min-height: 3.75rem;
     display: flex;
     align-items: center;
-    padding: 0 0.75rem;
+    padding: 0 0.2rem;
+    font-weight: 100;
+  }
+
+  .nav-link-hidden {
+    color: $app-color-white;
+    min-height: 3.75rem;
+    display: flex;
+    align-items: center;
+    padding: 0 0.2rem;
+    font-weight: 100;
+    font-size: 0.2rem;
+    opacity: 0;
   }
 }
 
@@ -22,7 +34,9 @@
   transition: 0.5s;
 
   .nav-link {
-    font-size: 0.75rem;
+    padding-left: 1rem;
+    font-family: 'Raleway-light', sans-serif;
+    font-size: 0.8rem;
   }
 
   &:hover {
