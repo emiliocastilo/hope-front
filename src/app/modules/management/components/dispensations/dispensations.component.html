@@ -23,7 +23,7 @@
 
     <div class="mt-4" *ngIf="!showDetails">
       <app-results-per-page
-        (itemsPerPage)="itemsPerPage($event)"
+        (itemsPerPage)="selectItemsPerPage($event)"
         [paginationData]="paginationData"
       >
       </app-results-per-page>
@@ -45,7 +45,7 @@
 
       <div class="mt-4" *ngIf="showDetails">
         <app-results-per-page
-          (itemsPerPage)="itemsPerPageDetail($event)"
+          (itemsPerPage)="selectItemsPerPageDetail($event)"
           [paginationData]="paginationData"
         >
         </app-results-per-page>

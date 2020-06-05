@@ -33,6 +33,7 @@ export class PatientsComponent implements OnInit {
   private currentPage = 0;
   public paginationData: PaginationModel;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
+  private itemsPerPage: number;
 
   constructor(
     private _patientsService: PatientsService,
@@ -103,11 +104,18 @@ export class PatientsComponent implements OnInit {
   }
 
   public onSort(event: any) {
-    this.refreshData(`&sort=${event.column},${event.direction}`);
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
+    this.refreshData(query);
   }
 
-  public itemsPerPage(number: number) {
-    this.refreshData(`&size=${number}`);
+  public selectItemsPerPage(number: number) {
+    this.itemsPerPage = number;
+    this.selectPage(0);
   }
 
   public savePatient(): void {
@@ -229,14 +237,18 @@ export class PatientsComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
+    let query = `&page=${page}`;
     this.currentPage = page;
-    this.refreshData(`&page=${page}`);
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+    this.refreshData(query);
   }
 
   private refreshData(query: string): void {
     this._patientsService.getPatients(query).subscribe((data) => {
       this.patients = data.content;
-      if (this.paginationData.totalElements !== data.totalElements) {
+      if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
     });

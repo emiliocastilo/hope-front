@@ -31,6 +31,7 @@ export class RoleManagementComponent implements OnInit {
   private currentPage = 0;
   public modalForm: FormGroup;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
+  private itemsPerPage: number;
 
   constructor(
     private _roleManagementService: RoleManagementService,
@@ -75,8 +76,12 @@ export class RoleManagementComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
+    let query = `&page=${page}`;
     this.currentPage = page;
-    this.refreshData(`&page=${page}`);
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+    this.refreshData(query);
   }
 
   public showModal() {
@@ -185,17 +190,24 @@ export class RoleManagementComponent implements OnInit {
   private refreshData(query: string): void {
     this._roleManagementService.getRoles(query).subscribe((data) => {
       this.roles = data.content;
-      if (this.paginationData.totalElements !== data.totalElements) {
+      if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
     });
   }
 
   public onSort(event: any) {
-    this.refreshData(`&sort=${event.column},${event.direction}`);
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
+    this.refreshData(query);
   }
 
-  public itemsPerPage(number: number) {
-    this.refreshData(`&size=${number}`);
+  public selectItemsPerPage(number: number) {
+    this.itemsPerPage = number;
+    this.selectPage(0);
   }
 }

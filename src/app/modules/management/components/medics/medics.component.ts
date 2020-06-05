@@ -51,9 +51,10 @@ export class MedicsComponent implements OnInit {
   public selectedItem: number;
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
-  private currentPage = 0;
+  private currentPage: number = 0;
   public selectedDoctor = new MedicModel();
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
+  private itemsPerPage: number;
 
   ngOnInit() {
     // Carga menú lateral
@@ -233,23 +234,33 @@ export class MedicsComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
+    let query = `&page=${page}`;
     this.currentPage = page;
-    const query = `&page=${page}`;
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
     this.refreshData(query);
   }
 
   public onSort(event: any) {
-    this.refreshData(`&sort=${event.column},${event.direction}`);
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
+    this.refreshData(query);
   }
 
-  public itemsPerPage(number: number) {
-    this.refreshData(`&size=${number}`);
+  public selectItemsPerPage(number: number) {
+    this.itemsPerPage = number;
+    this.selectPage(0);
   }
 
   private refreshData(query: string): void {
     this._medicService.getAll(query).subscribe((data) => {
       this.medics = data.content;
-      if (this.paginationData.totalElements !== data.totalElements) {
+      if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
     });

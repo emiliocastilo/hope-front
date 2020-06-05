@@ -50,6 +50,8 @@ export class DispensationsComponent implements OnInit {
   public menuSelected: SideBarItemModel;
   public showDetails: boolean = false;
   public dispensationsTableActions: TableActionsModel[] = new TableActionsBuilder().getDetailAndDelete();
+  ç;
+  private itemsPerPage: number;
 
   ngOnInit(): void {
     this.dispensations = this._activatedRoute.snapshot.data.dispensations.content;
@@ -70,7 +72,12 @@ export class DispensationsComponent implements OnInit {
 
   public selectPage(page: number): void {
     this.currentPage = page;
-    const query: string = `&page=${page}`;
+    let query: string = `&page=${page}`;
+
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
     if (this.showDetails) {
       const id = `dsp=${this.selectedItem.id}${query}`;
       this.getDetails(id);
@@ -82,26 +89,39 @@ export class DispensationsComponent implements OnInit {
   private refreshData(query: string): void {
     this._dispensationsService.getAll(query).subscribe((data) => {
       this.dispensations = data.content;
-      if (this.paginationData.totalElements !== data.totalElements) {
+      if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
     });
   }
 
   public onSort(event: any) {
-    this.refreshData(`&sort=${event.column},${event.direction}`);
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
+    this.refreshData(query);
   }
 
   public onSortDetail(event: any) {
-    const id = `dsp=${this.selectedItem.id}`;
-    this.getDetails(`${id}&sort=${event.column},${event.direction}`);
+    let query = `dsp=${this.selectedItem.id}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
+    this.getDetails(query);
   }
 
-  public itemsPerPage(number: number) {
-    this.refreshData(`&size=${number}`);
+  public selectItemsPerPage(number: number) {
+    this.itemsPerPage = number;
+    this.selectPage(0);
   }
 
-  public itemsPerPageDetail(number: number) {
+  public selectItemsPerPageDetail(number: number) {
+    this.itemsPerPage = number;
     const id = `dsp=${this.selectedItem.id}`;
     this.getDetails(`${id}&size=${number}`);
   }
@@ -109,7 +129,7 @@ export class DispensationsComponent implements OnInit {
   private getDetails(query: string): void {
     this._dispensationsService.getDetailsById(query).subscribe((data) => {
       this.detailDispensations = data.content;
-      if (this.paginationData.totalElements !== data.totalElements) {
+      if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
     });
@@ -128,6 +148,7 @@ export class DispensationsComponent implements OnInit {
 
       case 'detail':
         this.showDetails = true;
+        this.itemsPerPage = 5;
         this.getDetails(`dsp=${this.selectedItem.id}`);
         break;
     }
@@ -135,6 +156,7 @@ export class DispensationsComponent implements OnInit {
 
   public goBackToDispensations() {
     this.showDetails = false;
+    this.itemsPerPage = 5;
     const query: string = '&page=0';
     this.refreshData(query);
   }

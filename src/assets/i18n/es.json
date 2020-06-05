@@ -114,5 +114,6 @@
   "noData": "No hay datos que mostrar",
   "backToChart": "Regresar a la gráfica",
   "results": "Resultados",
-  "showRegisterParams": "Mostrar registros del {{start}} al {{end}} de un total de {{total}} registros"
+  "showRegisterParams": "Mostrar registros del {{start}} al {{end}} de un total de {{total}} registros",
+  "mainDiagnosis": "Main diagnosis"
 }

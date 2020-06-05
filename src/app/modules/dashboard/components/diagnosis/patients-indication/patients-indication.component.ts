@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
@@ -31,17 +31,14 @@ export class PatientsIndicationComponent implements OnInit {
     this._translate.instant('withArthritis'),
     'TOTAL',
   ];
-  public headersDetailsTable: string[] = [
-    'Nombe',
-    'Diagnóstico principal',
-    'fecha',
-  ];
+  public headersDetailsTable: string[] = ['name', 'mainDiagnosis', 'date'];
   public showingDetail = false;
   private currentPage = 0;
   public paginationData: PaginationModel = {
     number: 0,
     size: 0,
     totalElements: 0,
+    totalPages: 0,
   };
   public detailsDataTable: any[];
   private selectedDisease: string;
@@ -112,9 +109,9 @@ export class PatientsIndicationComponent implements OnInit {
     if (details) {
       list.forEach((value: any) => {
         dataObject = {
-          Nombe: value.fullName,
-          'Diagnóstico principal': value.principalDiagnose,
-          fecha: value.pasiDate,
+          name: value.fullName,
+          mainDiagnosis: value.principalDiagnose,
+          date: value.pasiDate,
         };
         data.push(dataObject);
       });
