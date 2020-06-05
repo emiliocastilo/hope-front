@@ -29,6 +29,13 @@
       font-size: 1rem;
       width: 3rem;
       text-align-last: center;
+      outline: none;
+    }
+
+    &:focus {
+      border: none;
+      outline-offset: 0;
+      outline: none;
     }
 
     i {

@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { InterceptorService } from './core/services/interceptor/interceptor.service';
 import { LoginService } from './core/services/login/login.service';
+import { DatePipe } from '@angular/common';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -52,6 +53,7 @@ export function createTranslateLoader(http: HttpClient) {
     LoginService,
     TranslateService,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

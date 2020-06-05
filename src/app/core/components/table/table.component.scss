@@ -39,6 +39,10 @@
             color: $app-color-blue-main;
           }
         }
+
+        &:first-child {
+          background-color: $app-color-table-background;
+        }
       }
     }
   }
@@ -53,6 +57,14 @@
 
       &:nth-child(odd)td:first-child {
         background-color: $app-color-blue-lighter;
+      }
+
+      &:nth-child(even)td:first-child {
+        background-color: $app-color-table-background;
+      }
+
+      &:nth-of-type(odd) {
+        background-color: $app-color-table-background;
       }
 
       td {

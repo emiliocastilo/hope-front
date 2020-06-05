@@ -102,5 +102,6 @@
   "noData": "No data to show right now",
   "backToChart": "Go Back to chart",
   "results": "Results",
-  "showRegisterParams": "Show registers from :start to :end of :total registers" 
+  "showRegisterParams": "Show registers from :start to :end of :total registers",
+  "mainDaignosis": "Diagnóstico principal"
 }

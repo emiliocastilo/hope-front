@@ -155,7 +155,7 @@ export function createTranslateLoader(http: HttpClient) {
     BreadcrumbComponent,
     ResultsPerPageComponent,
   ],
-  providers: [],
+  providers: [GenderFormatter],
   entryComponents: [
     FormButtonComponent,
     FormInputComponent,

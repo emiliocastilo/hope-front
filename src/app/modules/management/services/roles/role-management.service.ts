@@ -11,7 +11,7 @@ export class RoleManagementService {
 
   public getRoles(query?: string): Observable<any> {
     query = query ? query : '';
-    return this._httpClient.get(`/roles?${query}&size=10`);
+    return this._httpClient.get(`/roles?${query}`);
   }
 
   public getAllRoles(): Observable<any> {
