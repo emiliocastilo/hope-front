@@ -8,15 +8,6 @@
           </div>
         </div>
       </section>
-      <section class="mt-4">
-        <app-button
-          type="button"
-          clasesBtn="btn-primary btn-sm mx-2"
-          texto="btn.select"
-          (click)="goToDermatologiPatients()"
-          [readOnly]="!selectedPatient.id"
-        ></app-button>
-      </section>
       <div class="mt-4">
         <app-results-per-page
           (itemsPerPage)="itemsPerPage($event)"
