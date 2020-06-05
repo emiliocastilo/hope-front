@@ -1,12 +1,12 @@
 @import '~src/assets/styles/variables.scss';
 
 .side-bar {
+  font-family: 'Raleway-thin', sans-serif;
   display: flex;
   flex-direction: column;
   background-color: $app-menu-blue-principal;
   min-height: 100%;
   color: $app-color-white;
-  transition: 0.25s ease-in-out;
   width: 15rem;
 
   .brand {
@@ -18,31 +18,23 @@
     height: 5rem;
 
     .logo {
-      transition: 0.25s ease-in-out;
       margin: 0 auto;
     }
 
     .toggler {
       cursor: pointer;
-
-      .fa {
-        padding: 4px 6px;
-        margin-right: 8px;
-
-        &::before {
-          margin-right: 2px;
-        }
-      }
-
-      .fa-chevron-left {
-        background-color: rgb(204, 224, 242);
-        border-radius: 12px;
-      }
+      color: $app-color-blue-main;
+      font-size: 1.4rem;
+      margin-left: 0.5rem;
     }
 
     .logo,
     .logo-img {
-      height: 2.4rem;
+      height: 1.9rem;
+    }
+
+    .logo-hidden {
+      display: none;
     }
   }
 
@@ -57,7 +49,6 @@
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      transition: 0.25s ease-in-out;
 
       .username {
         font-weight: 600;
@@ -79,7 +70,6 @@
 
     &.logout {
       cursor: pointer;
-      transition: 0.25s ease-in-out;
       font-size: 1.4rem;
 
       &:hover {

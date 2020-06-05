@@ -19,6 +19,8 @@ export class SideBarMenuComponent implements OnInit {
   @Input() menu: Array<SideBarItemModel>;
   @Input() selected: SideBarItemModel;
   @Input() level: number;
+  @Input() collapsed: boolean;
+  public icons: Array<string>;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -27,6 +29,7 @@ export class SideBarMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.icons = ['cogs', 'dashboard', 'calendar-o', 'bell-o', 'user-o'];
     if (!this.level) {
       this.level = this.LEVEL_ONE;
     }

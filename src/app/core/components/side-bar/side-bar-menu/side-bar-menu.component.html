@@ -1,5 +1,5 @@
 <ul class="nav navbar-light flex-column side-bar-menu">
-  <ng-container *ngFor="let menuOption of menu">
+  <ng-container *ngFor="let menuOption of menu; index as i">
     <li
       *ngIf="menuOption.children"
       [ngClass]="'sub-side-bar-menu-level-' + level"
@@ -9,10 +9,15 @@
         class="item"
         [ngClass]="{ active: selected ? menuOption.id === selected.id : null }"
       >
-        <span class="icon">
-          <i [ngClass]="menuOption.icon" aria-hidden="true"></i>
+        <span *ngIf="level < 2" class="icon">
+          <i class="fa fa-{{ icons[i] }}" aria-hidden="true"></i>
         </span>
-        <a class="nav-link" [href]="menuOption.url"> {{ menuOption.title }}</a>
+        <a
+          [ngClass]="{ 'nav-link': !collapsed, 'nav-link-hidden': collapsed }"
+          [href]="menuOption.url"
+        >
+          {{ menuOption.title }}</a
+        >
         <a
           class="icon"
           (click)="toggleColapseMenu(menuOption)"

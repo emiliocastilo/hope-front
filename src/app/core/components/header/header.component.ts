@@ -9,7 +9,7 @@ import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  @Input() activateMenu: boolean;
+  @Input() menuCollapsed = false;
   @Input() crumbs: SideBarItemModel[];
   name: string = '';
   description: string = '';
