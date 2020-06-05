@@ -9,7 +9,7 @@
                 <form [formGroup]="loginForm">
                   <div class="text-center mb-4">
                     <img
-                      src="assets/img/hopes-launch.png"
+                      src="assets/img/hopes-logo.png"
                       class="center app-img-size"
                     />
                   </div>
@@ -53,7 +53,7 @@
                       (click)="onFormSubmit()"
                       [loading]="loading"
                       clasesBtn="btn-primary fadeIn fourth btn-block"
-                      texto="btn.enter"
+                      texto="btn.accept"
                       type="submit"
                       class="btn-block"
                     >
@@ -66,9 +66,11 @@
         </div>
 
         <div id="formFooter" class="app-text-recover-password">
-          <a class="underlineHover" [routerLink]="['/reset-password']">{{
-            'login.resetPassword' | translate
-          }}</a>
+          <a
+            class="underlineHover mainColorBlue"
+            [routerLink]="['/reset-password']"
+            >{{ 'login.resetPassword' | translate }}</a
+          >
         </div>
       </div>
     </div>
