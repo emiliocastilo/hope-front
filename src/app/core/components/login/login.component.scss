@@ -23,6 +23,8 @@
   .app-text-recover-password {
     text-align: end;
     color: $app-color-blue-main;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
   }
 }
 
@@ -30,6 +32,10 @@
   &:hover {
     color: $app-color-black;
   }
+}
+
+.mainColorBlue {
+  color: $app-color-blue-main;
 }
 
 .invalid-feedback {
