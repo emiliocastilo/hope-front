@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
   public modules: Array<HomeDashboardModule>;
   public selectedSection: SideBarItemModel;
   public crumbs: SideBarItemModel[];
+  public isCollapsed: boolean;
 
   constructor(
     public _router: Router,
@@ -91,24 +92,16 @@ export class AppComponent implements OnInit {
     this.menu = JSON.parse(localStorage.getItem('menu'))
       ? JSON.parse(localStorage.getItem('menu'))
       : menu.children;
-    // if( !this.showOnlyMainContainer ) {
-    //   this._sideBar.getSideBar().subscribe((response) => {
-    //     if(response.children) {
-    //       this.menu = response.children
-    //       localStorage.setItem(
-    //         'menu',
-    //         JSON.stringify(this.menu)
-    //       );
-    //     }
-    //   });
-    // }
+  }
+
+  onCollapse(event) {
+    this.isCollapsed = event;
   }
 
   private generateCrumbs(url: string) {
     const currenSelected = new SectionActionBuilder(this.menu).getSelectedByUrl(
       url
     );
-    console.log(currenSelected);
     if (this.selectedSection && currenSelected) {
       if (this.selectedSection.id !== currenSelected.id) {
         this.selectedSection = currenSelected;

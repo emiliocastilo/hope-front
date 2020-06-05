@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 import { LoginService } from '../../services/login/login.service';
@@ -12,6 +12,7 @@ export class SideBarComponent implements OnInit {
   @Input() menu: SideBarItemModel;
   @Input() selected: SideBarItemModel;
   @Input() currentMenuId: number;
+  @Output() collapse: EventEmitter<boolean> = new EventEmitter();
   name: string;
   rol: string;
 
@@ -40,6 +41,7 @@ export class SideBarComponent implements OnInit {
 
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;
+    this.collapse.emit(this.collapsed);
   }
 
   logout(): void {
