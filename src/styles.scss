@@ -14,7 +14,7 @@ body {
 
 /* EXTENSION FOR FONT AWESOME */
 .cfa-red {
-  color: $app-color-red;
+  color: $app-color-red-main;
 }
 
 .cfa-blue {
@@ -81,7 +81,7 @@ body {
     }
 
     .remove {
-      color: $app-color-red;
+      color: $app-color-red-main;
     }
   }
 }
@@ -140,4 +140,9 @@ button,
 [type='reset'],
 [type='submit'] {
   -webkit-appearance: none;
+}
+
+hr {
+  background-color: $app-color-blue-border;
+  border-color: $app-color-blue-border;
 }

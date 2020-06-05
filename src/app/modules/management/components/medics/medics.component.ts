@@ -242,6 +242,10 @@ export class MedicsComponent implements OnInit {
     this.refreshData(`&sort=${event.column},${event.direction}`);
   }
 
+  public itemsPerPage(number: number) {
+    this.refreshData(`&size=${number}`);
+  }
+
   private refreshData(query: string): void {
     this._medicService.getAll(query).subscribe((data) => {
       this.medics = data.content;

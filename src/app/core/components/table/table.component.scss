@@ -1,7 +1,7 @@
 @import '~src/assets/styles/variables.scss';
 
 .master-table {
-  font-size: 12px;
+  font-size: 0.75rem;
   word-break: break-all;
 
   th {
@@ -21,11 +21,70 @@
     color: $app-color-white;
   }
 
-  .master-table-data-row {
-    border-bottom: 1px solid $app-color-gray-medium;
+  thead {
+    font-size: 0.75rem;
 
-    &:hover {
-      background-color: $app-color-gray-light;
+    tr {
+      th {
+        border-bottom: 2px solid $app-color-blue-border;
+        border-top: 1px solid $app-color-blue-border;
+
+        .table-head_icon-box {
+          width: 9px;
+          height: 9px;
+          margin-left: 0.4rem;
+          color: $app-color-blue-border;
+
+          .table-head_icon-box_icon-active {
+            color: $app-color-blue-main;
+          }
+        }
+      }
+    }
+  }
+
+  tbody {
+    color: $app-color-text-input;
+    font-size: 0.87rem;
+
+    tr {
+      height: 4rem;
+      border-bottom: 1px solid $app-color-blue-border;
+
+      &:nth-child(odd)td:first-child {
+        background-color: $app-color-blue-lighter;
+      }
+
+      td {
+        vertical-align: middle;
+        padding-left: 1rem;
+        border-top: 1px solid $app-color-blue-border;
+
+        .table-body_row_actions {
+          display: flex;
+
+          .table-body_row_actions-container {
+            align-items: center;
+            background-color: $app-color-blue-main;
+            border-radius: 100%;
+            color: $app-color-white;
+            display: flex;
+            height: 2rem;
+            justify-content: center;
+            margin-right: 1.2rem;
+            text-decoration: none;
+            width: 2rem;
+
+            &.delete {
+              background-color: $app-color-red-main;
+            }
+
+            i {
+              margin: 0;
+            }
+          }
+        }
+      }
     }
   }
 

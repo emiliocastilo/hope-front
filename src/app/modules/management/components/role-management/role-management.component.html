@@ -1,5 +1,5 @@
 <div class="row m-0 p-0">
-  <section class="col-md-12 col-lg-12 patients-container">
+  <section class="col-md-12 col-lg-12 p-0 patients-container">
     <section class="patients-container">
       <section class="container-fluid mt-4">
         <div class="row">
@@ -8,7 +8,7 @@
           </div>
         </div>
       </section>
-      <section class="container-fluid mt-4">
+      <section class="mt-4">
         <app-button
           type="button"
           icono="fa fa-plus"
@@ -17,7 +17,16 @@
           (click)="newRole()"
         ></app-button>
       </section>
-      <section class="container-fluid mt-4">
+
+      <div class="mt-4">
+        <app-results-per-page
+          (itemsPerPage)="itemsPerPage($event)"
+          [paginationData]="paginationData"
+        >
+        </app-results-per-page>
+      </div>
+
+      <section class="mt-4">
         <app-table
           [columnsHeader]="columnsHeader"
           [columnsData]="roles"

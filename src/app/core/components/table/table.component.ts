@@ -33,11 +33,14 @@ export class TableComponent implements OnInit {
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
+  public clickedHeader: string;
+
   constructor(public _translate: TranslateService) {}
 
   ngOnInit(): void {}
 
   emitOnSort({ column, direction }: SortEvent) {
+    this.clickedHeader = `${column}${direction}`;
     this.sort.emit({ column, direction });
   }
 

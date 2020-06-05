@@ -106,6 +106,10 @@ export class PatientsComponent implements OnInit {
     this.refreshData(`&sort=${event.column},${event.direction}`);
   }
 
+  public itemsPerPage(number: number) {
+    this.refreshData(`&size=${number}`);
+  }
+
   public savePatient(): void {
     this.isEditing = false;
     this.selectedItem = null;

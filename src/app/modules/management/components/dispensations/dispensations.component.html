@@ -1,6 +1,6 @@
 <div class="row m-0 p-0">
-  <section class="col-md-12 col-lg-12">
-    <div class="container-fluid mt-4">
+  <section class="col-md-12 col-lg-12 p-0">
+    <div class="mt-4">
       <app-button
         *ngIf="!showDetails"
         type="button"
@@ -20,7 +20,16 @@
       >
       </app-button>
     </div>
-    <section class="container-fluid mt-4">
+
+    <div class="mt-4" *ngIf="!showDetails">
+      <app-results-per-page
+        (itemsPerPage)="itemsPerPage($event)"
+        [paginationData]="paginationData"
+      >
+      </app-results-per-page>
+    </div>
+
+    <section class="mt-4">
       <div *ngIf="!showDetails">
         <app-table
           [columnsHeader]="columnHeaders"
@@ -34,11 +43,19 @@
         </app-table>
       </div>
 
-      <div *ngIf="showDetails">
+      <div class="mt-4" *ngIf="showDetails">
+        <app-results-per-page
+          (itemsPerPage)="itemsPerPageDetail($event)"
+          [paginationData]="paginationData"
+        >
+        </app-results-per-page>
+      </div>
+
+      <div class="mt-4" *ngIf="showDetails">
         <app-table
           [columnsHeader]="dispensationDetailHeaders"
           [columnsData]="detailDispensations"
-          (sort)="onSort($event)"
+          (sort)="onSortDetail($event)"
         >
         </app-table>
       </div>

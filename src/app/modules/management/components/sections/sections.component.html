@@ -1,8 +1,8 @@
 <div class="row m-0 p-0">
-  <section class="col-md-12 col-lg-12 patients-container">
+  <section class="col-md-12 col-lg-12 p-0 patients-container">
     <section class="patients-container">
       <p class="legend">{{ 'sections.legend.actions' | translate }}</p>
-      <section class="container-fluid mt-4">
+      <section class="mt-4">
         <app-button
           type="button"
           icono="fa fa-plus"
@@ -11,7 +11,7 @@
           (click)="saveSection()"
         ></app-button>
       </section>
-      <section class="container-fluid mt-4">
+      <section class="mt-4">
         <tree-root #tree [nodes]="sections" [options]="options">
           <ng-template let-node #treeNodeTemplate>
             <div
@@ -23,13 +23,13 @@
             <context-menu #ctxMenu>
               <ng-template contextMenuItem (execute)="saveSection(node.data)"
                 ><div>
-                  <i class="fa fa-plus"></i
+                  <i class="fa fa-plus" aria-hidden="true"></i
                   ><span> {{ 'btn.new' | translate }}</span>
                 </div></ng-template
               >
               <ng-template contextMenuItem (execute)="editSection(node.data)"
                 ><div class="edit">
-                  <i class="fa fa-edit"></i
+                  <i class="fa fa-edit" aria-hidden="true"></i
                   ><span> {{ 'btn.edit' | translate }}</span>
                 </div></ng-template
               >
@@ -37,7 +37,7 @@
                 contextMenuItem
                 (execute)="showConfirmRemove(node.data)"
                 ><div class="remove">
-                  <i class="fa fa-trash"></i
+                  <i class="fa fa-trash" aria-hidden="true"></i
                   ><span> {{ 'btn.delete' | translate }}</span>
                 </div></ng-template
               >
