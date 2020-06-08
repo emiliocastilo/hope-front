@@ -103,5 +103,7 @@
   "backToChart": "Go Back to chart",
   "results": "Results",
   "showRegisterParams": "Show registers from :start to :end of :total registers",
-  "mainDaignosis": "Diagnóstico principal"
+  "mainDaignosis": "Diagnóstico principal",
+  "requiredLegendText": "Required fields"
+
 }
