@@ -29,10 +29,16 @@ export class SideBarMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.icons = ['cogs', 'dashboard', 'calendar-o', 'bell-o', 'user-o'];
+    this.icons = ['settings', 'bar-chart-2', 'calendar', 'bell', 'users'];
     if (!this.level) {
       this.level = this.LEVEL_ONE;
     }
+  }
+
+  goUrl(link: string) {
+    event.preventDefault();
+    const url = link.split('hopes')[1];
+    this._router.navigate([url]);
   }
 
   public toggleColapseMenu(menu: SideBarItemModel): void {
