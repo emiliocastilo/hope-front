@@ -1,12 +1,12 @@
 @import '~src/assets/styles/variables.scss';
 
-
 .box-data-section {
   display: flex;
   margin-top: 1.5rem;
-  font-family: 'Raleway', regular;
+  font-family: 'Raleway', sans-serif;
   padding-left: 0;
 }
+
 .back-button {
   min-width: 67px;
   min-height: 66px;
@@ -16,6 +16,7 @@
   background: $app-color-blue-very-light;
   margin-right: 1.5rem;
   cursor: pointer;
+
   &:hover {
     background: $app-color-blue-lighter;
   }
@@ -31,15 +32,17 @@
 .dataCell {
   margin-right: 0.5rem;
   margin-left: 0.5rem;
+
   .header {
     font-size: 0.8rem;
-    color: #29A9E0;
+    color: $app-color-blue-main;
     text-transform: uppercase;
     margin-bottom: -0.1rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
+
   .data {
     margin-top: -0.1rem;
     text-overflow: ellipsis;
