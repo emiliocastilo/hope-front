@@ -28,8 +28,7 @@ export class BoxDataComponent implements OnInit {
 
   public parsedata(object: PatientModel, key: string): string {
     const customFields = {
-      fullName: this.calculateFullName(object),
-      age: this.calculateAge(object),
+      name: this.calculateFullName(object),
       genderCode: this.showGender(object),
     };
 
@@ -71,5 +70,9 @@ export class BoxDataComponent implements OnInit {
     }
 
     return text;
+  }
+
+  public back() {
+    window.history.back();
   }
 }
