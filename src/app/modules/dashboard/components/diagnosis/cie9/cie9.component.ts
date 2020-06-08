@@ -27,19 +27,8 @@ export class Cie9Component implements OnInit {
   constructor(private charts: GraphsService) {}
 
   ngOnInit(): void {
-    this.getMenu();
     this.getData();
     this.paginationData = { size: 10 };
-  }
-
-  getMenu() {
-    const rootMenu = JSON.parse(localStorage.getItem('menu'));
-    this.menu = rootMenu.filter((item) => item.url.endsWith('dashboard'));
-    if (this.menu.length) {
-      this.modules = rootMenu.find((item) =>
-        item.url.endsWith('dashboard')
-      ).children;
-    }
   }
 
   getData() {

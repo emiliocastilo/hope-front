@@ -1,5 +1,5 @@
 <div class="row m-0 p-0">
-  <section class="col-md-8 col-lg-9 gallery-container">
+  <section class="col-md-6 col-lg-12 gallery-container">
     <div>{{ 'gallery' | translate }}</div>
     <hr />
     <div class="photo-button">
@@ -10,8 +10,12 @@
 
     <section class="photos-container">
       <div class="row" *ngIf="photos">
-        <div class="col-3 photo" *ngFor="let photo of photos">
+        <div
+          class="col-sm-6 col-md-6 col-lg-4 photo"
+          *ngFor="let photo of photos"
+        >
           <img [src]="photo.photoBytes" height="90%" />
+          {{ photo.name }}
           <div class="buttons-photo">
             <a (click)="showModalEdit(photo)"
               ><i class="mr-2 fa fa-pencil cfa-blue"></i

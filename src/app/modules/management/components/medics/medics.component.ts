@@ -57,15 +57,6 @@ export class MedicsComponent implements OnInit {
   private itemsPerPage: number;
 
   ngOnInit() {
-    // Carga menú lateral
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/management')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/management/medics')
-    );
-    // fin carga menú lateral
-
     this.services = this._activatedRoute.snapshot.data.services;
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.medics = this._activatedRoute.snapshot.data.medics.content;

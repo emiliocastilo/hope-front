@@ -53,15 +53,6 @@ export class DashboardPatientsComponent implements OnInit {
   constructor(private _activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Carga menú lateral
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/pathology/patients')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/pathology/patients/dashboard')
-    );
-    // fin carga menú lateral
-
     this.patients = this._activatedRoute.snapshot.data.patients.content;
 
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));

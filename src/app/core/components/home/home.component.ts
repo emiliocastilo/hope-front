@@ -12,5 +12,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private _sideBar: SideBarService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.modules = JSON.parse(localStorage.getItem('menu'));
+  }
 }
