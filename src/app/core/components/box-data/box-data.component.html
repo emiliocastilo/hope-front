@@ -1,17 +1,30 @@
 <!-- <div class="row m-0 p-0"> -->
-  <section class="col-md-12 col-lg-12 box-data-section">
-
-    <div class="col-md-1 back-button" (click)="back()">
-    </div>
-    <div class="col-md-11 data-box"
+<section class="col-md-12 col-lg-12 box-data-section">
+  <div class="col-md-1 back-button" (click)="back()">
+    <i-feather name="arrow-left" class="feather-icon"></i-feather>
+  </div>
+  <div
+    class="col-md-11 data-box"
     [ngbTooltip]="parserDataToShowInTooltip()"
-    placement="bottom">
-      <div *ngFor="let key of keysToShow" class="dataCell">
-        <div class="header">
-          {{ showKey(key) | translate }}
-        </div>
-        <div class="data">{{ parsedata(currentData, key) | translate }}</div>
+    placement="bottom"
+  >
+    <div *ngFor="let key of keysToShow" class="dataCell">
+      <div class="header">
+        {{ showKey(key) | translate }}
+      </div>
+      <div class="data" *ngIf="key !== 'genderCode'">
+        {{ parsedata(currentData, key) | translate }}
+      </div>
+      <div class="data" *ngIf="key === 'genderCode'">
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-mars': currentData.genderCode === 'M',
+            'fa-venus': currentData.genderCode === 'F'
+          }"
+        ></i>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 <!-- </div> -->

@@ -1,7 +1,8 @@
 <button *ngIf="!readOnly" attr.type="{{ type }}" class="btn {{ clasesBtn }}">
   <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-  <span *ngIf="!loading"
-    ><i class="{{ icono }}"></i> {{ texto | translate }}</span
+  <span *ngIf="!loading">
+    <i-feather name="{{ icono }}"></i-feather>
+    {{ texto | translate }}</span
   >
 </button>
 <button
@@ -10,5 +11,5 @@
   class="btn {{ clasesBtn }}"
   disabled
 >
-  <i class="{{ icono }}"></i> {{ texto | translate }}
+  <i-feather name="{{ icono }}"></i-feather> {{ texto | translate }}
 </button>
