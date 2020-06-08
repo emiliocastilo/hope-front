@@ -44,15 +44,6 @@ export class PatientsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Carga menú lateral
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/management')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/management/patients')
-    );
-    // fin carga menú lateral
-
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;

@@ -10,32 +10,32 @@
         [ngClass]="{ active: selected ? menuOption.id === selected.id : null }"
       >
         <span *ngIf="level < 2" class="icon">
-          <i class="fa fa-{{ icons[i] }}" aria-hidden="true"></i>
+          <i-feather name="{{ icons[i] }}" class="feather-thin"></i-feather>
         </span>
         <a
           [ngClass]="{ 'nav-link': !collapsed, 'nav-link-hidden': collapsed }"
-          [href]="menuOption.url"
+          (click)="goUrl(menuOption.url)"
         >
           {{ menuOption.title }}</a
         >
         <a
-          class="icon"
+          [ngClass]="{ icon: !collapsed, 'icon-hidden': collapsed }"
           (click)="toggleColapseMenu(menuOption)"
           *ngIf="menuOption.children.length"
         >
-          <i
+          <i-feather
             *ngIf="!menuOption.collapsed"
-            class="fa fa-chevron-down"
-            aria-hidden="true"
-          ></i>
-          <i
+            name="chevron-down"
+            class="feather-thin"
+          ></i-feather>
+          <i-feather
             *ngIf="menuOption.collapsed"
-            class="fa fa-chevron-up"
-            aria-hidden="true"
-          ></i>
+            name="chevron-up"
+            class="feather-thin"
+          ></i-feather>
         </a>
       </span>
-      <p *ngIf="menuOption.collapsed" class="m-0 p-0">
+      <p *ngIf="!collapsed && menuOption.collapsed" class="m-0 p-0">
         <side-bar-menu
           [level]="level + LEVEL_ONE"
           [menu]="menuOption.children"

@@ -2,6 +2,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 import { LoginService } from '../../services/login/login.service';
+import { ConfirmModalComponent } from '../modals/confirm-modal/confirm-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'side-bar',
@@ -9,9 +11,10 @@ import { LoginService } from '../../services/login/login.service';
   styleUrls: ['./side-bar.component.scss'],
 })
 export class SideBarComponent implements OnInit {
-  @Input() menu: SideBarItemModel;
+  @Input() menu: Array<SideBarItemModel>;
   @Input() selected: SideBarItemModel;
   @Input() currentMenuId: number;
+  @Input() level: number;
   @Output() collapse: EventEmitter<boolean> = new EventEmitter();
   name: string;
   rol: string;
@@ -20,6 +23,7 @@ export class SideBarComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private _modalService: NgbModal,
     private loginService: LoginService
   ) {}
 
@@ -45,6 +49,17 @@ export class SideBarComponent implements OnInit {
   }
 
   logout(): void {
-    this.loginService.logout();
+    const modalRef = this._modalService.open(ConfirmModalComponent);
+
+    modalRef.componentInstance.title = 'Salir';
+    modalRef.componentInstance.messageModal =
+      '¿Estas seguro de que quieres salir?';
+    modalRef.componentInstance.cancel.subscribe((event) => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.accept.subscribe((event) => {
+      modalRef.close();
+      this.loginService.logout();
+    });
   }
 }

@@ -15,13 +15,5 @@ export class DashboardComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    const rootMenu = JSON.parse(localStorage.getItem('menu'));
-    this.menu = rootMenu.filter((item) => item.url.endsWith('dashboard'));
-    if (this.menu.length) {
-      this.modules = rootMenu.find((item) =>
-        item.url.endsWith('dashboard')
-      ).children;
-    }
-  }
+  ngOnInit(): void {}
 }

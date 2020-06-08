@@ -13,17 +13,10 @@ export class HomeComponent implements OnInit {
   constructor(private _sideBar: SideBarService) {}
 
   ngOnInit(): void {
-    this.getMenu();
-  }
-
-  private getMenu(): void {
     this._sideBar.getSideBar().subscribe((response) => {
       if (response.children) {
         this.modules = response.children;
-        localStorage.setItem('menu', JSON.stringify(this.modules));
       }
     });
-
-    // this.modules = JSON.parse(localStorage.getItem('menu'));
   }
 }

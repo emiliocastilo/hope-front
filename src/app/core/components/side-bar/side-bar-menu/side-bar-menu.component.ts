@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class SideBarMenuComponent implements OnInit {
   public LEVEL_ONE = 1;
+  public ICONS = ['settings', 'bar-chart-2', 'calendar', 'bell', 'users'];
 
   @Input() menu: Array<SideBarItemModel>;
   @Input() selected: SideBarItemModel;
@@ -29,10 +30,16 @@ export class SideBarMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.icons = ['cogs', 'dashboard', 'calendar-o', 'bell-o', 'user-o'];
+    this.icons = this.ICONS;
     if (!this.level) {
       this.level = this.LEVEL_ONE;
     }
+  }
+
+  goUrl(link: string) {
+    event.preventDefault();
+    const url = link.split('hopes')[1];
+    this._router.navigate([url]);
   }
 
   public toggleColapseMenu(menu: SideBarItemModel): void {
