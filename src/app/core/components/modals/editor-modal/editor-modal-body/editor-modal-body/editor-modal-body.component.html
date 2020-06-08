@@ -127,4 +127,7 @@
       </section>
     </ng-container>
   </form>
+  <label *ngIf="showRequiredLegend" class="requiredLegend">
+    {{ 'requiredLegendText' | translate }}
+  </label>
 </div>
