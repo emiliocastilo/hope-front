@@ -115,5 +115,6 @@
   "backToChart": "Regresar a la gráfica",
   "results": "Resultados",
   "showRegisterParams": "Mostrar registros del {{start}} al {{end}} de un total de {{total}} registros",
-  "mainDiagnosis": "Main diagnosis"
+  "mainDiagnosis": "Main diagnosis",
+  "requiredLegendText": "Campos obligatorios"
 }
