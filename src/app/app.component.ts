@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
         this.showOnlyMainContainer = this.show(url);
 
         if (url) {
-          this.getMenu();
+          this.getMenu(url);
 
           if (!this.showOnlyMainContainer && this.menu) {
             this.generateCrumbs(url);
@@ -85,13 +85,15 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private getMenu(): void {
+  private getMenu(url): void {
     new StorageService().changes.subscribe((change) => {
       console.log(change);
     });
-    this.menu = JSON.parse(localStorage.getItem('menu'))
-      ? JSON.parse(localStorage.getItem('menu'))
-      : menu.children;
+
+    this.menu =
+      url !== '/pathology/patients/dashboard'
+        ? JSON.parse(localStorage.getItem('mainMenu'))
+        : JSON.parse(localStorage.getItem('patientMenu'));
   }
 
   onCollapse(event) {

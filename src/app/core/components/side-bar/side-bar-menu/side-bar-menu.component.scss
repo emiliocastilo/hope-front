@@ -7,6 +7,11 @@
     cursor: pointer;
     display: flex;
     justify-content: center;
+
+    .feather-thin {
+      stroke-width: 0.5px;
+      color: white;
+    }
   }
 
   .nav-link {
@@ -14,6 +19,7 @@
     min-height: 3.75rem;
     display: flex;
     align-items: center;
+    cursor: pointer;
     padding: 0 0.2rem;
     font-weight: 100;
   }
