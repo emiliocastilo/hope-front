@@ -22,6 +22,7 @@ import { CoreModule } from './core/core.module';
 import { InterceptorService } from './core/services/interceptor/interceptor.service';
 import { LoginService } from './core/services/login/login.service';
 import { DatePipe } from '@angular/common';
+import { IconsModule } from './icons/icons.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -33,6 +34,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
+    IconsModule,
     RouterModule,
     TranslateModule.forRoot({
       loader: {

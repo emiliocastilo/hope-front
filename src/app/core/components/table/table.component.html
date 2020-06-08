@@ -1,6 +1,5 @@
 <div class="master-table">
   <table class="table table-striped">
-    <caption></caption>
     <thead>
       <tr>
         <th
@@ -50,7 +49,10 @@
                 delete: action.name == 'delete'
               }"
             >
-              <i class="{{ action.icon }}" aria-hidden="true"></i>
+              <i-feather
+                name="{{ action.icon }}"
+                class="feather-icon"
+              ></i-feather>
             </a>
           </div>
         </td>
