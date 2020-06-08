@@ -146,7 +146,7 @@ export class EditorModalBodyComponent implements OnInit {
 
       if (field.validator) {
         if (field.validator({} as any)) {
-          if (field.validator({} as any).required){
+          if (field.validator({} as any).required) {
             this.showRequiredLegend = true;
           }
         }
@@ -154,5 +154,3 @@ export class EditorModalBodyComponent implements OnInit {
     });
   }
 }
-
-
