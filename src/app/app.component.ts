@@ -12,7 +12,6 @@ import { SideBarItemModel } from './core/models/side-bar/side-bar-item.model';
 import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
 
 import { StorageService } from 'src/app/core/services/localstorage/storage.service';
-import menu from 'src/app/core/mocks/menu';
 
 @Component({
   selector: 'body',
@@ -29,6 +28,7 @@ export class AppComponent implements OnInit {
   public selectedSection: SideBarItemModel;
   public crumbs: SideBarItemModel[];
   public isCollapsed: boolean;
+  public level: number;
 
   constructor(
     public _router: Router,
@@ -66,11 +66,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  logout() {
-    this._loginService.logout();
-    this._router.navigate(['/login']);
-  }
-
   public show(url: string): boolean {
     const arrayNoShow = ['/login', '/select-role'];
 
@@ -85,15 +80,32 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private getMenu(url): void {
-    new StorageService().changes.subscribe((change) => {
-      console.log(change);
-    });
+  private async getMenu(url: string) {
+    if (!['/login', '/select-role'].includes(url)) {
+      this._sideBar.getSideBar().subscribe((response) => {
+        if (response.children) {
+          this.parseMenu(response.children, url);
+        }
+      });
+    }
+  }
 
-    this.menu =
-      url !== '/pathology/patients/dashboard'
-        ? JSON.parse(localStorage.getItem('mainMenu'))
-        : JSON.parse(localStorage.getItem('patientMenu'));
+  parseMenu(menu: any, url: string) {
+    const mainMenu = menu.map((entry) => {
+      if (entry.title === 'Paciente') {
+        localStorage.setItem('patientMenu', JSON.stringify(entry.children));
+        entry.children = [];
+      }
+      return entry;
+    });
+    localStorage.setItem('mainMenu', JSON.stringify(mainMenu));
+    if (!url.includes('/pathology/patients/')) {
+      this.menu = JSON.parse(localStorage.getItem('mainMenu'));
+      this.level = 1;
+    } else {
+      this.menu = JSON.parse(localStorage.getItem('patientMenu'));
+      this.level = 2;
+    }
   }
 
   onCollapse(event) {
