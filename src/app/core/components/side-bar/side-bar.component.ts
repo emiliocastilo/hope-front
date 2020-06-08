@@ -9,12 +9,13 @@ import { LoginService } from '../../services/login/login.service';
   styleUrls: ['./side-bar.component.scss'],
 })
 export class SideBarComponent implements OnInit {
-  @Input() menu: SideBarItemModel;
+  @Input() menu: Array<SideBarItemModel>;
   @Input() selected: SideBarItemModel;
   @Input() currentMenuId: number;
   @Output() collapse: EventEmitter<boolean> = new EventEmitter();
   name: string;
   rol: string;
+  level: number;
 
   collapsed = false;
 
