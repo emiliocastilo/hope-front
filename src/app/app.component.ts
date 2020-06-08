@@ -57,10 +57,6 @@ export class AppComponent implements OnInit {
 
         if (url) {
           this.getMenu(url);
-
-          if (!this.showOnlyMainContainer && this.menu) {
-            this.generateCrumbs(url);
-          }
         }
       }
     });
@@ -98,14 +94,15 @@ export class AppComponent implements OnInit {
       }
       return entry;
     });
-    localStorage.setItem('mainMenu', JSON.stringify(mainMenu));
+    localStorage.setItem('menu', JSON.stringify(mainMenu));
     if (!url.includes('/pathology/patients/')) {
-      this.menu = JSON.parse(localStorage.getItem('mainMenu'));
+      this.menu = JSON.parse(localStorage.getItem('menu'));
       this.level = 1;
     } else {
       this.menu = JSON.parse(localStorage.getItem('patientMenu'));
       this.level = 2;
     }
+    this.generateCrumbs(url);
   }
 
   onCollapse(event) {

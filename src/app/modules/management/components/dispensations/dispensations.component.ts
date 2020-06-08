@@ -61,13 +61,6 @@ export class DispensationsComponent implements OnInit {
       endPeriod: ['', Validators.required],
       fileDispensation: [null, Validators.required],
     });
-
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/management')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/management/dispensations')
-    );
   }
 
   public selectPage(page: number): void {

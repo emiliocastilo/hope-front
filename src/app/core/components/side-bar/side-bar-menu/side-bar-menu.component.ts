@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class SideBarMenuComponent implements OnInit {
   public LEVEL_ONE = 1;
+  public ICONS = ['settings', 'bar-chart-2', 'calendar', 'bell', 'users'];
 
   @Input() menu: Array<SideBarItemModel>;
   @Input() selected: SideBarItemModel;
@@ -29,7 +30,7 @@ export class SideBarMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.icons = ['settings', 'bar-chart-2', 'calendar', 'bell', 'users'];
+    this.icons = this.ICONS;
     if (!this.level) {
       this.level = this.LEVEL_ONE;
     }
