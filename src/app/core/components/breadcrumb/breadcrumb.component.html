@@ -1,9 +1,12 @@
 <ul class="breadcrumbs_list">
   <li class="breadcrumbs_list-item" *ngIf="!crumbs">
     <a [attr.href]="homeUrl" (click)="navigate(homeUrl)">
-      <i class="fa fa-home breadcrumbs_list-item_home" aria-hidden="true"></i>
+      <i-feather
+        name="home"
+        class="feather breadcrumbs_list-item_home"
+      ></i-feather>
     </a>
-    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <i-feather name="feather chevron-right" class="chevron-right"></i-feather>
   </li>
 
   <li
@@ -19,13 +22,12 @@
       (click)="navigate(crumb.url)"
       *ngIf="crumb.description === 'Home'"
     >
-      <i
+      <i-feather
         *ngIf="crumb.description === 'Home'"
-        class="fa fa-home breadcrumbs_list-item_home"
-        aria-hidden="true"
-      ></i>
+        name="home"
+        class="feather breadcrumbs_list-item_home"
+      ></i-feather>
     </a>
-
     <a
       [attr.href]="crumb.url"
       (click)="navigate(crumb.url)"
@@ -33,10 +35,10 @@
     >
       {{ crumb.title }}
     </a>
-    <i
+    <i-feather
       *ngIf="i !== crumbs.length - 1"
-      class="fa fa-chevron-right"
-      aria-hidden="true"
-    ></i>
+      name="chevron-right"
+      class="feather chevron-right"
+    ></i-feather>
   </li>
 </ul>

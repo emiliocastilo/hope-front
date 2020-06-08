@@ -53,6 +53,7 @@ import { FormCalculatedComponent } from './components/basics/form-calculated/for
 import { GenderFormatter } from './pipes/gender.pipe';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { ResultsPerPageComponent } from './components/results-per-page/results-per-page.component';
+import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
 import { IconsModule } from '../icons/icons.module';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -85,6 +86,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormCheckboxComponent,
     FormRadioComponent,
     EditorModalComponent,
+    ConfirmModalComponent,
     GenericModalHeaderComponent,
     EditorModalFooterComponent,
     EditorModalBodyComponent,
@@ -145,6 +147,7 @@ export function createTranslateLoader(http: HttpClient) {
     DynamicFormComponent,
     DynamicFieldDirective,
     EditorModalComponent,
+    ConfirmModalComponent,
     FormSwitchComponent,
     FormsComponent,
     SwitchComponent,

@@ -26,7 +26,14 @@ export class DashboardPatientsComponent implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
-  public patientKeysToShow: string[] = ['name', 'nhc', 'healthCard', 'dni', 'phone', 'genderCode'];
+  public patientKeysToShow: string[] = [
+    'name',
+    'nhc',
+    'healthCard',
+    'dni',
+    'phone',
+    'genderCode',
+  ];
   public selectedItem: number;
   public selectedPatient: PatientModel = {
     id: '',

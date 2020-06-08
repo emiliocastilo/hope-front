@@ -23,13 +23,17 @@
       vertical-align: middle;
     }
 
-    i {
+    .feather {
       margin: 0 0 0 1rem;
       vertical-align: middle;
     }
 
     .breadcrumbs_list-item_home {
-      font-size: 2rem;
+      stroke-width: 1px;
+    }
+
+    .chevron-right {
+      color: $app-color-border-blue;
     }
   }
 
