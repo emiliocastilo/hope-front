@@ -74,4 +74,14 @@
       padding-top: 0;
     }
   }
+
+  .requiredLegend {
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    &::before {
+      content: ' * ';
+      color: red;
+      font-size: 1.2rem;
+    }
+  }
 }

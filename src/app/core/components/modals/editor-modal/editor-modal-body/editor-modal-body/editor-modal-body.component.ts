@@ -14,6 +14,7 @@ export class EditorModalBodyComponent implements OnInit {
   @Input() options: any = {};
   @Input() validationLabels: Map<string, string>;
   public formKeys: Array<string> = [];
+  showRequiredLegend: boolean = false;
 
   constructor() {}
 
@@ -21,6 +22,7 @@ export class EditorModalBodyComponent implements OnInit {
     if (this.form) {
       this.formKeys = Object.keys(this.form.controls);
       this.parseDate(this.formKeys);
+      this.checkAnyRequired(this.formKeys);
     }
   }
 
@@ -137,4 +139,20 @@ export class EditorModalBodyComponent implements OnInit {
       : undefined;
     return label ? label : 'form.validate.required';
   }
+
+  public checkAnyRequired(keys: Array<string>) {
+    keys.forEach((key) => {
+      const field = this.form.get(key);
+
+      if (field.validator) {
+        if (field.validator({} as any)) {
+          if (field.validator({} as any).required){
+            this.showRequiredLegend = true;
+          }
+        }
+      }
+    });
+  }
 }
+
+
