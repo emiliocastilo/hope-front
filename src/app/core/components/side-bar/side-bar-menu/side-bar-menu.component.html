@@ -19,7 +19,7 @@
           {{ menuOption.title }}</a
         >
         <a
-          class="icon"
+          [ngClass]="{ icon: !collapsed, 'icon-hidden': collapsed }"
           (click)="toggleColapseMenu(menuOption)"
           *ngIf="menuOption.children.length"
         >
