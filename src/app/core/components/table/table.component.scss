@@ -4,10 +4,6 @@
   font-size: 0.75rem;
   word-break: break-all;
 
-  th {
-    cursor: pointer;
-  }
-
   .col-md-1,
   .col-md-2,
   .col-md-3 {
@@ -107,4 +103,16 @@
   .row.master-table-data-row.activate {
     background-color: $app-color-blue-lighter;
   }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.headerTable {
+  white-space: nowrap;
+}
+
+.dataTable {
+  white-space: nowrap;
 }

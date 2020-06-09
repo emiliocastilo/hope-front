@@ -39,6 +39,7 @@
           [showActionButtons]="true"
           (iconButtonClick)="onIconButtonClick($event)"
           [actions]="dispensationsTableActions"
+          [sortable]="true"
         >
         </app-table>
       </div>
@@ -56,6 +57,7 @@
           [columnsHeader]="dispensationDetailHeaders"
           [columnsData]="detailDispensations"
           (sort)="onSortDetail($event)"
+          [sortable]="true"
         >
         </app-table>
       </div>
