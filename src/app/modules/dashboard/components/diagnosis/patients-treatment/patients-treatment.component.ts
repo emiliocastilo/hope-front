@@ -9,19 +9,15 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-patients-treatment',
   templateUrl: './patients-treatment.component.html',
-  styleUrls: ['./patients-treatment.component.scss']
+  styleUrls: ['./patients-treatment.component.scss'],
 })
 export class PatientsTreatmentComponent implements OnInit {
-
   public showingDetail: boolean = false;
   public dataChart: ChartObjectModel[];
   public dataTable: any[];
   private treatments: any;
   public tableActions: TableActionsModel[] = new TableActionsBuilder().getDetail();
-  public columHeaders: string[] = [
-    'treatmentType',
-    'patients'
-  ];
+  public columHeaders: string[] = ['treatmentType', 'patients'];
   public headersDetailsTable: string[] = [
     'nhc',
     'sip',
@@ -32,21 +28,18 @@ export class PatientsTreatmentComponent implements OnInit {
     'pasi',
     'pasiDate',
     'dlqi',
-    'dlqiDate'
+    'dlqiDate',
   ];
   public currentPage: number = 0;
   public detailsDataTable: any[];
-  public paginationData: PaginationModel = new PaginationModel(0,0,0);
+  public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
   private currentTreatment: any;
   public currentSort: any = {
     column: 'nhc',
-    direction: 'asc' 
-  }
+    direction: 'asc',
+  };
 
-  constructor(
-    private _graphService: GraphsService,
-    private _router: Router
-  ) { }
+  constructor(private _graphService: GraphsService, private _router: Router) {}
 
   ngOnInit(): void {
     this.getTreatments();
@@ -54,43 +47,41 @@ export class PatientsTreatmentComponent implements OnInit {
 
   private getTreatments(): void {
     this._graphService.getTreatments().subscribe(
-      (data)=>{
+      (data) => {
         this.treatments = data;
         this.dataChart = this.parseDataChart(data);
         this.dataTable = this.parseDataTable(data);
       },
-      (error)=>{
+      (error) => {
         console.error(error);
       }
     );
-  } 
+  }
 
   private parseDataChart(data: any): ChartObjectModel[] {
-
     const arrayData = Object.keys(data).map((key) => {
       const object = {
         name: key,
-        value: data[key]
-      }
+        value: data[key],
+      };
       return object;
     });
 
     console.log(arrayData);
 
-    return arrayData
+    return arrayData;
   }
 
   private parseDataTable(data: any): any[] {
-
     const arrayData = Object.keys(data).map((key) => {
       const object = {
         treatmentType: key,
-        patients: data[key]
-      }
+        patients: data[key],
+      };
       return object;
     });
 
-    return arrayData
+    return arrayData;
   }
 
   private parseDataToTableDetails(data: any[]): any[] {
@@ -105,23 +96,23 @@ export class PatientsTreatmentComponent implements OnInit {
         pasi: value.pasi,
         pasiDate: value.pasiDate,
         dlqi: value.dlqi,
-        dlqiDate: value.dlqiDate
+        dlqiDate: value.dlqiDate,
       };
       return object;
-    })
+    });
     return arrayObject;
   }
 
   public onIconButtonClick(event: any): void {
-    if(event.type === 'detail') {
+    if (event.type === 'detail') {
       this.showingDetail = true;
       this.currentTreatment = this.dataTable[event.selectedItem];
-      
+
       const query = `treatmentType=${this.currentTreatment.treatmentType}`;
 
       this.getDetails(query);
-    }else {
-      this.showingDetail = false; 
+    } else {
+      this.showingDetail = false;
     }
   }
 
@@ -149,15 +140,14 @@ export class PatientsTreatmentComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `treatmentType=${this.currentTreatment}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `treatmentType=${this.currentTreatment.treatmentType}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    let query = `treatmentType=${this.currentTreatment}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    let query = `treatmentType=${this.currentTreatment.treatmentType}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
     this.currentSort = event;
     this.getDetails(query);
   }
-
 }

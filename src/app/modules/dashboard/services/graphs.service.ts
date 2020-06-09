@@ -31,10 +31,12 @@ export class GraphsService {
   }
 
   public getTreatments() {
-    return this._httpClient.get('/patients-diagnoses/treatments')
+    return this._httpClient.get('/patients-diagnoses/treatments');
   }
 
   public getTreatmentDetails(query) {
-    return this._httpClient.get(`/patients-diagnoses/treatments/patients?${query}`);
+    return this._httpClient.get(
+      `/patients-diagnoses/treatments/patients?${query}`
+    );
   }
 }
