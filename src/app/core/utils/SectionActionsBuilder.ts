@@ -1,5 +1,3 @@
-import { OnInit } from '@angular/core';
-
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { SectionsService } from 'src/app/modules/management/services/sections/sections.service';
 
@@ -39,8 +37,7 @@ export default class SectionActionBuilder {
   }
 
   public getCrumbs(section: SideBarItemModel): SideBarItemModel[] {
-    const crumbs = this.pushCrumbs(section, []);
-    return crumbs.reverse();
+    return this.pushCrumbs(section, []).reverse();
   }
 
   private pushCrumbs(
