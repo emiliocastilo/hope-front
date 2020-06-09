@@ -129,19 +129,19 @@ export class AppComponent implements OnInit {
   }
 
   private generateCrumbs(url: string) {
-    const currenSelected = new SectionActionBuilder(this.menu).getSelectedByUrl(
-      url
+    this._sideBar.event.subscribe(
+      (res: SideBarItemModel) => (this.selectedSection = res)
     );
-    if (this.selectedSection && currenSelected) {
-      if (this.selectedSection.id !== currenSelected.id) {
-        this.selectedSection = currenSelected;
-        this.getSectionById(this.selectedSection.id);
-      }
-    } else {
+
+    if (!this.selectedSection) {
+      const currenSelected = new SectionActionBuilder(
+        this.menu
+      ).getSelectedByUrl(url);
       this.selectedSection = currenSelected;
-      if (this.selectedSection) {
-        this.getSectionById(this.selectedSection.id);
-      }
+    }
+
+    if (this.selectedSection && this.selectedSection.id) {
+      this.getSectionById(this.selectedSection.id);
     }
   }
 }
