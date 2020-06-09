@@ -198,25 +198,6 @@ export class PatientsIndicationComponent implements OnInit {
     // TODO: make functions to export data.
   }
 
-  public onSort(event: any) {
-    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
-
-    // if (this.itemsPerPage) {
-    //   query = `${query}&size=${this.itemsPerPage}`;
-    // }
-    this.refreshData(query);
-  }
-
-  private refreshData(query: string): void {
-    this._patientsIndicationService
-      .getPatiensDiagnosesByIndications(query)
-      .subscribe((data) => {
-        this.dataTable = data.content;
-        if (this.paginationData.totalPages !== data.totalPages) {
-          this.paginationData = data;
-        }
-      });
-  }
 
   public onSortTableDetail(event: any) {
     let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedDisease}`;
