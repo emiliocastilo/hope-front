@@ -8,12 +8,14 @@ import { DashboardRoutingModule } from 'src/app/modules/dashboard/dashboard-rout
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
 import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
+import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     Cie9Component,
     PatientsIndicationComponent,
+    PatientsTreatmentComponent,
   ],
   imports: [
     NgbModule,

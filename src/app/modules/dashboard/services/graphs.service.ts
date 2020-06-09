@@ -29,4 +29,12 @@ export class GraphsService {
       `/patients-diagnoses/cie9/patients?cie9=${cie9}`
     );
   }
+
+  public getTreatments() {
+    return this._httpClient.get('/patients-diagnoses/treatments')
+  }
+
+  public getTreatmentDetails(query) {
+    return this._httpClient.get(`/patients-diagnoses/treatments/patients?${query}`);
+  }
 }

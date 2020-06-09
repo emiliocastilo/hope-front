@@ -1,0 +1,51 @@
+<div class="row m-0 p-0">
+  <section
+    class="col-md-12 col-lg-12 p-0 management-fluid justify-content-center"
+  >
+    <div class="patients-chart-container">
+      <app-pie-chart
+        [chartTitle]="'patientsByTreatmentType'"
+        [results]="dataChart"
+        [showLabels]="false"
+      ></app-pie-chart>
+
+      <div class="table-container" *ngIf="!showingDetail">
+        <div class="export-buttons">
+          <app-export-buttons></app-export-buttons>
+        </div>
+
+        <app-table
+          [columnsHeader]="columHeaders"
+          [columnsData]="dataTable"
+          (iconButtonClick)="onIconButtonClick($event)"
+          [actions]="tableActions"
+          [showActionButtons]="true"
+        >
+        </app-table>
+      </div>
+
+      <div *ngIf="showingDetail" class="table-container">
+        <app-table
+          [columnsHeader]="headersDetailsTable"
+          [columnsData]="detailsDataTable"
+          [showActionButtons]="true"
+          [actions]="actionsPatient"
+          (iconButtonClick)="onPatientClick($event)"
+          (sort)="onSort($event)"
+        >
+        </app-table>
+        <app-pagination
+          (selectPage)="selectPage($event)"
+          [paginationData]="paginationData"
+        >
+        </app-pagination>
+        <app-button
+          type="button"
+          clasesBtn="btn-primary btn-sm mx-2"
+          texto="backToChart"
+          (click)="onIconButtonClick({ type: 'back' })"
+        ></app-button>
+      </div>
+    </div>
+  </section>
+</div>

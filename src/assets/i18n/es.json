@@ -115,6 +115,17 @@
   "backToChart": "Regresar a la gráfica",
   "results": "Resultados",
   "showRegisterParams": "Mostrar registros del {{start}} al {{end}} de un total de {{total}} registros",
-  "mainDiagnosis": "Main diagnosis",
-  "requiredLegendText": "Campos obligatorios"
+  "mainDiagnosis": "Diagnóstico principal",
+  "requiredLegendText": "Campos obligatorios",
+  "patientsByTreatmentType": "Pacientes por tipo de tratamiento",
+  "treatmentType": "Tipo de tratamiento",
+  "sip": "SIP",
+  "patient": "Paciente",
+  "principalIndication": "Indicación principal",
+  "principalDiagnose": "Diagnóstico principal",
+  "treatment": "Tratamiento",
+  "pasi": "PASI",
+  "pasiDate": "Fecha PASI",
+  "dlqi": "DLQI",
+  "dlqiDate": "Fecha DLQI"
 }
