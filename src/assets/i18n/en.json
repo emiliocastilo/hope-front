@@ -104,6 +104,13 @@
   "results": "Results",
   "showRegisterParams": "Show registers from :start to :end of :total registers",
   "mainDaignosis": "Diagnóstico principal",
-  "requiredLegendText": "Required fields"
+  "requiredLegendText": "Required fields",
+  "principalIndication": "Principal indication",
+  "principalDiagnose": "Principal diagnosis",
+  "treatment": "Treatment",
+  "pasi": "Pasi",
+  "pasiDate": "Fecha Pasi",
+  "dlqi": "Dlqi",
+  "dlqiDate": "Fecha Dlqi"
 
 }
