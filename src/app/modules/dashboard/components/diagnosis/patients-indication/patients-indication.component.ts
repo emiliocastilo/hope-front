@@ -57,14 +57,6 @@ export class PatientsIndicationComponent implements OnInit {
   ngOnInit(): void {
     this.patientsIndications = this._activatedRoute.snapshot.data.patientsIndications;
 
-    const rootMenu = JSON.parse(localStorage.getItem('menu'));
-    this.menu = rootMenu.filter((item) => item.url.endsWith('dashboard'));
-    if (this.menu.length) {
-      this.modules = rootMenu.find((item) =>
-        item.url.endsWith('dashboard')
-      ).children;
-    }
-
     const chartTitle = 'patientsForIndications';
     const view = null;
     const scheme = {

@@ -18,11 +18,15 @@
   }
 
   .form-control {
-    margin: auto 0;
+    margin: auto 1rem;
   }
 
   #button-cancel {
     padding-right: 1.6rem;
     font-size: 1.8rem;
+  }
+
+  .feather-icon {
+    stroke-width: 1px;
   }
 }

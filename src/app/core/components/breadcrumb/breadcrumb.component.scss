@@ -23,17 +23,17 @@
       vertical-align: middle;
     }
 
-    i {
+    .feather {
       margin: 0 0 0 1rem;
       vertical-align: middle;
     }
 
-    .fa-chevron-right {
-      color: $app-color-blue-border;
+    .breadcrumbs_list-item_home {
+      stroke-width: 1px;
     }
 
-    .breadcrumbs_list-item_home {
-      font-size: 2rem;
+    .chevron-right {
+      color: $app-color-border-blue;
     }
   }
 

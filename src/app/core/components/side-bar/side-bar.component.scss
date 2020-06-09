@@ -60,13 +60,21 @@
     }
   }
 
+  .feather-thin {
+    stroke-width: 2px;
+    text-align: center;
+
+    &.user {
+      color: rgb(146, 149, 166);
+      position: relative;
+      left: 0.4rem;
+      top: 0.1rem;
+      width: 20px;
+    }
+  }
+
   .icon {
     color: rgb(146, 149, 166);
-    font-size: 2rem;
-    height: 2rem;
-    margin-right: 1rem;
-    text-align: center;
-    width: 2rem;
 
     &.logout {
       cursor: pointer;
@@ -78,9 +86,21 @@
     }
   }
 
+  .dot {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.7rem;
+    background-color: rgb(89, 89, 89);
+    border-radius: 50%;
+  }
+
   &.collapsed {
     overflow-x: hidden;
     max-width: 4rem;
+
+    .dot {
+      flex-shrink: 0;
+    }
 
     .brand .logo,
     .user-item .user-data,

@@ -75,6 +75,10 @@
         .table-body_row_actions {
           display: flex;
 
+          .feather-icon {
+            width: 1rem !important;
+          }
+
           .table-body_row_actions-container {
             align-items: center;
             background-color: $app-color-blue-main;

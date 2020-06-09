@@ -36,7 +36,6 @@ export class GalleryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadMenu();
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
     this.pathologyId = this.selectedPatient.pathologies[0].id;
     this.modalForm = this._formBuilder.group({
@@ -45,15 +44,6 @@ export class GalleryComponent implements OnInit {
       photo: [null],
     });
     this.getPhotos();
-  }
-
-  loadMenu() {
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/pathology/patients')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/pathology/patients/gallery')
-    );
   }
 
   getPhotos() {

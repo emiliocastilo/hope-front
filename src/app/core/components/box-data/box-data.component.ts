@@ -10,6 +10,7 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
 export class BoxDataComponent implements OnInit {
   @Input() data: any = {};
   @Input() keysToShow: string[] = [];
+  public gender: string;
 
   constructor(public _translate: TranslateService) {}
 
@@ -28,8 +29,7 @@ export class BoxDataComponent implements OnInit {
 
   public parsedata(object: PatientModel, key: string): string {
     const customFields = {
-      fullName: this.calculateFullName(object),
-      age: this.calculateAge(object),
+      name: this.calculateFullName(object),
       genderCode: this.showGender(object),
     };
 
@@ -46,17 +46,9 @@ export class BoxDataComponent implements OnInit {
     return object ? fullName : '';
   }
 
-  private calculateAge(object: PatientModel): number {
-    const today = Date.now();
-    const birthDate = new Date(object.birthDate);
-    const ageDate = new Date(today - birthDate.getTime());
-    const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-    return object.birthDate ? age : null;
-  }
-
   private showGender(object: PatientModel): string {
-    const gender = object.genderCode === 'F' ? 'female' : 'male';
-    return object.genderCode ? gender : '';
+    this.gender = object.genderCode === 'F' ? 'female' : 'male';
+    return object.genderCode ? this.gender : '';
   }
 
   public showKey(key: string): string {
@@ -71,5 +63,9 @@ export class BoxDataComponent implements OnInit {
     }
 
     return text;
+  }
+
+  public back() {
+    window.history.back();
   }
 }
