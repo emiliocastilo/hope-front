@@ -116,5 +116,12 @@
   "results": "Resultados",
   "showRegisterParams": "Mostrar registros del {{start}} al {{end}} de un total de {{total}} registros",
   "mainDiagnosis": "Main diagnosis",
-  "requiredLegendText": "Campos obligatorios"
+  "requiredLegendText": "Campos obligatorios",
+  "principalIndication": "Indicación principal",
+  "principalDiagnose": "Diagnóstico principal",
+  "treatment": "Tratamiento",
+  "pasi": "Pasi",
+  "pasiDate": "Fecha Pasi",
+  "dlqi": "Dlqi",
+  "dlqiDate": "Fecha Dlqi"
 }
