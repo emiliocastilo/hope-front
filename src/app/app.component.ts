@@ -77,12 +77,27 @@ export class AppComponent implements OnInit {
   }
 
   private async getMenu(url: string) {
-    if (!['/login', '/select-role'].includes(url)) {
-      this._sideBar.getSideBar().subscribe((response) => {
-        if (response.children) {
-          this.parseMenu(response.children, url);
-        }
-      });
+    const localMenu: Array<any> = JSON.parse(localStorage.getItem('menu'));
+    const collapsedSection: any = JSON.parse(
+      localStorage.getItem('collapsedSection')
+    );
+    if (collapsedSection) {
+      const index = localMenu.findIndex((e) => e.id === collapsedSection.id);
+      if (index !== -1) {
+        localMenu.splice(index, 1, collapsedSection);
+        localStorage.setItem('menu', JSON.stringify(localMenu));
+      }
+    }
+    if (!localMenu) {
+      if (!['/login', '/select-role'].includes(url)) {
+        this._sideBar.getSideBar().subscribe((response) => {
+          if (response.children) {
+            this.parseMenu(response.children, url);
+          }
+        });
+      }
+    } else {
+      this.fetchLocalMenu(url);
     }
   }
 
@@ -95,6 +110,10 @@ export class AppComponent implements OnInit {
       return entry;
     });
     localStorage.setItem('menu', JSON.stringify(mainMenu));
+    this.fetchLocalMenu(url);
+  }
+
+  fetchLocalMenu(url) {
     if (!url.includes('/pathology/patients/')) {
       this.menu = JSON.parse(localStorage.getItem('menu'));
       this.level = 1;
