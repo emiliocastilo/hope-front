@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
+import { ExcelService } from 'src/app/core/services/excel.service';
+
 @Component({
   selector: 'app-export-buttons',
   templateUrl: './export-buttons.component.html',
@@ -12,11 +14,14 @@ export class ExportButtonsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  exportToPDF() {
+  public exportToPDF() {
     window.print();
   }
 
-  exportToExcel() {
-    console.log('to excel', this.dataToExport);
+  public exportToExcel() {
+    new ExcelService(this._translate).exportAsExcelFile(
+      this.dataToExport,
+      'hopes_chart_table'
+    );
   }
 }

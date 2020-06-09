@@ -39,4 +39,10 @@ export class GraphsService {
       `/patients-diagnoses/treatments/patients?${query}`
     );
   }
+
+  public getTreatmentDetailsExport(query) {
+    return this._httpClient.get(
+      `/patients-diagnoses/treatments/patients-export?${query}`
+    );
+  }
 }

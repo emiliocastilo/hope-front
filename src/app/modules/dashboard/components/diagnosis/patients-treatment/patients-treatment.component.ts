@@ -5,6 +5,7 @@ import { TableActionsModel } from 'src/app/core/models/table/table-actions-model
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { Router } from '@angular/router';
+import { PatientsService } from 'src/app/modules/pathology/patients/services/patients.service';
 
 @Component({
   selector: 'app-patients-treatment',
@@ -16,7 +17,7 @@ export class PatientsTreatmentComponent implements OnInit {
   public dataChart: ChartObjectModel[];
   public dataTable: any[];
   private treatments: any;
-  public tableActions: TableActionsModel[] = new TableActionsBuilder().getDetail();
+  public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
   public columHeaders: string[] = ['treatmentType', 'patients'];
   public headersDetailsTable: string[] = [
     'nhc',
@@ -38,6 +39,8 @@ export class PatientsTreatmentComponent implements OnInit {
     column: 'nhc',
     direction: 'asc',
   };
+  public details: any[] = [];
+  public dataToExport: any[] = [];
 
   constructor(private _graphService: GraphsService, private _router: Router) {}
 
@@ -111,6 +114,7 @@ export class PatientsTreatmentComponent implements OnInit {
       const query = `treatmentType=${this.currentTreatment.treatmentType}`;
 
       this.getDetails(query);
+      this.getDetailsToExport(query);
     } else {
       this.showingDetail = false;
     }
@@ -119,6 +123,7 @@ export class PatientsTreatmentComponent implements OnInit {
   private getDetails(query: string): void {
     this._graphService.getTreatmentDetails(query).subscribe(
       (data: any) => {
+        this.details = data.content;
         this.paginationData = data;
         this.detailsDataTable = this.parseDataToTableDetails(data.content);
       },
@@ -128,12 +133,23 @@ export class PatientsTreatmentComponent implements OnInit {
     );
   }
 
+  private getDetailsToExport(query: string) {
+    this._graphService.getTreatmentDetailsExport(query).subscribe(
+      (data: any) => {
+        this.dataToExport = data;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
   public onPatientClick(event: any) {
     if (event.type === 'detail') {
-      const currentUser = this.detailsDataTable[event.selectedItem];
+      const currentUser = this.details[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
       localStorage.setItem('selectedUser', selectedUser);
-      this._router.navigate(['pathology/patients']);
+      this._router.navigate(['pathology/patients/dashboard']);
     }
   }
 

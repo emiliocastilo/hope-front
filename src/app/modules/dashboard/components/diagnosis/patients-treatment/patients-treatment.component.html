@@ -10,26 +10,28 @@
       ></app-pie-chart>
 
       <div class="table-container" *ngIf="!showingDetail">
-        <div class="export-buttons">
-          <app-export-buttons></app-export-buttons>
-        </div>
-
         <app-table
           [columnsHeader]="columHeaders"
           [columnsData]="dataTable"
           (iconButtonClick)="onIconButtonClick($event)"
-          [actions]="tableActions"
+          [actions]="actions"
           [showActionButtons]="true"
         >
         </app-table>
       </div>
 
       <div *ngIf="showingDetail" class="table-container">
+        <div class="export-buttons">
+          <app-export-buttons
+            [dataToExport]="dataToExport"
+          ></app-export-buttons>
+        </div>
+
         <app-table
           [columnsHeader]="headersDetailsTable"
           [columnsData]="detailsDataTable"
           [showActionButtons]="true"
-          [actions]="actionsPatient"
+          [actions]="actions"
           (iconButtonClick)="onPatientClick($event)"
           (sort)="onSort($event)"
         >
@@ -42,8 +44,9 @@
         <app-button
           type="button"
           clasesBtn="btn-primary btn-sm mx-2"
-          texto="backToChart"
+          texto="btn.back"
           (click)="onIconButtonClick({ type: 'back' })"
+          icono="arrow-left"
         ></app-button>
       </div>
     </div>
