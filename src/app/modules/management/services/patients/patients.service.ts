@@ -14,8 +14,12 @@ export class PatientsService {
     return this._httpClient.get(`/patients?pth=1${query}`);
   }
 
+  public getPatientsByIdAndPathologies(id: string, pathologies: number[]): Observable<any> {
+    return this._httpClient.get(`/patients/searches?pth=${pathologies}&search=${id}`);
+  }
+
   public getPatientsById(id: string): Observable<any> {
-    return this._httpClient.get(`/patients/searches?pth=1&search=${id}`);
+    return this._httpClient.get(`/patients/${id}`);
   }
 
   public createPatient(request: PatientModel): Observable<any> {

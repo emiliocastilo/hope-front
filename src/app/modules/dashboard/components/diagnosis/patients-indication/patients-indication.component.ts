@@ -195,7 +195,7 @@ export class PatientsIndicationComponent implements OnInit {
   private refreshDetailTable(query: string): void {
     this._patientsIndicationService.getDetails(query).subscribe(
       (data) => {
-        this.detailsDataTable = data;
+        this.detailsDataTable = data.content;
         this.paginationData = data;
       },
       (error) => {
