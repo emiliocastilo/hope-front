@@ -20,11 +20,11 @@ export class GraphsService {
     );
   }
 
-  public getChartTableCIE9() {
+  public getChartTableCIE9(): Observable<any> {
     return this._httpClient.get('/patients-diagnoses/cie9');
   }
 
-  public getPatientsDetailCIE9(cie9: string) {
+  public getPatientsDetailCIE9(cie9: string): Observable<any> {
     return this._httpClient.get(
       `/patients-diagnoses/cie9/patients?cie9=${cie9}`
     );
