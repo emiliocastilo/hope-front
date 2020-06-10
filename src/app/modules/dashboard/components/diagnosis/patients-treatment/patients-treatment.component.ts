@@ -5,7 +5,6 @@ import { TableActionsModel } from 'src/app/core/models/table/table-actions-model
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { Router } from '@angular/router';
-import { PatientsService } from 'src/app/modules/pathology/patients/services/patients.service';
 
 @Component({
   selector: 'app-patients-treatment',
