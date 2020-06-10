@@ -39,10 +39,7 @@ export class Cie9Component implements OnInit {
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
   public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
-  constructor(
-    private charts: GraphsService,
-    private _router: Router,
-    ) {}
+  constructor(private charts: GraphsService, private _router: Router) {}
 
   ngOnInit(): void {
     this.getData();
