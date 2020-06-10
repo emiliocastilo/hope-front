@@ -34,15 +34,19 @@ export class GraphsService {
     return this._httpClient.get('/patients-diagnoses/treatments');
   }
 
-  public getTreatmentDetails(query) {
+  public getTreatmentDetails(query: string) {
     return this._httpClient.get(
       `/patients-diagnoses/treatments/patients?${query}`
     );
   }
 
-  public getTreatmentDetailsExport(query) {
+  public getTreatmentDetailsExport(query: string) {
     return this._httpClient.get(
       `/patients-diagnoses/treatments/patients-export?${query}`
     );
+  }
+
+  public getCombinedTreatment() {
+    return this._httpClient.get(`/patients-diagnoses/combined-treatments`);
   }
 }

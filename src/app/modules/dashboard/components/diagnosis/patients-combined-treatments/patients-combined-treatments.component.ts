@@ -7,17 +7,17 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-patients-treatment',
-  templateUrl: './patients-treatment.component.html',
-  styleUrls: ['./patients-treatment.component.scss'],
+  selector: 'app-patients-combined-treatments',
+  templateUrl: './patients-combined-treatments.component.html',
+  styleUrls: ['./patients-combined-treatments.component.scss'],
 })
-export class PatientsTreatmentComponent implements OnInit {
+export class PatientsCombinedTreatmentsComponent implements OnInit {
   public showingDetail: boolean = false;
   public dataChart: ChartObjectModel[];
   public dataTable: any[];
   private treatments: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
-  public columHeaders: string[] = ['treatmentType', 'patients'];
+  public columHeaders: string[] = ['combinedTreatments', 'patients'];
   public headersDetailsTable: string[] = [
     'nhc',
     'sip',
@@ -48,7 +48,7 @@ export class PatientsTreatmentComponent implements OnInit {
   }
 
   private getTreatments(): void {
-    this._graphService.getTreatments().subscribe(
+    this._graphService.getCombinedTreatment().subscribe(
       (data) => {
         this.treatments = data;
         this.dataChart = this.parseDataChart(data);

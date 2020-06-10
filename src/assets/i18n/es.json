@@ -127,5 +127,7 @@
   "pasi": "PASI",
   "pasiDate": "Fecha PASI",
   "dlqi": "DLQI",
-  "dlqiDate": "Fecha DLQI"
+  "dlqiDate": "Fecha DLQI",
+  "combinedTreatments": "Tratamientos combinados",
+  "patientsByCombinedTreatment": "Pacientes por tratamientos combinados"
 }

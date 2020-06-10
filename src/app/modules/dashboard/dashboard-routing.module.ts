@@ -6,6 +6,7 @@ import { PatientsIndicationComponent } from './components/diagnosis/patients-ind
 import { PatientsIndicationResolverService } from '../management/services/patients-indication/patients-indication-resolver.service';
 import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
+import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,11 @@ const routes: Routes = [
   {
     path: 'diagnosis/patients-treatment',
     component: PatientsTreatmentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/patients-combined-treatments',
+    component: PatientsCombinedTreatmentsComponent,
     canActivate: [AuthGuard],
   },
 ];

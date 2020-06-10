@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
 import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
+import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PatientsTreatmentComponent } from './components/diagnosis/patients-trea
     Cie9Component,
     PatientsIndicationComponent,
     PatientsTreatmentComponent,
+    PatientsCombinedTreatmentsComponent,
   ],
   imports: [
     NgbModule,
