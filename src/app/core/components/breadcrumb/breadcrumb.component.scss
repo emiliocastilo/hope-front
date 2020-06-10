@@ -24,15 +24,17 @@
     }
 
     .feather {
-      margin: 0 0 0 1rem;
       vertical-align: middle;
     }
 
     .breadcrumbs_list-item_home {
+      position: relative;
+      top: -3px;
       stroke-width: 1px;
     }
 
     .chevron-right {
+      margin-left: 0.5rem;
       color: $app-color-border-blue;
     }
   }
