@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
 import { PatientsIndicationResolverService } from '../management/services/patients-indication/patients-indication-resolver.service';
 import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
+import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,11 @@ const routes: Routes = [
   {
     path: 'diagnosis/cie9',
     component: Cie9Component,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/patients-treatment',
+    component: PatientsTreatmentComponent,
     canActivate: [AuthGuard],
   },
 ];
