@@ -66,7 +66,6 @@ export class PatientsIndicationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.getData();
   }
 
@@ -79,7 +78,7 @@ export class PatientsIndicationComponent implements OnInit {
       });
   }
 
-  private parseDataToChart(patiensIndication: any){
+  private parseDataToChart(patiensIndication: any) {
     this.dataChart = [];
 
     Object.keys(patiensIndication).forEach((key: string) => {
@@ -119,8 +118,7 @@ export class PatientsIndicationComponent implements OnInit {
         'Tipo Psoriasis': key,
         TOTAL: this.sumAllCases(list[key]),
       };
-      dataObject[this._translate.instant('withoutArthritis')] = list[key]
-        .false
+      dataObject[this._translate.instant('withoutArthritis')] = list[key].false
         ? list[key].false
         : 0;
       dataObject[this._translate.instant('withArthritis')] = list[key].true
@@ -161,12 +159,11 @@ export class PatientsIndicationComponent implements OnInit {
     }
   }
 
-
   private getPatientsDetail(disease: string) {
     const query = `page=${this.currentPage}&indication=${disease}`;
     this._patientsIndicationService.getDetails(query).subscribe(
       (data) => {
-        this.detailsDataTable = data.content
+        this.detailsDataTable = data.content;
         this.paginationData = data;
       },
       (error) => {
