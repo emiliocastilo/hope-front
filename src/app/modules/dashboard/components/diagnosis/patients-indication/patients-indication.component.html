@@ -16,6 +16,7 @@
           (iconButtonClick)="onIconButtonClick($event)"
           [actions]="actions"
           [showActionButtons]="true"
+          [sortable]="false"
         >
         </app-table>
       </div>
@@ -26,7 +27,9 @@
           [columnsData]="detailsDataTable"
           [showActionButtons]="true"
           [actions]="actionsPatient"
+          [sortable]="true"
           (iconButtonClick)="onPatientClick($event)"
+          (sort)="onSortTableDetail($event)"
         >
         </app-table>
         <app-pagination

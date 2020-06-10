@@ -28,6 +28,7 @@ export class TableComponent implements OnInit {
   @Input() showActionButtons: boolean;
   @Input() columnsHeader: Array<ColumnHeaderModel>;
   @Input() columnsData: Array<RowDataModel>;
+  @Input() sortable: boolean;
   @Output() selectedItem: EventEmitter<number> = new EventEmitter();
   @Output() iconButtonClick: EventEmitter<any> = new EventEmitter();
   @Output() sort: EventEmitter<any> = new EventEmitter();
