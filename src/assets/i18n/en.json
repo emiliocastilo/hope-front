@@ -36,6 +36,8 @@
   "collegeNumber": "College number",
   "description": "Description",
   "form.validate.required": "This field is required",
+  "form.validate.email": "Invalid email",
+  "form.validate.pattern": "Invalid format",
   "modal.editor.field.name": "Name",
   "modal.editor.field.title": "Title",
   "modal.editor.field.firstSurname": "First surname",

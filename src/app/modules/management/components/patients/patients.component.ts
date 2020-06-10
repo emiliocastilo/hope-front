@@ -54,13 +54,16 @@ export class PatientsComponent implements OnInit {
       lastSurname: [''],
       nhc: ['', Validators.required],
       healthCard: ['', Validators.required],
-      dni: ['', Validators.required],
+      dni: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('([a-z]|[A-Z]|[0-9])[0-9]{7}([a-z]|[A-Z]|[0-9])'),
+        ],
+      ],
       address: [''],
       phone: [''],
-      email: [
-        '',
-        [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
-      ],
+      email: ['', [Validators.email]],
       genderCode: [''],
       birthDate: ['', Validators.required],
     });
@@ -157,7 +160,8 @@ export class PatientsComponent implements OnInit {
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
     modalRef.componentInstance.form = this.modalForm;
-    modalRef.componentInstance.close.subscribe((event) => {
+    modalRef.componentInstance.maxDate = new Date().toISOString().split('T')[0];
+    modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event) => {

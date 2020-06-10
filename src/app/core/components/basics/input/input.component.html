@@ -20,9 +20,10 @@
       id="{{ id }}"
       name="{{ name }}"
       type="{{ type }}"
+      attr.max="{{ type ? maxDate : null }}"
     />
   </span>
-  <span *ngIf="invalid && invalidLabel" class="invalid-value">{{
-    invalidLabel | translate
-  }}</span>
+  <span *ngIf="invalid && invalidLabel" class="invalid-value">
+    {{ invalidLabel | translate }}
+  </span>
 </div>
