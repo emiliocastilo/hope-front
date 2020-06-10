@@ -198,7 +198,6 @@ export class PatientsIndicationComponent implements OnInit {
     // TODO: make functions to export data.
   }
 
-
   public onSortTableDetail(event: any) {
     let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedDisease}`;
 

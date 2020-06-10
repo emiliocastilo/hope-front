@@ -16,8 +16,9 @@
           [ngClass]="{ 'nav-link': !collapsed, 'nav-link-hidden': collapsed }"
           (click)="goUrl(menuOption.url)"
         >
-          {{ menuOption.title }}</a
-        >
+          {{ menuOption.title }}
+        </a>
+
         <a
           [ngClass]="{ icon: !collapsed, 'icon-hidden': collapsed }"
           (click)="toggleColapseMenu(menuOption)"

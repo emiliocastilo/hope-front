@@ -105,12 +105,15 @@
   "showRegisterParams": "Show registers from :start to :end of :total registers",
   "mainDaignosis": "Diagnóstico principal",
   "requiredLegendText": "Required fields",
-  "principalIndication": "Principal indication",
-  "principalDiagnose": "Principal diagnosis",
+  "patientsByTreatmentType": "Patients by treatment type",
+  "treatmentType": "Treatment type",
+  "sip": "SIP",
+  "patient": "patient",
+  "principalIndication": "Main indication",
+  "principalDiagnose": "Main diagnose",
   "treatment": "Treatment",
-  "pasi": "Pasi",
-  "pasiDate": "Fecha Pasi",
-  "dlqi": "Dlqi",
-  "dlqiDate": "Fecha Dlqi"
-
-}
+  "pasi": "PASI",
+  "pasiDate": "Date PASI",
+  "dlqi": "DLQI",
+  "dlqiDate": "Date DLQI"
+  }

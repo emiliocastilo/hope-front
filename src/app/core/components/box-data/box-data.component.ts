@@ -42,8 +42,10 @@ export class BoxDataComponent implements OnInit {
   }
 
   private calculateFullName(object: PatientModel): string {
-    const fullName = `${object.name} ${object.firstSurname} ${object.lastSurname}`;
-    return object ? fullName : '';
+    const fullName = object.fullName
+      ? object.fullName
+      : `${object.name} ${object.firstSurname} ${object.lastSurname}`;
+    return fullName ? fullName : '';
   }
 
   private showGender(object: PatientModel): string {
