@@ -42,4 +42,20 @@ export class GraphsService {
       `/health-outcomes/get-detail-results-by-type?indexType =${type}`
     );
   }
+
+  public getTreatments() {
+    return this._httpClient.get('/patients-diagnoses/treatments');
+  }
+
+  public getTreatmentDetails(query) {
+    return this._httpClient.get(
+      `/patients-diagnoses/treatments/patients?${query}`
+    );
+  }
+
+  public getTreatmentDetailsExport(query) {
+    return this._httpClient.get(
+      `/patients-diagnoses/treatments/patients-export?${query}`
+    );
+  }
 }

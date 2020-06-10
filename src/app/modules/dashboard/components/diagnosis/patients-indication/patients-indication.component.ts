@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
@@ -31,7 +31,18 @@ export class PatientsIndicationComponent implements OnInit {
     this._translate.instant('withArthritis'),
     'TOTAL',
   ];
-  public headersDetailsTable: string[] = ['name', 'mainDiagnosis', 'date'];
+  public headersDetailsTable: string[] = [
+    'nhc',
+    'healthCard',
+    'fullName',
+    'principalIndication',
+    'principalDiagnose',
+    'treatment',
+    'pasi',
+    'pasiDate',
+    'dlqi',
+    'dlqiDate',
+  ];
   public showingDetail = false;
   private currentPage = 0;
   public paginationData: PaginationModel = {
@@ -101,9 +112,16 @@ export class PatientsIndicationComponent implements OnInit {
     if (details) {
       list.forEach((value: any) => {
         dataObject = {
-          name: value.fullName,
-          mainDiagnosis: value.principalDiagnose,
-          date: value.pasiDate,
+          nhc: value.nhc,
+          healthCard: value.healthCard,
+          fullName: value.fullName,
+          principalIndication: value.principalIndication,
+          principalDiagnose: value.principalDiagnose,
+          treatment: value.treatment,
+          pasi: value.pasi,
+          pasiDate: value.pasiDate,
+          dlqi: value.dlqi,
+          dlqiDate: value.dlqi,
         };
         data.push(dataObject);
       });
@@ -152,7 +170,7 @@ export class PatientsIndicationComponent implements OnInit {
       const selectedUser = JSON.stringify(currentUser || {});
       // TODO: data from back comes incompleted.
       localStorage.setItem('selectedUser', selectedUser);
-      this._router.navigate(['pathology/patients']);
+      this._router.navigate(['pathology/patients/dashboard']);
     }
   }
 
@@ -178,5 +196,26 @@ export class PatientsIndicationComponent implements OnInit {
 
   public buttonAction() {
     // TODO: make functions to export data.
+  }
+
+  public onSortTableDetail(event: any) {
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedDisease}`;
+
+    // if (this.itemsPerPage) {
+    //   query = `${query}&size=${this.itemsPerPage}`;
+    // }
+    this.refreshDetailTable(query);
+  }
+
+  private refreshDetailTable(query: string): void {
+    this._patientsIndicationService.getDetails(query).subscribe(
+      (data) => {
+        this.detailsDataTable = this.parseDataToTable(data.content, true);
+        this.paginationData = data;
+      },
+      (error) => {
+        console.error('error: ', error);
+      }
+    );
   }
 }

@@ -4,7 +4,7 @@
       <app-button
         *ngIf="!showDetails"
         type="button"
-        icono="fa fa-plus"
+        icono="plus-circle"
         clasesBtn="btn-primary btn-sm mx-2"
         (click)="showModal()"
         texto="btn.new"
@@ -13,7 +13,7 @@
       <app-button
         *ngIf="showDetails"
         type="button"
-        icono="fa fa-arrow-left"
+        icono="arrow-left"
         clasesBtn="btn-primary btn-sm mx-2"
         (click)="goBackToDispensations()"
         texto="btn.back"
@@ -39,6 +39,7 @@
           [showActionButtons]="true"
           (iconButtonClick)="onIconButtonClick($event)"
           [actions]="dispensationsTableActions"
+          [sortable]="true"
         >
         </app-table>
       </div>
@@ -56,6 +57,7 @@
           [columnsHeader]="dispensationDetailHeaders"
           [columnsData]="detailDispensations"
           (sort)="onSortDetail($event)"
+          [sortable]="true"
         >
         </app-table>
       </div>

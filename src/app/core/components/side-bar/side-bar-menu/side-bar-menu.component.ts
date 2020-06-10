@@ -4,9 +4,12 @@ import {
   Input,
   ComponentFactoryResolver,
   ViewContainerRef,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { Router } from '@angular/router';
+import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
 
 @Component({
   selector: 'side-bar-menu',
@@ -21,9 +24,11 @@ export class SideBarMenuComponent implements OnInit {
   @Input() selected: SideBarItemModel;
   @Input() level: number;
   @Input() collapsed: boolean;
+  @Output() nav: EventEmitter<any> = new EventEmitter();
   public icons: Array<string>;
 
   constructor(
+    private _sidebar: SideBarService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private viewContainerRef: ViewContainerRef,
     private _router: Router
@@ -36,13 +41,15 @@ export class SideBarMenuComponent implements OnInit {
     }
   }
 
-  goUrl(link: string) {
+  goUrl(section: SideBarItemModel) {
     event.preventDefault();
-    const url = link.split('hopes')[1];
+    const url = section.url.split('hopes')[1];
     this._router.navigate([url]);
+    this._sidebar.event.next(section);
   }
 
   public toggleColapseMenu(menu: SideBarItemModel): void {
     menu.collapsed = !menu.collapsed;
+    localStorage.setItem('collapsedSection', JSON.stringify(menu));
   }
 }

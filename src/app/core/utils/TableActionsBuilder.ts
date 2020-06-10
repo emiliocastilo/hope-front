@@ -9,19 +9,19 @@ export default class TableActionsBuilder {
   private itemsPerPage: any[];
 
   private addEdit() {
-    const editObject = new TableActionsModel('edit', 'fa fa-pencil');
+    const editObject = new TableActionsModel('edit', 'edit-2');
 
     this.actions.push(editObject);
   }
 
   private addDelete() {
-    const deleteObject = new TableActionsModel('delete', 'fa fa-close');
+    const deleteObject = new TableActionsModel('delete', 'trash');
 
     this.actions.push(deleteObject);
   }
 
   private addDetail() {
-    const detailObject = new TableActionsModel('detail', 'fa fa-eye');
+    const detailObject = new TableActionsModel('detail', 'eye');
 
     this.actions.push(detailObject);
   }
