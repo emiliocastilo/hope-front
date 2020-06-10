@@ -8,6 +8,7 @@
   min-height: 100%;
   color: $app-color-white;
   width: 15rem;
+  box-shadow: 0 0 1.25rem rgba($color: $app-color-black, $alpha: 0.18);
 
   .brand {
     display: flex;
