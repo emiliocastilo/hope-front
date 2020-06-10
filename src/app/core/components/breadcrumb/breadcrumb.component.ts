@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 import { Router } from '@angular/router';
+import { SideBarService } from '../../services/side-bar/side-bar.service';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -12,13 +13,17 @@ export class BreadcrumbComponent implements OnInit {
 
   public homeUrl: string = '/hopes';
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private _sidebar: SideBarService) {}
 
   ngOnInit(): void {}
 
-  navigate(link: string) {
+  navigate(section: any) {
     event.preventDefault();
-    const url = link === this.homeUrl ? link : link.split('hopes')[1];
+    const url =
+      section.url === this.homeUrl
+        ? this.homeUrl
+        : section.url.split('hopes')[1];
     this._router.navigate([url]);
+    this._sidebar.event.next(section);
   }
 }

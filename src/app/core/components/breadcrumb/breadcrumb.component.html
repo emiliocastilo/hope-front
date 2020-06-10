@@ -19,7 +19,7 @@
   >
     <a
       [attr.href]="crumb.url"
-      (click)="navigate(crumb.url)"
+      (click)="navigate(crumb)"
       *ngIf="crumb.description === 'Home'"
     >
       <i-feather
@@ -30,7 +30,7 @@
     </a>
     <a
       [attr.href]="crumb.url"
-      (click)="navigate(crumb.url)"
+      (click)="navigate(crumb)"
       *ngIf="crumb.description !== 'Home'"
     >
       {{ crumb.title }}

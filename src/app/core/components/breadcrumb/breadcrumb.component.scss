@@ -15,7 +15,7 @@
 
   .breadcrumbs_list-item {
     color: $app-color-blue-main;
-    margin: 0 0 0 1rem;
+    margin: 0 1rem 0 0;
 
     a {
       text-decoration: none;
@@ -24,15 +24,17 @@
     }
 
     .feather {
-      margin: 0 0 0 1rem;
       vertical-align: middle;
     }
 
     .breadcrumbs_list-item_home {
+      position: relative;
+      top: -3px;
       stroke-width: 1px;
     }
 
     .chevron-right {
+      margin-left: 0.5rem;
       color: $app-color-border-blue;
     }
   }
