@@ -113,7 +113,7 @@ export class Cie9Component implements OnInit {
   private refreshDetailTable(query: string): void {
     this.charts.getPatientsDetailCIE9(query).subscribe(
       (data) => {
-        this.detailsDataTable = data;
+        this.detailsDataTable = data.content;
         this.paginationData = data;
       },
       (error) => {
