@@ -8,17 +8,15 @@ import { Observable } from 'rxjs';
 export class PatientsTreatmentsService {
   constructor(private _http: HttpClient) {}
 
-  getPatientsTreatmentFindPatients(type: string, indication: string = ''): Observable<any> {
-    return this._http.get(`/patients-treatments/find-patients-under-treatment?type=${type}&indication=${indication}`);
+  getFindPatientsUnderTreatment(query: string): Observable<any> {
+    return this._http.get(`/patients-treatments/find-patients-under-treatment?${query}`);
   }
 
-  getPatientsTreatmentDetailPatients(type: string = '', indication: string = ''): Observable<any> {
-    return this._http.get(`/patients-treatments/get-detail-patients-under-treatment?type=${type}&indication=${indication}`);
+  getDetailPatientsUnderTreatment(query: string = ''): Observable<any> {
+    return this._http.get(`/patients-treatments/get-detail-patients-under-treatment?${query}`);
   }
 
-  getDetails(query: string): Observable<any> {
-    query = query ? query : 'page=0';
-    return this._http.get(`/patients-diagnoses/indications/patients?${query}`);
+  getDetailPatientsUnderTreatmentExport(query: string = ''): Observable<any> {
+    return this._http.get(`/patients-treatments/get-detail-patients-under-treatment-export?${query}`);
   }
-
 }

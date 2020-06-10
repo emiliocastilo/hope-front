@@ -13,6 +13,7 @@ export class PatientsTreatmentsResolverService
   constructor(private patientsIndicationService: PatientsTreatmentsService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Array<DispensationModel>> {
-    return this.patientsIndicationService.getPatientsTreatmentFindPatients(route.data.type);
+    const query = `type=${route.data.type}&indication=""`;
+    return this.patientsIndicationService.getFindPatientsUnderTreatment(query);
   }
 }

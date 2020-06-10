@@ -27,20 +27,41 @@ export class GraphsService {
 
   public getPatientsDetailCIE9(cie9: string) {
     return this._httpClient.get(
-      `/patients-diagnoses/cie9/patients?cie9=${cie9}`
+      `/patients-diagnoses/cie9/patients?cie9=?${cie9}`
     );
   }
 
-  public getHealthOutcomesFindByType(type: string): Observable<any> {
+  public getFindResultsByType(query: string): Observable<any> {
     return this._httpClient.get(
-      `/health-outcomes/find-results-by-types?type=${type}`
+      `/health-outcomes/find-results-by-types?${query}`
     );
+
+    // return new Observable((observer) => {
+    //   const response = {"QUIMICO":1,"BIOLOGICO":3,"Sin Tratamiento":3};
+    //   observer.next(response);
+    // });
   }
 
-  public getHealthOutcomesDetailResultByType(type: string): Observable<any> {
+  public getDetailsResultByType(query: string): Observable<any> {
     return this._httpClient.get(
-      `/health-outcomes/get-detail-results-by-type?indexType =${type}`
+      `/health-outcomes/get-detail-results-by-type?${query}`
     );
+
+    // return new Observable((observer) => {
+    //   const response = {"content":[{"id":17,"nhc":"PCM004","healthCard":"PCMTARJ4","fullName":"Prueba4 Primer4 Segun4","principalIndication":"ERITRODERMIA","principalDiagnose":null,"principalDiagnoseCie10":null,"treatment":null,"pasi":"","pasiDate":null,"dlqi":"Prueba DLQI 6","dlqiDate":"2020-04-01T19:53:53.14883"},{"id":17,"nhc":"PCM004","healthCard":"PCMTARJ4","fullName":"Prueba4 Primer4 Segun4","principalIndication":"ERITRODERMIA","principalDiagnose":null,"principalDiagnoseCie10":null,"treatment":null,"pasi":"Prueba PASI 6","pasiDate":"2020-04-01T19:53:53.14883","dlqi":"","dlqiDate":null}],"pageable":{"sort":{"sorted":false,"unsorted":true,"empty":true},"pageNumber":0,"pageSize":5,"offset":0,"paged":true,"unpaged":false},"totalPages":1,"totalElements":2,"last":true,"first":true,"sort":{"sorted":false,"unsorted":true,"empty":true},"numberOfElements":2,"size":5,"number":0,"empty":false};
+    //   observer.next(response);
+    // });
+  }
+
+  public getDetailsResultByTypeExport(query: string): Observable<any> {
+    return this._httpClient.get(
+      `/health-outcomes/get-detail-results-by-type-export?${query}`
+    );
+
+    // return new Observable((observer) => {
+    //   const response = [{"id":17,"nhc":"PCM004","healthCard":"PCMTARJ4","fullName":"Prueba4 Primer4 Segun4","principalIndication":"ERITRODERMIA","principalDiagnose":null,"principalDiagnoseCie10":null,"treatment":null,"pasi":"","pasiDate":null,"dlqi":"Prueba DLQI 6","dlqiDate":"2020-04-01T19:53:53.14883"},{"id":17,"nhc":"PCM004","healthCard":"PCMTARJ4","fullName":"Prueba4 Primer4 Segun4","principalIndication":"ERITRODERMIA","principalDiagnose":null,"principalDiagnoseCie10":null,"treatment":null,"pasi":"Prueba PASI 6","pasiDate":"2020-04-01T19:53:53.14883","dlqi":"","dlqiDate":null}];
+    //   observer.next(response);
+    // });
   }
 
   public getTreatments() {

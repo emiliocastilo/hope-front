@@ -42,16 +42,19 @@ const routes: Routes = [
     component: BiologicalAgentsComponent,
     canActivate: [AuthGuard],
     data: {
-      type: 'biologico'
+      type: 'BIOLOGICO'
     },
-    // resolve: {
-    //   patientsTreatments: PatientsTreatmentsResolverService,
-    // }
+    resolve: {
+      patientsTreatments: PatientsTreatmentsResolverService,
+    }
   },
   {
     path: 'treatments/chemical-agents',
     component: ChemicalAgentsComponent,
     canActivate: [AuthGuard],
+    data: {
+      type: 'QUIMICO'
+    },
     resolve: {
       patientsTreatments: PatientsTreatmentsResolverService,
     },
