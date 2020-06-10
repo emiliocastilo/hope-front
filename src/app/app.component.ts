@@ -34,7 +34,8 @@ export class AppComponent implements OnInit {
     private _loginService: LoginService,
     private translate: TranslateService,
     private _sectionsService: SectionsService,
-    private _sideBar: SideBarService
+    private _sideBar: SideBarService,
+    private sectionUtils: SectionActionBuilder
   ) {
     this._loginService.currentUser.subscribe((x) => (this.currentUser = x));
 
@@ -101,16 +102,7 @@ export class AppComponent implements OnInit {
 
   private async getMenu(url: string) {
     const localMenu: Array<any> = JSON.parse(localStorage.getItem('menu'));
-    const collapsedSection: any = JSON.parse(
-      localStorage.getItem('collapsedSection')
-    );
-    if (collapsedSection) {
-      const index = localMenu.findIndex((e) => e.id === collapsedSection.id);
-      if (index !== -1) {
-        localMenu.splice(index, 1, collapsedSection);
-        localStorage.setItem('menu', JSON.stringify(localMenu));
-      }
-    }
+    this.checkCollapsedSections(localMenu);
     if (!localMenu) {
       if (!['/login', '/select-role'].includes(url)) {
         this._sideBar.getSideBar().subscribe((response) => {
@@ -121,6 +113,19 @@ export class AppComponent implements OnInit {
       }
     } else {
       this.fetchLocalMenu(url);
+    }
+  }
+
+  checkCollapsedSections(localMenu: any) {
+    const collapsedSection: any = JSON.parse(
+      localStorage.getItem('collapsedSection')
+    );
+    if (collapsedSection) {
+      const index = localMenu.findIndex((e) => e.id === collapsedSection.id);
+      if (index !== -1) {
+        localMenu.splice(index, 1, collapsedSection);
+        localStorage.setItem('menu', JSON.stringify(localMenu));
+      }
     }
   }
 
