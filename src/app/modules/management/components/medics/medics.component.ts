@@ -100,7 +100,7 @@ export class MedicsComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedItem = event;
 
-    this.medics[event].serviceDTO = [this.medics[event].serviceDTO as any];
+    // this.medics[event].serviceDTO = this.selectedDoctor.hospital[0].serviceDTO;
 
     this.selectedDoctor.setValuesFromObject(this.medics[event], this.hospitals);
 
