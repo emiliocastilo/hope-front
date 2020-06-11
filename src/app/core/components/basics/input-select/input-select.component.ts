@@ -29,8 +29,8 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   optionSelected: boolean;
 
   ngOnInit(): void {
-    if (this.currentValue && this.clearAfterSelect) {
-      this.value = this.currentValue[0].name;
+    if (this.currentValue) {
+      this.value = this.currentValue.name;
     }
   }
 
@@ -40,7 +40,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
     } else {
       this.optionSelected = false;
     }
-    this.selectTrigger.emit(value);
+    this.selectTrigger.emit(this.currentValue);
     if (this.clearAfterSelect && this.value) {
       this.writeValue('');
     }
