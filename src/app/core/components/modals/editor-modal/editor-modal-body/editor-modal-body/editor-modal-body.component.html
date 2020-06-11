@@ -51,6 +51,7 @@
           <span *ngSwitchCase="formKey === 'roles'">
             <app-input-select
               [id]="formKey"
+              class="roles-select"
               [isDisabled]="false"
               [labelValue]="'modal.editor.field.' + formKey | translate"
               [name]="formKey"
@@ -104,7 +105,8 @@
           [selectMultiple]="false"
           [form]="form"
           [required]="checkIfRequired(formKey)"
-          *ngIf="setType(formKey) == 'select'"
+          (selectTrigger)="onSelectItem($event)"
+          *ngIf="setType(formKey) === 'select'"
         >
         </app-input-select>
 
