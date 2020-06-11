@@ -49,4 +49,16 @@ export class GraphsService {
   public getCombinedTreatment() {
     return this._httpClient.get(`/patients-diagnoses/combined-treatments`);
   }
+
+  public getCombinedTreatmentDetails(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/combined-treatments/patients?${query}`
+    );
+  }
+
+  public getCombinedTreatmentDetailsExport(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/combined-treatments/patients-export?${query}`
+    );
+  }
 }

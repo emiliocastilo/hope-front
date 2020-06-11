@@ -54,18 +54,17 @@ export class DashboardPatientsComponent implements OnInit {
   };
   public isEditing: boolean = false;
 
-  constructor(
-    private _patientService : PatientsService) {}
+  constructor(private _patientService: PatientsService) {}
 
   ngOnInit(): void {
-
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
 
-    this._patientService.getPatientsById(this.selectedPatient.id).subscribe((data) => {
-      if (data){
-        this.selectedPatient = data;
-      }
-    });
-
+    this._patientService
+      .getPatientsById(this.selectedPatient.id)
+      .subscribe((data) => {
+        if (data) {
+          this.selectedPatient = data;
+        }
+      });
   }
 }

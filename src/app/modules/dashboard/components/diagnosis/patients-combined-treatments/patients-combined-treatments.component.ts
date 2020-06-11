@@ -108,7 +108,7 @@ export class PatientsCombinedTreatmentsComponent implements OnInit {
       this.showingDetail = true;
       this.currentTreatment = this.dataTable[event.selectedItem];
 
-      const query = `treatmentType=${this.currentTreatment.treatmentType}`;
+      const query = `combinedTreatment=${this.currentTreatment.treatmentType}`;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -118,7 +118,7 @@ export class PatientsCombinedTreatmentsComponent implements OnInit {
   }
 
   private getDetails(query: string): void {
-    this._graphService.getTreatmentDetails(query).subscribe(
+    this._graphService.getCombinedTreatmentDetails(query).subscribe(
       (data: any) => {
         this.details = data.content;
         this.paginationData = data;
@@ -131,7 +131,7 @@ export class PatientsCombinedTreatmentsComponent implements OnInit {
   }
 
   private getDetailsToExport(query: string) {
-    this._graphService.getTreatmentDetailsExport(query).subscribe(
+    this._graphService.getCombinedTreatmentDetailsExport(query).subscribe(
       (data: any) => {
         this.dataToExport = data;
       },
@@ -153,13 +153,13 @@ export class PatientsCombinedTreatmentsComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `treatmentType=${this.currentTreatment.treatmentType}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `combinedTreatment=${this.currentTreatment.treatmentType}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    let query = `treatmentType=${this.currentTreatment.treatmentType}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    let query = `combinedTreatment=${this.currentTreatment.treatmentType}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
     this.currentSort = event;
     this.getDetails(query);
   }
