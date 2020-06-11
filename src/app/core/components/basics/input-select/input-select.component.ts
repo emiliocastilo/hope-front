@@ -40,7 +40,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
     } else {
       this.optionSelected = false;
     }
-    this.selectTrigger.emit(value);
+    this.selectTrigger.emit(this.currentValue);
     if (this.clearAfterSelect && this.value) {
       this.writeValue('');
     }
