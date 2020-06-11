@@ -131,5 +131,7 @@
   "dlqi": "DLQI",
   "dlqiDate": "Fecha DLQI",
   "combinedTreatments": "Tratamientos combinados",
-  "patientsByCombinedTreatment": "Pacientes por tratamientos combinados"
+  "patientsByCombinedTreatment": "Pacientes por tratamientos combinados",
+  "reasonLastChangeBiologicalTreatment": "Motivo del último cambio de tratamiento biológico",
+  "reasonStopBiologicalTreatment": "Motivo de la suspensión de tratamiento biológico"
 }

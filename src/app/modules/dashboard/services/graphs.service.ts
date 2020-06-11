@@ -61,4 +61,20 @@ export class GraphsService {
       `/patients-diagnoses/combined-treatments/patients-export?${query}`
     );
   }
+
+  public getReasonLastChangeBiological(query: string) {
+    return this._httpClient.get(`/patients-diagnoses/end-causes?${query}`);
+  }
+
+  public getReasonLastChangeBiologicalDetails(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes/patients?${query}`
+    );
+  }
+
+  public getReasonLastChangeBiologicalDetailsExport(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes/patients-export?${query}`
+    );
+  }
 }
