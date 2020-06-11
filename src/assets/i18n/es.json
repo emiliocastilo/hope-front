@@ -55,6 +55,7 @@
   "modal.editor.field.surname": "Apellidos",
   "modal.editor.field.collegenumber": "Número de colegiado",
   "modal.editor.field.serviceDTO": "Servicio",
+  "modal.editor.field.pathology": "Patología",
   "modal.editor.field.hospital": "Hospital",
   "modal.editor.field.username": "Nombre de usuario",
   "modal.editor.field.password": "Contraseña",

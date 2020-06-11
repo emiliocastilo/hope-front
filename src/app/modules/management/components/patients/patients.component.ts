@@ -14,6 +14,7 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { HospitalService } from 'src/app/core/services/hospital/hospital.service';
 
 @Component({
   selector: 'app-patients',
@@ -30,6 +31,7 @@ export class PatientsComponent implements OnInit {
   public isEditing = false;
   public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
+  private pathologies: PathologyModel[] = [];
   private currentPage = 0;
   public paginationData: PaginationModel;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
@@ -40,7 +42,8 @@ export class PatientsComponent implements OnInit {
     private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
     private _notification: NotificationService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _hospitalService: HospitalService,
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +67,8 @@ export class PatientsComponent implements OnInit {
       address: [''],
       phone: [''],
       email: ['', [Validators.email]],
+      hospital: ['', Validators.required],
+      pathology: ['', Validators.required],
       genderCode: [''],
       birthDate: ['', Validators.required],
     });
@@ -81,6 +86,12 @@ export class PatientsComponent implements OnInit {
         );
       }
     });
+    this._hospitalService.getById(this.selectedPatient.hospital.id).subscribe((hospital) => {
+      if (hospital){
+        this.pathologies = hospital.pathologies;
+        this.showModal();
+      }
+    });
   }
 
   public onSearch(event: string): void {
@@ -90,7 +101,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public onIconButtonClick(event: any) {
-    if (event && event.type === 'edit') {
+    if (event && event.type === 'edit' && this.pathologies.length > 0) {
       this.editPatient();
     } else if (event && event.type === 'delete') {
       this.showModalConfirm();
@@ -157,9 +168,14 @@ export class PatientsComponent implements OnInit {
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
+    const options = {
+      hospital: this.hospitals,
+      pathology: this.pathologies,
+    };
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
     modalRef.componentInstance.form = this.modalForm;
+    modalRef.componentInstance.options = options;
     modalRef.componentInstance.maxDate = new Date().toISOString().split('T')[0];
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
