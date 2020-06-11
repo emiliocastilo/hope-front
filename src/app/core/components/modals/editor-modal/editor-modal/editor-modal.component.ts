@@ -12,10 +12,10 @@ export class EditorModalComponent implements OnInit {
   @Input() title: string;
   @Input() activeRoles: Array<RolModel>;
   @Input() form: FormGroup;
-  @Input() validationLabels: Map<string, string>;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<FormGroup> = new EventEmitter();
   @Input() options: any = {};
+  @Input() maxDate: string;
   public type: string = 'lg';
 
   constructor() {}

@@ -12,9 +12,15 @@ export class EditorModalBodyComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() activeRoles: Array<RolModel>;
   @Input() options: any = {};
-  @Input() validationLabels: Map<string, string>;
+  @Input() maxDate: string;
   public formKeys: Array<string> = [];
-  showRequiredLegend: boolean = false;
+  public showRequiredLegend: boolean = false;
+  public showInvalidFormatLegend: boolean = false;
+
+  public errorMessages: any = {
+    required: 'form.validate.required',
+    email: 'form.validate.email',
+  };
 
   constructor() {}
 
@@ -134,10 +140,11 @@ export class EditorModalBodyComponent implements OnInit {
   }
 
   getInvalidLabel(formKey: string): string {
-    const label = this.validationLabels
-      ? this.validationLabels.get(formKey)
+    const errors = this.form ? this.form.get(formKey).errors : undefined;
+    const label = errors
+      ? Object.keys(errors).filter((key: string) => errors[key])
       : undefined;
-    return label ? label : 'form.validate.required';
+    return label ? `form.validate.${label[0]}` : 'form.validate.required';
   }
 
   public checkAnyRequired(keys: Array<string>) {

@@ -24,6 +24,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() required = false;
   @Input() type = 'text';
   @Input() invalidLabel: string;
+  @Input() maxDate: string = null;
 
   @Input() value: string;
 
