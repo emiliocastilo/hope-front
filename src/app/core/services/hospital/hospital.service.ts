@@ -11,4 +11,9 @@ export class HospitalService {
   getAll(): Observable<any> {
     return this._http.get('/hospitals');
   }
+
+  getById(id: number): Observable<any> {
+    return this._http.get(`/hospitals/${id}`);
+  }
+
 }

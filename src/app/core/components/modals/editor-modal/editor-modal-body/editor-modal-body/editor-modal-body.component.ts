@@ -70,6 +70,7 @@ export class EditorModalBodyComponent implements OnInit {
       photo: 'file',
       hospital: 'select',
       serviceDTO: 'select',
+      pathology: 'select',
     };
     return types[key] ? types[key] : 'text';
   }
@@ -166,5 +167,11 @@ export class EditorModalBodyComponent implements OnInit {
         }
       }
     });
+  }
+
+  public onSelectedItem(event: any) {
+    if (event.hasOwnProperty('pathologies')) {
+      this.options['pathology'] = event.pathologies;
+    }
   }
 }

@@ -54,6 +54,7 @@
   "modal.editor.field.collegeNumber": "College number",
   "modal.editor.field.serviceDTO": "Service",
   "modal.editor.field.hospital": "Hospital",
+  "modal.editor.field.pathology": "Pathology",
   "modal.editor.field.username": "Username",
   "modal.editor.field.password": "Password",
   "modal.editor.field.startperiod": "Start period",
