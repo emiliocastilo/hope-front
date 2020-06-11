@@ -38,6 +38,8 @@
   "collegeNumber": "Num. de colegiado",
   "description": "Descripción",
   "form.validate.required": "El campo es obligatorio",
+  "form.validate.email": "Formato de correo invalido",
+  "form.validate.pattern": "Formato invalido",
   "modal.editor.field.name": "Nombre",
   "modal.editor.field.title": "Título",
   "modal.editor.field.firstsurname": "Primer apellido",

@@ -86,13 +86,13 @@ export class PatientsIndicationComponent implements OnInit {
         name: key,
         series: [
           {
-            name: this._translate.instant('withArthritis'),
+            name: this._translate.instant('withArthritis').toUpperCase(),
             value: patiensIndication[key].true
               ? patiensIndication[key].true
               : 0,
           },
           {
-            name: this._translate.instant('withoutArthritis'),
+            name: this._translate.instant('withoutArthritis').toUpperCase(),
             value: patiensIndication[key].false
               ? patiensIndication[key].false
               : 0,
