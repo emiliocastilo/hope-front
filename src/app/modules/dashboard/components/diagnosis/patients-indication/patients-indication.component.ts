@@ -66,83 +66,68 @@ export class PatientsIndicationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.patientsIndications = this._activatedRoute.snapshot.data.patientsIndications;
+    this.getData();
+  }
+
+  getData() {
+    this._patientsIndicationService
+      .getPatiensDiagnosesByIndications()
+      .subscribe((response) => {
+        this.parseDataToChart(response);
+        this.parseDataToTable(response);
+      });
+  }
+
+  private parseDataToChart(patiensIndication: any) {
+    this.dataChart = [];
+
+    Object.keys(patiensIndication).forEach((key: string) => {
+      const objectData: ChartObjectModel = {
+        name: key,
+        series: [
+          {
+            name: this._translate.instant('withArthritis'),
+            value: patiensIndication[key].true
+              ? patiensIndication[key].true
+              : 0,
+          },
+          {
+            name: this._translate.instant('withoutArthritis'),
+            value: patiensIndication[key].false
+              ? patiensIndication[key].false
+              : 0,
+          },
+        ],
+      };
+      this.dataChart.push(objectData);
+    });
 
     const chartTitle = 'patientsForIndications';
     const view = null;
     const scheme = {
       domain: ['#000', '#249cf1'],
     };
-    this.dataChart = this.parseDataToChart();
-
     this.data = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
-
-    this.dataTable = this.parseDataToTable(this.patientsIndications, false);
   }
 
-  private parseDataToChart(): ChartObjectModel[] {
-    const results: ChartObjectModel[] = [];
-
-    Object.keys(this.patientsIndications).forEach((key: string) => {
-      const objectData: ChartObjectModel = {
-        name: key,
-        series: [
-          {
-            name: this._translate.instant('withArthritis'),
-            value: this.patientsIndications[key].true
-              ? this.patientsIndications[key].true
-              : 0,
-          },
-          {
-            name: this._translate.instant('withoutArthritis'),
-            value: this.patientsIndications[key].false
-              ? this.patientsIndications[key].false
-              : 0,
-          },
-        ],
-      };
-      results.push(objectData);
-    });
-    return results;
-  }
-
-  private parseDataToTable(list: any[], details: boolean) {
+  private parseDataToTable(list: any[]) {
     const data = [];
     let dataObject = {};
-    if (details) {
-      list.forEach((value: any) => {
-        dataObject = {
-          nhc: value.nhc,
-          healthCard: value.healthCard,
-          fullName: value.fullName,
-          principalIndication: value.principalIndication,
-          principalDiagnose: value.principalDiagnose,
-          treatment: value.treatment,
-          pasi: value.pasi,
-          pasiDate: value.pasiDate,
-          dlqi: value.dlqi,
-          dlqiDate: value.dlqi,
-        };
-        data.push(dataObject);
-      });
-    } else {
-      Object.keys(list).forEach((key: string) => {
-        dataObject = {
-          'Tipo Psoriasis': key,
-          TOTAL: this.sumAllCases(list[key]),
-        };
-        dataObject[this._translate.instant('withoutArthritis')] = list[key]
-          .false
-          ? list[key].false
-          : 0;
-        dataObject[this._translate.instant('withArthritis')] = list[key].true
-          ? list[key].true
-          : 0;
+    Object.keys(list).forEach((key: string) => {
+      dataObject = {
+        'Tipo Psoriasis': key,
+        TOTAL: this.sumAllCases(list[key]),
+      };
+      dataObject[this._translate.instant('withoutArthritis')] = list[key].false
+        ? list[key].false
+        : 0;
+      dataObject[this._translate.instant('withArthritis')] = list[key].true
+        ? list[key].true
+        : 0;
 
-        data.push(dataObject);
-      });
-    }
-    return data;
+      data.push(dataObject);
+    });
+    this.dataTable = data;
   }
 
   private sumAllCases(object: any): number {
@@ -178,7 +163,7 @@ export class PatientsIndicationComponent implements OnInit {
     const query = `page=${this.currentPage}&indication=${disease}`;
     this._patientsIndicationService.getDetails(query).subscribe(
       (data) => {
-        this.detailsDataTable = this.parseDataToTable(data.content, true);
+        this.detailsDataTable = data.content;
         this.paginationData = data;
       },
       (error) => {
@@ -210,7 +195,7 @@ export class PatientsIndicationComponent implements OnInit {
   private refreshDetailTable(query: string): void {
     this._patientsIndicationService.getDetails(query).subscribe(
       (data) => {
-        this.detailsDataTable = this.parseDataToTable(data.content, true);
+        this.detailsDataTable = data.content;
         this.paginationData = data;
       },
       (error) => {

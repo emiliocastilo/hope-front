@@ -16,4 +16,8 @@ export class PatientsIndicationService {
     query = query ? query : 'page=0';
     return this._http.get(`/patients-diagnoses/indications/patients?${query}`);
   }
+
+  getPatiensDiagnosesByIndications(): Observable<any> {
+    return this._http.get(`/patients-diagnoses/indications?`);
+  }
 }
