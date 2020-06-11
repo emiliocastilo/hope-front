@@ -11,8 +11,6 @@ import { SideBarItemModel } from './core/models/side-bar/side-bar-item.model';
 
 import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
 
-import { StorageService } from 'src/app/core/services/localstorage/storage.service';
-
 @Component({
   selector: 'body',
   templateUrl: './app.component.html',
@@ -29,6 +27,7 @@ export class AppComponent implements OnInit {
   public crumbs: SideBarItemModel[];
   public isCollapsed: boolean;
   public level: number;
+  collapsedSections = [];
 
   constructor(
     public _router: Router,
@@ -72,8 +71,32 @@ export class AppComponent implements OnInit {
 
   private getSectionById(id: number): void {
     this._sectionsService.getSectionById(id).subscribe((response) => {
-      this.crumbs = new SectionActionBuilder(this.menu).getCrumbs(response);
+      this.checkCollapsedSection(response);
+      this.crumbs = SectionActionBuilder.getCrumbs(response);
     });
+  }
+
+  checkCollapsedSection(section: SideBarItemModel) {
+    if (section && section.fatherSection !== null) {
+      this.collapsedSections.push(section.fatherSection.id);
+      this.checkCollapsedSection(section.fatherSection);
+    }
+    this.collapsedSections.forEach((id) => {
+      if (id !== 1) {
+        this.activateCollapse(this.menu, id);
+      }
+    });
+  }
+
+  activateCollapse(array: any, id: number) {
+    let result;
+    array.some(
+      (o) =>
+        (result =
+          o.id === id
+            ? (o.collapsed = true)
+            : this.activateCollapse(o.children || [], id))
+    );
   }
 
   private async getMenu(url: string) {
@@ -129,19 +152,21 @@ export class AppComponent implements OnInit {
   }
 
   private generateCrumbs(url: string) {
-    const currenSelected = new SectionActionBuilder(this.menu).getSelectedByUrl(
-      url
+    this._sideBar.event.subscribe(
+      (res: SideBarItemModel) => (this.selectedSection = res)
     );
-    if (this.selectedSection && currenSelected) {
-      if (this.selectedSection.id !== currenSelected.id) {
-        this.selectedSection = currenSelected;
-        this.getSectionById(this.selectedSection.id);
-      }
-    } else {
+
+    if (!this.selectedSection && url !== '/') {
+      const currenSelected = SectionActionBuilder.findSection(
+        'url',
+        this.menu,
+        url
+      );
       this.selectedSection = currenSelected;
-      if (this.selectedSection) {
-        this.getSectionById(this.selectedSection.id);
-      }
+    }
+
+    if (this.selectedSection && this.selectedSection.id) {
+      this.getSectionById(this.selectedSection.id);
     }
   }
 }
