@@ -113,7 +113,7 @@ export class EditorModalBodyComponent implements OnInit {
       type = 'date';
     }
 
-    if (key.includes('phone')) {
+    if (key.includes('phone') || key.includes('order')) {
       type = 'number';
     }
 
