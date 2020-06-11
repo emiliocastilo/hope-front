@@ -65,7 +65,10 @@ export class MedicsComponent implements OnInit {
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      dni: ['', Validators.required],
+      dni: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]{8,8}[A-Za-z]$')],
+      ],
       phone: ['', Validators.required],
       email: [
         '',
@@ -76,8 +79,8 @@ export class MedicsComponent implements OnInit {
         ],
       ],
       collegeNumber: ['', Validators.required],
-      serviceDTO: [null, Validators.required],
       hospital: [null, Validators.required],
+      serviceDTO: [null, Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
     });

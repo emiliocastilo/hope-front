@@ -64,27 +64,18 @@ input[type='number'] {
     position: relative;
     padding: 15px 0 0;
     margin-top: 1rem;
-    margin-right: 1.7rem;
     margin-bottom: 0.5rem;
-  }
-
-  .ui-float-label {
-    padding: 1rem 1rem 0.5rem 1rem;
-    border: 1px solid $app-color-border-blue;
+    width: 13rem;
   }
 
   .ui-float-label > label {
     position: absolute;
-    top: 1px;
+    top: -2px;
     left: 10px;
     font-size: 0.8rem;
     margin-left: 0.3rem;
     background-color: white;
     color: $app-color-blue-main;
-  }
-
-  .ui-float-label > input {
-    border: none !important;
   }
 }
 

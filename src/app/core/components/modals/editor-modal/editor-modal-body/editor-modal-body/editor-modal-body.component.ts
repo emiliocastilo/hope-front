@@ -74,18 +74,25 @@ export class EditorModalBodyComponent implements OnInit {
     return types[key] ? types[key] : 'text';
   }
 
-  onRolSelected(event: string) {
+  onRolSelected(event: any) {
+    const name = event.name;
     if (this.activeRoles.length > 0) {
-      const rolFound = this.activeRoles.find((rol) => rol.name === event);
+      const rolFound = this.activeRoles.find((rol) => rol.name === name);
       if (!rolFound) {
         this.activeRoles.push(
-          this.options.roles.find((rol) => rol.name === event)
+          this.options.roles.find((rol) => rol.name === name)
         );
       }
     } else {
       this.activeRoles.push(
-        this.options.roles.find((rol) => rol.name === event)
+        this.options.roles.find((rol) => rol.name === name)
       );
+    }
+  }
+
+  onSelectItem(event: any) {
+    if (event.hasOwnProperty('serviceDTO')) {
+      this.options['serviceDTO'] = event.serviceDTO;
     }
   }
 
