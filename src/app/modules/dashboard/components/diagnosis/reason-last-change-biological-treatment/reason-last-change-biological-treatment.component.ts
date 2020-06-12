@@ -55,7 +55,6 @@ export class ReasonLastChangeBiologicalTreatmentComponent implements OnInit {
   private getTreatments(): void {
     this._graphService.getReasonLastChangeBiological(this.endCause).subscribe(
       (data) => {
-        console.log(data);
         this.treatments = data;
         this.dataChart = this.parseDataChart(data);
         this.dataTable = this.parseDataTable(data);

@@ -77,4 +77,38 @@ export class GraphsService {
       `/patients-diagnoses/end-causes/patients-export?${query}`
     );
   }
+
+  public getReasonLastChangeBiologicalFiveYears(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes-last-years?${query}`
+    );
+  }
+
+  public getReasonLastChangeBiologicalDetailsFiveYears(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes-last-years/patients?${query}`
+    );
+  }
+
+  public getReasonLastChangeBiologicalDetailsExportFiveYears(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes-last-years/patients-export?${query}`
+    );
+  }
+
+  public getNumberChangesBiologicalTreatment() {
+    return this._httpClient.get(`/patients-diagnoses/number-changes`);
+  }
+
+  public getNumberChangesBiologicalTreatmentDetails(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/number-changes/patients?${query}`
+    );
+  }
+
+  public getNumberChangesBiologicalTreatmentExport(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/number-changes/patients-export?${query}`
+    );
+  }
 }

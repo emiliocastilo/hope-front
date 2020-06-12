@@ -12,6 +12,9 @@ import { PatientsTreatmentComponent } from './components/diagnosis/patients-trea
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { ReasonLastChangeBiologicalTreatmentComponent } from './components/diagnosis/reason-last-change-biological-treatment/reason-last-change-biological-treatment.component';
 import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/reason-stop-biological-treatment/reason-stop-biological-treatment.component';
+import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
+import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
+import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/r
     PatientsCombinedTreatmentsComponent,
     ReasonLastChangeBiologicalTreatmentComponent,
     ReasonStopBiologicalTreatmentComponent,
+    NumberChangesBiologicalTreatmentComponent,
+    ReasonChangeBiologicalTreatmentFiveYearsComponent,
+    ReasonStopBiologicalTreatmentFiveYearsrsComponent,
   ],
   imports: [
     NgbModule,

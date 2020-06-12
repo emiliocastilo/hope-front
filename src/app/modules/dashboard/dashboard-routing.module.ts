@@ -9,6 +9,9 @@ import { PatientsTreatmentComponent } from './components/diagnosis/patients-trea
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { ReasonLastChangeBiologicalTreatmentComponent } from './components/diagnosis/reason-last-change-biological-treatment/reason-last-change-biological-treatment.component';
 import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/reason-stop-biological-treatment/reason-stop-biological-treatment.component';
+import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
+import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
+import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
 
 const routes: Routes = [
   {
@@ -46,6 +49,21 @@ const routes: Routes = [
   {
     path: 'diagnosis/reason-stop-bioligical-treatment',
     component: ReasonStopBiologicalTreatmentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/number-changes-biological-treatment',
+    component: NumberChangesBiologicalTreatmentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/reason-change-biological-treatment-five-years',
+    component: ReasonChangeBiologicalTreatmentFiveYearsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/reason-stop-biological-treatment-five-years',
+    component: ReasonStopBiologicalTreatmentFiveYearsrsComponent,
     canActivate: [AuthGuard],
   },
 ];
