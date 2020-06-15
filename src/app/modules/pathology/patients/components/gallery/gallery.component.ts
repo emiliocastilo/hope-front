@@ -36,7 +36,6 @@ export class GalleryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadMenu();
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
     this.pathologyId = this.selectedPatient.pathologies[0].id;
     this.modalForm = this._formBuilder.group({
@@ -47,28 +46,26 @@ export class GalleryComponent implements OnInit {
     this.getPhotos();
   }
 
-  loadMenu() {
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/pathology/patients')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/pathology/patients/gallery')
-    );
-  }
-
   getPhotos() {
     this._photos.getPhotos(this.selectedPatient.id, this.pathologyId).subscribe(
       (res) => {
-        this.photos = res;
+        this.photos = this.parsePhotos(res);
       },
       ({ error }) => {
-        console.log(error);
+        console.error(error);
       }
     );
   }
 
+  parsePhotos(res) {
+    res.forEach((element) => {
+      element.photoBytes = `data:image/${element.typePhoto};base64,${element.photoBytes}`;
+    });
+    return res;
+  }
+
   showModal() {
-    let modalRef = this._modalService.open(EditorModalComponent, {
+    const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
     modalRef.componentInstance.id = 'createPhoto';
@@ -90,7 +87,7 @@ export class GalleryComponent implements OnInit {
 
   public showModalEdit(photo: PhotoModel): void {
     this.selectedPhoto = photo;
-    Object.keys(photo).map((key: string) => {
+    Object.keys(photo).forEach((key: string) => {
       if (this.modalForm.controls[key]) {
         this.modalForm.controls[key].setValue(photo[key]);
       }
@@ -112,10 +109,10 @@ export class GalleryComponent implements OnInit {
 
   async createOrUpdatePhoto(event: any, modal: any) {
     const photobytes = this.isEditing
-      ? null
+      ? this.selectedPhoto.photoBytes
       : (await this.readFileAsync(event.value.photo)).toString();
     const type = this.isEditing
-      ? event.value.typePhoto
+      ? this.selectedPhoto.typePhoto
       : photobytes.split(';')[0].split('/')[1];
     const id = this.isEditing ? this.selectedPhoto.id : null;
     const photo: PhotoModel = {
@@ -125,9 +122,9 @@ export class GalleryComponent implements OnInit {
       title: event.value.title,
       description: event.value.description,
       userId: 11,
-      name: event.value.title,
-      typePhoto: `.${type}`,
-      photoBytes: photobytes,
+      name: this.isEditing ? this.selectedPhoto.name : event.value.title,
+      typePhoto: type,
+      photoBytes: photobytes.split(',')[1],
     };
 
     if (this.isEditing) {
@@ -191,7 +188,7 @@ export class GalleryComponent implements OnInit {
   }
 
   downloadPhoto(photo: PhotoModel) {
-    saveAs(photo.photoBytes.toString(), `${photo.title}${photo.typePhoto}`);
+    saveAs(photo.photoBytes.toString(), `${photo.name}.${photo.typePhoto}`);
   }
 
   generateQR() {

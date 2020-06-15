@@ -14,4 +14,6 @@ export interface FieldConfig {
   radioButton?: any;
   rows?: number;
   inputType?: string;
+  formula?: any;
+  params?: Array<string>;
 }

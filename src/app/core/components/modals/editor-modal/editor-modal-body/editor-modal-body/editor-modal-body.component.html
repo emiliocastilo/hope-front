@@ -12,7 +12,6 @@
         }"
       >
         <div
-          class="w-100"
           *ngIf="setType(formKey) !== 'select' && setType(formKey) !== 'file'"
         >
           <span
@@ -24,7 +23,6 @@
 
               {{ checkIfRequired(formKey) ? '*' : null }}
             </label>
-            <br />
             <div
               class="btn-group btn-group-toggle"
               ngbRadioGroup
@@ -50,13 +48,15 @@
               [formControlName]="formKey"
             ></app-switch>
           </span>
-          <span class="w-100" *ngSwitchCase="formKey === 'roles'">
+          <span *ngSwitchCase="formKey === 'roles'">
             <app-input-select
               [id]="formKey"
+              class="roles-select"
               [isDisabled]="false"
               [labelValue]="'modal.editor.field.' + formKey | translate"
               [name]="formKey"
-              [options]="options[formKey]"
+              [options]="options[formKey].options"
+              [optionSelected]="options[formKey].optionSelected"
               [placeholder]="'modal.editor.field.' + formKey | translate"
               [selectMultiple]="false"
               [clearAfterSelect]="true"
@@ -72,7 +72,7 @@
                   *ngFor="let rol of activeRoles"
                   (click)="removeActiveRol(rol)"
                 >
-                  <span>{{ rol.name }} <i class="fa fa-close"></i></span>
+                  <span>{{ rol.name }} <i-feather name="x"></i-feather></span>
                 </div>
               </div>
             </div>
@@ -91,25 +91,28 @@
             [invalidLabel]="getInvalidLabel(formKey)"
             [type]="getType(formKey)"
             [required]="checkIfRequired(formKey)"
+            [maxDate]="maxDate"
           >
           </app-input>
         </div>
-        <app-input-select
+        <app-input-select class="selectCombo"
           [id]="formKey"
           [isDisabled]="false"
           [labelValue]="'modal.editor.field.' + formKey | translate"
           [name]="formKey"
-          [options]="options[formKey]"
+          [options]="options[formKey].options"
+          [optionSelected]="options[formKey].optionSelected"
           [currentValue]="form.controls[formKey].value"
           [placeholder]="'modal.editor.field.' + formKey | translate"
           [selectMultiple]="false"
           [form]="form"
           [required]="checkIfRequired(formKey)"
-          *ngIf="setType(formKey) == 'select'"
+          (selectTrigger)="onSelectItem($event)"
+          *ngIf="setType(formKey) === 'select'"
         >
         </app-input-select>
 
-        <span class="w-100">
+        <span>
           <app-input-file
             [id]="formKey"
             [label]="'modal.editor.field.' + formKey | lowercase | translate"
@@ -129,4 +132,7 @@
       </section>
     </ng-container>
   </form>
+  <label *ngIf="showRequiredLegend" class="requiredLegend">
+    {{ 'requiredLegendText' | translate }}
+  </label>
 </div>

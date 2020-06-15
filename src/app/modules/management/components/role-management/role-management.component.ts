@@ -26,11 +26,12 @@ export class RoleManagementComponent implements OnInit {
   public tableData: Array<RowDataModel>;
   public selectedItem: number;
   public selectedRole: RolModel;
-  public isEditing: boolean = false;
+  public isEditing = false;
   public paginationData: PaginationModel;
-  private currentPage: number = 0;
+  private currentPage = 0;
   public modalForm: FormGroup;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
+  private itemsPerPage: number;
 
   constructor(
     private _roleManagementService: RoleManagementService,
@@ -41,13 +42,6 @@ export class RoleManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/management')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/management/roles')
-    );
-
     this.paginationData = this._activatedRoute.snapshot.data.roles;
 
     this.modalForm = this._formBuilder.group({
@@ -59,7 +53,7 @@ export class RoleManagementComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedRole = this.roles[event];
     this.selectedItem = event;
-    Object.keys(this.roles[event]).map((patientKey: string) => {
+    Object.keys(this.roles[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
         this.modalForm.controls[patientKey].setValue(
           this.roles[event][patientKey]
@@ -75,8 +69,12 @@ export class RoleManagementComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
+    let query = `&page=${page}`;
     this.currentPage = page;
-    this.refreshData(`&page=${page}`);
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+    this.refreshData(query);
   }
 
   public showModal() {
@@ -151,8 +149,9 @@ export class RoleManagementComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Rol';
-    modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el rol 
-      ${this.roles[this.selectedItem].name}?`;
+    modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el rol ${
+      this.roles[this.selectedItem].name
+    }?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
     });
@@ -184,13 +183,24 @@ export class RoleManagementComponent implements OnInit {
   private refreshData(query: string): void {
     this._roleManagementService.getRoles(query).subscribe((data) => {
       this.roles = data.content;
-      if (this.paginationData.totalElements !== data.totalElements) {
+      if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
     });
   }
 
   public onSort(event: any) {
-    this.refreshData(`&sort=${event.column},${event.direction}`);
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
+    this.refreshData(query);
+  }
+
+  public selectItemsPerPage(number: number) {
+    this.itemsPerPage = number;
+    this.selectPage(0);
   }
 }

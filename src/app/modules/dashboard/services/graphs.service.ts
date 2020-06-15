@@ -20,13 +20,95 @@ export class GraphsService {
     );
   }
 
-  public getChartTableCIE9() {
+  public getChartTableCIE9(): Observable<any> {
     return this._httpClient.get('/patients-diagnoses/cie9');
   }
 
-  public getPatientsDetailCIE9(cie9: string) {
+  public getPatientsDetailCIE9(cie9: string): Observable<any> {
     return this._httpClient.get(
       `/patients-diagnoses/cie9/patients?cie9=${cie9}`
+    );
+  }
+
+  public getTreatments() {
+    return this._httpClient.get('/patients-diagnoses/treatments');
+  }
+
+  public getTreatmentDetails(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/treatments/patients?${query}`
+    );
+  }
+
+  public getTreatmentDetailsExport(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/treatments/patients-export?${query}`
+    );
+  }
+
+  public getCombinedTreatment() {
+    return this._httpClient.get(`/patients-diagnoses/combined-treatments`);
+  }
+
+  public getCombinedTreatmentDetails(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/combined-treatments/patients?${query}`
+    );
+  }
+
+  public getCombinedTreatmentDetailsExport(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/combined-treatments/patients-export?${query}`
+    );
+  }
+
+  public getReasonLastChangeBiological(query: string) {
+    return this._httpClient.get(`/patients-diagnoses/end-causes?${query}`);
+  }
+
+  public getReasonLastChangeBiologicalDetails(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes/patients?${query}`
+    );
+  }
+
+  public getReasonLastChangeBiologicalDetailsExport(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes/patients-export?${query}`
+    );
+  }
+
+  public getReasonLastChangeBiologicalFiveYears(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes-last-years?${query}`
+    );
+  }
+
+  public getReasonLastChangeBiologicalDetailsFiveYears(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes-last-years/patients?${query}`
+    );
+  }
+
+  public getReasonLastChangeBiologicalDetailsExportFiveYears(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/end-causes-last-years/patients-export?${query}`
+    );
+  }
+
+  public getNumberChangesBiologicalTreatment() {
+    return this._httpClient.get(`/patients-diagnoses/number-changes`);
+  }
+
+  public getNumberChangesBiologicalTreatmentDetails(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/number-changes/patients?${query}`
+    );
+  }
+
+  public getNumberChangesBiologicalTreatmentExport(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/number-changes/patients-export?${query}`
     );
   }
 }

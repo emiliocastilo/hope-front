@@ -1,12 +1,23 @@
 @import '~src/assets/styles/variables.scss';
 
 .modal-header {
+  border-bottom: none;
+  padding: 0;
+
   &.editor-modal-header {
-    background-color: $app-color-blue-medium;
-    color: $app-color-white;
+    margin-left: 1rem;
+    color: $app-color-blue-main;
   }
 
   .close {
-    color: $app-color-white;
+    color: $app-color-blue-main;
+    font-size: 3rem;
+    font-weight: 100;
+    position: relative;
+    top: -1rem;
+
+    &:focus {
+      outline-color: white;
+    }
   }
 }

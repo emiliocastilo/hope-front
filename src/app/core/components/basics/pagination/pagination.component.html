@@ -3,7 +3,20 @@
     [(page)]="paginationData.number"
     [pageSize]="paginationData.size"
     [collectionSize]="paginationData.totalElements"
+    [boundaryLinks]="true"
     (pageChange)="pageChange($event)"
   >
+    <ng-template ngbPaginationFirst>
+      <i aria-hidden="true" class="fa fa-angle-double-left"></i>
+    </ng-template>
+    <ng-template ngbPaginationLast>
+      <i aria-hidden="true" class="fa fa-angle-double-right"></i>
+    </ng-template>
+    <ng-template ngbPaginationPrevious>
+      <i aria-hidden="true" class="fa fa-angle-left"></i>
+    </ng-template>
+    <ng-template ngbPaginationNext>
+      <i aria-hidden="true" class="fa fa-angle-right"></i>
+    </ng-template>
   </ngb-pagination>
 </div>

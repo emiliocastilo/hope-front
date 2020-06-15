@@ -10,33 +10,44 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   constructor() {}
 
   @Input() id: string;
-  @Input() isDisabled: boolean = false;
-  @Input() labelValue: string = '';
+  @Input() isDisabled = false;
+  @Input() labelValue = '';
   @Input() name: string;
   @Input() options: any[] = [];
+  @Input() optionSelected: number;
   @Input() currentValue: any;
-  @Input() placeholder: string = '';
-  @Input() selectMultiple: boolean = false;
-  @Input() clearAfterSelect: boolean = false;
+  @Input() placeholder = '';
+  @Input() selectMultiple = false;
+  @Input() clearAfterSelect = false;
   @Input() form: FormGroup;
-  @Input() required: boolean = false;
+  @Input() required = false;
 
   @Output() selectTrigger: EventEmitter<any> = new EventEmitter<any>();
 
   public value: string = null;
   childControl = new FormControl();
 
-  optionSelected: boolean;
+  optionChangeSelected: boolean;
 
   ngOnInit(): void {
-    if (this.currentValue && this.clearAfterSelect) {
-      this.value = this.currentValue[0].name;
+    if (this.optionSelected){
+      const valueSelected = this.options.find((option) => option.id === this.optionSelected);
+      if (valueSelected){
+        this.value = valueSelected.name;
+      }
+    }
+    if (!this.value && this.currentValue) {
+      this.value = this.currentValue.name;
     }
   }
 
   onChange(value: any): void {
-    this.optionSelected = this.currentValue ? true : false;
-    this.selectTrigger.emit(value);
+    if (this.currentValue) {
+      this.optionChangeSelected = true;
+    } else {
+      this.optionChangeSelected = false;
+    }
+    this.selectTrigger.emit(this.currentValue);
     if (this.clearAfterSelect && this.value) {
       this.writeValue('');
     }
@@ -44,7 +55,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: any): void {
     if (value) {
-      this.value = value || '';
+      this.value = value;
     } else {
       this.value = '';
     }
@@ -73,8 +84,10 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   setCurrentValue(name: string, objectArray: any[]) {
-    objectArray.map((object: any) => {
-      if (object.name == name) this.currentValue = object;
+    objectArray.forEach((object: any) => {
+      if (object.name === name) {
+        this.currentValue = object;
+      }
     });
   }
 }

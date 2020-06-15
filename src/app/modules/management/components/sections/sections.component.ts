@@ -55,14 +55,6 @@ export class SectionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Carga menú lateral
-    this.menu = JSON.parse(localStorage.getItem('menu')).filter((item) =>
-      item.url.endsWith('/management')
-    );
-    this.menuSelected = this.menu[0].children.find((item) =>
-      item.url.endsWith('/management/sections')
-    );
-    // fin carga menú lateral
     this.options = {
       actionMapping: {
         mouse: {
@@ -132,13 +124,11 @@ export class SectionsComponent implements OnInit {
   }
 
   private setFormValues(node: SectionModel): void {
-    Object.keys(node).map((nodeKey) => {
+    Object.keys(node).forEach((nodeKey) => {
       if (this.modalForm.controls[nodeKey]) {
         if (nodeKey === 'fatherSection') {
           if (node[nodeKey] && this.isEditing) {
-            this.modalForm.controls[nodeKey].setValue(
-              (node[nodeKey] as SectionModel).title
-            );
+            this.modalForm.controls[nodeKey].setValue(node[nodeKey].title);
           } else {
             this.modalForm.controls[nodeKey].setValue(node.title);
           }
@@ -156,7 +146,10 @@ export class SectionsComponent implements OnInit {
     modalRef.componentInstance.id = 'sectionsEditor';
     modalRef.componentInstance.title = 'Sección';
     modalRef.componentInstance.form = this.modalForm;
-    modalRef.componentInstance.options = { roles: this.roles };
+    const options = {
+      roles: {options: this.roles}
+    }
+    modalRef.componentInstance.options = options;
     modalRef.componentInstance.activeRoles = this.activeRoles;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();

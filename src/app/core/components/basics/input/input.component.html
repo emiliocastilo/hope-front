@@ -1,5 +1,14 @@
 <div class="form-group dynamic-group field">
   <span class="ui-float-label">
+    <label
+      for="{{ id }}"
+      [ngClass]="{
+        'date-label': type === 'date',
+        'dynamic-label': type !== 'date',
+        'required-label': required
+      }"
+      >{{ label | translate }}</label
+    >
     <input
       (input)="onInput($event.target.value)"
       [disabled]="isDisabled"
@@ -11,18 +20,10 @@
       id="{{ id }}"
       name="{{ name }}"
       type="{{ type }}"
+      attr.max="{{ type ? maxDate : null }}"
     />
-    <label
-      for="{{ id }}"
-      [ngClass]="{
-        'date-label': type === 'date',
-        'dynamic-label': type !== 'date',
-        'required-label': required
-      }"
-      >{{ label | translate }} {{ required ? '*' : null }}</label
-    >
   </span>
-  <span *ngIf="invalid && invalidLabel" class="invalid-value">{{
-    invalidLabel | translate
-  }}</span>
+  <span *ngIf="invalid && invalidLabel" class="invalid-value">
+    {{ invalidLabel | translate }}
+  </span>
 </div>

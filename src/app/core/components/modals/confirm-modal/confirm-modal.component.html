@@ -9,9 +9,13 @@
     {{ messageModal }}
   </div>
   <div class="modal-footer editor-modal-footer">
-    <button class="btn btn-default" (click)="onCancel()">Cancelar</button>
-    <button class="btn btn-danger" (click)="onAccept()">
+    <button class="btn btn-primary" (click)="onAccept()">
+      <i-feather name="check"></i-feather>
       Aceptar
+    </button>
+    <button class="btn btn-danger" (click)="onCancel()">
+      <i-feather name="x"></i-feather>
+      Cancelar
     </button>
   </div>
 </div>

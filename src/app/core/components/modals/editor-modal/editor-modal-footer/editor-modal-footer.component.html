@@ -1,17 +1,17 @@
 <div class="modal-footer editor-modal-footer">
   <app-button
     type="button"
-    clasesBtn="btn-danger btn-sm mx-2"
-    icono="fa fa-window-close"
-    texto="btn.close"
-    (click)="onClose()"
+    icono="check"
+    clasesBtn="btn-primary btn-sm mx-2"
+    texto="btn.accept"
+    (click)="onSave($event)"
+    [readOnly]="disableSave"
   ></app-button>
   <app-button
     type="button"
-    icono="fa fa-plus"
-    clasesBtn="btn-primary btn-sm mx-2"
-    texto="btn.save"
-    (click)="onSave($event)"
-    [readOnly]="disableSave"
+    clasesBtn="btn-danger btn-sm mx-2"
+    icono="x"
+    texto="btn.cancel"
+    (click)="onClose()"
   ></app-button>
 </div>

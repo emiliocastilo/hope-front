@@ -1,4 +1,4 @@
-<div class="container-fluid master-table">
+<div class="master-table">
   <table class="table table-striped">
     <thead>
       <tr>
@@ -7,38 +7,62 @@
           scope="col"
           sortable="{{ header }}"
           (sort)="emitOnSort($event)"
+          [ngClass]="{ pointer: sortable === true }"
         >
-          {{ header | translate }}
+          <div class="headerTable">
+            {{ header | translate }}
+            <span *ngIf="sortable === true" class="table-head_icon-box">
+              <i
+                [ngClass]="{
+                  'fa fa-long-arrow-up': true,
+                  'table-head_icon-box_icon-active':
+                    header + 'asc' === clickedHeader
+                }"
+                aria-hidden="true"
+              ></i>
+              <i
+                [ngClass]="{
+                  'fa fa-long-arrow-down': true,
+                  'table-head_icon-box_icon-active':
+                    header + 'desc' === clickedHeader
+                }"
+                aria-hidden="true"
+              ></i>
+            </span>
+          </div>
         </th>
-        <th *ngIf="showActionButtons">
+        <th scope="col" *ngIf="showActionButtons" class="headerTable">
           {{ 'actions' | translate }}
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="columnsData && columnsData.length > 0">
       <tr *ngFor="let row of columnsData; index as i">
-        <td *ngFor="let header of columnsHeader">
-          {{
-            header.toLowerCase().includes('date') ||
-            header.toLowerCase().includes('period')
-              ? (row[header] | date: 'dd/MM/yy')
-              : header.toLowerCase().includes('gender')
-              ? (row[header] | genderFormatter)
-              : row[header]
-          }}
+        <td *ngFor="let header of columnsHeader" class="dataTable">
+          {{ showDataTable(row[header], header) }}
         </td>
         <td *ngIf="showActionButtons">
-          <div>
+          <div class="table-body_row_actions">
             <a
               *ngFor="let action of actions"
               href=""
               (click)="emitIconButtonClick(action.name, i)"
+              [ngClass]="{
+                'table-body_row_actions-container': true,
+                delete: action.name == 'delete'
+              }"
             >
-              <i class="mr-2 {{ action.icon }}"></i>
+              <i-feather
+                name="{{ action.icon }}"
+                class="feather-icon"
+              ></i-feather>
             </a>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
+  <div *ngIf="columnsData && columnsData.length === 0" class="no-data">
+    {{ 'noData' | translate }}
+  </div>
 </div>

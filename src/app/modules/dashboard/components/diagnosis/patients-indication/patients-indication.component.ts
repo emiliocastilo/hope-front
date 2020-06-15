@@ -9,6 +9,7 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-patients-indication',
@@ -19,28 +20,36 @@ export class PatientsIndicationComponent implements OnInit {
   private patientsIndications: any;
   public modules: Array<HomeDashboardModule>;
   public menu: SideBarItemModel[] = [];
-  public menuId: number = 2;
-  public currentSection: number = 1;
+  public menuId = 2;
+  public currentSection = 1;
   public data: ColumnChartModel;
   public dataTable: any[];
   private dataChart: ChartObjectModel[];
   public columHeaders: string[] = [
     'Tipo Psoriasis',
-    'Sin artritis psoriásica',
-    'Con artritis psoriásica',
+    this._translate.instant('withoutArthritis'),
+    this._translate.instant('withArthritis'),
     'TOTAL',
   ];
   public headersDetailsTable: string[] = [
-    'Nombe',
-    'Diagnóstico principal',
-    'fecha',
+    'nhc',
+    'healthCard',
+    'fullName',
+    'principalIndication',
+    'principalDiagnose',
+    'treatment',
+    'pasi',
+    'pasiDate',
+    'dlqi',
+    'dlqiDate',
   ];
-  public showingDetail: boolean = false;
-  private currentPage: number = 0;
+  public showingDetail = false;
+  private currentPage = 0;
   public paginationData: PaginationModel = {
     number: 0,
     size: 0,
     totalElements: 0,
+    totalPages: 0,
   };
   public detailsDataTable: any[];
   private selectedDisease: string;
@@ -52,73 +61,82 @@ export class PatientsIndicationComponent implements OnInit {
   constructor(
     public _activatedRoute: ActivatedRoute,
     public _patientsIndicationService: PatientsIndicationService,
-    private _router: Router
+    private _router: Router,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit(): void {
-    this.patientsIndications = this._activatedRoute.snapshot.data.patientsIndications;
-    const rootMenu = JSON.parse(localStorage.getItem('menu'));
-    this.menu = rootMenu.filter((item) => item.url.endsWith('dashboard'));
-    if (this.menu.length) {
-      this.modules = rootMenu.find((item) =>
-        item.url.endsWith('dashboard')
-      ).children;
-    }
+    this.getData();
+  }
+
+  getData() {
+    this._patientsIndicationService
+      .getPatiensDiagnosesByIndications()
+      .subscribe((response) => {
+        this.parseDataToChart(response);
+        this.parseDataToTable(response);
+      });
+  }
+
+  private parseDataToChart(patiensIndication: any) {
+    this.dataChart = [];
+
+    Object.keys(patiensIndication).forEach((key: string) => {
+      const objectData: ChartObjectModel = {
+        name: key,
+        series: [
+          {
+            name: this._translate.instant('withArthritis').toUpperCase(),
+            value: patiensIndication[key].true
+              ? patiensIndication[key].true
+              : 0,
+          },
+          {
+            name: this._translate.instant('withoutArthritis').toUpperCase(),
+            value: patiensIndication[key].false
+              ? patiensIndication[key].false
+              : 0,
+          },
+        ],
+      };
+      this.dataChart.push(objectData);
+    });
 
     const chartTitle = 'patientsForIndications';
     const view = null;
     const scheme = {
-      domain: ['#249cf1', '#000'],
+      domain: ['#000', '#249cf1'],
     };
-    this.dataChart = this.parseDataToChart();
-
     this.data = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
-
-    this.dataTable = this.parseDataToTable(this.patientsIndications, false);
   }
 
-  private parseDataToChart(): ChartObjectModel[] {
-    const results: ChartObjectModel[] = [];
-
-    Object.keys(this.patientsIndications).map((key: string) => {
-      const objectData: ChartObjectModel = {
-        name: key,
-        value: this.patientsIndications[key],
-      };
-      results.push(objectData);
-    });
-    return results;
-
-    // TODO: data migth come in this format:
-    //Map{key, value}
-    //value: int, [{string, int}]
-  }
-
-  private parseDataToTable(list: any[], details: boolean) {
-    // TODO: data structure migth change.
+  private parseDataToTable(list: any[]) {
     const data = [];
     let dataObject = {};
-    if (details) {
-      list.map((value: any) => {
-        dataObject = {
-          Nombe: value.fullName,
-          'Diagnóstico principal': value.principalDiagnose,
-          fecha: value.pasiDate,
-        };
-        data.push(dataObject);
-      });
-    } else {
-      Object.keys(list).map((key: string) => {
-        dataObject = {
-          'Tipo Psoriasis': key,
-          'Sin artritis psoriásica': 1,
-          'Con artritis psoriásica': 2,
-          TOTAL: list[key],
-        };
-        data.push(dataObject);
-      });
-    }
-    return data;
+    Object.keys(list).forEach((key: string) => {
+      dataObject = {
+        'Tipo Psoriasis': key,
+        TOTAL: this.sumAllCases(list[key]),
+      };
+      dataObject[this._translate.instant('withoutArthritis')] = list[key].false
+        ? list[key].false
+        : 0;
+      dataObject[this._translate.instant('withArthritis')] = list[key].true
+        ? list[key].true
+        : 0;
+
+      data.push(dataObject);
+    });
+    this.dataTable = data;
+  }
+
+  private sumAllCases(object: any): number {
+    let total = 0;
+
+    total += object.true ? object.true : 0;
+    total += object.false ? object.false : 0;
+
+    return total;
   }
 
   public onIconButtonClick(event: any) {
@@ -132,14 +150,12 @@ export class PatientsIndicationComponent implements OnInit {
   }
 
   public onPatientClick(event: any) {
-    console.log('onPatient:', event);
-
     if (event.type === 'detail') {
       const currentUser = this.detailsDataTable[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
       // TODO: data from back comes incompleted.
       localStorage.setItem('selectedUser', selectedUser);
-      this._router.navigate(['pathology/patients']);
+      this._router.navigate(['pathology/patients/dashboard']);
     }
   }
 
@@ -147,7 +163,7 @@ export class PatientsIndicationComponent implements OnInit {
     const query = `page=${this.currentPage}&indication=${disease}`;
     this._patientsIndicationService.getDetails(query).subscribe(
       (data) => {
-        this.detailsDataTable = this.parseDataToTable(data.content, true);
+        this.detailsDataTable = data.content;
         this.paginationData = data;
       },
       (error) => {
@@ -165,5 +181,26 @@ export class PatientsIndicationComponent implements OnInit {
 
   public buttonAction() {
     // TODO: make functions to export data.
+  }
+
+  public onSortTableDetail(event: any) {
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedDisease}`;
+
+    // if (this.itemsPerPage) {
+    //   query = `${query}&size=${this.itemsPerPage}`;
+    // }
+    this.refreshDetailTable(query);
+  }
+
+  private refreshDetailTable(query: string): void {
+    this._patientsIndicationService.getDetails(query).subscribe(
+      (data) => {
+        this.detailsDataTable = data.content;
+        this.paginationData = data;
+      },
+      (error) => {
+        console.error('error: ', error);
+      }
+    );
   }
 }

@@ -1,3 +1,16 @@
+@import '~src/assets/styles/variables.scss';
+
+button {
+  font-weight: 100;
+  padding: 0.45rem 1rem;
+
+  &:disabled {
+    background-color: $app-color-gray-dark;
+    border-color: $app-color-gray-dark;
+    cursor: not-allowed;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

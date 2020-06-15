@@ -30,6 +30,7 @@ export class PatientsComponent implements OnInit {
   private currentPage: number = 0;
   public paginationData: PaginationModel;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
+  public itemsPerPage: number;
 
   constructor(
     private _patientsService: PatientsService,
@@ -64,20 +65,35 @@ export class PatientsComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
+    let query = `&page=${page}`;
     this.currentPage = page;
-    this.refreshData(`&page=${page}`);
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+    this.refreshData(query);
   }
 
   private refreshData(query: string): void {
     this._patientsService.getPatients(query).subscribe((data) => {
       this.patients = data.content;
-      if (this.paginationData.totalElements !== data.totalElements) {
+      if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
     });
   }
 
   public onSort(event: any) {
-    this.refreshData(`&sort=${event.column},${event.direction}`);
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
+    this.refreshData(query);
+  }
+
+  public selectItemsPerPage(number: number) {
+    this.itemsPerPage = number;
+    this.selectPage(0);
   }
 }

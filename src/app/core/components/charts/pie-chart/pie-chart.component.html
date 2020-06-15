@@ -2,6 +2,7 @@
   {{ chartTitle | translate }}
   <hr />
   <ngx-charts-pie-chart
+    *ngIf="results && results.length > 0"
     [view]="view"
     [gradient]="gradient"
     [doughnut]="doughnut"
@@ -12,4 +13,7 @@
     [legendTitle]="legendTitle"
   >
   </ngx-charts-pie-chart>
+  <div *ngIf="results && results.length === 0" class="no-data">
+    {{ 'noData' | translate }}
+  </div>
 </div>

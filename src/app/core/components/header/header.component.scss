@@ -1,26 +1,17 @@
 @import '~src/assets/styles/variables.scss';
 
 .master-header {
-  border-bottom: 0.2em solid $app-color-violet;
+  backdrop-filter: blur(5px);
+  background-color: rgba($app-color-white, 50%);
+  border-bottom: 1px solid $app-color-blue-border;
+  height: 5rem;
+  padding-left: 0;
 
   section {
+    padding-left: 0;
+
     .banner {
-      height: 2.5em;
-    }
-
-    .loged-user {
-      color: $app-color-violet;
-      font-weight: bold;
-      margin-top: auto;
-      margin-bottom: auto;
-    }
-
-    .logout {
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
-      width: 30px;
-      height: 30px;
+      height: 1.9rem;
     }
   }
 }

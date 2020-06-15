@@ -2,19 +2,29 @@
 @import '~angular-tree-component/dist/angular-tree-component.css';
 @import './assets/styles/button-boostrap-theme.scss';
 
+@font-face {
+  font-family: 'Raleway-light';
+  src: url(assets/fonts/Raleway/Raleway-Light.ttf);
+}
+
+@font-face {
+  font-family: 'Raleway-thin';
+  src: url(assets/fonts/Raleway/Raleway-Thin.ttf);
+}
+
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 /* EXTENSION FOR FONT AWESOME */
 .cfa-red {
-  color: $app-color-red;
+  color: $app-color-red-main;
 }
 
 .cfa-blue {
@@ -67,6 +77,7 @@ body {
       transition: background-color 0.25s;
 
       a {
+        cursor: pointer;
         text-decoration: none;
       }
 
@@ -80,7 +91,7 @@ body {
     }
 
     .remove {
-      color: $app-color-red;
+      color: $app-color-red-main;
     }
   }
 }
@@ -95,4 +106,53 @@ body {
   color: $app-color-gray-dark;
   font-size: 0.8rem;
   margin-top: 1rem;
+}
+
+.side-bar {
+  .nav-item {
+    .item {
+      display: flex;
+
+      .icon {
+        min-width: 50px;
+      }
+
+      .nav-link {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  &.collapsed {
+    .nav-item .item .nav-link {
+      opacity: 0;
+    }
+  }
+}
+
+.no-data {
+  margin: 1rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 100;
+  color: $app-color-gray-dark;
+}
+
+.required-label::after {
+  content: ' *';
+  color: red;
+  font-size: 1.2rem;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: none;
+}
+
+hr {
+  background-color: $app-color-blue-border;
+  border-color: $app-color-blue-border;
 }

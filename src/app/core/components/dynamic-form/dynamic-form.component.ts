@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
+import FormUtils from '../../utils/FormUtils';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -39,6 +40,22 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     this.form = this.createGroup();
   }
 
+  detectCalculated() {
+    this.changes.subscribe((change) => {
+      const calculated = this.config.find((e) => e.type === 'calculated_front');
+      const params = [];
+      if (calculated) {
+        calculated.params.forEach((e, i) => {
+          params[i] = change[e];
+        });
+        const value = FormUtils[calculated.formula](params);
+        this.form.controls[calculated.name].setValue(value, {
+          emitEvent: false,
+        });
+      }
+    });
+  }
+
   ngOnChanges() {
     if (this.form) {
       const controls = Object.keys(this.form.controls);
@@ -56,6 +73,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.form.addControl(name, this.createControl(config));
           }
         });
+      this.detectCalculated();
     }
   }
 
