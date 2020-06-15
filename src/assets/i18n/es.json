@@ -129,5 +129,12 @@
   "pasi": "PASI",
   "pasiDate": "Fecha PASI",
   "dlqi": "DLQI",
-  "dlqiDate": "Fecha DLQI"
+  "dlqiDate": "Fecha DLQI",
+  "combinedTreatments": "Tratamientos combinados",
+  "patientsByCombinedTreatment": "Pacientes por tratamientos combinados",
+  "reasonLastChangeBiologicalTreatment": "Motivo del último cambio de tratamiento biológico",
+  "reasonStopBiologicalTreatment": "Motivo de la suspensión de tratamiento biológico",
+  "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",
+  "ReasonChangeBiologicalTreatmentFiveYears": "Motivo del cambio de tratamiento biológico de los últimos 5 años",
+  "ReasonStopBiologicalTreatmentFiveYears": "Motivo de la suspensión de tratamiento biológicos de los últimos 5 años"
 }
