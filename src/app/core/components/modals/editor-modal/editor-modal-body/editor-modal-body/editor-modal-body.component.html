@@ -55,7 +55,8 @@
               [isDisabled]="false"
               [labelValue]="'modal.editor.field.' + formKey | translate"
               [name]="formKey"
-              [options]="options[formKey]"
+              [options]="options[formKey].options"
+              [optionSelected]="options[formKey].optionSelected"
               [placeholder]="'modal.editor.field.' + formKey | translate"
               [selectMultiple]="false"
               [clearAfterSelect]="true"
@@ -94,12 +95,13 @@
           >
           </app-input>
         </div>
-        <app-input-select
+        <app-input-select class="selectCombo"
           [id]="formKey"
           [isDisabled]="false"
           [labelValue]="'modal.editor.field.' + formKey | translate"
           [name]="formKey"
-          [options]="options[formKey]"
+          [options]="options[formKey].options"
+          [optionSelected]="options[formKey].optionSelected"
           [currentValue]="form.controls[formKey].value"
           [placeholder]="'modal.editor.field.' + formKey | translate"
           [selectMultiple]="false"

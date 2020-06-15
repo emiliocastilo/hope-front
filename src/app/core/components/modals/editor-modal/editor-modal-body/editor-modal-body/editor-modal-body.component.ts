@@ -81,19 +81,35 @@ export class EditorModalBodyComponent implements OnInit {
       const rolFound = this.activeRoles.find((rol) => rol.name === name);
       if (!rolFound) {
         this.activeRoles.push(
-          this.options.roles.find((rol) => rol.name === name)
+          this.options.roles.options.find((rol) => rol.name === name)
         );
       }
     } else {
       this.activeRoles.push(
-        this.options.roles.find((rol) => rol.name === name)
+        this.options.roles.options.find((rol) => rol.name === name)
       );
     }
   }
 
   onSelectItem(event: any) {
-    if (event.hasOwnProperty('serviceDTO')) {
-      this.options['serviceDTO'] = event.serviceDTO;
+    if (event.hasOwnProperty('serviceDTO') && this.options['serviceDTO']) {
+      if (event.serviceDTO.length > 0) {
+        this.options['serviceDTO'].options = event.serviceDTO;
+        this.form.get('serviceDTO').setValue(event.serviceDTO);
+      } else {
+        this.options['serviceDTO'].options = null;
+        this.form.get('serviceDTO').setValue(null);
+      }
+
+    }
+    if (event.hasOwnProperty('pathologies') && this.options['pathology']) {
+      if (event.pathologies.length > 0) {
+        this.options['pathology'].options = event.pathologies;
+        this.form.get('pathology').setValue(event.pathologies);
+      } else {
+        this.options['pathology'].options = null;
+        this.form.get('pathology').setValue(null);
+      }
     }
   }
 
@@ -167,11 +183,5 @@ export class EditorModalBodyComponent implements OnInit {
         }
       }
     });
-  }
-
-  public onSelectedItem(event: any) {
-    if (event.hasOwnProperty('pathologies')) {
-      this.options['pathology'] = event.pathologies;
-    }
   }
 }
