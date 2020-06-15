@@ -70,6 +70,11 @@
   }
 
   @supports (-moz-appearance: none) {
+    .roles-select {
+      position: relative;
+      top: 2.5rem;
+    }
+
     .legend {
       padding-top: 0;
     }
@@ -85,4 +90,8 @@
       font-size: 1.2rem;
     }
   }
+}
+
+.selectCombo {
+  width: 100%;
 }

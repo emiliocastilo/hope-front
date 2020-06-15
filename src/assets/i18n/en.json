@@ -38,6 +38,8 @@
   "collegeNumber": "College number",
   "description": "Description",
   "form.validate.required": "This field is required",
+  "form.validate.email": "Invalid email",
+  "form.validate.pattern": "Invalid format",
   "modal.editor.field.name": "Name",
   "modal.editor.field.title": "Title",
   "modal.editor.field.firstSurname": "First surname",
@@ -54,6 +56,7 @@
   "modal.editor.field.collegeNumber": "College number",
   "modal.editor.field.serviceDTO": "Service",
   "modal.editor.field.hospital": "Hospital",
+  "modal.editor.field.pathology": "Pathology",
   "modal.editor.field.username": "Username",
   "modal.editor.field.password": "Password",
   "modal.editor.field.startperiod": "Start period",
@@ -139,5 +142,12 @@
   "pasi": "PASI",
   "pasiDate": "Date PASI",
   "dlqi": "DLQI",
-  "dlqiDate": "Date DLQI"
+  "dlqiDate": "Date DLQI",
+  "combinedTreatments": "Combined treatments",
+  "patientsByCombinedTreatment": "Patients by combined treatment",
+  "reasonLastChangeBiologicalTreatment": "Reason change last biological treatment",
+  "reasonStopBiologicalTreatment": "Reason stop biological treatment",
+  "numberChangesBiologicalTreatment": "Number of changes by biological treatment",
+  "ReasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
+  "ReasonStopBiologicalTreatmentFiveYears": "Reason to Stop Biological Treatment Five Years"
   }

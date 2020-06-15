@@ -51,10 +51,12 @@
           <span *ngSwitchCase="formKey === 'roles'">
             <app-input-select
               [id]="formKey"
+              class="roles-select"
               [isDisabled]="false"
               [labelValue]="'modal.editor.field.' + formKey | translate"
               [name]="formKey"
-              [options]="options[formKey]"
+              [options]="options[formKey].options"
+              [optionSelected]="options[formKey].optionSelected"
               [placeholder]="'modal.editor.field.' + formKey | translate"
               [selectMultiple]="false"
               [clearAfterSelect]="true"
@@ -89,21 +91,24 @@
             [invalidLabel]="getInvalidLabel(formKey)"
             [type]="getType(formKey)"
             [required]="checkIfRequired(formKey)"
+            [maxDate]="maxDate"
           >
           </app-input>
         </div>
-        <app-input-select
+        <app-input-select class="selectCombo"
           [id]="formKey"
           [isDisabled]="false"
           [labelValue]="'modal.editor.field.' + formKey | translate"
           [name]="formKey"
-          [options]="options[formKey]"
+          [options]="options[formKey].options"
+          [optionSelected]="options[formKey].optionSelected"
           [currentValue]="form.controls[formKey].value"
           [placeholder]="'modal.editor.field.' + formKey | translate"
           [selectMultiple]="false"
           [form]="form"
           [required]="checkIfRequired(formKey)"
-          *ngIf="setType(formKey) == 'select'"
+          (selectTrigger)="onSelectItem($event)"
+          *ngIf="setType(formKey) === 'select'"
         >
         </app-input-select>
 

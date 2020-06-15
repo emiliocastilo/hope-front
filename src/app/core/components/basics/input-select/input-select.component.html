@@ -1,4 +1,4 @@
-<div class="form-group dynamic-field">
+<div class="dynamic-field">
   <span class="ui-float-label">
     <label
       for="{{ id }}"
@@ -13,7 +13,7 @@
       class="form-control"
       name="{{ name }}"
       id="{{ id }}"
-      [ngClass]="{ 'option-selected': optionSelected }"
+      [ngClass]="{ 'option-selected': optionChangeSelected }"
       (input)="onInput($event.target.value)"
       [value]="currentValue"
     >
@@ -22,7 +22,7 @@
       <option
         *ngFor="let option of options"
         [ngValue]="option"
-        [selected]="option.name == value"
+        [selected]="option.name === value"
       >
         {{ option.name | translate }}
       </option>

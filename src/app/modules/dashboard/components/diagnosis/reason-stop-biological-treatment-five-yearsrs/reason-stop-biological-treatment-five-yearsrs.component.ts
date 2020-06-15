@@ -5,19 +5,24 @@ import { TableActionsModel } from 'src/app/core/models/table/table-actions-model
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { Router } from '@angular/router';
+import reasonBioligicalTreatment from 'src/app/core/utils/reasonBioligicalTreatment';
 
 @Component({
-  selector: 'app-patients-treatment',
-  templateUrl: './patients-treatment.component.html',
-  styleUrls: ['./patients-treatment.component.scss'],
+  selector: 'app-reason-stop-biological-treatment-five-yearsrs',
+  templateUrl: './reason-stop-biological-treatment-five-yearsrs.component.html',
+  styleUrls: ['./reason-stop-biological-treatment-five-yearsrs.component.scss'],
 })
-export class PatientsTreatmentComponent implements OnInit {
+export class ReasonStopBiologicalTreatmentFiveYearsrsComponent
+  implements OnInit {
   public showingDetail: boolean = false;
   public dataChart: ChartObjectModel[];
   public dataTable: any[];
   private treatments: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
-  public columHeaders: string[] = ['treatmentType', 'patients'];
+  public columHeaders: string[] = [
+    'ReasonStopBiologicalTreatmentFiveYears',
+    'patients',
+  ];
   public headersDetailsTable: string[] = [
     'nhc',
     'sip',
@@ -40,6 +45,7 @@ export class PatientsTreatmentComponent implements OnInit {
   };
   public details: any[] = [];
   public dataToExport: any[] = [];
+  private endCause: string = `endCause=${reasonBioligicalTreatment.stop}&years=5`;
 
   constructor(private _graphService: GraphsService, private _router: Router) {}
 
@@ -48,16 +54,18 @@ export class PatientsTreatmentComponent implements OnInit {
   }
 
   private getTreatments(): void {
-    this._graphService.getTreatments().subscribe(
-      (data) => {
-        this.treatments = data;
-        this.dataChart = this.parseDataChart(data);
-        this.dataTable = this.parseDataTable(data);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this._graphService
+      .getReasonLastChangeBiologicalFiveYears(this.endCause)
+      .subscribe(
+        (data) => {
+          this.treatments = data;
+          this.dataChart = this.parseDataChart(data);
+          this.dataTable = this.parseDataTable(data);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 
   private parseDataChart(data: any): ChartObjectModel[] {
@@ -75,7 +83,7 @@ export class PatientsTreatmentComponent implements OnInit {
   private parseDataTable(data: any): any[] {
     const arrayData = Object.keys(data).map((key) => {
       const object = {
-        treatmentType: key,
+        ReasonStopBiologicalTreatmentFiveYears: key,
         patients: data[key],
       };
       return object;
@@ -108,7 +116,7 @@ export class PatientsTreatmentComponent implements OnInit {
       this.showingDetail = true;
       this.currentTreatment = this.dataTable[event.selectedItem];
 
-      const query = `treatmentType=${this.currentTreatment.treatmentType}`;
+      const query = `${this.endCause}&reason=${this.currentTreatment.ReasonStopBiologicalTreatmentFiveYears}`;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -118,27 +126,31 @@ export class PatientsTreatmentComponent implements OnInit {
   }
 
   private getDetails(query: string): void {
-    this._graphService.getTreatmentDetails(query).subscribe(
-      (data: any) => {
-        this.details = data.content;
-        this.paginationData = data;
-        this.detailsDataTable = this.parseDataToTableDetails(data.content);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this._graphService
+      .getReasonLastChangeBiologicalDetailsFiveYears(query)
+      .subscribe(
+        (data: any) => {
+          this.details = data.content;
+          this.paginationData = data;
+          this.detailsDataTable = this.parseDataToTableDetails(data.content);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 
   private getDetailsToExport(query: string) {
-    this._graphService.getTreatmentDetailsExport(query).subscribe(
-      (data: any) => {
-        this.dataToExport = data;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this._graphService
+      .getReasonLastChangeBiologicalDetailsExportFiveYears(query)
+      .subscribe(
+        (data: any) => {
+          this.dataToExport = data;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 
   public onPatientClick(event: any) {
@@ -153,13 +165,13 @@ export class PatientsTreatmentComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `treatmentType=${this.currentTreatment.treatmentType}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `${this.endCause}&reason=${this.currentTreatment.ReasonStopBiologicalTreatmentFiveYears}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    let query = `treatmentType=${this.currentTreatment.treatmentType}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    let query = `${this.endCause}&reason=${this.currentTreatment.ReasonStopBiologicalTreatmentFiveYears}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
     this.currentSort = event;
     this.getDetails(query);
   }

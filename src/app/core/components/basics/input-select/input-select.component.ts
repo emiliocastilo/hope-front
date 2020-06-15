@@ -14,6 +14,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   @Input() labelValue = '';
   @Input() name: string;
   @Input() options: any[] = [];
+  @Input() optionSelected: number;
   @Input() currentValue: any;
   @Input() placeholder = '';
   @Input() selectMultiple = false;
@@ -26,21 +27,27 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   public value: string = null;
   childControl = new FormControl();
 
-  optionSelected: boolean;
+  optionChangeSelected: boolean;
 
   ngOnInit(): void {
-    if (this.currentValue && this.clearAfterSelect) {
-      this.value = this.currentValue[0].name;
+    if (this.optionSelected){
+      const valueSelected = this.options.find((option) => option.id === this.optionSelected);
+      if (valueSelected){
+        this.value = valueSelected.name;
+      }
+    }
+    if (!this.value && this.currentValue) {
+      this.value = this.currentValue.name;
     }
   }
 
   onChange(value: any): void {
     if (this.currentValue) {
-      this.optionSelected = true;
+      this.optionChangeSelected = true;
     } else {
-      this.optionSelected = false;
+      this.optionChangeSelected = false;
     }
-    this.selectTrigger.emit(value);
+    this.selectTrigger.emit(this.currentValue);
     if (this.clearAfterSelect && this.value) {
       this.writeValue('');
     }

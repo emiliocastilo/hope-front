@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { RolModel } from 'src/app/modules/management/models/rol.model';
 
 @Component({
@@ -12,9 +12,15 @@ export class EditorModalBodyComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() activeRoles: Array<RolModel>;
   @Input() options: any = {};
-  @Input() validationLabels: Map<string, string>;
+  @Input() maxDate: string;
   public formKeys: Array<string> = [];
-  showRequiredLegend: boolean = false;
+  public showRequiredLegend: boolean = false;
+  public showInvalidFormatLegend: boolean = false;
+
+  public errorMessages: any = {
+    required: 'form.validate.required',
+    email: 'form.validate.email',
+  };
 
   constructor() {}
 
@@ -64,22 +70,46 @@ export class EditorModalBodyComponent implements OnInit {
       photo: 'file',
       hospital: 'select',
       serviceDTO: 'select',
+      pathology: 'select',
     };
     return types[key] ? types[key] : 'text';
   }
 
-  onRolSelected(event: string) {
+  onRolSelected(event: any) {
+    const name = event.name;
     if (this.activeRoles.length > 0) {
-      const rolFound = this.activeRoles.find((rol) => rol.name === event);
+      const rolFound = this.activeRoles.find((rol) => rol.name === name);
       if (!rolFound) {
         this.activeRoles.push(
-          this.options.roles.find((rol) => rol.name === event)
+          this.options.roles.options.find((rol) => rol.name === name)
         );
       }
     } else {
       this.activeRoles.push(
-        this.options.roles.find((rol) => rol.name === event)
+        this.options.roles.options.find((rol) => rol.name === name)
       );
+    }
+  }
+
+  onSelectItem(event: any) {
+    if (event.hasOwnProperty('serviceDTO') && this.options['serviceDTO']) {
+      if (event.serviceDTO.length > 0) {
+        this.options['serviceDTO'].options = event.serviceDTO;
+        this.form.get('serviceDTO').setValue(event.serviceDTO);
+      } else {
+        this.options['serviceDTO'].options = null;
+        this.form.get('serviceDTO').setValue(null);
+      }
+
+    }
+    if (event.hasOwnProperty('pathologies') && this.options['pathology']) {
+      if (event.pathologies.length > 0) {
+        this.options['pathology'].options = event.pathologies;
+        this.form.get('pathology').setValue(event.pathologies);
+      } else {
+        this.options['pathology'].options = null;
+        this.form.get('pathology').setValue(null);
+      }
     }
   }
 
@@ -107,7 +137,7 @@ export class EditorModalBodyComponent implements OnInit {
       type = 'date';
     }
 
-    if (key.includes('phone')) {
+    if (key.includes('phone') || key.includes('order')) {
       type = 'number';
     }
 
@@ -134,10 +164,11 @@ export class EditorModalBodyComponent implements OnInit {
   }
 
   getInvalidLabel(formKey: string): string {
-    const label = this.validationLabels
-      ? this.validationLabels.get(formKey)
+    const errors = this.form ? this.form.get(formKey).errors : undefined;
+    const label = errors
+      ? Object.keys(errors).filter((key: string) => errors[key])
       : undefined;
-    return label ? label : 'form.validate.required';
+    return label ? `form.validate.${label[0]}` : 'form.validate.required';
   }
 
   public checkAnyRequired(keys: Array<string>) {

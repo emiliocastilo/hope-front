@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ActivatedRoute } from '@angular/router';
+import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -52,16 +53,18 @@ export class DashboardPatientsComponent implements OnInit {
     pathologies: [],
   };
   public isEditing: boolean = false;
-  public modalForm: FormGroup;
-  private hospitals: HospitalModel[] = [];
-  private currentPage: number = 0;
-  public paginationData: PaginationModel;
 
-  constructor(private _activatedRoute: ActivatedRoute) {}
+  constructor(private _patientService: PatientsService) {}
 
   ngOnInit(): void {
-    this.patients = this._activatedRoute.snapshot.data.patients.content;
-
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
+
+    this._patientService
+      .getPatientsById(this.selectedPatient.id)
+      .subscribe((data) => {
+        if (data) {
+          this.selectedPatient = data;
+        }
+      });
   }
 }

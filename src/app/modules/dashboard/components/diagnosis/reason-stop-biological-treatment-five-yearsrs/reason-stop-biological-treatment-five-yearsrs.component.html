@@ -1,33 +1,35 @@
-<div class="col-md-12 col-lg-12 m-0 p-0">
+<section class="col-md-12 col-lg-12 m-0 p-0">
   <section class="patients-chart-container">
-    <app-column-chart *ngIf="data" [stacked]="true" [config]="data">
-    </app-column-chart>
+    <app-pie-chart
+      [chartTitle]="'ReasonStopBiologicalTreatmentFiveYears'"
+      [results]="dataChart"
+      [showLabels]="false"
+    ></app-pie-chart>
 
     <div class="table-container" *ngIf="!showingDetail">
-      <div class="export-buttons">
-        <app-export-buttons></app-export-buttons>
-      </div>
-
       <app-table
         [columnsHeader]="columHeaders"
         [columnsData]="dataTable"
         (iconButtonClick)="onIconButtonClick($event)"
         [actions]="actions"
         [showActionButtons]="true"
-        [sortable]="false"
       >
       </app-table>
     </div>
 
     <div *ngIf="showingDetail" class="table-container">
+      <div class="export-buttons">
+        <app-export-buttons [dataToExport]="dataToExport"></app-export-buttons>
+      </div>
+
       <app-table
         [columnsHeader]="headersDetailsTable"
         [columnsData]="detailsDataTable"
         [showActionButtons]="true"
-        [actions]="actionsPatient"
-        [sortable]="true"
+        [actions]="actions"
         (iconButtonClick)="onPatientClick($event)"
-        (sort)="onSortTableDetail($event)"
+        (sort)="onSort($event)"
+        [sortable]="true"
       >
       </app-table>
       <app-pagination
@@ -39,9 +41,9 @@
         type="button"
         clasesBtn="btn-primary btn-sm mx-2"
         texto="btn.back"
-        icono="arrow-left"
         (click)="onIconButtonClick({ type: 'back' })"
+        icono="arrow-left"
       ></app-button>
     </div>
   </section>
-</div>
+</section>

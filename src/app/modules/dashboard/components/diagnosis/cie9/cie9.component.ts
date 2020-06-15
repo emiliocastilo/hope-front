@@ -4,6 +4,7 @@ import { GraphsService } from '../../../services/graphs.service';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cie9',
@@ -19,12 +20,26 @@ export class Cie9Component implements OnInit {
   public dataChart: any[];
   public dataTable: any[];
   public columHeaders = ['cie9Diagnostic', 'patients'];
-  public listHeaders = ['name', 'surname'];
-  public listData: any[];
+  public headersDetailsTable: string[] = [
+    'nhc',
+    'healthCard',
+    'fullName',
+    'principalIndication',
+    'principalDiagnose',
+    'treatment',
+    'pasi',
+    'pasiDate',
+    'dlqi',
+    'dlqiDate',
+  ];
+  public detailsDataTable: any[];
   paginationData: any;
+  private selectedCie9: string;
+  private currentPage = 0;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
+  public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
-  constructor(private charts: GraphsService) {}
+  constructor(private charts: GraphsService, private _router: Router) {}
 
   ngOnInit(): void {
     this.getData();
@@ -37,10 +52,24 @@ export class Cie9Component implements OnInit {
       .subscribe((response) => this.parseData(response));
   }
 
-  getPatientsDetail(key: string) {
-    this.charts
-      .getPatientsDetailCIE9(key)
-      .subscribe((data: any) => (this.listData = data.content));
+  private getPatientsDetail(selectedCie9: string) {
+    const query = `page=${this.currentPage}&indication=${selectedCie9}`;
+    this.charts.getPatientsDetailCIE9(query).subscribe(
+      (data) => {
+        this.detailsDataTable = data.content;
+        this.paginationData = data;
+      },
+      (error) => {
+        console.error('error: ', error);
+      }
+    );
+  }
+
+  public selectPage(page: number) {
+    if (this.currentPage !== page) {
+      this.currentPage = page;
+      this.getPatientsDetail(this.selectedCie9);
+    }
   }
 
   parseData(data: any) {
@@ -55,10 +84,41 @@ export class Cie9Component implements OnInit {
   onIconButtonClick(event: any) {
     if (event && event.type === 'detail') {
       this.showingDetail = true;
-      const selectedCie9 = this.dataChart[event.selectedItem].name;
-      this.getPatientsDetail(selectedCie9);
+      this.selectedCie9 = this.dataChart[event.selectedItem].name;
+      this.getPatientsDetail(this.selectedCie9);
     } else {
       this.showingDetail = false;
     }
+  }
+
+  public onPatientClick(event: any) {
+    if (event.type === 'detail') {
+      const currentUser = this.detailsDataTable[event.selectedItem];
+      const selectedUser = JSON.stringify(currentUser || {});
+      // TODO: data from back comes incompleted.
+      localStorage.setItem('selectedUser', selectedUser);
+      this._router.navigate(['pathology/patients/dashboard']);
+    }
+  }
+
+  public onSortTableDetail(event: any) {
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedCie9}`;
+
+    // if (this.itemsPerPage) {
+    //   query = `${query}&size=${this.itemsPerPage}`;
+    // }
+    this.refreshDetailTable(query);
+  }
+
+  private refreshDetailTable(query: string): void {
+    this.charts.getPatientsDetailCIE9(query).subscribe(
+      (data) => {
+        this.detailsDataTable = data.content;
+        this.paginationData = data;
+      },
+      (error) => {
+        console.error('error: ', error);
+      }
+    );
   }
 }

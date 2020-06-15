@@ -55,12 +55,12 @@
 
 @supports (-moz-appearance: none) {
   .dynamic-field {
-    top: -0.2rem !important;
+    top: -2.75rem;
+    width: 13rem;
+    margin-bottom: 0;
   }
 }
 
-// @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
-//   .dynamic-field {
-//     top: 2.5rem;
-//   }
-// }
+.maxWidth {
+  width: 100%;
+}

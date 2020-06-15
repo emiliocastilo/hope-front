@@ -13,6 +13,12 @@ import { PatientsByPasiComponent } from './components/healths-outcomes/patients-
 import { PatientsByBsaComponent } from './components/healths-outcomes/patients-by-bsa/patients-by-bsa.component';
 import { PatientsByPgaComponent } from './components/healths-outcomes/patients-by-pga/patients-by-pga.component';
 import { PatientsByDlqiComponent } from './components/healths-outcomes/patients-by-dlqi/patients-by-dlqi.component';
+import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
+import { ReasonLastChangeBiologicalTreatmentComponent } from './components/diagnosis/reason-last-change-biological-treatment/reason-last-change-biological-treatment.component';
+import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/reason-stop-biological-treatment/reason-stop-biological-treatment.component';
+import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
+import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
+import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
 
 const routes: Routes = [
   {
@@ -77,6 +83,36 @@ const routes: Routes = [
   {
     path: 'healths-outcomes/patients-by-dlqi',
     component: PatientsByDlqiComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/patients-combined-treatments',
+    component: PatientsCombinedTreatmentsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/reason-last-change-biological-treatment',
+    component: ReasonLastChangeBiologicalTreatmentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/reason-stop-bioligical-treatment',
+    component: ReasonStopBiologicalTreatmentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/number-changes-biological-treatment',
+    component: NumberChangesBiologicalTreatmentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/reason-change-biological-treatment-five-years',
+    component: ReasonChangeBiologicalTreatmentFiveYearsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosis/reason-stop-biological-treatment-five-years',
+    component: ReasonStopBiologicalTreatmentFiveYearsrsComponent,
     canActivate: [AuthGuard],
   },
 ];

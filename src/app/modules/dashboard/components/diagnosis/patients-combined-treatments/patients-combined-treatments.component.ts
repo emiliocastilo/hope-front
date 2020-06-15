@@ -7,17 +7,17 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-patients-treatment',
-  templateUrl: './patients-treatment.component.html',
-  styleUrls: ['./patients-treatment.component.scss'],
+  selector: 'app-patients-combined-treatments',
+  templateUrl: './patients-combined-treatments.component.html',
+  styleUrls: ['./patients-combined-treatments.component.scss'],
 })
-export class PatientsTreatmentComponent implements OnInit {
+export class PatientsCombinedTreatmentsComponent implements OnInit {
   public showingDetail: boolean = false;
   public dataChart: ChartObjectModel[];
   public dataTable: any[];
   private treatments: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
-  public columHeaders: string[] = ['treatmentType', 'patients'];
+  public columHeaders: string[] = ['combinedTreatments', 'patients'];
   public headersDetailsTable: string[] = [
     'nhc',
     'sip',
@@ -48,7 +48,7 @@ export class PatientsTreatmentComponent implements OnInit {
   }
 
   private getTreatments(): void {
-    this._graphService.getTreatments().subscribe(
+    this._graphService.getCombinedTreatment().subscribe(
       (data) => {
         this.treatments = data;
         this.dataChart = this.parseDataChart(data);
@@ -75,7 +75,7 @@ export class PatientsTreatmentComponent implements OnInit {
   private parseDataTable(data: any): any[] {
     const arrayData = Object.keys(data).map((key) => {
       const object = {
-        treatmentType: key,
+        combinedTreatments: key,
         patients: data[key],
       };
       return object;
@@ -106,10 +106,12 @@ export class PatientsTreatmentComponent implements OnInit {
   public onIconButtonClick(event: any): void {
     if (event.type === 'detail') {
       this.showingDetail = true;
-      this.currentTreatment = this.dataTable[event.selectedItem];
-
-      const query = `treatmentType=${this.currentTreatment.treatmentType}`;
-
+      this.currentTreatment = { ...this.dataTable[event.selectedItem] };
+      this.currentTreatment.combinedTreatments = this.currentTreatment.combinedTreatments.replace(
+        / /g,
+        ''
+      );
+      const query = `combinedTreatment=${this.currentTreatment.combinedTreatments}`;
       this.getDetails(query);
       this.getDetailsToExport(query);
     } else {
@@ -118,7 +120,7 @@ export class PatientsTreatmentComponent implements OnInit {
   }
 
   private getDetails(query: string): void {
-    this._graphService.getTreatmentDetails(query).subscribe(
+    this._graphService.getCombinedTreatmentDetails(query).subscribe(
       (data: any) => {
         this.details = data.content;
         this.paginationData = data;
@@ -131,7 +133,7 @@ export class PatientsTreatmentComponent implements OnInit {
   }
 
   private getDetailsToExport(query: string) {
-    this._graphService.getTreatmentDetailsExport(query).subscribe(
+    this._graphService.getCombinedTreatmentDetailsExport(query).subscribe(
       (data: any) => {
         this.dataToExport = data;
       },
@@ -153,13 +155,13 @@ export class PatientsTreatmentComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `treatmentType=${this.currentTreatment.treatmentType}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `combinedTreatment=${this.currentTreatment.combinedTreatments}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    let query = `treatmentType=${this.currentTreatment.treatmentType}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    let query = `combinedTreatment=${this.currentTreatment.combinedTreatments}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
     this.currentSort = event;
     this.getDetails(query);
   }
