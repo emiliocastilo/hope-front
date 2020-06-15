@@ -146,7 +146,10 @@ export class SectionsComponent implements OnInit {
     modalRef.componentInstance.id = 'sectionsEditor';
     modalRef.componentInstance.title = 'Sección';
     modalRef.componentInstance.form = this.modalForm;
-    modalRef.componentInstance.options = { roles: this.roles };
+    const options = {
+      roles: {options: this.roles}
+    }
+    modalRef.componentInstance.options = options;
     modalRef.componentInstance.activeRoles = this.activeRoles;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
