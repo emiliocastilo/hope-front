@@ -86,12 +86,7 @@ export class PatientsComponent implements OnInit {
         );
       }
     });
-    this._hospitalService.getById(this.selectedPatient.hospital.id).subscribe((hospital) => {
-      if (hospital){
-        this.pathologies = hospital.pathologies;
-        this.showModal();
-      }
-    });
+
   }
 
   public onSearch(event: string): void {
@@ -101,8 +96,21 @@ export class PatientsComponent implements OnInit {
   }
 
   public onIconButtonClick(event: any) {
-    if (event && event.type === 'edit' && this.pathologies.length > 0) {
-      this.editPatient();
+    if (event && event.type === 'edit') {
+      if (this.selectedPatient.hospital){
+        this._hospitalService.getById(this.selectedPatient.hospital.id).subscribe((hospital) => {
+          if (hospital && hospital.pathologies && hospital.pathologies.length > 0){
+            this.pathologies = hospital.pathologies;
+            this.modalForm.controls['pathology'].setValue(hospital.pathologies);
+            this.editPatient();
+          } else {
+            this.pathologies = null;
+            this.modalForm.controls['pathology'].setValue(null);
+          }
+        });
+      } else {
+        this.editPatient();
+      }
     } else if (event && event.type === 'delete') {
       this.showModalConfirm();
     }
@@ -169,8 +177,8 @@ export class PatientsComponent implements OnInit {
       size: 'lg',
     });
     const options = {
-      hospital: this.hospitals,
-      pathology: this.pathologies,
+      hospital: {options: this.hospitals, optionSelected: this.selectedPatient.hospital.id},
+      pathology: {options: this.pathologies, optionSelected: this.selectedPatient.pathologies[0].id}
     };
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
@@ -188,19 +196,14 @@ export class PatientsComponent implements OnInit {
   }
 
   private saveOrUpdate(event: any, modalRef: any): void {
-    const formValues: PatientModel = event.value;
+    const formValues: any = event.value;
     const birthDate = new Date(formValues.birthDate).toISOString();
     let id;
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;
     }
-    const pathologies: Array<PathologyModel> = new Array();
-    const pathology: PathologyModel = new PathologyModel(
-      '1',
-      'Dermatología',
-      ''
-    );
-    pathologies.push(pathology);
+    const pathologies = formValues.pathology[0];
+
     const hospital = formValues.hospital
       ? formValues.hospital[0]
         ? formValues.hospital[0]
