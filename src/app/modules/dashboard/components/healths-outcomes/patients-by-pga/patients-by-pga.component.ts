@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-patients-by-pga',
   templateUrl: './patients-by-pga.component.html',
-  styleUrls: ['./patients-by-pga.component.scss']
+  styleUrls: ['./patients-by-pga.component.scss'],
 })
 export class PatientsByPgaComponent implements OnInit {
   public showingDetail: boolean = false;
@@ -47,7 +47,7 @@ export class PatientsByPgaComponent implements OnInit {
   }
 
   private getData(): void {
-    const query = 'type=PGA'
+    const query = 'type=PGA';
     this._graphService.getFindResultsByType(query).subscribe(
       (data) => {
         this.dataChart = this.parseDataChart(data);

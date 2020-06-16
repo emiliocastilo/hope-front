@@ -8,9 +8,8 @@ describe('ChemicalAgentsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChemicalAgentsComponent ]
-    })
-    .compileComponents();
+      declarations: [ChemicalAgentsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

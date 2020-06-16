@@ -30,9 +30,11 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   optionChangeSelected: boolean;
 
   ngOnInit(): void {
-    if (this.optionSelected){
-      const valueSelected = this.options.find((option) => option.id === this.optionSelected);
-      if (valueSelected){
+    if (this.optionSelected) {
+      const valueSelected = this.options.find(
+        (option) => option.id === this.optionSelected
+      );
+      if (valueSelected) {
         this.value = valueSelected.name;
       }
     }
