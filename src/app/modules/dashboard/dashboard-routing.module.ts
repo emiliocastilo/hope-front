@@ -9,6 +9,10 @@ import { PatientsTreatmentComponent } from './components/diagnosis/patients-trea
 import { PatientsTreatmentsResolverService } from '../management/services/patients-treatments/patients-treatments-resolver.service';
 import { BiologicalAgentsComponent } from './components/treatments/biological-agents/biological-agents.component';
 import { ChemicalAgentsComponent } from './components/treatments/chemical-agents/chemical-agents.component';
+import { PsoriasisPlacasComponent } from './components/treatments/psoriasis-placas/psoriasis-placas.component';
+import { PsoriasisPalmoPlantarComponent } from './components/treatments/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
+import { EritrodermiaComponent } from './components/treatments/eritrodermia/eritrodermia.component';
+import { PsoriasisPustulosaComponent } from './components/treatments/psoriasis-pustulosa/psoriasis-pustulosa.component';
 import { PatientsByPasiComponent } from './components/healths-outcomes/patients-by-pasi/patients-by-pasi.component';
 import { PatientsByBsaComponent } from './components/healths-outcomes/patients-by-bsa/patients-by-bsa.component';
 import { PatientsByPgaComponent } from './components/healths-outcomes/patients-by-pga/patients-by-pga.component';
@@ -60,6 +64,50 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       type: 'QUIMICO'
+    },
+    resolve: {
+      patientsTreatments: PatientsTreatmentsResolverService,
+    },
+  },
+  {
+    path: 'treatments/psoriasis-placas',
+    component: PsoriasisPlacasComponent,
+    canActivate: [AuthGuard],
+    data: {
+      type: 'EN PLACAS'
+    },
+    resolve: {
+      patientsTreatments: PatientsTreatmentsResolverService,
+    },
+  },
+  {
+    path: 'treatments/psoriasis-palmo-plantar',
+    component: PsoriasisPalmoPlantarComponent,
+    canActivate: [AuthGuard],
+    data: {
+      type: 'PALMOPLANTAR'
+    },
+    resolve: {
+      patientsTreatments: PatientsTreatmentsResolverService,
+    },
+  },
+  {
+    path: 'treatments/eritrodermia',
+    component: EritrodermiaComponent,
+    canActivate: [AuthGuard],
+    data: {
+      type: 'ERITRODERMIA'
+    },
+    resolve: {
+      patientsTreatments: PatientsTreatmentsResolverService,
+    },
+  },
+  {
+    path: 'treatments/psoriasis-pustulosa',
+    component: PsoriasisPustulosaComponent,
+    canActivate: [AuthGuard],
+    data: {
+      type: 'PSORIASIS PULTULOSA'
     },
     resolve: {
       patientsTreatments: PatientsTreatmentsResolverService,
