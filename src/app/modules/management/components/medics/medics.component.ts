@@ -115,9 +115,9 @@ export class MedicsComponent implements OnInit {
 
   public onIconButtonClick(event: any): void {
     if (event && event.type === 'edit') {
-      if (this.selectedDoctor.hospital){
+      if (this.selectedDoctor.hospital) {
         this.services = this.selectedDoctor.hospital[0].serviceDTO;
-        if (this.services.length === 0){
+        if (this.services.length === 0) {
           this.modalForm.controls['serviceDTO'].setValue(null);
         }
       }
@@ -219,8 +219,11 @@ export class MedicsComponent implements OnInit {
     });
     let servicesDto: any[] = [this.selectedDoctor.serviceDTO];
     const options = {
-      hospital: {options: this.hospitals, optionSelected: this.selectedDoctor.hospital[0].id},
-      serviceDTO: {options: this.services, optionSelected: servicesDto[0].id},
+      hospital: {
+        options: this.hospitals,
+        optionSelected: this.selectedDoctor.hospital[0].id,
+      },
+      serviceDTO: { options: this.services, optionSelected: servicesDto[0].id },
     };
     modalRef.componentInstance.id = 'doctoreditor';
     modalRef.componentInstance.title = 'Nuevo Médico';

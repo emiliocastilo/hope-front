@@ -1,6 +1,6 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
   <div class="add-btn">
-    <app-button (click)="newRow()" clasesBtn="btn-primary" icono="fa fa-plus">
+    <app-button (click)="newRow()" clasesBtn="btn-primary" icono="plus-circle">
     </app-button>
   </div>
   <div class="container-fluid master-table">
@@ -16,13 +16,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
+        <tr *ngFor="let row of list; index as i" [formArrayName]="config.name">
           <td *ngFor="let header of headers">
             <div *ngIf="!isEditing">{{ row[header] }}</div>
             <input
               *ngIf="isEditing"
               [fromControlName]="config.name[header]"
               [value]="row[header]"
+              (change)="onChangeInput($event, header)"
             />
           </td>
           <td *ngIf="config.actions">

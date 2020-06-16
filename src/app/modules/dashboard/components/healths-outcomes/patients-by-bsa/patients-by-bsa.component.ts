@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-patients-by-bsa',
   templateUrl: './patients-by-bsa.component.html',
-  styleUrls: ['./patients-by-bsa.component.scss']
+  styleUrls: ['./patients-by-bsa.component.scss'],
 })
 export class PatientsByBsaComponent implements OnInit {
   public showingDetail: boolean = false;
@@ -47,7 +47,7 @@ export class PatientsByBsaComponent implements OnInit {
   }
 
   private getData(): void {
-    const query = 'type=BSA'
+    const query = 'type=BSA';
     this._graphService.getFindResultsByType(query).subscribe(
       (data) => {
         this.dataChart = this.parseDataChart(data);
