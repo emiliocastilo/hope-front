@@ -8,9 +8,8 @@ describe('PatientsByPgaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PatientsByPgaComponent ]
-    })
-    .compileComponents();
+      declarations: [PatientsByPgaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

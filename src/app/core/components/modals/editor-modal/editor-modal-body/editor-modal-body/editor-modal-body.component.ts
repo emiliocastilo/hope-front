@@ -100,7 +100,6 @@ export class EditorModalBodyComponent implements OnInit {
         this.options['serviceDTO'].options = null;
         this.form.get('serviceDTO').setValue(null);
       }
-
     }
     if (event.hasOwnProperty('pathologies') && this.options['pathology']) {
       if (event.pathologies.length > 0) {
