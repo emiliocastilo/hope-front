@@ -24,7 +24,7 @@
               {{ checkIfRequired(formKey) ? '*' : null }}
             </label>
             <div
-              class="btn-group btn-group-toggle"
+              class="btn-group btn-group-toggle margin-firefox-gender"
               ngbRadioGroup
               name="radioBasic"
               [formControlName]="formKey"
@@ -95,7 +95,7 @@
           >
           </app-input>
         </div>
-        <app-input-select class="selectCombo"
+        <app-input-select class="select-combo margin-firefox"
           [id]="formKey"
           [isDisabled]="false"
           [labelValue]="'modal.editor.field.' + formKey | translate"

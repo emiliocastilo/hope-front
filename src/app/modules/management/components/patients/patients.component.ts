@@ -176,10 +176,19 @@ export class PatientsComponent implements OnInit {
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
-    const options = {
-      hospital: {options: this.hospitals, optionSelected: this.selectedPatient.hospital.id},
-      pathology: {options: this.pathologies, optionSelected: this.selectedPatient.pathologies[0].id}
-    };
+    let options: any = {};
+    if (this.selectedItem != null && this.selectedPatient.hospital && this.selectedPatient.pathologies){
+      options = {
+        hospital: {options: this.hospitals, optionSelected: this.selectedPatient.hospital.id},
+        pathology: {options: this.pathologies, optionSelected: this.selectedPatient.pathologies[0].id}
+      };
+    } else {
+      this.pathologies = [];
+      options = {
+        hospital: {options: this.hospitals},
+        pathology: {options: this.pathologies},
+      };
+    }
     modalRef.componentInstance.id = 'patientseditor';
     modalRef.componentInstance.title = 'Paciente';
     modalRef.componentInstance.form = this.modalForm;

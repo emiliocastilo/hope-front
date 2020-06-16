@@ -27,5 +27,8 @@
         {{ option.name | translate }}
       </option>
     </select>
+    <span *ngIf="currentValue" class="tooltip">
+      <i>{{value}}</i>
+    </span>
   </span>
 </div>
