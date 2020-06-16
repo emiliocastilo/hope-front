@@ -77,6 +77,10 @@ input[type='number'] {
     background-color: white;
     color: $app-color-blue-main;
   }
+
+  .firefox-position {
+    z-index: 1;
+  }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {

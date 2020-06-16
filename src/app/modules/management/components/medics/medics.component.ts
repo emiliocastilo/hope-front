@@ -217,11 +217,21 @@ export class MedicsComponent implements OnInit {
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
-    let servicesDto: any[] = [this.selectedDoctor.serviceDTO];
-    const options = {
-      hospital: {options: this.hospitals, optionSelected: this.selectedDoctor.hospital[0].id},
-      serviceDTO: {options: this.services, optionSelected: servicesDto[0].id},
-    };
+    let options: any = {};
+    if (this.selectedItem != null && this.selectedDoctor.hospital && this.selectedDoctor.serviceDTO){
+      const servicesDto: any[] = [this.selectedDoctor.serviceDTO];
+      options = {
+        hospital: {options: this.hospitals, optionSelected: this.selectedDoctor.hospital[0].id},
+        serviceDTO: {options: this.services, optionSelected: servicesDto[0].id},
+      };
+    } else {
+      this.services = [];
+      options = {
+        hospital: {options: this.hospitals},
+        serviceDTO: {options: this.services},
+      };
+    }
+
     modalRef.componentInstance.id = 'doctoreditor';
     modalRef.componentInstance.title = 'Nuevo Médico';
     modalRef.componentInstance.options = options;
