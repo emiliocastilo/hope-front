@@ -224,11 +224,12 @@ export class PatientsComponent implements OnInit {
   private saveOrUpdate(event: any, modalRef: any): void {
     const formValues: any = event.value;
     const birthDate = new Date(formValues.birthDate).toISOString();
-    let id;
+    let id: string;
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;
     }
-    const pathologies = formValues.pathology[0];
+    const pathologies = [];
+    pathologies.push(formValues.pathology[0]);
 
     const hospital = formValues.hospital
       ? formValues.hospital[0]
