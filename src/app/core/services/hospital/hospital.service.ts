@@ -15,5 +15,4 @@ export class HospitalService {
   getById(id: number): Observable<any> {
     return this._http.get(`/hospitals/${id}`);
   }
-
 }

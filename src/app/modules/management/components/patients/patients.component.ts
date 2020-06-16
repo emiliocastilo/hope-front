@@ -43,7 +43,7 @@ export class PatientsComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
-    private _hospitalService: HospitalService,
+    private _hospitalService: HospitalService
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +86,6 @@ export class PatientsComponent implements OnInit {
         );
       }
     });
-
   }
 
   public onSearch(event: string): void {
@@ -97,17 +96,25 @@ export class PatientsComponent implements OnInit {
 
   public onIconButtonClick(event: any) {
     if (event && event.type === 'edit') {
-      if (this.selectedPatient.hospital){
-        this._hospitalService.getById(this.selectedPatient.hospital.id).subscribe((hospital) => {
-          if (hospital && hospital.pathologies && hospital.pathologies.length > 0){
-            this.pathologies = hospital.pathologies;
-            this.modalForm.controls['pathology'].setValue(hospital.pathologies);
-            this.editPatient();
-          } else {
-            this.pathologies = null;
-            this.modalForm.controls['pathology'].setValue(null);
-          }
-        });
+      if (this.selectedPatient.hospital) {
+        this._hospitalService
+          .getById(this.selectedPatient.hospital.id)
+          .subscribe((hospital) => {
+            if (
+              hospital &&
+              hospital.pathologies &&
+              hospital.pathologies.length > 0
+            ) {
+              this.pathologies = hospital.pathologies;
+              this.modalForm.controls['pathology'].setValue(
+                hospital.pathologies
+              );
+              this.editPatient();
+            } else {
+              this.pathologies = null;
+              this.modalForm.controls['pathology'].setValue(null);
+            }
+          });
       } else {
         this.editPatient();
       }
@@ -177,16 +184,26 @@ export class PatientsComponent implements OnInit {
       size: 'lg',
     });
     let options: any = {};
-    if (this.selectedItem != null && this.selectedPatient.hospital && this.selectedPatient.pathologies){
+    if (
+      this.selectedItem != null &&
+      this.selectedPatient.hospital &&
+      this.selectedPatient.pathologies
+    ) {
       options = {
-        hospital: {options: this.hospitals, optionSelected: this.selectedPatient.hospital.id},
-        pathology: {options: this.pathologies, optionSelected: this.selectedPatient.pathologies[0].id}
+        hospital: {
+          options: this.hospitals,
+          optionSelected: this.selectedPatient.hospital.id,
+        },
+        pathology: {
+          options: this.pathologies,
+          optionSelected: this.selectedPatient.pathologies[0].id,
+        },
       };
     } else {
       this.pathologies = [];
       options = {
-        hospital: {options: this.hospitals},
-        pathology: {options: this.pathologies},
+        hospital: { options: this.hospitals },
+        pathology: { options: this.pathologies },
       };
     }
     modalRef.componentInstance.id = 'patientseditor';

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-patients-by-dlqi',
   templateUrl: './patients-by-dlqi.component.html',
-  styleUrls: ['./patients-by-dlqi.component.scss']
+  styleUrls: ['./patients-by-dlqi.component.scss'],
 })
 export class PatientsByDlqiComponent implements OnInit {
   public showingDetail: boolean = false;
@@ -47,7 +47,7 @@ export class PatientsByDlqiComponent implements OnInit {
   }
 
   private getData(): void {
-    const query = 'type=DLQI'
+    const query = 'type=DLQI';
     this._graphService.getFindResultsByType(query).subscribe(
       (data) => {
         this.dataChart = this.parseDataChart(data);
