@@ -14,7 +14,7 @@ import { NotificationService } from '../../services/notification.service';
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  @Input() key: string = 'LIST';
+  @Input() key: string = '';
   patient = 1;
 
   constructor(
@@ -34,9 +34,6 @@ export class FormsComponent implements OnInit {
     );
     if (retrievedForm && retrievedForm.data.length > 0) {
       this.filledForm = retrievedForm.data;
-      if (this.filledForm[0].name === 'list') {
-        this.filledForm[0].value = JSON.parse(this.filledForm[0].value);
-      }
     }
     const data: any = await this._formsService.get(this.key);
     const form = this._parseStringToJSON(data.form);

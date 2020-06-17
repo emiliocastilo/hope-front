@@ -7,8 +7,8 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th *ngFor="let header of headers" scope="col">
-            {{ header | translate }}
+          <th *ngFor="let header of config.fields" scope="col">
+            {{ header.name | translate }}
           </th>
           <th *ngIf="config.actions">
             {{ 'actions' | translate }}
@@ -17,16 +17,31 @@
       </thead>
       <tbody>
         <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
-          <td *ngFor="let header of headers">
-            <div *ngIf="!isEditing || (isEditing && enableEditIndex !== i)">
-              {{ row[header] }}
+          <td *ngFor="let header of config.fields">
+            <div *ngIf="header.type === 'input'">
+              <input
+                *ngIf="isEditing && enableEditIndex === i"
+                [value]="row[header.name]"
+                [fromControlName]="config.name[header.name]"
+                (change)="onChange($event, header.name, i)"
+              />
             </div>
-            <input
-              *ngIf="isEditing && enableEditIndex === i"
-              [value]="row[header]"
-              [fromControlName]="config.name[header]"
-              (change)="onChangeInput($event, header, i)"
-            />
+            <div *ngIf="header.type === 'select'">
+              <select
+                *ngIf="isEditing"
+                (change)="onChange($event, header.name, i)"
+              >
+                <option
+                  *ngFor="let option of header.options"
+                  [ngValue]="option.value"
+                >
+                  {{ option.name | translate }}
+                </option>
+              </select>
+            </div>
+            <div *ngIf="!isEditing || (isEditing && enableEditIndex !== i)">
+              {{ row[header.name] }}
+            </div>
           </td>
           <td *ngIf="config.actions">
             <div *ngIf="!isEditing">

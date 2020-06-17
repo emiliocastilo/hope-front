@@ -11,7 +11,6 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 export class FormListComponent implements OnInit {
   config: FieldConfig;
   group: FormGroup;
-  headers = [];
   rows = [];
   isEditing = false;
   enableEditIndex: number;
@@ -20,24 +19,24 @@ export class FormListComponent implements OnInit {
 
   ngOnInit() {
     if (this.config.value && this.config.value.length > 0) {
-      this.rows = this.config.value;
+      this.rows = JSON.parse(this.config.value);
     }
-    this.config.columns.forEach((e) => {
-      this.headers.push(Object.keys(e)[0]);
-    });
   }
 
   newRow() {
     let newRow = {};
-    this.headers.forEach((h) => {
-      newRow = { ...newRow, [h]: h };
+    this.config.fields.forEach((field) => {
+      newRow = {
+        ...newRow,
+        [field.name]: '',
+      };
     });
     this.rows.push(newRow);
     this.isEditing = true;
     this.enableEditIndex = this.rows.length - 1;
   }
 
-  onChangeInput(event: any, header: string, index: number) {
+  onChange(event: any, header: string, index: number) {
     this.rows[index][header] = event.target.value;
   }
 

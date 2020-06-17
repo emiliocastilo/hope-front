@@ -1,6 +1,5 @@
 import { FieldConfig } from '../interfaces/dynamic-forms/field-config.interface';
 import { FieldConfigModel } from '../models/forms/field-config.model';
-import StringUtils from './StringUtils';
 import moment from 'moment';
 
 export default class FormUtils {
@@ -33,6 +32,7 @@ export default class FormUtils {
     fieldConfig.params = value.params;
     fieldConfig.actions = value.actions;
     fieldConfig.columns = value.columns;
+    fieldConfig.fields = value.fields;
     // TODO: PARSEAR validaciones, no pueden venir como tal,habrá que hacer un switch case o algo así.
     // if (value.validation) {
     //     const validations = StringUtils.stringToArray(value.validation);
@@ -59,7 +59,9 @@ export default class FormUtils {
     Object.entries(values).forEach((e) => {
       const entry = {
         name: e[0],
-        value: e[0] === 'list' ? JSON.stringify(e[1]) : e[1],
+        value: e[0].toLowerCase().includes('table')
+          ? JSON.stringify(e[1])
+          : e[1],
       };
       form.push(entry);
     });

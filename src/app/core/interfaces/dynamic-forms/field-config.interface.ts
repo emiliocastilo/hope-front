@@ -18,4 +18,5 @@ export interface FieldConfig {
   params?: Array<string>;
   actions?: Array<string>;
   columns?: Array<any>;
+  fields?: Array<any>;
 }

@@ -95,9 +95,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   createArray(config: FieldConfig) {
     const group = this.fb.group({});
-    config.columns.forEach((c) => {
-      const key = Object.keys(c)[0];
-      group.addControl(key, this.fb.control(''));
+    config.fields.forEach((field) => {
+      group.addControl(field.name, this.fb.control(''));
     });
     return this.fb.array([group]);
   }
