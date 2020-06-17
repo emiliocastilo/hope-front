@@ -59,7 +59,7 @@ export default class FormUtils {
     Object.entries(values).forEach((e) => {
       const entry = {
         name: e[0],
-        value: e[1],
+        value: e[0] === 'list' ? JSON.stringify(e[1]) : e[1],
       };
       form.push(entry);
     });

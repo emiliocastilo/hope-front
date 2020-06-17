@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditorModalComponent } from '../../modals/editor-modal/editor-modal/editor-modal.component';
 
 @Component({
   selector: 'app-form-list',
@@ -14,49 +12,46 @@ export class FormListComponent implements OnInit {
   config: FieldConfig;
   group: FormGroup;
   headers = [];
-  modalForm: FormGroup;
-  list = [];
+  rows = [];
   isEditing = false;
+  enableEditIndex: number;
 
-  constructor(
-    private _modalService: NgbModal,
-    private _formBuilder: FormBuilder
-  ) {}
+  constructor() {}
 
   ngOnInit() {
+    if (this.config.value && this.config.value.length > 0) {
+      this.rows = this.config.value;
+    }
     this.config.columns.forEach((e) => {
       this.headers.push(Object.keys(e)[0]);
-    });
-    this.modalForm = this._formBuilder.group({});
-    this.headers.forEach((c) => {
-      this.modalForm.addControl(c, this._formBuilder.control(''));
     });
   }
 
   newRow() {
-    //  this.list.push({ name: '', surname: '' });
-    this.modalForm.reset();
-    const modalRef = this._modalService.open(EditorModalComponent, {
-      size: 'lg',
+    let newRow = {};
+    this.headers.forEach((h) => {
+      newRow = { ...newRow, [h]: h };
     });
-
-    modalRef.componentInstance.title = 'Añadir registro';
-    modalRef.componentInstance.form = this.modalForm;
-    modalRef.componentInstance.close.subscribe((event) => {
-      modalRef.close();
-    });
-    modalRef.componentInstance.save.subscribe((event) => {
-      this.list.push(event.value);
-      modalRef.close();
-    });
+    this.rows.push(newRow);
+    this.isEditing = true;
+    this.enableEditIndex = this.rows.length - 1;
   }
 
-  onChangeInput(event: any, header: string) {
-    this.modalForm.value[header] = event.target.value;
+  onChangeInput(event: any, header: string, index: number) {
+    this.rows[index][header] = event.target.value;
   }
 
-  onSaveRow(row: any) {
+  onSaveRow() {
     event.preventDefault();
+    const control = this.group.controls[this.config.name] as FormArray;
+    control.removeAt(0);
+    this.rows.forEach((r) => {
+      this.group.controls[this.config.name].value.push(r);
+    });
+    this.isEditing = false;
+  }
+
+  onCancel() {
     this.isEditing = false;
   }
 
@@ -64,8 +59,10 @@ export class FormListComponent implements OnInit {
     event.preventDefault();
     if (action === 'edit') {
       this.isEditing = true;
+      this.enableEditIndex = i;
     } else {
-      this.list.splice(i, 1);
+      this.rows.splice(i, 1);
+      this.onSaveRow();
     }
   }
 }

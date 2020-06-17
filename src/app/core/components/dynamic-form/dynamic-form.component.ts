@@ -94,13 +94,12 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   createArray(config: FieldConfig) {
-    return this.fb.array([]);
-    // const group = this.fb.group({});
-    // config.columns.forEach((c) => {
-    //   const key = Object.keys(c)[0];
-    //   group.addControl(key, this.fb.control(''));
-    // });
-    // return this.fb.array([group]);
+    const group = this.fb.group({});
+    config.columns.forEach((c) => {
+      const key = Object.keys(c)[0];
+      group.addControl(key, this.fb.control(''));
+    });
+    return this.fb.array([group]);
   }
 
   handleSubmit(event: Event) {
