@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ export class FormListComponent implements OnInit {
   group: FormGroup;
   headers = [];
   modalForm: FormGroup;
-  rows = [];
+  list = [];
   isEditing = false;
 
   constructor(
@@ -34,6 +34,7 @@ export class FormListComponent implements OnInit {
   }
 
   newRow() {
+    //  this.list.push({ name: '', surname: '' });
     this.modalForm.reset();
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
@@ -45,12 +46,16 @@ export class FormListComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event) => {
-      this.rows.push(event.value);
+      this.list.push(event.value);
       modalRef.close();
     });
   }
 
-  onSaveRow(row) {
+  onChangeInput(event: any, header: string) {
+    this.modalForm.value[header] = event.target.value;
+  }
+
+  onSaveRow(row: any) {
     event.preventDefault();
     this.isEditing = false;
   }
@@ -60,7 +65,7 @@ export class FormListComponent implements OnInit {
     if (action === 'edit') {
       this.isEditing = true;
     } else {
-      this.rows.splice(i, 1);
+      this.list.splice(i, 1);
     }
   }
 }
