@@ -16,14 +16,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of list; index as i" [formArrayName]="config.name">
+        <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
           <td *ngFor="let header of headers">
-            <div *ngIf="!isEditing">{{ row[header] }}</div>
+            <div *ngIf="!isEditing || (isEditing && enableEditIndex !== i)">
+              {{ row[header] }}
+            </div>
             <input
-              *ngIf="isEditing"
-              [fromControlName]="config.name[header]"
+              *ngIf="isEditing && enableEditIndex === i"
               [value]="row[header]"
-              (change)="onChangeInput($event, header)"
+              [fromControlName]="config.name[header]"
+              (change)="onChangeInput($event, header, i)"
             />
           </td>
           <td *ngIf="config.actions">
@@ -36,9 +38,12 @@
                 <i class="mr-2 fa fa-{{ action }}"></i>
               </a>
             </div>
-            <div *ngIf="isEditing">
-              <a href="" (click)="onSaveRow(row)">
-                save
+            <div *ngIf="isEditing && enableEditIndex === i">
+              <a href="" (click)="onSaveRow()">
+                Save
+              </a>
+              <a href="" (click)="onCancel()">
+                Cancel
               </a>
             </div>
           </td>
