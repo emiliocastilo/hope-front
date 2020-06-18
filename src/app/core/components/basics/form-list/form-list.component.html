@@ -28,7 +28,7 @@
             </div>
             <div *ngIf="header.type === 'select'">
               <select
-                *ngIf="isEditing"
+                *ngIf="isEditing && enableEditIndex === i"
                 (change)="onChange($event, header.name, i)"
               >
                 <option
@@ -55,10 +55,10 @@
             </div>
             <div *ngIf="isEditing && enableEditIndex === i">
               <a href="" (click)="onSaveRow()">
-                Save
+                {{ 'btn.save' | translate }}
               </a>
               <a href="" (click)="onCancel()">
-                Cancel
+                {{ 'btn.cancel' | translate }}
               </a>
             </div>
           </td>
