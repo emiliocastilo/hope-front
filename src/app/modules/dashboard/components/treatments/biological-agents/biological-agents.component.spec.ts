@@ -8,9 +8,8 @@ describe('BiologicalAgentsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BiologicalAgentsComponent ]
-    })
-    .compileComponents();
+      declarations: [BiologicalAgentsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
