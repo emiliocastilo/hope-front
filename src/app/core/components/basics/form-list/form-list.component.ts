@@ -20,6 +20,9 @@ export class FormListComponent implements OnInit {
   ngOnInit() {
     if (this.config.value && this.config.value.length > 0) {
       this.rows = JSON.parse(this.config.value);
+      setTimeout(() => {
+        this.bindToForm();
+      }, 1000);
     }
   }
 
@@ -28,7 +31,7 @@ export class FormListComponent implements OnInit {
     this.config.fields.forEach((field) => {
       newRow = {
         ...newRow,
-        [field.name]: '',
+        [field.name]: field.type === 'select' ? field.options[0].name : '',
       };
     });
     this.rows.push(newRow);
@@ -42,15 +45,21 @@ export class FormListComponent implements OnInit {
 
   onSaveRow() {
     event.preventDefault();
+    this.bindToForm();
+    this.isEditing = false;
+  }
+
+  bindToForm() {
     const control = this.group.controls[this.config.name] as FormArray;
     control.removeAt(0);
     this.rows.forEach((r) => {
       this.group.controls[this.config.name].value.push(r);
     });
-    this.isEditing = false;
   }
 
   onCancel() {
+    event.preventDefault();
+    this.rows.splice(this.rows.length - 1, 1);
     this.isEditing = false;
   }
 
