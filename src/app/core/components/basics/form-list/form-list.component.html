@@ -1,0 +1,69 @@
+<div class="form-group dynamic-group field" [formGroup]="group">
+  <div class="add-btn">
+    <app-button (click)="newRow()" clasesBtn="btn-primary" icono="plus-circle">
+    </app-button>
+  </div>
+  <div class="container-fluid master-table">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th *ngFor="let header of config.fields" scope="col">
+            {{ header.name | translate }}
+          </th>
+          <th *ngIf="config.actions">
+            {{ 'actions' | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
+          <td *ngFor="let header of config.fields">
+            <div *ngIf="header.type === 'input'">
+              <input
+                *ngIf="isEditing && enableEditIndex === i"
+                [value]="row[header.name]"
+                [fromControlName]="config.name[header.name]"
+                (change)="onChange($event, header.name, i)"
+              />
+            </div>
+            <div *ngIf="header.type === 'select'">
+              <select
+                *ngIf="isEditing && enableEditIndex === i"
+                (change)="onChange($event, header.name, i)"
+              >
+                <option
+                  *ngFor="let option of header.options"
+                  [ngValue]="option.value"
+                >
+                  {{ option.name | translate }}
+                </option>
+              </select>
+            </div>
+            <div *ngIf="!isEditing || (isEditing && enableEditIndex !== i)">
+              {{ row[header.name] }}
+            </div>
+          </td>
+          <td *ngIf="config.actions">
+            <div *ngIf="!isEditing">
+              <a
+                *ngFor="let action of config.actions"
+                href=""
+                (click)="emitIconButtonClick(action, i)"
+              >
+                <i class="mr-2 fa fa-{{ action }}"></i>
+              </a>
+            </div>
+            <div *ngIf="isEditing && enableEditIndex === i">
+              <a href="" (click)="onSaveRow()">
+                {{ 'btn.save' | translate }}
+              </a>
+              <a href="" (click)="onCancel()">
+                {{ 'btn.cancel' | translate }}
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

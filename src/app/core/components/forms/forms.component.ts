@@ -6,6 +6,7 @@ import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
 import { constants } from '../../../../constants/constants';
+import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Component({
   selector: 'app-forms',
@@ -15,8 +16,8 @@ import { constants } from '../../../../constants/constants';
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  @Input() key: string = 'TEST';
-  patient = 1;
+  @Input() key = '';
+  patient: PatientModel;
 
   constructor(
     private _formsService: FormsService,
@@ -26,13 +27,18 @@ export class FormsComponent implements OnInit {
 
   ngOnInit(): void {
     this.keyForms();
+    this.getPatientId();
     this.getAndParseForm();
+  }
+
+  getPatientId() {
+    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
   }
 
   async getAndParseForm() {
     const retrievedForm: any = await this._formsService.retrieveForm(
       this.key,
-      this.patient
+      this.patient.id
     );
     if (retrievedForm && retrievedForm.data.length > 0) {
       this.filledForm = retrievedForm.data;
@@ -74,16 +80,31 @@ export class FormsComponent implements OnInit {
     const form = {
       template: this.key,
       data: FormUtils.parseEntriesForm(value),
-      patientId: this.patient,
+      patientId: this.patient.id,
     };
 
-    this.fillForm(form);
+    if (this.filledForm) {
+      this.updateForm(form);
+    } else {
+      this.fillForm(form);
+    }
   }
 
   fillForm(form: any) {
     this._formsService.fillForm(form).subscribe(
       () => {
         this._notification.showSuccessToast('element_created');
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
+  }
+
+  updateForm(form: any) {
+    this._formsService.updateForm(form).subscribe(
+      () => {
+        this._notification.showSuccessToast('element_updated');
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);

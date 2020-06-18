@@ -32,10 +32,14 @@ export class PatientsComponent implements OnInit {
   public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
   private pathologies: PathologyModel[] = [];
+  private pathologiesIds: string[] = [];
   private currentPage = 0;
+  private colOrder: any;
+  private typeOrder: any;
   public paginationData: PaginationModel;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
   private itemsPerPage: number;
+  private selectedUser: any;
 
   constructor(
     private _patientsService: PatientsService,
@@ -48,8 +52,20 @@ export class PatientsComponent implements OnInit {
 
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
-    this.patients = this._activatedRoute.snapshot.data.patients.content;
+    // this.patients = this._activatedRoute.snapshot.data.patients.content;
+
     this.paginationData = this._activatedRoute.snapshot.data.patients;
+    this.selectedUser = JSON.parse(localStorage.getItem('user'));
+
+    const userHospital: any = this.hospitals.find(
+      (hospital) => hospital.id === this.selectedUser.hospitalId
+    );
+
+    this.hospitals = [userHospital];
+    // this.pathologies = this.selectedUser.pathologies; // TODO: esta deberia ser la llamada correcta, de momento cogemos las patologias del hospital del usuario
+    this.pathologies = userHospital.pathologies;
+    this.getPathologiesIds();
+    this.getPatients();
 
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
@@ -88,10 +104,26 @@ export class PatientsComponent implements OnInit {
     });
   }
 
-  public onSearch(event: string): void {
-    this._patientsService.getPatientsById(event).subscribe((data) => {
-      this.patients = data.content;
+  public getPatients() {
+    this._patientsService
+      .getPatients(this.pathologiesIds, '')
+      .subscribe((data) => {
+        this.patients = data.content;
+      });
+  }
+
+  public getPathologiesIds() {
+    this.pathologies.forEach((pathology) => {
+      this.pathologiesIds.push(pathology.id);
     });
+  }
+
+  public onSearch(event: string): void {
+    this._patientsService
+      .findPatients(this.pathologiesIds, event)
+      .subscribe((data) => {
+        this.patients = data.content;
+      });
   }
 
   public onIconButtonClick(event: any) {
@@ -124,7 +156,9 @@ export class PatientsComponent implements OnInit {
   }
 
   public onSort(event: any) {
-    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    this.colOrder = event.column;
+    this.typeOrder = event.direction;
+    let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
 
     if (this.itemsPerPage) {
       query = `${query}&size=${this.itemsPerPage}`;
@@ -278,7 +312,12 @@ export class PatientsComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
-    let query = `&page=${page}`;
+    let query: string;
+    if (this.colOrder && this.typeOrder) {
+      query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
+    } else {
+      query = `&page=${page}`;
+    }
     this.currentPage = page;
     if (this.itemsPerPage) {
       query = `${query}&size=${this.itemsPerPage}`;
@@ -287,11 +326,13 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._patientsService.getPatients(query).subscribe((data) => {
-      this.patients = data.content;
-      if (this.paginationData.totalPages !== data.totalPages) {
-        this.paginationData = data;
-      }
-    });
+    this._patientsService
+      .getPatients(this.pathologiesIds, query)
+      .subscribe((data) => {
+        this.patients = data.content;
+        if (this.paginationData.totalPages !== data.totalPages) {
+          this.paginationData = data;
+        }
+      });
   }
 }

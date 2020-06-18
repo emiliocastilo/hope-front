@@ -14,6 +14,7 @@ import { DiagnosisComponent } from './patients/components/patients/diagnosis/dia
 import { ComplementaryImagingScansComponent } from './patients/components/patients/complementary-imaging-scans/complementary-imaging-scans.component';
 import { AdherenceToTreatmentComponent } from './patients/components/patients/adherence-to-treatment/adherence-to-treatment.component';
 import { ConsentComponent } from './patients/components/patients/consent/consent.component';
+import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ConsentComponent } from './patients/components/patients/consent/consent
     ComplementaryImagingScansComponent,
     AdherenceToTreatmentComponent,
     ConsentComponent,
+    FamilyHistoryComponent,
   ],
   imports: [
     CommonModule,

@@ -7,8 +7,8 @@
       <section
         [class]="id + '-modal-field-group-' + fieldIndex"
         [ngClass]="{
-          'col-sm-12 col-md-6 col-lg-4': formKey !== 'roles',
-          'col-12': formKey === 'roles'
+          'col-sm-12 col-md-6 col-lg-4': formKeys.length > 3,
+          'col-lg-6': formKeys.length < 3
         }"
       >
         <div
