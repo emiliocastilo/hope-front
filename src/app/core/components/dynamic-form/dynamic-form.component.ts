@@ -6,7 +6,7 @@ import {
   EventEmitter,
   OnChanges,
 } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
 
@@ -69,8 +69,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         .filter((control) => !controls.includes(control))
         .forEach((name) => {
           const config = this.config.find((control) => control.name === name);
-          if (config.type !== 'title') {
+          if (config.type !== 'title' && config.type !== 'table') {
             this.form.addControl(name, this.createControl(config));
+          }
+          if (config.type === 'table') {
+            this.form.addControl(name, this.createArray(config));
           }
         });
       this.detectCalculated();
@@ -88,6 +91,14 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   createControl(config: FieldConfig) {
     const { disabled, validation, value } = config;
     return this.fb.control({ disabled, value }, validation);
+  }
+
+  createArray(config: FieldConfig) {
+    const group = this.fb.group({});
+    config.fields.forEach((field) => {
+      group.addControl(field.name, this.fb.control(''));
+    });
+    return this.fb.array([group]);
   }
 
   handleSubmit(event: Event) {

@@ -14,7 +14,7 @@ import { NotificationService } from '../../services/notification.service';
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  @Input() key: string = 'TEST';
+  @Input() key: string = '';
   patient = 1;
 
   constructor(
@@ -47,13 +47,28 @@ export class FormsComponent implements OnInit {
       patientId: this.patient,
     };
 
-    this.fillForm(form);
+    if (this.filledForm) {
+      this.updateForm(form);
+    } else {
+      this.fillForm(form);
+    }
   }
 
   fillForm(form: any) {
     this._formsService.fillForm(form).subscribe(
       () => {
         this._notification.showSuccessToast('element_created');
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
+  }
+
+  updateForm(form: any) {
+    this._formsService.updateForm(form).subscribe(
+      () => {
+        this._notification.showSuccessToast('element_updated');
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);

@@ -157,5 +157,9 @@
   "reasonStopBiologicalTreatment": "Motivo de la suspensión de tratamiento biológico",
   "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",
   "ReasonChangeBiologicalTreatmentFiveYears": "Motivo del cambio de tratamiento biológico de los últimos 5 años",
-  "ReasonStopBiologicalTreatmentFiveYears": "Motivo de la suspensión de tratamiento biológicos de los últimos 5 años"
+  "ReasonStopBiologicalTreatmentFiveYears": "Motivo de la suspensión de tratamiento biológicos de los últimos 5 años",
+  "degreeKinship": "Grado de parentesco",
+  "typePsoriasis": "Tipo de psoriasis",
+  "ageDiagnosis": "Edad en el diagnóstico",
+  "observations": "Observaciones"
 }
