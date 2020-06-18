@@ -6,6 +6,13 @@ import { PatientsIndicationComponent } from './components/diagnosis/patients-ind
 import { PatientsIndicationResolverService } from '../management/services/patients-indication/patients-indication-resolver.service';
 import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
+import { PatientsTreatmentsResolverService } from '../management/services/patients-treatments/patients-treatments-resolver.service';
+import { BiologicalAgentsComponent } from './components/treatments/biological-agents/biological-agents.component';
+import { ChemicalAgentsComponent } from './components/treatments/chemical-agents/chemical-agents.component';
+import { PatientsByPasiComponent } from './components/healths-outcomes/patients-by-pasi/patients-by-pasi.component';
+import { PatientsByBsaComponent } from './components/healths-outcomes/patients-by-bsa/patients-by-bsa.component';
+import { PatientsByPgaComponent } from './components/healths-outcomes/patients-by-pga/patients-by-pga.component';
+import { PatientsByDlqiComponent } from './components/healths-outcomes/patients-by-dlqi/patients-by-dlqi.component';
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { ReasonLastChangeBiologicalTreatmentComponent } from './components/diagnosis/reason-last-change-biological-treatment/reason-last-change-biological-treatment.component';
 import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/reason-stop-biological-treatment/reason-stop-biological-treatment.component';
@@ -41,6 +48,48 @@ const routes: Routes = [
   {
     path: 'diagnosis/patients-treatment',
     component: PatientsTreatmentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'treatments/biological-agents',
+    component: BiologicalAgentsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      type: 'BIOLOGICO'
+    },
+    resolve: {
+      patientsTreatments: PatientsTreatmentsResolverService,
+    }
+  },
+  {
+    path: 'treatments/chemical-agents',
+    component: ChemicalAgentsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      type: 'QUIMICO'
+    },
+    resolve: {
+      patientsTreatments: PatientsTreatmentsResolverService,
+    },
+  },
+  {
+    path: 'healths-outcomes/patients-by-pasi',
+    component: PatientsByPasiComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'healths-outcomes/patients-by-bsa',
+    component: PatientsByBsaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'healths-outcomes/patients-by-pga',
+    component: PatientsByPgaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'healths-outcomes/patients-by-dlqi',
+    component: PatientsByDlqiComponent,
     canActivate: [AuthGuard],
   },
   {
