@@ -53,7 +53,6 @@ export class FormsComponent implements OnInit {
       patientId: this.patient.id,
     };
 
-    console.log(form);
     if (this.filledForm) {
       this.updateForm(form);
     } else {
