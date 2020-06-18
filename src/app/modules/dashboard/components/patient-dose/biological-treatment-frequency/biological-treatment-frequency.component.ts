@@ -6,22 +6,25 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { Router } from '@angular/router';
 import reasonBioligicalTreatment from 'src/app/core/utils/reasonBioligicalTreatment';
+import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 
 @Component({
-  selector: 'app-reason-change-biological-treatment-five-years',
-  templateUrl: './reason-change-biological-treatment-five-years.component.html',
-  styleUrls: ['./reason-change-biological-treatment-five-years.component.scss'],
+  selector: 'app-biological-treatment-frequency',
+  templateUrl: './biological-treatment-frequency.component.html',
+  styleUrls: ['./biological-treatment-frequency.component.scss'],
 })
-export class ReasonChangeBiologicalTreatmentFiveYearsComponent
-  implements OnInit {
+export class BiologicalTreatmentFrequencyComponent implements OnInit {
   public showingDetail: boolean = false;
   public dataChart: ChartObjectModel[];
   public dataTable: any[];
   private treatments: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
   public columHeaders: string[] = [
-    'reasonChangeBiologicalTreatmentFiveYears',
-    'patients',
+    'medicine',
+    'de-escalate',
+    'standar',
+    'intensify',
+    'total',
   ];
   public headersDetailsTable: string[] = [
     'nhc',
@@ -45,7 +48,8 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
   };
   public details: any[] = [];
   public dataToExport: any[] = [];
-  private endCause: string = `endCause=${reasonBioligicalTreatment.change}&years=5`;
+  private endCause: string = `endCause=${reasonBioligicalTreatment.stop}`;
+  public configChart: ColumnChartModel;
 
   constructor(private _graphService: GraphsService, private _router: Router) {}
 
@@ -54,18 +58,27 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
   }
 
   private getTreatments(): void {
-    this._graphService
-      .getReasonLastChangeBiologicalFiveYears(this.endCause)
-      .subscribe(
-        (data) => {
-          this.treatments = data;
-          this.dataChart = this.parseDataChart(data);
-          this.dataTable = this.parseDataTable(data);
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
+    this._graphService.getBiologicalTreatmentfrequency().subscribe(
+      (data) => {
+        this.treatments = data;
+        this.dataChart = this.parseDataChart(data);
+        this.dataTable = this.parseDataTable(data);
+        const chartTitle = 'patientsDoseFrequencyBiologicalTreatment';
+        const view = null;
+        const scheme = {
+          domain: ['#000', '#249cf1', '#d95f02'],
+        };
+        this.configChart = new ColumnChartModel(
+          chartTitle,
+          view,
+          scheme,
+          this.dataChart
+        );
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   private parseDataChart(data: any): ChartObjectModel[] {
@@ -83,8 +96,11 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
   private parseDataTable(data: any): any[] {
     const arrayData = Object.keys(data).map((key) => {
       const object = {
-        reasonChangeBiologicalTreatmentFiveYears: key,
-        patients: data[key],
+        medicine: key,
+        'de-escalate': key,
+        standar: key,
+        intensify: key,
+        total: data[key],
       };
       return object;
     });
@@ -116,7 +132,7 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
       this.showingDetail = true;
       this.currentTreatment = this.dataTable[event.selectedItem];
 
-      const query = `${this.endCause}&reason=${this.currentTreatment.reasonChangeBiologicalTreatmentFiveYears}`;
+      const query = `numberChanges=${this.currentTreatment.reasonStopBiologicalTreatment}`;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -126,31 +142,27 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
   }
 
   private getDetails(query: string): void {
-    this._graphService
-      .getReasonLastChangeBiologicalDetailsFiveYears(query)
-      .subscribe(
-        (data: any) => {
-          this.details = data.content;
-          this.paginationData = data;
-          this.detailsDataTable = this.parseDataToTableDetails(data.content);
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
+    this._graphService.getBiologicalTreatmentfrequencyDetails(query).subscribe(
+      (data: any) => {
+        this.details = data.content;
+        this.paginationData = data;
+        this.detailsDataTable = this.parseDataToTableDetails(data.content);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   private getDetailsToExport(query: string) {
-    this._graphService
-      .getReasonLastChangeBiologicalDetailsExportFiveYears(query)
-      .subscribe(
-        (data: any) => {
-          this.dataToExport = data;
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
+    this._graphService.getBiologicalTreatmentfrequencyExport(query).subscribe(
+      (data: any) => {
+        this.dataToExport = data;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   public onPatientClick(event: any) {
@@ -165,13 +177,13 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `${this.endCause}&reason=${this.currentTreatment.reasonChangeBiologicalTreatmentFiveYears}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `${this.endCause}&reason=${this.currentTreatment.reasonStopBiologicalTreatment}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    let query = `${this.endCause}&reason=${this.currentTreatment.reasonChangeBiologicalTreatmentFiveYears}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    let query = `${this.endCause}&reason=${this.currentTreatment.reasonStopBiologicalTreatment}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
     this.currentSort = event;
     this.getDetails(query);
   }

@@ -1,0 +1,98 @@
+import { Component, OnInit } from '@angular/core';
+import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
+import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
+import { Router } from '@angular/router';
+import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
+import { TranslateService } from '@ngx-translate/core';
+import { FormGroup, FormControl } from '@angular/forms';
+
+@Component({
+  selector: 'app-total-expenses',
+  templateUrl: './total-expenses.component.html',
+  styleUrls: ['./total-expenses.component.scss'],
+})
+export class TotalExpensesComponent implements OnInit {
+  public dataChart: ChartObjectModel[];
+  public configChart: ColumnChartModel;
+
+  constructor(
+    private _graphService: GraphsService,
+    private _router: Router,
+    private _translate: TranslateService
+  ) {}
+
+  ngOnInit(): void {
+    this.getTreatments();
+  }
+
+  private getTreatments(): void {
+    const query = ``;
+    this._graphService.getTotalExpenses(query).subscribe(
+      (data) => {
+        const dataToParse = this.sortByMonth(data);
+        this.dataChart = this.parseDataChart(dataToParse);
+
+        const title = 'monthlyConsuptionEurosAvg';
+        const view = null;
+        const scheme = {
+          domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
+        };
+        this.configChart = new ColumnChartModel(
+          title,
+          view,
+          scheme,
+          this.dataChart
+        );
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  private parseDataChart(data: any): ChartObjectModel[] {
+    const arrayData = Object.keys(data.ene).map((keyYear: string) => {
+      const object = {
+        name: keyYear,
+        series: [],
+      };
+
+      Object.keys(data).forEach((keyMonth: string) => {
+        const objectSerie = {
+          value:
+            data[keyMonth][keyYear] && data[keyMonth][keyYear] !== '-'
+              ? data[keyMonth][keyYear]
+              : 0,
+          name: keyMonth,
+        };
+        object.series.push(objectSerie);
+      });
+
+      return object;
+    });
+    return arrayData;
+  }
+
+  private sortByMonth(arr: any): any {
+    var months = [
+      'ene',
+      'feb',
+      'mar',
+      'abr',
+      'may',
+      'jun',
+      'jul',
+      'ago',
+      'sep',
+      'oct',
+      'nov',
+      'dic',
+    ];
+    const object = {};
+    months.forEach((month: string) => {
+      object[month] = arr[month];
+    });
+
+    return object;
+  }
+}

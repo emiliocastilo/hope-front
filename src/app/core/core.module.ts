@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
 import { ButtonComponent } from './components/basics/button/button.component';
 import { InputComponent } from './components/basics/input/input.component';
 import { InputSelectComponent } from './components/basics/input-select/input-select.component';
@@ -55,6 +54,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { ResultsPerPageComponent } from './components/results-per-page/results-per-page.component';
 import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
 import { IconsModule } from '../icons/icons.module';
+import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -107,6 +107,7 @@ export function createTranslateLoader(http: HttpClient) {
     GenderFormatter,
     BreadcrumbComponent,
     ResultsPerPageComponent,
+    LineChartComponent,
   ],
   imports: [
     CommonModule,
@@ -159,6 +160,7 @@ export function createTranslateLoader(http: HttpClient) {
     GenderFormatter,
     BreadcrumbComponent,
     ResultsPerPageComponent,
+    LineChartComponent,
   ],
   providers: [GenderFormatter],
   entryComponents: [

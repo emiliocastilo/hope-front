@@ -1,10 +1,11 @@
 <section class="col-md-12 col-lg-12 m-0 p-0">
   <section class="patients-chart-container">
-    <app-pie-chart
-      [chartTitle]="'reasonStopBiologicalTreatmentFiveYears'"
-      [results]="dataChart"
-      [showLabels]="false"
-    ></app-pie-chart>
+    <app-column-chart
+      *ngIf="configChart"
+      [stacked]="false"
+      [config]="configChart"
+    >
+    </app-column-chart>
 
     <div class="table-container" *ngIf="!showingDetail">
       <app-table
