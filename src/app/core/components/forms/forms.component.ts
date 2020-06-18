@@ -5,7 +5,7 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
@@ -24,6 +24,10 @@ export class FormsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const url = window.location.pathname;
+    if (url === environment.URL_SOCIODEMOGRAPHIC) {
+      this.key = environment.KEY_SOCIODEMOGRAPHIC;
+    }
     this.getAndParseForm();
   }
 

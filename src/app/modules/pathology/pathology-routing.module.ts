@@ -6,6 +6,7 @@ import { GalleryComponent } from './patients/components/gallery/gallery.componen
 import { PatientsResolverService } from '../management/services/patients/patients-resolver.service';
 import { PatientsComponent } from './patients/components/patients/patients.component';
 import { DashboardPatientsComponent } from './patients/components/dashboard-patients/dashboard-patients.component';
+import { SociodemographicDataComponent } from './patients/components/patients/sociodemographic-data/sociodemographic-data.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,14 @@ const routes: Routes = [
     path: 'patients/gallery',
     component: GalleryComponent,
 
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/sociodemographic-data',
+    component: SociodemographicDataComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
     canActivate: [AuthGuard],
   },
 ];
