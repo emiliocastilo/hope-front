@@ -23,8 +23,13 @@ export class PatientsService {
     );
   }
 
-  public findPatients(pathologies: string[], filterName: string): Observable<any> {
-    return this._httpClient.get(`/patients/searches?pth=${pathologies}&search=${filterName}`);
+  public findPatients(
+    pathologies: string[],
+    filterName: string
+  ): Observable<any> {
+    return this._httpClient.get(
+      `/patients/searches?pth=${pathologies}&search=${filterName}`
+    );
   }
 
   public getPatientsById(id: string): Observable<any> {

@@ -67,7 +67,7 @@ export class DispensationsComponent implements OnInit {
 
   public selectPage(page: number): void {
     let query: string;
-    if (this.colOrder && this.typeOrder){
+    if (this.colOrder && this.typeOrder) {
       query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
     } else {
       query = `&page=${page}`;

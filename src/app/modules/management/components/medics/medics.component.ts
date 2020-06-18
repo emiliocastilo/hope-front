@@ -67,7 +67,7 @@ export class MedicsComponent implements OnInit {
 
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
 
-    const userHospital : any = this.hospitals.find(
+    const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.hospitalId
     );
     this.hospitals = [userHospital];
@@ -266,7 +266,7 @@ export class MedicsComponent implements OnInit {
 
   public selectPage(page: number): void {
     let query: string;
-    if (this.colOrder && this.typeOrder){
+    if (this.colOrder && this.typeOrder) {
       query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
     } else {
       query = `&page=${page}`;
@@ -276,7 +276,6 @@ export class MedicsComponent implements OnInit {
       query = `${query}&size=${this.itemsPerPage}`;
     }
     this.refreshData(query);
-
   }
 
   public onSort(event: any) {

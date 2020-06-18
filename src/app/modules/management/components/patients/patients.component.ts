@@ -57,7 +57,7 @@ export class PatientsComponent implements OnInit {
     this.paginationData = this._activatedRoute.snapshot.data.patients;
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
 
-    const userHospital : any = this.hospitals.find(
+    const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.hospitalId
     );
 
@@ -105,9 +105,11 @@ export class PatientsComponent implements OnInit {
   }
 
   public getPatients() {
-    this._patientsService.getPatients(this.pathologiesIds, '').subscribe((data) => {
-      this.patients = data.content;
-    });
+    this._patientsService
+      .getPatients(this.pathologiesIds, '')
+      .subscribe((data) => {
+        this.patients = data.content;
+      });
   }
 
   public getPathologiesIds() {
@@ -117,9 +119,11 @@ export class PatientsComponent implements OnInit {
   }
 
   public onSearch(event: string): void {
-    this._patientsService.findPatients(this.pathologiesIds, event).subscribe((data) => {
-      this.patients = data.content;
-    });
+    this._patientsService
+      .findPatients(this.pathologiesIds, event)
+      .subscribe((data) => {
+        this.patients = data.content;
+      });
   }
 
   public onIconButtonClick(event: any) {
@@ -309,7 +313,7 @@ export class PatientsComponent implements OnInit {
 
   public selectPage(page: number): void {
     let query: string;
-    if (this.colOrder && this.typeOrder){
+    if (this.colOrder && this.typeOrder) {
       query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
     } else {
       query = `&page=${page}`;
@@ -322,11 +326,13 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._patientsService.getPatients(this.pathologiesIds, query).subscribe((data) => {
-      this.patients = data.content;
-      if (this.paginationData.totalPages !== data.totalPages) {
-        this.paginationData = data;
-      }
-    });
+    this._patientsService
+      .getPatients(this.pathologiesIds, query)
+      .subscribe((data) => {
+        this.patients = data.content;
+        if (this.paginationData.totalPages !== data.totalPages) {
+          this.paginationData = data;
+        }
+      });
   }
 }
