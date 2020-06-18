@@ -5,6 +5,7 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
+import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Component({
   selector: 'app-forms',
@@ -14,8 +15,8 @@ import { NotificationService } from '../../services/notification.service';
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  @Input() key: string = '';
-  patient = 1;
+  @Input() key = '';
+  patient: PatientModel;
 
   constructor(
     private _formsService: FormsService,
@@ -24,13 +25,18 @@ export class FormsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getPatientId();
     this.getAndParseForm();
+  }
+
+  getPatientId() {
+    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
   }
 
   async getAndParseForm() {
     const retrievedForm: any = await this._formsService.retrieveForm(
       this.key,
-      this.patient
+      this.patient.id
     );
     if (retrievedForm && retrievedForm.data.length > 0) {
       this.filledForm = retrievedForm.data;
@@ -44,9 +50,10 @@ export class FormsComponent implements OnInit {
     const form = {
       template: this.key,
       data: FormUtils.parseEntriesForm(value),
-      patientId: this.patient,
+      patientId: this.patient.id,
     };
 
+    console.log(form);
     if (this.filledForm) {
       this.updateForm(form);
     } else {

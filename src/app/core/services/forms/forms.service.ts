@@ -20,7 +20,7 @@ export class FormsService {
     return this._http.put('/forms', form);
   }
 
-  public async retrieveForm(template: string, patientId: number) {
+  public async retrieveForm(template: string, patientId: any) {
     return this._http
       .get(`/forms?template=${template}&patientId=${patientId}`)
       .toPromise();
