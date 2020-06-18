@@ -5,7 +5,8 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
-import { environment } from 'src/environments/environment';
+import { constants } from '../../../../constants/constants';
+
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
@@ -43,26 +44,26 @@ export class FormsComponent implements OnInit {
   keyForms() {
     const url = window.location.pathname;
     switch (url) {
-      case environment.URL_SOCIODEMOGRAPHIC:
-        this.key = environment.KEY_SOCIODEMOGRAPHIC;
+      case constants.URL_SOCIODEMOGRAPHIC:
+        this.key = constants.KEY_SOCIODEMOGRAPHIC;
         break;
-      case environment.URL_GENERALPATIENTDATA:
-        this.key = environment.KEY_GENERALPATIENTDATA;
+      case constants.URL_GENERALPATIENTDATA:
+        this.key = constants.KEY_GENERALPATIENTDATA;
         break;
-      case environment.URL_DIAGNOSIS:
-        this.key = environment.KEY_DIAGNOSIS;
+      case constants.URL_DIAGNOSIS:
+        this.key = constants.KEY_DIAGNOSIS;
         break;
-      case environment.URL_TRACING:
-        this.key = environment.KEY_TRACING;
+      case constants.URL_TRACING:
+        this.key = constants.KEY_TRACING;
         break;
-      case environment.URL_COMPLEMENTARYIMAGINGGSCANS:
-        this.key = environment.KEY_COMPLEMENTARYIMAGINGGSCANS;
+      case constants.URL_COMPLEMENTARYIMAGINGGSCANS:
+        this.key = constants.KEY_COMPLEMENTARYIMAGINGGSCANS;
         break;
-      case environment.URL_ADHERENCETOTREATMENT:
-        this.key = environment.KEY_ADHERENCETOTREATMENT;
+      case constants.URL_ADHERENCETOTREATMENT:
+        this.key = constants.KEY_ADHERENCETOTREATMENT;
         break;
-      case environment.URL_CONSENT:
-        this.key = environment.KEY_CONSENT;
+      case constants.URL_CONSENT:
+        this.key = constants.KEY_CONSENT;
         break;
       default:
         this.key = 'TEST';
