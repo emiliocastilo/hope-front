@@ -24,10 +24,7 @@ export class FormsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const url = window.location.pathname;
-    if (url === environment.URL_SOCIODEMOGRAPHIC) {
-      this.key = environment.KEY_SOCIODEMOGRAPHIC;
-    }
+    this.keyForms();
     this.getAndParseForm();
   }
 
@@ -43,7 +40,35 @@ export class FormsComponent implements OnInit {
     const form = this._parseStringToJSON(data.form);
     this.config = FormUtils.createFieldConfig(form, this.filledForm);
   }
-
+  keyForms() {
+    const url = window.location.pathname;
+    switch (url) {
+      case environment.URL_SOCIODEMOGRAPHIC:
+        this.key = environment.KEY_SOCIODEMOGRAPHIC;
+        break;
+      case environment.URL_GENERALPATIENTDATA:
+        this.key = environment.KEY_GENERALPATIENTDATA;
+        break;
+      case environment.URL_DIAGNOSIS:
+        this.key = environment.KEY_DIAGNOSIS;
+        break;
+      case environment.URL_TRACING:
+        this.key = environment.KEY_TRACING;
+        break;
+      case environment.URL_COMPLEMENTARYIMAGINGGSCANS:
+        this.key = environment.KEY_COMPLEMENTARYIMAGINGGSCANS;
+        break;
+      case environment.URL_ADHERENCETOTREATMENT:
+        this.key = environment.KEY_ADHERENCETOTREATMENT;
+        break;
+      case environment.URL_CONSENT:
+        this.key = environment.KEY_CONSENT;
+        break;
+      default:
+        this.key = 'TEST';
+        break;
+    }
+  }
   submit(value: { [name: string]: any }) {
     const form = {
       template: this.key,

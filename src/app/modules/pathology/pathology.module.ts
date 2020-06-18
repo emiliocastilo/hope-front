@@ -8,6 +8,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { GalleryComponent } from './patients/components/gallery/gallery.component';
 import { SociodemographicDataComponent } from './patients/components/patients/sociodemographic-data/sociodemographic-data.component';
+import { GeneralPatientDataComponent } from './patients/components/patients/general-patient-data/general-patient-data.component';
+import { TracingComponent } from './patients/components/patients/tracing/tracing.component';
+import { DiagnosisComponent } from './patients/components/patients/diagnosis/diagnosis.component';
+import { ComplementaryImagingScansComponent } from './patients/components/patients/complementary-imaging-scans/complementary-imaging-scans.component';
+import { AdherenceToTreatmentComponent } from './patients/components/patients/adherence-to-treatment/adherence-to-treatment.component';
+import { ConsentComponent } from './patients/components/patients/consent/consent.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +21,12 @@ import { SociodemographicDataComponent } from './patients/components/patients/so
     PatientsComponent,
     GalleryComponent,
     SociodemographicDataComponent,
+    GeneralPatientDataComponent,
+    DiagnosisComponent,
+    TracingComponent,
+    ComplementaryImagingScansComponent,
+    AdherenceToTreatmentComponent,
+    ConsentComponent,
   ],
   imports: [
     CommonModule,
