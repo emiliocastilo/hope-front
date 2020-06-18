@@ -28,6 +28,8 @@ export class DispensationsComponent implements OnInit {
   ) {}
 
   private currentPage: number = 0;
+  private colOrder: any;
+  private typeOrder: any;
   private dispensations: DispensationModel[] = [];
   private detailDispensations: DetailDispensationModel[] = [];
   public paginationData: PaginationModel;
@@ -64,8 +66,13 @@ export class DispensationsComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
+    let query: string;
+    if (this.colOrder && this.typeOrder) {
+      query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
+    } else {
+      query = `&page=${page}`;
+    }
     this.currentPage = page;
-    let query: string = `&page=${page}`;
 
     if (this.itemsPerPage) {
       query = `${query}&size=${this.itemsPerPage}`;
@@ -89,7 +96,9 @@ export class DispensationsComponent implements OnInit {
   }
 
   public onSort(event: any) {
-    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    this.colOrder = event.column;
+    this.typeOrder = event.direction;
+    let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
 
     if (this.itemsPerPage) {
       query = `${query}&size=${this.itemsPerPage}`;
@@ -158,7 +167,7 @@ export class DispensationsComponent implements OnInit {
     const modalRef = this._modalService.open(ConfirmModalComponent);
 
     modalRef.componentInstance.title = 'Eliminar Dispensacion';
-    modalRef.componentInstance.messageModal = `¿Estas seguro de que quieres eliminar la despiensacion de la fecha 
+    modalRef.componentInstance.messageModal = `¿Estas seguro de que quieres eliminar la despiensacion de la fecha
       ${new Date(this.selectedItem.date).toLocaleDateString()}?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();

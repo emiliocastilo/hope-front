@@ -52,7 +52,10 @@ export class MedicsComponent implements OnInit {
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
   private currentPage: number = 0;
+  private colOrder: any;
+  private typeOrder: any;
   public selectedDoctor = new MedicModel();
+  public selectedUser: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
   private itemsPerPage: number;
 
@@ -61,6 +64,13 @@ export class MedicsComponent implements OnInit {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.medics = this._activatedRoute.snapshot.data.medics.content;
     this.paginationData = this._activatedRoute.snapshot.data.medics;
+
+    this.selectedUser = JSON.parse(localStorage.getItem('user'));
+
+    const userHospital: any = this.hospitals.find(
+      (hospital) => hospital.id === this.selectedUser.hospitalId
+    );
+    this.hospitals = [userHospital];
 
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
@@ -115,7 +125,7 @@ export class MedicsComponent implements OnInit {
 
   public onIconButtonClick(event: any): void {
     if (event && event.type === 'edit') {
-      if (this.selectedDoctor.hospital) {
+      if (this.selectedDoctor && this.selectedDoctor.hospital.length > 0) {
         this.services = this.selectedDoctor.hospital[0].serviceDTO;
         if (this.services.length === 0) {
           this.modalForm.controls['serviceDTO'].setValue(null);
@@ -220,7 +230,7 @@ export class MedicsComponent implements OnInit {
     let options: any = {};
     if (
       this.selectedItem != null &&
-      this.selectedDoctor.hospital &&
+      this.selectedDoctor.hospital.length > 0 &&
       this.selectedDoctor.serviceDTO
     ) {
       const servicesDto: any[] = [this.selectedDoctor.serviceDTO];
@@ -255,7 +265,12 @@ export class MedicsComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
-    let query = `&page=${page}`;
+    let query: string;
+    if (this.colOrder && this.typeOrder) {
+      query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
+    } else {
+      query = `&page=${page}`;
+    }
     this.currentPage = page;
     if (this.itemsPerPage) {
       query = `${query}&size=${this.itemsPerPage}`;
@@ -264,7 +279,9 @@ export class MedicsComponent implements OnInit {
   }
 
   public onSort(event: any) {
-    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    this.colOrder = event.column;
+    this.typeOrder = event.direction;
+    let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
 
     if (this.itemsPerPage) {
       query = `${query}&size=${this.itemsPerPage}`;
