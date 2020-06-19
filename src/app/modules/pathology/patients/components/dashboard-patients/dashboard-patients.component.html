@@ -8,4 +8,7 @@
       Dashboard de paciente
     </section> -->
   <!-- </section> -->
+  <section class="col-md-12 p-0">
+    <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
+  </section>
 </div>

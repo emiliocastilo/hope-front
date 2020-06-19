@@ -7,12 +7,14 @@ import { PathologyRoutingModule } from './pathology-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { GalleryComponent } from './patients/components/gallery/gallery.component';
+import { PersonalInformationComponent } from './patients/components/general-patient-data/personal-information/personal-information.component';
 
 @NgModule({
   declarations: [
     DashboardPatientsComponent,
     PatientsComponent,
     GalleryComponent,
+    PersonalInformationComponent,
   ],
   imports: [
     CommonModule,
