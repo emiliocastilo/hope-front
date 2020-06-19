@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { constants } from '../../../../../../../constants/constants';
 
 @Component({
   selector: 'app-consent',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./consent.component.scss'],
 })
 export class ConsentComponent implements OnInit {
+  @Input() key = constants.KEY_CONSENT;
   constructor() {}
 
   ngOnInit(): void {}

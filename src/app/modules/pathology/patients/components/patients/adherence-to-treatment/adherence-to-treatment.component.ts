@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { constants } from '../../../../../../../constants/constants';
 
 @Component({
   selector: 'app-adherence-to-treatment',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./adherence-to-treatment.component.scss'],
 })
 export class AdherenceToTreatmentComponent implements OnInit {
+  @Input() key = constants.KEY_ADHERENCETOTREATMENT;
   constructor() {}
 
   ngOnInit(): void {}

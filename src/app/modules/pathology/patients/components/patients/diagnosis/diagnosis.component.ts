@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { constants } from '../../../../../../../constants/constants';
 
 @Component({
   selector: 'app-diagnosis',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./diagnosis.component.scss'],
 })
 export class DiagnosisComponent implements OnInit {
+  @Input() key = constants.KEY_DIAGNOSIS;
   constructor() {}
 
   ngOnInit(): void {}

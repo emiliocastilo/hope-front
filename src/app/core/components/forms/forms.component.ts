@@ -26,7 +26,6 @@ export class FormsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.keyForms();
     this.getPatientId();
     this.getAndParseForm();
   }
@@ -46,35 +45,6 @@ export class FormsComponent implements OnInit {
     const data: any = await this._formsService.get(this.key);
     const form = this._parseStringToJSON(data.form);
     this.config = FormUtils.createFieldConfig(form, this.filledForm);
-  }
-  keyForms() {
-    const url = window.location.pathname;
-    switch (url) {
-      case constants.URL_SOCIODEMOGRAPHIC:
-        this.key = constants.KEY_SOCIODEMOGRAPHIC;
-        break;
-      case constants.URL_GENERALPATIENTDATA:
-        this.key = constants.KEY_GENERALPATIENTDATA;
-        break;
-      case constants.URL_DIAGNOSIS:
-        this.key = constants.KEY_DIAGNOSIS;
-        break;
-      case constants.URL_TRACING:
-        this.key = constants.KEY_TRACING;
-        break;
-      case constants.URL_COMPLEMENTARYIMAGINGGSCANS:
-        this.key = constants.KEY_COMPLEMENTARYIMAGINGGSCANS;
-        break;
-      case constants.URL_ADHERENCETOTREATMENT:
-        this.key = constants.KEY_ADHERENCETOTREATMENT;
-        break;
-      case constants.URL_CONSENT:
-        this.key = constants.KEY_CONSENT;
-        break;
-      default:
-        this.key = 'TEST';
-        break;
-    }
   }
   submit(value: { [name: string]: any }) {
     const form = {
