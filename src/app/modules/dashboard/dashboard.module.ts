@@ -21,6 +21,10 @@ import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/r
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
 import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
+import { PsoriasisPlacasComponent } from './components/treatments/psoriasis-placas/psoriasis-placas.component';
+import { PsoriasisPalmoPlantarComponent } from './components/treatments/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
+import { EritrodermiaComponent } from './components/treatments/eritrodermia/eritrodermia.component';
+import { PsoriasisPustulosaComponent } from './components/treatments/psoriasis-pustulosa/psoriasis-pustulosa.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +44,10 @@ import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/
     NumberChangesBiologicalTreatmentComponent,
     ReasonChangeBiologicalTreatmentFiveYearsComponent,
     ReasonStopBiologicalTreatmentFiveYearsrsComponent,
+    PsoriasisPlacasComponent,
+    PsoriasisPalmoPlantarComponent,
+    EritrodermiaComponent,
+    PsoriasisPustulosaComponent,
   ],
   imports: [
     NgbModule,
