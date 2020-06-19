@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-eritrodermia',
   templateUrl: './eritrodermia.component.html',
-  styleUrls: ['./eritrodermia.component.scss']
+  styleUrls: ['./eritrodermia.component.scss'],
 })
 export class EritrodermiaComponent implements OnInit {
   public showingDetail = false;
@@ -43,10 +43,11 @@ export class EritrodermiaComponent implements OnInit {
   public details: any[] = [];
   public dataToExport: any[] = [];
 
-  constructor(public _activatedRoute: ActivatedRoute,
-              public _patientsTreatmentsService: PatientsTreatmentsService,
-              private _router: Router,
-              private _translate: TranslateService
+  constructor(
+    public _activatedRoute: ActivatedRoute,
+    public _patientsTreatmentsService: PatientsTreatmentsService,
+    private _router: Router,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -74,9 +75,9 @@ export class EritrodermiaComponent implements OnInit {
         series: [
           {
             name: this._translate.instant('patients'),
-            value: data[key]
-          }
-        ]
+            value: data[key],
+          },
+        ],
       };
       return object;
     });
@@ -129,27 +130,31 @@ export class EritrodermiaComponent implements OnInit {
   }
 
   private getDetails(query: string) {
-    this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
-      (data) => {
-        this.details = data.content;
-        this.paginationData = data;
-        this.detailsDataTable = this.parseDataToTableDetails(data.content);
-      },
-      (error) => {
-        console.error('error: ', error);
-      }
-    );
+    this._patientsTreatmentsService
+      .getDetailPatientsUnderTreatment(query)
+      .subscribe(
+        (data) => {
+          this.details = data.content;
+          this.paginationData = data;
+          this.detailsDataTable = this.parseDataToTableDetails(data.content);
+        },
+        (error) => {
+          console.error('error: ', error);
+        }
+      );
   }
 
   private getDetailsToExport(query: string) {
-    this._patientsTreatmentsService.getDetailPatientsUnderTreatmentExport(query).subscribe(
-      (data: any) => {
-        this.dataToExport = data;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this._patientsTreatmentsService
+      .getDetailPatientsUnderTreatmentExport(query)
+      .subscribe(
+        (data: any) => {
+          this.dataToExport = data;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 
   public onPatientClick(event: any) {

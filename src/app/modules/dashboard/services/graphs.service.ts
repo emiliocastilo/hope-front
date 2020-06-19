@@ -64,6 +64,20 @@ export class GraphsService {
     // });
   }
 
+  public getChartTableCIE10(): Observable<any> {
+    return this._httpClient.get('/patients-diagnoses/cie10');
+  }
+
+  public getPatientsDetailCIE10(query: string): Observable<any> {
+    return this._httpClient.get(`/patients-diagnoses/cie10/patients?${query}`);
+  }
+
+  public getPatientsDetailCIE10Export(query: string) {
+    return this._httpClient.get(
+      `/patients-diagnoses/cie10/patients-export?${query}`
+    );
+  }
+
   public getTreatments() {
     return this._httpClient.get('/patients-diagnoses/treatments');
   }
@@ -143,6 +157,70 @@ export class GraphsService {
   public getNumberChangesBiologicalTreatmentExport(query: string) {
     return this._httpClient.get(
       `/patients-diagnoses/number-changes/patients-export?${query}`
+    );
+  }
+
+  public getBiologicalTreatmentfrequency() {
+    return this._httpClient.get(
+      `/patients-treatments/find-info-patients-doses`
+    );
+  }
+
+  public getBiologicalTreatmentfrequencyDetails(query: string) {
+    return this._httpClient.get(
+      `/patients-treatments/get-detail-patients-per-doses?${query}`
+    );
+  }
+
+  public getBiologicalTreatmentfrequencyExport(query: string) {
+    return this._httpClient.get(
+      `/patients-treatments/get-detail-patients-per-doses-export?${query}`
+    );
+  }
+
+  public getMonthlyConsuptionEuros() {
+    return this._httpClient.get(`/dispensation-details/find-monthly-consumes`);
+  }
+
+  public getMonthlyConsuptionEurosAccumulated() {
+    return this._httpClient.get(
+      `/dispensation-details/find-monthly-consumes-accumulated`
+    );
+  }
+
+  public getMonthlyConsuptionEurosAvgAccumulated(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-monthly-consumes-accumulated-avg?${query}`
+    );
+  }
+
+  public getMonthlyConsuptionEurosAvg(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-monthly-consumes-avg?${query}`
+    );
+  }
+
+  public getTotalExpenses(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-total-cost-treatments?${query}`
+    );
+  }
+
+  public getTotalAccumulatedExpenses(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-total-cost-treatments-accumulated?${query}`
+    );
+  }
+
+  public getTotalAvgExpenses(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-total-cost-treatments-avg?${query}`
+    );
+  }
+
+  public getTotalAvgAccumulatedExpenses(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-total-cost-treatments-accumulated-avg?${query}`
     );
   }
 }

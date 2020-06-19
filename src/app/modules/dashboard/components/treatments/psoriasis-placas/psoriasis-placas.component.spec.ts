@@ -8,9 +8,8 @@ describe('PsoriasisPlacasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PsoriasisPlacasComponent ]
-    })
-    .compileComponents();
+      declarations: [PsoriasisPlacasComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-patients-by-pasi',
   templateUrl: './patients-by-pasi.component.html',
-  styleUrls: ['./patients-by-pasi.component.scss']
+  styleUrls: ['./patients-by-pasi.component.scss'],
 })
 export class PatientsByPasiComponent implements OnInit {
   public showingDetail: boolean = false;

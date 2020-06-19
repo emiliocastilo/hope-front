@@ -8,9 +8,8 @@ describe('EritrodermiaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EritrodermiaComponent ]
-    })
-    .compileComponents();
+      declarations: [EritrodermiaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

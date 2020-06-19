@@ -8,9 +8,8 @@ describe('PsoriasisPalmoPlantarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PsoriasisPalmoPlantarComponent ]
-    })
-    .compileComponents();
+      declarations: [PsoriasisPalmoPlantarComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-biological-agents',
   templateUrl: './biological-agents.component.html',
-  styleUrls: ['./biological-agents.component.scss']
+  styleUrls: ['./biological-agents.component.scss'],
 })
 export class BiologicalAgentsComponent implements OnInit {
   public showingDetail = false;
@@ -43,10 +43,11 @@ export class BiologicalAgentsComponent implements OnInit {
   public details: any[] = [];
   public dataToExport: any[] = [];
 
-  constructor(public _activatedRoute: ActivatedRoute,
-              public _patientsTreatmentsService: PatientsTreatmentsService,
-              private _router: Router,
-              private _translate: TranslateService
+  constructor(
+    public _activatedRoute: ActivatedRoute,
+    public _patientsTreatmentsService: PatientsTreatmentsService,
+    private _router: Router,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -74,9 +75,9 @@ export class BiologicalAgentsComponent implements OnInit {
         series: [
           {
             name: this._translate.instant('patients'),
-            value: data[key]
-          }
-        ]
+            value: data[key],
+          },
+        ],
       };
       return object;
     });
@@ -86,12 +87,12 @@ export class BiologicalAgentsComponent implements OnInit {
 
   private parseDataTable(data: any[]) {
     const arrayData = Object.keys(data).map((key: any) => {
-        const object = {
-          typeTreatmentBiological: key,
-          patients: data[key],
-        };
-        return object;
-      });
+      const object = {
+        typeTreatmentBiological: key,
+        patients: data[key],
+      };
+      return object;
+    });
     return arrayData;
   }
 
@@ -129,27 +130,31 @@ export class BiologicalAgentsComponent implements OnInit {
   }
 
   private getDetails(query: string) {
-    this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
-      (data) => {
-        this.details = data.content;
-        this.paginationData = data;
-        this.detailsDataTable = this.parseDataToTableDetails(data.content);
-      },
-      (error) => {
-        console.error('error: ', error);
-      }
-    );
+    this._patientsTreatmentsService
+      .getDetailPatientsUnderTreatment(query)
+      .subscribe(
+        (data) => {
+          this.details = data.content;
+          this.paginationData = data;
+          this.detailsDataTable = this.parseDataToTableDetails(data.content);
+        },
+        (error) => {
+          console.error('error: ', error);
+        }
+      );
   }
 
   private getDetailsToExport(query: string) {
-    this._patientsTreatmentsService.getDetailPatientsUnderTreatmentExport(query).subscribe(
-      (data: any) => {
-        this.dataToExport = data;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this._patientsTreatmentsService
+      .getDetailPatientsUnderTreatmentExport(query)
+      .subscribe(
+        (data: any) => {
+          this.dataToExport = data;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 
   public onPatientClick(event: any) {

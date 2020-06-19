@@ -20,7 +20,7 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
   private treatments: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
   public columHeaders: string[] = [
-    'ReasonChangeBiologicalTreatmentFiveYears',
+    'reasonChangeBiologicalTreatmentFiveYears',
     'patients',
   ];
   public headersDetailsTable: string[] = [
@@ -83,7 +83,7 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
   private parseDataTable(data: any): any[] {
     const arrayData = Object.keys(data).map((key) => {
       const object = {
-        ReasonChangeBiologicalTreatmentFiveYears: key,
+        reasonChangeBiologicalTreatmentFiveYears: key,
         patients: data[key],
       };
       return object;
@@ -116,7 +116,7 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
       this.showingDetail = true;
       this.currentTreatment = this.dataTable[event.selectedItem];
 
-      const query = `${this.endCause}&reason=${this.currentTreatment.ReasonChangeBiologicalTreatmentFiveYears}`;
+      const query = `${this.endCause}&reason=${this.currentTreatment.reasonChangeBiologicalTreatmentFiveYears}`;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -165,13 +165,13 @@ export class ReasonChangeBiologicalTreatmentFiveYearsComponent
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `${this.endCause}&reason=${this.currentTreatment.ReasonChangeBiologicalTreatmentFiveYears}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `${this.endCause}&reason=${this.currentTreatment.reasonChangeBiologicalTreatmentFiveYears}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    let query = `${this.endCause}&reason=${this.currentTreatment.ReasonChangeBiologicalTreatmentFiveYears}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    let query = `${this.endCause}&reason=${this.currentTreatment.reasonChangeBiologicalTreatmentFiveYears}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
     this.currentSort = event;
     this.getDetails(query);
   }

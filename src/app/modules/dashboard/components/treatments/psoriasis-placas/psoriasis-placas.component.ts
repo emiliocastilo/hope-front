@@ -8,11 +8,10 @@ import { TableActionsModel } from 'src/app/core/models/table/table-actions-model
 import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { TranslateService } from '@ngx-translate/core';
 
-
 @Component({
   selector: 'app-psoriasis-placas',
   templateUrl: './psoriasis-placas.component.html',
-  styleUrls: ['./psoriasis-placas.component.scss']
+  styleUrls: ['./psoriasis-placas.component.scss'],
 })
 export class PsoriasisPlacasComponent implements OnInit {
   public showingDetail = false;
@@ -44,10 +43,11 @@ export class PsoriasisPlacasComponent implements OnInit {
   public details: any[] = [];
   public dataToExport: any[] = [];
 
-  constructor(public _activatedRoute: ActivatedRoute,
-              public _patientsTreatmentsService: PatientsTreatmentsService,
-              private _router: Router,
-              private _translate: TranslateService
+  constructor(
+    public _activatedRoute: ActivatedRoute,
+    public _patientsTreatmentsService: PatientsTreatmentsService,
+    private _router: Router,
+    private _translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -75,9 +75,9 @@ export class PsoriasisPlacasComponent implements OnInit {
         series: [
           {
             name: this._translate.instant('patients'),
-            value: data[key]
-          }
-        ]
+            value: data[key],
+          },
+        ],
       };
       return object;
     });
@@ -130,27 +130,31 @@ export class PsoriasisPlacasComponent implements OnInit {
   }
 
   private getDetails(query: string) {
-    this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
-      (data) => {
-        this.details = data.content;
-        this.paginationData = data;
-        this.detailsDataTable = this.parseDataToTableDetails(data.content);
-      },
-      (error) => {
-        console.error('error: ', error);
-      }
-    );
+    this._patientsTreatmentsService
+      .getDetailPatientsUnderTreatment(query)
+      .subscribe(
+        (data) => {
+          this.details = data.content;
+          this.paginationData = data;
+          this.detailsDataTable = this.parseDataToTableDetails(data.content);
+        },
+        (error) => {
+          console.error('error: ', error);
+        }
+      );
   }
 
   private getDetailsToExport(query: string) {
-    this._patientsTreatmentsService.getDetailPatientsUnderTreatmentExport(query).subscribe(
-      (data: any) => {
-        this.dataToExport = data;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this._patientsTreatmentsService
+      .getDetailPatientsUnderTreatmentExport(query)
+      .subscribe(
+        (data: any) => {
+          this.dataToExport = data;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 
   public onPatientClick(event: any) {
