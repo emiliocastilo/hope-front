@@ -70,7 +70,7 @@ export class AccumulatedAverageMonthlyConsuptionEurosComponent
         this.dataTable = this.parseDataTable(dataToParse);
         this.dataChart = this.parseDataChart(dataToParse);
 
-        const title = 'monthlyConsuptionEurosAvg';
+        const title = 'monthlyAccumulatedAvgConsuptionEuros';
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],

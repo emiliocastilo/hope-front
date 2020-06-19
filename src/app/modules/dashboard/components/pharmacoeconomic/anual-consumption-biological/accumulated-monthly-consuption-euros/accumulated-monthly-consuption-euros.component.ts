@@ -48,7 +48,7 @@ export class AccumulatedMonthlyConsuptionEurosComponent implements OnInit {
         this.dataTable = this.parseDataTable(dataToParse);
         this.dataChart = this.parseDataChart(dataToParse);
 
-        const title = 'monthlyConsuptionEuros';
+        const title = 'monthlyAccumulatedConsuptionEuros';
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
