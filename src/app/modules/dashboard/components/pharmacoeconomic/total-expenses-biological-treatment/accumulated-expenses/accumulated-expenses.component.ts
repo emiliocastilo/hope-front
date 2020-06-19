@@ -6,11 +6,11 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 
 @Component({
-  selector: 'app-avg-expenses',
-  templateUrl: './avg-expenses.component.html',
-  styleUrls: ['./avg-expenses.component.scss'],
+  selector: 'app-accumulated-expenses',
+  templateUrl: './accumulated-expenses.component.html',
+  styleUrls: ['./accumulated-expenses.component.scss'],
 })
-export class AvgExpensesComponent implements OnInit {
+export class AccumulatedExpensesComponent implements OnInit {
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
   public currenMedicine: any;
@@ -30,7 +30,7 @@ export class AvgExpensesComponent implements OnInit {
 
   private getTreatments(): void {
     const query = `code=${this.currenMedicine.codeAct}`;
-    this._graphService.getTotalAvgExpenses(query).subscribe(
+    this._graphService.getTotalAccumulatedExpenses(query).subscribe(
       (data) => {
         const dataToParse = this.sortByMonth(data);
         this.dataChart = this.parseDataChart(dataToParse);

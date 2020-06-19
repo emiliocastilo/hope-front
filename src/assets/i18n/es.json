@@ -170,6 +170,9 @@
   "monthlyConsuptionEurosAvg": "Consumo mensual medio en euros",
   "yearlyGoalValue": "Valor objetivo anual",
   "draw": "Dibujar",
-  "selectMedicine": "Seleccionar medicina"
-
+  "selectMedicine": "Seleccionar medicina",
+  "totalCost": "Coste total",
+  "averageCost": "Coste medio",
+  "accumulatedAverageCost": "Coste medio accumulado",
+  "accumulatedCost": "Coste acumulado"
 }

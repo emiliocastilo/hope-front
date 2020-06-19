@@ -27,6 +27,8 @@ import { AverageMonthlyConsuptionEurosComponent } from './components/pharmacoeco
 import { AccumulatedMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/accumulated-monthly-consuption-euros/accumulated-monthly-consuption-euros.component';
 import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses/total-expenses.component';
 import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
+import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
+import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses/accumulated-expenses.component';
 
 const routes: Routes = [
   {
@@ -166,7 +168,7 @@ const routes: Routes = [
   {
     path:
       'pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses',
-    component: TotalExpensesComponent,
+    component: AccumulatedExpensesComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -177,7 +179,7 @@ const routes: Routes = [
   {
     path:
       'pharmacoeconomic/avg-expenses-biological-treatment/accumulated-avg-expenses',
-    component: TotalExpensesComponent,
+    component: AvgAccumulatedExpensesComponent,
     canActivate: [AuthGuard],
   },
 ];

@@ -170,5 +170,9 @@
   "monthlyConsuptionEurosAvg":"Average monthly consuption in euros",
   "yearlyGoalValue": "Yearly goal value",
   "draw": "Draw",
-  "selectMedicine": "Select medicine"
+  "selectMedicine": "Select medicine",
+  "totalCost": "Total Cost",
+  "averageCost": "Average cost",
+  "accumulatedAverageCost": "Accumulated average cost",
+  "accumulatedCost": "Accumulated cost"
   }
