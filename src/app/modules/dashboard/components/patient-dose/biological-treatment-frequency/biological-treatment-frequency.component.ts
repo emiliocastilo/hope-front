@@ -131,8 +131,9 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     if (event.type === 'detail') {
       this.showingDetail = true;
       this.currentTreatment = this.dataTable[event.selectedItem];
+      console.log(this.currentTreatment);
 
-      const query = `numberChanges=${this.currentTreatment.reasonStopBiologicalTreatment}`;
+      const query = `regimen=${this.currentTreatment.standar}`;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
