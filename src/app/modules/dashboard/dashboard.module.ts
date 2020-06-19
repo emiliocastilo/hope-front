@@ -31,6 +31,10 @@ import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expe
 import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
 import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
 import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses/accumulated-expenses.component';
+import { PsoriasisPlacasComponent } from './components/treatments/psoriasis-placas/psoriasis-placas.component';
+import { PsoriasisPalmoPlantarComponent } from './components/treatments/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
+import { EritrodermiaComponent } from './components/treatments/eritrodermia/eritrodermia.component';
+import { PsoriasisPustulosaComponent } from './components/treatments/psoriasis-pustulosa/psoriasis-pustulosa.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +64,10 @@ import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/tota
     AvgExpensesComponent,
     AvgAccumulatedExpensesComponent,
     AccumulatedExpensesComponent,
+    PsoriasisPlacasComponent,
+    PsoriasisPalmoPlantarComponent,
+    EritrodermiaComponent,
+    PsoriasisPustulosaComponent,
   ],
   imports: [
     NgbModule,

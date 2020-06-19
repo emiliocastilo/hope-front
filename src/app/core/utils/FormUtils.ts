@@ -79,4 +79,15 @@ export default class FormUtils {
     const bodyArea = (0.7184 * height * weight) / 100;
     return bodyArea.toFixed(2);
   }
+
+  static cigaretteToYear(params: Array<any>) {
+    return params[0] * 365;
+  }
+
+  static yearsWithoutSmoking(params: Array<any>) {
+    const date = moment(params[0], 'DD/MM/YYYY');
+    const currentDate = moment();
+    const diff = currentDate.diff(date, 'years', true);
+    return diff.toFixed(2);
+  }
 }

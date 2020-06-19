@@ -55,16 +55,7 @@ export class BiologicalAgentsComponent implements OnInit {
   }
 
   private getData(): void {
-    let data = this._activatedRoute.snapshot.data.patientsTreatments;
-    let mockData = {
-      'EN PLACAS': 2,
-      PUSTULOSA: 3,
-      ERITRODERMIA: 4,
-      PALMOPLANTAR: 5,
-      OTRAS: 5,
-    };
-
-    data = mockData;
+    const data = this._activatedRoute.snapshot.data.patientsTreatments;
 
     const chartTitle = 'patientsTreatmentBiological';
     const view = null;
@@ -129,7 +120,7 @@ export class BiologicalAgentsComponent implements OnInit {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
 
-      const query = 'type=BIOLOGICO&indication=""';
+      const query = 'type=BIOLOGICO&indication=';
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -171,7 +162,7 @@ export class BiologicalAgentsComponent implements OnInit {
       const currentUser = this.details[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
       localStorage.setItem('selectedUser', selectedUser);
-      this._router.navigate(['pathology/patients/dashboar']);
+      this._router.navigate(['pathology/patients/dashboard']);
     }
   }
 
