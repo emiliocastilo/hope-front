@@ -26,6 +26,7 @@ import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/
 import { AverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/average-consuption-biological-treatment/average-monthly-consuption-euros/average-monthly-consuption-euros.component';
 import { AccumulatedMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/accumulated-monthly-consuption-euros/accumulated-monthly-consuption-euros.component';
 import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses/total-expenses.component';
+import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
 
 const routes: Routes = [
   {
@@ -159,6 +160,23 @@ const routes: Routes = [
 
   {
     path: 'pharmacoeconomic/total-expenses-biological-treatment/total-expenses',
+    component: TotalExpensesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path:
+      'pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses',
+    component: TotalExpensesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'pharmacoeconomic/avg-expenses-biological-treatment/avg-expenses',
+    component: AvgExpensesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path:
+      'pharmacoeconomic/avg-expenses-biological-treatment/accumulated-avg-expenses',
     component: TotalExpensesComponent,
     canActivate: [AuthGuard],
   },

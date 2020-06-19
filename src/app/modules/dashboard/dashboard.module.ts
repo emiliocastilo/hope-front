@@ -28,6 +28,7 @@ import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/
 import { AverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/average-consuption-biological-treatment/average-monthly-consuption-euros/average-monthly-consuption-euros.component';
 import { AccumulatedMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/accumulated-monthly-consuption-euros/accumulated-monthly-consuption-euros.component';
 import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses/total-expenses.component';
+import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expe
     AverageMonthlyConsuptionEurosComponent,
     AccumulatedMonthlyConsuptionEurosComponent,
     TotalExpensesComponent,
+    AvgExpensesComponent,
   ],
   imports: [
     NgbModule,

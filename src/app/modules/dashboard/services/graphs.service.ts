@@ -205,4 +205,22 @@ export class GraphsService {
       `/dispensation-details/find-total-cost-treatments?${query}`
     );
   }
+
+  public getTotalAccumulatedExpenses(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-total-cost-treatments-accumulated?${query}`
+    );
+  }
+
+  public getTotalAvgExpenses(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-total-cost-treatments-avg?${query}`
+    );
+  }
+
+  public getTotalAvgAccumulatedExpenses(query: string) {
+    return this._httpClient.get(
+      `/dispensation-details/find-total-cost-treatments-accumulated-avg?${query}`
+    );
+  }
 }

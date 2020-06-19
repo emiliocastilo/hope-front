@@ -2,4 +2,30 @@
   <section class="patients-chart-container">
     <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
   </section>
+
+  <section class="table-container">
+    <div class="table-container_input-container">
+      <form
+        [formGroup]="form"
+        id="formYearlyGoal"
+        class="table-container_input-container_form"
+      >
+        <app-input-select
+          id="selectMedicine"
+          name="selectMedicine"
+          [isDisabled]="false"
+          type="number"
+          class="col-6"
+          currentValue="currenMedicine"
+          [options]="medicines"
+          [form]="form"
+          [optionSelected]="0"
+          [selectMultiple]="false"
+          [clearAfterSelect]="false"
+          (selectTrigger)="onSelectMedicine($event)"
+        >
+        </app-input-select>
+      </form>
+    </div>
+  </section>
 </section>

@@ -169,5 +169,6 @@
   "dec": "Dec",
   "monthlyConsuptionEurosAvg":"Average monthly consuption in euros",
   "yearlyGoalValue": "Yearly goal value",
-  "draw": "Draw"
+  "draw": "Draw",
+  "selectMedicine": "Select medicine"
   }
