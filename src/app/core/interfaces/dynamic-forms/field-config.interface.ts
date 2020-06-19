@@ -15,6 +15,7 @@ export interface FieldConfig {
   rows?: number;
   inputType?: string;
   formula?: any;
+  calculated_front?: boolean;
   params?: Array<string>;
   actions?: Array<string>;
   columns?: Array<any>;

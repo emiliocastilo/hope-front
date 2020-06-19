@@ -33,6 +33,7 @@ export default class FormUtils {
     fieldConfig.actions = value.actions;
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
+    fieldConfig.calculated_front = value.calculated_front;
     // TODO: PARSEAR validaciones, no pueden venir como tal,habrá que hacer un switch case o algo así.
     // if (value.validation) {
     //     const validations = StringUtils.stringToArray(value.validation);
@@ -74,13 +75,13 @@ export default class FormUtils {
 
   static calculateIMC(params: Array<any>) {
     const imc = params[0] / (params[1] * params[1]);
-    return imc.toFixed(2);
+    return isNaN(imc) ? 0 : imc.toFixed(2);
   }
 
   static calculateBodyArea(params: Array<any>) {
     const weight = Math.pow(params[0], 0.425);
     const height = Math.pow(params[1], 0.725);
     const bodyArea = (0.7184 * height * weight) / 100;
-    return bodyArea.toFixed(2);
+    return isNaN(bodyArea) ? 0 : bodyArea.toFixed(2);
   }
 }
