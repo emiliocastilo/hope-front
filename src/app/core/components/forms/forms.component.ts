@@ -5,6 +5,7 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
+import { constants } from '../../../../constants/constants';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Component({
@@ -45,7 +46,6 @@ export class FormsComponent implements OnInit {
     const form = this._parseStringToJSON(data.form);
     this.config = FormUtils.createFieldConfig(form, this.filledForm);
   }
-
   submit(value: { [name: string]: any }) {
     const form = {
       template: this.key,

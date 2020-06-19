@@ -6,6 +6,7 @@
       type="radio"
       [name]="config.name"
       [value]="option.value"
+      [(ngModel)]="config.value"
       class="form-check-input"
     />
     <label [for]="config.name" class="form-check-label">
