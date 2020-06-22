@@ -101,7 +101,8 @@
     "IE-014": "Ya existe el valor del campo número de teléfono",
     "element_deleted": "Elemento eliminado correctamente",
     "element_created": "Elemento creado correctamente",
-    "element_updated": "Elemento editado correctamente"
+    "element_updated": "Elemento editado correctamente",
+    "error_form": "El formulario contiene errores"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
   "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",
@@ -161,5 +162,12 @@
   "degreeKinship": "Grado de parentesco",
   "typePsoriasis": "Tipo de psoriasis",
   "ageDiagnosis": "Edad en el diagnóstico",
-  "observations": "Observaciones"
+  "observations": "Observaciones",
+  "validations": {
+    "pattern": "El patrón no coincide",
+    "minLength": "Se requiere un minimo de caracteres",
+    "maxLength": "Caracteres máximos superados",
+    "required": "Campo requerido",
+    "email": "Email no válido"
+  }
 }

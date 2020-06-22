@@ -6,13 +6,13 @@ import { GalleryComponent } from './patients/components/gallery/gallery.componen
 import { PatientsResolverService } from '../management/services/patients/patients-resolver.service';
 import { PatientsComponent } from './patients/components/patients/patients.component';
 import { DashboardPatientsComponent } from './patients/components/dashboard-patients/dashboard-patients.component';
-import { SociodemographicDataComponent } from './patients/components/patients/sociodemographic-data/sociodemographic-data.component';
-import { GeneralPatientDataComponent } from './patients/components/patients/general-patient-data/general-patient-data.component';
-import { TracingComponent } from './patients/components/patients/tracing/tracing.component';
-import { DiagnosisComponent } from './patients/components/patients/diagnosis/diagnosis.component';
-import { ComplementaryImagingScansComponent } from './patients/components/patients/complementary-imaging-scans/complementary-imaging-scans.component';
-import { AdherenceToTreatmentComponent } from './patients/components/patients/adherence-to-treatment/adherence-to-treatment.component';
-import { ConsentComponent } from './patients/components/patients/consent/consent.component';
+import { SociodemographicDataComponent } from './patients/components/sociodemographic-data/sociodemographic-data.component';
+import { GeneralPatientDataComponent } from './patients/components/general-patient-data/general-patient-data.component';
+import { TracingComponent } from './patients/components/tracing/tracing.component';
+import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
+import { ComplementaryImagingScansComponent } from './patients/components/complementary-imaging-scans/complementary-imaging-scans.component';
+import { AdherenceToTreatmentComponent } from './patients/components/adherence-to-treatment/adherence-to-treatment.component';
+import { ConsentComponent } from './patients/components/consent/consent.component';
 import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
 
 const routes: Routes = [

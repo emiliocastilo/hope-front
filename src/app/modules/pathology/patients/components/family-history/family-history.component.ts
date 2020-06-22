@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { constants } from '../../../../../../constants/constants';
 
 @Component({
   selector: 'app-family-history',
   templateUrl: './family-history.component.html',
   styleUrls: ['./family-history.component.scss'],
 })
-export class FamilyHistoryComponent implements OnInit {
-  key = 'ANTECEDENTES_FAMILIARES';
-  constructor() {}
-
-  ngOnInit(): void {}
+export class FamilyHistoryComponent {
+  key = constants.KEY_FAMILYHISTORY;
 }
