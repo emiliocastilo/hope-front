@@ -4,3 +4,51 @@
   margin: 1rem;
   text-align: right;
 }
+
+.header-table {
+  max-width: 15rem;
+}
+
+.custom-modal-field {
+  margin: 1rem;
+}
+
+.modal-header {
+  color: $app-color-blue-main;
+  border: none;
+
+  .modal-title {
+    position: relative;
+    top: 1rem;
+    left: 0.5rem;
+  }
+
+  .close {
+    color: $app-color-blue-main;
+    font-size: 3rem;
+    font-weight: 100;
+    position: relative;
+    top: 0.4rem;
+    right: 1rem;
+
+    &:focus {
+      outline-color: white;
+    }
+  }
+}
+
+.custom-modal-title {
+  color: $app-color-blue-main;
+  font-size: 1.2rem;
+}
+
+.custom-modal-value {
+  font-size: 1.1rem;
+  word-wrap: break-word;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

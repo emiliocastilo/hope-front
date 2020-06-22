@@ -125,25 +125,24 @@ export class AppComponent implements OnInit {
   }
 
   parseMenu(menu: any, url: string) {
-    const mainMenu = menu.map((entry) => {
+    menu.forEach((entry) => {
       if (entry.title === 'Paciente') {
-        localStorage.setItem('patientMenu', JSON.stringify(entry.children));
+        localStorage.setItem('patientMenu', JSON.stringify(menu));
         entry.children = [];
       }
       return entry;
     });
-    localStorage.setItem('menu', JSON.stringify(mainMenu));
+    localStorage.setItem('menu', JSON.stringify(menu));
     this.fetchLocalMenu(url);
   }
 
   fetchLocalMenu(url) {
     if (!url.includes('/pathology/patients/')) {
       this.menu = JSON.parse(localStorage.getItem('menu'));
-      this.level = 1;
     } else {
       this.menu = JSON.parse(localStorage.getItem('patientMenu'));
-      this.level = 2;
     }
+    this.level = 1;
     this.generateCrumbs(url);
   }
 
@@ -156,7 +155,7 @@ export class AppComponent implements OnInit {
       (res: SideBarItemModel) => (this.selectedSection = res)
     );
 
-    if (!this.selectedSection && url !== '/') {
+    if (url !== '/') {
       const currenSelected = SectionActionBuilder.findSection(
         'url',
         this.menu,

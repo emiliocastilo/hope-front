@@ -18,14 +18,20 @@ import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service'
 })
 export class SideBarMenuComponent implements OnInit {
   public LEVEL_ONE = 1;
-  public ICONS = ['settings', 'bar-chart-2', 'calendar', 'bell', 'users'];
+  public ICONS = {
+    Administración: 'settings',
+    'Cuadro de Mando': 'bar-chart-2',
+    Calendario: 'calendar',
+    Alertas: 'bell',
+    Paciente: 'users',
+  };
 
   @Input() menu: Array<SideBarItemModel>;
   @Input() selected: SideBarItemModel;
   @Input() level: number;
   @Input() collapsed: boolean;
   @Output() nav: EventEmitter<any> = new EventEmitter();
-  public icons: Array<string>;
+  public icons: any;
 
   constructor(
     private _sidebar: SideBarService,
@@ -35,7 +41,6 @@ export class SideBarMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.icons = this.ICONS;
     if (!this.level) {
       this.level = this.LEVEL_ONE;
     }

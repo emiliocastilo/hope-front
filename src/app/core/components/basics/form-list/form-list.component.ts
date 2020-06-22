@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-form-list',
@@ -14,8 +15,9 @@ export class FormListComponent implements OnInit {
   rows = [];
   isEditing = false;
   enableEditIndex: number;
+  detailArray: Array<any>;
 
-  constructor() {}
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
     if (this.config.value && this.config.value.length > 0) {
@@ -63,14 +65,37 @@ export class FormListComponent implements OnInit {
     this.isEditing = false;
   }
 
-  emitIconButtonClick(action, i) {
+  openModalDetail(i: number, content: any) {
+    this.detailArray = [];
+    Object.entries(this.rows[i]).forEach((e) => {
+      const entry = {
+        name: e[0],
+        value: e[1],
+      };
+      this.detailArray.push(entry);
+    });
+    this.modalService.open(content).result.then(
+      (result) => {},
+      (reason) => {}
+    );
+  }
+
+  emitIconButtonClick(action, i, content) {
     event.preventDefault();
-    if (action === 'edit') {
-      this.isEditing = true;
-      this.enableEditIndex = i;
-    } else {
-      this.rows.splice(i, 1);
-      this.onSaveRow();
+    switch (action) {
+      case 'edit':
+        this.isEditing = true;
+        this.enableEditIndex = i;
+        break;
+      case 'remove':
+        this.rows.splice(i, 1);
+        this.onSaveRow();
+        break;
+      case 'eye':
+        this.openModalDetail(i, content);
+        break;
+      default:
+        break;
     }
   }
 }

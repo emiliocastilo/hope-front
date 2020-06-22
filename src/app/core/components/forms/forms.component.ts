@@ -38,13 +38,14 @@ export class FormsComponent implements OnInit {
       this.key,
       this.patient.id
     );
-    if (retrievedForm && retrievedForm.data.length > 0) {
+    if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
       this.filledForm = retrievedForm.data;
     }
     const data: any = await this._formsService.get(this.key);
     const form = this._parseStringToJSON(data.form);
     this.config = FormUtils.createFieldConfig(form, this.filledForm);
   }
+
   submit(value: { [name: string]: any }) {
     if (value) {
       const form = {
