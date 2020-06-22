@@ -35,7 +35,7 @@ export class AccumulatedExpensesComponent implements OnInit {
         const dataToParse = this.sortByMonth(data);
         this.dataChart = this.parseDataChart(dataToParse);
 
-        const title = 'averageCost';
+        const title = 'accumulatedCost';
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
