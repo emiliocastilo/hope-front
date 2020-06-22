@@ -8,6 +8,13 @@
     class="{{ field.rows ? 'col-' + field.rows : 'col-12' }}"
   >
     <ng-container dynamicField [config]="field" [group]="form"> </ng-container>
+    <div *ngIf="form.get(field.name) && form.get(field.name).errors && form.get(field.name).dirty">
+      <p *ngIf="form.get(field.name).hasError('required')">{{ 'validations.required' | translate }}</p>
+      <p *ngIf="form.get(field.name).hasError('minlength')">{{ 'validations.minLength' | translate }}</p>
+      <p *ngIf="form.get(field.name).hasError('maxlength')">{{ 'validations.maxLength' | translate }}</p>
+      <p *ngIf="form.get(field.name).hasError('pattern')">{{ 'validations.pattern' | translate }}</p>
+      <p *ngIf="form.get(field.name).hasError('email')">{{ 'validations.email' | translate }}</p>
+    </div>
   </div>
   <div class="submit-button">
     <button class="btn btn-primary" type="submit">

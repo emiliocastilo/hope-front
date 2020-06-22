@@ -47,16 +47,20 @@ export class FormsComponent implements OnInit {
   }
 
   submit(value: { [name: string]: any }) {
-    const form = {
-      template: this.key,
-      data: FormUtils.parseEntriesForm(value),
-      patientId: this.patient.id,
-    };
+    if (value){
+      const form = {
+        template: this.key,
+        data: FormUtils.parseEntriesForm(value),
+        patientId: this.patient.id,
+      };
 
-    if (this.filledForm) {
-      this.updateForm(form);
+      if (this.filledForm) {
+        this.updateForm(form);
+      } else {
+        this.fillForm(form);
+      }
     } else {
-      this.fillForm(form);
+      this._notification.showErrorToast('error_form');
     }
   }
 
