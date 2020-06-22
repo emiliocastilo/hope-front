@@ -55,7 +55,8 @@ import { ResultsPerPageComponent } from './components/results-per-page/results-p
 import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
 import { IconsModule } from '../icons/icons.module';
 import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
-import { HorizontalColumnChartComponent } from './components/charts/horizontal-column-chart/horizontal-column-chart.component';
+import { GanttChartComponent } from './components/charts/gantt-chart/gantt-chart.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -109,7 +110,7 @@ export function createTranslateLoader(http: HttpClient) {
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
-    HorizontalColumnChartComponent,
+    GanttChartComponent,
   ],
   imports: [
     CommonModule,
@@ -119,6 +120,7 @@ export function createTranslateLoader(http: HttpClient) {
     IconsModule,
     NgxChartsModule,
     RouterModule,
+    GoogleChartsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -163,6 +165,7 @@ export function createTranslateLoader(http: HttpClient) {
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
+    GanttChartComponent,
   ],
   providers: [GenderFormatter],
   entryComponents: [

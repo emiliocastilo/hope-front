@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HorizontalColumnChartComponent } from './horizontal-column-chart.component';
+import { HorizontalColumnChartComponent } from './gantt-chart.component';
 
 describe('HorizontalColumnChartComponent', () => {
   let component: HorizontalColumnChartComponent;

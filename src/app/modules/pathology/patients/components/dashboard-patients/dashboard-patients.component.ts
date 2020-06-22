@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PatientModel } from '../../models/patient.model';
-import { FormGroup } from '@angular/forms';
-import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
-import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { ActivatedRoute } from '@angular/router';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
+import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
+import { GanttChart } from 'src/app/core/models/graphs/gantt-chart.model';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -52,7 +50,10 @@ export class DashboardPatientsComponent implements OnInit {
     genderCode: '',
     pathologies: [],
   };
-  public isEditing: boolean = false;
+  private dataChart: ChartObjectModel[];
+  public configChart: GanttChart;
+  private columnsGantt = ['BIOLOGICO', 'FAME', 'ADH', 'OTR'];
+  private myFormatters: any[] = [];
 
   constructor(private _patientService: PatientsService) {}
 
@@ -64,7 +65,60 @@ export class DashboardPatientsComponent implements OnInit {
       .subscribe((data) => {
         if (data) {
           this.selectedPatient = data;
+          this.getDashboar(data.id);
         }
       });
+  }
+
+  private getDashboar(id: number): void {
+    this._patientService.getDashboar(id).subscribe(
+      (data: any) => {
+        this.dataChart = this.parseDataChart(data.treatments);
+
+        const groupByRowLabel = true;
+
+        this.configChart = new GanttChart(
+          this.dataChart,
+          this.columnsGantt,
+          groupByRowLabel,
+          this.myFormatters
+        );
+      },
+      (error: any) => {}
+    );
+  }
+
+  private parseDataChart(data: any[]): ChartObjectModel[] {
+    const objectChart = [];
+
+    this.columnsGantt.forEach((value: string, key: number) => {
+      const format = {
+        formatter: 'YYYY',
+        colIndex: key,
+      };
+
+      this.myFormatters.push(format);
+
+      if (data[value]) {
+        data[value].forEach((element: any) => {
+          let objectRow = [
+            value,
+            element.medicine.actIngredients,
+            new Date(element.initDate),
+          ];
+
+          let endDate = new Date(element.finalDate);
+
+          if (!element.finalDate) {
+            endDate = new Date();
+          }
+
+          objectRow.push(endDate);
+
+          objectChart.push(objectRow);
+        });
+      }
+    });
+    return objectChart;
   }
 }

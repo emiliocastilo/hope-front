@@ -38,4 +38,8 @@ export class PatientsService {
   public deletePatient(id: string): Observable<any> {
     return this._httpClient.delete(`/patients/${id}`);
   }
+
+  public getDashboar(id: number): Observable<any> {
+    return this._httpClient.get(`/patients-dashboards/${id}`);
+  }
 }
