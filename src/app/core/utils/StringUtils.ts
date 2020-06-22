@@ -12,8 +12,10 @@ export default class StringUtils {
   }
 
   static getParenthesisValue(value: string) {
-    const firstParenthesis = value.indexOf("(");
-    const secondParenthesis = value.indexOf(")");
-    return secondParenthesis-firstParenthesis > 1 ? value.match(/\(([^)]+)\)/)[1] : null;
+    const firstParenthesis = value.indexOf('(');
+    const secondParenthesis = value.indexOf(')');
+    return secondParenthesis - firstParenthesis > 1
+      ? value.match(/\(([^)]+)\)/)[1]
+      : null;
   }
 }

@@ -5,8 +5,7 @@ import StringUtils from './StringUtils';
 import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
 
 export default class FormUtils {
-
-  static decimalPattern: string = '^[0-9]+(\.[0-9]{1,valueToReplace})?$';
+  static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
 
   static createFieldConfig(form, filled?): FieldConfig[] {
     const fieldConfig: FieldConfig[] = [];
@@ -39,38 +38,55 @@ export default class FormUtils {
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
     if (value.validation) {
-        const validations = StringUtils.stringToArray(value.validation);
-        fieldConfig.validation = this.parseValidations(validations);
+      const validations = StringUtils.stringToArray(value.validation);
+      fieldConfig.validation = this.parseValidations(validations);
     }
     return fieldConfig;
   }
 
-  static parseValidations(validation : string[]): ValidatorFn[] {
-    let finalValidators : any[] = [];
-    validation.forEach(element => {
+  static parseValidations(validation: string[]): ValidatorFn[] {
+    let finalValidators: any[] = [];
+    validation.forEach((element) => {
       //Required
-      if (element.trim() === "Validators.required") {
+      if (element.trim() === 'Validators.required') {
         finalValidators.push(Validators.required);
       }
       // Min length
-      if (element.trim().startsWith("Validators.minLength")){
-        finalValidators.push(Validators.minLength(parseInt(StringUtils.getParenthesisValue(element))));
+      if (element.trim().startsWith('Validators.minLength')) {
+        finalValidators.push(
+          Validators.minLength(
+            parseInt(StringUtils.getParenthesisValue(element))
+          )
+        );
       }
       // Max length
-      if (element.trim().startsWith("Validators.maxLength")){
-        finalValidators.push(Validators.maxLength(parseInt(StringUtils.getParenthesisValue(element))));
+      if (element.trim().startsWith('Validators.maxLength')) {
+        finalValidators.push(
+          Validators.maxLength(
+            parseInt(StringUtils.getParenthesisValue(element))
+          )
+        );
       }
-       // Pattern
-       if (element.trim().startsWith("Validators.pattern")){
-        finalValidators.push(Validators.pattern(StringUtils.getParenthesisValue(element)));
+      // Pattern
+      if (element.trim().startsWith('Validators.pattern')) {
+        finalValidators.push(
+          Validators.pattern(StringUtils.getParenthesisValue(element))
+        );
       }
       // email
-      if (element.trim().startsWith("Validators.email")){
+      if (element.trim().startsWith('Validators.email')) {
         finalValidators.push(Validators.email);
       }
       // decimal
-      if (element.trim().startsWith("Validators.decimal")){
-        finalValidators.push(Validators.pattern(this.parseValueIntoPattern(this.decimalPattern, StringUtils.getParenthesisValue(element))));
+      if (element.trim().startsWith('Validators.decimal')) {
+        finalValidators.push(
+          Validators.pattern(
+            this.parseValueIntoPattern(
+              this.decimalPattern,
+              StringUtils.getParenthesisValue(element)
+            )
+          )
+        );
       }
 
       // dni
@@ -81,7 +97,9 @@ export default class FormUtils {
     return finalValidators;
   }
   static parseValueIntoPattern(decimalPattern: string, value: string): string {
-    return value ? decimalPattern.replace("valueToReplace", value) : decimalPattern.replace("valueToReplace", '2');
+    return value
+      ? decimalPattern.replace('valueToReplace', value)
+      : decimalPattern.replace('valueToReplace', '2');
   }
 
   static fillFormWithValues(form, filled) {

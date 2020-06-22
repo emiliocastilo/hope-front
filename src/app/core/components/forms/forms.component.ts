@@ -46,7 +46,7 @@ export class FormsComponent implements OnInit {
     this.config = FormUtils.createFieldConfig(form, this.filledForm);
   }
   submit(value: { [name: string]: any }) {
-    if (value){
+    if (value) {
       const form = {
         template: this.key,
         data: FormUtils.parseEntriesForm(value),
