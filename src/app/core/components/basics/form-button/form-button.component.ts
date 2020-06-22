@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
@@ -9,6 +9,9 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
   styleUrls: ['./form-button.component.scss'],
 })
 export class FormButtonComponent {
+  @Input() clasesBtn: string;
+  @Input() texto: string;
+  @Input() type = 'button';
   config: FieldConfig;
   group: FormGroup;
 }

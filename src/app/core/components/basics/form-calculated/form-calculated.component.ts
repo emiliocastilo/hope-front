@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
@@ -9,6 +9,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
   styleUrls: ['./form-calculated.component.scss'],
 })
 export class FormCalculatedComponent {
+  @Input() type = 'text';
   config: FieldConfig;
   group: FormGroup;
 }

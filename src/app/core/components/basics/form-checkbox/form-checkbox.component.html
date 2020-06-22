@@ -1,14 +1,27 @@
-<div class="form-group dynamic-field form-check" [formGroup]="group">
-  <input
-    type="checkbox"
-    [formControlName]="config.name"
-    [attr.name]="config.name"
-    [attr.id]="config.name"
-    [(ngModel)]="config.value"
-    class="form-check-input"
-    [disabled]="config.disabled"
-  />
-  <label [attr.for]="config.name" class="form-check-label">{{
+<div class="form-checkbox" [formGroup]="group">
+  <label [attr.for]="config.name" class="dynamic-label switch-title">{{
     config.label | translate
   }}</label>
+  <div
+    class="switch"
+    (click)="switch()"
+    class="switch"
+    [ngClass]="{ checked: config.value }"
+  >
+    <input
+      type="checkbox"
+      [formControlName]="config.name"
+      [attr.name]="config.name"
+      [attr.id]="config.name"
+      [(ngModel)]="config.value"
+      class="switch-input"
+      [disabled]="config.disabled"
+    />
+    <span
+      class="switch-label"
+      [attr.data-on]="config.labelCheckOn ? config.labelCheckOn : 'YES'"
+      [attr.data-off]="config.labelCheckOff ? config.labelCheckOff : 'NO'"
+    ></span>
+    <span class="switch-handle"></span>
+  </div>
 </div>
