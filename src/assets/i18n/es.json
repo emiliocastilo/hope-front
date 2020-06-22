@@ -180,5 +180,6 @@
   "totalCost": "Coste total",
   "averageCost": "Coste medio",
   "accumulatedAverageCost": "Coste medio accumulado",
-  "accumulatedCost": "Coste acumulado"
+  "accumulatedCost": "Coste acumulado",
+  "personalData": "Datos personales"
 }

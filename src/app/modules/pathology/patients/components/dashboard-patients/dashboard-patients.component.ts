@@ -5,8 +5,11 @@ import { PatientModel } from '../../models/patient.model';
 import { FormGroup } from '@angular/forms';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { ActivatedRoute } from '@angular/router';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
+import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
+import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
+import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
+import { GraphsService } from '../../../../dashboard/services/graphs.service';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -52,13 +55,16 @@ export class DashboardPatientsComponent implements OnInit {
     genderCode: '',
     pathologies: [],
   };
-  public isEditing: boolean = false;
 
-  constructor(private _patientService: PatientsService) {}
+  public dataChart: ChartObjectModel[];
+  public configChart: ColumnChartModel;
+
+  constructor(private _patientService: PatientsService,
+              private _patientDashboardService :PatientsDashboardService,
+              private _graphService: GraphsService) {}
 
   ngOnInit(): void {
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
-
     this._patientService
       .getPatientsById(this.selectedPatient.id)
       .subscribe((data) => {
@@ -66,5 +72,42 @@ export class DashboardPatientsComponent implements OnInit {
           this.selectedPatient = data;
         }
       });
+
+    this._patientDashboardService.getPatientsDashboardById(this.selectedPatient.id).subscribe(
+      (data) => {
+        this.dataChart = this.parseDataChart(data);
+
+        const title = '';
+        const view = null;
+        const scheme = {
+          domain: ['#ffc107', '#2196f3'],
+        };
+        this.configChart = new ColumnChartModel(
+          title,
+          view,
+          scheme,
+          this.dataChart
+        );
+      });
+  }
+
+  private parseDataChart(data: any): ChartObjectModel[] {
+    const arrayData = Object.keys(data.indicesEvolution).map((keyYear: string) => {
+      const object = {
+        name: keyYear,
+        series: [],
+      };
+
+      data.indicesEvolution[keyYear].forEach((element) => {
+        const objectSerie = {
+          value: element.value,
+          name: new Date(element.date),
+        };
+        object.series.push(objectSerie);
+      });
+
+      return object;
+    });
+    return arrayData;
   }
 }
