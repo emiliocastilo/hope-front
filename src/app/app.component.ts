@@ -81,15 +81,10 @@ export class AppComponent implements OnInit {
       this.collapsedSections.push(section.fatherSection.id);
       this.checkCollapsedSection(section.fatherSection);
     }
-    this.collapsedSections.forEach((id) => {
-      if (id !== 1) {
-        this.activateCollapse(this.menu, id);
-      }
-    });
+    this.activateCollapse(this.menu, section.id);
   }
 
   activateCollapse(array: any, id: number) {
-    //let result;
     array.some((o) =>
       o.id === id
         ? (o.collapsed = true)
@@ -99,16 +94,6 @@ export class AppComponent implements OnInit {
 
   private getMenu(url: string) {
     const localMenu: Array<any> = JSON.parse(localStorage.getItem('menu'));
-    const collapsedSection: any = JSON.parse(
-      localStorage.getItem('collapsedSection')
-    );
-    if (collapsedSection) {
-      const index = localMenu.findIndex((e) => e.id === collapsedSection.id);
-      if (index !== -1) {
-        localMenu.splice(index, 1, collapsedSection);
-        localStorage.setItem('menu', JSON.stringify(localMenu));
-      }
-    }
     if (!localMenu) {
       if (!['/login', '/select-role'].includes(url)) {
         this._sideBar.getSideBar().subscribe((response) => {
@@ -148,10 +133,6 @@ export class AppComponent implements OnInit {
   }
 
   private generateCrumbs(url: string) {
-    this._sideBar.event.subscribe(
-      (res: SideBarItemModel) => (this.selectedSection = res)
-    );
-
     if (url !== '/') {
       const currenSelected = SectionActionBuilder.findSection(
         'url',

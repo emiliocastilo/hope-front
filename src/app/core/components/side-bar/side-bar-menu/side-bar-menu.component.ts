@@ -55,6 +55,5 @@ export class SideBarMenuComponent implements OnInit {
 
   public toggleColapseMenu(menu: SideBarItemModel): void {
     menu.collapsed = !menu.collapsed;
-    localStorage.setItem('collapsedSection', JSON.stringify(menu));
   }
 }
