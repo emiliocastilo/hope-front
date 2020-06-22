@@ -31,7 +31,15 @@ export class EditorModalBodyComponent implements OnInit {
       this.checkAnyRequired(this.formKeys);
     }
   }
-
+  getColSection(keys: any) {
+    if (this.formKeys.length >= 3 && keys !== 'roles') {
+      return 'col-sm-12  col-lg-4';
+    } else if (this.formKeys.length < 3 && keys !== 'roles') {
+      return 'col-lg-6';
+    } else {
+      return 'col-sm-12 col-md-12 col-lg-12';
+    }
+  }
   parseDate(keys: any) {
     keys.forEach((key) => {
       if (this.form.controls[key].value) {

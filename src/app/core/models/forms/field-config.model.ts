@@ -12,6 +12,8 @@ export class FieldConfigModel implements FieldConfig {
   icon?: string;
   selectMultiple?: boolean;
   radioButton?: any;
+  labelCheckOff: string;
+  labelCheckOn: string;
   rows?: number;
   inputType?: string;
 }

@@ -49,12 +49,14 @@ import { ColumnChartComponent } from './components/charts/column-chart/column-ch
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
 import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
 import { FormCalculatedComponent } from './components/basics/form-calculated/form-calculated.component';
+import { FormListComponent } from './components/basics/form-list/form-list.component';
 import { GenderFormatter } from './pipes/gender.pipe';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { ResultsPerPageComponent } from './components/results-per-page/results-per-page.component';
 import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
 import { IconsModule } from '../icons/icons.module';
 import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
+import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -104,6 +106,8 @@ export function createTranslateLoader(http: HttpClient) {
     ColumnChartComponent,
     PieChartComponent,
     ExportButtonsComponent,
+    FormListComponent,
+    PatientHeaderComponent,
     GenderFormatter,
     BreadcrumbComponent,
     ResultsPerPageComponent,
@@ -158,6 +162,7 @@ export function createTranslateLoader(http: HttpClient) {
     PaginationComponent,
     HomeDashboardModuleComponent,
     GenderFormatter,
+    PatientHeaderComponent,
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,

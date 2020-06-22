@@ -9,6 +9,7 @@ import {
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -34,7 +35,10 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.value;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private _notification: NotificationService
+  ) {}
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -42,7 +46,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   detectCalculated() {
     this.changes.subscribe((change) => {
-      const calculated = this.config.find((e) => e.type === 'calculated_front');
+      const calculated = this.config.find((e) => e.calculated_front);
       const params = [];
       if (calculated) {
         calculated.params.forEach((e, i) => {
@@ -69,8 +73,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         .filter((control) => !controls.includes(control))
         .forEach((name) => {
           const config = this.config.find((control) => control.name === name);
-          if (config.type !== 'title') {
+          if (config.type !== 'title' && config.type !== 'table') {
             this.form.addControl(name, this.createControl(config));
+          }
+          if (config.type === 'table') {
+            this.form.addControl(name, this.createArray(config));
           }
         });
       this.detectCalculated();
@@ -90,10 +97,22 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.fb.control({ disabled, value }, validation);
   }
 
+  createArray(config: FieldConfig) {
+    const group = this.fb.group({});
+    config.fields.forEach((field) => {
+      group.addControl(field.name, this.fb.control(''));
+    });
+    return this.fb.array([group]);
+  }
+
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.submit.emit(this.value);
+    if (this.valid) {
+      this.submit.emit(this.value);
+    } else {
+      this.submit.emit(null);
+    }
   }
 
   setDisabled(name: string, disable: boolean) {

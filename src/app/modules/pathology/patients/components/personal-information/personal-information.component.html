@@ -1,13 +1,8 @@
 <div class="row m-0 p-0">
-  <section class="col-md-12 p-0">
-    <!-- <section class="container"> -->
-    <app-box-data [data]="selectedPatient" [keysToShow]="patientKeysToShowRow">
-    </app-box-data>
-  </section>
-
+  <app-patient-header></app-patient-header>
   <section class="col-md-12 col-lg-12 box-title">
     {{ 'personalData' | translate }}
-    <hr>
+    <hr />
   </section>
 
   <section class="col-md-12 col-lg-12 box-data-section">
@@ -16,7 +11,10 @@
         <div class="header">
           {{ key | translate }}
         </div>
-        <div class="data" *ngIf="key !== 'name' && key !== 'genderCode' && key !== 'age'">
+        <div
+          class="data"
+          *ngIf="key !== 'name' && key !== 'genderCode' && key !== 'age'"
+        >
           {{ selectedPatient[key] }}
         </div>
         <div class="data" *ngIf="key === 'name'">
@@ -26,16 +24,15 @@
           <i
             class="fa"
             [ngClass]="{
-            'fa-mars': selectedPatient.genderCode === 'M',
-            'fa-venus': selectedPatient.genderCode === 'F'
-          }"
+              'fa-mars': selectedPatient.genderCode === 'M',
+              'fa-venus': selectedPatient.genderCode === 'F'
+            }"
           ></i>
         </div>
         <div class="data" *ngIf="key === 'age'">
-          {{getAge(selectedPatient.birthDate)}}
+          {{ getAge(selectedPatient.birthDate) }}
         </div>
       </div>
     </div>
   </section>
-
 </div>

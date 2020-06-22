@@ -70,12 +70,20 @@ input[type='number'] {
 
   .ui-float-label > label {
     position: absolute;
-    top: -2px;
+    top: 0.3rem;
     left: 10px;
     font-size: 0.8rem;
     margin-left: 0.3rem;
     background-color: white;
     color: $app-color-blue-main;
+  }
+
+  .required-label {
+    top: 0 !important;
+  }
+
+  .firefox-position {
+    z-index: 1;
   }
 }
 
@@ -97,7 +105,7 @@ input[type='number'] {
 
   .dynamic-label {
     position: relative;
-    top: 1.3rem;
+    top: 1.2rem;
     font-size: 0.8rem;
     left: 0.5rem;
     margin-left: 0.3rem;

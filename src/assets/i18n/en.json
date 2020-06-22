@@ -91,9 +91,18 @@
     "IE-003": "Duplicated username",
     "IE-004": "Too many elements founds",
     "IE-005": "Wrong username or password",
+    "IE-007": "This field already exists",
+    "IE-008": "NHC already exists ",
+    "IE-009": "Health card already exists",
+    "IE-010": "Dni already exists",
+    "IE-011": "Email already exists",
+    "IE-012": "Name already exists",
+    "IE-013": "College number already exists",
+    "IE-014": "Phone already exists",
     "element_deleted": "Element removed correctly",
     "element_created": "Element created correctly",
-    "element_updated": "Element updated correctly"
+    "element_updated": "Element updated correctly",
+    "error_form": "The form contains errors"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
   "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",
@@ -152,6 +161,20 @@
   "reasonLastChangeBiologicalTreatment": "Reason change last biological treatment",
   "reasonStopBiologicalTreatment": "Reason stop biological treatment",
   "numberChangesBiologicalTreatment": "Number of changes by biological treatment",
+<<<<<<< src/assets/i18n/en.json
+  "ReasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
+  "ReasonStopBiologicalTreatmentFiveYears": "Reason to stop biological treatment five years",
+  "degreeKinship": "Degree Kinship",
+  "typePsoriasis": "Type psoriasis",
+  "ageDiagnosis": "Age diagnosis",
+  "observations": "Observations",
+  "validations": {
+    "pattern": "Pattern does not match",
+    "minLength": "Minimum characters required",
+    "maxLength": "Maximum characters exceded",
+    "required": "Field is required",
+    "email": "Email does not valid"
+},
   "reasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
   "reasonStopBiologicalTreatmentFiveYears": "Reason to Stop Biological Treatment Five Years",
   "cie10Diagnostic": "Diagnosis CIE10",
@@ -182,4 +205,4 @@
   "accumulatedAverageCost": "Accumulated average cost",
   "accumulatedCost": "Accumulated cost",
   "personalData": "Datos personales"
-  }
+}

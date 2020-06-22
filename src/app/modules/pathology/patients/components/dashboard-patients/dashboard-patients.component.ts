@@ -17,51 +17,28 @@ import { GraphsService } from '../../../../dashboard/services/graphs.service';
   styleUrls: ['./dashboard-patients.component.scss'],
 })
 export class DashboardPatientsComponent implements OnInit {
-  public columnsHeader: Array<ColumnHeaderModel> = [
-    new ColumnHeaderModel('Patient Name', 2),
-    new ColumnHeaderModel('Nhc', 2),
-    new ColumnHeaderModel('Health Card', 2),
-    new ColumnHeaderModel('Dni', 1),
-    new ColumnHeaderModel('Phone', 2),
-    new ColumnHeaderModel('Gender Code', 1),
-    new ColumnHeaderModel('Pathologies', 1),
-    new ColumnHeaderModel('Actions', 1),
-  ];
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
-  public patientKeysToShow: string[] = [
-    'name',
-    'nhc',
-    'healthCard',
-    'dni',
-    'phone',
-    'genderCode',
-  ];
+  // public patientKeysToShow: string[] = [
+  //   'name',
+  //   'nhc',
+  //   'healthCard',
+  //   'dni',
+  //   'phone',
+  //   'genderCode',
+  // ];
   public selectedItem: number;
-  public selectedPatient: PatientModel = {
-    id: '',
-    name: '',
-    firstSurname: '',
-    lastSurname: '',
-    nhc: '',
-    healthCard: '',
-    dni: '',
-    address: '',
-    phone: '',
-    email: '',
-    birthDate: '',
-    hospital: null,
-    genderCode: '',
-    pathologies: [],
-  };
+  public selectedPatient: PatientModel;
 
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
 
-  constructor(private _patientService: PatientsService,
-              private _patientDashboardService :PatientsDashboardService,
-              private _graphService: GraphsService) {}
+  constructor(
+    private _patientService: PatientsService,
+    private _patientDashboardService: PatientsDashboardService,
+    private _graphService: GraphsService
+  ) {}
 
   ngOnInit(): void {
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
@@ -73,8 +50,9 @@ export class DashboardPatientsComponent implements OnInit {
         }
       });
 
-    this._patientDashboardService.getPatientsDashboardById(this.selectedPatient.id).subscribe(
-      (data) => {
+    this._patientDashboardService
+      .getPatientsDashboardById(this.selectedPatient.id)
+      .subscribe((data) => {
         this.dataChart = this.parseDataChart(data);
 
         const title = '';
@@ -92,22 +70,24 @@ export class DashboardPatientsComponent implements OnInit {
   }
 
   private parseDataChart(data: any): ChartObjectModel[] {
-    const arrayData = Object.keys(data.indicesEvolution).map((keyYear: string) => {
-      const object = {
-        name: keyYear,
-        series: [],
-      };
-
-      data.indicesEvolution[keyYear].forEach((element) => {
-        const objectSerie = {
-          value: element.value,
-          name: new Date(element.date),
+    const arrayData = Object.keys(data.indicesEvolution).map(
+      (keyYear: string) => {
+        const object = {
+          name: keyYear,
+          series: [],
         };
-        object.series.push(objectSerie);
-      });
 
-      return object;
-    });
+        data.indicesEvolution[keyYear].forEach((element) => {
+          const objectSerie = {
+            value: element.value,
+            name: new Date(element.date),
+          };
+          object.series.push(objectSerie);
+        });
+
+        return object;
+      }
+    );
     return arrayData;
   }
 }

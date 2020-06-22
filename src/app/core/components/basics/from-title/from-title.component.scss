@@ -1,5 +1,9 @@
 @import '~src/assets/styles/variables.scss';
 
 .dynamic-form-title-divider {
-  border-top: 0.2rem solid $app-color-gray-medium;
+  border-top: 0.2rem solid $app-color-border-blue;
+}
+
+.title {
+  color: $app-color-blue-main;
 }

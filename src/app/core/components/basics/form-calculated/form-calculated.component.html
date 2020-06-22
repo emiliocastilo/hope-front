@@ -1,4 +1,14 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
+  <label
+    [attr.for]="config.name"
+    class="firefox-position"
+    [ngClass]="{
+      'date-label': type === 'date',
+      'dynamic-label': type !== 'date'
+    }"
+  >
+    {{ config.label | translate }}
+  </label>
   <input
     [attr.id]="config.name"
     [attr.name]="config.name"
@@ -9,7 +19,4 @@
     [attr.value]="config.value"
     [attr.disabled]="config.disabled"
   />
-  <label [attr.for]="config.name" class="dynamic-label">
-    {{ config.label | translate }}
-  </label>
 </div>

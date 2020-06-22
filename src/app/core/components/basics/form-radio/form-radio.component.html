@@ -1,11 +1,12 @@
 <div class="dynamic-field" [formGroup]="group">
-  <label> {{ config.label }}</label>
+  <label class="title-label"> {{ config.label }}</label>
   <div *ngFor="let option of config.radioButton" class="form-check">
     <input
       [formControlName]="config.name"
       type="radio"
       [name]="config.name"
       [value]="option.value"
+      [(ngModel)]="config.value"
       class="form-check-input"
     />
     <label [for]="config.name" class="form-check-label">
