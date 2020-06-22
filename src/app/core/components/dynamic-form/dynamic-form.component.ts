@@ -9,6 +9,7 @@ import {
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -34,7 +35,10 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.value;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private _notification: NotificationService
+  ) {}
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -104,7 +108,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.submit.emit(this.value);
+    if (this.valid) {
+      this.submit.emit(this.value);
+    } else {
+      this.submit.emit(null);
+    }
   }
 
   setDisabled(name: string, disable: boolean) {

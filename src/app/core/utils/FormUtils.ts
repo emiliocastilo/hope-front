@@ -1,8 +1,12 @@
 import { FieldConfig } from '../interfaces/dynamic-forms/field-config.interface';
 import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
+import StringUtils from './StringUtils';
+import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
 
 export default class FormUtils {
+  static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
+
   static createFieldConfig(form, filled?): FieldConfig[] {
     const fieldConfig: FieldConfig[] = [];
     if (filled && filled.length > 0) {
@@ -33,16 +37,69 @@ export default class FormUtils {
     fieldConfig.actions = value.actions;
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
-    fieldConfig.calculated_front = value.calculated_front;
-    // TODO: PARSEAR validaciones, no pueden venir como tal,habrá que hacer un switch case o algo así.
-    // if (value.validation) {
-    //     const validations = StringUtils.stringToArray(value.validation);
-    //     validations.forEach(element => {
-    //         fieldConfig.validation.push(element);
-    //     });
-    //     fieldConfig.validation = value.validation;
-    // }
+    if (value.validation) {
+      const validations = StringUtils.stringToArray(value.validation);
+      fieldConfig.validation = this.parseValidations(validations);
+    }
     return fieldConfig;
+  }
+
+  static parseValidations(validation: string[]): ValidatorFn[] {
+    let finalValidators: any[] = [];
+    validation.forEach((element) => {
+      //Required
+      if (element.trim() === 'Validators.required') {
+        finalValidators.push(Validators.required);
+      }
+      // Min length
+      if (element.trim().startsWith('Validators.minLength')) {
+        finalValidators.push(
+          Validators.minLength(
+            parseInt(StringUtils.getParenthesisValue(element))
+          )
+        );
+      }
+      // Max length
+      if (element.trim().startsWith('Validators.maxLength')) {
+        finalValidators.push(
+          Validators.maxLength(
+            parseInt(StringUtils.getParenthesisValue(element))
+          )
+        );
+      }
+      // Pattern
+      if (element.trim().startsWith('Validators.pattern')) {
+        finalValidators.push(
+          Validators.pattern(StringUtils.getParenthesisValue(element))
+        );
+      }
+      // email
+      if (element.trim().startsWith('Validators.email')) {
+        finalValidators.push(Validators.email);
+      }
+      // decimal
+      if (element.trim().startsWith('Validators.decimal')) {
+        finalValidators.push(
+          Validators.pattern(
+            this.parseValueIntoPattern(
+              this.decimalPattern,
+              StringUtils.getParenthesisValue(element)
+            )
+          )
+        );
+      }
+
+      // dni
+      // if (element.trim().startsWith("Validators.dni")){
+      //   finalValidators.push(Validators.pattern('^[a-z]{3}[0-9]{6}[a-z]?$'));
+      // }
+    });
+    return finalValidators;
+  }
+  static parseValueIntoPattern(decimalPattern: string, value: string): string {
+    return value
+      ? decimalPattern.replace('valueToReplace', value)
+      : decimalPattern.replace('valueToReplace', '2');
   }
 
   static fillFormWithValues(form, filled) {
