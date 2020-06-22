@@ -15,7 +15,7 @@ import { ComplementaryImagingScansComponent } from './patients/components/comple
 import { AdherenceToTreatmentComponent } from './patients/components/adherence-to-treatment/adherence-to-treatment.component';
 import { ConsentComponent } from './patients/components/consent/consent.component';
 import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
-import { PersonalInformationComponent } from './patients/components/general-patient-data/personal-information/personal-information.component';
+import { PersonalInformationComponent } from './patients/components/personal-information/personal-information.component';
 
 @NgModule({
   declarations: [

@@ -1,34 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { PatientModel } from '../../models/patient.model';
-import { FormGroup } from '@angular/forms';
-import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
-import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
+import { PatientModel } from '../../../modules/pathology/patients/models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
-import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
-import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
-import { GraphsService } from '../../../../dashboard/services/graphs.service';
+import { ChartObjectModel } from '../../models/graphs/chart-object.model';
+import { ColumnChartModel } from '../../models/graphs/column-chart.model';
+import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 
 @Component({
-  selector: 'app-dashboard-patients',
-  templateUrl: './dashboard-patients.component.html',
-  styleUrls: ['./dashboard-patients.component.scss'],
+  selector: 'app-patient-header',
+  templateUrl: './patient-header.component.html',
+  styleUrls: ['./patient-header.component.scss'],
 })
-export class DashboardPatientsComponent implements OnInit {
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
-  public patients: PatientModel[] = [];
-  // public patientKeysToShow: string[] = [
-  //   'name',
-  //   'nhc',
-  //   'healthCard',
-  //   'dni',
-  //   'phone',
-  //   'genderCode',
-  // ];
-  public selectedItem: number;
+export class PatientHeaderComponent implements OnInit {
+  public patientKeysToShow: string[] = [
+    'name',
+    'nhc',
+    'healthCard',
+    'dni',
+    'phone',
+    'genderCode',
+  ];
   public selectedPatient: PatientModel;
 
   public dataChart: ChartObjectModel[];

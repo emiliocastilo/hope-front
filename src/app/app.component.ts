@@ -89,17 +89,15 @@ export class AppComponent implements OnInit {
   }
 
   activateCollapse(array: any, id: number) {
-    let result;
-    array.some(
-      (o) =>
-        (result =
-          o.id === id
-            ? (o.collapsed = true)
-            : this.activateCollapse(o.children || [], id))
+    //let result;
+    array.some((o) =>
+      o.id === id
+        ? (o.collapsed = true)
+        : this.activateCollapse(o.children || [], id)
     );
   }
 
-  private async getMenu(url: string) {
+  private getMenu(url: string) {
     const localMenu: Array<any> = JSON.parse(localStorage.getItem('menu'));
     const collapsedSection: any = JSON.parse(
       localStorage.getItem('collapsedSection')
@@ -130,7 +128,6 @@ export class AppComponent implements OnInit {
         localStorage.setItem('patientMenu', JSON.stringify(menu));
         entry.children = [];
       }
-      return entry;
     });
     localStorage.setItem('menu', JSON.stringify(menu));
     this.fetchLocalMenu(url);

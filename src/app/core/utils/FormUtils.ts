@@ -39,6 +39,7 @@ export default class FormUtils {
     fieldConfig.actions = value.actions;
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
+    fieldConfig.calculated_front = value.calculated_front;
     if (value.validation) {
       const validations = StringUtils.stringToArray(value.validation);
       fieldConfig.validation = this.parseValidations(validations);

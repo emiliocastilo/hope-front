@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientModel } from '../../../models/patient.model';
+import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import FormUtils from 'src/app/core/utils/FormUtils';
 
 @Component({
   selector: 'app-personal-information',
   templateUrl: './personal-information.component.html',
-  styleUrls: ['./personal-information.component.scss']
+  styleUrls: ['./personal-information.component.scss'],
 })
 export class PersonalInformationComponent implements OnInit {
   public patients: PatientModel[] = [];
@@ -17,7 +17,7 @@ export class PersonalInformationComponent implements OnInit {
     'dni',
     'phone',
     'genderCode',
-  ]
+  ];
   public patientKeysToShow: string[] = [
     'name',
     'nhc',
@@ -28,7 +28,7 @@ export class PersonalInformationComponent implements OnInit {
     'email',
     'genderCode',
     'birthDate',
-    'age'
+    'age',
   ];
   public selectedItem: number;
   public selectedPatient: PatientModel = {
@@ -50,7 +50,7 @@ export class PersonalInformationComponent implements OnInit {
 
   public gender: string;
 
-  constructor(private _patientService: PatientsService) { }
+  constructor(private _patientService: PatientsService) {}
 
   ngOnInit(): void {
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
@@ -64,12 +64,12 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   public getNameLastName(): string {
-    return `${this.selectedPatient.name} ${this.selectedPatient.firstSurname} ${this.selectedPatient.lastSurname}`
+    return `${this.selectedPatient.name} ${this.selectedPatient.firstSurname} ${this.selectedPatient.lastSurname}`;
   }
 
   private getAge(age) {
     const array = [age];
-    const valueAge =  FormUtils.ageBybirthdate(array);
+    const valueAge = FormUtils.ageBybirthdate(array);
     return valueAge;
   }
 }
