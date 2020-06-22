@@ -12,6 +12,8 @@ export interface FieldConfig {
   icon?: string;
   selectMultiple?: boolean;
   radioButton?: any;
+  labelCheckOff: string;
+  labelCheckOn: string;
   rows?: number;
   inputType?: string;
   formula?: any;

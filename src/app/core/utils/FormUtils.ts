@@ -26,6 +26,8 @@ export default class FormUtils {
     fieldConfig.icon = value.icon;
     fieldConfig.selectMultiple = value.selectMultiple;
     fieldConfig.radioButton = value.radioButton;
+    fieldConfig.labelCheckOff = value.labelCheckOff;
+    fieldConfig.labelCheckOn = value.labelCheckOn;
     fieldConfig.rows = value.rows;
     fieldConfig.inputType = value.inputType;
     fieldConfig.formula = value.formula;

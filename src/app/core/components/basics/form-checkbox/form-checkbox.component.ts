@@ -11,4 +11,8 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 export class FormCheckboxComponent {
   config: FieldConfig;
   group: FormGroup;
+
+  switch() {
+    this.config.value = !this.config.value;
+  }
 }
