@@ -55,6 +55,7 @@ import { ResultsPerPageComponent } from './components/results-per-page/results-p
 import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
 import { IconsModule } from '../icons/icons.module';
 import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
+import { HorizontalColumnChartComponent } from './components/charts/horizontal-column-chart/horizontal-column-chart.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -108,6 +109,7 @@ export function createTranslateLoader(http: HttpClient) {
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
+    HorizontalColumnChartComponent,
   ],
   imports: [
     CommonModule,
