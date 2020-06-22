@@ -54,16 +54,7 @@ export class ChemicalAgentsComponent implements OnInit {
   }
 
   private getData(): void {
-    let data = this._activatedRoute.snapshot.data.patientsTreatments;
-    let mockData = {
-      'EN PLACAS': 2,
-      PUSTULOSA: 3,
-      ERITRODERMIA: 4,
-      PALMOPLANTAR: 5,
-      OTRAS: 5,
-    };
-
-    data = mockData;
+    const data = this._activatedRoute.snapshot.data.patientsTreatments;
 
     const chartTitle = 'patientsTreatmentChemical';
     const view = null;
@@ -170,7 +161,7 @@ export class ChemicalAgentsComponent implements OnInit {
       const currentUser = this.details[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
       localStorage.setItem('selectedUser', selectedUser);
-      this._router.navigate(['pathology/patients/dashboar']);
+      this._router.navigate(['pathology/patients/dashboard']);
     }
   }
 

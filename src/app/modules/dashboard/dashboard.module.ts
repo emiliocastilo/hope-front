@@ -21,6 +21,20 @@ import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/r
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
 import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
+import { Cie10Component } from './components/diagnosis/cie10/cie10.component';
+import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
+import { MonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/monthly-consuption-euros/monthly-consuption-euros.component';
+import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/average-consuption-biological-treatment/accumulated-average-monthly-consuption-euros/accumulated-average-monthly-consuption-euros.component';
+import { AverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/average-consuption-biological-treatment/average-monthly-consuption-euros/average-monthly-consuption-euros.component';
+import { AccumulatedMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/accumulated-monthly-consuption-euros/accumulated-monthly-consuption-euros.component';
+import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses/total-expenses.component';
+import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
+import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
+import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses/accumulated-expenses.component';
+import { PsoriasisPlacasComponent } from './components/treatments/psoriasis-placas/psoriasis-placas.component';
+import { PsoriasisPalmoPlantarComponent } from './components/treatments/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
+import { EritrodermiaComponent } from './components/treatments/eritrodermia/eritrodermia.component';
+import { PsoriasisPustulosaComponent } from './components/treatments/psoriasis-pustulosa/psoriasis-pustulosa.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +54,20 @@ import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/
     NumberChangesBiologicalTreatmentComponent,
     ReasonChangeBiologicalTreatmentFiveYearsComponent,
     ReasonStopBiologicalTreatmentFiveYearsrsComponent,
+    Cie10Component,
+    BiologicalTreatmentFrequencyComponent,
+    MonthlyConsuptionEurosComponent,
+    AccumulatedAverageMonthlyConsuptionEurosComponent,
+    AverageMonthlyConsuptionEurosComponent,
+    AccumulatedMonthlyConsuptionEurosComponent,
+    TotalExpensesComponent,
+    AvgExpensesComponent,
+    AvgAccumulatedExpensesComponent,
+    AccumulatedExpensesComponent,
+    PsoriasisPlacasComponent,
+    PsoriasisPalmoPlantarComponent,
+    EritrodermiaComponent,
+    PsoriasisPustulosaComponent,
   ],
   imports: [
     NgbModule,

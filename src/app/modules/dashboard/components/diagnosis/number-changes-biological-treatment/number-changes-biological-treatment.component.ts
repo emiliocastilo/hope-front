@@ -110,7 +110,7 @@ export class NumberChangesBiologicalTreatmentComponent implements OnInit {
       this.showingDetail = true;
       this.currentTreatment = this.dataTable[event.selectedItem];
 
-      const query = `numberChanges =${this.currentTreatment.reasonStopBiologicalTreatment}`;
+      const query = `numberChanges=${this.currentTreatment.reasonStopBiologicalTreatment}`;
 
       this.getDetails(query);
       this.getDetailsToExport(query);

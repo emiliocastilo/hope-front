@@ -13,6 +13,8 @@ export class ColumnChartModel {
     public showXAxisLabel?: boolean,
     public showYAxisLabel?: boolean,
     public xAxisLabel?: string,
-    public yAxisLabel?: string
+    public yAxisLabel?: string,
+    public legendPosition?: string,
+    public legendTitle?: string
   ) {}
 }
