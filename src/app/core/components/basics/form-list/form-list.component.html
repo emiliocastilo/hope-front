@@ -15,18 +15,17 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody [ngSwitch]="true">
         <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
           <td class="header-table" *ngFor="let header of config.fields">
-            <div *ngIf="header.type === 'input'">
+            <div *ngSwitchCase="header.type === 'datepicker'">
               <input
                 *ngIf="isEditing && enableEditIndex === i"
-                [value]="row[header.name]"
-                [fromControlName]="config.name[header.name]"
+                type="date"
                 (change)="onChange($event, header.name, i)"
               />
             </div>
-            <div *ngIf="header.type === 'select'">
+            <div *ngSwitchCase="header.type === 'select'">
               <select
                 *ngIf="isEditing && enableEditIndex === i"
                 (change)="onChange($event, header.name, i)"
@@ -39,21 +38,35 @@
                 </option>
               </select>
             </div>
+            <div *ngSwitchCase="header.type === 'input'">
+              <input
+                *ngIf="isEditing && enableEditIndex === i"
+                [value]="row[header.name]"
+                (change)="onChange($event, header.name, i)"
+              />
+            </div>
             <div
               class="ellipsis"
               *ngIf="!isEditing || (isEditing && enableEditIndex !== i)"
             >
-              {{ row[header.name] }}
+              {{ showDataTable(row[header.name], header.name) }}
             </div>
           </td>
           <td *ngIf="config.actions">
-            <div *ngIf="!isEditing">
+            <div class="table-body_row_actions" *ngIf="!isEditing">
               <a
                 *ngFor="let action of config.actions"
                 href=""
-                (click)="emitIconButtonClick(action, i, content)"
+                (click)="emitIconButtonClick(action.name, i, content)"
+                [ngClass]="{
+                  'table-body_row_actions-container': true,
+                  delete: action.name === 'delete'
+                }"
               >
-                <i class="mr-2 fa fa-{{ action }}"></i>
+                <i-feather
+                  name="{{ action.icon }}"
+                  class="feather-icon"
+                ></i-feather>
               </a>
             </div>
             <div *ngIf="isEditing && enableEditIndex === i">
@@ -78,11 +91,13 @@
               </button>
             </div>
             <div class="modal-body custom-modal-body">
-              <div class="custom-modal-field" *ngFor="let field of detailArray">
-                <div class="custom-modal-title">
+              <div class="dataCell" *ngFor="let field of detailArray">
+                <div class="header">
                   {{ field.name | translate }}
                 </div>
-                <div class="custom-modal-value">{{ field.value }}</div>
+                <div class="data">
+                  {{ showDataTable(field.value, field.name) }}
+                </div>
               </div>
             </div>
           </ng-template>

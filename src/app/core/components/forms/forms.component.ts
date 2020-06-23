@@ -16,8 +16,9 @@ export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
   public filledForm: any;
-  @Input() key = 'DATOS_SOCIODEMOGRAFICOS';
+  @Input() key = '';
   patient: PatientModel;
+  emptyForm: any;
 
   constructor(
     private _formsService: FormsService,
@@ -44,8 +45,11 @@ export class FormsComponent implements OnInit {
     }
     const data: any = await this._formsService.get(this.key);
     if (data) {
-      const form = this._parseStringToJSON(data.form);
-      this.config = FormUtils.createFieldConfig(form, this.filledForm);
+      this.emptyForm = this._parseStringToJSON(data.form);
+      this.config = FormUtils.createFieldConfig(
+        this.emptyForm,
+        this.filledForm
+      );
       const buttons = this._parseStringToJSON(data.buttons);
       this.buttons = FormUtils.createButtons(buttons);
     } else {
@@ -55,6 +59,7 @@ export class FormsComponent implements OnInit {
 
   submit(value: { [name: string]: any }) {
     if (value) {
+      this.checkHistoricField(value);
       const form = {
         template: this.key,
         data: FormUtils.parseEntriesForm(value),
@@ -69,6 +74,31 @@ export class FormsComponent implements OnInit {
     } else {
       this._notification.showErrorToast('error_form');
     }
+  }
+
+  checkHistoricField(val: any) {
+    this.emptyForm.forEach((field) => {
+      if (field.type === 'historic') {
+        const entry = {
+          date: new Date().toISOString(),
+          value: val && val[field.name],
+        };
+        field.historic.push(entry);
+        val[field.name] = '';
+      }
+    });
+    const json = {
+      key: this.key,
+      form: JSON.stringify(this.emptyForm),
+      buttons: JSON.stringify(['save']),
+      historify: true,
+    };
+    this._formsService.save(json).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (err) => console.log(err)
+    );
   }
 
   fillForm(form: any) {

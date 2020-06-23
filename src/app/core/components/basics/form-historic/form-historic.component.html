@@ -1,0 +1,28 @@
+<div class="form-group dynamic-group field" [formGroup]="group">
+  <label
+    [attr.for]="config.name"
+    class="firefox-position dynamic-label dynamic-label-old"
+    [translate]="'oldValue'"
+    [translateParams]="{ value: config.label }"
+  >
+  </label>
+  <input
+    [attr.id]="config.name + '-old'"
+    [attr.name]="config.name + '-old'"
+    class="dynamic-field"
+    type="text"
+    [attr.value]="oldValue"
+    [attr.disabled]="true"
+  />
+  <label [attr.for]="config.name" class="firefox-position dynamic-label">
+    {{ config.label | translate }}
+  </label>
+  <input
+    [attr.id]="config.name"
+    [attr.name]="config.name"
+    [formControlName]="config.name"
+    class="dynamic-field"
+    type="number"
+    [attr.value]="config.value"
+  />
+</div>
