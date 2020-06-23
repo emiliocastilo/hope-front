@@ -185,6 +185,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/kidney-liver-biochemistry',
+    component: KidneyLiverBiochemistryComponent,
     resolve: {
       patients: PatientsResolverService,
     },
