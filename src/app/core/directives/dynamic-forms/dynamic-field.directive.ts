@@ -23,6 +23,7 @@ import { FromDividerComponent } from 'src/app/core/components/basics/from-divide
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import { FormCalculatedComponent } from '../../components/basics/form-calculated/form-calculated.component';
 import { FormListComponent } from '../../components/basics/form-list/form-list.component';
+import { FromSectionComponent } from '../../components/basics/from-section/from-section.component';
 
 const components = {
   button: FormButtonComponent,
@@ -34,6 +35,7 @@ const components = {
   datepicker: FormDatepickerComponent,
   textarea: FormTextareaComponent,
   title: FromTitleComponent,
+  section: FromSectionComponent,
   divider: FromDividerComponent,
   calculated_front: FormCalculatedComponent,
   table: FormListComponent,
