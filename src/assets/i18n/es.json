@@ -201,5 +201,6 @@
   "averageCost": "Coste medio",
   "accumulatedAverageCost": "Coste medio accumulado",
   "accumulatedCost": "Coste acumulado",
-  "personalData": "Datos personales"
+  "personalData": "Datos personales",
+  "oldValue": "Ultimo {{value}}"
 }

@@ -61,7 +61,6 @@ export class FormListComponent implements OnInit {
 
   onCancel() {
     event.preventDefault();
-    this.rows.splice(this.rows.length - 1, 1);
     this.isEditing = false;
   }
 
@@ -87,11 +86,11 @@ export class FormListComponent implements OnInit {
         this.isEditing = true;
         this.enableEditIndex = i;
         break;
-      case 'remove':
+      case 'delete':
         this.rows.splice(i, 1);
         this.onSaveRow();
         break;
-      case 'eye':
+      case 'detail':
         this.openModalDetail(i, content);
         break;
       default:

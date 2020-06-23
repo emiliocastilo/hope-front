@@ -161,9 +161,6 @@
   "reasonLastChangeBiologicalTreatment": "Reason change last biological treatment",
   "reasonStopBiologicalTreatment": "Reason stop biological treatment",
   "numberChangesBiologicalTreatment": "Number of changes by biological treatment",
-<<<<<<< src/assets/i18n/en.json
-  "ReasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
-  "ReasonStopBiologicalTreatmentFiveYears": "Reason to stop biological treatment five years",
   "degreeKinship": "Degree Kinship",
   "typePsoriasis": "Type psoriasis",
   "ageDiagnosis": "Age diagnosis",
@@ -174,7 +171,7 @@
     "maxLength": "Maximum characters exceded",
     "required": "Field is required",
     "email": "Email does not valid"
-},
+  },
   "reasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
   "reasonStopBiologicalTreatmentFiveYears": "Reason to Stop Biological Treatment Five Years",
   "cie10Diagnostic": "Diagnosis CIE10",
@@ -195,7 +192,7 @@
   "oct": "Oct",
   "nov": "Nov",
   "dec": "Dec",
-  "monthlyConsuptionEurosAvg":"Average monthly consuption in euros",
+  "monthlyConsuptionEurosAvg": "Average monthly consuption in euros",
   "monthlyAccumulatedAvgConsuptionEuros": "Avg accumulated monthly consuption in euros",
   "yearlyGoalValue": "Yearly goal value",
   "draw": "Draw",
@@ -204,5 +201,6 @@
   "averageCost": "Average cost",
   "accumulatedAverageCost": "Accumulated average cost",
   "accumulatedCost": "Accumulated cost",
-  "personalData": "Datos personales"
+  "personalData": "Datos personales",
+  "oldValue": "Last {{value}}"
 }

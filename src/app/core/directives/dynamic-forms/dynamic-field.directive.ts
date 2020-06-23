@@ -21,8 +21,8 @@ import { FormTextareaComponent } from '../../components/basics/form-textarea/for
 import { FromTitleComponent } from 'src/app/core/components/basics/from-title/from-title.component';
 import { FromDividerComponent } from 'src/app/core/components/basics/from-divider/from-divider.component';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
-import { FormCalculatedComponent } from '../../components/basics/form-calculated/form-calculated.component';
 import { FormListComponent } from '../../components/basics/form-list/form-list.component';
+// import { FormHistoricComponent } from '../../components/basics/form-historic/form-historic.component';
 
 const components = {
   button: FormButtonComponent,
@@ -35,7 +35,7 @@ const components = {
   textarea: FormTextareaComponent,
   title: FromTitleComponent,
   divider: FromDividerComponent,
-  calculated_front: FormCalculatedComponent,
+  // historic: FormHistoricComponent,
   table: FormListComponent,
 };
 

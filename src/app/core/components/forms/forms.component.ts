@@ -15,7 +15,7 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  @Input() key = '';
+  @Input() key = 'HISTORY';
   patient: PatientModel;
 
   constructor(

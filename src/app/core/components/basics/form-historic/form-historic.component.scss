@@ -18,7 +18,7 @@ input[type='number'] {
 
 .dynamic-field {
   font-family: inherit;
-  width: 100%;
+  width: 40%;
   padding: 0.6rem;
   outline: 0;
   font-size: 1rem;
@@ -52,15 +52,6 @@ input[type='number'] {
 }
 
 @supports (-moz-appearance: none) {
-  .date-label {
-    position: relative;
-    top: -3.5rem;
-    display: block;
-    transition: 0.2s;
-    font-size: 0.8rem;
-    color: $app-color-blue-main;
-  }
-
   .dynamic-group {
     position: relative;
   }
@@ -85,25 +76,18 @@ input[type='number'] {
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
-  .date-label {
-    position: relative;
-    top: 1.3rem;
-    left: 0.8rem;
-    transition: 0.2s;
-    font-size: 0.8rem;
-    background-color: white;
-    color: $app-color-blue-main;
-    padding: 0 0.4rem;
-  }
-
   .dynamic-label {
     position: relative;
-    top: 1.2rem;
+    top: -1.5rem;
     font-size: 0.8rem;
-    left: 0.5rem;
+    left: 3.5rem;
     margin-left: 0.3rem;
     color: $app-color-blue-main;
     background-color: white;
     padding: 0 0.4rem;
+  }
+
+  .dynamic-label-old {
+    margin-left: 1rem;
   }
 }
