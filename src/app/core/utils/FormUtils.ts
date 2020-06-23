@@ -3,6 +3,7 @@ import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
 import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
+import { Button } from 'protractor';
 
 export default class FormUtils {
   static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
@@ -16,6 +17,14 @@ export default class FormUtils {
       fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key]));
     }
     return fieldConfig;
+  }
+
+  static createButtons(buttons): string[] {
+    const buttonsArray: string[] = [];
+    for (const key in buttons) {
+      buttonsArray.push(buttons[key]);
+    }
+    return buttonsArray;
   }
 
   static convertJSONToFieldConfig(value): FieldConfig {
@@ -166,5 +175,14 @@ export default class FormUtils {
     const currentDate = moment();
     const diff = currentDate.diff(date, 'years', true);
     return diff.toFixed(2);
+  }
+
+  static clean(form: any): any {
+    form.forEach((element) => {
+      if (!element.disabled) {
+        element.value = '';
+      }
+    });
+    return form;
   }
 }
