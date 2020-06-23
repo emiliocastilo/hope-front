@@ -5,8 +5,7 @@
   <div
     class="switch"
     (click)="switch()"
-    class="switch"
-    [ngClass]="{ checked: config.value }"
+    [ngClass]="{ checked: config.value, switchLabel: config.labelCheckOn }"
   >
     <input
       type="checkbox"
@@ -22,6 +21,9 @@
       [attr.data-on]="config.labelCheckOn ? config.labelCheckOn : 'YES'"
       [attr.data-off]="config.labelCheckOff ? config.labelCheckOff : 'NO'"
     ></span>
-    <span class="switch-handle"></span>
+    <span
+      [ngClass]="{ 'switch-handle-label': config.labelCheckOn }"
+      class="switch-handle"
+    ></span>
   </div>
 </div>
