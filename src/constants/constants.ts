@@ -12,5 +12,5 @@ export const constants = {
   keyConsumptionHabits: 'consumption-habits',
   keyPrincipalDiagnosis: 'principal-diagnosis',
   keySecundaryDiagnosis: 'secundary-diagnosis',
-  keyComorbidities: 'serology',
+  keyComorbidities: 'comorbidities',
 };
