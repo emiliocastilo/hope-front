@@ -55,15 +55,19 @@ export class PersonalInformationComponent implements OnInit {
   public gender: string;
   public config: FieldConfig[] = [];
 
-  constructor(private _patientService: PatientsService,
-              private _translate: TranslateService) {}
+  constructor(
+    private _patientService: PatientsService,
+    private _translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
-    let listFields: any = [{
-      type: 'title',
-      name: this._translate.instant('personalData')
-    }];
+    let listFields: any = [
+      {
+        type: 'title',
+        name: this._translate.instant('personalData'),
+      },
+    ];
 
     this.patientKeysToShow.forEach((key) => {
       const object = {
@@ -71,7 +75,7 @@ export class PersonalInformationComponent implements OnInit {
         label: this._translate.instant(key),
         type: 'input',
         name: key,
-        value: this.getValue(key)
+        value: this.getValue(key),
       };
       listFields.push(object);
     });
@@ -92,7 +96,9 @@ export class PersonalInformationComponent implements OnInit {
     if (key === 'name') {
       return `${this.selectedPatient.name} ${this.selectedPatient.firstSurname} ${this.selectedPatient.lastSurname}`;
     } else if (key === 'genderCode') {
-      return this.selectedPatient[key] === 'M' ? '♂'.toUpperCase() : '♀'.toUpperCase();
+      return this.selectedPatient[key] === 'M'
+        ? '♂'.toUpperCase()
+        : '♀'.toUpperCase();
     } else if (key === 'birthDate') {
       return moment(this.selectedPatient[key]).format('DD/MM/YYYY');
     } else if (key === 'age') {

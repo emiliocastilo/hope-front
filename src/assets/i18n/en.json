@@ -206,5 +206,12 @@
   "averageCost": "Average cost",
   "accumulatedAverageCost": "Accumulated average cost",
   "accumulatedCost": "Accumulated cost",
-  "personalData": "Datos personales"
+  "personalData": "Personal data",
+  "analysisDate": "Analisis date",
+  "monitoring": "Monitoring",
+  "biologicalDrug": "Biological drug",
+  "monitoringSystem": "Monitoring system",
+  "antibodyReference": "Antibody reference",
+  "analysisReason": "Analysis reason",
+  "sericLevels": "seric Levels"
 }

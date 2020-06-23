@@ -7,5 +7,5 @@ import { constants } from '../../../../../../constants/constants';
   styleUrls: ['./adherence-to-treatment.component.scss'],
 })
 export class AdherenceToTreatmentComponent {
-  key = constants.KEY_ADHERENCETOTREATMENT;
+  key = constants.keyAdherenceToTreatment;
 }

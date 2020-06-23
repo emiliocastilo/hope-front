@@ -1,12 +1,18 @@
 export const constants = {
-  KEY_SOCIODEMOGRAPHIC: 'DATOS_SOCIODEMOGRAFICOS',
-  KEY_GENERALPATIENTDATA: 'DATOS_GENERALES',
-  KEY_DIAGNOSIS: 'DIAGNOSTICOS',
-  KEY_TRACING: 'SEGUIMIENTO',
-  KEY_COMPLEMENTARYIMAGINGGSCANS: 'EXPLORACION_COMPLEMENTARIA',
-  KEY_ADHERENCETOTREATMENT: 'ADHERENCIA_AL_TRATEMIENTO',
-  KEY_CONSENT: 'CONSENTIMIENTO',
-  KEY_FAMILYHISTORY: 'ANTECEDENTES_FAMILIARES',
-  KEY_EVALUATIONSTATUSPHYSICAL: 'EVALUACION_ESTADO_FISICO',
-  KEY_CONSUMPTIONHABITS: 'HABITOS_CONSUMO_ALCOHOL_TABACO'
+  keySocioDermographic: 'sociodemographic-data',
+  keyGeneralPatientData: 'general-patient-data',
+  keyDiagnosis: 'diagnosis',
+  keyTracing: 'tracing',
+  keyComplementaryImaginScans: 'complementary-imaging-scans',
+  keyAdherenceToTreatment: 'adherence-to-treatment',
+  keyConsent: 'consent',
+  keyFamilyHistory: 'family-history',
+
+  keyBloodCount: 'blood-count',
+  keyMetabolicProfile: 'metabolic-profile',
+  keyKidneyLiverBiochemistry: 'kidney-liver-biochemistry',
+  keySerology: 'serology',
+  keyLeikocyteAntibodyAntigen: 'leukocyte-antibody-antigen',
+  keyBiologicalDrugMonitoring: 'biological-drug-monitoring',
+  keySharedPatient: 'shared-patients',
 };
