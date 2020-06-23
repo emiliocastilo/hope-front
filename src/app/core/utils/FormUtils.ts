@@ -3,6 +3,7 @@ import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
 import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
+import { Button } from 'protractor';
 
 export default class FormUtils {
   static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
@@ -18,6 +19,14 @@ export default class FormUtils {
     return fieldConfig;
   }
 
+  static createButtons(buttons): string[] {
+    const buttonsArray: string[] = [];
+    for (const key in buttons) {
+      buttonsArray.push(buttons[key]);
+    }
+    return buttonsArray;
+  }
+
   static convertJSONToFieldConfig(value): FieldConfig {
     const fieldConfig: FieldConfig = new FieldConfigModel();
     fieldConfig.name = value.name;
@@ -26,7 +35,9 @@ export default class FormUtils {
     fieldConfig.label = value.label;
     fieldConfig.options = value.options;
     fieldConfig.placeholder = value.placeholder;
-    fieldConfig.value = value.value;
+    // meter propieddad defaulvalue y quitar el value type checkbox
+    fieldConfig.value =
+      value.value && value.type === 'checkbox' ? value.value : false;
     fieldConfig.icon = value.icon;
     fieldConfig.selectMultiple = value.selectMultiple;
     fieldConfig.radioButton = value.radioButton;
@@ -139,6 +150,18 @@ export default class FormUtils {
     return isNaN(imc) ? '' : imc.toFixed(2);
   }
 
+  static clasificationIMC(params: Array<any>) {
+    if (params[0] >= 30) {
+      return 'Obesidad';
+    } else if (params[0] >= 25) {
+      return 'Sobrepeso';
+    } else if (params[0] >= 18.5 && params[0] <= 24.99) {
+      return 'Normal';
+    } else if (params[0] < 18.5) {
+      return 'Bajo peso';
+    }
+  }
+
   static calculateBodyArea(params: Array<any>) {
     const weight = Math.pow(params[0], 0.425);
     const height = Math.pow(params[1], 0.725);
@@ -146,14 +169,23 @@ export default class FormUtils {
     return isNaN(bodyArea) ? '' : bodyArea.toFixed(2);
   }
 
-  static cigaretteToYear(params: Array<any>) {
+  static cigarettesToYear(params: Array<any>) {
     return params[0] * 365;
   }
 
   static yearsWithoutSmoking(params: Array<any>) {
-    const date = moment(params[0], 'DD/MM/YYYY');
+    const date = moment(params[0], 'YYYY-MM-DD');
     const currentDate = moment();
     const diff = currentDate.diff(date, 'years', true);
     return diff.toFixed(2);
+  }
+
+  static clean(form: any): any {
+    form.forEach((element) => {
+      if (!element.disabled) {
+        element.value = '';
+      }
+    });
+    return form;
   }
 }

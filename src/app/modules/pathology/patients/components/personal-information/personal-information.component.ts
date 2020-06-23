@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import FormUtils from 'src/app/core/utils/FormUtils';
+import StringUtils from '../../../../../core/utils/StringUtils';
+import { FieldConfig } from '../../../../../core/interfaces/dynamic-forms/field-config.interface';
+import { TranslateService } from '@ngx-translate/core';
+import moment from 'moment';
 
 @Component({
   selector: 'app-personal-information',
@@ -49,11 +53,36 @@ export class PersonalInformationComponent implements OnInit {
   };
 
   public gender: string;
+  public config: FieldConfig[] = [];
 
-  constructor(private _patientService: PatientsService) {}
+  constructor(
+    private _patientService: PatientsService,
+    private _translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
+    let listFields: any = [
+      {
+        type: 'title',
+        name: this._translate.instant('personalData'),
+      },
+    ];
+
+    this.patientKeysToShow.forEach((key) => {
+      const object = {
+        disabled: true,
+        label: this._translate.instant(key),
+        type: 'input',
+        name: key,
+        value: this.getValue(key),
+      };
+      listFields.push(object);
+    });
+    listFields = JSON.stringify(listFields);
+    const form = this._parseStringToJSON(listFields);
+    this.config = FormUtils.createFieldConfig(form);
+
     this._patientService
       .getPatientsById(this.selectedPatient.id)
       .subscribe((data) => {
@@ -63,8 +92,23 @@ export class PersonalInformationComponent implements OnInit {
       });
   }
 
-  public getNameLastName(): string {
-    return `${this.selectedPatient.name} ${this.selectedPatient.firstSurname} ${this.selectedPatient.lastSurname}`;
+  private getValue(key) {
+    if (key === 'name') {
+      return `${this.selectedPatient.name} ${this.selectedPatient.firstSurname} ${this.selectedPatient.lastSurname}`;
+    } else if (key === 'genderCode') {
+      return this.selectedPatient[key] === 'M'
+        ? '♂'.toUpperCase()
+        : '♀'.toUpperCase();
+    } else if (key === 'birthDate') {
+      return moment(this.selectedPatient[key]).format('DD/MM/YYYY');
+    } else if (key === 'age') {
+      return this.getAge(this.selectedPatient.birthDate);
+    }
+    return this.selectedPatient[key];
+  }
+
+  private _parseStringToJSON(form: string): JSON {
+    return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
   }
 
   private getAge(age) {

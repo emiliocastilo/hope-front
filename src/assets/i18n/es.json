@@ -11,6 +11,8 @@
   "btn.update": "Modificar",
   "btn.save": "Guardar",
   "btn.close": "Cerrar",
+  "btn.clean": "Limpiar",
+  "btn.graphs": "Gráficos",
   "switch.yes": "Sí",
   "switch.no": "No",
   "btn.proceed": "Proceder",
@@ -102,7 +104,8 @@
     "element_deleted": "Elemento eliminado correctamente",
     "element_created": "Elemento creado correctamente",
     "element_updated": "Elemento editado correctamente",
-    "error_form": "El formulario contiene errores"
+    "error_form": "El formulario contiene errores",
+    "form_not_found": "No se ha encontrado el formulario"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
   "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",
@@ -202,5 +205,12 @@
   "accumulatedAverageCost": "Coste medio accumulado",
   "accumulatedCost": "Coste acumulado",
   "personalData": "Datos personales",
-  "oldValue": "{{value}} anterior"
+  "oldValue": "{{value}} anterior",
+  "analysisDate": "Fecha del análisis",
+  "monitoring": "Monitorización",
+  "biologicalDrug": "Medicamento biológico",
+  "monitoringSystem": "Sistema de monitorización",
+  "antibodyReference": "Referencia del anticuerpo",
+  "analysisReason": "Motivo del análisis",
+  "sericLevels": "Niveles séricos"
 }

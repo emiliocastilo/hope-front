@@ -14,6 +14,7 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
 })
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
+  public buttons: string[] = [];
   public filledForm: any;
   @Input() key = '';
   patient: PatientModel;
@@ -43,8 +44,17 @@ export class FormsComponent implements OnInit {
       this.filledForm = retrievedForm.data;
     }
     const data: any = await this._formsService.get(this.key);
-    this.emptyForm = this._parseStringToJSON(data.form);
-    this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
+    if (data) {
+      this.emptyForm = this._parseStringToJSON(data.form);
+      this.config = FormUtils.createFieldConfig(
+        this.emptyForm,
+        this.filledForm
+      );
+      const buttons = this._parseStringToJSON(data.buttons);
+      this.buttons = FormUtils.createButtons(buttons);
+    } else {
+      this._notification.showErrorToast('form_not_found');
+    }
   }
 
   submit(value: { [name: string]: any }) {
@@ -114,6 +124,7 @@ export class FormsComponent implements OnInit {
   }
 
   private _parseStringToJSON(form: string): JSON {
+    //TODO: check if json is valid
     return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
   }
 }

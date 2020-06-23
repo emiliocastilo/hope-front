@@ -7,5 +7,5 @@ import { constants } from '../../../../../../constants/constants';
   styleUrls: ['./sociodemographic-data.component.scss'],
 })
 export class SociodemographicDataComponent {
-  key = constants.KEY_SOCIODEMOGRAPHIC;
+  key = constants.keySocioDermographic;
 }

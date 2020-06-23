@@ -19,6 +19,7 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() config: FieldConfig[] = [];
+  @Input() buttons: string[] = [];
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
 
@@ -115,6 +116,14 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     } else {
       this.submit.emit(null);
     }
+  }
+
+  cleanClick(event: Event) {
+    this.controls.forEach((control) => {
+      if (control.type != 'title' && !control.disabled) {
+        this.form.controls[control.name].setValue('');
+      }
+    });
   }
 
   setDisabled(name: string, disable: boolean) {

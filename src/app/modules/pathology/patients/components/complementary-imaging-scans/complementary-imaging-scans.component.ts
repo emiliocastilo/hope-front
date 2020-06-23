@@ -7,5 +7,5 @@ import { constants } from '../../../../../../constants/constants';
   styleUrls: ['./complementary-imaging-scans.component.scss'],
 })
 export class ComplementaryImagingScansComponent {
-  key = constants.KEY_COMPLEMENTARYIMAGINGGSCANS;
+  key = constants.keyComplementaryImaginScans;
 }

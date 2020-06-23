@@ -7,5 +7,5 @@ import { constants } from '../../../../../../constants/constants';
   styleUrls: ['./consent.component.scss'],
 })
 export class ConsentComponent {
-  key = constants.KEY_CONSENT;
+  key = constants.keyConsent;
 }
