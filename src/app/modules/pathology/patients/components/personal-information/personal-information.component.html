@@ -1,38 +1,11 @@
-<div class="row m-0 p-0">
+<div>
   <app-patient-header></app-patient-header>
-  <section class="col-md-12 col-lg-12 box-title">
-    {{ 'personalData' | translate }}
-    <hr />
-  </section>
-
-  <section class="col-md-12 col-lg-12 box-data-section">
-    <div class="col-md-11 data-box" placement="bottom">
-      <div *ngFor="let key of patientKeysToShow" class="dataCell">
-        <div class="header">
-          {{ key | translate }}
-        </div>
-        <div
-          class="data"
-          *ngIf="key !== 'name' && key !== 'genderCode' && key !== 'age'"
-        >
-          {{ selectedPatient[key] }}
-        </div>
-        <div class="data" *ngIf="key === 'name'">
-          {{ getNameLastName() }}
-        </div>
-        <div class="data" *ngIf="key === 'genderCode'">
-          <i
-            class="fa"
-            [ngClass]="{
-              'fa-mars': selectedPatient.genderCode === 'M',
-              'fa-venus': selectedPatient.genderCode === 'F'
-            }"
-          ></i>
-        </div>
-        <div class="data" *ngIf="key === 'age'">
-          {{ getAge(selectedPatient.birthDate) }}
-        </div>
-      </div>
+  <div class="container mt-4">
+    <div>
+      <dynamic-form
+        [config]="config"
+        #form="dynamicForm">
+      </dynamic-form>
     </div>
-  </section>
+  </div>
 </div>
