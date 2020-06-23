@@ -7,4 +7,10 @@ export const constants = {
   KEY_ADHERENCETOTREATMENT: 'ADHERENCIA_AL_TRATEMIENTO',
   KEY_CONSENT: 'CONSENTIMIENTO',
   KEY_FAMILYHISTORY: 'ANTECEDENTES_FAMILIARES',
+  keyPhysicalCondition: 'physical-condition',
+  keyWorkGroups: 'work-groups',
+  keyConsumptionHabits: 'consumption-habits',
+  keyPrincipalDiagnosis: 'principal-diagnosis',
+  keySecundaryDiagnosis: 'secundary-diagnosis',
+  keyComorbidities: 'serology',
 };

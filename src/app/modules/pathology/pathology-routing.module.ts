@@ -15,6 +15,12 @@ import { ComplementaryImagingScansComponent } from './patients/components/comple
 import { AdherenceToTreatmentComponent } from './patients/components/adherence-to-treatment/adherence-to-treatment.component';
 import { ConsentComponent } from './patients/components/consent/consent.component';
 import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
+import { PhysicalConditionComponent } from './patients/components/physical-condition/physical-condition.component';
+import { WorkGroupsComponent } from './patients/components/work-groups/work-groups.component';
+import { ConsumptionHabitsComponent } from './patients/components/consumption-habits/consumption-habits.component';
+import { PrincipalDiagnosisComponent } from './patients/components/diagnosis/principal-diagnosis/principal-diagnosis.component';
+import { SecundaryDiagnosisComponent } from './patients/components/diagnosis/secundary-diagnosis/secundary-diagnosis.component';
+import { ComorbiditiesComponent } from './patients/components/diagnosis/comorbidities/comorbidities.component';
 
 const routes: Routes = [
   {
@@ -74,6 +80,30 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/diagnosis/principal-diagnosis',
+    component: PrincipalDiagnosisComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/diagnosis/secundary-diagnosis',
+    component: SecundaryDiagnosisComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/diagnosis/comorbidities',
+    component: ComorbiditiesComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/tracing',
     component: TracingComponent,
     resolve: {
@@ -100,6 +130,30 @@ const routes: Routes = [
   {
     path: 'patients/consent',
     component: ConsentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/physical-condition',
+    component: PhysicalConditionComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/work-groups',
+    component: WorkGroupsComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/consumption-habits',
+    component: ConsumptionHabitsComponent,
     resolve: {
       patients: PatientsResolverService,
     },
