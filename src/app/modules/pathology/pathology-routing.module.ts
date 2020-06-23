@@ -8,7 +8,6 @@ import { PatientsComponent } from './patients/components/patients/patients.compo
 import { PersonalInformationComponent } from './patients/components/personal-information/personal-information.component';
 import { DashboardPatientsComponent } from './patients/components/dashboard-patients/dashboard-patients.component';
 import { SociodemographicDataComponent } from './patients/components/sociodemographic-data/sociodemographic-data.component';
-import { EvaluationStatusPhysicalComponent } from './patients/components/evaluation-status-physical/evaluation-status-physical.component';
 import { GeneralPatientDataComponent } from './patients/components/general-patient-data/general-patient-data.component';
 import { TracingComponent } from './patients/components/tracing/tracing.component';
 import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
@@ -73,7 +72,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/physical-condition',
-    component: EvaluationStatusPhysicalComponent,
+    component: PhysicalConditionComponent,
     resolve: {
       patients: PatientsResolverService,
     },
