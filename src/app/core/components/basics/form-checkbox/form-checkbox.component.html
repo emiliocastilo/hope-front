@@ -1,7 +1,11 @@
 <div class="form-checkbox" [formGroup]="group">
-  <label [attr.for]="config.name" class="dynamic-label switch-title">{{
-    config.label | translate
-  }}</label>
+  <label
+    [attr.for]="config.name"
+    class="dynamic-label switch-title"
+    [ngClass]="{ 'required-label': required }"
+  >
+    {{ config.label | translate }}
+  </label>
   <div
     class="switch"
     (click)="switch()"
@@ -18,8 +22,12 @@
     />
     <span
       class="switch-label"
-      [attr.data-on]="config.labelCheckOn ? config.labelCheckOn : 'YES'"
-      [attr.data-off]="config.labelCheckOff ? config.labelCheckOff : 'NO'"
+      [attr.data-on]="
+        config.labelCheckOn ? config.labelCheckOn : ('switch.yes' | translate)
+      "
+      [attr.data-off]="
+        config.labelCheckOff ? config.labelCheckOff : ('switch.no' | translate)
+      "
     ></span>
     <span
       [ngClass]="{ 'switch-handle-label': config.labelCheckOn }"

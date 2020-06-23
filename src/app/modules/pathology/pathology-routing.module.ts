@@ -21,6 +21,7 @@ import { BiologicalDrugMonitoringComponent } from './patients/components/biologi
 import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
 import { SerologyComponent } from './patients/components/serology/serology.component';
 import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
+import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 
 const routes: Routes = [
   {
@@ -155,6 +156,14 @@ const routes: Routes = [
   {
     path: 'patients/biological-drug-monitoring',
     component: BiologicalDrugMonitoringComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/shared-patients',
+    component: SharedPatientsComponent,
     resolve: {
       patients: PatientsResolverService,
     },

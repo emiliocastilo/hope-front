@@ -14,4 +14,5 @@ export const constants = {
   keySerology: 'serology',
   keyLeikocyteAntibodyAntigen: 'leukocyte-antibody-antigen',
   keyBiologicalDrugMonitoring: 'biological-drug-monitoring',
+  keySharedPatient: 'shared-patients',
 };

@@ -22,6 +22,7 @@ import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-l
 import { SerologyComponent } from './patients/components/serology/serology.component';
 import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
 import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
+import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { BiologicalDrugMonitoringComponent } from './patients/components/biologi
     SerologyComponent,
     LeukocyteAntibodyAntigenComponent,
     BiologicalDrugMonitoringComponent,
+    SharedPatientsComponent,
   ],
   imports: [
     CommonModule,

@@ -14,8 +14,9 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
 })
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
+  public buttons: string[] = [];
   public filledForm: any;
-  @Input() key = '';
+  @Input() key = 'DATOS_SOCIODEMOGRAFICOS';
   patient: PatientModel;
 
   constructor(
@@ -42,8 +43,14 @@ export class FormsComponent implements OnInit {
       this.filledForm = retrievedForm.data;
     }
     const data: any = await this._formsService.get(this.key);
-    const form = this._parseStringToJSON(data.form || '{}');
-    this.config = FormUtils.createFieldConfig(form, this.filledForm);
+    if (data) {
+      const form = this._parseStringToJSON(data.form);
+      this.config = FormUtils.createFieldConfig(form, this.filledForm);
+      const buttons = this._parseStringToJSON(data.buttons);
+      this.buttons = FormUtils.createButtons(buttons);
+    } else {
+      this._notification.showErrorToast('form_not_found');
+    }
   }
 
   submit(value: { [name: string]: any }) {

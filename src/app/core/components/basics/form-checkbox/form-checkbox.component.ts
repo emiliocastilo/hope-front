@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 
@@ -11,6 +11,20 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 export class FormCheckboxComponent {
   config: FieldConfig;
   group: FormGroup;
+  required: boolean = false;
+
+  ngOnInit() {
+    this.hasRequiredField(this.group.controls[this.config.name]);
+  }
+
+  hasRequiredField(abstractControl: AbstractControl) {
+    if (abstractControl.validator) {
+      const validator = abstractControl.validator({} as AbstractControl);
+      if (validator && validator.required) {
+        this.required = true;
+      }
+    }
+  }
 
   switch() {
     this.config.value = !this.config.value;
