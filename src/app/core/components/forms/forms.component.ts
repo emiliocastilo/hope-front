@@ -15,8 +15,9 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public filledForm: any;
-  @Input() key = 'HISTORY';
+  @Input() key = '';
   patient: PatientModel;
+  emptyForm: any;
 
   constructor(
     private _formsService: FormsService,
@@ -42,12 +43,13 @@ export class FormsComponent implements OnInit {
       this.filledForm = retrievedForm.data;
     }
     const data: any = await this._formsService.get(this.key);
-    const form = this._parseStringToJSON(data.form);
-    this.config = FormUtils.createFieldConfig(form, this.filledForm);
+    this.emptyForm = this._parseStringToJSON(data.form);
+    this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
   }
 
   submit(value: { [name: string]: any }) {
     if (value) {
+      this.checkHistoricField(value);
       const form = {
         template: this.key,
         data: FormUtils.parseEntriesForm(value),
@@ -62,6 +64,31 @@ export class FormsComponent implements OnInit {
     } else {
       this._notification.showErrorToast('error_form');
     }
+  }
+
+  checkHistoricField(val: any) {
+    this.emptyForm.forEach((field) => {
+      if (field.type === 'historic') {
+        const entry = {
+          date: new Date().toISOString(),
+          value: val && val[field.name],
+        };
+        field.historic.push(entry);
+        val[field.name] = '';
+      }
+    });
+    const json = {
+      key: this.key,
+      form: JSON.stringify(this.emptyForm),
+      buttons: JSON.stringify(['save']),
+      historify: true,
+    };
+    this._formsService.save(json).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (err) => console.log(err)
+    );
   }
 
   fillForm(form: any) {

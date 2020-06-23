@@ -136,14 +136,14 @@ export default class FormUtils {
 
   static calculateIMC(params: Array<any>) {
     const imc = params[0] / (params[1] * params[1]);
-    return isNaN(imc) ? 0 : imc.toFixed(2);
+    return isNaN(imc) ? '' : imc.toFixed(2);
   }
 
   static calculateBodyArea(params: Array<any>) {
     const weight = Math.pow(params[0], 0.425);
     const height = Math.pow(params[1], 0.725);
     const bodyArea = (0.7184 * height * weight) / 100;
-    return isNaN(bodyArea) ? 0 : bodyArea.toFixed(2);
+    return isNaN(bodyArea) ? '' : bodyArea.toFixed(2);
   }
 
   static cigaretteToYear(params: Array<any>) {

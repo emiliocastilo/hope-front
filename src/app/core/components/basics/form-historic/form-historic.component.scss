@@ -77,13 +77,13 @@ input[type='number'] {
     top: -1.5rem;
     font-size: 0.8rem;
     left: 3.5rem;
-    margin-left: 0.3rem;
+    margin: 0.3rem;
     color: $app-color-blue-main;
     background-color: white;
     padding: 0 0.4rem;
-  }
 
-  .dynamic-label-old {
-    margin-left: 1rem;
+    &.dynamic-label-old {
+      left: 6.5rem;
+    }
   }
 }

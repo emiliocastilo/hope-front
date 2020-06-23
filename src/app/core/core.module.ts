@@ -56,7 +56,7 @@ import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm
 import { IconsModule } from '../icons/icons.module';
 import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
 import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
-// import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
+import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from './components/basics/from-section/from-section.component';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -113,7 +113,7 @@ export function createTranslateLoader(http: HttpClient) {
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
-    // FormHistoricComponent,
+    FormHistoricComponent,
   ],
   imports: [
     CommonModule,

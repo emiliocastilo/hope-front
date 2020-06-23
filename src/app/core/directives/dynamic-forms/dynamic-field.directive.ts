@@ -22,7 +22,7 @@ import { FromTitleComponent } from 'src/app/core/components/basics/from-title/fr
 import { FromDividerComponent } from 'src/app/core/components/basics/from-divider/from-divider.component';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import { FormListComponent } from '../../components/basics/form-list/form-list.component';
-// import { FormHistoricComponent } from '../../components/basics/form-historic/form-historic.component';
+import { FormHistoricComponent } from '../../components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from '../../components/basics/from-section/from-section.component';
 
 const components = {
@@ -37,7 +37,7 @@ const components = {
   title: FromTitleComponent,
   section: FromSectionComponent,
   divider: FromDividerComponent,
-  // historic: FormHistoricComponent,
+  historic: FormHistoricComponent,
   table: FormListComponent,
 };
 
