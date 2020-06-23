@@ -12,10 +12,6 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.form-group {
-  margin-bottom: 0;
-}
-
 .dynamic-field {
   font-family: inherit;
   width: 100%;
@@ -71,10 +67,6 @@ input[type='number'] {
     margin-left: 0.3rem;
     background-color: white;
     color: $app-color-blue-main;
-  }
-
-  .required-label {
-    top: 0 !important;
   }
 
   .firefox-position {
