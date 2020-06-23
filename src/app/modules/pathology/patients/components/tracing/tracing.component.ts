@@ -7,5 +7,5 @@ import { constants } from '../../../../../../constants/constants';
   styleUrls: ['./tracing.component.scss'],
 })
 export class TracingComponent {
-  key = constants.KEY_TRACING;
+  key = constants.keyTracing;
 }

@@ -16,6 +16,12 @@ import { AdherenceToTreatmentComponent } from './patients/components/adherence-t
 import { ConsentComponent } from './patients/components/consent/consent.component';
 import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
 import { PersonalInformationComponent } from './patients/components/personal-information/personal-information.component';
+import { BloodCountComponent } from './patients/components/blood-count/blood-count.component';
+import { MetabolicProfileComponent } from './patients/components/metabolic-profile/metabolic-profile.component';
+import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
+import { SerologyComponent } from './patients/components/serology/serology.component';
+import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
+import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +37,12 @@ import { PersonalInformationComponent } from './patients/components/personal-inf
     ConsentComponent,
     FamilyHistoryComponent,
     PersonalInformationComponent,
+    BloodCountComponent,
+    MetabolicProfileComponent,
+    KidneyLiverBiochemistryComponent,
+    SerologyComponent,
+    LeukocyteAntibodyAntigenComponent,
+    BiologicalDrugMonitoringComponent,
   ],
   imports: [
     CommonModule,

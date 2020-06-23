@@ -42,7 +42,7 @@ export class FormsComponent implements OnInit {
       this.filledForm = retrievedForm.data;
     }
     const data: any = await this._formsService.get(this.key);
-    const form = this._parseStringToJSON(data.form);
+    const form = this._parseStringToJSON(data.form || '{}');
     this.config = FormUtils.createFieldConfig(form, this.filledForm);
   }
 
@@ -87,6 +87,7 @@ export class FormsComponent implements OnInit {
   }
 
   private _parseStringToJSON(form: string): JSON {
+    //TODO: check if json is valid
     return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
   }
 }
