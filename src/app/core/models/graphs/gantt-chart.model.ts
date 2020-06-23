@@ -3,7 +3,7 @@ export class GanttChart {
     public data: any[],
     public columns: string[],
     public groupByRowLabel: boolean,
-    public formatter: any[],
+    public formatter?: any[],
     public type?: string
   ) {}
 }

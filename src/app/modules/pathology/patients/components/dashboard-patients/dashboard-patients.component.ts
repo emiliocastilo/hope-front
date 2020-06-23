@@ -53,7 +53,6 @@ export class DashboardPatientsComponent implements OnInit {
   private dataChart: ChartObjectModel[];
   public configChart: GanttChart;
   private columnsGantt = ['BIOLOGICO', 'FAME', 'ADH', 'OTR'];
-  private myFormatters: any[] = [];
 
   constructor(private _patientService: PatientsService) {}
 
@@ -80,8 +79,7 @@ export class DashboardPatientsComponent implements OnInit {
         this.configChart = new GanttChart(
           this.dataChart,
           this.columnsGantt,
-          groupByRowLabel,
-          this.myFormatters
+          groupByRowLabel
         );
       },
       (error: any) => {}
@@ -91,14 +89,9 @@ export class DashboardPatientsComponent implements OnInit {
   private parseDataChart(data: any[]): ChartObjectModel[] {
     const objectChart = [];
 
+    console.log(data);
+
     this.columnsGantt.forEach((value: string, key: number) => {
-      const format = {
-        formatter: 'YYYY',
-        colIndex: key,
-      };
-
-      this.myFormatters.push(format);
-
       if (data[value]) {
         data[value].forEach((element: any) => {
           let objectRow = [
