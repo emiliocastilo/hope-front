@@ -70,10 +70,6 @@ input[type='number'] {
     color: $app-color-blue-main;
   }
 
-  .required-label {
-    top: 0 !important;
-  }
-
   .firefox-position {
     z-index: 1;
   }
@@ -104,5 +100,11 @@ input[type='number'] {
     color: $app-color-blue-main;
     background-color: white;
     padding: 0 0.4rem;
+  }
+}
+
+.invalid {
+  input.ng-dirty.ng-invalid {
+    border-color: red;
   }
 }

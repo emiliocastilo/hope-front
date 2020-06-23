@@ -4,7 +4,8 @@
     class="firefox-position"
     [ngClass]="{
       'date-label': type === 'date',
-      'dynamic-label': type !== 'date'
+      'dynamic-label': type !== 'date',
+      'required-label': required
     }"
     >{{ config.label | translate }}</label
   >

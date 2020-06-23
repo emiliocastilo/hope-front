@@ -1,11 +1,12 @@
-<div class="form-group dynamic-group field" [formGroup]="group">
+<div class="form-group dynamic-group field invalid" [formGroup]="group">
   <label
     [attr.for]="config.name"
     class="firefox-position"
     [ngClass]="{
       'date-label': type === 'date',
-      'dynamic-label': type !== 'date'
-    } //'required-label': required"
+      'dynamic-label': type !== 'date',
+      'required-label': required
+    }"
   >
     {{ config.label | translate }}
   </label>
