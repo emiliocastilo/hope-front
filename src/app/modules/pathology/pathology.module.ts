@@ -8,6 +8,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { GalleryComponent } from './patients/components/gallery/gallery.component';
 import { SociodemographicDataComponent } from './patients/components/sociodemographic-data/sociodemographic-data.component';
+import { EvaluationStatusPhysicalComponent } from './patients/components/evaluation-status-physical/evaluation-status-physical.component';
+import { ConsumptionHabitsComponent } from './patients/components/consumption-habits/consumption-habits.component';
 import { GeneralPatientDataComponent } from './patients/components/general-patient-data/general-patient-data.component';
 import { TracingComponent } from './patients/components/tracing/tracing.component';
 import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
@@ -23,6 +25,8 @@ import { PersonalInformationComponent } from './patients/components/personal-inf
     PatientsComponent,
     GalleryComponent,
     SociodemographicDataComponent,
+    EvaluationStatusPhysicalComponent,
+    ConsumptionHabitsComponent,
     GeneralPatientDataComponent,
     DiagnosisComponent,
     TracingComponent,

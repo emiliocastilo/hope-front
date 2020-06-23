@@ -138,6 +138,18 @@ export default class FormUtils {
     return isNaN(imc) ? 0 : imc.toFixed(2);
   }
 
+  static clasificationIMC(params: Array<any>) {
+    if (params[0] >= 30) {
+      return 'Obesidad';
+    } else if (params[0] >= 25) {
+      return 'Sobrepeso';
+    } else if (params[0] >= 18.5 && params[0] <= 24.99) {
+      return 'Normal';
+    } else if (params[0] < 18.5) {
+      return 'Bajo peso';
+    }
+  }
+
   static calculateBodyArea(params: Array<any>) {
     const weight = Math.pow(params[0], 0.425);
     const height = Math.pow(params[1], 0.725);
@@ -145,12 +157,12 @@ export default class FormUtils {
     return isNaN(bodyArea) ? 0 : bodyArea.toFixed(2);
   }
 
-  static cigaretteToYear(params: Array<any>) {
+  static cigarettesToYear(params: Array<any>) {
     return params[0] * 365;
   }
 
   static yearsWithoutSmoking(params: Array<any>) {
-    const date = moment(params[0], 'DD/MM/YYYY');
+    const date = moment(params[0], 'YYYY-MM-DD');
     const currentDate = moment();
     const diff = currentDate.diff(date, 'years', true);
     return diff.toFixed(2);

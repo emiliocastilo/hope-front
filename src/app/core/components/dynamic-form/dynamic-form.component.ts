@@ -19,6 +19,7 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() config: FieldConfig[] = [];
+  @Input() showSubmit: boolean = true;
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
 
