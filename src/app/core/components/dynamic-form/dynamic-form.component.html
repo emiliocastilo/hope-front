@@ -32,9 +32,36 @@
       </p>
     </div>
   </div>
-  <div class="submit-button">
-    <button class="btn btn-primary" type="submit">
-      {{ 'btn.save' | translate }}
-    </button>
+
+  <div class="buttons">
+    <div *ngFor="let button of buttons">
+      <div *ngIf="button === 'save'">
+        <div class="submit-button">
+          <button class="btn btn-primary" type="submit">
+            {{ 'btn.save' | translate }}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="button === 'clean'">
+        <div class="submit-button">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="cleanClick($event)"
+          >
+            {{ 'btn.clean' | translate }}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="button === 'graphs'">
+        <div class="submit-button">
+          <button class="btn btn-primary" type="button">
+            {{ 'btn.graphs' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- <div *ngIf="buttons"></div> -->
 </form>

@@ -1,7 +1,11 @@
 <div class="form-checkbox" [formGroup]="group">
-  <label [attr.for]="config.name" class="dynamic-label switch-title">{{
-    config.label | translate
-  }}</label>
+  <label
+    [attr.for]="config.name"
+    class="dynamic-label switch-title"
+    [ngClass]="{ 'required-label': required }"
+  >
+    {{ config.label | translate }}
+  </label>
   <div
     class="switch"
     (click)="switch()"

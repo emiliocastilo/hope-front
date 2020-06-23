@@ -1,5 +1,19 @@
-.submit-button {
-  text-align: center;
-  margin: 1rem;
-  flex: auto;
+.buttons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 3rem;
+  min-width: 30rem;
+
+  button {
+    margin: 0 2rem;
+    width: 7rem;
+  }
+}
+
+p {
+  color: red;
+  font-size: 0.7rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0;
 }
