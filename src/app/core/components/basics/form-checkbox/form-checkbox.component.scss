@@ -10,7 +10,23 @@
   position: relative;
   display: inline-block;
   vertical-align: top;
-  width: 5rem;
+  width: 5.5rem;
+  height: 2.2rem;
+  padding: 0;
+  background-color: none;
+  cursor: pointer;
+  overflow: visible;
+
+  &:focus-within {
+    outline: 2px solid Highlight;
+  }
+}
+
+.switchLabel {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 8.5rem;
   height: 2.2rem;
   margin-top: 0.938rem;
   margin-bottom: 0.938rem;
@@ -95,7 +111,12 @@
   }
 
   .switch-handle {
-    left: 42px;
+    left: 50px;
+    // box-shadow: -1px 1px 5px lighten($app-color-black, 50%);
+  }
+
+  .switch-handle-label {
+    left: 95px;
     // box-shadow: -1px 1px 5px lighten($app-color-black, 50%);
   }
 }
