@@ -7,5 +7,5 @@ import { constants } from '../../../../../../constants/constants';
   styleUrls: ['./family-history.component.scss'],
 })
 export class FamilyHistoryComponent {
-  key = constants.KEY_FAMILYHISTORY;
+  key = constants.keyFamilyHistory;
 }

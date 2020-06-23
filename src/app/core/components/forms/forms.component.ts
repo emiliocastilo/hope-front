@@ -94,6 +94,7 @@ export class FormsComponent implements OnInit {
   }
 
   private _parseStringToJSON(form: string): JSON {
+    //TODO: check if json is valid
     return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
   }
 }

@@ -9,7 +9,6 @@ import { PersonalInformationComponent } from './patients/components/personal-inf
 import { DashboardPatientsComponent } from './patients/components/dashboard-patients/dashboard-patients.component';
 import { SociodemographicDataComponent } from './patients/components/sociodemographic-data/sociodemographic-data.component';
 import { EvaluationStatusPhysicalComponent } from './patients/components/evaluation-status-physical/evaluation-status-physical.component';
-import { ConsumptionHabitsComponent } from './patients/components/consumption-habits/consumption-habits.component';
 import { GeneralPatientDataComponent } from './patients/components/general-patient-data/general-patient-data.component';
 import { TracingComponent } from './patients/components/tracing/tracing.component';
 import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
@@ -23,6 +22,13 @@ import { ConsumptionHabitsComponent } from './patients/components/consumption-ha
 import { PrincipalDiagnosisComponent } from './patients/components/diagnosis/principal-diagnosis/principal-diagnosis.component';
 import { SecundaryDiagnosisComponent } from './patients/components/diagnosis/secundary-diagnosis/secundary-diagnosis.component';
 import { ComorbiditiesComponent } from './patients/components/diagnosis/comorbidities/comorbidities.component';
+import { BloodCountComponent } from './patients/components/blood-count/blood-count.component';
+import { MetabolicProfileComponent } from './patients/components/metabolic-profile/metabolic-profile.component';
+import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
+import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
+import { SerologyComponent } from './patients/components/serology/serology.component';
+import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
+import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 
 const routes: Routes = [
   {
@@ -153,9 +159,10 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard],
   },
+
   {
-    path: 'patients/physical-condition',
-    component: PhysicalConditionComponent,
+    path: 'patients/blood-count',
+    component: BloodCountComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -170,12 +177,51 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'patients/consumption-habits',
-    component: ConsumptionHabitsComponent,
+    path: 'patients/metabolic-profile',
+    component: MetabolicProfileComponent,
     resolve: {
       patients: PatientsResolverService,
     },
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/kidney-liver-biochemistry',
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/serology',
+    component: SerologyComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/leukocyte-antibody-antigen',
+    component: LeukocyteAntibodyAntigenComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/biological-drug-monitoring',
+    component: BiologicalDrugMonitoringComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/shared-patients',
+    component: SharedPatientsComponent,
+    resolve: {
+      patients: PatientsResolverService,
+      canActivate: [AuthGuard],
+    },
   },
 ];
 

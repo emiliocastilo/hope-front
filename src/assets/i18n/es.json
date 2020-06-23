@@ -204,5 +204,12 @@
   "averageCost": "Coste medio",
   "accumulatedAverageCost": "Coste medio accumulado",
   "accumulatedCost": "Coste acumulado",
-  "personalData": "Datos personales"
+  "personalData": "Datos personales",
+  "analysisDate": "Fecha del análisis",
+  "monitoring": "Monitorización",
+  "biologicalDrug": "Medicamento biológico",
+  "monitoringSystem": "Sistema de monitorización",
+  "antibodyReference": "Referencia del anticuerpo",
+  "analysisReason": "Motivo del análisis",
+  "sericLevels": "Niveles séricos"
 }
