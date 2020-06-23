@@ -57,6 +57,7 @@ import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm
 import { IconsModule } from '../icons/icons.module';
 import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
 import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
+import { FromSectionComponent } from './components/basics/from-section/from-section.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -100,6 +101,7 @@ export function createTranslateLoader(http: HttpClient) {
     InputFileComponent,
     FromDividerComponent,
     FromTitleComponent,
+    FromSectionComponent,
     FormCalculatedComponent,
     NgbdSortableHeader,
     FormsComponent,
