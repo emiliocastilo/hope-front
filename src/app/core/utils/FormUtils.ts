@@ -35,7 +35,9 @@ export default class FormUtils {
     fieldConfig.label = value.label;
     fieldConfig.options = value.options;
     fieldConfig.placeholder = value.placeholder;
-    fieldConfig.value = value.value;
+    // meter propieddad defaulvalue y quitar el value type checkbox
+    fieldConfig.value =
+      value.value && value.type === 'checkbox' ? value.value : false;
     fieldConfig.icon = value.icon;
     fieldConfig.selectMultiple = value.selectMultiple;
     fieldConfig.radioButton = value.radioButton;

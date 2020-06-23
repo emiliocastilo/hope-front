@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
@@ -8,11 +8,13 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
   templateUrl: './form-checkbox.component.html',
   styleUrls: ['./form-checkbox.component.scss'],
 })
-export class FormCheckboxComponent {
+export class FormCheckboxComponent implements OnInit {
   config: FieldConfig;
   group: FormGroup;
-  required: boolean = false;
-
+  required: boolean;
+  constructor() {
+    this.required = false;
+  }
   ngOnInit() {
     this.hasRequiredField(this.group.controls[this.config.name]);
   }

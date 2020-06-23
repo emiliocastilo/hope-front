@@ -9,7 +9,6 @@ import { PersonalInformationComponent } from './patients/components/personal-inf
 import { DashboardPatientsComponent } from './patients/components/dashboard-patients/dashboard-patients.component';
 import { SociodemographicDataComponent } from './patients/components/sociodemographic-data/sociodemographic-data.component';
 import { EvaluationStatusPhysicalComponent } from './patients/components/evaluation-status-physical/evaluation-status-physical.component';
-import { ConsumptionHabitsComponent } from './patients/components/consumption-habits/consumption-habits.component';
 import { GeneralPatientDataComponent } from './patients/components/general-patient-data/general-patient-data.component';
 import { TracingComponent } from './patients/components/tracing/tracing.component';
 import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
@@ -17,6 +16,12 @@ import { ComplementaryImagingScansComponent } from './patients/components/comple
 import { AdherenceToTreatmentComponent } from './patients/components/adherence-to-treatment/adherence-to-treatment.component';
 import { ConsentComponent } from './patients/components/consent/consent.component';
 import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
+import { PhysicalConditionComponent } from './patients/components/physical-condition/physical-condition.component';
+import { WorkGroupsComponent } from './patients/components/work-groups/work-groups.component';
+import { ConsumptionHabitsComponent } from './patients/components/consumption-habits/consumption-habits.component';
+import { PrincipalDiagnosisComponent } from './patients/components/diagnosis/principal-diagnosis/principal-diagnosis.component';
+import { SecundaryDiagnosisComponent } from './patients/components/diagnosis/secundary-diagnosis/secundary-diagnosis.component';
+import { ComorbiditiesComponent } from './patients/components/diagnosis/comorbidities/comorbidities.component';
 import { BloodCountComponent } from './patients/components/blood-count/blood-count.component';
 import { MetabolicProfileComponent } from './patients/components/metabolic-profile/metabolic-profile.component';
 import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
@@ -99,6 +104,30 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/diagnosis/principal-diagnosis',
+    component: PrincipalDiagnosisComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/diagnosis/secundary-diagnosis',
+    component: SecundaryDiagnosisComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/diagnosis/comorbidities',
+    component: ComorbiditiesComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/tracing',
     component: TracingComponent,
     resolve: {
@@ -140,6 +169,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/work-groups',
+    component: WorkGroupsComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/metabolic-profile',
     component: MetabolicProfileComponent,
     resolve: {
@@ -149,7 +186,6 @@ const routes: Routes = [
   },
   {
     path: 'patients/kidney-liver-biochemistry',
-    component: KidneyLiverBiochemistryComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -184,8 +220,8 @@ const routes: Routes = [
     component: SharedPatientsComponent,
     resolve: {
       patients: PatientsResolverService,
+      canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard],
   },
 ];
 

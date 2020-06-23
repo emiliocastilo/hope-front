@@ -7,5 +7,5 @@ import { constants } from '../../../../../../constants/constants';
   styleUrls: ['./consumption-habits.component.scss'],
 })
 export class ConsumptionHabitsComponent {
-  key = constants.KEY_CONSUMPTIONHABITS;
+  key = constants.keyConsumptionHabits;
 }

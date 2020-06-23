@@ -1,4 +1,10 @@
 export const constants = {
+  keyPhysicalCondition: 'physical-condition',
+  keyWorkGroups: 'work-groups',
+  keyConsumptionHabits: 'consumption-habits',
+  keyPrincipalDiagnosis: 'principal-diagnosis',
+  keySecundaryDiagnosis: 'secundary-diagnosis',
+  keyComorbidities: 'comorbidities',
   keySocioDermographic: 'sociodemographic-data',
   keyGeneralPatientData: 'general-patient-data',
   keyDiagnosis: 'diagnosis',
@@ -7,7 +13,6 @@ export const constants = {
   keyAdherenceToTreatment: 'adherence-to-treatment',
   keyConsent: 'consent',
   keyFamilyHistory: 'family-history',
-
   keyBloodCount: 'blood-count',
   keyMetabolicProfile: 'metabolic-profile',
   keyKidneyLiverBiochemistry: 'kidney-liver-biochemistry',
