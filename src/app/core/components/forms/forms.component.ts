@@ -16,7 +16,7 @@ export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
   public filledForm: any;
-  @Input() key = '';
+  @Input() key = 'TEST';
   patient: PatientModel;
   emptyForm: any;
 
@@ -89,7 +89,7 @@ export class FormsComponent implements OnInit {
     });
     const json = {
       key: this.key,
-      form: JSON.stringify(this.emptyForm)
+      form: JSON.stringify(this.emptyForm),
     };
     this._formsService.updateForm(json).subscribe(
       (response) => {
