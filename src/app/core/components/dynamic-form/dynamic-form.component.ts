@@ -96,6 +96,13 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   createControl(config: FieldConfig) {
+    if (config.calculated_front) {
+      const params = [];
+      config.params.forEach((e, i) => {
+        params[i] = this.form.getRawValue()[e];
+      });
+      config.value = FormUtils[config.formula](params);
+    }
     const { disabled, validation, value } = config;
     return this.fb.control({ disabled, value }, validation);
   }
