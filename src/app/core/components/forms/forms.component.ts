@@ -89,11 +89,9 @@ export class FormsComponent implements OnInit {
     });
     const json = {
       key: this.key,
-      form: JSON.stringify(this.emptyForm),
-      buttons: JSON.stringify(['save']),
-      historify: true,
+      form: JSON.stringify(this.emptyForm)
     };
-    this._formsService.save(json).subscribe(
+    this._formsService.updateForm(json).subscribe(
       (response) => {
         console.log(response);
       },
