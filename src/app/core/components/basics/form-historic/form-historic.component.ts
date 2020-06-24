@@ -15,8 +15,8 @@ export class FormHistoricComponent implements OnInit {
 
   ngOnInit(): void {
     this.oldValue =
-      this.config.historic.length > 0
+      this.config.historic && this.config.historic.length > 0
         ? this.config.historic[this.config.historic.length - 1].value
-        : '-';
+        : '';
   }
 }

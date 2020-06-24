@@ -47,9 +47,10 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   detectCalculated() {
     this.changes.subscribe((change) => {
-      const calculatedFields = this.config.filter((e) => e.calculated_front);
-      const params = [];
-      if (calculatedFields.length > 0) {
+      let params = [];
+      // Calculated front
+      let calculatedFields = this.config.filter((e) => e.calculated_front);
+      if (calculatedFields && calculatedFields.length > 0) {
         calculatedFields.forEach((field) => {
           field.params.forEach((e, i) => {
             params[i] = change[e];
@@ -58,6 +59,23 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           this.form.controls[field.name].setValue(value ? value : '', {
             emitEvent: false,
           });
+        });
+      }
+      // Enable when
+      calculatedFields = this.config.filter(
+        (e) => e.enableWhen && e.enableWhen.length >= 2
+      );
+      if (calculatedFields && calculatedFields.length > 0) {
+        calculatedFields.forEach((field) => {
+          if (
+            this.form.controls[field.enableWhen[0]].value ===
+            field.enableWhen[1]
+          ) {
+            this.setDisabled(field.name, false);
+          } else {
+            this.setDisabled(field.name, true);
+            this.form.controls[field.name].setValue('', { emitEvent: false });
+          }
         });
       }
     });
@@ -121,7 +139,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   cleanClick(event: Event) {
     this.controls.forEach((control) => {
       if (control.type != 'title' && !control.disabled) {
-        this.form.controls[control.name].setValue('');
+        if (control.type === 'checkbox') {
+          this.form.controls[control.name].setValue(false);
+        } else {
+          this.form.controls[control.name].setValue('');
+        }
       }
     });
   }
@@ -129,7 +151,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   setDisabled(name: string, disable: boolean) {
     if (this.form.controls[name]) {
       const method = disable ? 'disable' : 'enable';
-      this.form.controls[name][method]();
+      this.form.controls[name][method]({ emitEvent: false });
       return;
     }
 
