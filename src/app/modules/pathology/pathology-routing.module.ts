@@ -86,14 +86,14 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard],
   },
-  {
-    path: 'patients/general-patient-data',
-    component: GeneralPatientDataComponent,
-    resolve: {
-      patients: PatientsResolverService,
-    },
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'patients/general-patient-data',
+  //   component: GeneralPatientDataComponent,
+  //   resolve: {
+  //     patients: PatientsResolverService,
+  //   },
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'patients/diagnosis',
     component: DiagnosisComponent,

@@ -155,15 +155,21 @@ export default class FormUtils {
   }
 
   static clasificationIMC(params: Array<any>) {
-    if (params[0] >= 30) {
+    if (!params[0] || !params[1]) {
+      return '';
+    }
+    const imc = parseFloat(this.calculateIMC(params));
+    if (imc >= 30) {
       return 'Obesidad';
-    } else if (params[0] >= 25) {
+    } else if (imc >= 25) {
       return 'Sobrepeso';
-    } else if (params[0] >= 18.5 && params[0] <= 24.99) {
+    } else if (imc >= 18.5 && imc <= 24.99) {
       return 'Normal';
-    } else if (params[0] < 18.5) {
+    } else if (imc < 18.5) {
       return 'Bajo peso';
     }
+
+    return '';
   }
 
   static calculateBodyArea(params: Array<any>) {
@@ -178,6 +184,9 @@ export default class FormUtils {
   }
 
   static yearsWithoutSmoking(params: Array<any>) {
+    if (!params[0]) {
+      return '';
+    }
     const date = moment(params[0], 'YYYY-MM-DD');
     const currentDate = moment();
     const diff = currentDate.diff(date, 'years', true);
