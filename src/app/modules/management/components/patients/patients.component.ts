@@ -81,7 +81,7 @@ export class PatientsComponent implements OnInit {
         ],
       ],
       address: [''],
-      phone: [''],
+      phone: ['',[Validators.pattern('^[0-9]{2,3}-? ?[0-9]{6,7}$')]],
       email: ['', [Validators.email]],
       hospital: ['', Validators.required],
       pathology: ['', Validators.required],

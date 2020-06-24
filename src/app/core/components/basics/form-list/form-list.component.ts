@@ -63,8 +63,9 @@ export class FormListComponent implements OnInit {
     });
   }
 
-  onCancel() {
+  onCancel(i) {
     event.preventDefault();
+    this.rows.splice(i, 1);
     this.isEditing = false;
   }
 

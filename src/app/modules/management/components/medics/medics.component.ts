@@ -79,7 +79,11 @@ export class MedicsComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern('^[0-9]{8,8}[A-Za-z]$')],
       ],
-      phone: ['', Validators.required],
+      phone: ['',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]{2,3}-? ?[0-9]{6,7}$')
+        ]],
       email: [
         '',
         [
@@ -88,7 +92,12 @@ export class MedicsComponent implements OnInit {
           Validators.email,
         ],
       ],
-      collegeNumber: ['', Validators.required],
+      collegeNumber: ['',
+        [
+          Validators.required,
+          Validators.pattern('[0-9]{9}')
+        ]
+      ],
       hospital: [null, Validators.required],
       serviceDTO: [null, Validators.required],
       username: ['', Validators.required],
