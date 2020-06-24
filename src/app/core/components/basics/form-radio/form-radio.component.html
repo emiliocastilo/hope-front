@@ -1,5 +1,7 @@
 <div class="dynamic-field" [formGroup]="group">
-  <label class="title-label"> {{ config.label }}</label>
+  <label class="title-label" [ngClass]="{ 'required-label': required }">
+    {{ config.label }}</label
+  >
   <div *ngFor="let option of config.radioButton" class="form-check">
     <input
       [formControlName]="config.name"

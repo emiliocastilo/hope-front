@@ -10,11 +10,14 @@ export default class FormUtils {
 
   static createFieldConfig(form, filled?): FieldConfig[] {
     const fieldConfig: FieldConfig[] = [];
-    if (filled && filled.length > 0) {
+    let isFormFilled: boolean = filled && filled.length > 0;
+    if (isFormFilled) {
       this.fillFormWithValues(form, filled);
     }
     for (const key in form) {
-      fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key]));
+      fieldConfig.push(
+        FormUtils.convertJSONToFieldConfig(form[key], isFormFilled)
+      );
     }
     return fieldConfig;
   }
@@ -27,7 +30,7 @@ export default class FormUtils {
     return buttonsArray;
   }
 
-  static convertJSONToFieldConfig(value): FieldConfig {
+  static convertJSONToFieldConfig(value, isFormFilled): FieldConfig {
     const fieldConfig: FieldConfig = new FieldConfigModel();
     fieldConfig.name = value.name;
     fieldConfig.type = value.type;
@@ -37,7 +40,7 @@ export default class FormUtils {
     fieldConfig.placeholder = value.placeholder;
     // meter propieddad defaulvalue y quitar el value type checkbox
     fieldConfig.value =
-      value.value && value.type !== 'checkbox' ? value.value : false;
+      !isFormFilled && value.defaultValue ? value.defaultValue : value.value;
     fieldConfig.icon = value.icon;
     fieldConfig.selectMultiple = value.selectMultiple;
     fieldConfig.radioButton = value.radioButton;
@@ -52,6 +55,7 @@ export default class FormUtils {
     fieldConfig.fields = value.fields;
     fieldConfig.calculated_front = value.calculated_front;
     fieldConfig.historic = value.historic;
+    fieldConfig.enableWhen = value.enableWhen;
     if (value.validation) {
       const validations = StringUtils.stringToArray(value.validation);
       fieldConfig.validation = this.parseValidations(validations);
