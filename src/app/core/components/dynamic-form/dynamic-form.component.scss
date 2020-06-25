@@ -3,11 +3,12 @@
   justify-content: center;
   width: 100%;
   padding: 2rem;
-  min-width: 30rem;
+  min-width: 35rem;
 
   button {
     margin: 0 2rem;
-    width: 7rem;
+    min-width: 7rem;
+    white-space: nowrap;
   }
 }
 
