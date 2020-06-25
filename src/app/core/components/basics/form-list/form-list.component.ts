@@ -42,11 +42,11 @@ export class FormListComponent implements OnInit {
     this.enableEditIndex = this.rows.length - 1;
   }
 
-  onChange(event: any, header: string, index: number) {
+  onChange(event: any, header: string) {
     const value = header.toLowerCase().includes('date')
       ? new Date(event.target.value).toISOString()
       : event.target.value;
-    this.rows[index][header] = value;
+    this.rows[this.enableEditIndex][header] = value;
   }
 
   onSaveRow() {
@@ -61,12 +61,6 @@ export class FormListComponent implements OnInit {
     this.rows.forEach((r) => {
       this.group.controls[this.config.name].value.push(r);
     });
-  }
-
-  onCancel(i) {
-    event.preventDefault();
-    this.rows.splice(i, 1);
-    this.isEditing = false;
   }
 
   openModalDetail(i: number, content: any) {
