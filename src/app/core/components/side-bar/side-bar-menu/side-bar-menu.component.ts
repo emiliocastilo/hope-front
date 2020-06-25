@@ -48,8 +48,13 @@ export class SideBarMenuComponent implements OnInit {
 
   goUrl(section: SideBarItemModel) {
     event.preventDefault();
+    if (section.children.length) {
+      this.toggleColapseMenu(section);
+    }
     const url = section.url.split('hopes')[1];
-    this._router.navigate([url]);
+    if (url) {
+      this._router.navigate([url]);
+    }
     this._sidebar.event.next(section);
   }
 
