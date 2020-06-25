@@ -204,6 +204,11 @@ export default class FormUtils {
 
   static moriskyAdherence(params: Array<any>): any {
     let cont = 0;
+
+    if (!params[4]) {
+      return cont.toString();
+    }
+
     if (!params[0]) {
       cont++;
     }
