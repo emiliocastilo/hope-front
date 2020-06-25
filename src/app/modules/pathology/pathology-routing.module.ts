@@ -220,8 +220,8 @@ const routes: Routes = [
     component: SharedPatientsComponent,
     resolve: {
       patients: PatientsResolverService,
-      canActivate: [AuthGuard],
     },
+    canActivate: [AuthGuard],
   },
 ];
 
