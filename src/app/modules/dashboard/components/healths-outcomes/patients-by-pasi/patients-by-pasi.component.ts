@@ -68,8 +68,6 @@ export class PatientsByPasiComponent implements OnInit {
       return object;
     });
 
-    console.log(arrayData);
-
     return arrayData;
   }
 

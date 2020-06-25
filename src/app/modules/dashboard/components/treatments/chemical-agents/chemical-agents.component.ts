@@ -73,7 +73,7 @@ export class ChemicalAgentsComponent implements OnInit {
         name: key,
         series: [
           {
-            name: this._translate.instant('patients'),
+            name: this._translate.instant('patients').toUpperCase(),
             value: data[key],
           },
         ],
