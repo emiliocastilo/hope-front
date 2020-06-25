@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PatientModel } from '../../models/patient.model';
-import { FormGroup } from '@angular/forms';
-import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
-import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
 import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
-import { GraphsService } from '../../../../dashboard/services/graphs.service';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -20,24 +15,23 @@ export class DashboardPatientsComponent implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
-  // public patientKeysToShow: string[] = [
-  //   'name',
-  //   'nhc',
-  //   'healthCard',
-  //   'dni',
-  //   'phone',
-  //   'genderCode',
-  // ];
   public selectedItem: number;
   public selectedPatient: PatientModel;
 
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
+  public configGantt: any = {
+    columns: ['BIOLOGICO', 'FAME', 'ADH', 'OTR'],
+    type: 'Timeline',
+    data: [],
+    options: {
+      groupByRowLabel: true,
+    },
+  };
 
   constructor(
     private _patientService: PatientsService,
-    private _patientDashboardService: PatientsDashboardService,
-    private _graphService: GraphsService
+    private _patientDashboardService: PatientsDashboardService
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +48,15 @@ export class DashboardPatientsComponent implements OnInit {
       .getPatientsDashboardById(this.selectedPatient.id)
       .subscribe((data) => {
         this.dataChart = this.parseDataChart(data);
+
+        const dataGantt = {
+          BIOLOGICO: data.treatments.BIOLOGICO,
+          FAME: data.treatments.FAME,
+          ADH: data.adherence,
+        };
+
+        this.configGantt.data = this.parseDataGantt(dataGantt);
+        console.log(this.configGantt);
 
         const title = '';
         const view = null;
@@ -89,5 +92,31 @@ export class DashboardPatientsComponent implements OnInit {
       }
     );
     return arrayData;
+  }
+
+  private parseDataGantt(data: any): ChartObjectModel[] {
+    const objectChart = [];
+
+    this.configGantt.columns.forEach((value: string, key: number) => {
+      if (data[value] && value !== 'ADH') {
+        console.log(data, value);
+        data[value].forEach((element: any) => {
+          let objectRow = [
+            value,
+            element.medicine.actIngredients,
+            new Date(element.initDate),
+            new Date(),
+          ];
+
+          if (element.finalDate) {
+            let endDate = new Date(element.finalDate);
+            objectRow[objectRow.length - 1] = endDate;
+          }
+
+          objectChart.push(objectRow);
+        });
+      }
+    });
+    return objectChart;
   }
 }
