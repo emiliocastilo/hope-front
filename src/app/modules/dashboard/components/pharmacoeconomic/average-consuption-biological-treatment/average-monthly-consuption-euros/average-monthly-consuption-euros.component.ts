@@ -137,7 +137,6 @@ export class AverageMonthlyConsuptionEurosComponent implements OnInit {
   public onFormSubmit(): void {
     this.dataChart = null;
     this.yearlyGoalValue = this.formYearlyGoal.controls.yearlyGoalValue.value;
-    console.log(this.yearlyGoalValue);
     const query = `lastYears=${this.yearlyGoalValue}`;
     this.getTreatments(query);
   }

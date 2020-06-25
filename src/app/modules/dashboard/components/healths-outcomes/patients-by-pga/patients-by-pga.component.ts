@@ -68,8 +68,6 @@ export class PatientsByPgaComponent implements OnInit {
       return object;
     });
 
-    console.log(arrayData);
-
     return arrayData;
   }
 

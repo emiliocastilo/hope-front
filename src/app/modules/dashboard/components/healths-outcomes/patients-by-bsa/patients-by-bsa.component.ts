@@ -68,8 +68,6 @@ export class PatientsByBsaComponent implements OnInit {
       return object;
     });
 
-    console.log(arrayData);
-
     return arrayData;
   }
 
