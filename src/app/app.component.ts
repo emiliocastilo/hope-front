@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    localStorage.clear();
     this._router.events.subscribe((event: any) => {
       if (event instanceof ResolveEnd) {
         const url = event.url;
