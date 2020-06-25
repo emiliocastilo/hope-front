@@ -1,5 +1,13 @@
 <div class="form-group dynamic-field" [formGroup]="group">
+  <label
+    [attr.for]="config.name"
+    class="dynamic-label"
+    [ngClass]="{ 'required-label': required }"
+  >
+    {{ config.label | translate }}</label
+  >
   <select
+    class="form-control"
     [formControlName]="config.name"
     [attr.name]="config.name"
     [attr.id]="config.name"
@@ -11,7 +19,4 @@
       {{ option.name | translate }}
     </option>
   </select>
-  <label [attr.for]="config.name" class="dynamic-label">{{
-    config.label | translate
-  }}</label>
 </div>

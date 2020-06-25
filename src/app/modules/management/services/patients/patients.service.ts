@@ -9,9 +9,9 @@ import { PatientModel } from '../../models/patients/patient.model';
 export class PatientsService {
   constructor(private _httpClient: HttpClient) {}
 
-  public getPatients(query: string): Observable<any> {
+  public getPatients(pathologies: string[], query: string): Observable<any> {
     query = query ? query : '';
-    return this._httpClient.get(`/patients?pth=1${query}`);
+    return this._httpClient.get(`/patients?pth=${pathologies}${query}`);
   }
 
   public getPatientsByIdAndPathologies(
@@ -20,6 +20,15 @@ export class PatientsService {
   ): Observable<any> {
     return this._httpClient.get(
       `/patients/searches?pth=${pathologies}&search=${id}`
+    );
+  }
+
+  public findPatients(
+    pathologies: string[],
+    filterName: string
+  ): Observable<any> {
+    return this._httpClient.get(
+      `/patients/searches?pth=${pathologies}&search=${filterName}`
     );
   }
 

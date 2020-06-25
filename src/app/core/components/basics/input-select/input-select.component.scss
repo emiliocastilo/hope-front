@@ -21,6 +21,9 @@
     width: 100%;
     height: 2.85rem;
     padding-right: 3rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     background-image:
       linear-gradient(
         45deg,
@@ -38,11 +41,23 @@
     -webkit-appearance: none;
     -moz-appearance: none;
 
-    &.option-selected {
-      width: 100%;
-      overflow: hidden;
+    .tooltip {
+      visibility: hidden;
+    }
+
+    &:hover + .tooltip {
+      visibility: visible;
+      transition: opacity 0.5s ease;
+      opacity: 1;
+      box-shadow: 1px 7px 19px 3px $app-color-border-blue;
+      display: block;
+      position: absolute;
       white-space: nowrap;
-      text-overflow: ellipsis;
+      top: 87px;
+      border-radius: 0.3rem;
+      border: 1px solid $app-color-border-blue;
+      background-color: $app-color-white;
+      padding: 0 0.5rem;
     }
   }
 
@@ -56,8 +71,13 @@
 @supports (-moz-appearance: none) {
   .dynamic-field {
     top: -2.75rem;
-    width: 13rem;
     margin-bottom: 0;
+    width: 13rem;
+  }
+
+  .margin-firefox {
+    margin-top: 2.2rem;
+    margin-bottom: -2.4rem;
   }
 }
 

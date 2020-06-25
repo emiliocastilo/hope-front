@@ -1,0 +1,108 @@
+<div class="form-group dynamic-group field" [formGroup]="group">
+  <div class="add-btn">
+    <app-button (click)="newRow()" clasesBtn="btn-primary" icono="plus-circle">
+    </app-button>
+  </div>
+  <div class="container-fluid master-table">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th *ngFor="let header of config.fields" scope="col">
+            {{ header.name | translate }}
+          </th>
+          <th *ngIf="config.actions">
+            {{ 'actions' | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody [ngSwitch]="true">
+        <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
+          <td class="header-table" *ngFor="let header of config.fields">
+            <div *ngSwitchCase="header.type === 'datepicker'">
+              <input
+                *ngIf="isEditing && enableEditIndex === i"
+                type="date"
+                (change)="onChange($event, header.name, i)"
+              />
+            </div>
+            <div *ngSwitchCase="header.type === 'select'">
+              <select
+                *ngIf="isEditing && enableEditIndex === i"
+                (change)="onChange($event, header.name, i)"
+              >
+                <option
+                  *ngFor="let option of header.options"
+                  [ngValue]="option.value"
+                >
+                  {{ option.name | translate }}
+                </option>
+              </select>
+            </div>
+            <div *ngSwitchCase="header.type === 'input'">
+              <input
+                *ngIf="isEditing && enableEditIndex === i"
+                [value]="row[header.name]"
+                (change)="onChange($event, header.name, i)"
+              />
+            </div>
+            <div
+              class="ellipsis"
+              *ngIf="!isEditing || (isEditing && enableEditIndex !== i)"
+            >
+              {{ showDataTable(row[header.name], header.name) }}
+            </div>
+          </td>
+          <td *ngIf="config.actions">
+            <div class="table-body_row_actions" *ngIf="!isEditing">
+              <a
+                *ngFor="let action of config.actions"
+                href=""
+                (click)="emitIconButtonClick(action.name, i, content)"
+                [ngClass]="{
+                  'table-body_row_actions-container': true,
+                  delete: action.name === 'delete'
+                }"
+              >
+                <i-feather
+                  name="{{ action.icon }}"
+                  class="feather-icon"
+                ></i-feather>
+              </a>
+            </div>
+            <div *ngIf="isEditing && enableEditIndex === i">
+              <a href="" (click)="onSaveRow()">
+                {{ 'btn.save' | translate }}
+              </a>
+              <a href="" (click)="onCancel()">
+                {{ 'btn.cancel' | translate }}
+              </a>
+            </div>
+          </td>
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title">Detalles</h4>
+              <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('')"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body custom-modal-body">
+              <div class="dataCell" *ngFor="let field of detailArray">
+                <div class="header">
+                  {{ field.name | translate }}
+                </div>
+                <div class="data">
+                  {{ showDataTable(field.value, field.name) }}
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

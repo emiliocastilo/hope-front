@@ -2,12 +2,13 @@
   <div class="PRIMER-FORMULARIO">
     <dynamic-form
       [config]="config"
+      [buttons]="buttons"
       #form="dynamicForm"
       (submit)="submit($event)"
     >
     </dynamic-form>
-    <div class="code">
+    <!-- <div class="code">
       <code>{{ form.value | json }}</code>
-    </div>
+    </div> -->
   </div>
 </div>

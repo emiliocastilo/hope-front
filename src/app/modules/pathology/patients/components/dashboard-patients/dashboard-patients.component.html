@@ -1,9 +1,10 @@
 <div class="row m-0 p-0">
   <section class="col-md-12 p-0">
-    <app-box-data [data]="selectedPatient" [keysToShow]="patientKeysToShow">
-    </app-box-data>
+    <app-patient-header></app-patient-header>
   </section>
-
+  <section class="col-md-12 p-0">
+    <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
+  </section>
   <section class="col-md-12 p-0 mt-4">
     <app-gantt-chart [config]="configChart" *ngIf="configChart">
     </app-gantt-chart>

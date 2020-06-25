@@ -5,9 +5,9 @@
   display: flex;
   flex-direction: column;
   background-color: $app-menu-blue-principal;
-  min-height: 100%;
+  height: 100%;
   color: $app-color-white;
-  width: 15rem;
+  width: 15.5rem;
   box-shadow: 0 0 1.25rem rgba($color: $app-color-black, $alpha: 0.18);
 
   .brand {
@@ -109,4 +109,26 @@
       opacity: 0;
     }
   }
+}
+
+.scroller {
+  height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.scroller::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scroller::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+.scroller::-webkit-scrollbar-thumb {
+  background: $app-color-blue-main;
+  border-radius: 10px;
 }

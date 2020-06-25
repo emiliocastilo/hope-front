@@ -1,19 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ConsentComponent } from './consent.component';
 
-import { FormCalculatedComponent } from './form-calculated.component';
-
-describe('FormCalculatedComponent', () => {
-  let component: FormCalculatedComponent;
-  let fixture: ComponentFixture<FormCalculatedComponent>;
+describe('ConsentComponent', () => {
+  let component: ConsentComponent;
+  let fixture: ComponentFixture<ConsentComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FormCalculatedComponent],
+      declarations: [ConsentComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormCalculatedComponent);
+    fixture = TestBed.createComponent(ConsentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

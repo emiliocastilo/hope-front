@@ -6,10 +6,7 @@
     >
       <section
         [class]="id + '-modal-field-group-' + fieldIndex"
-        [ngClass]="{
-          'col-sm-12 col-md-6 col-lg-4': formKey !== 'roles',
-          'col-12': formKey === 'roles'
-        }"
+        [ngClass]="getColSection(formKey)"
       >
         <div
           *ngIf="setType(formKey) !== 'select' && setType(formKey) !== 'file'"
@@ -24,7 +21,7 @@
               {{ checkIfRequired(formKey) ? '*' : null }}
             </label>
             <div
-              class="btn-group btn-group-toggle"
+              class="btn-group btn-group-toggle margin-firefox-gender"
               ngbRadioGroup
               name="radioBasic"
               [formControlName]="formKey"
@@ -96,7 +93,7 @@
           </app-input>
         </div>
         <app-input-select
-          class="selectCombo"
+          class="select-combo margin-firefox"
           [id]="formKey"
           [isDisabled]="false"
           [labelValue]="'modal.editor.field.' + formKey | translate"

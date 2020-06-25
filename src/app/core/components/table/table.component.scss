@@ -66,6 +66,7 @@
       td {
         vertical-align: middle;
         padding-left: 1rem;
+        max-width: 10rem;
         border-top: 1px solid $app-color-blue-border;
 
         .table-body_row_actions {
@@ -115,4 +116,6 @@
 
 .dataTable {
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

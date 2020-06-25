@@ -1,5 +1,8 @@
+@import '../../../../../../assets/styles/variables.scss';
+
 .gallery-container {
-  padding: 2rem;
+  padding-top: 1rem;
+  color: $app-color-blue-main;
 
   .photo-button {
     text-align: right;

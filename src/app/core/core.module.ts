@@ -48,13 +48,16 @@ import { FormsComponent } from './components/forms/forms.component';
 import { ColumnChartComponent } from './components/charts/column-chart/column-chart.component';
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
 import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
-import { FormCalculatedComponent } from './components/basics/form-calculated/form-calculated.component';
+import { FormListComponent } from './components/basics/form-list/form-list.component';
 import { GenderFormatter } from './pipes/gender.pipe';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { ResultsPerPageComponent } from './components/results-per-page/results-per-page.component';
 import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
 import { IconsModule } from '../icons/icons.module';
 import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
+import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
+import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
+import { FromSectionComponent } from './components/basics/from-section/from-section.component';
 import { GanttChartComponent } from './components/charts/gantt-chart/gantt-chart.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 
@@ -100,17 +103,19 @@ export function createTranslateLoader(http: HttpClient) {
     InputFileComponent,
     FromDividerComponent,
     FromTitleComponent,
-    FormCalculatedComponent,
+    FromSectionComponent,
     NgbdSortableHeader,
     FormsComponent,
     ColumnChartComponent,
     PieChartComponent,
     ExportButtonsComponent,
+    FormListComponent,
+    PatientHeaderComponent,
     GenderFormatter,
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
-    GanttChartComponent,
+    FormHistoricComponent,
   ],
   imports: [
     CommonModule,
@@ -162,6 +167,7 @@ export function createTranslateLoader(http: HttpClient) {
     PaginationComponent,
     HomeDashboardModuleComponent,
     GenderFormatter,
+    PatientHeaderComponent,
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
