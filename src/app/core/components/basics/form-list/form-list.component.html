@@ -22,13 +22,13 @@
               <input
                 *ngIf="isEditing && enableEditIndex === i"
                 type="date"
-                (change)="onChange($event, header.name, i)"
+                (change)="onChange($event, header.name)"
               />
             </div>
             <div *ngSwitchCase="header.type === 'select'">
               <select
                 *ngIf="isEditing && enableEditIndex === i"
-                (change)="onChange($event, header.name, i)"
+                (change)="onChange($event, header.name)"
               >
                 <option
                   *ngFor="let option of header.options"
@@ -42,7 +42,7 @@
               <input
                 *ngIf="isEditing && enableEditIndex === i"
                 [value]="row[header.name]"
-                (change)="onChange($event, header.name, i)"
+                (change)="onChange($event, header.name)"
               />
             </div>
             <div
@@ -72,9 +72,6 @@
             <div *ngIf="isEditing && enableEditIndex === i">
               <a href="" (click)="onSaveRow()">
                 {{ 'btn.save' | translate }}
-              </a>
-              <a href="" (click)="onCancel(i)">
-                {{ 'btn.cancel' | translate }}
               </a>
             </div>
           </td>
