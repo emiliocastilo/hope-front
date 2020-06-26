@@ -159,13 +159,13 @@ export class NumberChangesBiologicalTreatmentComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `${this.endCause}&reason=${this.currentTreatment.reasonStopBiologicalTreatment}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `numberChanges=${this.currentTreatment.reasonStopBiologicalTreatment}&${this.endCause}&reason=${this.currentTreatment.reasonStopBiologicalTreatment}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    let query = `${this.endCause}&reason=${this.currentTreatment.reasonStopBiologicalTreatment}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    let query = `numberChanges=${this.currentTreatment.reasonStopBiologicalTreatment}&${this.endCause}&reason=${this.currentTreatment.reasonStopBiologicalTreatment}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
     this.currentSort = event;
     this.getDetails(query);
   }
