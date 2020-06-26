@@ -201,4 +201,66 @@ export default class FormUtils {
     });
     return form;
   }
+
+  static moriskyAdherence(params: Array<any>): any {
+    let cont = 0;
+
+    if (!params[4]) {
+      return cont.toString();
+    }
+
+    if (!params[0]) {
+      cont++;
+    }
+
+    if (params[1]) {
+      cont++;
+    }
+
+    if (!params[2]) {
+      cont++;
+    }
+
+    if (params[3]) {
+      cont++;
+    }
+    return cont;
+  }
+
+  static moriskyAssessment(params: Array<any>): any {
+    if (params[0] === false && params[1] === true && params[2] === false && params[3] === true) {
+      return 'Adherente';
+    }
+    return 'No adherente';
+  }
+
+  static haynesAdherence(params: Array<any>): any {
+    if (params[1] === true) {
+      if (!params[2]) {
+        return '';
+      }
+      return `${((100 / params[0]) * params[2]).toFixed(2)}%`;
+    }
+
+    if (params[0] && !params[1]) {
+      return '100%';
+    }
+
+    return '';
+  }
+
+  static haynesAssessment(params: Array<any>): any {
+    if (params[0] && !params[1]) {
+      return 'Adherente';
+    } else {
+      const value = this.haynesAdherence(params).replace('%', '');
+      if (value && value >= 80 && value <= 100) {
+        return 'Adherente';
+      } else if (value && value < 80){
+        return 'No adherente';
+      }
+    }
+
+    return '';
+  }
 }
