@@ -20,9 +20,10 @@
   <input
     [attr.id]="config.name"
     [attr.name]="config.name"
-    [formControlName]="config.name"
+    formControlName="value"
     class="dynamic-field"
     type="number"
-    [attr.value]="config.value"
+    (change)="onChange($event)"
   />
+  <input formControlName="date" type="date" (change)="onChange($event)" />
 </div>

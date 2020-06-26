@@ -45,6 +45,16 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     this.form = this.createGroup();
   }
 
+  isNormalType(type: string) {
+    const notArray = ['table', 'historic'];
+    const found = notArray.find((e) => e === type);
+    if (found) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   detectCalculated() {
     this.changes.subscribe((change) => {
       let params = [];
@@ -94,11 +104,15 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         .filter((control) => !controls.includes(control))
         .forEach((name) => {
           const config = this.config.find((control) => control.name === name);
-          if (config.type !== 'title' && config.type !== 'table') {
+          if (this.isNormalType(config.type)) {
+            console.log('is normal');
             this.form.addControl(name, this.createControl(config));
           }
           if (config.type === 'table') {
             this.form.addControl(name, this.createArray(config));
+          }
+          if (config.type === 'historic') {
+            this.form.addControl(name, this.createHistoric());
           }
         });
       this.detectCalculated();
@@ -130,6 +144,13 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     config.fields.forEach((field) => {
       group.addControl(field.name, this.fb.control(''));
     });
+    return this.fb.array([group]);
+  }
+
+  createHistoric() {
+    const group = this.fb.group({});
+    group.addControl('date', this.fb.control(new Date().toISOString()));
+    group.addControl('value', this.fb.control(0));
     return this.fb.array([group]);
   }
 

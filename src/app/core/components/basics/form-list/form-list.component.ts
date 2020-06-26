@@ -30,6 +30,7 @@ export class FormListComponent implements OnInit {
   }
 
   newRow() {
+    this.isEditing = true;
     let newRow = {};
     this.config.fields.forEach((field) => {
       newRow = {
@@ -38,7 +39,6 @@ export class FormListComponent implements OnInit {
       };
     });
     this.rows.push(newRow);
-    this.isEditing = true;
     this.enableEditIndex = this.rows.length - 1;
   }
 

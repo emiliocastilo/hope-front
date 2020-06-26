@@ -11,6 +11,7 @@ export class FormHistoricComponent implements OnInit {
   config: FieldConfig;
   group: FormGroup;
   oldValue: any;
+
   constructor() {}
 
   ngOnInit(): void {
@@ -18,5 +19,12 @@ export class FormHistoricComponent implements OnInit {
       this.config.historic && this.config.historic.length > 0
         ? this.config.historic[this.config.historic.length - 1].value
         : '';
+  }
+
+  onChange(event: any) {
+    this.group.controls[this.config.name].setValue({
+      date: new Date(),
+      value: 55,
+    });
   }
 }
