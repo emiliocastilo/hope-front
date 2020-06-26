@@ -68,7 +68,7 @@ export class ReasonLastChangeBiologicalTreatmentComponent implements OnInit {
   private parseDataChart(data: any): ChartObjectModel[] {
     const arrayData = Object.keys(data).map((key) => {
       const object = {
-        name: key,
+        name: key.toUpperCase(),
         value: data[key],
       };
       return object;

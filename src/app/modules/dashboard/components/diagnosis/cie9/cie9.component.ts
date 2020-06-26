@@ -38,6 +38,7 @@ export class Cie9Component implements OnInit {
   private currentPage = 0;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
   public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
+  public dataToExport: any[] = [];
 
   constructor(private charts: GraphsService, private _router: Router) {}
 
@@ -52,8 +53,7 @@ export class Cie9Component implements OnInit {
       .subscribe((response) => this.parseData(response));
   }
 
-  private getPatientsDetail(selectedCie9: string) {
-    const query = `page=${this.currentPage}&indication=${selectedCie9}`;
+  private getPatientsDetail(query: string) {
     this.charts.getPatientsDetailCIE9(query).subscribe(
       (data) => {
         this.detailsDataTable = data.content;
@@ -65,10 +65,22 @@ export class Cie9Component implements OnInit {
     );
   }
 
+  private getDetailsToExport(query: string) {
+    this.charts.getPatientsDetailCIE9Export(query).subscribe(
+      (data: any) => {
+        this.dataToExport = data;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      this.getPatientsDetail(this.selectedCie9);
+      const query = `page=${this.currentPage}&cie9=${this.selectedCie9}`;
+      this.getPatientsDetail(query);
     }
   }
 
@@ -85,7 +97,9 @@ export class Cie9Component implements OnInit {
     if (event && event.type === 'detail') {
       this.showingDetail = true;
       this.selectedCie9 = this.dataChart[event.selectedItem].name;
-      this.getPatientsDetail(this.selectedCie9);
+      const query = `page=${this.currentPage}&cie9=${this.selectedCie9}`;
+      this.getPatientsDetail(query);
+      this.getDetailsToExport(query);
     } else {
       this.showingDetail = false;
     }
@@ -95,30 +109,13 @@ export class Cie9Component implements OnInit {
     if (event.type === 'detail') {
       const currentUser = this.detailsDataTable[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
-      // TODO: data from back comes incompleted.
       localStorage.setItem('selectedUser', selectedUser);
       this._router.navigate(['pathology/patients/dashboard']);
     }
   }
 
   public onSortTableDetail(event: any) {
-    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedCie9}`;
-
-    // if (this.itemsPerPage) {
-    //   query = `${query}&size=${this.itemsPerPage}`;
-    // }
-    this.refreshDetailTable(query);
-  }
-
-  private refreshDetailTable(query: string): void {
-    this.charts.getPatientsDetailCIE9(query).subscribe(
-      (data) => {
-        this.detailsDataTable = data.content;
-        this.paginationData = data;
-      },
-      (error) => {
-        console.error('error: ', error);
-      }
-    );
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&cie9=${this.selectedCie9}`;
+    this.getPatientsDetail(query);
   }
 }

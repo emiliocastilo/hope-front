@@ -84,7 +84,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
   private parseDataChart(data: any): ChartObjectModel[] {
     const arrayData = Object.keys(data).map((key) => {
       const object = {
-        name: key,
+        name: key.toUpperCase(),
         value: data[key],
       };
       return object;
@@ -131,8 +131,6 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     if (event.type === 'detail') {
       this.showingDetail = true;
       this.currentTreatment = this.dataTable[event.selectedItem];
-      console.log(this.currentTreatment);
-
       const query = `regimen=${this.currentTreatment.standar}`;
 
       this.getDetails(query);
@@ -178,13 +176,13 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `${this.endCause}&reason=${this.currentTreatment.reasonStopBiologicalTreatment}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `regimen=${this.currentTreatment.standar}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    let query = `${this.endCause}&reason=${this.currentTreatment.reasonStopBiologicalTreatment}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+    let query = `regimen=${this.currentTreatment.standar}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
     this.currentSort = event;
     this.getDetails(query);
   }
