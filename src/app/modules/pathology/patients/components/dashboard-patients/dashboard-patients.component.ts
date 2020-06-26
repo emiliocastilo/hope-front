@@ -5,6 +5,7 @@ import { PatientsService } from 'src/app/modules/management/services/patients/pa
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
 import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
+import { ScriptLoaderService } from 'angular-google-charts';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -17,7 +18,6 @@ export class DashboardPatientsComponent implements OnInit {
   public patients: PatientModel[] = [];
   public selectedItem: number;
   public selectedPatient: PatientModel;
-
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
   public configGantt: any = {
@@ -26,12 +26,32 @@ export class DashboardPatientsComponent implements OnInit {
     data: [],
     options: {
       groupByRowLabel: true,
+      avoidOverlappingGridLines: true,
+      backgroundColor: '#FFFF',
+      hAxis: {
+        format: 'YYYY',
+        gridlines: {
+          count: -1,
+        },
+      },
+      vAxis: {
+        scaleType: 'log',
+      },
+      colors: [
+        '#e66584',
+        '#5ba6e0',
+        '#e4804b',
+        '#4375bb',
+        '#fbbf53',
+        '#57833b',
+      ],
     },
   };
 
   constructor(
     private _patientService: PatientsService,
-    private _patientDashboardService: PatientsDashboardService
+    private _patientDashboardService: PatientsDashboardService,
+    private loaderService: ScriptLoaderService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +76,7 @@ export class DashboardPatientsComponent implements OnInit {
         };
 
         this.configGantt.data = this.parseDataGantt(dataGantt);
-        console.log(this.configGantt);
+        this.loadChart(this.configGantt);
 
         const title = '';
         const view = null;
@@ -70,6 +90,28 @@ export class DashboardPatientsComponent implements OnInit {
           this.dataChart
         );
       });
+  }
+
+  private loadChart(data: any): void {
+    this.loaderService.loadChartPackages(data.type).subscribe(() => {
+      google.charts.load('current', { packages: ['timeline'] });
+      google.charts.setOnLoadCallback(this.drawChart(data));
+    });
+  }
+
+  public drawChart(data: any): any {
+    const container = document.getElementById('google-timeline-chart');
+    const chart = new google.visualization.Timeline(container);
+    const dataTable = new google.visualization.DataTable();
+    dataTable.addColumn({ type: 'string', id: 'Title' });
+    dataTable.addColumn({ type: 'string', id: 'Name' });
+    dataTable.addColumn({ type: 'string', role: 'tooltip' });
+    dataTable.addColumn({ type: 'date', id: 'Start' });
+    dataTable.addColumn({ type: 'date', id: 'End' });
+
+    dataTable.addRows(data.data);
+
+    chart.draw(dataTable, data.options);
   }
 
   private parseDataChart(data: any): ChartObjectModel[] {
@@ -99,10 +141,10 @@ export class DashboardPatientsComponent implements OnInit {
 
     this.configGantt.columns.forEach((value: string, key: number) => {
       if (data[value] && value !== 'ADH') {
-        console.log(data, value);
-        data[value].forEach((element: any) => {
+        data[value].forEach((element: any, keyT: number) => {
           let objectRow = [
             value,
+            element.medicine.actIngredients,
             element.medicine.actIngredients,
             new Date(element.initDate),
             new Date(),
@@ -112,6 +154,18 @@ export class DashboardPatientsComponent implements OnInit {
             let endDate = new Date(element.finalDate);
             objectRow[objectRow.length - 1] = endDate;
           }
+          objectChart.push(objectRow);
+        });
+      } else if (data[value] && value === 'ADH') {
+        data[value].forEach((element: any, keyTwo: number) => {
+          const dateStart = new Date(element.date);
+          let objectRow = [
+            value,
+            '',
+            element.description,
+            dateStart,
+            dateStart,
+          ];
 
           objectChart.push(objectRow);
         });

@@ -6,14 +6,6 @@
     <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
   </section>
   <section class="col-md-12 p-0 mt-4">
-    <google-chart
-      class="chart-container-gantt"
-      [type]="configGantt.type"
-      [data]="configGantt.data"
-      [columns]="configGantt.columns"
-      *ngIf="configGantt.data.length"
-      [options]="configGantt.options"
-    >
-    </google-chart>
+    <div id="google-timeline-chart"></div>
   </section>
 </div>
