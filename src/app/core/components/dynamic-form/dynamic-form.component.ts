@@ -166,7 +166,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   cleanClick(event: Event) {
     this.controls.forEach((control) => {
-      if (control.type != 'title' && !control.disabled) {
+      if (control.type != 'title' && !control.disabled && !control.hidden) {
         if (control.type === 'checkbox') {
           this.form.controls[control.name].setValue(false);
         } else {
