@@ -229,7 +229,12 @@ export default class FormUtils {
   }
 
   static moriskyAssessment(params: Array<any>): any {
-    if (params[0] === false && params[1] === true && params[2] === false && params[3] === true) {
+    if (
+      params[0] === false &&
+      params[1] === true &&
+      params[2] === false &&
+      params[3] === true
+    ) {
       return 'Adherente';
     }
     return 'No adherente';
@@ -257,7 +262,7 @@ export default class FormUtils {
       const value = this.haynesAdherence(params).replace('%', '');
       if (value && value >= 80 && value <= 100) {
         return 'Adherente';
-      } else if (value && value < 80){
+      } else if (value && value < 80) {
         return 'No adherente';
       }
     }
