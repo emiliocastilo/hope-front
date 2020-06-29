@@ -245,8 +245,8 @@
   "tacDiagnosis": "Diagnosis",
   "tacPatologia": "Pathology",
   "anatomy": "Pathological anatomy",
-  "anatomyDate": "Date",
   "anatomy": "Texto",
+  "anatomyDate": "Date",
   "hypertrophy": "Hypertrophy",
   "doppler": "Doppler",
   "tenosivitis": "Tenosynovitis",
@@ -255,5 +255,7 @@
   "spleen": "Tam. Spleen(cm)",
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
-  "scanDate": "Date"
+  "scanDate": "Date",
+  "evolutionIndex": "Evolution index",
+  "treatments": "Treatments"
 }
