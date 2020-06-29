@@ -127,6 +127,9 @@ export default class FormUtils {
       filled.forEach((e) => {
         if (element.name === e.name) {
           element.value = e.value;
+          if (e.type === 'historic') {
+            element.historic = e.value;
+          }
         }
       });
     });
@@ -134,8 +137,9 @@ export default class FormUtils {
 
   static parseEntriesForm(values: any) {
     const form = [];
-    Object.entries(values).forEach((e) => {
+    Object.entries(values).forEach((e: any) => {
       const entry = {
+        type: e[1].length ? 'historic' : '',
         name: e[0],
         value: e[0].toLowerCase().includes('table')
           ? JSON.stringify(e[1])
@@ -229,7 +233,12 @@ export default class FormUtils {
   }
 
   static moriskyAssessment(params: Array<any>): any {
-    if (params[0] === false && params[1] === true && params[2] === false && params[3] === true) {
+    if (
+      params[0] === false &&
+      params[1] === true &&
+      params[2] === false &&
+      params[3] === true
+    ) {
       return 'Adherente';
     }
     return 'No adherente';
@@ -257,7 +266,7 @@ export default class FormUtils {
       const value = this.haynesAdherence(params).replace('%', '');
       if (value && value >= 80 && value <= 100) {
         return 'Adherente';
-      } else if (value && value < 80){
+      } else if (value && value < 80) {
         return 'No adherente';
       }
     }

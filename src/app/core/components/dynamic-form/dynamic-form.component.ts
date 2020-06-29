@@ -105,7 +105,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         .forEach((name) => {
           const config = this.config.find((control) => control.name === name);
           if (this.isNormalType(config.type)) {
-            console.log('is normal');
             this.form.addControl(name, this.createControl(config));
           }
           if (config.type === 'table') {
@@ -149,8 +148,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   createHistoric() {
     const group = this.fb.group({});
-    group.addControl('date', this.fb.control(new Date().toISOString()));
-    group.addControl('value', this.fb.control(0));
+    group.addControl('date', this.fb.control(''));
+    group.addControl('value', this.fb.control(''));
     return this.fb.array([group]);
   }
 
