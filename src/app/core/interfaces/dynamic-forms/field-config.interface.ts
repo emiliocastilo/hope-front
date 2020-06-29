@@ -22,6 +22,7 @@ export interface FieldConfig {
   min?: any;
   enableWhen?: Array<any>;
   defaultValue?: any;
+  hidden?: boolean;
   params?: Array<string>;
   actions?: Array<string>;
   columns?: Array<any>;
