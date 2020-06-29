@@ -14,8 +14,8 @@ export class FormDatepickerComponent {
   config: FieldConfig;
   group: FormGroup;
   required: boolean = false;
-  private minDate: string;
-  private maxDate: string;
+  public minDate: string;
+  public maxDate: string;
 
   ngOnInit() {
     this.min();
