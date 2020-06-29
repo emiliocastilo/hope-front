@@ -17,6 +17,12 @@ export class PatientsIndicationService {
     return this._http.get(`/patients-diagnoses/indications/patients?${query}`);
   }
 
+  getDetailsExport(query: string): Observable<any> {
+    return this._http.get(
+      `/patients-diagnoses/indications/patients-export?${query}`
+    );
+  }
+
   getPatiensDiagnosesByIndications(): Observable<any> {
     return this._http.get(`/patients-diagnoses/indications?`);
   }

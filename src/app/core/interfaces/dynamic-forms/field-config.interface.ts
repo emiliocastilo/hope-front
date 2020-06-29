@@ -20,6 +20,7 @@ export interface FieldConfig {
   calculated_front?: boolean;
   enableWhen?: Array<any>;
   defaultValue?: any;
+  hidden?: boolean;
   params?: Array<string>;
   actions?: Array<string>;
   columns?: Array<any>;

@@ -4,10 +4,6 @@
     </app-column-chart>
 
     <div class="table-container" *ngIf="!showingDetail">
-      <div class="export-buttons">
-        <app-export-buttons></app-export-buttons>
-      </div>
-
       <app-table
         [columnsHeader]="columHeaders"
         [columnsData]="dataTable"
@@ -20,6 +16,9 @@
     </div>
 
     <div *ngIf="showingDetail" class="table-container">
+      <div class="export-buttons">
+        <app-export-buttons [dataToExport]="dataToExport"></app-export-buttons>
+      </div>
       <app-table
         [columnsHeader]="headersDetailsTable"
         [columnsData]="detailsDataTable"
