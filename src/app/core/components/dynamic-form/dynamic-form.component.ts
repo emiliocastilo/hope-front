@@ -98,7 +98,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.form.addControl(name, this.createControl(config));
           }
           if (config.type === 'table') {
-            this.form.addControl(name, this.createArray(config));
+            const controlArray = this.createArray(config);
+            controlArray.removeAt(0);
+            this.form.addControl(name, controlArray);
           }
         });
       this.detectCalculated();
