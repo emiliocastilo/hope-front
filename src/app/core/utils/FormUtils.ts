@@ -50,6 +50,8 @@ export default class FormUtils {
     fieldConfig.inputType = value.inputType;
     fieldConfig.formula = value.formula;
     fieldConfig.params = value.params;
+    fieldConfig.max = value.max ? value.max : '';
+    fieldConfig.min = value.min ? value.min : '';
     fieldConfig.actions = value.actions;
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
@@ -64,7 +66,7 @@ export default class FormUtils {
   }
 
   static parseValidations(validation: string[]): ValidatorFn[] {
-    let finalValidators: any[] = [];
+    const finalValidators: any[] = [];
     validation.forEach((element) => {
       //Required
       if (element.trim() === 'Validators.required') {
@@ -107,7 +109,6 @@ export default class FormUtils {
           )
         );
       }
-
       // dni
       // if (element.trim().startsWith("Validators.dni")){
       //   finalValidators.push(Validators.pattern('^[a-z]{3}[0-9]{6}[a-z]?$'));
