@@ -2,10 +2,12 @@
   <section class="col-md-12 p-0">
     <app-patient-header></app-patient-header>
   </section>
-  <section class="col-md-12 p-0">
+  <section class="col-md-12 p-0 mt-4">
     <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
   </section>
   <section class="col-md-12 p-0 mt-4">
+    {{ 'treatments' | translate }}
+    <hr />
     <div id="google-timeline-chart"></div>
   </section>
 </div>

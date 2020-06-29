@@ -213,5 +213,7 @@
   "monitoringSystem": "Monitoring system",
   "antibodyReference": "Antibody reference",
   "analysisReason": "Analysis reason",
-  "sericLevels": "seric Levels"
+  "sericLevels": "seric Levels",
+  "evolutionIndex": "Evolution index",
+  "treatments": "Treatments"
 }

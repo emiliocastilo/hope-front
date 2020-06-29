@@ -21,13 +21,22 @@ export class DashboardPatientsComponent implements OnInit {
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
   public configGantt: any = {
-    columns: ['BIOLOGICO', 'FAME', 'ADH', 'OTR'],
+    columns: ['BIOLOGICO', 'FAME', ' ', 'ADHERENCIA', 'OTR'],
     type: 'Timeline',
     data: [],
     options: {
       groupByRowLabel: true,
       avoidOverlappingGridLines: true,
       backgroundColor: '#FFFF',
+      fontName: 'Raleway, sans-serif',
+      timeline: {
+        barLabelStyle: {
+          fontName: 'Raleway, sans-serif',
+        },
+        rowLabelStyle: {
+          fontName: 'Raleway, sans-serif',
+        },
+      },
       hAxis: {
         format: 'YYYY',
         gridlines: {
@@ -72,13 +81,13 @@ export class DashboardPatientsComponent implements OnInit {
         const dataGantt = {
           BIOLOGICO: data.treatments.BIOLOGICO,
           FAME: data.treatments.FAME,
-          ADH: data.adherence,
+          ADHERENCIA: data.adherence,
         };
 
         this.configGantt.data = this.parseDataGantt(dataGantt);
         this.loadChart(this.configGantt);
 
-        const title = '';
+        const title = 'evolutionIndex';
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3'],
@@ -112,6 +121,21 @@ export class DashboardPatientsComponent implements OnInit {
     dataTable.addRows(data.data);
 
     chart.draw(dataTable, data.options);
+
+    const labels = container.getElementsByTagName('text');
+    console.log(labels);
+    Array.prototype.forEach.call(labels, function (label) {
+      if (label.getAttribute('text-anchor') === 'middle') {
+        label.setAttribute('font-family', '"Raleway", sans-serif');
+      }
+
+      if (
+        label.getAttribute('font-weight') !== 'bold' &&
+        label.getAttribute('text-anchor') === 'middle'
+      ) {
+        label.setAttribute('display', 'none');
+      }
+    });
   }
 
   private parseDataChart(data: any): ChartObjectModel[] {
@@ -140,7 +164,7 @@ export class DashboardPatientsComponent implements OnInit {
     const objectChart = [];
 
     this.configGantt.columns.forEach((value: string, key: number) => {
-      if (data[value] && value !== 'ADH') {
+      if (data[value] && value !== 'ADHERENCIA') {
         data[value].forEach((element: any, keyT: number) => {
           let objectRow = [
             value,
@@ -156,7 +180,7 @@ export class DashboardPatientsComponent implements OnInit {
           }
           objectChart.push(objectRow);
         });
-      } else if (data[value] && value === 'ADH') {
+      } else if (data[value] && value === 'ADHERENCIA') {
         data[value].forEach((element: any, keyTwo: number) => {
           const dateStart = new Date(element.date);
           let objectRow = [

@@ -213,5 +213,7 @@
   "monitoringSystem": "Sistema de monitorización",
   "antibodyReference": "Referencia del anticuerpo",
   "analysisReason": "Motivo del análisis",
-  "sericLevels": "Niveles séricos"
+  "sericLevels": "Niveles séricos",
+  "evolutionIndex": "Índice evolutivo",
+  "treatments": "Tratamientos"
 }
