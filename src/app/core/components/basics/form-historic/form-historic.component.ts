@@ -12,6 +12,7 @@ export class FormHistoricComponent implements OnInit {
   group: FormGroup;
   oldValue: any;
   historicField: any;
+  selectedDate: string;
 
   constructor() {}
 
@@ -55,9 +56,7 @@ export class FormHistoricComponent implements OnInit {
   }
 
   onSelectDate(event: any) {
-    localStorage.setItem(
-      'historicDate',
-      new Date(event.target.value).toISOString()
-    );
+    this.selectedDate = new Date(event.target.value).toISOString();
+    localStorage.setItem('historicDate', this.selectedDate);
   }
 }

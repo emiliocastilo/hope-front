@@ -16,7 +16,7 @@ export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
   public filledForm: any;
-  @Input() key = 'HISTORY';
+  @Input() key = '';
   patient: PatientModel;
   emptyForm: any;
 

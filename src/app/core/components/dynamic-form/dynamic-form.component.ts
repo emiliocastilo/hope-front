@@ -9,7 +9,6 @@ import {
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
-import { NotificationService } from '../../services/notification.service';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -36,18 +35,15 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.value;
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private _notification: NotificationService
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.createGroup();
   }
 
   isNormalType(type: string) {
-    const notArray = ['table', 'historic'];
-    const found = notArray.find((e) => e === type);
+    const isArray = ['table', 'historic'];
+    const found = isArray.find((e) => e === type);
     if (found) {
       return false;
     } else {
@@ -165,7 +161,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   cleanClick(event: Event) {
     this.controls.forEach((control) => {
-      if (control.type != 'title' && !control.disabled && !control.hidden) {
+      if (control.type !== 'title' && !control.disabled && !control.hidden) {
         if (control.type === 'checkbox') {
           this.form.controls[control.name].setValue(false);
         } else {
