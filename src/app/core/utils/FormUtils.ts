@@ -2,8 +2,7 @@ import { FieldConfig } from '../interfaces/dynamic-forms/field-config.interface'
 import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
-import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
-import { Button } from 'protractor';
+import { ValidatorFn, Validators } from '@angular/forms';
 
 export default class FormUtils {
   static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';

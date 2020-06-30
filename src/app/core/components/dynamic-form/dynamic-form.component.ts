@@ -57,7 +57,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   detectCalculated() {
     this.changes.subscribe((change) => {
-      let params = [];
+      const params = [];
       // Calculated front
       let calculatedFields = this.config.filter((e) => e.calculated_front);
       if (calculatedFields && calculatedFields.length > 0) {

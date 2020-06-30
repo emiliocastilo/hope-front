@@ -21,6 +21,7 @@
     [attr.id]="config.name"
     [attr.name]="config.name"
     class="dynamic-field"
+    [attr.disabled]="config.calculated_front"
     [type]="config.name.includes('date') ? 'date' : 'number'"
     (change)="onChange($event, config.name)"
   />

@@ -16,14 +16,16 @@ export class FormHistoricComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.recoverHistoric();
+    if (this.config.historic && this.config.historic.length > 0) {
+      this.recoverHistoric();
+    }
   }
 
   recoverHistoric() {
     setTimeout(() => {
+      const control = this.group.controls[this.config.name] as FormArray;
+      control.removeAt(0);
       this.config.historic.forEach((e) => {
-        const control = this.group.controls[this.config.name] as FormArray;
-        control.removeAt(0);
         this.group.controls[this.config.name].value.push(e);
       });
     }, 1000);
@@ -34,27 +36,28 @@ export class FormHistoricComponent implements OnInit {
   }
 
   bindToForm(field: any) {
-    const isDatePicked = this.group.value['date'][0].date;
     if (!this.oldValue) {
       const control = this.group.controls[this.config.name] as FormArray;
       control.removeAt(0);
     }
-    if (isDatePicked) {
-      field = { ...field, date: isDatePicked };
-    }
+    field = { ...field, date: localStorage.getItem('historicDate') };
     this.group.controls[this.config.name].value.push(field);
   }
 
   onChange(event: any, name: string) {
-    let selectedDate, selectedValue;
     if (name.includes('date')) {
-      selectedDate = new Date(event.target.value).toISOString();
-    } else {
-      selectedValue = event.target.value;
+      this.onSelectDate(event);
     }
     this.bindToForm({
-      date: selectedDate,
-      value: selectedValue ? selectedValue : event.target.value,
+      date: localStorage.getItem('historicDate'),
+      value: event.target.value,
     });
+  }
+
+  onSelectDate(event: any) {
+    localStorage.setItem(
+      'historicDate',
+      new Date(event.target.value).toISOString()
+    );
   }
 }
