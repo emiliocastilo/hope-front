@@ -1,0 +1,42 @@
+<div class="modal-content">
+  <app-generic-modal-header
+    [title]="title"
+    (close)="onClose()"
+  ></app-generic-modal-header>
+  <section class="row">
+    <div class="col-2" *ngFor="let chart of dataParsed">
+      <label [for]="chart.chartTitle">{{ chart.chartTitle }}</label>
+      <input
+        [name]="chart.chartTitle"
+        type="checkbox"
+        [id]="chart.chartTitle"
+        [(ngModel)]="chart.show"
+      />
+    </div>
+  </section>
+
+  <section class="row" *ngFor="let chart of dataParsed">
+    <div class="col-6" *ngIf="chart.show">
+      <app-line-chart [config]="chart"> </app-line-chart>
+    </div>
+    <div class="col-6" *ngIf="chart.show">
+      <app-table
+        [showActionButtons]="false"
+        [sortable]="false"
+        [columnsHeader]="columnsHeader"
+        [columnsData]="chart.results[0].series"
+      >
+      </app-table>
+    </div>
+  </section>
+
+  <section class="modal-content_button-container">
+    <app-button
+      type="button"
+      clasesBtn="btn-danger btn-sm mx-2"
+      icono="x"
+      texto="btn.close"
+      (click)="onClose()"
+    ></app-button>
+  </section>
+</div>

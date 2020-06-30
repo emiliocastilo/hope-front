@@ -255,5 +255,6 @@
   "spleen": "Tam. Spleen(cm)",
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
-  "scanDate": "Date"
+  "scanDate": "Date",
+  "value": "value"
 }

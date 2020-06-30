@@ -1,0 +1,9 @@
+.modal-content {
+  padding: 3rem;
+  border: unset;
+
+  .modal-content_button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

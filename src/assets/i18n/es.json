@@ -257,7 +257,8 @@
   "spleen": "Tam. Bazo(cm)",
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
-  "scanDate": "Fecha"
+  "scanDate": "Fecha",
+  "value": "Valor"
 }
 
 

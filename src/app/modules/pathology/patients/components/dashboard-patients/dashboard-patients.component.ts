@@ -10,6 +10,8 @@ import { PatientsDashboardService } from 'src/app/modules/management/services/pa
 import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
 import { GraphsService } from '../../../../dashboard/services/graphs.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -37,7 +39,8 @@ export class DashboardPatientsComponent implements OnInit {
   constructor(
     private _patientService: PatientsService,
     private _patientDashboardService: PatientsDashboardService,
-    private _graphService: GraphsService
+    private _graphService: GraphsService,
+    private _modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -89,5 +92,48 @@ export class DashboardPatientsComponent implements OnInit {
       }
     );
     return arrayData;
+  }
+
+  public showModal() {
+    const data = [
+      {
+        name: 'parsi',
+        value: [
+          {
+            date: new Date(),
+            value: '1',
+          },
+          {
+            date: new Date('2020-06-30T00:00:00'),
+            value: '2',
+          },
+        ],
+      },
+      {
+        name: 'dlqi',
+        value: [
+          {
+            date: new Date(),
+            value: '1',
+          },
+          {
+            date: new Date('2020-06-30T00:00:00'),
+            value: '2',
+          },
+        ],
+      },
+    ];
+
+    console.log(data);
+
+    const modalRef = this._modalService.open(ManyChartModalComponent, {
+      size: 'lg',
+    });
+
+    modalRef.componentInstance.title = 'Mock tes';
+    modalRef.componentInstance.data = data;
+    modalRef.componentInstance.close.subscribe(() => {
+      modalRef.close();
+    });
   }
 }
