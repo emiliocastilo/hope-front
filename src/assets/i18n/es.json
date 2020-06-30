@@ -258,5 +258,7 @@
   "spleen": "Tam. Bazo(cm)",
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
-  "scanDate": "Fecha"
+  "scanDate": "Fecha",
+  "evolutionIndex": "Evolución de índices",
+  "treatments": "Tratamientos"
 }
