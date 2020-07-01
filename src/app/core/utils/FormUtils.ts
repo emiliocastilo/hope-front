@@ -136,11 +136,14 @@ export default class FormUtils {
   static parseEntriesForm(values: any) {
     const form = [];
     Object.entries(values).forEach((e) => {
+      // no se borra de momento porque en las tablas que su name contenga table se hacia una causitica
+      // especifica para no romper el resto de formularios y se queda de momento asi porque no es necesario
       const entry = {
         name: e[0],
-        value: e[0].toLowerCase().includes('table')
-          ? JSON.stringify(e[1])
-          : e[1],
+        value: e[1]
+          // e[0].toLowerCase().includes('table')
+          // ? JSON.stringify(e[1])
+          // : e[1],
       };
       form.push(entry);
     });
