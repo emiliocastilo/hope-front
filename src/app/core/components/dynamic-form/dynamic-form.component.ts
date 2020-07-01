@@ -9,6 +9,8 @@ import {
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
+import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -35,7 +37,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.value;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private _modalService: NgbModal) {}
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -170,6 +172,46 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           this.form.controls[control.name].setValue('');
         }
       }
+    });
+  }
+
+  showChartFront(event: Event) {
+    const parseData = [];
+    this.controls.forEach((control) => {
+      if (
+        control.type === 'historic' &&
+        control.historic &&
+        control.name !== 'date'
+      ) {
+        const object = {
+          name: control.name,
+          values: this.parseIsoToDate(control.historic),
+        };
+        parseData.push(object);
+      }
+    });
+    this.showModal(parseData);
+  }
+
+  private parseIsoToDate(array: any[]): any[] {
+    const parseArrayData = array.map((object: any) => {
+      object.date = object.date ? new Date(object.date) : object.date;
+      return object;
+    });
+    return parseArrayData;
+  }
+
+  private showModal(data: any[]) {
+    const modalRef = this._modalService.open(ManyChartModalComponent, {
+      size: 'lg',
+    });
+    console.log(this.config);
+    modalRef.componentInstance.title = this.config[0]
+      ? this.config[0].name
+      : '';
+    modalRef.componentInstance.data = data;
+    modalRef.componentInstance.close.subscribe(() => {
+      modalRef.close();
     });
   }
 

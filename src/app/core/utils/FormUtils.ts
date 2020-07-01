@@ -141,7 +141,7 @@ export default class FormUtils {
       // no se borra de momento porque en las tablas que su name contenga table se hacia una causitica
       // especifica para no romper el resto de formularios y se queda de momento asi porque no es necesario
       const entry = {
-        type: e[1].length ? 'historic' : '',
+        type: e[1] ? (e[1].length ? 'historic' : '') : '',
         name: e[0],
         value: e[1],
         // e[0].toLowerCase().includes('table')

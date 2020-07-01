@@ -24,7 +24,6 @@ export class LineChartComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.config);
     Object.keys(this.defaultValues).forEach((key: string) => {
       this.config[key] =
         this.config[key] !== undefined

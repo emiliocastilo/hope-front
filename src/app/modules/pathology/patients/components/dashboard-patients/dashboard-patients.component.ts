@@ -8,7 +8,6 @@ import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart
 import { ScriptLoaderService } from 'angular-google-charts';
 import { GraphsService } from '../../../../dashboard/services/graphs.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -63,8 +62,6 @@ export class DashboardPatientsComponent implements OnInit {
   constructor(
     private _patientService: PatientsService,
     private _patientDashboardService: PatientsDashboardService,
-    private _graphService: GraphsService,
-    private _modalService: NgbModal,
     private loaderService: ScriptLoaderService
   ) {}
 
@@ -200,72 +197,5 @@ export class DashboardPatientsComponent implements OnInit {
       }
     });
     return objectChart;
-  }
-
-  public showModal() {
-    const data = [
-      {
-        name: 'parsi',
-        value: [
-          {
-            date: new Date('2020-06-29T00:00:00'),
-            value: '1',
-          },
-          {
-            date: new Date('2020-06-30T00:00:00'),
-            value: '2',
-          },
-          {
-            date: new Date('2020-06-31T00:00:00'),
-            value: '2',
-          },
-          {
-            date: new Date('2020-07-02T00:00:00'),
-            value: '4',
-          },
-        ],
-      },
-      {
-        name: 'dlqi',
-        value: [
-          {
-            date: new Date('2020-04-30T00:00:00'),
-            value: '1',
-          },
-          {
-            date: new Date('2020-05-30T00:00:00'),
-            value: '2',
-          },
-          {
-            date: new Date('2020-06-30T00:00:00'),
-            value: '4',
-          },
-          {
-            date: new Date('2020-07-30T00:00:00'),
-            value: '6',
-          },
-          {
-            date: new Date('2020-08-30T00:00:00'),
-            value: '2',
-          },
-          {
-            date: new Date('2020-09-30T00:00:00'),
-            value: '1',
-          },
-        ],
-      },
-    ];
-
-    console.log(data);
-
-    const modalRef = this._modalService.open(ManyChartModalComponent, {
-      size: 'lg',
-    });
-
-    modalRef.componentInstance.title = 'Mock tes';
-    modalRef.componentInstance.data = data;
-    modalRef.componentInstance.close.subscribe(() => {
-      modalRef.close();
-    });
   }
 }

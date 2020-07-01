@@ -46,7 +46,7 @@ export class ManyChartModalComponent implements OnInit {
       },
     ];
 
-    data.value.forEach((valueTwo: any, keyTwo: number) => {
+    data.values.forEach((valueTwo: any, keyTwo: number) => {
       const object: ChartObjectModel = {
         value: valueTwo.value,
         name: valueTwo.date,
@@ -84,7 +84,7 @@ export class ManyChartModalComponent implements OnInit {
   }
 
   private parseDataToTable(data: any, currentPage: number): PaginationModel {
-    const tableData = data.value.map((value: any) => {
+    const tableData = data.values.map((value: any) => {
       return {
         value: value.value,
         date: value.date,
@@ -98,7 +98,7 @@ export class ManyChartModalComponent implements OnInit {
       paginationData: {
         number: 0,
         size: this.paginationData.size,
-        totalElements: data.value.length,
+        totalElements: data.values.length,
       },
       all: tableData,
     };

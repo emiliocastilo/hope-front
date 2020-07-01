@@ -56,7 +56,11 @@
       </div>
       <div *ngIf="button === 'graphs'">
         <div class="submit-button">
-          <button class="btn btn-primary" type="button">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="showChartFront($event)"
+          >
             {{ 'btn.graphs' | translate }}
           </button>
         </div>
