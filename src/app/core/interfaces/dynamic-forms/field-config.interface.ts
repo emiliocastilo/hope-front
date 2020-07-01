@@ -18,6 +18,12 @@ export interface FieldConfig {
   inputType?: string;
   formula?: any;
   calculated_front?: boolean;
+  calculated_back?: any;
+  endpoint?: string;
+  event?: string;
+  graphBack?: boolean;
+  max?: any;
+  min?: any;
   enableWhen?: Array<any>;
   defaultValue?: any;
   hidden?: boolean;

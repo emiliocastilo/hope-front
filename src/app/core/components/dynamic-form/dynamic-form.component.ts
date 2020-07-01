@@ -1,15 +1,16 @@
 import {
   Component,
-  OnInit,
-  Input,
-  Output,
   EventEmitter,
+  Input,
   OnChanges,
+  OnInit,
+  Output,
 } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -22,6 +23,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() buttons: string[] = [];
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
+  public f: any;
 
   get controls() {
     return this.config.filter(({ type }) => type !== 'button');
@@ -38,7 +40,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _notification: NotificationService
+    private _notification: NotificationService,
+    private _http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -47,7 +50,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   detectCalculated() {
     this.changes.subscribe((change) => {
-      let params = [];
+      const params = [];
       // Calculated front
       let calculatedFields = this.config.filter((e) => e.calculated_front);
       if (calculatedFields && calculatedFields.length > 0) {
@@ -61,21 +64,58 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           });
         });
       }
-      // Enable when
-      calculatedFields = this.config.filter(
-        (e) => e.enableWhen && e.enableWhen.length >= 2
+      this.enabledThen(this.config);
+    });
+  }
+
+  enabledThen(config) {
+    const calculatedFields = config.filter(
+      (e) => e.enableWhen && e.enableWhen.length >= 2
+    );
+    if (calculatedFields && calculatedFields.length > 0) {
+      calculatedFields.forEach((field) => {
+        if (
+          this.form.controls[field.enableWhen[0]].value === field.enableWhen[1]
+        ) {
+          this.setDisabled(field.name, false);
+        } else {
+          this.setDisabled(field.name, true);
+          this.form.controls[field.name].setValue('', { emitEvent: false });
+        }
+      });
+    }
+  }
+
+  detectCalculatedBack() {
+    this.changes.subscribe((change) => {
+      const params = [];
+      // Calculated back
+      const calculatedFields = this.config.filter(
+        (e) => e.calculated_back && e.event === 'change'
       );
       if (calculatedFields && calculatedFields.length > 0) {
         calculatedFields.forEach((field) => {
-          if (
-            this.form.controls[field.enableWhen[0]].value ===
-            field.enableWhen[1]
-          ) {
-            this.setDisabled(field.name, false);
-          } else {
-            this.setDisabled(field.name, true);
-            this.form.controls[field.name].setValue('', { emitEvent: false });
+          field.params.forEach((e, i) => {
+            params[i] = change[e];
+          });
+          const patient = JSON.parse(localStorage.getItem('selectedUser'));
+          let urlEndpoint = field.endpoint;
+          urlEndpoint = urlEndpoint.replace('${patient}', patient.id);
+          for (let f = 0; f < params.length; f++) {
+            const configParams = this.config.filter(
+              (e) => e.name === params[f]
+            );
+            if (configParams != null && configParams.length > 1) {
+              urlEndpoint = urlEndpoint.replace(
+                '${' + f + '}',
+                configParams[0].value
+              );
+            }
           }
+          const value = this._http.get(urlEndpoint).toPromise();
+          this.form.controls[field.name].setValue(value ? value : '', {
+            emitEvent: false,
+          });
         });
       }
     });
@@ -101,6 +141,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.form.addControl(name, this.createArray(config));
           }
         });
+      this.detectCalculatedBack();
       this.detectCalculated();
     }
   }
