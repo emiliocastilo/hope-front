@@ -16,7 +16,7 @@ export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
   public filledForm: any;
-  @Input() key = 'TEST';
+  @Input() key = '';
   patient: PatientModel;
   emptyForm: any;
 
@@ -59,7 +59,6 @@ export class FormsComponent implements OnInit {
 
   submit(value: { [name: string]: any }) {
     if (value) {
-      this.checkHistoricField(value);
       const form = {
         template: this.key,
         data: FormUtils.parseEntriesForm(value),
@@ -74,29 +73,6 @@ export class FormsComponent implements OnInit {
     } else {
       this._notification.showErrorToast('error_form');
     }
-  }
-
-  checkHistoricField(val: any) {
-    this.emptyForm.forEach((field) => {
-      if (field.type === 'historic') {
-        const entry = {
-          date: new Date().toISOString(),
-          value: val && val[field.name],
-        };
-        field.historic.push(entry);
-        val[field.name] = '';
-      }
-    });
-    const json = {
-      key: this.key,
-      form: JSON.stringify(this.emptyForm),
-    };
-    this._formsService.updateForm(json).subscribe(
-      (response) => {
-        console.log(response);
-      },
-      (err) => console.log(err)
-    );
   }
 
   fillForm(form: any) {

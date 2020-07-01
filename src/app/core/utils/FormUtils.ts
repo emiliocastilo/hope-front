@@ -2,8 +2,7 @@ import { FieldConfig } from '../interfaces/dynamic-forms/field-config.interface'
 import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
-import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
-import { Button } from 'protractor';
+import { ValidatorFn, Validators } from '@angular/forms';
 
 export default class FormUtils {
   static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
@@ -128,6 +127,9 @@ export default class FormUtils {
       filled.forEach((e) => {
         if (element.name === e.name) {
           element.value = e.value;
+          if (e.type === 'historic') {
+            element.historic = e.value;
+          }
         }
       });
     });
@@ -135,10 +137,11 @@ export default class FormUtils {
 
   static parseEntriesForm(values: any) {
     const form = [];
-    Object.entries(values).forEach((e) => {
+    Object.entries(values).forEach((e: any) => {
       // no se borra de momento porque en las tablas que su name contenga table se hacia una causitica
       // especifica para no romper el resto de formularios y se queda de momento asi porque no es necesario
       const entry = {
+        type: e[1].length ? 'historic' : '',
         name: e[0],
         value: e[1],
         // e[0].toLowerCase().includes('table')
