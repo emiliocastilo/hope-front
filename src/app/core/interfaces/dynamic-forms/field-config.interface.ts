@@ -28,4 +28,5 @@ export interface FieldConfig {
   columns?: Array<any>;
   fields?: Array<any>;
   historic?: Array<any>;
+  endpoint?: string;
 }

@@ -1,0 +1,57 @@
+<div class="form-group dynamic-group field invalid" [formGroup]="group">
+  <app-input
+    [id]="config.name"
+    [name]="config.name"
+    [formControlName]="config.name"
+    [isDisabled]="true"
+    [label]="config.label | translate"
+  >
+  </app-input>
+  <app-button
+    (click)="openModal(content)"
+    clasesBtn="btn-primary"
+    icono="search"
+  >
+  </app-button>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Buscador</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body custom-modal-body" [formGroup]="modalForm">
+      <app-input
+        id="code"
+        name="code"
+        formControlName="code"
+        [isDisabled]="false"
+        [label]="'code' | translate"
+        (keyup)="onSearch($event)"
+      >
+      </app-input>
+      <app-input
+        id="description"
+        name="description"
+        formControlName="description"
+        [isDisabled]="false"
+        [label]="'description' | translate"
+        (keyup)="onSearch($event)"
+      >
+      </app-input>
+      <div *ngIf="response">
+        <ul *ngFor="let element of response">
+          <li>
+            {{ element.code + ' - ' + element.description }}
+            <button (click)="selectResult(element)">select</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-template>
+</div>
