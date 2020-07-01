@@ -56,7 +56,9 @@ export class FormListComponent implements OnInit {
   onSaveRow() {
     event.preventDefault();
     if (!this.isAddingNewLine) {
-      this.group.controls[this.config.name].value[this.enableEditIndex] = this.rows[this.enableEditIndex];
+      this.group.controls[this.config.name].value[
+        this.enableEditIndex
+      ] = this.rows[this.enableEditIndex];
     } else {
       this.bindToForm();
     }
@@ -119,7 +121,7 @@ export class FormListComponent implements OnInit {
       case 'edit':
         this.isEditing = true;
         this.enableEditIndex = i;
-        this.lastEditLine = {...this.rows[i]};
+        this.lastEditLine = { ...this.rows[i] };
         break;
       case 'delete':
         this.onDeleteRow(i);

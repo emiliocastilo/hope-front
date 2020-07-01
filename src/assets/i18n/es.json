@@ -211,7 +211,8 @@
   "accumulatedAverageCost": "Coste medio accumulado",
   "accumulatedCost": "Coste acumulado",
   "personalData": "Datos personales",
-  "oldValue": "{{value}} anterior",
+  "oldValue": "Valor anterior",
+  "actualValue": "Valor actual",
   "analysisDate": "Fecha del análisis",
   "monitoring": "Monitorización",
   "biologicalDrug": "Medicamento biológico",
@@ -261,5 +262,3 @@
   "evolutionIndex": "Evolución de índices",
   "treatments": "Tratamientos"
 }
-
-

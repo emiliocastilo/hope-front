@@ -1,10 +1,10 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
+  <div>{{ config.label | translate }}</div>
   <label
     [attr.for]="config.name"
     class="firefox-position dynamic-label dynamic-label-old"
-    [translate]="'oldValue'"
-    [translateParams]="{ value: config.label }"
   >
+    {{ 'oldValue' | translate }}
   </label>
   <input
     [attr.id]="config.name + '-old'"
@@ -15,14 +15,14 @@
     [attr.disabled]="true"
   />
   <label [attr.for]="config.name" class="firefox-position dynamic-label">
-    {{ config.label | translate }}
+    {{ 'actualValue' | translate }}
   </label>
   <input
     [attr.id]="config.name"
     [attr.name]="config.name"
-    [formControlName]="config.name"
     class="dynamic-field"
-    type="number"
-    [attr.value]="config.value"
+    [attr.disabled]="config.calculated_front"
+    [type]="config.name.includes('date') ? 'date' : 'number'"
+    (change)="onChange($event, config.name)"
   />
 </div>

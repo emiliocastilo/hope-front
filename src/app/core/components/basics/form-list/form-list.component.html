@@ -1,6 +1,11 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
   <div class="add-btn">
-    <app-button [readOnly]="isEditing" (click)="newRow()" clasesBtn="btn-primary" icono="plus-circle">
+    <app-button
+      [readOnly]="isEditing"
+      (click)="newRow()"
+      clasesBtn="btn-primary"
+      icono="plus-circle"
+    >
     </app-button>
   </div>
   <div class="container-fluid master-table">

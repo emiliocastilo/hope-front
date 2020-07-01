@@ -9,7 +9,6 @@ import {
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
-import { NotificationService } from '../../services/notification.service';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -36,18 +35,25 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.value;
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private _notification: NotificationService
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.createGroup();
   }
 
+  isNormalType(type: string) {
+    const isArray = ['table', 'historic'];
+    const found = isArray.find((e) => e === type);
+    if (found) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   detectCalculated() {
     this.changes.subscribe((change) => {
-      let params = [];
+      const params = [];
       // Calculated front
       let calculatedFields = this.config.filter((e) => e.calculated_front);
       if (calculatedFields && calculatedFields.length > 0) {
@@ -94,13 +100,16 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         .filter((control) => !controls.includes(control))
         .forEach((name) => {
           const config = this.config.find((control) => control.name === name);
-          if (config.type !== 'title' && config.type !== 'table') {
+          if (this.isNormalType(config.type)) {
             this.form.addControl(name, this.createControl(config));
           }
           if (config.type === 'table') {
             const controlArray = this.createArray(config);
             controlArray.removeAt(0);
             this.form.addControl(name, controlArray);
+          }
+          if (config.type === 'historic') {
+            this.form.addControl(name, this.createHistoric());
           }
         });
       this.detectCalculated();
@@ -135,6 +144,13 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.fb.array([group]);
   }
 
+  createHistoric() {
+    const group = this.fb.group({});
+    group.addControl('date', this.fb.control(''));
+    group.addControl('value', this.fb.control(''));
+    return this.fb.array([group]);
+  }
+
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
@@ -147,7 +163,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   cleanClick(event: Event) {
     this.controls.forEach((control) => {
-      if (control.type != 'title' && !control.disabled && !control.hidden) {
+      if (control.type !== 'title' && !control.disabled && !control.hidden) {
         if (control.type === 'checkbox') {
           this.form.controls[control.name].setValue(false);
         } else {
