@@ -4,12 +4,15 @@
     (close)="onClose()"
   ></app-generic-modal-header>
   <section class="row">
-    <div class="col-2" *ngFor="let chart of dataParsed">
-      <label [for]="chart.chartTitle">{{ chart.chartTitle }}</label>
+    <div
+      class="col-2 modal-content_checkbox-container"
+      *ngFor="let chart of dataParsed"
+    >
+      <label [for]="chart.chartTitle">{{ chart.chartConfig.chartTitle }}</label>
       <input
-        [name]="chart.chartTitle"
+        [name]="chart.chartConfig.chartTitle"
         type="checkbox"
-        [id]="chart.chartTitle"
+        [id]="chart.chartConfig.chartTitle"
         [(ngModel)]="chart.show"
       />
     </div>
@@ -17,16 +20,21 @@
 
   <section class="row" *ngFor="let chart of dataParsed">
     <div class="col-6" *ngIf="chart.show">
-      <app-line-chart [config]="chart"> </app-line-chart>
+      <app-line-chart [config]="chart.chartConfig"> </app-line-chart>
     </div>
-    <div class="col-6" *ngIf="chart.show">
+    <div class="col-6 modal-content_table-container" *ngIf="chart.show">
       <app-table
         [showActionButtons]="false"
         [sortable]="false"
         [columnsHeader]="columnsHeader"
-        [columnsData]="chart.results[0].series"
+        [columnsData]="chart.tableConfig.series"
       >
       </app-table>
+      <app-pagination
+        [paginationData]="chart.tableConfig.paginationData"
+        (selectPage)="selectedPage($event)"
+      >
+      </app-pagination>
     </div>
   </section>
 

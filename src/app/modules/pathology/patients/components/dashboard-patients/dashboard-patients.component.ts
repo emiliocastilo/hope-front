@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PatientModel } from '../../models/patient.model';
-import { FormGroup } from '@angular/forms';
-import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
-import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
 import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
+import { ScriptLoaderService } from 'angular-google-charts';
 import { GraphsService } from '../../../../dashboard/services/graphs.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
@@ -22,25 +19,53 @@ export class DashboardPatientsComponent implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
-  // public patientKeysToShow: string[] = [
-  //   'name',
-  //   'nhc',
-  //   'healthCard',
-  //   'dni',
-  //   'phone',
-  //   'genderCode',
-  // ];
   public selectedItem: number;
   public selectedPatient: PatientModel;
-
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
+  public configGantt: any = {
+    columns: ['BIOLOGICO', 'FAME', ' ', 'ADHERENCIA', 'OTR'],
+    type: 'Timeline',
+    data: [],
+    options: {
+      groupByRowLabel: true,
+      avoidOverlappingGridLines: true,
+      backgroundColor: '#FFFF',
+      fontName: 'Raleway, sans-serif',
+      timeline: {
+        barLabelStyle: {
+          fontName: 'Raleway, sans-serif',
+        },
+        rowLabelStyle: {
+          fontName: 'Raleway, sans-serif',
+        },
+      },
+      hAxis: {
+        format: 'YYYY',
+        gridlines: {
+          count: -1,
+        },
+      },
+      vAxis: {
+        scaleType: 'log',
+      },
+      colors: [
+        '#e66584',
+        '#5ba6e0',
+        '#e4804b',
+        '#4375bb',
+        '#fbbf53',
+        '#57833b',
+      ],
+    },
+  };
 
   constructor(
     private _patientService: PatientsService,
     private _patientDashboardService: PatientsDashboardService,
     private _graphService: GraphsService,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private loaderService: ScriptLoaderService
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +83,16 @@ export class DashboardPatientsComponent implements OnInit {
       .subscribe((data) => {
         this.dataChart = this.parseDataChart(data);
 
-        const title = '';
+        const dataGantt = {
+          BIOLOGICO: data.treatments.BIOLOGICO,
+          FAME: data.treatments.FAME,
+          ADHERENCIA: data.adherence,
+        };
+
+        this.configGantt.data = this.parseDataGantt(dataGantt);
+        this.loadChart(this.configGantt);
+
+        const title = 'evolutionIndex';
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3'],
@@ -70,6 +104,42 @@ export class DashboardPatientsComponent implements OnInit {
           this.dataChart
         );
       });
+  }
+
+  private loadChart(data: any): void {
+    this.loaderService.loadChartPackages(data.type).subscribe(() => {
+      google.charts.load('current', { packages: ['timeline'] });
+      google.charts.setOnLoadCallback(this.drawChart(data));
+    });
+  }
+
+  public drawChart(data: any): any {
+    const container = document.getElementById('google-timeline-chart');
+    const chart = new google.visualization.Timeline(container);
+    const dataTable = new google.visualization.DataTable();
+    dataTable.addColumn({ type: 'string', id: 'Title' });
+    dataTable.addColumn({ type: 'string', id: 'Name' });
+    dataTable.addColumn({ type: 'string', role: 'tooltip' });
+    dataTable.addColumn({ type: 'date', id: 'Start' });
+    dataTable.addColumn({ type: 'date', id: 'End' });
+
+    dataTable.addRows(data.data);
+
+    chart.draw(dataTable, data.options);
+
+    const labels = container.getElementsByTagName('text');
+    Array.prototype.forEach.call(labels, function (label) {
+      if (label.getAttribute('text-anchor') === 'middle') {
+        label.setAttribute('font-family', '"Raleway", sans-serif');
+      }
+
+      if (
+        label.getAttribute('font-weight') !== 'bold' &&
+        label.getAttribute('text-anchor') === 'middle'
+      ) {
+        label.setAttribute('display', 'none');
+      }
+    });
   }
 
   private parseDataChart(data: any): ChartObjectModel[] {
@@ -94,6 +164,44 @@ export class DashboardPatientsComponent implements OnInit {
     return arrayData;
   }
 
+  private parseDataGantt(data: any): ChartObjectModel[] {
+    const objectChart = [];
+
+    this.configGantt.columns.forEach((value: string, key: number) => {
+      if (data[value] && value !== 'ADHERENCIA') {
+        data[value].forEach((element: any, keyT: number) => {
+          let objectRow = [
+            value,
+            element.medicine.actIngredients,
+            element.medicine.actIngredients,
+            new Date(element.initDate),
+            new Date(),
+          ];
+
+          if (element.finalDate) {
+            let endDate = new Date(element.finalDate);
+            objectRow[objectRow.length - 1] = endDate;
+          }
+          objectChart.push(objectRow);
+        });
+      } else if (data[value] && value === 'ADHERENCIA') {
+        data[value].forEach((element: any, keyTwo: number) => {
+          const dateStart = new Date(element.date);
+          let objectRow = [
+            value,
+            '',
+            element.description,
+            dateStart,
+            dateStart,
+          ];
+
+          objectChart.push(objectRow);
+        });
+      }
+    });
+    return objectChart;
+  }
+
   public showModal() {
     const data = [
       {
@@ -106,6 +214,14 @@ export class DashboardPatientsComponent implements OnInit {
           {
             date: new Date('2020-06-30T00:00:00'),
             value: '2',
+          },
+          {
+            date: new Date('2020-06-31T00:00:00'),
+            value: '2',
+          },
+          {
+            date: new Date('2020-07-01T00:00:00'),
+            value: '4',
           },
         ],
       },

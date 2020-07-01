@@ -23,6 +23,7 @@ import { InterceptorService } from './core/services/interceptor/interceptor.serv
 import { LoginService } from './core/services/login/login.service';
 import { DatePipe } from '@angular/common';
 import { IconsModule } from './icons/icons.module';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -36,6 +37,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgbModule,
     IconsModule,
     RouterModule,
+    GoogleChartsModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

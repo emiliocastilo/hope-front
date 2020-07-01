@@ -36,4 +36,13 @@ export class LineChartComponent implements OnInit {
   public onSelect(value: any) {
     this.select.emit(value);
   }
+
+  public formatDate(date: string | Date): string | Date {
+    let formatedDate = date;
+
+    if (date && Object.prototype.toString.call(date) === '[object Date]') {
+      formatedDate = new Date(date).toLocaleDateString('es-Es');
+    }
+    return formatedDate;
+  }
 }

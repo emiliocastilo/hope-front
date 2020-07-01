@@ -3,7 +3,6 @@ export class ChartObjectModel {
     public name: string,
     public value?: number,
     public extra?: any,
-    public series?: any,
-    public date?: Date | string
+    public series?: any
   ) {}
 }

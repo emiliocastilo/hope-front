@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
-
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import moment from 'moment';
 
 @Component({
   selector: 'app-form-list',
@@ -17,12 +17,13 @@ export class FormListComponent implements OnInit {
   isEditing = false;
   enableEditIndex: number;
   detailArray: Array<any>;
-
+  isAddingNewLine = false;
+  lastEditLine: any;
   constructor(private modalService: NgbModal, private datePipe: DatePipe) {}
 
   ngOnInit() {
     if (this.config.value && this.config.value.length > 0) {
-      this.rows = JSON.parse(this.config.value);
+      this.rows = this.config.value;
       setTimeout(() => {
         this.bindToForm();
       }, 1000);
@@ -30,16 +31,19 @@ export class FormListComponent implements OnInit {
   }
 
   newRow() {
-    let newRow = {};
-    this.config.fields.forEach((field) => {
-      newRow = {
-        ...newRow,
-        [field.name]: field.type === 'select' ? field.options[0].name : '',
-      };
-    });
-    this.rows.push(newRow);
-    this.isEditing = true;
-    this.enableEditIndex = this.rows.length - 1;
+    if (!this.isEditing) {
+      let newRow = {};
+      this.config.fields.forEach((field) => {
+        newRow = {
+          ...newRow,
+          [field.name]: field.type === 'select' ? field.options[0].name : '',
+        };
+      });
+      this.rows.push(newRow);
+      this.isEditing = true;
+      this.enableEditIndex = this.rows.length - 1;
+      this.isAddingNewLine = true;
+    }
   }
 
   onChange(event: any, header: string) {
@@ -51,16 +55,49 @@ export class FormListComponent implements OnInit {
 
   onSaveRow() {
     event.preventDefault();
-    this.bindToForm();
+    if (!this.isAddingNewLine) {
+      this.group.controls[this.config.name].value[
+        this.enableEditIndex
+      ] = this.rows[this.enableEditIndex];
+    } else {
+      this.bindToForm();
+    }
+
+    this.isEditing = false;
+    this.isAddingNewLine = false;
+  }
+
+  onDeleteRow(index) {
+    event.preventDefault();
+    this.rows.splice(index, 1);
+    this.deleteToForm(index);
+    this.isEditing = false;
+  }
+
+  onCancelRow(index) {
+    event.preventDefault();
+    if (this.isAddingNewLine) {
+      this.rows.splice(index, 1);
+    } else {
+      this.rows[index] = this.lastEditLine;
+    }
+    setTimeout(() => {
+      this.bindToForm();
+    });
+    this.isAddingNewLine = false;
     this.isEditing = false;
   }
 
   bindToForm() {
-    const control = this.group.controls[this.config.name] as FormArray;
-    control.removeAt(0);
+    // const control = this.group.controls[this.config.name] as FormArray;
+    // control.removeAt(0);
     this.rows.forEach((r) => {
       this.group.controls[this.config.name].value.push(r);
     });
+  }
+
+  deleteToForm(index) {
+    this.group.controls[this.config.name].value.splice(index, 1);
   }
 
   openModalDetail(i: number, content: any) {
@@ -84,10 +121,10 @@ export class FormListComponent implements OnInit {
       case 'edit':
         this.isEditing = true;
         this.enableEditIndex = i;
+        this.lastEditLine = { ...this.rows[i] };
         break;
       case 'delete':
-        this.rows.splice(i, 1);
-        this.onSaveRow();
+        this.onDeleteRow(i);
         break;
       case 'detail':
         this.openModalDetail(i, content);
@@ -95,6 +132,10 @@ export class FormListComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  formatDate(date) {
+    return moment(date).format('YYYY-MM-DD');
   }
 
   showDataTable(row: any, header: string) {

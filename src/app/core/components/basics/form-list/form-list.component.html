@@ -1,6 +1,11 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
   <div class="add-btn">
-    <app-button (click)="newRow()" clasesBtn="btn-primary" icono="plus-circle">
+    <app-button
+      [readOnly]="isEditing"
+      (click)="newRow()"
+      clasesBtn="btn-primary"
+      icono="plus-circle"
+    >
     </app-button>
   </div>
   <div class="container-fluid master-table">
@@ -22,6 +27,7 @@
               <input
                 *ngIf="isEditing && enableEditIndex === i"
                 type="date"
+                [value]="formatDate(row[header.name])"
                 (change)="onChange($event, header.name)"
               />
             </div>
@@ -72,6 +78,9 @@
             <div *ngIf="isEditing && enableEditIndex === i">
               <a href="" (click)="onSaveRow()">
                 {{ 'btn.save' | translate }}
+              </a>
+              <a href="" (click)="onCancelRow(i)">
+                {{ 'btn.cancel' | translate }}
               </a>
             </div>
           </td>

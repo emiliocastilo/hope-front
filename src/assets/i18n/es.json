@@ -258,6 +258,8 @@
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
   "scanDate": "Fecha",
+  "evolutionIndex": "Evolución de índices",
+  "treatments": "Tratamientos",
   "value": "Valor"
 }
 
