@@ -208,7 +208,7 @@ export class DashboardPatientsComponent implements OnInit {
         name: 'parsi',
         value: [
           {
-            date: new Date(),
+            date: new Date('2020-06-29T00:00:00'),
             value: '1',
           },
           {
@@ -220,7 +220,7 @@ export class DashboardPatientsComponent implements OnInit {
             value: '2',
           },
           {
-            date: new Date('2020-07-01T00:00:00'),
+            date: new Date('2020-07-02T00:00:00'),
             value: '4',
           },
         ],
@@ -229,12 +229,28 @@ export class DashboardPatientsComponent implements OnInit {
         name: 'dlqi',
         value: [
           {
-            date: new Date(),
+            date: new Date('2020-04-30T00:00:00'),
             value: '1',
           },
           {
-            date: new Date('2020-06-30T00:00:00'),
+            date: new Date('2020-05-30T00:00:00'),
             value: '2',
+          },
+          {
+            date: new Date('2020-06-30T00:00:00'),
+            value: '4',
+          },
+          {
+            date: new Date('2020-07-30T00:00:00'),
+            value: '6',
+          },
+          {
+            date: new Date('2020-08-30T00:00:00'),
+            value: '2',
+          },
+          {
+            date: new Date('2020-09-30T00:00:00'),
+            value: '1',
           },
         ],
       },

@@ -32,7 +32,7 @@
       </app-table>
       <app-pagination
         [paginationData]="chart.tableConfig.paginationData"
-        (selectPage)="selectedPage($event)"
+        (selectPage)="selectedPage($event, chart.tableConfig)"
       >
       </app-pagination>
     </div>

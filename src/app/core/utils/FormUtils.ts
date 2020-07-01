@@ -140,10 +140,10 @@ export default class FormUtils {
       // especifica para no romper el resto de formularios y se queda de momento asi porque no es necesario
       const entry = {
         name: e[0],
-        value: e[1]
-          // e[0].toLowerCase().includes('table')
-          // ? JSON.stringify(e[1])
-          // : e[1],
+        value: e[1],
+        // e[0].toLowerCase().includes('table')
+        // ? JSON.stringify(e[1])
+        // : e[1],
       };
       form.push(entry);
     });

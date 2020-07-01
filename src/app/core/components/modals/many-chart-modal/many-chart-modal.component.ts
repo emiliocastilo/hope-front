@@ -13,7 +13,7 @@ export class ManyChartModalComponent implements OnInit {
   @Input() data: any[];
   private paginationData: PaginationModel = {
     number: 0,
-    size: 5,
+    size: 3,
     totalElements: 0,
   };
 
@@ -26,7 +26,7 @@ export class ManyChartModalComponent implements OnInit {
     this.data.forEach((element: any) => {
       const object = {
         chartConfig: this.parseDataChart(element),
-        tableConfig: this.parseDataToTable(element),
+        tableConfig: this.parseDataToTable(element, 0),
         show: true,
       };
 
@@ -39,7 +39,6 @@ export class ManyChartModalComponent implements OnInit {
   }
 
   private parseDataChart(data: any): ColumnChartModel {
-    console.log(data);
     const values: ChartObjectModel[] = [
       {
         name: data.name,
@@ -79,27 +78,41 @@ export class ManyChartModalComponent implements OnInit {
     return chartConfig;
   }
 
-  public selectedPage(page: number) {
-    console.log('selectedPage', page);
+  public selectedPage(pageNumber: number, table: any) {
+    const pages = this.paginate(table.all, this.paginationData.size);
+    table.series = pages[pageNumber];
   }
 
-  private parseDataToTable(data: any): PaginationModel {
+  private parseDataToTable(data: any, currentPage: number): PaginationModel {
     const tableData = data.value.map((value: any) => {
       return {
-        name: data.name,
+        value: value.value,
         date: value.date,
       };
     });
 
+    const paginatedTable = this.paginate(tableData, this.paginationData.size);
+
     const tableConfig: any = {
-      series: tableData,
+      series: paginatedTable[currentPage],
       paginationData: {
         number: 0,
-        size: 5,
+        size: this.paginationData.size,
         totalElements: data.value.length,
       },
+      all: tableData,
     };
 
     return tableConfig;
+  }
+
+  private paginate(arr: any[], size: number) {
+    return arr.reduce((acc, val, i) => {
+      let idx = Math.floor(i / size);
+      let page = acc[idx] || (acc[idx] = []);
+      page.push(val);
+
+      return acc;
+    }, []);
   }
 }
