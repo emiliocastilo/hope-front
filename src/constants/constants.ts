@@ -15,7 +15,6 @@ export const constants = {
   keyFamilyHistory: 'family-history',
   keyBloodCount: 'blood-count',
   keyMetabolicProfile: 'metabolic-profile',
-  // keyMetabolicProfile: 'metabolic-profile-test',
   keyKidneyLiverBiochemistry: 'kidney-liver-biochemistry',
   keySerology: 'serology',
   keyLeikocyteAntibodyAntigen: 'leukocyte-antibody-antigen',
