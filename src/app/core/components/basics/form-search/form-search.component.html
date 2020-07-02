@@ -1,17 +1,15 @@
 <div class="form-group dynamic-group field invalid" [formGroup]="group">
-  <app-input
-    [id]="config.name"
-    [name]="config.name"
+  <label [attr.for]="config.name" class="firefox-position dynamic-label">
+    {{ config.label | translate }}
+  </label>
+  <input
+    [attr.id]="config.name"
+    [attr.name]="config.name"
+    [attr.placeholder]="config.placeholder"
     [formControlName]="config.name"
-    [isDisabled]="true"
-    [label]="config.label | translate"
-  >
-  </app-input>
-  <app-button
-    (click)="openModal(content)"
-    clasesBtn="btn-primary"
-    icono="search"
-  >
+    class="dynamic-field"
+  />
+  <app-button (click)="openModal(content)" class="search-btn" icono="search">
   </app-button>
   <ng-template #content let-modal>
     <div class="modal-header">

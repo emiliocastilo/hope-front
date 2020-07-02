@@ -1,4 +1,11 @@
 @import '~src/assets/styles/variables.scss';
+@import '../form-input/form-input.component.scss';
+
+.search-btn {
+  position: absolute;
+  top: 2rem;
+  right: 1rem;
+}
 
 .modal-header {
   color: $app-color-blue-main;
