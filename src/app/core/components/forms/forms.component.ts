@@ -16,7 +16,7 @@ export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
   public filledForm: any;
-  @Input() key = 'metabolic-profile-test';
+  @Input() key = '';
   patient: PatientModel;
   emptyForm: any;
 
@@ -88,7 +88,8 @@ export class FormsComponent implements OnInit {
 
   updateForm(form: any) {
     this._formsService.updateForm(form).subscribe(
-      () => {
+      (data: any) => {
+        this.getAndParseForm();
         this._notification.showSuccessToast('element_updated');
       },
       ({ error }) => {

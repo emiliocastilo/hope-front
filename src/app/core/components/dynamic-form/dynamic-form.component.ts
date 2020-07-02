@@ -205,7 +205,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     const modalRef = this._modalService.open(ManyChartModalComponent, {
       size: 'lg',
     });
-    console.log(this.config);
     modalRef.componentInstance.title = this.config[0]
       ? this.config[0].name
       : '';
