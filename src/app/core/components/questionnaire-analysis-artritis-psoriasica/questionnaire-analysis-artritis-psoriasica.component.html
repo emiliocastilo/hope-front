@@ -1,0 +1,110 @@
+<!--<div class="modal-body editor-modal-body m-2">-->
+<div class="body-questionnarie">
+  <form class="form" [formGroup]="form" novalidate>
+
+    <table class="table-questionnarie">
+      <thead>
+        <tr>
+          <td></td>
+          <th class="header-column_block">
+            <div class="header-column">
+              {{'questionnaire-analysis-artritis-psoriasica.reply-1' | translate}}
+            </div>
+          </th>
+          <th class="header-column_block">
+            <div class="header-column">
+              {{'questionnaire-analysis-artritis-psoriasica.reply-2' | translate}}
+            </div>
+          </th>
+          <th class="header-column_block">
+            <div class="header-column">
+              {{'questionnaire-analysis-artritis-psoriasica.reply-3' | translate}}
+            </div>
+          </th>
+          <th class="header-column_block">
+            <div class="header-column">
+              {{'questionnaire-analysis-artritis-psoriasica.reply-4' | translate}}
+            </div>
+          </th>
+          <th class="header-column_block">
+            <div class="header-column">
+              {{'questionnaire-analysis-artritis-psoriasica.reply-5' | translate}}
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+
+      <tr class="question_block" *ngFor="let question of questions; let i = index;">
+        <td class="question">
+            {{question | translate}}
+        </td>
+        <td class="content-row_block" *ngFor="let replyValue of repliesValues">
+          <div class="content-row">
+            <input name="question{{i + 1}}" [formControlName]="'question' + (i + 1)" type="radio" value="{{replyValue}}" (change)="changeValue($event)">
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <section class="col-sm-6">
+      <app-input
+        [formControlName]="'valuationSymptoms'"
+        [id]="'valuationSymptoms'"
+        [invalidLabel]="getInvalidLabel('valuationSymptoms')"
+        [label]="'eavPase.' + 'valuationSymptoms' | lowercase | translate"
+        [name]="'valuationSymptoms'"
+        [placeholder]="'eavPase.' + 'valuationSymptoms' | lowercase | translate"
+        [required]="checkIfRequired('valuationSymptoms')"
+        [type]="getType('valuationSymptoms')"
+        [value]="form.controls['valuationSymptoms'].value"
+        [isDisabled]="true">
+      </app-input>
+    </section>
+
+    <section class="col-sm-6">
+      <app-input
+        [formControlName]="'valuationFunctional'"
+        [id]="'valuationFunctional'"
+        [invalidLabel]="getInvalidLabel('valuationFunctional')"
+        [label]="'eavPase.' + 'valuationFunctional' | lowercase | translate"
+        [name]="'valuationFunctional'"
+        [placeholder]="'eavPase.' + 'valuationFunctional' | lowercase | translate"
+        [required]="checkIfRequired('valuationFunctional')"
+        [type]="getType('valuationFunctional')"
+        [value]="form.controls['valuationFunctional'].value"
+        [isDisabled]="true">
+      </app-input>
+    </section>
+
+    <section class="col-sm-6">
+      <app-input
+        [formControlName]="'paseScoreTotal'"
+        [id]="'paseScoreTotal'"
+        [invalidLabel]="getInvalidLabel('paseScoreTotal')"
+        [label]="'eavPase.' + 'paseScoreTotal' | lowercase | translate"
+        [name]="'paseScoreTotal'"
+        [placeholder]="'eavPase.' + 'paseScoreTotal' | lowercase | translate"
+        [required]="checkIfRequired('paseScoreTotal')"
+        [type]="getType('paseScoreTotal')"
+        [value]="form.controls['paseScoreTotal'].value"
+        [isDisabled]="true">
+      </app-input>
+    </section>
+  </form>
+
+
+  <section class="col-sm-12">
+    <div class="buttons">
+      <div class="submit-button">
+        <button (click)="onSave()" class="btn btn-primary">
+          {{ 'btn.save' | translate }}
+        </button>
+        <button (click)="onClose()" class="btn btn-primary">
+          {{ 'btn.cancel' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

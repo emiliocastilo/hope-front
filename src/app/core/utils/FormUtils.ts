@@ -154,6 +154,36 @@ export default class FormUtils {
     return form;
   }
 
+  static formatDataMultiGraph(translate, formKeys, keyTranslation, retrievedFormFormat) {
+    const parseData = [];
+
+    for (const key of formKeys) {
+      if (!key.includes('date')) {
+        const object = {
+          name: translate.instant(`${keyTranslation}.${key}`.toLowerCase()),
+          values: this.parseIsoToDate(retrievedFormFormat[key]),
+        };
+        if (object.values.length > 0) {
+          parseData.push(object);
+        }
+      }
+    }
+    return parseData;
+  }
+
+  static parseIsoToDate(array: any[]): any[] {
+    if (!array) {
+      return [];
+    }
+    const parseArrayData = array.map((object: any) => {
+      if (object.value) {
+        object.date = object.date ? new Date(object.date) : object.date;
+        return object;
+      }
+    });
+    return parseArrayData;
+  }
+
   static ageBybirthdate(params: Array<any>) {
     return moment().diff(params[0], 'years');
   }
