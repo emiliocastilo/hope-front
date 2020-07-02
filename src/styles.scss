@@ -156,3 +156,8 @@ hr {
   background-color: $app-color-blue-border;
   border-color: $app-color-blue-border;
 }
+
+[disabled] {
+  background-color: $app-color-gray-light !important;
+  cursor: not-allowed;
+}

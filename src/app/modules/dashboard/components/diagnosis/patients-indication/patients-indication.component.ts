@@ -17,7 +17,6 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./patients-indication.component.scss'],
 })
 export class PatientsIndicationComponent implements OnInit {
-  private patientsIndications: any;
   public modules: Array<HomeDashboardModule>;
   public menu: SideBarItemModel[] = [];
   public menuId = 2;
@@ -57,6 +56,8 @@ export class PatientsIndicationComponent implements OnInit {
   public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
 
   public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
+
+  public dataToExport: any[] = [];
 
   constructor(
     public _activatedRoute: ActivatedRoute,
@@ -143,7 +144,9 @@ export class PatientsIndicationComponent implements OnInit {
     if (event && event.type === 'detail') {
       this.showingDetail = true;
       this.selectedDisease = this.dataChart[event.selectedItem].name;
-      this.getPatientsDetail(this.selectedDisease);
+      const query = `&page=${this.currentPage}&indication=${this.selectedDisease}`;
+      this.getPatientsDetail(query);
+      this.getDetailsToExport(query);
     } else {
       this.showingDetail = false;
     }
@@ -153,18 +156,18 @@ export class PatientsIndicationComponent implements OnInit {
     if (event.type === 'detail') {
       const currentUser = this.detailsDataTable[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
-      // TODO: data from back comes incompleted.
       localStorage.setItem('selectedUser', selectedUser);
       this._router.navigate(['pathology/patients/dashboard']);
     }
   }
 
-  private getPatientsDetail(disease: string) {
-    const query = `page=${this.currentPage}&indication=${disease}`;
+  private getPatientsDetail(query: string) {
     this._patientsIndicationService.getDetails(query).subscribe(
       (data) => {
         this.detailsDataTable = data.content;
-        this.paginationData = data;
+        if (this.paginationData.totalPages !== data.totalPages) {
+          this.paginationData = data;
+        }
       },
       (error) => {
         console.error('error: ', error);
@@ -175,31 +178,24 @@ export class PatientsIndicationComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      this.getPatientsDetail(this.selectedDisease);
+      const query = `&page=${this.currentPage}&indication=${this.selectedDisease}`;
+      this.getPatientsDetail(query);
     }
-  }
-
-  public buttonAction() {
-    // TODO: make functions to export data.
   }
 
   public onSortTableDetail(event: any) {
     let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedDisease}`;
 
-    // if (this.itemsPerPage) {
-    //   query = `${query}&size=${this.itemsPerPage}`;
-    // }
-    this.refreshDetailTable(query);
+    this.getPatientsDetail(query);
   }
 
-  private refreshDetailTable(query: string): void {
-    this._patientsIndicationService.getDetails(query).subscribe(
-      (data) => {
-        this.detailsDataTable = data.content;
-        this.paginationData = data;
+  private getDetailsToExport(query: string) {
+    this._patientsIndicationService.getDetailsExport(query).subscribe(
+      (data: any) => {
+        this.dataToExport = data;
       },
       (error) => {
-        console.error('error: ', error);
+        console.error(error);
       }
     );
   }

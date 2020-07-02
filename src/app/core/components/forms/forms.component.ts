@@ -6,6 +6,7 @@ import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-forms',
@@ -14,14 +15,17 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
 })
 export class FormsComponent implements OnInit {
   public config: FieldConfig[] = [];
+  public buttons: string[] = [];
   public filledForm: any;
-  @Input() key = '';
+  @Input() key = 'TEST';
   patient: PatientModel;
+  emptyForm: any;
 
   constructor(
     private _formsService: FormsService,
     public _translate: TranslateService,
-    private _notification: NotificationService
+    private _notification: NotificationService,
+    private _http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -42,12 +46,23 @@ export class FormsComponent implements OnInit {
       this.filledForm = retrievedForm.data;
     }
     const data: any = await this._formsService.get(this.key);
-    const form = this._parseStringToJSON(data.form);
-    this.config = FormUtils.createFieldConfig(form, this.filledForm);
+    if (data) {
+      this.emptyForm = this._parseStringToJSON(data.form);
+      this.config = FormUtils.createFieldConfig(
+        this.emptyForm,
+        this.filledForm
+      );
+      const buttons = this._parseStringToJSON(data.buttons);
+      this.buttons = FormUtils.createButtons(buttons);
+    } else {
+      this._notification.showErrorToast('form_not_found');
+    }
+    this.detectCalculatedBackOnInit();
   }
 
   submit(value: { [name: string]: any }) {
     if (value) {
+      this.checkHistoricField(value);
       const form = {
         template: this.key,
         data: FormUtils.parseEntriesForm(value),
@@ -62,6 +77,53 @@ export class FormsComponent implements OnInit {
     } else {
       this._notification.showErrorToast('error_form');
     }
+  }
+
+  detectCalculatedBackOnInit() {
+    const calculatedFields = this.config.filter(
+      (e) => e.calculated_back && e.event === 'init'
+    );
+    const params = [];
+    if (calculatedFields && calculatedFields.length > 0) {
+      calculatedFields.forEach((field) => {
+        const patient = this.patient.id;
+        let urlEndpoint = field.endpoint;
+        urlEndpoint = urlEndpoint.replace('${patient}', patient);
+        for (let f = 0; f < params.length; f++) {
+          const configParams = this.config.filter((e) => e.name === params[f]);
+          if (configParams != null && configParams.length > 1) {
+            urlEndpoint = urlEndpoint.replace(
+              '${' + f + '}',
+              configParams[0].value
+            );
+          }
+        }
+        field.value = this._http.get(urlEndpoint).toPromise();
+      });
+    }
+  }
+
+  checkHistoricField(val: any) {
+    this.emptyForm.forEach((field) => {
+      if (field.type === 'historic') {
+        const entry = {
+          date: new Date().toISOString(),
+          value: val && val[field.name],
+        };
+        field.historic.push(entry);
+        val[field.name] = '';
+      }
+    });
+    const json = {
+      key: this.key,
+      form: JSON.stringify(this.emptyForm),
+    };
+    this._formsService.updateForm(json).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (err) => console.log(err)
+    );
   }
 
   fillForm(form: any) {
@@ -87,6 +149,7 @@ export class FormsComponent implements OnInit {
   }
 
   private _parseStringToJSON(form: string): JSON {
+    //TODO: check if json is valid
     return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
   }
 }

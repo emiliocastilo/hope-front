@@ -5,7 +5,7 @@
 
   .dynamic-label {
     position: relative;
-    top: 1.3rem;
+    top: 1.1rem;
     font-size: 0.8rem;
     left: 0.5rem;
     margin-left: 0.3rem;
@@ -53,7 +53,7 @@
       display: block;
       position: absolute;
       white-space: nowrap;
-      top: 87px;
+      top: 5.438rem;
       border-radius: 0.3rem;
       border: 1px solid $app-color-border-blue;
       background-color: app-color-white;
@@ -66,13 +66,13 @@
     color: red;
     font-size: 1.2rem;
   }
+
+  .required-label {
+    top: 1.3rem;
+  }
 }
 
 @supports (-moz-appearance: none) {
-  .dynamic-field {
-    margin-bottom: 0;
-  }
-
   .margin-firefox {
     margin-top: 2.2rem;
     margin-bottom: -2.4rem;

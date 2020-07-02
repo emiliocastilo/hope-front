@@ -3,6 +3,7 @@ import { FormGroup, FormArray } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-form-list',
@@ -17,7 +18,7 @@ export class FormListComponent implements OnInit {
   enableEditIndex: number;
   detailArray: Array<any>;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private datePipe: DatePipe) {}
 
   ngOnInit() {
     if (this.config.value && this.config.value.length > 0) {
@@ -41,8 +42,11 @@ export class FormListComponent implements OnInit {
     this.enableEditIndex = this.rows.length - 1;
   }
 
-  onChange(event: any, header: string, index: number) {
-    this.rows[index][header] = event.target.value;
+  onChange(event: any, header: string) {
+    const value = header.toLowerCase().includes('date')
+      ? new Date(event.target.value).toISOString()
+      : event.target.value;
+    this.rows[this.enableEditIndex][header] = value;
   }
 
   onSaveRow() {
@@ -57,12 +61,6 @@ export class FormListComponent implements OnInit {
     this.rows.forEach((r) => {
       this.group.controls[this.config.name].value.push(r);
     });
-  }
-
-  onCancel() {
-    event.preventDefault();
-    this.rows.splice(this.rows.length - 1, 1);
-    this.isEditing = false;
   }
 
   openModalDetail(i: number, content: any) {
@@ -87,15 +85,30 @@ export class FormListComponent implements OnInit {
         this.isEditing = true;
         this.enableEditIndex = i;
         break;
-      case 'remove':
+      case 'delete':
         this.rows.splice(i, 1);
         this.onSaveRow();
         break;
-      case 'eye':
+      case 'detail':
         this.openModalDetail(i, content);
         break;
       default:
         break;
     }
+  }
+
+  showDataTable(row: any, header: string) {
+    let data = row;
+
+    const conditionDate =
+      header.toLowerCase().includes('date') ||
+      header.toLowerCase().includes('period') ||
+      header.toLowerCase().includes('period');
+
+    if (conditionDate) {
+      data = this.datePipe.transform(row, 'dd/MM/yy');
+    }
+
+    return data;
   }
 }

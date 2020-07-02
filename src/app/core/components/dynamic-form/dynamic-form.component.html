@@ -6,6 +6,7 @@
   <div
     *ngFor="let field of config"
     class="{{ field.rows ? 'col-' + field.rows : 'col-12' }}"
+    [hidden]="field.hidden === true"
   >
     <ng-container dynamicField [config]="field" [group]="form"> </ng-container>
     <div
@@ -32,9 +33,43 @@
       </p>
     </div>
   </div>
-  <div class="submit-button">
-    <button class="btn btn-primary" type="submit">
-      {{ 'btn.save' | translate }}
-    </button>
+  <!-- Form Buttons -->
+  <div class="buttons">
+    <div *ngFor="let button of buttons">
+      <div *ngIf="button === 'save'">
+        <div class="submit-button">
+          <button class="btn btn-primary" type="submit">
+            {{ 'btn.save' | translate }}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="button === 'clean'">
+        <div class="submit-button">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="cleanClick($event)"
+          >
+            {{ 'btn.clean' | translate }}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="button === 'graphs'">
+        <div class="submit-button">
+          <button class="btn btn-primary" type="button">
+            {{ 'btn.graphs' | translate }}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="button === 'historic'">
+        <div class="submit-button">
+          <button class="btn btn-primary" type="button">
+            {{ 'btn.historic' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- <div *ngIf="buttons"></div> -->
 </form>

@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
   }
 
   public show(url: string): boolean {
-    const arrayNoShow = ['/login', '/select-role'];
+    const arrayNoShow = ['/login', '/select-role', '/reset-password'];
 
     const pass = arrayNoShow.includes(url);
 
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
   private getMenu(url: string) {
     const localMenu: Array<any> = JSON.parse(localStorage.getItem('menu'));
     if (!localMenu) {
-      if (!['/login', '/select-role'].includes(url)) {
+      if (!['/login', '/select-role', '/reset-password'].includes(url)) {
         this._sideBar.getSideBar().subscribe((response) => {
           if (response.children) {
             this.parseMenu(response.children, url);

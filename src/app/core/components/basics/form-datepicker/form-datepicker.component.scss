@@ -12,10 +12,6 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.form-group {
-  margin-bottom: 0;
-}
-
 .dynamic-field {
   font-family: inherit;
   width: 100%;
@@ -50,38 +46,6 @@ input[type='number'] {
   font-size: 0.7rem;
 }
 
-@supports (-moz-appearance: none) {
-  .date-label {
-    position: relative;
-    top: -3.5rem;
-    transition: 0.2s;
-    font-size: 0.8rem;
-    color: $app-color-blue-main;
-  }
-
-  .dynamic-group {
-    position: relative;
-  }
-
-  .ui-float-label > label {
-    position: absolute;
-    top: 0.3rem;
-    left: 10px;
-    font-size: 0.8rem;
-    margin-left: 0.3rem;
-    background-color: white;
-    color: $app-color-blue-main;
-  }
-
-  .required-label {
-    top: 0 !important;
-  }
-
-  .firefox-position {
-    z-index: 1;
-  }
-}
-
 @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
   .date-label {
     position: relative;
@@ -107,5 +71,15 @@ input[type='number'] {
     color: $app-color-blue-main;
     background-color: white;
     padding: 0 0.4rem;
+  }
+}
+
+@supports (-moz-appearance: none) {
+  .date-label {
+    top: 1.1rem;
+  }
+
+  .required-label {
+    top: 1.3rem;
   }
 }

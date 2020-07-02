@@ -141,8 +141,6 @@ export class AccumulatedAverageMonthlyConsuptionEurosComponent
     this.dataChart = null;
     const currentValue = this.formYearlyGoal.controls.yearlyGoalValue.value;
 
-    console.log(data, currentValue);
-
     const objectToAdd: ChartObjectModel = {
       name: this._translate.instant('yearlyGoalValue'),
       series: [],
