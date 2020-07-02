@@ -116,6 +116,7 @@ export default class FormUtils {
     });
     return finalValidators;
   }
+
   static parseValueIntoPattern(decimalPattern: string, value: string): string {
     return value
       ? decimalPattern.replace('valueToReplace', value)
