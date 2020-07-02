@@ -259,5 +259,6 @@
   "scanDate": "Date",
   "evolutionIndex": "Evolution index",
   "treatments": "Treatments",
-  "value": "value"
+  "value": "value",
+  "changePassword": "Change password"
 }
