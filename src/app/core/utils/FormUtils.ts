@@ -57,6 +57,7 @@ export default class FormUtils {
     fieldConfig.calculated_front = value.calculated_front;
     fieldConfig.historic = value.historic;
     fieldConfig.enableWhen = value.enableWhen;
+    fieldConfig.hiddenWhen = value.hiddenWhen;
     fieldConfig.hidden = value.hidden;
     if (value.validation) {
       const validations = StringUtils.stringToArray(value.validation);
