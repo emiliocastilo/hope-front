@@ -267,10 +267,12 @@
   "scanDate": "Fecha",
   "evolutionIndex": "Evolución de índices",
   "treatments": "Tratamientos",
+  "searchCodeDescription": "Busca por código o descripción...",
   "value": "Valor",
   "changePassword": "Cambiar contraseña",
   "modal.editor.field.newPassword": "Nueva contraseña",
   "modal.editor.field.confirmPassword": "Repetir contraseña",
   "modal.editor.field.role": "Role",
   "resetPasswordInstructions": "Si desea modificar sus claves de acceso indique los siguientes valores y pulse aceptar. En otro caso pulse cancelar"
+
 }

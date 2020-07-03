@@ -24,4 +24,8 @@ export class FormsService {
       .get(`/forms?template=${template}&patientId=${patientId}`)
       .toPromise();
   }
+
+  public async callEndpoint(endpoint: string) {
+    return this._http.get(endpoint).toPromise();
+  }
 }
