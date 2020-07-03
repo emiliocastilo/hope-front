@@ -92,7 +92,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           }
         });
       }
-      this.displayElement(this.config);
+      setTimeout(() => {
+        this.displayElement(this.config);
+      }, 20);
     });
   }
 
@@ -103,14 +105,17 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     if (calculatedFields && calculatedFields.length > 0) {
       calculatedFields.forEach((field) => {
         if (document.getElementById(field.name)) {
-          const nameDisabled = document.getElementById(field.name).parentNode;
           if (
             this.form.controls[field.hiddenWhen[0]].value ===
             field.hiddenWhen[1]
           ) {
-            this.renderer.setStyle(nameDisabled, 'display', 'none');
+            field.hidden = false;
+          } else if (field.type === 'table' || field.type === 'historic') {
+            field.hidden = true;
+            this.form.controls[field.name].setValue([], { emitEvent: false });
           } else {
-            this.renderer.setStyle(nameDisabled, 'display', 'block');
+            field.hidden = true;
+            this.form.controls[field.name].setValue('', { emitEvent: false });
           }
         }
       });
