@@ -1,10 +1,27 @@
-<p>my-account works!</p>
+<div class="container-fluid">
+  <form class="row" [formGroup]="userDataForm">
+    <div class="col-12" *ngFor="let formKey of formKeys; index as fieldIndex">
+      <app-input
+        [id]="formKey"
+        [name]="formKey"
+        [formControlName]="formKey"
+        [label]="'modal.editor.field.' + formKey | translate"
+        [value]="userDataForm.controls[formKey].value"
+        [placeholder]="'modal.editor.field.' + formKey | translate"
+        [isDisabled]="true"
+      >
+      </app-input>
+    </div>
 
-<app-button
-  class="button_change-password"
-  type="button"
-  clasesBtn="btn-primary btn-sm"
-  texto="changePassword"
-  (click)="showChangePasswordModal()"
->
-</app-button>
+    <div class="col-12 mt-4">
+      <app-button
+        class="button_change-password"
+        type="button"
+        clasesBtn="btn-primary btn-sm"
+        texto="changePassword"
+        (click)="showChangePasswordModal()"
+      >
+      </app-button>
+    </div>
+  </form>
+</div>

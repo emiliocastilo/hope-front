@@ -46,6 +46,12 @@
   "form.validate.required": "This field is required",
   "form.validate.email": "Invalid email",
   "form.validate.pattern": "Invalid format",
+  "form.validate.minlength": "8 characters are required",
+  "form.validate.hasSpecialCharacters": "Most have '!@#$%^&*)(+=?¡¿._-",
+  "form.validate.hasCapitalCase": "Must have at leat one uppercase",
+  "form.validate.hasSmallCase": "Must have at leat one lowercase",
+  "form.validate.hasNumber": "Must have at least one number",
+  "form.validate.noPassswordMatch": "Password must match",
   "modal.editor.field.name": "Name",
   "modal.editor.field.title": "Title",
   "modal.editor.field.firstSurname": "First surname",
@@ -109,7 +115,9 @@
     "element_created": "Element created correctly",
     "element_updated": "Element updated correctly",
     "error_form": "The form contains errors",
-    "form_not_found": "Form not found"
+    "form_not_found": "Form not found",
+    "passwordChangedSuccessfully": "Password succesfully updated",
+    "passwordChangeFailed": "Wrong password"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
   "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",
@@ -220,7 +228,6 @@
   "sericLevels": "seric Levels",
   "rxDatas": "Rx data",
   "rxDatasDate": "Rx data",
-  "rxDatasDate": "Date",
   "localized": "Location",
   "rxDatasDiagnosis": "Diagnosis",
   "datasRxPatology": "Pathology",
@@ -246,7 +253,6 @@
   "tacDiagnosis": "Diagnosis",
   "tacPatologia": "Pathology",
   "anatomy": "Pathological anatomy",
-  "anatomy": "Texto",
   "anatomyDate": "Date",
   "hypertrophy": "Hypertrophy",
   "doppler": "Doppler",
@@ -259,6 +265,10 @@
   "scanDate": "Date",
   "evolutionIndex": "Evolution index",
   "treatments": "Treatments",
-  "value": "value",
-  "changePassword": "Change password"
+  "value": "Value",
+  "changePassword": "Change password",
+  "modal.editor.field.newPassword": "New password",
+  "modal.editor.field.confirmPassword": "Repeat password",
+  "modal.editor.field.role": "Role",
+  "resetPasswordInstructions": "If you wish to change your password fill out the form and press Accept, otherwise press Cancel."
 }

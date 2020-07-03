@@ -47,6 +47,12 @@
   "form.validate.required": "El campo es obligatorio",
   "form.validate.email": "Formato de correo invalido",
   "form.validate.pattern": "Formato invalido",
+  "form.validate.minlength": "Se requiere un minimo de 8 caracteres",
+  "form.validate.hasSpecialCharacters": "Debe Contener por lo menos un caracter especial '!@#$%^&*)(+=?¡¿._-'",
+  "form.validate.hasCapitalCase": "Debe contener por lo menos una letra mayuscula",
+  "form.validate.hasSmallCase": "Debe contener por lo menos una letra minuscula",
+  "form.validate.hasNumber": "Debe contener por lo menos un numero",
+  "form.validate.noPassswordMatch": "Las contraseñas deben coincidir",
   "modal.editor.field.name": "Nombre",
   "modal.editor.field.title": "Título",
   "modal.editor.field.firstsurname": "Primer apellido",
@@ -110,7 +116,9 @@
     "element_created": "Elemento creado correctamente",
     "element_updated": "Elemento editado correctamente",
     "error_form": "El formulario contiene errores",
-    "form_not_found": "No se ha encontrado el formulario"
+    "form_not_found": "No se ha encontrado el formulario",
+    "passwordChangedSuccessfully": "Contraseña actualizada con exito",
+    "passwordChangeFailed": "Contraseña errónea"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
   "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",
@@ -222,7 +230,6 @@
   "sericLevels": "Niveles séricos",
   "rxDatas": "Datos Rx",
   "rxDatasDate": "Datos Rx",
-  "rxDatasDate": "Fecha",
   "localized": "Localización",
   "rxDatasDiagnosis": "Diagnóstico",
   "datasRxPatology": "Patología",
@@ -249,7 +256,6 @@
   "tacPatologia": "Patología",
   "anatomy": "Anatomía Patológica",
   "anatomyDate": "Fecha",
-  "anatomy": "Texto",
   "hypertrophy": "Hipertrofia",
   "doppler": "Doppler",
   "tenosivitis": "Tenosivitis",
@@ -262,5 +268,9 @@
   "evolutionIndex": "Evolución de índices",
   "treatments": "Tratamientos",
   "value": "Valor",
-  "changePassword": "Cambiar contraseña"
+  "changePassword": "Cambiar contraseña",
+  "modal.editor.field.newPassword": "Nueva contraseña",
+  "modal.editor.field.confirmPassword": "Repetir contraseña",
+  "modal.editor.field.role": "Role",
+  "resetPasswordInstructions": "Si desea modificar sus claves de acceso indique los siguientes valores y pulse aceptar. En otro caso pulse cancelar"
 }
