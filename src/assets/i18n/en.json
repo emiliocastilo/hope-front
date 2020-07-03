@@ -258,5 +258,6 @@
   "velocity": "Vel. Porta(cm/sg)",
   "scanDate": "Date",
   "evolutionIndex": "Evolution index",
-  "treatments": "Treatments"
+  "treatments": "Treatments",
+  "value": "value"
 }

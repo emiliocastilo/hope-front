@@ -46,12 +46,15 @@ export class FormHistoricComponent implements OnInit {
   }
 
   onChange(event: any, name: string) {
-    if (name.includes('date')) {
+    const isFieldDate = name.includes('date');
+    if (isFieldDate) {
       this.onSelectDate(event);
     }
     this.bindToForm({
       date: localStorage.getItem('historicDate'),
-      value: event.target.value,
+      value: isFieldDate
+        ? new Date(event.target.value).toLocaleDateString()
+        : event.target.value,
     });
   }
 

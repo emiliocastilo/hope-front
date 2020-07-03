@@ -25,13 +25,23 @@ export class LineChartComponent implements OnInit {
 
   ngOnInit(): void {
     Object.keys(this.defaultValues).forEach((key: string) => {
-      this.config[key] = this.config[key]
-        ? this.config[key]
-        : this.defaultValues[key];
+      this.config[key] =
+        this.config[key] !== undefined
+          ? this.config[key]
+          : this.defaultValues[key];
     });
   }
 
   public onSelect(value: any) {
     this.select.emit(value);
+  }
+
+  public formatDate(date: string | Date): string | Date {
+    let formatedDate = date;
+
+    if (date && Object.prototype.toString.call(date) === '[object Date]') {
+      formatedDate = new Date(date).toLocaleDateString('es-Es');
+    }
+    return formatedDate;
   }
 }
