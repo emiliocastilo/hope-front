@@ -259,5 +259,6 @@
   "scanDate": "Date",
   "evolutionIndex": "Evolution index",
   "treatments": "Treatments",
-  "searchCodeDescription": "Search by code or description..."
+  "searchCodeDescription": "Search by code or description...",
+  "value": "value"
 }

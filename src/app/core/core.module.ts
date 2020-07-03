@@ -59,6 +59,7 @@ import { PatientHeaderComponent } from './components/patient-header/patient-head
 import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from './components/basics/from-section/from-section.component';
 import { FormSearchComponent } from './components/basics/form-search/form-search.component';
+import { ManyChartModalComponent } from './components/modals/many-chart-modal/many-chart-modal.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -116,6 +117,7 @@ export function createTranslateLoader(http: HttpClient) {
     LineChartComponent,
     FormHistoricComponent,
     FormSearchComponent,
+    ManyChartModalComponent,
   ],
   imports: [
     CommonModule,

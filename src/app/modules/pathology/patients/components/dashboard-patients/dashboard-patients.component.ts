@@ -6,6 +6,8 @@ import { PatientsDashboardService } from 'src/app/modules/management/services/pa
 import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
 import { ScriptLoaderService } from 'angular-google-charts';
+import { GraphsService } from '../../../../dashboard/services/graphs.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -123,7 +125,6 @@ export class DashboardPatientsComponent implements OnInit {
     chart.draw(dataTable, data.options);
 
     const labels = container.getElementsByTagName('text');
-    console.log(labels);
     Array.prototype.forEach.call(labels, function (label) {
       if (label.getAttribute('text-anchor') === 'middle') {
         label.setAttribute('font-family', '"Raleway", sans-serif');

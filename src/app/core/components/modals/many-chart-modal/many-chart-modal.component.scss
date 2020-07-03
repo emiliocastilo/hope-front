@@ -1,0 +1,38 @@
+.modal-content {
+  padding: 3rem;
+  border: unset;
+
+  .modal-content_button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .modal-content_checkbox-container {
+    align-items: baseline;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    .modal-content_checkbox-container_container {
+      align-items: baseline;
+      display: flex;
+      margin-right: 1rem;
+      width: 8rem;
+
+      label {
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 6rem;
+      }
+    }
+  }
+
+  .modal-content_table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 0.8rem;
+  }
+}
