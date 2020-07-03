@@ -260,5 +260,6 @@
   "velocity": "Vel. Porta(cm/sg)",
   "scanDate": "Fecha",
   "evolutionIndex": "Evolución de índices",
-  "treatments": "Tratamientos"
+  "treatments": "Tratamientos",
+  "searchCodeDescription": "Busca por código o descripción..."
 }

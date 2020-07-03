@@ -7,6 +7,7 @@
     [attr.name]="config.name"
     [attr.placeholder]="config.placeholder"
     [formControlName]="config.name"
+    [attr.disabled]="true"
     class="dynamic-field"
   />
   <app-button (click)="openModal(content)" class="search-btn" icono="search">
@@ -18,37 +19,32 @@
         type="button"
         class="close"
         aria-label="Close"
-        (click)="modal.dismiss('')"
+        (click)="closeModal()"
       >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body custom-modal-body" [formGroup]="modalForm">
-      <app-input
-        id="code"
-        name="code"
-        formControlName="code"
-        [isDisabled]="false"
-        [label]="'code' | translate"
+      <label [attr.for]="config.name" class="firefox-position dynamic-label">
+        {{ 'searchCodeDescription' | translate }}
+      </label>
+      <input
+        ngbAutofocus
+        id="search"
+        name="search"
+        formControlName="search"
+        class="dynamic-field"
         (keyup)="onSearch($event)"
-      >
-      </app-input>
-      <app-input
-        id="description"
-        name="description"
-        formControlName="description"
-        [isDisabled]="false"
-        [label]="'description' | translate"
-        (keyup)="onSearch($event)"
-      >
-      </app-input>
-      <div *ngIf="response">
-        <ul *ngFor="let element of response">
-          <li>
-            {{ element.code + ' - ' + element.description }}
-            <button (click)="selectResult(element)">select</button>
-          </li>
-        </ul>
+      />
+      <div *ngIf="response && response.content" class="scroller">
+        <app-table
+          [columnsHeader]="headersDetailsTable"
+          [columnsData]="response.content"
+          [showActionButtons]="true"
+          [actions]="actions"
+          (iconButtonClick)="selectResult($event)"
+        >
+        </app-table>
       </div>
     </div>
   </ng-template>

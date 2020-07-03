@@ -3,6 +3,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
+import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Component({
   selector: 'app-form-search',
@@ -14,6 +15,9 @@ export class FormSearchComponent implements OnInit {
   group: FormGroup;
   modalForm: FormGroup;
   response: any;
+  patient: PatientModel;
+  headersDetailsTable: string[];
+  actions: Array<any>;
 
   constructor(
     private modalService: NgbModal,
@@ -23,23 +27,31 @@ export class FormSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
-      code: [''],
-      description: [''],
+      search: [''],
     });
+    this.headersDetailsTable = ['code', 'description'];
+    this.actions = [{ name: 'select', icon: 'chevrons-right' }];
+    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
   }
 
   openModal(content: any) {
     event.preventDefault();
-    this.modalService.open(content);
+    this.modalService.open(content, { size: 'lg', backdrop: false });
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
+    this.response = null;
+    this.modalForm.reset();
   }
 
   onSearch(event: any) {
-    let url;
+    let url = this.config.endpoint;
     if (event.target.value.length > 3) {
       this.config.params.forEach((element: any, index: number) => {
-        url = this.config.endpoint.replace(
+        url = url.replace(
           '${' + index + '}',
-          event.target.value
+          element === 'hospital' ? this.patient.hospital.id : event.target.value
         );
       });
       this.makeRequest(url);
@@ -49,16 +61,15 @@ export class FormSearchComponent implements OnInit {
   async makeRequest(url: string) {
     const res: any = await this.formService.callEndpoint(url);
     if (res) {
-      this.response = res.content;
+      this.response = res;
     }
   }
 
-  selectResult(element: any) {
+  selectResult(e: any) {
+    const element = this.response.content[e.selectedItem];
     this.group.controls[this.config.name].setValue(
       element.code + ' ' + element.description
     );
-    this.modalService.dismissAll();
-    this.response = null;
-    this.modalForm.reset();
+    this.closeModal();
   }
 }
