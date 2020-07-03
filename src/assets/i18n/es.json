@@ -261,5 +261,6 @@
   "scanDate": "Fecha",
   "evolutionIndex": "Evolución de índices",
   "treatments": "Tratamientos",
+  "searchCodeDescription": "Busca por código o descripción...",
   "value": "Valor"
 }
