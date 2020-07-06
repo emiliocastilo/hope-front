@@ -118,7 +118,7 @@
     "error_form": "El formulario contiene errores",
     "form_not_found": "No se ha encontrado el formulario",
     "passwordChangedSuccessfully": "Contraseña actualizada con exito",
-    "passwordChangeFailed": "Contraseña errónea"
+    "passwordChangeFailed": "Contraseña errónea",
     "miss_date": "Faltan fechas por rellenar"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",

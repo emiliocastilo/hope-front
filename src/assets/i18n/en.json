@@ -117,7 +117,7 @@
     "error_form": "The form contains errors",
     "form_not_found": "Form not found",
     "passwordChangedSuccessfully": "Password succesfully updated",
-    "passwordChangeFailed": "Wrong password"
+    "passwordChangeFailed": "Wrong password",
     "miss_date": "Faltan fechas por rellenar"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
