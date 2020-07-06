@@ -5,6 +5,8 @@ import {
   Output,
   EventEmitter,
   OnChanges,
+  ElementRef,
+  Renderer2,
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
@@ -23,7 +25,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() buttons: string[] = [];
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
-
   get controls() {
     return this.config.filter(({ type }) => type !== 'button');
   }
@@ -37,7 +38,12 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.value;
   }
 
-  constructor(private fb: FormBuilder, private _modalService: NgbModal) {}
+  constructor(
+    private fb: FormBuilder,
+    private renderer: Renderer2,
+    private elmRef: ElementRef,
+    private _modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -86,7 +92,34 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           }
         });
       }
+      setTimeout(() => {
+        this.displayElement(this.config);
+      }, 20);
     });
+  }
+
+  displayElement(config) {
+    const calculatedFields = config.filter(
+      (e) => e.hiddenWhen && e.hiddenWhen.length >= 2
+    );
+    if (calculatedFields && calculatedFields.length > 0) {
+      calculatedFields.forEach((field) => {
+        if (document.getElementById(field.name)) {
+          if (
+            this.form.controls[field.hiddenWhen[0]].value ===
+            field.hiddenWhen[1]
+          ) {
+            field.hidden = false;
+          } else if (field.type === 'table' || field.type === 'historic') {
+            field.hidden = true;
+            this.form.controls[field.name].setValue([], { emitEvent: false });
+          } else {
+            field.hidden = true;
+            this.form.controls[field.name].setValue('', { emitEvent: false });
+          }
+        }
+      });
+    }
   }
 
   ngOnChanges() {

@@ -24,6 +24,7 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import { FormListComponent } from '../../components/basics/form-list/form-list.component';
 import { FormHistoricComponent } from '../../components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from '../../components/basics/from-section/from-section.component';
+import { FormSearchComponent } from '../../components/basics/form-search/form-search.component';
 
 const components = {
   button: FormButtonComponent,
@@ -39,6 +40,7 @@ const components = {
   divider: FromDividerComponent,
   historic: FormHistoricComponent,
   table: FormListComponent,
+  search: FormSearchComponent,
 };
 
 @Directive({

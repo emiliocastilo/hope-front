@@ -8,7 +8,11 @@
     >
     </app-button>
   </div>
-  <div class="container-fluid master-table">
+  <div
+    [attr.id]="config.name"
+    [attr.name]="config.name"
+    class="container-fluid master-table"
+  >
     <table class="table table-striped">
       <thead>
         <tr>

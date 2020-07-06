@@ -21,6 +21,7 @@ export interface FieldConfig {
   max?: any;
   min?: any;
   enableWhen?: Array<any>;
+  hiddenWhen?: Array<any>;
   defaultValue?: any;
   hidden?: boolean;
   params?: Array<string>;
@@ -28,4 +29,5 @@ export interface FieldConfig {
   columns?: Array<any>;
   fields?: Array<any>;
   historic?: Array<any>;
+  endpoint?: string;
 }
