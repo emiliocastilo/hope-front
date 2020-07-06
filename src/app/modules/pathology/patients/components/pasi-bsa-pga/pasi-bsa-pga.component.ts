@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-pasi-bsa-pga',
@@ -6,9 +7,55 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pasi-bsa-pga.component.scss'],
 })
 export class PasiBsaPgaComponent implements OnInit {
-  constructor() {}
+  head: boolean;
+  sup: boolean;
+  inf: boolean;
+  body: boolean;
+  pasiForm: FormGroup;
+  options = ['1', '2', '3'];
 
-  ngOnInit(): void {}
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.pasiForm = this.fb.group({
+      cabeza: this.fb.group({
+        area: '',
+        eritema: '',
+        infiltracion: '',
+        escamas: '',
+        total: '',
+      }),
+      tronco: this.fb.group({
+        area: '',
+        eritema: '',
+        infiltracion: '',
+        escamas: '',
+        total: '',
+      }),
+      esup: this.fb.group({
+        area: '',
+        eritema: '',
+        infiltracion: '',
+        escamas: '',
+        total: '',
+      }),
+      einf: this.fb.group({
+        area: '',
+        eritema: '',
+        infiltracion: '',
+        escamas: '',
+        total: '',
+      }),
+    });
+  }
+
+  onCheckboxChange(event: any, name: string) {
+    this[name] = event.target.checked;
+  }
+
+  onSelect(event: any) {
+    console.log(this.pasiForm.value);
+  }
 
   onSave() {
     console.log('save');
