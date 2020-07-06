@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PatientModel } from '../../models/patient.model';
-import { FormGroup } from '@angular/forms';
-import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
-import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
 import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
@@ -20,14 +16,6 @@ export class DashboardPatientsComponent implements OnInit {
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
-  // public patientKeysToShow: string[] = [
-  //   'name',
-  //   'nhc',
-  //   'healthCard',
-  //   'dni',
-  //   'phone',
-  //   'genderCode',
-  // ];
   public selectedItem: number;
   public selectedPatient: PatientModel;
 

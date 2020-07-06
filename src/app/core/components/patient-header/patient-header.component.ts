@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientModel } from '../../../modules/pathology/patients/models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
-import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
 import { ChartObjectModel } from '../../models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../models/graphs/column-chart.model';
-import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 
 @Component({
   selector: 'app-patient-header',
@@ -14,6 +12,7 @@ import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service
 export class PatientHeaderComponent implements OnInit {
   public patientKeysToShow: string[] = [
     'name',
+    'firstSurname',
     'nhc',
     'healthCard',
     'dni',
@@ -25,11 +24,7 @@ export class PatientHeaderComponent implements OnInit {
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
 
-  constructor(
-    private _patientService: PatientsService,
-    private _patientDashboardService: PatientsDashboardService,
-    private _graphService: GraphsService
-  ) {}
+  constructor(private _patientService: PatientsService) {}
 
   ngOnInit(): void {
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
@@ -40,45 +35,5 @@ export class PatientHeaderComponent implements OnInit {
           this.selectedPatient = data;
         }
       });
-
-    this._patientDashboardService
-      .getPatientsDashboardById(this.selectedPatient.id)
-      .subscribe((data) => {
-        this.dataChart = this.parseDataChart(data);
-
-        const title = '';
-        const view = null;
-        const scheme = {
-          domain: ['#ffc107', '#2196f3'],
-        };
-        this.configChart = new ColumnChartModel(
-          title,
-          view,
-          scheme,
-          this.dataChart
-        );
-      });
-  }
-
-  private parseDataChart(data: any): ChartObjectModel[] {
-    const arrayData = Object.keys(data.indicesEvolution).map(
-      (keyYear: string) => {
-        const object = {
-          name: keyYear,
-          series: [],
-        };
-
-        data.indicesEvolution[keyYear].forEach((element) => {
-          const objectSerie = {
-            value: element.value,
-            name: new Date(element.date),
-          };
-          object.series.push(objectSerie);
-        });
-
-        return object;
-      }
-    );
-    return arrayData;
   }
 }
