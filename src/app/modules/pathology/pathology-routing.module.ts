@@ -28,6 +28,7 @@ import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocy
 import { SerologyComponent } from './patients/components/serology/serology.component';
 import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
+import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 
 const routes: Routes = [
   {
@@ -121,6 +122,14 @@ const routes: Routes = [
   {
     path: 'patients/diagnosis/comorbidities',
     component: ComorbiditiesComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/evolution/pasi',
+    component: PasiBsaPgaComponent,
     resolve: {
       patients: PatientsResolverService,
     },

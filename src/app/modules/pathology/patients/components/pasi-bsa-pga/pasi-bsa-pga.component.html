@@ -1,0 +1,88 @@
+<div>
+  <app-patient-header></app-patient-header>
+  <!-- pasi -->
+  <div class="pasi">
+    <div class="title">
+      Psoriasis Activity Severity Index (PASI)
+      <hr class="separator" />
+    </div>
+    <div class="container-flex">
+      <div class="svg">
+        <img src="assets/img/PASI.svg" alt="pasi" />
+        <div class="svg-data">
+          <div class="box-data">
+            bsa score <span class="box-data-info">40%</span>
+          </div>
+          <div class="box-data">
+            calificaion e base <span class="box-data-info">Leve</span>
+          </div>
+        </div>
+      </div>
+      <div class="boxes">
+        <div class="box-pasi"><input type="checkbox" /> cabeza y cuello</div>
+        <div class="box-pasi">
+          <input type="checkbox" /> extremidades superiores
+        </div>
+        <div class="box-pasi"><input type="checkbox" /> tronco</div>
+        <div class="box-pasi">
+          <input type="checkbox" /> extremidades inferiores
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bsa pga -->
+  <div class="double-title">
+    <div class="bsa">
+      <div class="title">
+        Body Surface Area (BSA)
+        <hr class="separator" />
+      </div>
+      <div class="container-flex">
+        <div class="box-data">
+          bsa score <span class="box-data-info">40%</span>
+        </div>
+        <div class="box-data">
+          calificaion e base <span class="box-data-info">Leve</span>
+        </div>
+      </div>
+    </div>
+    <div class="pga">
+      <div class="title">
+        Physician's Global Assessment (PGA)
+        <hr class="separator" />
+      </div>
+      <div class="container-flex">
+        <div class="box-data">
+          bsa score <span class="box-data-info">40%</span>
+        </div>
+        <div class="box-data">
+          calificaion e base <span class="box-data-info">Leve</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="eval-date">
+    <div class="title">
+      fecha evaluacion
+      <hr class="separator" />
+    </div>
+    <input type="date" />
+  </div>
+  <div class="buttons">
+    <app-button
+      type="button"
+      icono="check-circle"
+      clasesBtn="btn-primary btn-sm mx-2"
+      texto="btn.save"
+      (click)="onSave()"
+    ></app-button>
+    <app-button
+      type="button"
+      clasesBtn="btn-danger btn-sm mx-2"
+      icono="x"
+      texto="btn.cancel"
+      (click)="onClose()"
+    ></app-button>
+  </div>
+</div>

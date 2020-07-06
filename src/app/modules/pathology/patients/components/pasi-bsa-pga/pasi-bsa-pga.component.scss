@@ -1,0 +1,89 @@
+@import '~src/assets/styles/variables.scss';
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgb(54, 62, 99);
+  margin-top: 2.5rem;
+
+  .separator {
+    color: $app-color-blue-border;
+  }
+}
+
+.container-flex {
+  margin-top: 2rem;
+  display: flex;
+
+  .box-data {
+    margin-right: 2rem;
+    background-color: $app-color-blue-very-light;
+    padding: 0.5rem;
+    border: 1px solid $app-color-blue-border;
+
+    .box-data-info {
+      padding: 0.5rem;
+      width: 2rem;
+      font-weight: 600;
+      background-color: $app-color-blue-border;
+    }
+  }
+}
+
+.svg {
+  width: 45vw;
+  height: 84vh;
+  background:
+    transparent
+    linear-gradient(
+      180deg,
+      rgba(204, 224, 242, 0.14) 0%,
+      rgba(204, 224, 242, 0.48) 100%
+    )
+    0% 0% no-repeat padding-box;
+
+  img {
+    height: 80%;
+    position: relative;
+    top: 4vh;
+    left: 8vw;
+  }
+
+  .svg-data {
+    display: flex;
+    margin: 5vh 0 0 7vw;
+  }
+}
+
+.boxes {
+  width: 50vw;
+  display: flex;
+  flex-wrap: wrap;
+
+  .box-pasi {
+    margin: 0 0 2rem 2rem;
+    width: 18vw;
+    height: 40vh;
+    border: 1px solid $app-color-blue-border;
+  }
+}
+
+.double-title {
+  display: flex;
+
+  .bsa {
+    width: 50vw;
+
+    .separator {
+      margin-right: 3rem;
+    }
+  }
+
+  .pga {
+    width: 50vw;
+  }
+}
+
+.buttons {
+  margin: 2rem 0 2rem 0;
+}
