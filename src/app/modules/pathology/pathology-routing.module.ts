@@ -10,6 +10,7 @@ import { DashboardPatientsComponent } from './patients/components/dashboard-pati
 import { SociodemographicDataComponent } from './patients/components/sociodemographic-data/sociodemographic-data.component';
 import { GeneralPatientDataComponent } from './patients/components/general-patient-data/general-patient-data.component';
 import { TracingComponent } from './patients/components/tracing/tracing.component';
+import { EavPaseComponent } from './patients/components/eav-pase/eav-pase.component';
 import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
 import { ComplementaryImagingScansComponent } from './patients/components/complementary-imaging-scans/complementary-imaging-scans.component';
 import { AdherenceToTreatmentComponent } from './patients/components/adherence-to-treatment/adherence-to-treatment.component';
@@ -129,6 +130,14 @@ const routes: Routes = [
   {
     path: 'patients/tracing',
     component: TracingComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/evolution-clinical-indices/eav-pase',
+    component: EavPaseComponent,
     resolve: {
       patients: PatientsResolverService,
     },
