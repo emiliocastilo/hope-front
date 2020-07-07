@@ -257,7 +257,26 @@
   "spleen": "Tam. Bazo(cm)",
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
-  "scanDate": "Fecha"
+  "scanDate": "Fecha",
+  "dateStart": "Fecha de inicio",
+  "dateEnd": "Fecha de fin",
+  "indication": "Indicación",
+  "principle": "Principio",
+  "brand": "Marca",
+  "dose": "Dosis",
+  "type": "Tipo",
+  "waveLongitude": "Longitud de honda",
+  "timesAWeek":  "Veces por semana",
+  "sessionNumbers": "Numero de sesiones",
+  "uvb": "UVB",
+  "psoralenoPlusUva": "Psoraleno+Uva",
+  "specialIndication": "Indicación especial",
+  "bigPsychologicalImpact": "Gran impacto psicológico",
+  "visibleInjury": "Lesiones visibles",
+  "other": "Otras",
+  "datePrescription": "Fecha de prescripción",
+  "expectedEndDate": "Fecha fin prevista",
+  "areYouSureDelete": "¿Está seguro de que desea eliminar este registro?"
 }
 
 

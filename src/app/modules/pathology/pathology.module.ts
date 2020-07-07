@@ -29,6 +29,7 @@ import { SerologyComponent } from './patients/components/serology/serology.compo
 import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
 import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
+import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { SharedPatientsComponent } from './patients/components/shared-patients/s
     LeukocyteAntibodyAntigenComponent,
     BiologicalDrugMonitoringComponent,
     SharedPatientsComponent,
+    PhototherapyComponent,
   ],
   imports: [
     CommonModule,

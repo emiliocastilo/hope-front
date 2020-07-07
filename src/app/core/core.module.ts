@@ -58,6 +58,7 @@ import { LineChartComponent } from './components/charts/line-chart/line-chart.co
 import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
 import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from './components/basics/from-section/from-section.component';
+import { PhototherapyModalComponent } from './components/modals/phototherapy-modal/phototherapy-modal.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -114,6 +115,7 @@ export function createTranslateLoader(http: HttpClient) {
     ResultsPerPageComponent,
     LineChartComponent,
     FormHistoricComponent,
+    PhototherapyModalComponent,
   ],
   imports: [
     CommonModule,

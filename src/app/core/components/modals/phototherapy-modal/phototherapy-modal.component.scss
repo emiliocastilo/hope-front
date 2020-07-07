@@ -1,0 +1,37 @@
+@import '~src/assets/styles/variables.scss';
+
+.modal-header {
+  border-bottom: none;
+  padding: 2rem;
+
+  &.editor-modal-header {
+    color: $app-color-blue-main;
+  }
+
+  .close {
+    color: $app-color-blue-main;
+    font-size: 3rem;
+    font-weight: 100;
+    position: relative;
+    top: -0.9rem;
+
+    &:focus {
+      outline-color: white;
+    }
+  }
+}
+
+.modal-message {
+  padding: 2rem;
+  text-align: justify;
+}
+
+.modal-footer {
+  border-top: unset;
+  padding: 2rem;
+  margin-top: 2rem;
+
+  i {
+    margin: 0.3rem;
+  }
+}

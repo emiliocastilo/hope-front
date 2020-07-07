@@ -28,6 +28,7 @@ import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocy
 import { SerologyComponent } from './patients/components/serology/serology.component';
 import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
+import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
 
 const routes: Routes = [
   {
@@ -86,14 +87,6 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard],
   },
-  // {
-  //   path: 'patients/general-patient-data',
-  //   component: GeneralPatientDataComponent,
-  //   resolve: {
-  //     patients: PatientsResolverService,
-  //   },
-  //   canActivate: [AuthGuard],
-  // },
   {
     path: 'patients/diagnosis',
     component: DiagnosisComponent,
@@ -221,6 +214,11 @@ const routes: Routes = [
     resolve: {
       patients: PatientsResolverService,
     },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/phototherapy',
+    component: PhototherapyComponent,
     canActivate: [AuthGuard],
   },
 ];

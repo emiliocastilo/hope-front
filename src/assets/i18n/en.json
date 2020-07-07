@@ -255,5 +255,24 @@
   "spleen": "Tam. Spleen(cm)",
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
-  "scanDate": "Date"
+  "scanDate": "Date",
+  "dateStart": "Start date",
+  "dateEnd": "End date",
+  "indication": "Indication",
+  "principle": "Principle",
+  "brand": "brand",
+  "dose": "Dose",
+  "type": "Type",
+  "waveLongitude": "Wave longitude",
+  "timesAWeek":  "Times a week",
+  "sessionNumbers": "Session number",
+  "uvb": "UVB",
+  "psoralenoPlusUva": "Psoraleno+Uva",
+  "specialIndication": "Special indication",
+  "bigPsychologicalImpact": "Big psychological impact",
+  "visibleInjury": "Visible injury",
+  "other": "Other",
+  "datePrescription": "Prescription date",
+  "expectedEndDate": "Expected end date"
+  
 }

@@ -1,0 +1,33 @@
+<div class="modal-content">
+  <div class="modal-header editor-modal-header">
+    <h5 class="modal-title" id="exampleModalLongTitle">
+      {{ title | translate }}
+    </h5>
+    <button type="button" class="close" aria-label="Close" (click)="onClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-message"></div>
+  <div class="modal-footer editor-modal-footer">
+    <button
+      *ngIf="type === 'create'"
+      class="btn btn-primary"
+      (click)="onSave()"
+    >
+      <i-feather name="check"></i-feather>
+      {{ 'btn.save' | translate }}
+    </button>
+    <button
+      *ngIf="type === 'update'"
+      class="btn btn-primary"
+      (click)="onUpdate()"
+    >
+      <i-feather name="check"></i-feather>
+      {{ 'btn.update' | translate }}
+    </button>
+    <button class="btn btn-danger" (click)="onClose()">
+      <i-feather name="x"></i-feather>
+      {{ 'btn.close' | translate }}
+    </button>
+  </div>
+</div>
