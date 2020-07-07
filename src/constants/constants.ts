@@ -20,4 +20,5 @@ export const constants = {
   keyLeikocyteAntibodyAntigen: 'leukocyte-antibody-antigen',
   keyBiologicalDrugMonitoring: 'biological-drug-monitoring',
   keySharedPatient: 'shared-patients',
+  eavPase: 'eav-pase'
 };

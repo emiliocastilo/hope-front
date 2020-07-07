@@ -157,22 +157,56 @@ export default class FormUtils {
     });
   }
 
-  static parseEntriesForm(values: any) {
+  static parseEntriesForm(values: any, config: any) {
     const form = [];
     Object.entries(values).forEach((e: any) => {
-      // no se borra de momento porque en las tablas que su name contenga table se hacia una causitica
-      // especifica para no romper el resto de formularios y se queda de momento asi porque no es necesario
-      const entry = {
-        type: e[1] && e[1].length ? 'historic' : '',
-        name: e[0],
-        value: e[1],
-        // e[0].toLowerCase().includes('table')
-        // ? JSON.stringify(e[1])
-        // : e[1],
-      };
-      form.push(entry);
+      config.forEach((field: any) => {
+        if (field.name === e[0]) {
+          // no se borra de momento porque en las tablas que su name contenga table se hacia una causitica
+          // especifica para no romper el resto de formularios y se queda de momento asi porque no es necesario
+          const entry = {
+            type: field.type,
+            name: e[0],
+            value: e[1],
+            // e[0].toLowerCase().includes('table')
+            // ? JSON.stringify(e[1])
+            // : e[1],
+          };
+          form.push(entry);
+        }
+      });
     });
     return form;
+  }
+
+  static formatDataMultiGraph(translate, formKeys, keyTranslation, retrievedFormFormat) {
+    const parseData = [];
+
+    for (const key of formKeys) {
+      if (!key.includes('date')) {
+        const object = {
+          name: translate.instant(`${keyTranslation}.${key}`.toLowerCase()),
+          values: this.parseIsoToDate(retrievedFormFormat[key]),
+        };
+        if (object.values.length > 0) {
+          parseData.push(object);
+        }
+      }
+    }
+    return parseData;
+  }
+
+  static parseIsoToDate(array: any[]): any[] {
+    if (!array) {
+      return [];
+    }
+    const parseArrayData = array.map((object: any) => {
+      if (object.value) {
+        object.date = object.date ? new Date(object.date) : object.date;
+        return object;
+      }
+    });
+    return parseArrayData;
   }
 
   static ageBybirthdate(params: Array<any>) {

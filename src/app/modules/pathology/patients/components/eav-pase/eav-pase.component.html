@@ -1,0 +1,169 @@
+<app-patient-header></app-patient-header>
+<!--  <div class="modal-body editor-modal-body m-2">-->
+
+<form [formGroup]="form" (submit)="save($event)" novalidate>
+
+  <div>
+    <h2 class="title">{{'eavPase' | translate}}</h2>
+    <hr class="dynamic-form-title-divider" />
+  </div>
+
+  <section class="section-margin" class="col-sm-3">
+      <app-input
+        [formControlName]="'dateEvaluation'"
+        [id]="'dateEvaluation'"
+        [invalidLabel]="getInvalidLabel('dateEvaluation')"
+        [label]="'eavPase.' + 'dateEvaluation' | lowercase | translate"
+        [maxDate]="maxDate"
+        [name]="'dateEvaluation'"
+        [placeholder]="'eavPase.' + 'dateEvaluation' | lowercase | translate"
+        [required]="checkIfRequired('dateEvaluation')"
+        [type]="getType('dateEvaluation')"
+        [value]="form.controls['dateEvaluation'].value">
+      </app-input>
+  </section>
+
+  <section class="col-sm-12 subtitle section-margin">
+    {{'scaleEav' | translate}}
+  </section>
+
+  <section class="col-sm-12 section-margin">
+    <label class="dynamic-label label-radio" for="'evaluationPrurito'">
+      {{ 'eavPase.' + 'evaluationPrurito' | lowercase | translate }}
+      {{ checkIfRequired('evaluationPrurito') ? '*' : null }}
+    </label>
+    <div class="dynamic-label label-radio-description">
+      {{'evaluationPrurito' | translate}}
+    </div>
+    <div class="btn-group btn-group-toggle margin-firefox-gender label-radio-degree" name="radioBasic" ngbRadioGroup>
+        <div class="radio-button" *ngFor="let radioButton of arraysRadioButton; let i = index">
+          <input id="'evaluationPrurito' + {{i}}"  [formControlName]="'evaluationPrurito'" ngbButton type="radio" value="{{radioButton}}"/>
+          <label [ngClass]="{'radio-button-label-active': isActiveRadioButton('evaluationPrurito', radioButton)}" for="'evaluationPrurito' + {{i}}">{{radioButton}}</label>
+        </div>
+    </div>
+  </section>
+
+  <section class="col-sm-12 section-margin">
+    <label class="dynamic-label label-radio" for="'evaluationGlobalPatient'">
+      {{ 'eavPase.' + 'evaluationGlobalPatient' | lowercase | translate }}
+      {{ checkIfRequired('evaluationGlobalPatient') ? '*' : null }}
+    </label>
+    <div class="dynamic-label label-radio-description">
+      {{'evaluationGlobalPatient' | translate}}
+    </div>
+    <div class="btn-group btn-group-toggle margin-firefox-gender label-radio-degree" name="radioBasic" ngbRadioGroup>
+      <div class="radio-button" *ngFor="let radioButton of arraysRadioButton; let i = index">
+        <input id="'evaluationGlobalPatient' + {{i}}"  [formControlName]="'evaluationGlobalPatient'" ngbButton type="radio" value="{{radioButton}}"/>
+        <label [ngClass]="{'radio-button-label-active': isActiveRadioButton('evaluationGlobalPatient', radioButton)}" for="'evaluationGlobalPatient' + {{i}}">{{radioButton}}</label>
+      </div>
+    </div>
+  </section>
+
+  <section class="col-sm-12 section-margin">
+    <label class="dynamic-label label-radio" for="'evaluationGlobalMedic'">
+      {{ 'eavPase.' + 'evaluationGlobalMedic' | lowercase | translate }}
+      {{ checkIfRequired('evaluationGlobalMedic') ? '*' : null }}
+    </label>
+    <div class="dynamic-label label-radio-description">
+      {{'evaluationGlobalMedic' | translate}}
+    </div>
+    <div class="btn-group btn-group-toggle margin-firefox-gender label-radio-degree" name="radioBasic" ngbRadioGroup>
+      <div class="radio-button" *ngFor="let radioButton of arraysRadioButton; let i = index">
+        <input id="'evaluationGlobalMedic' + {{i}}"  [formControlName]="'evaluationGlobalMedic'" ngbButton type="radio" value="{{radioButton}}"/>
+        <label [ngClass]="{'radio-button-label-active': isActiveRadioButton('evaluationGlobalMedic', radioButton)}" for="'evaluationGlobalMedic' + {{i}}">{{radioButton}}</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="title">
+    <h2 class="title">{{'psoriaticArthritis' | translate}}</h2>
+    <hr class="dynamic-form-title-divider" />
+  </div>
+
+  <section class="col-sm-3">
+      <app-input
+        [formControlName]="'dateEvaluation2'"
+        [id]="'dateEvaluation2'"
+        [invalidLabel]="getInvalidLabel('dateEvaluation2')"
+        [label]="'eavPase.' + 'dateEvaluation2' | lowercase | translate"
+        [maxDate]="maxDate"
+        [name]="'dateEvaluation2'"
+        [placeholder]="'eavPase.' + 'dateEvaluation2' | lowercase | translate"
+        [required]="checkIfRequired('dateEvaluation2')"
+        [type]="getType('dateEvaluation2')"
+        [value]="form.controls['dateEvaluation2'].value">
+      </app-input>
+  </section>
+
+  <section class="col-sm-4 section_pase_score_total">
+      <app-input
+        [formControlName]="'paseScoreTotal'"
+        [id]="'paseScoreTotal'"
+        [invalidLabel]="getInvalidLabel('paseScoreTotal')"
+        [label]="'eavPase.' + 'paseScoreTotal' | lowercase | translate"
+        [maxDate]="maxDate"
+        [name]="'paseScoreTotal'"
+        [placeholder]="'eavPase.' + 'paseScoreTotal' | lowercase | translate"
+        [required]="checkIfRequired('paseScoreTotal')"
+        [type]="getType('paseScoreTotal')"
+        [value]="form.controls['paseScoreTotal'].value"
+        [isDisabled]="true">
+      </app-input>
+      <button class="btn btn-primary button_score_total" (click)="showModal()">
+        {{'calculatorPase' | translate}}
+      </button>
+  </section>
+
+  <section class="col-sm-4">
+      <app-input
+        [formControlName]="'valuationSymptoms'"
+        [id]="'valuationSymptoms'"
+        [invalidLabel]="getInvalidLabel('valuationSymptoms')"
+        [label]="'eavPase.' + 'valuationSymptoms' | lowercase | translate"
+        [maxDate]="maxDate"
+        [name]="'valuationSymptoms'"
+        [placeholder]="'eavPase.' + 'valuationSymptoms' | lowercase | translate"
+        [required]="checkIfRequired('valuationSymptoms')"
+        [type]="getType('valuationSymptoms')"
+        [value]="form.controls['valuationSymptoms'].value"
+        [isDisabled]="true">
+      </app-input>
+  </section>
+
+  <section class="col-sm-4">
+      <app-input
+        [formControlName]="'valuationFunctional'"
+        [id]="'valuationFunctional'"
+        [invalidLabel]="getInvalidLabel('valuationFunctional')"
+        [label]="'eavPase.' + 'valuationFunctional' | lowercase | translate"
+        [maxDate]="maxDate"
+        [name]="'valuationFunctional'"
+        [placeholder]="'eavPase.' + 'valuationFunctional' | lowercase | translate"
+        [required]="checkIfRequired('valuationFunctional')"
+        [type]="getType('valuationFunctional')"
+        [value]="form.controls['valuationFunctional'].value"
+        [isDisabled]="true">
+      </app-input>
+  </section>
+
+  <label *ngIf="showRequiredLegend" class="requiredLegend">
+    {{ 'requiredLegendText' | translate }}
+  </label>
+
+  <section class="col-sm-12">
+    <div class="buttons">
+      <div class="submit-button">
+        <button class="btn btn-primary" type="submit" [disabled]="invalidForm()">
+          {{ 'btn.save' | translate }}
+        </button>
+        <button class="btn btn-primary" (click)="showChartFront()">
+          {{ 'Graficos' | translate }}
+        </button>
+        <button class="btn btn-primary" type="submit">
+          {{ 'btn.cancel' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+</form>
+
