@@ -61,7 +61,7 @@ export class FormsComponent implements OnInit {
     if (value) {
       const form = {
         template: this.key,
-        data: FormUtils.parseEntriesForm(value),
+        data: FormUtils.parseEntriesForm(value, this.config),
         patientId: this.patient.id,
       };
 
