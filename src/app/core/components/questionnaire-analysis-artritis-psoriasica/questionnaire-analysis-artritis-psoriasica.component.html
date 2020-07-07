@@ -6,29 +6,9 @@
       <thead>
         <tr>
           <td></td>
-          <th class="header-column_block">
+          <th class="header-column_block" *ngFor="let replyNumber of repliesValues">
             <div class="header-column">
-              {{'questionnaire-analysis-artritis-psoriasica.reply-1' | translate}}
-            </div>
-          </th>
-          <th class="header-column_block">
-            <div class="header-column">
-              {{'questionnaire-analysis-artritis-psoriasica.reply-2' | translate}}
-            </div>
-          </th>
-          <th class="header-column_block">
-            <div class="header-column">
-              {{'questionnaire-analysis-artritis-psoriasica.reply-3' | translate}}
-            </div>
-          </th>
-          <th class="header-column_block">
-            <div class="header-column">
-              {{'questionnaire-analysis-artritis-psoriasica.reply-4' | translate}}
-            </div>
-          </th>
-          <th class="header-column_block">
-            <div class="header-column">
-              {{'questionnaire-analysis-artritis-psoriasica.reply-5' | translate}}
+              {{'questionnaire-analysis-artritis-psoriasica.reply-' + replyNumber | translate}}
             </div>
           </th>
         </tr>

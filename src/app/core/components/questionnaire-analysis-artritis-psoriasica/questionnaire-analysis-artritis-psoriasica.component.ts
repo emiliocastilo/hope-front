@@ -43,21 +43,9 @@ export class QuestionnaireAnalysisArtritisPsoriasicaComponent implements OnInit 
       paseScoreTotal: [''],
     });
 
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-1');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-2');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-3');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-4');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-5');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-6');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-7');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-8');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-9');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-10');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-11');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-12');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-13');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-14');
-    this.questions.push('questionnaire-analysis-artritis-psoriasica.question-15');
+    for (let i = 1; i <= 15; i++) {
+      this.questions.push(`questionnaire-analysis-artritis-psoriasica.question-${i}`);
+    }
 
     if (this.form) {
       this.formKeys = Object.keys(this.form.controls);
