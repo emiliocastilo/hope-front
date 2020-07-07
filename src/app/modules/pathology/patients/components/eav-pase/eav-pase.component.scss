@@ -66,23 +66,23 @@
   }
 
   label {
-    background-color: #FFFFFF;
+    background-color: #fff;
     width: 59px;
     height: 36px;
-    color: #000000;
+    color: #000;
     margin: 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border: 1px solid #CCE0F2;
+    border: 1px solid #cce0f2;
     cursor: pointer;
   }
 
   .radio-button-label-active {
-    background-color: #29A9E0;
-    color: #FFFFFF;
-    border: 1px solid #363E63;
+    background-color: #29a9e0;
+    color: #fff;
+    border: 1px solid #363e63;
   }
 }
 
@@ -102,7 +102,6 @@
   margin-left: 20px;
   margin-top: 20px;
   min-width: 150px;
-
 }
 
 .buttons {
