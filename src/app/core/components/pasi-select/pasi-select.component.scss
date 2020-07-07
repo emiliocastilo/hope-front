@@ -1,0 +1,51 @@
+@import '~src/assets/styles/variables.scss';
+
+.custom-select {
+  margin: 0 1rem 1rem 1rem;
+  width: 15rem;
+  height: 2.4rem;
+  border: 1px solid $app-color-blue-border;
+  border-radius: 0;
+
+  select {
+    position: relative;
+    left: 6.6rem;
+    top: -2.7rem;
+    border: none;
+    width: 7rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .label {
+    padding: 0.3rem;
+    position: relative;
+    top: -0.35rem;
+    left: -0.75rem;
+    background-color: $app-color-blue-very-light;
+    height: 2.2rem;
+    width: 7rem;
+  }
+}
+
+.box-data {
+  height: 2.4rem;
+  width: 15rem;
+  margin: 0 1rem 1rem 1rem;
+  background-color: $app-color-blue-very-light;
+  padding: 0.5rem;
+  font-weight: 600;
+  border: 1px solid $app-color-blue-border;
+
+  .box-data-info {
+    position: relative;
+    padding: 0.5rem;
+    background-color: white;
+    text-align: center;
+    width: 7.8rem;
+    height: 2.3rem;
+    top: -2rem;
+    left: 6.6rem;
+  }
+}

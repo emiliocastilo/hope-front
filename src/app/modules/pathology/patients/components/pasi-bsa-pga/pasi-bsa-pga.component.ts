@@ -12,7 +12,6 @@ export class PasiBsaPgaComponent implements OnInit {
   inf: boolean;
   body: boolean;
   pasiForm: FormGroup;
-  options = ['1', '2', '3'];
 
   constructor(private fb: FormBuilder) {}
 
@@ -49,12 +48,8 @@ export class PasiBsaPgaComponent implements OnInit {
     });
   }
 
-  onCheckboxChange(event: any, name: string) {
-    this[name] = event.target.checked;
-  }
-
-  onSelect(event: any) {
-    console.log(this.pasiForm.value);
+  isChecked(event: any, field: string) {
+    this[field] = event;
   }
 
   onSave() {

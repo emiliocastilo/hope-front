@@ -220,7 +220,6 @@
   "analysisReason": "Motivo del análisis",
   "sericLevels": "Niveles séricos",
   "rxDatas": "Datos Rx",
-  "rxDatasDate": "Datos Rx",
   "rxDatasDate": "Fecha",
   "localized": "Localización",
   "rxDatasDiagnosis": "Diagnóstico",
@@ -248,7 +247,6 @@
   "tacPatologia": "Patología",
   "anatomy": "Anatomía Patológica",
   "anatomyDate": "Fecha",
-  "anatomy": "Texto",
   "hypertrophy": "Hipertrofia",
   "doppler": "Doppler",
   "tenosivitis": "Tenosivitis",
@@ -257,7 +255,15 @@
   "spleen": "Tam. Bazo(cm)",
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
-  "scanDate": "Fecha"
+  "scanDate": "Fecha",
+  "evaluationDate": "Fecha de evaluación",
+  "headNeck": "Cabeza y cuello",
+  "superiorExtremities": "Extremidades superiores",
+  "body": "Tronco",
+  "lowerExtremities": "Extremidades inferiores",
+  "notAffected": "No afectación",
+  "mild": "Leve",
+  "moderate": "Moderado",
+  "serious": "Grave",
+  "verySerious": "Muy grave"
 }
-
-

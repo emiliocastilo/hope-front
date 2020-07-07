@@ -1,0 +1,19 @@
+<div>
+  <div class="custom-select" *ngFor="let select of selects">
+    <label class="label">{{ select.label }}</label>
+    <select
+      [disabled]="disabled"
+      [name]="select.id"
+      [id]="select.id"
+      (change)="onSelect($event)"
+    >
+      <option *ngFor="let option of select.options" [ngValue]="option">
+        {{ option | translate }}
+      </option>
+    </select>
+  </div>
+  <div class="box-data">
+    TOTAL
+    <div class="box-data-info">{{ total ? total : '-' }}</div>
+  </div>
+</div>

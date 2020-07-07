@@ -12,59 +12,43 @@
           <img src="assets/img/PASI.svg" alt="pasi" />
           <div class="svg-data">
             <div class="box-data">
-              bsa score <span class="box-data-info">40%</span>
+              PASI SCORE
+              <div class="box-data-info">40 / 72</div>
             </div>
             <div class="box-data">
-              calificaion e base <span class="box-data-info">Leve</span>
+              CALIFICACION EN BASE A PASI
+              <div class="box-data-info">BLANQUEADO</div>
             </div>
           </div>
         </div>
         <div class="boxes">
           <div class="box-pasi" formGroupName="cabeza">
-            <input
-              type="checkbox"
-              (change)="onCheckboxChange($event, 'head')"
-            />
-            cabeza y cuello
-            <select
-              [disabled]="!head"
-              class="form-control"
-              name="area"
-              id="area"
-              formControlName="area"
-              (change)="onSelect($event)"
-            >
-              <option *ngFor="let option of options" [ngValue]="option">
-                {{ option | translate }}
-              </option>
-            </select>
+            <app-pasi-checkbox
+              label="headNeck"
+              (checked)="isChecked($event, 'head')"
+            ></app-pasi-checkbox>
+            <app-pasi-select [disabled]="!head"></app-pasi-select>
           </div>
           <div class="box-pasi" formGroupName="esup">
-            <input type="checkbox" (change)="onCheckboxChange($event, 'sup')" />
-            extremidades superiores
-            <select
-              [disabled]="!sup"
-              class="form-control"
-              name="area"
-              id="area"
-              formControlName="area"
-              (change)="onSelect($event)"
-            >
-              <option *ngFor="let option of options" [ngValue]="option">
-                {{ option | translate }}
-              </option>
-            </select>
+            <app-pasi-checkbox
+              label="superiorExtremities"
+              (checked)="isChecked($event, 'sup')"
+            ></app-pasi-checkbox>
+            <app-pasi-select [disabled]="!sup"></app-pasi-select>
           </div>
           <div class="box-pasi">
-            <input
-              type="checkbox"
-              (change)="onCheckboxChange($event, 'body')"
-            />
-            tronco
+            <app-pasi-checkbox
+              label="body"
+              (checked)="isChecked($event, 'body')"
+            ></app-pasi-checkbox>
+            <app-pasi-select [disabled]="!body"></app-pasi-select>
           </div>
           <div class="box-pasi">
-            <input type="checkbox" (change)="onCheckboxChange($event, 'inf')" />
-            extremidades inferiores
+            <app-pasi-checkbox
+              label="lowerExtremities"
+              (checked)="isChecked($event, 'inf')"
+            ></app-pasi-checkbox>
+            <app-pasi-select [disabled]="!inf"></app-pasi-select>
           </div>
         </div>
       </div>
@@ -79,10 +63,12 @@
         </div>
         <div class="container-flex">
           <div class="box-data">
-            bsa score <span class="box-data-info">40%</span>
+            bsa score
+            <div class="box-data-info">40%</div>
           </div>
           <div class="box-data">
-            calificaion e base <span class="box-data-info">Leve</span>
+            calificaion e base
+            <div class="box-data-info">Leve</div>
           </div>
         </div>
       </div>
@@ -93,17 +79,19 @@
         </div>
         <div class="container-flex">
           <div class="box-data">
-            bsa score <span class="box-data-info">40%</span>
+            bsa score
+            <div class="box-data-info">40%</div>
           </div>
           <div class="box-data">
-            calificaion e base <span class="box-data-info">Leve</span>
+            calificaion e base
+            <div class="box-data-info">Leve</div>
           </div>
         </div>
       </div>
     </div>
     <div class="eval-date">
       <div class="title">
-        fecha evaluacion
+        {{ 'evaluationDate' | translate }}
         <hr class="separator" />
       </div>
       <input type="date" />

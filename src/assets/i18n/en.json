@@ -218,7 +218,6 @@
   "analysisReason": "Analysis reason",
   "sericLevels": "seric Levels",
   "rxDatas": "Rx data",
-  "rxDatasDate": "Rx data",
   "rxDatasDate": "Date",
   "localized": "Location",
   "rxDatasDiagnosis": "Diagnosis",
@@ -246,7 +245,6 @@
   "tacPatologia": "Pathology",
   "anatomy": "Pathological anatomy",
   "anatomyDate": "Date",
-  "anatomy": "Texto",
   "hypertrophy": "Hypertrophy",
   "doppler": "Doppler",
   "tenosivitis": "Tenosynovitis",
@@ -255,5 +253,15 @@
   "spleen": "Tam. Spleen(cm)",
   "porta": "Tam. Porta(cm)",
   "velocity": "Vel. Porta(cm/sg)",
-  "scanDate": "Date"
+  "scanDate": "Date",
+  "evaluationDate": "Evaluation date",
+  "headNeck": "Head and neck",
+  "superiorExtremities": "Superior extremities",
+  "body": "Body",
+  "lowerExtremities": "Lower extremities",
+  "notAffected": "Not affected",
+  "mild": "Mild",
+  "moderate": "Moderate",
+  "serious": "Serious",
+  "verySerious": "Very serious"
 }

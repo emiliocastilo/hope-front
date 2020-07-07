@@ -17,22 +17,35 @@
 
   .box-data {
     margin-right: 2rem;
+    height: 2.3rem;
+    width: 15rem;
     background-color: $app-color-blue-very-light;
     padding: 0.5rem;
     border: 1px solid $app-color-blue-border;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     .box-data-info {
       padding: 0.5rem;
-      width: 2rem;
+      width: 5rem;
+      height: 2.2rem;
       font-weight: 600;
+      position: relative;
+      top: -2rem;
+      left: 9.5rem;
+      text-align: center;
       background-color: $app-color-blue-border;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }
 
 .svg {
   width: 45vw;
-  height: 84vh;
+  height: 97.5vh;
   background:
     transparent
     linear-gradient(
@@ -51,7 +64,7 @@
 
   .svg-data {
     display: flex;
-    margin: 5vh 0 0 7vw;
+    margin: 3rem 0 0 1rem;
   }
 }
 
@@ -62,8 +75,8 @@
 
   .box-pasi {
     margin: 0 0 2rem 2rem;
-    width: 18vw;
-    height: 40vh;
+    width: 17rem;
+    height: 21rem;
     border: 1px solid $app-color-blue-border;
   }
 }

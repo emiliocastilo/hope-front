@@ -58,6 +58,8 @@ import { LineChartComponent } from './components/charts/line-chart/line-chart.co
 import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
 import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from './components/basics/from-section/from-section.component';
+import { PasiSelectComponent } from './components/pasi-select/pasi-select.component';
+import { PasiCheckboxComponent } from './components/pasi-checkbox/pasi-checkbox.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -114,6 +116,8 @@ export function createTranslateLoader(http: HttpClient) {
     ResultsPerPageComponent,
     LineChartComponent,
     FormHistoricComponent,
+    PasiSelectComponent,
+    PasiCheckboxComponent,
   ],
   imports: [
     CommonModule,
@@ -146,6 +150,8 @@ export function createTranslateLoader(http: HttpClient) {
     ButtonComponent,
     InputComponent,
     InputSelectComponent,
+    PasiSelectComponent,
+    PasiCheckboxComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,
