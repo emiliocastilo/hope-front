@@ -38,8 +38,8 @@ export default class FormUtils {
     fieldConfig.options = value.options;
     fieldConfig.placeholder = value.placeholder;
     // meter propieddad defaulvalue y quitar el value type checkbox
-    fieldConfig.value =
-      !isFormFilled && value.defaultValue ? value.defaultValue : value.value;
+    fieldConfig.value = this.configDefautlValue(value, isFormFilled);
+
     fieldConfig.icon = value.icon;
     fieldConfig.selectMultiple = value.selectMultiple;
     fieldConfig.radioButton = value.radioButton;
@@ -117,6 +117,25 @@ export default class FormUtils {
       // }
     });
     return finalValidators;
+  }
+
+  static configDefautlValue(value, isFormFilled) {
+    if (!isFormFilled && value.defaultValue) {
+      switch (value.type) {
+        case 'datepicker':
+          if (value.defaultValue === 'today') {
+            return moment(new Date()).format('YYYY-MM-DD');
+          } else {
+            return value.defaultValue;
+          }
+          break;
+        default:
+          return value.defaultValue;
+          break;
+      }
+    } else {
+      return value.value;
+    }
   }
 
   static parseValueIntoPattern(decimalPattern: string, value: string): string {

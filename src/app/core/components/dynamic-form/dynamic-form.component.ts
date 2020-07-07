@@ -13,6 +13,7 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment';
 
 @Component({
   exportAs: 'dynamicForm',

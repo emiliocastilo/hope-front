@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
@@ -9,7 +9,7 @@ import moment from 'moment';
   templateUrl: './form-datepicker.component.html',
   styleUrls: ['./form-datepicker.component.scss'],
 })
-export class FormDatepickerComponent {
+export class FormDatepickerComponent implements OnInit {
   @Input() type = 'date';
   config: FieldConfig;
   group: FormGroup;
