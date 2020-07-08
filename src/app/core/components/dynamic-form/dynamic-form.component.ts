@@ -85,10 +85,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       );
       if (calculatedFields && calculatedFields.length > 0) {
         calculatedFields.forEach((field) => {
-          if (
-            this.form.controls[field.enableWhen[0]].value ===
-            field.enableWhen[1]
-          ) {
+          if (this.enabledWhen(field)) {
             this.setDisabled(field.name, false);
           } else {
             this.setDisabled(field.name, true);
@@ -101,7 +98,15 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       }, 20);
     });
   }
-
+  enabledWhen(field: FieldConfig) {
+    if (field.enableWhen[1] === 'not_empty') {
+      return this.form.controls[field.enableWhen[0]].value !== '';
+    } else {
+      return (
+        this.form.controls[field.enableWhen[0]].value === field.enableWhen[1]
+      );
+    }
+  }
   displayElement(config) {
     const calculatedFields = config.filter(
       (e) => e.hiddenWhen && e.hiddenWhen.length >= 2
@@ -109,10 +114,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     if (calculatedFields && calculatedFields.length > 0) {
       calculatedFields.forEach((field) => {
         if (document.getElementById(field.name)) {
-          if (
-            this.form.controls[field.hiddenWhen[0]].value ===
-            field.hiddenWhen[1]
-          ) {
+          if (this.hiddenWhen(field)) {
             field.hidden = false;
           } else if (field.type === 'table' || field.type === 'historic') {
             field.hidden = true;
@@ -125,7 +127,15 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       });
     }
   }
-
+  hiddenWhen(field: FieldConfig) {
+    if (field.hiddenWhen[1] === 'not_empty') {
+      return this.form.controls[field.hiddenWhen[0]].value !== '';
+    } else {
+      return (
+        this.form.controls[field.hiddenWhen[0]].value === field.hiddenWhen[1]
+      );
+    }
+  }
   ngOnChanges() {
     if (this.form) {
       const controls = Object.keys(this.form.controls);
