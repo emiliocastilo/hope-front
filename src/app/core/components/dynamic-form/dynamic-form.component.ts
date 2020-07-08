@@ -82,7 +82,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       );
       if (calculatedFields && calculatedFields.length > 0) {
         calculatedFields.forEach((field) => {
-          if (this.enabledWhen(this.form, field)) {
+          if (this.enabledWhen(field)) {
             this.setDisabled(field.name, false);
           } else {
             this.setDisabled(field.name, true);
@@ -95,7 +95,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       }, 20);
     });
   }
-  enabledWhen(form: FormGroup, field: FieldConfig) {
+  enabledWhen(field: FieldConfig) {
     if (field.enableWhen[1] === 'not_empty') {
       return this.form.controls[field.enableWhen[0]].value !== '';
     } else {
@@ -111,7 +111,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     if (calculatedFields && calculatedFields.length > 0) {
       calculatedFields.forEach((field) => {
         if (document.getElementById(field.name)) {
-          if (this.hiddenWhen(this.form, field)) {
+          if (this.hiddenWhen(field)) {
             field.hidden = false;
           } else if (field.type === 'table' || field.type === 'historic') {
             field.hidden = true;
@@ -124,7 +124,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       });
     }
   }
-  hiddenWhen(form: FormGroup, field: FieldConfig) {
+  hiddenWhen(field: FieldConfig) {
     if (field.hiddenWhen[1] === 'not_empty') {
       return this.form.controls[field.hiddenWhen[0]].value !== '';
     } else {
