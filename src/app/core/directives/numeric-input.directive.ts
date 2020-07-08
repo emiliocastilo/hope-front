@@ -8,7 +8,7 @@ export class NumericInput {
   private regex: RegExp = new RegExp(/^\d*\.?\d{0,1}$/g);
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    let e = <KeyboardEvent>event;
+    const e = event as KeyboardEvent;
 
     if (
       [46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
@@ -26,7 +26,7 @@ export class NumericInput {
     ) {
       e.preventDefault();
     }
-    let current: string = this.el.nativeElement.value;
+    const current: string = this.el.nativeElement.value;
     const position = this.el.nativeElement.selectionStart;
     const next: string = [
       current.slice(0, position),
