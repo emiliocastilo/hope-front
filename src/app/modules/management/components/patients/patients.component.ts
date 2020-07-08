@@ -176,6 +176,7 @@ export class PatientsComponent implements OnInit {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
+    this.modalForm.controls.lastSurname.setValue('');
     this.showModal();
   }
 
