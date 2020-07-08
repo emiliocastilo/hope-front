@@ -176,6 +176,7 @@ export class PatientsComponent implements OnInit {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
+    this.modalForm.controls.lastSurname.setValue('');
     this.showModal();
   }
 
@@ -189,7 +190,7 @@ export class PatientsComponent implements OnInit {
       .deletePatient(this.patients[this.selectedItem].id)
       .subscribe(
         (response) => {
-          this._notification.showSuccessToast('element_deleted');
+          this._notification.showSuccessToast('elementDeleted');
           this.refreshData(`&page=${this.currentPage}`);
         },
         ({ error }) => {

@@ -206,7 +206,7 @@ export class MedicsComponent implements OnInit {
     if (this.isEditing) {
       this._medicService.updateDoctor(doctor).subscribe(
         (response) => {
-          this._notification.showSuccessToast('element_updated');
+          this._notification.showSuccessToast('elementUpdated');
           this.isEditing = false;
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
@@ -218,7 +218,7 @@ export class MedicsComponent implements OnInit {
     } else {
       this._medicService.postDoctor(doctor).subscribe(
         (response) => {
-          this._notification.showSuccessToast('element_created');
+          this._notification.showSuccessToast('elementCreated');
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },
@@ -316,7 +316,7 @@ export class MedicsComponent implements OnInit {
       .subscribe(
         (response) => {
           this.refreshData(`&page=${this.currentPage}`);
-          this._notification.showSuccessToast('element_deleted');
+          this._notification.showSuccessToast('elementDeleted');
         },
         ({ error }) => {
           this._notification.showErrorToast(error.errorCode);
