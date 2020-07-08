@@ -22,6 +22,7 @@
   font-family: 'Raleway', sans-serif;
   opacity: 1;
   text-align: left;
+  margin-top: 40px;
 }
 
 .subtitle {
@@ -44,7 +45,13 @@
 
 .label-radio-degree {
   //opacity: 0.2;
-  background-image: linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 213, 0, 0.2), rgba(0, 255, 59, 0.2));
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(255, 0, 0, 0.2),
+      rgba(255, 213, 0, 0.2),
+      rgba(0, 255, 59, 0.2)
+    );
   width: 868px;
   height: 50px;
   display: flex;
@@ -66,28 +73,24 @@
   }
 
   label {
-    background-color: #fff;
+    background-color: white;
     width: 59px;
     height: 36px;
-    color: #000;
+    color: black;
     margin: 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border: 1px solid #cce0f2;
+    border: 1px solid rgb(204, 224, 242);
     cursor: pointer;
   }
 
   .radio-button-label-active {
-    background-color: #29a9e0;
-    color: #fff;
-    border: 1px solid #363e63;
+    background-color: rgb(41, 169, 224);
+    color: white;
+    border: 1px solid rgb(54, 62, 99);
   }
-}
-
-.title {
-  margin-top: 40px;
 }
 
 .section_pase_score_total {

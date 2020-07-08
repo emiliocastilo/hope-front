@@ -22,9 +22,7 @@ export class ManyChartModalComponent implements OnInit {
   public dataParsed: any[] = [];
   public columnsHeader: string[] = ['date', 'value'];
 
-  constructor(
-    private _translate: TranslateService
-  ) {}
+  constructor(private _translate: TranslateService) {}
 
   ngOnInit(): void {
     this.data.forEach((element: any) => {
@@ -43,7 +41,6 @@ export class ManyChartModalComponent implements OnInit {
   }
 
   private parseDataChart(data: any): ColumnChartModel {
-
     const values: ChartObjectModel[] = [
       {
         name: data.name,
