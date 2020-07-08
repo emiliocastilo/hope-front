@@ -53,7 +53,7 @@ export class FormsComponent implements OnInit {
       const buttons = this._parseStringToJSON(data.buttons);
       this.buttons = FormUtils.createButtons(buttons);
     } else {
-      this._notification.showErrorToast('form_not_found');
+      this._notification.showErrorToast('formNotFound');
     }
   }
 
@@ -71,14 +71,14 @@ export class FormsComponent implements OnInit {
         this.fillForm(form);
       }
     } else {
-      this._notification.showErrorToast('error_form');
+      this._notification.showErrorToast('errorForm');
     }
   }
 
   fillForm(form: any) {
     this._formsService.fillForm(form).subscribe(
       () => {
-        this._notification.showSuccessToast('element_created');
+        this._notification.showSuccessToast('elementCreated');
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
@@ -90,7 +90,7 @@ export class FormsComponent implements OnInit {
     this._formsService.updateForm(form).subscribe(
       (data: any) => {
         this.getAndParseForm();
-        this._notification.showSuccessToast('element_updated');
+        this._notification.showSuccessToast('elementUpdated');
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
