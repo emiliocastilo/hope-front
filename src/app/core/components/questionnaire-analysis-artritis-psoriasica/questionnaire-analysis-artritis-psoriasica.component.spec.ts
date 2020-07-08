@@ -13,7 +13,9 @@ describe('TableComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuestionnaireAnalysisArtritisPsoriasicaComponent);
+    fixture = TestBed.createComponent(
+      QuestionnaireAnalysisArtritisPsoriasicaComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

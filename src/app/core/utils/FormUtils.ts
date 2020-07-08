@@ -179,7 +179,12 @@ export default class FormUtils {
     return form;
   }
 
-  static formatDataMultiGraph(translate, formKeys, keyTranslation, retrievedFormFormat) {
+  static formatDataMultiGraph(
+    translate,
+    formKeys,
+    keyTranslation,
+    retrievedFormFormat
+  ) {
     const parseData = [];
 
     for (const key of formKeys) {

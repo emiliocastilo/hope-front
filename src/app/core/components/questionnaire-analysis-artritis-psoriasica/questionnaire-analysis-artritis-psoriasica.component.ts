@@ -7,7 +7,8 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
   templateUrl: './questionnaire-analysis-artritis-psoriasica.component.html',
   styleUrls: ['./questionnaire-analysis-artritis-psoriasica.component.scss'],
 })
-export class QuestionnaireAnalysisArtritisPsoriasicaComponent implements OnInit {
+export class QuestionnaireAnalysisArtritisPsoriasicaComponent
+  implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<any> = new EventEmitter();
   public form: FormGroup;
@@ -44,7 +45,9 @@ export class QuestionnaireAnalysisArtritisPsoriasicaComponent implements OnInit 
     });
 
     for (let i = 1; i <= 15; i++) {
-      this.questions.push(`questionnaire-analysis-artritis-psoriasica.question-${i}`);
+      this.questions.push(
+        `questionnaire-analysis-artritis-psoriasica.question-${i}`
+      );
     }
 
     if (this.form) {
@@ -117,7 +120,6 @@ export class QuestionnaireAnalysisArtritisPsoriasicaComponent implements OnInit 
       if (!isNaN(currentValue)) {
         valueSymptoms += currentValue;
       }
-
     }
 
     for (let i = 8; i <= 15; i++) {
@@ -148,8 +150,8 @@ export class QuestionnaireAnalysisArtritisPsoriasicaComponent implements OnInit 
     const values = {
       symptoms: this.form.controls['valuationSymptoms'].value,
       functional: this.form.controls['valuationFunctional'].value,
-      pasetotal: this.form.controls['paseScoreTotal'].value
-    }
+      pasetotal: this.form.controls['paseScoreTotal'].value,
+    };
     this.save.emit(values);
   }
 }

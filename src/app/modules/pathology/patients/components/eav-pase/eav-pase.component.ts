@@ -16,7 +16,7 @@ import FormUtils from 'src/app/core/utils/FormUtils';
   templateUrl: './eav-pase.component.html',
   styleUrls: ['./eav-pase.component.scss'],
 })
-export class EavPaseComponent  implements OnInit {
+export class EavPaseComponent implements OnInit {
   key = constants.eavPase;
   public form: FormGroup;
   public maxDate: string = new Date().toISOString().split('T')[0];
@@ -32,10 +32,10 @@ export class EavPaseComponent  implements OnInit {
     private _modalService: NgbModal,
     private _formsService: FormsService,
     private _notification: NotificationService,
-    public _translate: TranslateService,
+    public _translate: TranslateService
   ) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.getForm();
     this.form = this._formBuilder.group({
       dateEvaluation: [moment(new Date()).format('YYYY-MM-DD')],
@@ -60,7 +60,6 @@ export class EavPaseComponent  implements OnInit {
       this.key,
       this.patient.id
     );
-
 
     if (this.retrievedForm && this.retrievedForm.data.length > 0) {
       for (const element of this.retrievedForm.data) {
@@ -124,7 +123,7 @@ export class EavPaseComponent  implements OnInit {
   }
 
   public isActiveRadioButton(key, value) {
-    const valueForm = parseInt(this.form.controls[key].value)
+    const valueForm = parseInt(this.form.controls[key].value);
     if (valueForm === value) {
       return true;
     }
@@ -137,9 +136,12 @@ export class EavPaseComponent  implements OnInit {
 
   public showModal() {
     event.preventDefault();
-    const modalRef = this._modalService.open(QuestionnaireAnalysisArtritisPsoriasicaComponent, {
-      size: 'xl',
-    });
+    const modalRef = this._modalService.open(
+      QuestionnaireAnalysisArtritisPsoriasicaComponent,
+      {
+        size: 'xl',
+      }
+    );
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -156,16 +158,22 @@ export class EavPaseComponent  implements OnInit {
   }
 
   public isValidForm() {
-    if ((!this.form.controls['dateEvaluation'].value) && (this.form.controls['evaluationPrurito'].value
-      || this.form.controls['evaluationPrurito'].value
-      || this.form.controls['evaluationPrurito'].value)) {
+    if (
+      !this.form.controls['dateEvaluation'].value &&
+      (this.form.controls['evaluationPrurito'].value ||
+        this.form.controls['evaluationPrurito'].value ||
+        this.form.controls['evaluationPrurito'].value)
+    ) {
       this._notification.showErrorToast('miss_date');
       return false;
     }
 
-    if ((!this.form.controls['dateEvaluation2'].value) && (this.form.controls['paseScoreTotal'].value
-      || this.form.controls['valuationSymptoms'].value
-      || this.form.controls['valuationFunctional'].value)) {
+    if (
+      !this.form.controls['dateEvaluation2'].value &&
+      (this.form.controls['paseScoreTotal'].value ||
+        this.form.controls['valuationSymptoms'].value ||
+        this.form.controls['valuationFunctional'].value)
+    ) {
       this._notification.showErrorToast('miss_date');
       return false;
     }
@@ -180,7 +188,7 @@ export class EavPaseComponent  implements OnInit {
     const form = {
       patientId: this.patient.id,
       template: this.key,
-      data: []
+      data: [],
     };
     let dateValue = '';
     for (let i = 0; i < this.formKeys.length; i++) {
@@ -194,7 +202,7 @@ export class EavPaseComponent  implements OnInit {
       object = {
         name: this.formKeys[i],
         type: 'historic',
-        value: this.getValueForm(this.formKeys[i], dateValue)
+        value: this.getValueForm(this.formKeys[i], dateValue),
       };
 
       form.data.push(object);
@@ -232,22 +240,19 @@ export class EavPaseComponent  implements OnInit {
         return [
           {
             date: date ? new Date(date).toISOString() : '',
-            value: currentValue
-          }
+            value: currentValue,
+          },
         ];
       } else {
         return [];
       }
-
     } else {
       const value = this.retrievedFormFormat[key];
       if (currentValue) {
-        value.push(
-          {
-            date: date ? new Date(date).toISOString() : '',
-            value: currentValue
-          }
-        );
+        value.push({
+          date: date ? new Date(date).toISOString() : '',
+          value: currentValue,
+        });
       }
       return value;
     }
@@ -256,7 +261,12 @@ export class EavPaseComponent  implements OnInit {
   showChartFront() {
     event.preventDefault();
 
-    const parseData = FormUtils.formatDataMultiGraph(this._translate, this.formKeys, 'eavpase', this.retrievedFormFormat);
+    const parseData = FormUtils.formatDataMultiGraph(
+      this._translate,
+      this.formKeys,
+      'eavpase',
+      this.retrievedFormFormat
+    );
 
     this.showModalGraph(parseData);
   }

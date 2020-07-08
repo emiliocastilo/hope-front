@@ -123,7 +123,7 @@ export function createTranslateLoader(http: HttpClient) {
     ManyChartModalComponent,
     MyAccountComponent,
     ChangePasswordModalComponent,
-    QuestionnaireAnalysisArtritisPsoriasicaComponent
+    QuestionnaireAnalysisArtritisPsoriasicaComponent,
   ],
   imports: [
     CommonModule,
