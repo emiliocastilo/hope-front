@@ -218,7 +218,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         control.name !== 'date'
       ) {
         const object = {
-          name: control.name,
+          name: control.label,
           values: this.parseIsoToDate(control.historic),
         };
         parseData.push(object);

@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-many-chart-modal',
   templateUrl: './many-chart-modal.component.html',
@@ -20,7 +22,7 @@ export class ManyChartModalComponent implements OnInit {
   public dataParsed: any[] = [];
   public columnsHeader: string[] = ['date', 'value'];
 
-  constructor() {}
+  constructor(private _translate: TranslateService) {}
 
   ngOnInit(): void {
     this.data.forEach((element: any) => {
@@ -59,7 +61,7 @@ export class ManyChartModalComponent implements OnInit {
     };
 
     const chartConfig = new ColumnChartModel(
-      data.name.toUpperCase(),
+      this._translate.instant(data.name),
       null,
       scheme,
       values,

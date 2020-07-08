@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { constants } from '../../../../../../constants/constants';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from 'src/app/core/components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
