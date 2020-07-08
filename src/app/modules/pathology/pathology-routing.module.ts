@@ -13,7 +13,8 @@ import { TracingComponent } from './patients/components/tracing/tracing.componen
 import { EavPaseComponent } from './patients/components/eav-pase/eav-pase.component';
 import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
 import { ComplementaryImagingScansComponent } from './patients/components/complementary-imaging-scans/complementary-imaging-scans.component';
-import { AdherenceToTreatmentComponent } from './patients/components/adherence-to-treatment/adherence-to-treatment.component';
+import { AdherenceToTreatmentMoriskyComponent } from './patients/components/adherence-to-treatment-morisky/adherence-to-treatment-morisky.component';
+import { AdherenceToTreatmentHaynesComponent } from './patients/components/adherence-to-treatment-haynes/adherence-to-treatment-haynes.component';
 import { ConsentComponent } from './patients/components/consent/consent.component';
 import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
 import { PhysicalConditionComponent } from './patients/components/physical-condition/physical-condition.component';
@@ -152,8 +153,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'patients/adherence-to-treatment',
-    component: AdherenceToTreatmentComponent,
+    path: 'patients/morisky-green',
+    component: AdherenceToTreatmentMoriskyComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/haynes-sackett',
+    component: AdherenceToTreatmentHaynesComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -167,7 +176,6 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard],
   },
-
   {
     path: 'patients/blood-count',
     component: BloodCountComponent,
