@@ -29,6 +29,8 @@ import { SerologyComponent } from './patients/components/serology/serology.compo
 import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
 import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
+import { NapsiComponent } from './patients/components/evolution-clinical-indices/napsi/napsi.component';
+import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/family-history.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { SharedPatientsComponent } from './patients/components/shared-patients/s
     ComplementaryImagingScansComponent,
     AdherenceToTreatmentComponent,
     ConsentComponent,
+    EvolutionClinicalIndicesComponent,
+    NapsiComponent,
     FamilyHistoryComponent,
     PhysicalConditionComponent,
     WorkGroupsComponent,

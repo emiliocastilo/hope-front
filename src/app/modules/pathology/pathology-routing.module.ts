@@ -28,6 +28,8 @@ import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocy
 import { SerologyComponent } from './patients/components/serology/serology.component';
 import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
+import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/family-history.component';
+import { NapsiComponent } from './patients/components/evolution-clinical-indices/napsi/napsi.component';
 
 const routes: Routes = [
   {
@@ -97,6 +99,22 @@ const routes: Routes = [
   {
     path: 'patients/diagnosis',
     component: DiagnosisComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/evolution-clinical-indices',
+    component: EvolutionClinicalIndicesComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/evolution-clinical-indices/napsi',
+    component: NapsiComponent,
     resolve: {
       patients: PatientsResolverService,
     },
