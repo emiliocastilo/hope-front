@@ -1,14 +1,24 @@
 <div class="modal-content">
-  <div class="modal-header editor-modal-header">
-    <h5 class="modal-title" id="exampleModalLongTitle">
-      {{ title | translate }}
-    </h5>
-    <button type="button" class="close" aria-label="Close" (click)="onClose()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-message"></div>
-  <div class="modal-footer editor-modal-footer">
+  <app-generic-modal-header [title]="title | translate" (close)="onClose()">
+  </app-generic-modal-header>
+
+  <form class="row" [formGroup]="form">
+    <div class="col-12" *ngFor="let formKey of options; index as fieldIndex">
+      <app-input
+        [id]="formKey"
+        [name]="formKey"
+        [formControlName]="formKey"
+        [label]="'modal.editor.field.' + formKey | translate"
+        [value]="form.controls[formKey].value"
+        [placeholder]="'modal.editor.field.' + formKey | translate"
+        type="formKey.type"
+        [invalidLabel]="getInvalidLabel(formKey)"
+      >
+      </app-input>
+    </div>
+  </form>
+
+  <section class="modal-content_button-container">
     <button
       *ngIf="type === 'create'"
       class="btn btn-primary"
@@ -29,5 +39,5 @@
       <i-feather name="x"></i-feather>
       {{ 'btn.close' | translate }}
     </button>
-  </div>
+  </section>
 </div>

@@ -1,37 +1,38 @@
-@import '~src/assets/styles/variables.scss';
+.modal-content {
+  padding: 3rem;
+  border: unset;
 
-.modal-header {
-  border-bottom: none;
-  padding: 2rem;
-
-  &.editor-modal-header {
-    color: $app-color-blue-main;
+  .modal-content_button-container {
+    display: flex;
+    justify-content: flex-end;
   }
 
-  .close {
-    color: $app-color-blue-main;
-    font-size: 3rem;
-    font-weight: 100;
-    position: relative;
-    top: -0.9rem;
+  .modal-content_checkbox-container {
+    align-items: baseline;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 
-    &:focus {
-      outline-color: white;
+    .modal-content_checkbox-container_container {
+      align-items: baseline;
+      display: flex;
+      margin-right: 1rem;
+      width: 8rem;
+
+      label {
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 6rem;
+      }
     }
   }
-}
 
-.modal-message {
-  padding: 2rem;
-  text-align: justify;
-}
-
-.modal-footer {
-  border-top: unset;
-  padding: 2rem;
-  margin-top: 2rem;
-
-  i {
-    margin: 0.3rem;
+  .modal-content_table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 0.8rem;
   }
 }

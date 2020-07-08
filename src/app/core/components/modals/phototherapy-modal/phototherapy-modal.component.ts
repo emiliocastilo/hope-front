@@ -9,6 +9,8 @@ import { FormGroup } from '@angular/forms';
 export class PhototherapyModalComponent implements OnInit {
   @Input() title: string;
   @Input() form: FormGroup;
+  @Input() type: string;
+  @Input() options: any[];
   @Output() cancel: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<any> = new EventEmitter();
   @Output() update: EventEmitter<any> = new EventEmitter();
@@ -26,6 +28,6 @@ export class PhototherapyModalComponent implements OnInit {
   }
 
   public onClose() {
-    this.cancel.emit(this.form);
+    this.cancel.emit(null);
   }
 }

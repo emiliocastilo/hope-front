@@ -103,8 +103,8 @@ export class PhototherapyComponent implements OnInit {
     modalRef.componentInstance.id = 'new-treatment';
     modalRef.componentInstance.title = 'btn.new';
     modalRef.componentInstance.form = this.modalForm;
-    modalRef.componentInstance.form = this.modalOptions;
-    modalRef.componentInstance.close.subscribe((event: any) => {
+    modalRef.componentInstance.options = this.modalOptions;
+    modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event: any) => {
