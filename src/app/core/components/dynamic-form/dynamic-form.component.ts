@@ -13,7 +13,6 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -33,18 +32,13 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.valueChanges;
   }
   get valid() {
-    return this.form.valid;
+    return this.form.valid && this.form.touched;
   }
   get value() {
     return this.form.value;
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private renderer: Renderer2,
-    private elmRef: ElementRef,
-    private _modalService: NgbModal
-  ) {}
+  constructor(private fb: FormBuilder, private _modalService: NgbModal) {}
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -190,11 +184,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    if (this.valid) {
-      this.submit.emit(this.value);
-    } else {
-      this.submit.emit(null);
-    }
+    this.submit.emit(this.value);
   }
 
   cleanClick(event: Event) {

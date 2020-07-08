@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
@@ -19,6 +19,7 @@ export class FormListComponent implements OnInit {
   detailArray: Array<any>;
   isAddingNewLine = false;
   lastEditLine: any;
+
   constructor(private modalService: NgbModal, private datePipe: DatePipe) {}
 
   ngOnInit() {
