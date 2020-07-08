@@ -5,15 +5,13 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  ElementRef,
-  Renderer2,
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment';
+import { FieldConfigModel } from '../../models/forms/field-config.model';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -39,12 +37,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.value;
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private renderer: Renderer2,
-    private elmRef: ElementRef,
-    private _modalService: NgbModal
-  ) {}
+  constructor(private fb: FormBuilder, private _modalService: NgbModal) {}
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -145,7 +138,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.form.addControl(name, controlArray);
           }
           if (config.type === 'historic') {
-            this.form.addControl(name, this.createHistoric());
+            this.form.addControl(name, this.createHistoric(config));
           }
         });
       this.detectCalculated();
@@ -154,9 +147,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   createGroup() {
     const group = this.fb.group({});
-    this.controls.forEach((control) =>
-      group.addControl(control.name, this.createControl(control))
-    );
+    this.controls.forEach((control) => {
+      group.addControl(control.name, this.createControl(control));
+    });
     return group;
   }
 
@@ -180,10 +173,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.fb.array([group]);
   }
 
-  createHistoric() {
+  createHistoric(config: FieldConfig) {
+    const { validation } = config;
     const group = this.fb.group({});
-    group.addControl('date', this.fb.control(''));
-    group.addControl('value', this.fb.control(''));
+    group.addControl('date', this.fb.control('', validation));
+    group.addControl('value', this.fb.control('', validation));
     return this.fb.array([group]);
   }
 
@@ -197,16 +191,31 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
   }
 
+  checkIfHistoricHasValue(form: any): boolean {
+    let pass = true;
+    const key = 'date';
+    const config = this.config.find((control) => control.name === key);
+
+    console.log(
+      this.value[key],
+      this.value[key].length,
+      config.type,
+      this.form.get(key)
+    );
+
+    if (
+      this.value[key] &&
+      this.value[key].length < 1 &&
+      config.type !== 'historic'
+    ) {
+      pass = false;
+    }
+
+    return pass;
+  }
+
   cleanClick(event: Event) {
-    this.controls.forEach((control) => {
-      if (control.type !== 'title' && !control.disabled && !control.hidden) {
-        if (control.type === 'checkbox') {
-          this.form.controls[control.name].setValue(false);
-        } else {
-          this.form.controls[control.name].setValue('');
-        }
-      }
-    });
+    this.form.reset();
   }
 
   showChartFront(event: Event) {

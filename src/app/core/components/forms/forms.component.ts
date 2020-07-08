@@ -58,6 +58,7 @@ export class FormsComponent implements OnInit {
   }
 
   submit(value: { [name: string]: any }) {
+    console.log(value);
     if (value) {
       const form = {
         template: this.key,
@@ -78,6 +79,7 @@ export class FormsComponent implements OnInit {
   fillForm(form: any) {
     this._formsService.fillForm(form).subscribe(
       () => {
+        this.getAndParseForm();
         this._notification.showSuccessToast('element_created');
       },
       ({ error }) => {

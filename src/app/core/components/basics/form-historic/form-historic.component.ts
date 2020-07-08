@@ -32,7 +32,9 @@ export class FormHistoricComponent implements OnInit {
     }, 1000);
     this.oldValue =
       this.config.historic && this.config.historic.length > 0
-        ? this.config.historic[this.config.historic.length - 1].value
+        ? this.config.historic[this.config.historic.length - 1]
+          ? this.config.historic[this.config.historic.length - 1].value
+          : ''
         : '';
   }
 
