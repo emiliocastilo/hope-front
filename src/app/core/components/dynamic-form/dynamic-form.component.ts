@@ -183,7 +183,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   createHistoric(config: FieldConfig) {
-    console.log(config);
     const { validation } = config;
     const group = this.fb.group({});
     group.addControl('date', this.fb.control('', validation));
@@ -235,8 +234,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   private showModal(data: any[]) {
-    console.log(data);
-
     const modalRef = this._modalService.open(ManyChartModalComponent, {
       size: 'lg',
     });
