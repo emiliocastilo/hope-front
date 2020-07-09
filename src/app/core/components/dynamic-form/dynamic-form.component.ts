@@ -240,7 +240,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     this.showModal(parseData);
   }
 
-  async showChartFromBack(event: Event) {
+  async showChartFromBack() {
     const patient = JSON.parse(localStorage.getItem('selectedUser'));
     const dataGraph: any = await this._formsService.retrieveFormGraph(
       this.key,
