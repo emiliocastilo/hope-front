@@ -310,5 +310,14 @@
     "question13": "13. I feel stiff or numb for more than two hours after getting up in the morning",
     "question14": "14. Morning is the worst part of the day for me",
     "question15": "15. It takes several minutes for me to move to my full capacity at any time of the day"
-  }
+  },
+  "height": "Height (m)",
+  "weight": "Weight (kg)",
+  "platelets": "Waist circumference (cm)",
+  "imc": "IMC",
+  "bodySurface": "Body surface (m²)",
+  "imcHidden": "IMC",
+  "bodySurfaceHidden": "Body surface (m²)",
+  "pas": "PAS (mmHg)",
+  "pad": "PAD (mmHg)"
 }

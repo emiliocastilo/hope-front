@@ -63,6 +63,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       type: 'BIOLOGICO',
+      indication: '',
     },
     resolve: {
       patientsTreatments: PatientsTreatmentsResolverService,
@@ -74,6 +75,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       type: 'QUIMICO',
+      indication: '',
     },
     resolve: {
       patientsTreatments: PatientsTreatmentsResolverService,
@@ -84,7 +86,8 @@ const routes: Routes = [
     component: PsoriasisPlacasComponent,
     canActivate: [AuthGuard],
     data: {
-      type: 'EN PLACAS',
+      type: 'BIOLOGICO',
+      indication: 'EN PLACAS',
     },
     resolve: {
       patientsTreatments: PatientsTreatmentsResolverService,
@@ -95,7 +98,8 @@ const routes: Routes = [
     component: PsoriasisPalmoPlantarComponent,
     canActivate: [AuthGuard],
     data: {
-      type: 'PALMOPLANTAR',
+      type: 'BIOLOGICO',
+      indication: 'PALMOPLANTAR',
     },
     resolve: {
       patientsTreatments: PatientsTreatmentsResolverService,
@@ -106,7 +110,8 @@ const routes: Routes = [
     component: EritrodermiaComponent,
     canActivate: [AuthGuard],
     data: {
-      type: 'ERITRODERMIA',
+      type: 'BIOLOGICO',
+      indication: 'ERITRODERMIA',
     },
     resolve: {
       patientsTreatments: PatientsTreatmentsResolverService,
@@ -117,7 +122,8 @@ const routes: Routes = [
     component: PsoriasisPustulosaComponent,
     canActivate: [AuthGuard],
     data: {
-      type: 'PSORIASIS PULTULOSA',
+      type: 'BIOLOGICO',
+      indication: 'PUSTULOSA',
     },
     resolve: {
       patientsTreatments: PatientsTreatmentsResolverService,
