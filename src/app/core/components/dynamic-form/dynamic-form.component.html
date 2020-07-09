@@ -38,7 +38,7 @@
     <div *ngFor="let button of buttons">
       <div *ngIf="button === 'save'">
         <div class="submit-button">
-          <button class="btn btn-primary" type="submit">
+          <button [disabled]="!valid" class="btn btn-primary" type="submit">
             {{ 'btn.save' | translate }}
           </button>
         </div>
