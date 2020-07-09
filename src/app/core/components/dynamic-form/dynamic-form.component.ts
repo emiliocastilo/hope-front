@@ -5,15 +5,12 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  ElementRef,
-  Renderer2,
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment';
 import { FormsService } from '../../services/forms/forms.service';
 
 @Component({
@@ -43,8 +40,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private renderer: Renderer2,
-    private elmRef: ElementRef,
     private _modalService: NgbModal,
     private _formsService: FormsService
   ) {}

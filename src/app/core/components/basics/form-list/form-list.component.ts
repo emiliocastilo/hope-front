@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
@@ -19,14 +19,15 @@ export class FormListComponent implements OnInit {
   detailArray: Array<any>;
   isAddingNewLine = false;
   lastEditLine: any;
+  today: string;
+
   constructor(private modalService: NgbModal, private datePipe: DatePipe) {}
 
   ngOnInit() {
+    this.today = moment(new Date()).format('YYYY-MM-DD');
     if (this.config.value && this.config.value.length > 0) {
       this.rows = this.config.value;
-      setTimeout(() => {
-        this.bindToForm();
-      }, 1000);
+      this.bindToForm();
     }
   }
 
@@ -43,7 +44,18 @@ export class FormListComponent implements OnInit {
       this.isEditing = true;
       this.enableEditIndex = this.rows.length - 1;
       this.isAddingNewLine = true;
+      this.setInvalidForm(true);
     }
+  }
+
+  setInvalidForm(error: boolean) {
+    setTimeout(() => {
+      if (error) {
+        this.group.controls[this.config.name].setErrors({ incorrect: error });
+      } else {
+        this.group.controls[this.config.name].setErrors(null);
+      }
+    }, 100);
   }
 
   onChange(event: any, header: string) {
@@ -65,6 +77,7 @@ export class FormListComponent implements OnInit {
 
     this.isEditing = false;
     this.isAddingNewLine = false;
+    this.setInvalidForm(false);
   }
 
   onDeleteRow(index) {
@@ -81,19 +94,18 @@ export class FormListComponent implements OnInit {
     } else {
       this.rows[index] = this.lastEditLine;
     }
-    setTimeout(() => {
-      this.bindToForm();
-    });
+    this.bindToForm();
     this.isAddingNewLine = false;
     this.isEditing = false;
+    this.setInvalidForm(false);
   }
 
   bindToForm() {
-    // const control = this.group.controls[this.config.name] as FormArray;
-    // control.removeAt(0);
-    this.rows.forEach((r) => {
-      this.group.controls[this.config.name].value.push(r);
-    });
+    setTimeout(() => {
+      this.rows.forEach((r) => {
+        this.group.controls[this.config.name].value.push(r);
+      });
+    }, 500);
   }
 
   deleteToForm(index) {
@@ -122,6 +134,7 @@ export class FormListComponent implements OnInit {
         this.isEditing = true;
         this.enableEditIndex = i;
         this.lastEditLine = { ...this.rows[i] };
+        this.setInvalidForm(true);
         break;
       case 'delete':
         this.onDeleteRow(i);
