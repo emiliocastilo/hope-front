@@ -226,6 +226,7 @@ export class EavPaseComponent implements OnInit {
         () => {
           this._notification.showSuccessToast('elementCreated');
           this.getForm();
+          this.resetForm();
         },
         ({ error }) => {
           this._notification.showErrorToast(error.errorCode);
@@ -236,6 +237,7 @@ export class EavPaseComponent implements OnInit {
         (data: any) => {
           this._notification.showSuccessToast('elementUpdated');
           this.getForm();
+          this.resetForm();
         },
         ({ error }) => {
           this._notification.showErrorToast(error.errorCode);
