@@ -5,8 +5,6 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  ElementRef,
-  Renderer2,
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
@@ -32,7 +30,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.form.valueChanges;
   }
   get valid() {
-    return this.form.valid && this.form.touched;
+    return this.form.valid;
   }
   get value() {
     return this.form.value;
@@ -184,7 +182,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.submit.emit(this.value);
+    if (this.valid) {
+      this.submit.emit(this.value);
+    } else {
+      this.submit.emit(null);
+    }
   }
 
   cleanClick(event: Event) {

@@ -26,7 +26,7 @@
       </thead>
       <tbody [ngSwitch]="true">
         <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
-          <td class="header-table" *ngFor="let header of config.fields">
+          <td *ngFor="let header of config.fields">
             <div *ngSwitchCase="header.type === 'datepicker'">
               <input
                 *ngIf="isEditing && enableEditIndex === i"
@@ -50,6 +50,7 @@
             </div>
             <div *ngSwitchCase="header.type === 'input'">
               <input
+                [ngClass]="{ 'input-table': header.label.includes('(cm') }"
                 *ngIf="isEditing && enableEditIndex === i"
                 [value]="row[header.name]"
                 (change)="onChange($event, header.name)"
@@ -81,10 +82,10 @@
             </div>
             <div *ngIf="isEditing && enableEditIndex === i">
               <a href="" (click)="onSaveRow()">
-                {{ 'btn.save' | translate }}
+                <i-feather name="check" class="feather-icon"></i-feather>
               </a>
               <a href="" (click)="onCancelRow(i)">
-                {{ 'btn.cancel' | translate }}
+                <i-feather name="x" class="feather-icon"></i-feather>
               </a>
             </div>
           </td>
