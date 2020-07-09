@@ -46,7 +46,7 @@ export class QuestionnaireAnalysisArtritisPsoriasicaComponent
 
     for (let i = 1; i <= 15; i++) {
       this.questions.push(
-        `questionnaire-analysis-artritis-psoriasica.question-${i}`
+        `questionnaireAnalysisArtritisPsoriasic.question${i}`
       );
     }
 

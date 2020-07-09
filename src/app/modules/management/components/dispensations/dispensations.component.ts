@@ -182,7 +182,7 @@ export class DispensationsComponent implements OnInit {
     this._dispensationsService.delete(this.selectedItem.id).subscribe(
       (data) => {
         this.refreshData(`&page=${this.currentPage}`);
-        this._notification.showSuccessToast('element_deleted');
+        this._notification.showSuccessToast('elementDeleted');
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
@@ -225,7 +225,7 @@ export class DispensationsComponent implements OnInit {
       .then((response: any) => {
         modal.close();
         this.refreshData(`&page=${this.currentPage}`);
-        this._notification.showSuccessToast('element_created');
+        this._notification.showSuccessToast('elementCreated');
       })
       .catch((error: any) => {
         this._notification.showErrorToast(error.errorCode);

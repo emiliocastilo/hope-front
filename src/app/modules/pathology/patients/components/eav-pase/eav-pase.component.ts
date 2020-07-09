@@ -164,7 +164,7 @@ export class EavPaseComponent implements OnInit {
         this.form.controls['evaluationPrurito'].value ||
         this.form.controls['evaluationPrurito'].value)
     ) {
-      this._notification.showErrorToast('miss_date');
+      this._notification.showErrorToast('missDate');
       return false;
     }
 
@@ -174,7 +174,7 @@ export class EavPaseComponent implements OnInit {
         this.form.controls['valuationSymptoms'].value ||
         this.form.controls['valuationFunctional'].value)
     ) {
-      this._notification.showErrorToast('miss_date');
+      this._notification.showErrorToast('missDate');
       return false;
     }
 
@@ -211,7 +211,7 @@ export class EavPaseComponent implements OnInit {
     if (this.retrievedForm === null) {
       this._formsService.fillForm(form).subscribe(
         () => {
-          this._notification.showSuccessToast('element_created');
+          this._notification.showSuccessToast('elementCreated');
         },
         ({ error }) => {
           this._notification.showErrorToast(error.errorCode);
@@ -220,7 +220,7 @@ export class EavPaseComponent implements OnInit {
     } else {
       this._formsService.updateForm(form).subscribe(
         (data: any) => {
-          this._notification.showSuccessToast('element_updated');
+          this._notification.showSuccessToast('elementUpdated');
         },
         ({ error }) => {
           this._notification.showErrorToast(error.errorCode);

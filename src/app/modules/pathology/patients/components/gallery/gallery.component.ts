@@ -138,7 +138,7 @@ export class GalleryComponent implements OnInit {
   editPhoto(editedPhoto: PhotoModel) {
     this._photos.editPhoto(editedPhoto).subscribe(
       (response) => {
-        this._notification.showSuccessToast('element_updated');
+        this._notification.showSuccessToast('elementUpdated');
         this.getPhotos();
       },
       ({ error }) => {
@@ -150,7 +150,7 @@ export class GalleryComponent implements OnInit {
   addPhoto(newPhoto: PhotoModel) {
     this._photos.addPhoto(newPhoto).subscribe(
       (response) => {
-        this._notification.showSuccessToast('element_created');
+        this._notification.showSuccessToast('elementCreated');
         this.getPhotos();
       },
       ({ error }) => {
@@ -176,7 +176,7 @@ export class GalleryComponent implements OnInit {
   deletePhoto(id: number, modal: any) {
     this._photos.deletePhoto(id).subscribe(
       (response) => {
-        this._notification.showSuccessToast('element_deleted');
+        this._notification.showSuccessToast('elementDeleted');
         this.getPhotos();
         modal.close();
       },

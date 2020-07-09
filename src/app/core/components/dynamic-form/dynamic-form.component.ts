@@ -11,7 +11,6 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FieldConfigModel } from '../../models/forms/field-config.model';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -75,10 +74,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       );
       if (calculatedFields && calculatedFields.length > 0) {
         calculatedFields.forEach((field) => {
-          if (
-            this.form.controls[field.enableWhen[0]].value ===
-            field.enableWhen[1]
-          ) {
+          if (this.enabledWhen(field)) {
             this.setDisabled(field.name, false);
           } else {
             this.setDisabled(field.name, true);
@@ -91,7 +87,15 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       }, 20);
     });
   }
-
+  enabledWhen(field: FieldConfig) {
+    if (field.enableWhen[1] === 'not_empty') {
+      return this.form.controls[field.enableWhen[0]].value !== '';
+    } else {
+      return (
+        this.form.controls[field.enableWhen[0]].value === field.enableWhen[1]
+      );
+    }
+  }
   displayElement(config) {
     const calculatedFields = config.filter(
       (e) => e.hiddenWhen && e.hiddenWhen.length >= 2
@@ -99,10 +103,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     if (calculatedFields && calculatedFields.length > 0) {
       calculatedFields.forEach((field) => {
         if (document.getElementById(field.name)) {
-          if (
-            this.form.controls[field.hiddenWhen[0]].value ===
-            field.hiddenWhen[1]
-          ) {
+          if (this.hiddenWhen(field)) {
             field.hidden = false;
           } else if (field.type === 'table' || field.type === 'historic') {
             field.hidden = true;
@@ -115,7 +116,15 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       });
     }
   }
-
+  hiddenWhen(field: FieldConfig) {
+    if (field.hiddenWhen[1] === 'not_empty') {
+      return this.form.controls[field.hiddenWhen[0]].value !== '';
+    } else {
+      return (
+        this.form.controls[field.hiddenWhen[0]].value === field.hiddenWhen[1]
+      );
+    }
+  }
   ngOnChanges() {
     if (this.form) {
       const controls = Object.keys(this.form.controls);
@@ -174,6 +183,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   createHistoric(config: FieldConfig) {
+    console.log(config);
     const { validation } = config;
     const group = this.fb.group({});
     group.addControl('date', this.fb.control('', validation));
@@ -184,34 +194,12 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    if (this.valid) {
-      this.submit.emit(this.value);
+    if (this.valid && this.validationHistoric(event)) {
+      const form = this.setValueToEmptyHistoricInput(event);
+      this.submit.emit(form);
     } else {
       this.submit.emit(null);
     }
-  }
-
-  checkIfHistoricHasValue(form: any): boolean {
-    let pass = true;
-    const key = 'date';
-    const config = this.config.find((control) => control.name === key);
-
-    console.log(
-      this.value[key],
-      this.value[key].length,
-      config.type,
-      this.form.get(key)
-    );
-
-    if (
-      this.value[key] &&
-      this.value[key].length < 1 &&
-      config.type !== 'historic'
-    ) {
-      pass = false;
-    }
-
-    return pass;
   }
 
   cleanClick(event: Event) {
@@ -237,14 +225,18 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   private parseIsoToDate(array: any[]): any[] {
-    const parseArrayData = array.map((object: any) => {
-      object.date = object.date ? new Date(object.date) : object.date;
-      return object;
-    });
+    const parseArrayData = array
+      .filter((object) => object.date && object.value)
+      .map((object: any) => {
+        object.date = object.date ? new Date(object.date) : object.date;
+        return object;
+      });
     return parseArrayData;
   }
 
   private showModal(data: any[]) {
+    console.log(data);
+
     const modalRef = this._modalService.open(ManyChartModalComponent, {
       size: 'lg',
     });
@@ -274,5 +266,55 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   setValue(name: string, value: any) {
     this.form.controls[name].setValue(value, { emitEvent: true });
+  }
+
+  private validationHistoric(event: Event): boolean {
+    let isValid: boolean = true;
+    let historicWithValidations = this.config.filter(
+      (e) => e.validation && e.type === 'historic'
+    );
+    if (historicWithValidations && historicWithValidations.length > 0) {
+      historicWithValidations.forEach((f) => {
+        f.validation.forEach((v) => {
+          if (v.name === 'required') {
+            isValid =
+              !this.isStringEmpty(event.currentTarget[f.name].value) && isValid;
+          }
+        });
+      });
+    }
+    return isValid;
+  }
+
+  private setValueToEmptyHistoricInput(event: Event): any {
+    const object = {
+      date: '',
+      value: '',
+    };
+
+    let configHistoric = this.config.filter((e) => e.type === 'historic');
+
+    configHistoric.forEach((element) => {
+      if (
+        event.currentTarget[element.name] &&
+        this.isStringEmpty(event.currentTarget[element.name].value)
+      ) {
+        const lastValue = this.value[element.name][
+          this.value[element.name].length - 1
+        ];
+        if (lastValue) {
+          const { date, value } = lastValue;
+          if (!this.isStringEmpty(date) && !this.isStringEmpty(value)) {
+            this.value[element.name].push(object);
+          }
+        }
+      }
+    });
+
+    return this.value;
+  }
+
+  private isStringEmpty(text: string): boolean {
+    return !text || text === null || text === undefined || text === '';
   }
 }
