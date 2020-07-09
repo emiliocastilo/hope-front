@@ -14,6 +14,7 @@ import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
+import { FormsService } from '../../services/forms/forms.service';
 
 @Component({
   exportAs: 'dynamicForm',
@@ -24,6 +25,7 @@ import moment from 'moment';
 export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() config: FieldConfig[] = [];
   @Input() buttons: string[] = [];
+  @Input() key: string;
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
   get controls() {
@@ -43,7 +45,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     private fb: FormBuilder,
     private renderer: Renderer2,
     private elmRef: ElementRef,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private _formsService: FormsService
   ) {}
 
   ngOnInit() {
@@ -235,6 +238,16 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       }
     });
     this.showModal(parseData);
+  }
+
+  async showChartFromBack() {
+    const patient = JSON.parse(localStorage.getItem('selectedUser'));
+    const dataGraph: any = await this._formsService.retrieveFormGraph(
+      this.key,
+      patient.id
+    );
+
+    this.showModal(dataGraph);
   }
 
   private parseIsoToDate(array: any[]): any[] {
