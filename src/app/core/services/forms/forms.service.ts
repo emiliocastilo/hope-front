@@ -25,6 +25,12 @@ export class FormsService {
       .toPromise();
   }
 
+  public async retrieveFormGraph(template: string, patientId: any) {
+    return this._http
+      .get(`/forms/graphs?template=${template}&patientId=${patientId}`)
+      .toPromise();
+  }
+
   public async callEndpoint(endpoint: string) {
     return this._http.get(endpoint).toPromise();
   }
