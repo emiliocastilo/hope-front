@@ -312,5 +312,14 @@
     "question13": "13. Me siento rígido o entumecido durante más de dos horas después de levantarme por la mañana",
     "question14": "14. La mañana es la peor parte del día para mí",
     "question15": "15. Tardo varios minutos en poder moverme al máximo de mi capacidad en cualquier momento del día"
-  }
+  },
+  "height": "Estatura (m)",
+  "weight": "Peso (kg)",
+  "platelets": "Perímetro de cintura (cm)",
+  "imc": "IMC",
+  "bodySurface": "Superficie corporal (m²)",
+  "imcHidden": "IMC",
+  "bodySurfaceHidden": "Superficie corporal (m²)",
+  "pas": "PAS (mmHg)",
+  "pad": "PAD (mmHg)"
 }
