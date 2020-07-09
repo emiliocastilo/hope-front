@@ -316,6 +316,8 @@
   "platelets": "Waist circumference (cm)",
   "imc": "IMC",
   "bodySurface": "Body surface (m²)",
+  "imcHidden": "IMC",
+  "bodySurfaceHidden": "Body surface (m²)",
   "pas": "PAS (mmHg)",
   "pad": "PAD (mmHg)"
 }

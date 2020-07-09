@@ -318,6 +318,8 @@
   "platelets": "Perímetro de cintura (cm)",
   "imc": "IMC",
   "bodySurface": "Superficie corporal (m²)",
+  "imcHidden": "IMC",
+  "bodySurfaceHidden": "Superficie corporal (m²)",
   "pas": "PAS (mmHg)",
   "pad": "PAD (mmHg)"
 }
