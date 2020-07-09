@@ -153,7 +153,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.form.addControl(name, controlArray);
           }
           if (config.type === 'historic') {
-            this.form.addControl(name, this.createHistoric());
+            this.form.addControl(name, this.createHistoric(config));
           }
         });
       this.detectCalculated();
@@ -162,9 +162,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   createGroup() {
     const group = this.fb.group({});
-    this.controls.forEach((control) =>
-      group.addControl(control.name, this.createControl(control))
-    );
+    this.controls.forEach((control) => {
+      group.addControl(control.name, this.createControl(control));
+    });
     return group;
   }
 
@@ -188,33 +188,27 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.fb.array([group]);
   }
 
-  createHistoric() {
+  createHistoric(config: FieldConfig) {
+    const { validation } = config;
     const group = this.fb.group({});
-    group.addControl('date', this.fb.control(''));
-    group.addControl('value', this.fb.control(''));
+    group.addControl('date', this.fb.control('', validation));
+    group.addControl('value', this.fb.control('', validation));
     return this.fb.array([group]);
   }
 
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    if (this.valid) {
-      this.submit.emit(this.value);
+    if (this.valid && this.validationHistoric(event)) {
+      const form = this.setValueToEmptyHistoricInput(event);
+      this.submit.emit(form);
     } else {
       this.submit.emit(null);
     }
   }
 
   cleanClick(event: Event) {
-    this.controls.forEach((control) => {
-      if (control.type !== 'title' && !control.disabled && !control.hidden) {
-        if (control.type === 'checkbox') {
-          this.form.controls[control.name].setValue(false);
-        } else {
-          this.form.controls[control.name].setValue('');
-        }
-      }
-    });
+    this.form.reset();
   }
 
   showChartFront(event: Event) {
@@ -246,10 +240,12 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   private parseIsoToDate(array: any[]): any[] {
-    const parseArrayData = array.map((object: any) => {
-      object.date = object.date ? new Date(object.date) : object.date;
-      return object;
-    });
+    const parseArrayData = array
+      .filter((object) => object.date && object.value)
+      .map((object: any) => {
+        object.date = object.date ? new Date(object.date) : object.date;
+        return object;
+      });
     return parseArrayData;
   }
 
@@ -283,5 +279,55 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   setValue(name: string, value: any) {
     this.form.controls[name].setValue(value, { emitEvent: true });
+  }
+
+  private validationHistoric(event: Event): boolean {
+    let isValid: boolean = true;
+    let historicWithValidations = this.config.filter(
+      (e) => e.validation && e.type === 'historic'
+    );
+    if (historicWithValidations && historicWithValidations.length > 0) {
+      historicWithValidations.forEach((f) => {
+        f.validation.forEach((v) => {
+          if (v.name === 'required') {
+            isValid =
+              !this.isStringEmpty(event.currentTarget[f.name].value) && isValid;
+          }
+        });
+      });
+    }
+    return isValid;
+  }
+
+  private setValueToEmptyHistoricInput(event: Event): any {
+    const object = {
+      date: '',
+      value: '',
+    };
+
+    let configHistoric = this.config.filter((e) => e.type === 'historic');
+
+    configHistoric.forEach((element) => {
+      if (
+        event.currentTarget[element.name] &&
+        this.isStringEmpty(event.currentTarget[element.name].value)
+      ) {
+        const lastValue = this.value[element.name][
+          this.value[element.name].length - 1
+        ];
+        if (lastValue) {
+          const { date, value } = lastValue;
+          if (!this.isStringEmpty(date) && !this.isStringEmpty(value)) {
+            this.value[element.name].push(object);
+          }
+        }
+      }
+    });
+
+    return this.value;
+  }
+
+  private isStringEmpty(text: string): boolean {
+    return !text || text === null || text === undefined || text === '';
   }
 }

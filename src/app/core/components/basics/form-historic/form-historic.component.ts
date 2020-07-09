@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { FormGroup, FormArray } from '@angular/forms';
 import moment from 'moment';
@@ -41,7 +41,9 @@ export class FormHistoricComponent implements OnInit {
     }, 1000);
     this.oldValue =
       this.config.historic && this.config.historic.length > 0
-        ? this.config.historic[this.config.historic.length - 1].value
+        ? this.config.historic[this.config.historic.length - 1]
+          ? this.config.historic[this.config.historic.length - 1].value
+          : ''
         : '';
   }
 

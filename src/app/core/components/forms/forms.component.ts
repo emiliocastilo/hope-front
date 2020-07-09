@@ -64,7 +64,6 @@ export class FormsComponent implements OnInit {
         data: FormUtils.parseEntriesForm(value, this.config),
         patientId: this.patient.id,
       };
-
       if (this.filledForm) {
         this.updateForm(form);
       } else {
@@ -78,6 +77,7 @@ export class FormsComponent implements OnInit {
   fillForm(form: any) {
     this._formsService.fillForm(form).subscribe(
       () => {
+        this.getAndParseForm();
         this._notification.showSuccessToast('elementCreated');
       },
       ({ error }) => {
