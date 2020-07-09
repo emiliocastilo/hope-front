@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { FormGroup, FormArray } from '@angular/forms';
+import moment from 'moment';
 
 @Component({
   selector: 'app-form-historic',
@@ -13,12 +14,20 @@ export class FormHistoricComponent implements OnInit {
   oldValue: any;
   historicField: any;
   selectedDate: string;
+  today: string;
 
   constructor() {}
 
   ngOnInit(): void {
+    this.checkIfDate();
     if (this.config.historic && this.config.historic.length > 0) {
       this.recoverHistoric();
+    }
+  }
+
+  checkIfDate() {
+    if (this.config.name.includes('date')) {
+      this.today = moment(new Date()).format('YYYY-MM-DD');
     }
   }
 
