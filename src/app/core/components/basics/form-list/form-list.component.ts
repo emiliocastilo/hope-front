@@ -19,15 +19,15 @@ export class FormListComponent implements OnInit {
   detailArray: Array<any>;
   isAddingNewLine = false;
   lastEditLine: any;
+  today: string;
 
   constructor(private modalService: NgbModal, private datePipe: DatePipe) {}
 
   ngOnInit() {
+    this.today = moment(new Date()).format('YYYY-MM-DD');
     if (this.config.value && this.config.value.length > 0) {
       this.rows = this.config.value;
-      setTimeout(() => {
-        this.bindToForm();
-      }, 500);
+      this.bindToForm();
     }
   }
 
