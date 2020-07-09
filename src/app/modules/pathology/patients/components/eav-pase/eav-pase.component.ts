@@ -36,6 +36,7 @@ export class EavPaseComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
     this.getForm();
     this.form = this._formBuilder.group({
       dateEvaluation: [moment(new Date()).format('YYYY-MM-DD')],
@@ -55,7 +56,6 @@ export class EavPaseComponent implements OnInit {
   }
 
   async getForm() {
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
     this.retrievedForm = await this._formsService.retrieveForm(
       this.key,
       this.patient.id
@@ -157,6 +157,19 @@ export class EavPaseComponent implements OnInit {
     });
   }
 
+  public resetForm() {
+    this.form.reset({
+      dateEvaluation: moment(new Date()).format('YYYY-MM-DD'),
+      evaluationPrurito: '',
+      evaluationGlobalPatient: '',
+      evaluationGlobalMedic: '',
+      dateEvaluation2: moment(new Date()).format('YYYY-MM-DD'),
+      paseScoreTotal: '',
+      valuationSymptoms: '',
+      valuationFunctional: '',
+    });
+  }
+
   public isValidForm() {
     if (
       !this.form.controls['dateEvaluation'].value &&
@@ -212,6 +225,8 @@ export class EavPaseComponent implements OnInit {
       this._formsService.fillForm(form).subscribe(
         () => {
           this._notification.showSuccessToast('elementCreated');
+          this.getForm();
+          this.resetForm();
         },
         ({ error }) => {
           this._notification.showErrorToast(error.errorCode);
@@ -221,6 +236,8 @@ export class EavPaseComponent implements OnInit {
       this._formsService.updateForm(form).subscribe(
         (data: any) => {
           this._notification.showSuccessToast('elementUpdated');
+          this.getForm();
+          this.resetForm();
         },
         ({ error }) => {
           this._notification.showErrorToast(error.errorCode);

@@ -236,6 +236,16 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       patient.id
     );
 
+    if (dataGraph.length > 0) {
+      dataGraph.forEach((element) => {
+        if (element.values.length > 0) {
+          element.values.forEach((value) => {
+            value.date = new Date(value.date);
+          });
+        }
+      });
+    }
+
     this.showModal(dataGraph);
   }
 

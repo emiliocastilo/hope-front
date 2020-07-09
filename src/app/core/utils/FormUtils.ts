@@ -313,11 +313,11 @@ export default class FormUtils {
       if (!params[2]) {
         return '';
       }
-      return `${((100 / params[0]) * params[2]).toFixed(2)}%`;
+      return `${((100 / params[0]) * params[2]).toFixed(2)}`;
     }
 
     if (params[0] && !params[1]) {
-      return '100%';
+      return '100';
     }
 
     return '';
