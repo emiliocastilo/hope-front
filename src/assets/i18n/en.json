@@ -319,5 +319,9 @@
   "imcHidden": "IMC",
   "bodySurfaceHidden": "Body surface (m²)",
   "pas": "PAS (mmHg)",
-  "pad": "PAD (mmHg)"
+  "pad": "PAD (mmHg)",
+  "medicine": "Medicines",
+  "de-escalate": "Reduced",
+  "standar": "Standar",
+  "intensify": "Intensify"
 }
