@@ -27,7 +27,8 @@ export class MedicModel {
       username: form.username,
       password: form.password,
       email: form.email,
-      roles: [2],
+      // los roles los coge de la patologia TODO en el futuro
+      roles: [5],
       hospitalId: hospital ? hospital.id : null,
     };
 
