@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 import { LoginService } from '../../services/login/login.service';
 import { ConfirmModalComponent } from '../modals/confirm-modal/confirm-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'side-bar',
@@ -22,7 +22,7 @@ export class SideBarComponent implements OnInit {
   collapsed = false;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private _router: Router,
     private _modalService: NgbModal,
     private loginService: LoginService
   ) {}
@@ -62,5 +62,9 @@ export class SideBarComponent implements OnInit {
       localStorage.clear();
       this.loginService.logout();
     });
+  }
+
+  public goToMyAccount(): void {
+    this._router.navigate(['my-account']);
   }
 }

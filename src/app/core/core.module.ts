@@ -58,6 +58,12 @@ import { LineChartComponent } from './components/charts/line-chart/line-chart.co
 import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
 import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from './components/basics/from-section/from-section.component';
+import { FormSearchComponent } from './components/basics/form-search/form-search.component';
+import { ManyChartModalComponent } from './components/modals/many-chart-modal/many-chart-modal.component';
+import { MyAccountComponent } from './components/my-account/my-account.component';
+import { ChangePasswordModalComponent } from './components/modals/change-password-modal/change-password-modal.component';
+import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
+import { NumericInput } from './directives/numeric-input.directive';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -86,6 +92,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormSelectComponent,
     FormButtonComponent,
     DynamicFieldDirective,
+    NumericInput,
     FormCheckboxComponent,
     FormRadioComponent,
     EditorModalComponent,
@@ -114,6 +121,11 @@ export function createTranslateLoader(http: HttpClient) {
     ResultsPerPageComponent,
     LineChartComponent,
     FormHistoricComponent,
+    FormSearchComponent,
+    ManyChartModalComponent,
+    MyAccountComponent,
+    ChangePasswordModalComponent,
+    QuestionnaireAnalysisArtritisPsoriasicaComponent,
   ],
   imports: [
     CommonModule,
@@ -153,6 +165,7 @@ export function createTranslateLoader(http: HttpClient) {
     BoxDataComponent,
     DynamicFormComponent,
     DynamicFieldDirective,
+    NumericInput,
     EditorModalComponent,
     ConfirmModalComponent,
     FormSwitchComponent,

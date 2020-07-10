@@ -48,6 +48,12 @@ export class LoginService {
     return this._http.post('/users/request-password-changes', { email: email });
   }
 
+  updatePassword(passwords: any): Observable<any> {
+    return this._http.post('/users/update-passwords', passwords, {
+      responseType: 'text',
+    });
+  }
+
   postChooseProfile(role: string): Observable<any> {
     return this._http
       .post('/users/choose-profiles/', role, { observe: 'response' })

@@ -178,7 +178,7 @@ export class RoleManagementComponent implements OnInit {
       .deleteRole(this.roles[this.selectedItem].id)
       .subscribe(
         (response) => {
-          this._notification.showSuccessToast('element_deleted');
+          this._notification.showSuccessToast('elementDeleted');
           this.refreshData(`&page=${this.currentPage}`);
         },
         ({ error }) => {

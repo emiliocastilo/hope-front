@@ -1,4 +1,10 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
+  <label
+    [attr.for]="config.name"
+    class="dynamic-label"
+    [ngClass]="{ 'required-label': required }"
+    >{{ config.label | translate }}</label
+  >
   <textarea
     [attr.id]="config.name"
     [attr.name]="config.name"
@@ -7,8 +13,5 @@
     class="dynamic-field"
     [attr.rows]="config.rows"
   ></textarea>
-  <label [attr.for]="config.name" class="dynamic-label">{{
-    config.label | translate
-  }}</label>
   {{ config.rows }}
 </div>

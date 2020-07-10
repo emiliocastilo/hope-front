@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormsModel } from '../../models/forms/forms.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +9,6 @@ export class FormsService {
 
   public async get(key: string) {
     return this._http.get(`/templates?key=${key}`).toPromise();
-  }
-
-  public save(json: any) {
-    return this._http.post('/templates', json);
   }
 
   public fillForm(form: any) {
@@ -28,5 +23,15 @@ export class FormsService {
     return this._http
       .get(`/forms?template=${template}&patientId=${patientId}`)
       .toPromise();
+  }
+
+  public async retrieveFormGraph(template: string, patientId: any) {
+    return this._http
+      .get(`/forms/graphs?template=${template}&patientId=${patientId}`)
+      .toPromise();
+  }
+
+  public async callEndpoint(endpoint: string) {
+    return this._http.get(endpoint).toPromise();
   }
 }

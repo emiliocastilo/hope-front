@@ -2,8 +2,7 @@ import { FieldConfig } from '../interfaces/dynamic-forms/field-config.interface'
 import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
-import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
-import { Button } from 'protractor';
+import { ValidatorFn, Validators } from '@angular/forms';
 
 export default class FormUtils {
   static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
@@ -39,8 +38,8 @@ export default class FormUtils {
     fieldConfig.options = value.options;
     fieldConfig.placeholder = value.placeholder;
     // meter propieddad defaulvalue y quitar el value type checkbox
-    fieldConfig.value =
-      !isFormFilled && value.defaultValue ? value.defaultValue : value.value;
+    fieldConfig.value = this.configDefautlValue(value, isFormFilled);
+
     fieldConfig.icon = value.icon;
     fieldConfig.selectMultiple = value.selectMultiple;
     fieldConfig.radioButton = value.radioButton;
@@ -50,6 +49,8 @@ export default class FormUtils {
     fieldConfig.inputType = value.inputType;
     fieldConfig.formula = value.formula;
     fieldConfig.params = value.params;
+    fieldConfig.max = value.max ? value.max : '';
+    fieldConfig.min = value.min ? value.min : '';
     fieldConfig.actions = value.actions;
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
@@ -60,7 +61,9 @@ export default class FormUtils {
     fieldConfig.calculated_back = value.calculated_back;
     fieldConfig.historic = value.historic;
     fieldConfig.enableWhen = value.enableWhen;
+    fieldConfig.hiddenWhen = value.hiddenWhen;
     fieldConfig.hidden = value.hidden;
+    fieldConfig.endpoint = value.endpoint;
     if (value.validation) {
       const validations = StringUtils.stringToArray(value.validation);
       fieldConfig.validation = this.parseValidations(validations);
@@ -69,7 +72,7 @@ export default class FormUtils {
   }
 
   static parseValidations(validation: string[]): ValidatorFn[] {
-    let finalValidators: any[] = [];
+    const finalValidators: any[] = [];
     validation.forEach((element) => {
       //Required
       if (element.trim() === 'Validators.required') {
@@ -112,7 +115,6 @@ export default class FormUtils {
           )
         );
       }
-
       // dni
       // if (element.trim().startsWith("Validators.dni")){
       //   finalValidators.push(Validators.pattern('^[a-z]{3}[0-9]{6}[a-z]?$'));
@@ -120,6 +122,26 @@ export default class FormUtils {
     });
     return finalValidators;
   }
+
+  static configDefautlValue(value, isFormFilled) {
+    if (!isFormFilled && value.defaultValue) {
+      switch (value.type) {
+        case 'datepicker':
+          if (value.defaultValue === 'today') {
+            return moment(new Date()).format('YYYY-MM-DD');
+          } else {
+            return value.defaultValue;
+          }
+          break;
+        default:
+          return value.defaultValue;
+          break;
+      }
+    } else {
+      return value.value;
+    }
+  }
+
   static parseValueIntoPattern(decimalPattern: string, value: string): string {
     return value
       ? decimalPattern.replace('valueToReplace', value)
@@ -131,23 +153,69 @@ export default class FormUtils {
       filled.forEach((e) => {
         if (element.name === e.name) {
           element.value = e.value;
+          if (e.type === 'historic') {
+            element.historic = e.value;
+          }
         }
       });
     });
   }
 
-  static parseEntriesForm(values: any) {
+  static parseEntriesForm(values: any, config: any) {
     const form = [];
-    Object.entries(values).forEach((e) => {
-      const entry = {
-        name: e[0],
-        value: e[0].toLowerCase().includes('table')
-          ? JSON.stringify(e[1])
-          : e[1],
-      };
-      form.push(entry);
+    Object.entries(values).forEach((e: any) => {
+      config.forEach((field: any) => {
+        if (field.name === e[0]) {
+          // no se borra de momento porque en las tablas que su name contenga table se hacia una causitica
+          // especifica para no romper el resto de formularios y se queda de momento asi porque no es necesario
+          const entry = {
+            type: field.type,
+            name: e[0],
+            value: e[1],
+            // e[0].toLowerCase().includes('table')
+            // ? JSON.stringify(e[1])
+            // : e[1],
+          };
+          form.push(entry);
+        }
+      });
     });
     return form;
+  }
+
+  static formatDataMultiGraph(
+    translate,
+    formKeys,
+    keyTranslation,
+    retrievedFormFormat
+  ) {
+    const parseData = [];
+
+    for (const key of formKeys) {
+      if (!key.includes('date')) {
+        const object = {
+          name: translate.instant(`${keyTranslation}.${key}`.toLowerCase()),
+          values: this.parseIsoToDate(retrievedFormFormat[key]),
+        };
+        if (object.values.length > 0) {
+          parseData.push(object);
+        }
+      }
+    }
+    return parseData;
+  }
+
+  static parseIsoToDate(array: any[]): any[] {
+    if (!array) {
+      return [];
+    }
+    const parseArrayData = array.map((object: any) => {
+      if (object.value) {
+        object.date = object.date ? new Date(object.date) : object.date;
+        return object;
+      }
+    });
+    return parseArrayData;
   }
 
   static ageBybirthdate(params: Array<any>) {
@@ -249,11 +317,11 @@ export default class FormUtils {
       if (!params[2]) {
         return '';
       }
-      return `${((100 / params[0]) * params[2]).toFixed(2)}%`;
+      return `${((100 / params[0]) * params[2]).toFixed(2)}`;
     }
 
     if (params[0] && !params[1]) {
-      return '100%';
+      return '100';
     }
 
     return '';

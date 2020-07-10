@@ -1,5 +1,7 @@
 <div class="row m-0 p-0">
-  <app-patient-header></app-patient-header>
+  <section class="col-md-12 p-0">
+    <app-patient-header></app-patient-header>
+  </section>
   <section class="col-md-6 col-lg-12 gallery-container">
     <div>{{ 'gallery' | translate }}</div>
     <hr />
@@ -31,7 +33,7 @@
         </div>
       </div>
       <span class="no-photos" *ngIf="!photos || photos.length === 0">{{
-        'no_photos' | translate
+        'noPhotos' | translate
       }}</span>
     </section>
 

@@ -15,6 +15,7 @@
     [attr.name]="config.name"
     [attr.placeholder]="config.placeholder"
     [formControlName]="config.name"
+    [attr.disabled]="config.calculated_front"
     class="dynamic-field"
     type="{{ config.inputType ? config.inputType : 'input' }}"
     [attr.autocomplete]="config.inputType == 'password' ? 'nope' : ''"
