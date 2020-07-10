@@ -276,7 +276,9 @@
   "other": "Otras",
   "datePrescription": "Fecha de prescripción",
   "expectedEndDate": "Fecha fin prevista",
-  "areYouSureDelete": "¿Está seguro de que desea eliminar este registro?"
+  "areYouSureDelete": "¿Está seguro de que desea eliminar este registro?",
+  "reasonChangeOrSuspension": "Motivo",
+  "dateSuspension": "Fecha suspensión"
 }
 
 

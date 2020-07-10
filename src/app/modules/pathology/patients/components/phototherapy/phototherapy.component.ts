@@ -54,20 +54,47 @@ export class PhototherapyComponent implements OnInit {
     sessionNumbers: ['', Validators.required],
     observations: ['', Validators.required],
   });
+
+  private modalFormUpdate: FormGroup = this._formBuilder.group({
+    reasonChangeOrSuspension: ['', Validators.required],
+    uvb: ['', Validators.required],
+    psoralenoPlusUva: ['', Validators.required],
+    waveLongitude: ['', Validators.required],
+    timesAWeek: ['', Validators.required],
+    dateSuspension: ['', Validators.required],
+  });
+
+  private changeOrSuspensionOptions = [
+    {
+      id: 0,
+      name: 'Cambio',
+    },
+    {
+      id: 1,
+      name: 'Suspensión',
+    },
+  ];
+
   private modalOptions = {
-    specialIndication: { type: 'checkbox' },
-    bigPsychologicalImpact: { type: 'checkbox' },
-    visibleInjury: { type: 'checkbox' },
-    other: { type: 'text' },
-    uvb: { type: 'checkbox' },
-    psoralenoPlusUva: { type: 'checkbox' },
-    waveLongitude: { type: 'number' },
-    timesAWeek: { type: 'number' },
-    datePrescription: { type: 'date' },
-    dateStart: { type: 'date' },
-    expectedEndDate: { type: 'date' },
-    sessionNumbers: { type: 'number' },
-    observations: { type: 'textarea' },
+    specialIndication: { type: 'checkbox', class: 'col-2' },
+    bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
+    visibleInjury: { type: 'checkbox', class: 'col-2' },
+    other: { type: 'text', class: 'col-6' },
+    uvb: { type: 'checkbox', class: 'col-6' },
+    psoralenoPlusUva: { type: 'checkbox', class: 'col-6' },
+    waveLongitude: { type: 'number', class: 'col-6' },
+    timesAWeek: { type: 'number', class: 'col-6' },
+    datePrescription: { type: 'date', class: 'col-6' },
+    dateStart: { type: 'date', class: 'col-6' },
+    expectedEndDate: { type: 'date', class: 'col-6' },
+    sessionNumbers: { type: 'number', class: 'col-6' },
+    observations: { type: 'textarea', class: 'col-12' },
+    dateSuspension: { type: 'date', class: 'col-6' },
+    reasonChangeOrSuspension: {
+      type: 'select',
+      class: 'col-12',
+      options: this.changeOrSuspensionOptions,
+    },
   };
 
   constructor(
@@ -96,11 +123,12 @@ export class PhototherapyComponent implements OnInit {
   }
 
   public showModalCreate(): void {
+    this.modalForm.reset();
     const modalRef = this._modalService.open(PhototherapyModalComponent, {
       size: 'lg',
     });
 
-    modalRef.componentInstance.id = 'new-treatment';
+    modalRef.componentInstance.type = 'create';
     modalRef.componentInstance.title = 'btn.new';
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
@@ -116,9 +144,63 @@ export class PhototherapyComponent implements OnInit {
     });
   }
 
-  public showModalEdit(index: number): void {}
+  private fillForm(form: FormGroup, values: any, type: string) {
+    let formKeys: string[] = Object.keys(form.controls);
 
-  private showModalDetail(index: number): void {}
+    formKeys.forEach((key: string) => {
+      form.controls[key].setValue(values[key]);
+      if (values[key] && form.get(key) && type === 'details') {
+        form.controls[key].disable();
+      }
+    });
+  }
+
+  public showModalEdit(index: number, type: string): void {
+    this.modalForm.reset();
+    this.currentUser = this.tableData[index];
+    this.fillForm(this.modalFormUpdate, this.currentUser, type);
+    const modalRef = this._modalService.open(PhototherapyModalComponent, {
+      size: 'lg',
+    });
+
+    modalRef.componentInstance.type = 'update';
+    modalRef.componentInstance.title = 'btn.update';
+    modalRef.componentInstance.form = this.modalFormUpdate;
+    modalRef.componentInstance.options = this.modalOptions;
+    modalRef.componentInstance.cancel.subscribe((event: any) => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.save.subscribe((event: any) => {
+      this.save(event, modalRef);
+    });
+
+    modalRef.componentInstance.update.subscribe((event: any) => {
+      this.update(event, modalRef);
+    });
+  }
+
+  private showModalDetail(index: number, type: string): void {
+    this.modalForm.reset();
+    this.currentUser = this.tableData[index];
+    this.fillForm(this.modalForm, this.currentUser, type);
+    const modalRef = this._modalService.open(PhototherapyModalComponent, {
+      size: 'lg',
+    });
+    modalRef.componentInstance.type = 'details';
+    modalRef.componentInstance.title = 'detail';
+    modalRef.componentInstance.form = this.modalForm;
+    modalRef.componentInstance.options = this.modalOptions;
+    modalRef.componentInstance.cancel.subscribe((event: any) => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.save.subscribe((event: any) => {
+      this.save(event, modalRef);
+    });
+
+    modalRef.componentInstance.update.subscribe((event: any) => {
+      this.update(event, modalRef);
+    });
+  }
 
   private save(event, modalRef) {
     console.log('save:', event, modalRef);
@@ -134,10 +216,10 @@ export class PhototherapyComponent implements OnInit {
         this.showModalConfirm($event.selectedItem);
         break;
       case 'edit':
-        this.showModalEdit($event.selectedItem);
+        this.showModalEdit($event.selectedItem, $event.type);
         break;
       case 'detail':
-        this.showModalDetail($event.selectedItem);
+        this.showModalDetail($event.selectedItem, $event.type);
         break;
     }
   }
@@ -149,15 +231,15 @@ export class PhototherapyComponent implements OnInit {
   }
 
   private getData(query: string): void {
-    console.log(query);
     this.tableData = this._nonParmacologicService.getMock(query).content;
     this.paginationData = this._nonParmacologicService.getMock(query);
   }
 
   public onSearch(search: string) {
     this.currentPage = 0;
-    const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}&search=${search}`;
-    this.getData(query);
+    const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
+    const serach = search ? `${query}&search=${search}` : query;
+    this.getData(serach);
   }
 
   private showModalConfirm(index: number) {

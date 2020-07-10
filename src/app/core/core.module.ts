@@ -59,6 +59,7 @@ import { PatientHeaderComponent } from './components/patient-header/patient-head
 import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from './components/basics/from-section/from-section.component';
 import { PhototherapyModalComponent } from './components/modals/phototherapy-modal/phototherapy-modal.component';
+import { InputTextareaComponent } from './components/basics/app-input-textarea/app-input-textarea.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -116,6 +117,7 @@ export function createTranslateLoader(http: HttpClient) {
     LineChartComponent,
     FormHistoricComponent,
     PhototherapyModalComponent,
+    InputTextareaComponent,
   ],
   imports: [
     CommonModule,
@@ -170,6 +172,7 @@ export function createTranslateLoader(http: HttpClient) {
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
+    InputTextareaComponent,
   ],
   providers: [GenderFormatter],
   entryComponents: [

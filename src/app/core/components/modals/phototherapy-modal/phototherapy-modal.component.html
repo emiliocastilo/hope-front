@@ -3,41 +3,102 @@
   </app-generic-modal-header>
 
   <form class="row" [formGroup]="form">
-    <div class="col-12" *ngFor="let formKey of options; index as fieldIndex">
+    <div
+      [class]="options[formKey].class"
+      *ngFor="let formKey of formKeys; index as fieldIndex"
+    >
       <app-input
+        *ngIf="
+          checkInputType(
+            ['text', 'password', 'date', 'number'],
+            options[formKey].type
+          )
+        "
         [id]="formKey"
         [name]="formKey"
         [formControlName]="formKey"
-        [label]="'modal.editor.field.' + formKey | translate"
+        [label]="formKey | translate"
         [value]="form.controls[formKey].value"
-        [placeholder]="'modal.editor.field.' + formKey | translate"
-        type="formKey.type"
+        [placeholder]="formKey | translate"
+        [type]="options[formKey].type"
         [invalidLabel]="getInvalidLabel(formKey)"
+        [required]="checkIfRequired(formKey)"
       >
       </app-input>
+      <app-switch
+        *ngIf="checkInputType(['checkbox'], options[formKey].type)"
+        [formControlName]="formKey"
+        [id]="formKey"
+        [label]="formKey | translate"
+        [value]="form.controls[formKey].value"
+      >
+      </app-switch>
+      <app-input-textarea
+        *ngIf="checkInputType(['textarea'], options[formKey].type)"
+        [id]="formKey"
+        [name]="formKey"
+        [formControlName]="formKey"
+        [label]="formKey | translate"
+        [value]="form.controls[formKey].value"
+        [placeholder]="formKey | translate"
+        [type]="options[formKey].type"
+        [invalidLabel]="getInvalidLabel(formKey)"
+        [required]="checkIfRequired(formKey)"
+      >
+      </app-input-textarea>
+
+      <app-input-select
+        *ngIf="checkInputType(['select'], options[formKey].type)"
+        class="select-combo margin-firefox"
+        [id]="formKey"
+        [isDisabled]="false"
+        [labelValue]="formKey | translate"
+        [name]="formKey"
+        [options]="options[formKey].options"
+        [optionSelected]="form.controls[formKey].value"
+        [currentValue]="form.controls[formKey].value"
+        [placeholder]="formKey | translate"
+        [selectMultiple]="false"
+        [form]="form"
+        [required]="checkIfRequired(formKey)"
+      >
+      </app-input-select>
     </div>
   </form>
+  <div class="row" *ngIf="showRequiredLegend">
+    <label class="requiredLegend">
+      {{ 'requiredLegendText' | translate }}
+    </label>
+  </div>
 
   <section class="modal-content_button-container">
-    <button
+    <app-button
       *ngIf="type === 'create'"
-      class="btn btn-primary"
+      clasesBtn="btn btn-primary mr-4"
       (click)="onSave()"
+      [readOnly]="!validForm"
+      icono="plus-circle"
+      texto="btn.save"
+      type="button"
     >
-      <i-feather name="check"></i-feather>
-      {{ 'btn.save' | translate }}
-    </button>
-    <button
+    </app-button>
+    <app-button
       *ngIf="type === 'update'"
-      class="btn btn-primary"
+      clasesBtn="btn btn-primary mr-4"
       (click)="onUpdate()"
+      [readOnly]="!validForm"
+      icono="check"
+      texto="btn.update"
+      type="button"
     >
-      <i-feather name="check"></i-feather>
-      {{ 'btn.update' | translate }}
-    </button>
-    <button class="btn btn-danger" (click)="onClose()">
-      <i-feather name="x"></i-feather>
-      {{ 'btn.close' | translate }}
-    </button>
+    </app-button>
+    <app-button
+      clasesBtn="btn btn-danger"
+      (click)="onClose()"
+      icon="x"
+      type="button"
+      texto="btn.close"
+    >
+    </app-button>
   </section>
 </div>

@@ -17,11 +17,6 @@ export class EditorModalBodyComponent implements OnInit {
   public showRequiredLegend: boolean = false;
   public showInvalidFormatLegend: boolean = false;
 
-  public errorMessages: any = {
-    required: 'form.validate.required',
-    email: 'form.validate.email',
-  };
-
   constructor() {}
 
   ngOnInit(): void {

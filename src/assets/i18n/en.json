@@ -273,6 +273,7 @@
   "visibleInjury": "Visible injury",
   "other": "Other",
   "datePrescription": "Prescription date",
-  "expectedEndDate": "Expected end date"
-  
+  "expectedEndDate": "Expected end date",
+  "reasonChangeOrSuspension": "Reason",
+  "dateSuspension": "Fecha suspensión"
 }
