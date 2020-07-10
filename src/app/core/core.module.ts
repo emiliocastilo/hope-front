@@ -64,6 +64,7 @@ import { MyAccountComponent } from './components/my-account/my-account.component
 import { ChangePasswordModalComponent } from './components/modals/change-password-modal/change-password-modal.component';
 import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
 import { NumericInput } from './directives/numeric-input.directive';
+import { ContactComponent } from './components/contact/contact.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -126,6 +127,7 @@ export function createTranslateLoader(http: HttpClient) {
     MyAccountComponent,
     ChangePasswordModalComponent,
     QuestionnaireAnalysisArtritisPsoriasicaComponent,
+    ContactComponent,
   ],
   imports: [
     CommonModule,

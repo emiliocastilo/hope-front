@@ -9,6 +9,7 @@ import { ResetPasswordComponent } from './core/components/reset-password/reset-p
 import { SelectRoleComponent } from './core/components/select-role/select-role.component';
 import { FormsComponent } from './core/components/forms/forms.component';
 import { MyAccountComponent } from './core/components/my-account/my-account.component';
+import { ContactComponent } from './core/components/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,11 @@ const routes: Routes = [
   {
     path: 'my-account',
     component: MyAccountComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'contact',
+    component: ContactComponent,
     canActivate: [AuthGuard],
   },
   {
