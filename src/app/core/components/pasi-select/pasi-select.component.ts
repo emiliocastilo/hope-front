@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-pasi-select',
@@ -7,15 +7,26 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./pasi-select.component.scss'],
 })
 export class PasiSelectComponent implements OnInit {
-  // @Input() form: FormGroup;
-  // @Input() groupName: string;
-  @Input() disabled = true;
-  public selects: Array<any>;
-  public total = 0;
-  public areas = [];
+  @Input() group: string;
+  @Input() area: FormControl;
+  @Input() escamas: FormControl;
+  @Input() eritema: FormControl;
+  @Input() infiltracion: FormControl;
+  @Input() form: FormGroup;
+
+  selects: Array<any>;
+  total = 0;
+  areas = [];
+
+  @Output() score: EventEmitter<number> = new EventEmitter<number>();
+
   constructor() {}
 
   ngOnInit(): void {
+    this.initializeComponents();
+  }
+
+  initializeComponents() {
     for (let i = 0; i <= 10; i += 0.5) {
       this.areas.push(i);
     }
@@ -29,12 +40,13 @@ export class PasiSelectComponent implements OnInit {
     this.selects = [
       { id: 'area', label: 'Area', options: this.areas },
       { id: 'eritema', label: 'Eritema', options },
-      { id: 'infiltracion', label: 'Infiltracion', options },
+      { id: 'infiltracion', label: 'Infiltración', options },
       { id: 'escamas', label: 'Escamas', options },
     ];
   }
 
   onSelect(event: any) {
     this.total++;
+    this.score.emit(this.total);
   }
 }

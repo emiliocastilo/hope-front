@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import moment from 'moment';
 
 @Component({
@@ -8,10 +8,6 @@ import moment from 'moment';
   styleUrls: ['./pasi-bsa-pga.component.scss'],
 })
 export class PasiBsaPgaComponent implements OnInit {
-  head: boolean;
-  sup: boolean;
-  inf: boolean;
-  body: boolean;
   pasiForm: FormGroup;
   pga: Array<string>;
   pasiScore: string;
@@ -21,36 +17,49 @@ export class PasiBsaPgaComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
+  get area(): FormControl {
+    return this.pasiForm.controls['area'] as FormControl;
+  }
+  get infiltracion(): FormControl {
+    return this.pasiForm.controls['infiltracion'] as FormControl;
+  }
+  get escamas(): FormControl {
+    return this.pasiForm.controls['escamas'] as FormControl;
+  }
+  get eritema(): FormControl {
+    return this.pasiForm.controls['eritema'] as FormControl;
+  }
+
   ngOnInit(): void {
     this.today = moment(new Date()).format('YYYY-MM-DD');
     this.pga = ['0', '1', '2'];
     this.pasiForm = this.fb.group({
       cabeza: this.fb.group({
-        area: '',
-        eritema: '',
-        infiltracion: '',
-        escamas: '',
+        area: new FormControl({ value: '', disabled: true }),
+        eritema: new FormControl({ value: '', disabled: true }),
+        infiltracion: new FormControl({ value: '', disabled: true }),
+        escamas: new FormControl({ value: '', disabled: true }),
         total: '',
       }),
       tronco: this.fb.group({
-        area: '',
-        eritema: '',
-        infiltracion: '',
-        escamas: '',
+        area: new FormControl({ value: '', disabled: true }),
+        eritema: new FormControl({ value: '', disabled: true }),
+        infiltracion: new FormControl({ value: '', disabled: true }),
+        escamas: new FormControl({ value: '', disabled: true }),
         total: '',
       }),
       esup: this.fb.group({
-        area: '',
-        eritema: '',
-        infiltracion: '',
-        escamas: '',
+        area: new FormControl({ value: '', disabled: true }),
+        eritema: new FormControl({ value: '', disabled: true }),
+        infiltracion: new FormControl({ value: '', disabled: true }),
+        escamas: new FormControl({ value: '', disabled: true }),
         total: '',
       }),
       einf: this.fb.group({
-        area: '',
-        eritema: '',
-        infiltracion: '',
-        escamas: '',
+        area: new FormControl({ value: '', disabled: true }),
+        eritema: new FormControl({ value: '', disabled: true }),
+        infiltracion: new FormControl({ value: '', disabled: true }),
+        escamas: new FormControl({ value: '', disabled: true }),
         total: '',
       }),
       evaluationDate: '',
@@ -58,7 +67,11 @@ export class PasiBsaPgaComponent implements OnInit {
   }
 
   isChecked(event: any, field: string) {
-    this[field] = event;
+    if (event) {
+      this.pasiForm.controls[field].enable();
+    } else {
+      this.pasiForm.controls[field].disable();
+    }
   }
 
   onSave() {
@@ -67,6 +80,10 @@ export class PasiBsaPgaComponent implements OnInit {
 
   onClose() {
     console.log('cancel');
+  }
+
+  getScore(e: any) {
+    console.log('get score: ' + e);
   }
 
   onSelectPGA(event: any) {

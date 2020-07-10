@@ -1,9 +1,13 @@
-<div>
-  <div class="custom-select" *ngFor="let select of selects">
+<div [formGroup]="form">
+  <div
+    class="custom-select"
+    *ngFor="let select of selects"
+    [formGroupName]="group"
+  >
     <label class="label">{{ select.label }}</label>
     <select
-      [disabled]="disabled"
       [name]="select.id"
+      [formControlName]="select.id"
       [id]="select.id"
       (change)="onSelect($event)"
     >

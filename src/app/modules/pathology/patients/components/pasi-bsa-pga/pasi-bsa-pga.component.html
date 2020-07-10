@@ -26,33 +26,65 @@
           </div>
         </div>
         <div class="boxes">
-          <div class="box-pasi" formGroupName="cabeza">
+          <div class="box-pasi">
             <app-pasi-checkbox
               label="headNeck"
-              (checked)="isChecked($event, 'head')"
+              (checked)="isChecked($event, 'cabeza')"
             ></app-pasi-checkbox>
-            <app-pasi-select [disabled]="!head"></app-pasi-select>
+            <app-pasi-select
+              [group]="'cabeza'"
+              [area]="area"
+              [eritema]="eritema"
+              [escamas]="escamas"
+              [infiltracion]="infiltracion"
+              [form]="pasiForm"
+              (score)="getScore($event)"
+            ></app-pasi-select>
           </div>
-          <div class="box-pasi" formGroupName="esup">
+          <div class="box-pasi">
             <app-pasi-checkbox
               label="superiorExtremities"
-              (checked)="isChecked($event, 'sup')"
+              (checked)="isChecked($event, 'esup')"
             ></app-pasi-checkbox>
-            <app-pasi-select [disabled]="!sup"></app-pasi-select>
+            <app-pasi-select
+              [group]="'esup'"
+              [area]="area"
+              [eritema]="eritema"
+              [escamas]="escamas"
+              [infiltracion]="infiltracion"
+              [form]="pasiForm"
+              (score)="getScore($event)"
+            ></app-pasi-select>
           </div>
           <div class="box-pasi">
             <app-pasi-checkbox
               label="body"
-              (checked)="isChecked($event, 'body')"
+              (checked)="isChecked($event, 'tronco')"
             ></app-pasi-checkbox>
-            <app-pasi-select [disabled]="!body"></app-pasi-select>
+            <app-pasi-select
+              [group]="'tronco'"
+              [area]="area"
+              [eritema]="eritema"
+              [escamas]="escamas"
+              [infiltracion]="infiltracion"
+              [form]="pasiForm"
+              (score)="getScore($event)"
+            ></app-pasi-select>
           </div>
           <div class="box-pasi">
             <app-pasi-checkbox
               label="lowerExtremities"
-              (checked)="isChecked($event, 'inf')"
+              (checked)="isChecked($event, 'einf')"
             ></app-pasi-checkbox>
-            <app-pasi-select [disabled]="!inf"></app-pasi-select>
+            <app-pasi-select
+              [group]="'einf'"
+              [area]="area"
+              [eritema]="eritema"
+              [escamas]="escamas"
+              [infiltracion]="infiltracion"
+              [form]="pasiForm"
+              (score)="getScore($event)"
+            ></app-pasi-select>
           </div>
         </div>
       </div>
