@@ -40,7 +40,13 @@ export class BoxDataComponent implements OnInit {
     let text = '';
 
     if (this.currentData.hospital) {
-      text = `${this.currentData.hospital.name} | ${this.currentData.address} | ${this.currentData.email}`;
+      text = `${this.currentData.hospital.name}`;
+    }
+    if (this.currentData.address) {
+      text += ` | ${this.currentData.address}`;
+    }
+    if (this.currentData.email) {
+      text += ` | ${this.currentData.email}`;
     }
 
     return text;

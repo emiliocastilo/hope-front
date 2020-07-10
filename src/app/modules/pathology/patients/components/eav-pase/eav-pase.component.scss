@@ -1,0 +1,122 @@
+@import '~src/assets/styles/variables.scss';
+
+.requiredLegend {
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+
+  &::before {
+    content: ' * ';
+    color: red;
+    font-size: 1.2rem;
+  }
+}
+
+.dynamic-form-title-divider {
+  border-top: 0.063rem solid $app-color-blue-border;
+}
+
+.title {
+  color: $app-menu-blue-principal;
+  font-size: 1.125rem;
+  font-weight: bold;
+  font-family: 'Raleway', sans-serif;
+  opacity: 1;
+  text-align: left;
+  margin-top: 40px;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+}
+
+.section-margin {
+  margin-bottom: 20px;
+}
+
+.label-radio {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.label-radio-description {
+  font-size: 0.75rem;
+  margin-bottom: 10px;
+}
+
+.label-radio-degree {
+  //opacity: 0.2;
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(255, 0, 0, 0.2),
+      rgba(255, 213, 0, 0.2),
+      rgba(0, 255, 59, 0.2)
+    );
+  width: 868px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+}
+
+.radio-button {
+  width: calc(100% / 10);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: none;
+  }
+
+  label {
+    background-color: white;
+    width: 59px;
+    height: 36px;
+    color: black;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(204, 224, 242);
+    cursor: pointer;
+  }
+
+  .radio-button-label-active {
+    background-color: rgb(41, 169, 224);
+    color: white;
+    border: 1px solid rgb(54, 62, 99);
+  }
+}
+
+.section_pase_score_total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+}
+
+.button_score_total {
+  margin-left: 20px;
+  margin-top: 20px;
+  min-width: 150px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+  min-width: 35rem;
+
+  button {
+    margin: 0 2rem;
+    min-width: 7rem;
+    white-space: nowrap;
+  }
+}

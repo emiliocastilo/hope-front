@@ -1,9 +1,18 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
   <div class="add-btn">
-    <app-button (click)="newRow()" clasesBtn="btn-primary" icono="plus-circle">
+    <app-button
+      [readOnly]="isEditing"
+      (click)="newRow()"
+      clasesBtn="btn-primary"
+      icono="plus-circle"
+    >
     </app-button>
   </div>
-  <div class="container-fluid master-table">
+  <div
+    [attr.id]="config.name"
+    [attr.name]="config.name"
+    class="container-fluid master-table"
+  >
     <table class="table table-striped">
       <thead>
         <tr>
@@ -17,11 +26,13 @@
       </thead>
       <tbody [ngSwitch]="true">
         <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
-          <td class="header-table" *ngFor="let header of config.fields">
+          <td *ngFor="let header of config.fields">
             <div *ngSwitchCase="header.type === 'datepicker'">
               <input
                 *ngIf="isEditing && enableEditIndex === i"
                 type="date"
+                [max]="today"
+                [value]="formatDate(row[header.name])"
                 (change)="onChange($event, header.name)"
               />
             </div>
@@ -40,6 +51,7 @@
             </div>
             <div *ngSwitchCase="header.type === 'input'">
               <input
+                [ngClass]="{ 'input-table': header.label.includes('(cm') }"
                 *ngIf="isEditing && enableEditIndex === i"
                 [value]="row[header.name]"
                 (change)="onChange($event, header.name)"
@@ -71,7 +83,10 @@
             </div>
             <div *ngIf="isEditing && enableEditIndex === i">
               <a href="" (click)="onSaveRow()">
-                {{ 'btn.save' | translate }}
+                <i-feather name="check" class="feather-icon"></i-feather>
+              </a>
+              <a href="" (click)="onCancelRow(i)">
+                <i-feather name="x" class="feather-icon"></i-feather>
               </a>
             </div>
           </td>

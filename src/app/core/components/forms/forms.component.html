@@ -1,14 +1,12 @@
-<div class="container mt-4">
+<div class="mt-4">
   <div class="PRIMER-FORMULARIO">
     <dynamic-form
       [config]="config"
       [buttons]="buttons"
+      [key]="key"
       #form="dynamicForm"
       (submit)="submit($event)"
     >
     </dynamic-form>
-    <!-- <div class="code">
-      <code>{{ form.value | json }}</code>
-    </div> -->
   </div>
 </div>

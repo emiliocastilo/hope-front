@@ -3,6 +3,8 @@ import { PatientModel } from '../../../modules/pathology/patients/models/patient
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { ChartObjectModel } from '../../models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../models/graphs/column-chart.model';
+import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
+import FormUtils from 'src/app/core/utils/FormUtils';
 
 @Component({
   selector: 'app-patient-header',
@@ -16,6 +18,7 @@ export class PatientHeaderComponent implements OnInit {
     'nhc',
     'healthCard',
     'dni',
+    'age',
     'phone',
     'genderCode',
   ];
@@ -33,6 +36,9 @@ export class PatientHeaderComponent implements OnInit {
       .subscribe((data) => {
         if (data) {
           this.selectedPatient = data;
+          this.selectedPatient.age = FormUtils.ageBybirthdate([
+            this.selectedPatient.birthDate,
+          ]).toString();
         }
       });
   }

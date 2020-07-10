@@ -10,7 +10,8 @@ export const constants = {
   keyDiagnosis: 'diagnosis',
   keyTracing: 'tracing',
   keyComplementaryImaginScans: 'complementary-imaging-scans',
-  keyAdherenceToTreatment: 'adherence-to-treatment',
+  keyAdherenceToTreatmentMorisky: 'adherence-to-treatment-morisky',
+  keyAdherenceToTreatmentHaynes: 'adherence-to-treatment-haynes',
   keyConsent: 'consent',
   keyFamilyHistory: 'family-history',
   keyBloodCount: 'blood-count',
@@ -20,4 +21,5 @@ export const constants = {
   keyLeikocyteAntibodyAntigen: 'leukocyte-antibody-antigen',
   keyBiologicalDrugMonitoring: 'biological-drug-monitoring',
   keySharedPatient: 'shared-patients',
+  eavPase: 'eav-pase',
 };

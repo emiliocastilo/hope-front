@@ -46,6 +46,10 @@
     background-color: $app-menu-blue-user;
     height: 4rem;
 
+    a {
+      cursor: pointer;
+    }
+
     .user-data {
       flex-grow: 1;
       display: flex;

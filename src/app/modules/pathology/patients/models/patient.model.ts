@@ -10,6 +10,7 @@ export class PatientModel {
     public nhc?: string,
     public healthCard?: string,
     public dni?: string,
+    public age?: string,
     public address?: string,
     public phone?: string,
     public email?: string,
