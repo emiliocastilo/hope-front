@@ -6,6 +6,7 @@ import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-forms',
@@ -23,7 +24,8 @@ export class FormsComponent implements OnInit {
   constructor(
     private _formsService: FormsService,
     public _translate: TranslateService,
-    private _notification: NotificationService
+    private _notification: NotificationService,
+    private _http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +57,7 @@ export class FormsComponent implements OnInit {
     } else {
       this._notification.showErrorToast('formNotFound');
     }
+    this.detectCalculatedBackOnInit();
   }
 
   submit(value: { [name: string]: any }) {
@@ -72,6 +75,53 @@ export class FormsComponent implements OnInit {
     } else {
       this._notification.showErrorToast('errorForm');
     }
+  }
+
+  detectCalculatedBackOnInit() {
+    const calculatedFields = this.config.filter(
+      (e) => e.calculated_back && e.event === 'init'
+    );
+    const params = [];
+    if (calculatedFields && calculatedFields.length > 0) {
+      calculatedFields.forEach((field) => {
+        const patient = this.patient.id;
+        let urlEndpoint = field.endpoint;
+        urlEndpoint = urlEndpoint.replace('${patient}', patient);
+        for (let f = 0; f < params.length; f++) {
+          const configParams = this.config.filter((e) => e.name === params[f]);
+          if (configParams != null && configParams.length > 1) {
+            urlEndpoint = urlEndpoint.replace(
+              '${' + f + '}',
+              configParams[0].value
+            );
+          }
+        }
+        field.value = this._http.get(urlEndpoint).toPromise();
+      });
+    }
+  }
+
+  checkHistoricField(val: any) {
+    this.emptyForm.forEach((field) => {
+      if (field.type === 'historic') {
+        const entry = {
+          date: new Date().toISOString(),
+          value: val && val[field.name],
+        };
+        field.historic.push(entry);
+        val[field.name] = '';
+      }
+    });
+    const json = {
+      key: this.key,
+      form: JSON.stringify(this.emptyForm),
+    };
+    this._formsService.updateForm(json).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (err) => console.log(err)
+    );
   }
 
   fillForm(form: any) {

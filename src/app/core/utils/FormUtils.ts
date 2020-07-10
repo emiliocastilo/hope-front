@@ -55,6 +55,10 @@ export default class FormUtils {
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
     fieldConfig.calculated_front = value.calculated_front;
+    fieldConfig.endpoint = value.endpoint;
+    fieldConfig.event = value.event;
+    fieldConfig.graphBack = value.graphBack;
+    fieldConfig.calculated_back = value.calculated_back;
     fieldConfig.historic = value.historic;
     fieldConfig.enableWhen = value.enableWhen;
     fieldConfig.hiddenWhen = value.hiddenWhen;

@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PatientModel } from '../../models/patients/patient.model';
@@ -15,6 +15,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { HospitalService } from 'src/app/core/services/hospital/hospital.service';
+import { DynamicFormComponent } from '../../../../core/components/dynamic-form/dynamic-form.component';
 
 @Component({
   selector: 'app-patients',
@@ -22,6 +23,7 @@ import { HospitalService } from 'src/app/core/services/hospital/hospital.service
   styleUrls: ['./patients.component.scss'],
 })
 export class PatientsComponent implements OnInit {
+  @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
