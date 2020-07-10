@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import moment from 'moment';
 
 @Component({
   selector: 'app-pasi-bsa-pga',
@@ -12,10 +13,17 @@ export class PasiBsaPgaComponent implements OnInit {
   inf: boolean;
   body: boolean;
   pasiForm: FormGroup;
+  pga: Array<string>;
+  pasiScore: string;
+  bsaScore: string;
+  bsaCalification: string;
+  today: string;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.today = moment(new Date()).format('YYYY-MM-DD');
+    this.pga = ['0', '1', '2'];
     this.pasiForm = this.fb.group({
       cabeza: this.fb.group({
         area: '',
@@ -45,6 +53,7 @@ export class PasiBsaPgaComponent implements OnInit {
         escamas: '',
         total: '',
       }),
+      evaluationDate: '',
     });
   }
 
@@ -53,10 +62,14 @@ export class PasiBsaPgaComponent implements OnInit {
   }
 
   onSave() {
-    console.log('save');
+    console.log(this.pasiForm);
   }
 
   onClose() {
     console.log('cancel');
+  }
+
+  onSelectPGA(event: any) {
+    console.log(event);
   }
 }

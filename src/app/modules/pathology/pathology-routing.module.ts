@@ -130,7 +130,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'patients/evolution/pasi',
+    path: 'patients/evolution-clinical-indices/pasi-bsa-pga',
     component: PasiBsaPgaComponent,
     resolve: {
       patients: PatientsResolverService,

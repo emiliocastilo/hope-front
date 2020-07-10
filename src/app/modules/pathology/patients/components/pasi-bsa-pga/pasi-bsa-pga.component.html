@@ -12,11 +12,15 @@
           <img src="assets/img/PASI.svg" alt="pasi" />
           <div class="svg-data">
             <div class="box-data">
-              PASI SCORE
-              <div class="box-data-info">40 / 72</div>
+              <span class="box-title">{{ 'PASI SCORE' | uppercase }}</span>
+              <div class="box-data-info">
+                {{ pasiScore ? pasiScore : '0' }} / 72
+              </div>
             </div>
             <div class="box-data">
-              CALIFICACION EN BASE A PASI
+              <span class="box-title">
+                {{ 'calificationPasi' | translate | uppercase }}</span
+              >
               <div class="box-data-info">BLANQUEADO</div>
             </div>
           </div>
@@ -63,12 +67,18 @@
         </div>
         <div class="container-flex">
           <div class="box-data">
-            bsa score
-            <div class="box-data-info">40%</div>
+            <span class="box-title">
+              {{ 'bsa score' | uppercase }}
+            </span>
+            <div class="box-data-info">{{ bsaScore ? bsaScore : '0' }} %</div>
           </div>
           <div class="box-data">
-            calificaion e base
-            <div class="box-data-info">Leve</div>
+            <span class="box-title">
+              {{ 'calificationBsa' | translate | uppercase }}</span
+            >
+            <div class="box-data-info">
+              {{ bsaCalification ? bsaCalification : '-' }}
+            </div>
           </div>
         </div>
       </div>
@@ -78,13 +88,19 @@
           <hr class="separator" />
         </div>
         <div class="container-flex">
-          <div class="box-data">
-            bsa score
-            <div class="box-data-info">40%</div>
+          <div class="custom-select">
+            <label class="label">PGA</label>
+            <select name="pga" id="pga" (change)="onSelectPGA($event)">
+              <option *ngFor="let option of pga" [ngValue]="option">
+                {{ option | translate }}
+              </option>
+            </select>
           </div>
           <div class="box-data">
-            calificaion e base
-            <div class="box-data-info">Leve</div>
+            <span class="box-title">
+              {{ 'calificationPga' | translate | uppercase }}</span
+            >
+            <div class="box-data-info">Blanqueado</div>
           </div>
         </div>
       </div>
@@ -94,7 +110,15 @@
         {{ 'evaluationDate' | translate }}
         <hr class="separator" />
       </div>
-      <input type="date" />
+      <div class="custom-select">
+        <label class="label"> {{ 'evaluationDate' | translate }}</label>
+        <input
+          type="date"
+          class="custom-date"
+          [max]="today"
+          formControlName="evaluationDate"
+        />
+      </div>
     </div>
     <div class="buttons">
       <app-button
