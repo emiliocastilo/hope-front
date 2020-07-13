@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
     this._loginService.login(login).subscribe(
       (data) => {
         data.body.error
-          ? this._notification.showErrorToast(data.body.error)
+          ? this._notification.showErrorToast('errorUserLogin')
           : this._router.navigate(['select-role']);
         this.loading = false;
       },

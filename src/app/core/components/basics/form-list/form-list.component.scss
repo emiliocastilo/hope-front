@@ -34,17 +34,6 @@
         border-bottom: 2px solid $app-color-blue-border;
         border-top: 1px solid $app-color-blue-border;
 
-        .table-head_icon-box {
-          width: 9px;
-          height: 9px;
-          margin-left: 0.4rem;
-          color: $app-color-blue-border;
-
-          .table-head_icon-box_icon-active {
-            color: $app-color-blue-main;
-          }
-        }
-
         &:first-child {
           background-color: $app-color-table-background;
         }
@@ -75,8 +64,12 @@
       td {
         vertical-align: middle;
         padding-left: 1rem;
-        max-width: 10rem;
+        width: 8rem;
         border-top: 1px solid $app-color-blue-border;
+
+        .input-table {
+          width: 3rem;
+        }
 
         .table-body_row_actions {
           display: flex;
@@ -113,10 +106,6 @@
   .row.master-table-data-row.activate {
     background-color: $app-color-blue-lighter;
   }
-}
-
-.header-table {
-  max-width: 15rem;
 }
 
 .custom-modal-field {
@@ -170,4 +159,15 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+input[type='date'] {
+  max-width: 9rem;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  position: relative;
+  top: 0.2rem;
+  right: 0.5rem;
+  width: 0.7rem;
 }

@@ -1,11 +1,7 @@
-<form
-  class="dynamic-form row"
-  [formGroup]="form"
-  (submit)="handleSubmit($event)"
->
+<form class="dynamic-form" [formGroup]="form" (submit)="handleSubmit($event)">
   <div
     *ngFor="let field of config"
-    class="{{ field.rows ? 'col-' + field.rows : 'col-12' }}"
+    class=" {{ field.rows ? 'col-' + field.rows : 'col-12' }}"
     [hidden]="field.hidden === true"
   >
     <ng-container dynamicField [config]="field" [group]="form"> </ng-container>
@@ -38,7 +34,7 @@
     <div *ngFor="let button of buttons">
       <div *ngIf="button === 'save'">
         <div class="submit-button">
-          <button class="btn btn-primary" type="submit">
+          <button [disabled]="!valid" class="btn btn-primary" type="submit">
             {{ 'btn.save' | translate }}
           </button>
         </div>
@@ -47,7 +43,7 @@
         <div class="submit-button">
           <button
             class="btn btn-primary"
-            type="button"
+            type="reset"
             (click)="cleanClick($event)"
           >
             {{ 'btn.clean' | translate }}
@@ -56,7 +52,22 @@
       </div>
       <div *ngIf="button === 'graphs'">
         <div class="submit-button">
-          <button class="btn btn-primary" type="button">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="showChartFront($event)"
+          >
+            {{ 'btn.graphs' | translate }}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="button === 'graphsBack'">
+        <div class="submit-button">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="showChartFromBack()"
+          >
             {{ 'btn.graphs' | translate }}
           </button>
         </div>
@@ -70,6 +81,4 @@
       </div>
     </div>
   </div>
-
-  <!-- <div *ngIf="buttons"></div> -->
 </form>

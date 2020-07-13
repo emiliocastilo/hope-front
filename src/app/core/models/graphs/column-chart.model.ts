@@ -15,6 +15,7 @@ export class ColumnChartModel {
     public xAxisLabel?: string,
     public yAxisLabel?: string,
     public legendPosition?: string,
-    public legendTitle?: string
+    public legendTitle?: string,
+    public show?: boolean
   ) {}
 }
