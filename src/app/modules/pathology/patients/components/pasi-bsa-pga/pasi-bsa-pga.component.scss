@@ -58,11 +58,19 @@
     )
     0% 0% no-repeat padding-box;
 
-  img {
+  svg {
     height: 80%;
     position: relative;
     top: 4vh;
     left: 8vw;
+
+    #cabeza.checked-color,
+    #esup.checked-color,
+    #tronco.checked-color,
+    #einf.checked-color {
+      fill: rgb(41, 169, 224);
+      stroke: rgb(54, 62, 99);
+    }
   }
 
   .svg-data {

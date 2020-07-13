@@ -13,7 +13,13 @@ export class PasiBsaPgaComponent implements OnInit {
   pasiScore: string;
   bsaScore: string;
   bsaCalification: string;
+  pasiCalification: string;
+  pgaCalification: string;
   today: string;
+  cabeza: boolean;
+  tronco: boolean;
+  esup: boolean;
+  einf: boolean;
 
   constructor(private fb: FormBuilder) {}
 
@@ -72,6 +78,7 @@ export class PasiBsaPgaComponent implements OnInit {
     } else {
       this.pasiForm.controls[field].disable();
     }
+    this[field] = event;
   }
 
   onSave() {
@@ -82,9 +89,13 @@ export class PasiBsaPgaComponent implements OnInit {
     console.log('cancel');
   }
 
-  getScore(e: any) {
-    console.log('get score: ' + e);
+  getScore(scores: any) {
+    this.pasiScore = scores.total;
+    this.bsaScore = scores.bsa;
+    this.getCalifications();
   }
+
+  getCalifications() {}
 
   onSelectPGA(event: any) {
     console.log(event);

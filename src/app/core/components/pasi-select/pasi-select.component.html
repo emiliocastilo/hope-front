@@ -11,13 +11,27 @@
       [id]="select.id"
       (change)="onSelect($event)"
     >
-      <option *ngFor="let option of select.options" [ngValue]="option">
-        {{ option | translate }}
+      <option *ngFor="let option of select.options" [ngValue]="option.value">
+        {{ option.label | translate }}
       </option>
     </select>
   </div>
-  <div class="box-data">
+  <div class="box-data" [ngSwitch]="group">
     TOTAL
-    <div class="box-data-info">{{ total ? total : '-' }}</div>
+    <div class="box-data-info" *ngSwitchCase="'cabeza'">
+      {{ totalcabeza }}
+    </div>
+    <div class="box-data-info" *ngSwitchCase="'tronco'">
+      {{ totaltronco }}
+    </div>
+    <div class="box-data-info" *ngSwitchCase="'esup'">
+      {{ totalesup }}
+    </div>
+    <div class="box-data-info" *ngSwitchCase="'einf'">
+      {{ totaleinf }}
+    </div>
+    <div class="box-data-info" *ngSwitchCaseDefault>
+      -
+    </div>
   </div>
 </div>
