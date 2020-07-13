@@ -19,12 +19,12 @@ export interface FieldConfig {
   formula?: any;
   calculated_front?: boolean;
   calculated_back?: any;
-  endpoint?: string;
   event?: string;
   graphBack?: boolean;
   max?: any;
   min?: any;
   enableWhen?: Array<any>;
+  hiddenWhen?: Array<any>;
   defaultValue?: any;
   hidden?: boolean;
   params?: Array<string>;
@@ -32,4 +32,5 @@ export interface FieldConfig {
   columns?: Array<any>;
   fields?: Array<any>;
   historic?: Array<any>;
+  endpoint?: string;
 }

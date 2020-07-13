@@ -8,6 +8,7 @@ import { HomeDashboardResolverService } from './core/services/home-dashboard/hom
 import { ResetPasswordComponent } from './core/components/reset-password/reset-password.component';
 import { SelectRoleComponent } from './core/components/select-role/select-role.component';
 import { FormsComponent } from './core/components/forms/forms.component';
+import { MyAccountComponent } from './core/components/my-account/my-account.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,11 @@ const routes: Routes = [
   {
     path: 'forms',
     component: FormsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'my-account',
+    component: MyAccountComponent,
     canActivate: [AuthGuard],
   },
   {

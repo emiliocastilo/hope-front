@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DashboardPatientsComponent } from './patients/components/dashboard-patients/dashboard-patients.component';
 import { PatientsComponent } from './patients/components/patients/patients.component';
 import { CoreModule, createTranslateLoader } from 'src/app/core/core.module';
@@ -10,9 +11,11 @@ import { GalleryComponent } from './patients/components/gallery/gallery.componen
 import { SociodemographicDataComponent } from './patients/components/sociodemographic-data/sociodemographic-data.component';
 import { GeneralPatientDataComponent } from './patients/components/general-patient-data/general-patient-data.component';
 import { TracingComponent } from './patients/components/tracing/tracing.component';
+import { EavPaseComponent } from './patients/components/eav-pase/eav-pase.component';
 import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
 import { ComplementaryImagingScansComponent } from './patients/components/complementary-imaging-scans/complementary-imaging-scans.component';
-import { AdherenceToTreatmentComponent } from './patients/components/adherence-to-treatment/adherence-to-treatment.component';
+import { AdherenceToTreatmentMoriskyComponent } from './patients/components/adherence-to-treatment-morisky/adherence-to-treatment-morisky.component';
+import { AdherenceToTreatmentHaynesComponent } from './patients/components/adherence-to-treatment-haynes/adherence-to-treatment-haynes.component';
 import { ConsentComponent } from './patients/components/consent/consent.component';
 import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
 import { PersonalInformationComponent } from './patients/components/personal-information/personal-information.component';
@@ -31,6 +34,7 @@ import { BiologicalDrugMonitoringComponent } from './patients/components/biologi
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 import { NapsiComponent } from './patients/components/evolution-clinical-indices/napsi/napsi.component';
 import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/family-history.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 @NgModule({
   declarations: [
@@ -42,8 +46,10 @@ import { EvolutionClinicalIndicesComponent } from './patients/components/evoluti
     GeneralPatientDataComponent,
     DiagnosisComponent,
     TracingComponent,
+    EavPaseComponent,
     ComplementaryImagingScansComponent,
-    AdherenceToTreatmentComponent,
+    AdherenceToTreatmentMoriskyComponent,
+    AdherenceToTreatmentHaynesComponent,
     ConsentComponent,
     EvolutionClinicalIndicesComponent,
     NapsiComponent,
@@ -66,7 +72,10 @@ import { EvolutionClinicalIndicesComponent } from './patients/components/evoluti
   imports: [
     CommonModule,
     CoreModule,
+    ReactiveFormsModule,
+    FormsModule,
     PathologyRoutingModule,
+    GoogleChartsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
