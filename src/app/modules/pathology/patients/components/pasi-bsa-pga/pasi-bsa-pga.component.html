@@ -124,6 +124,7 @@
           <div class="box-pasi">
             <app-pasi-checkbox
               label="headNeck"
+              [defaultChecked]="cabeza"
               (checked)="isChecked($event, 'cabeza')"
             ></app-pasi-checkbox>
             <app-pasi-select
@@ -139,6 +140,7 @@
           <div class="box-pasi">
             <app-pasi-checkbox
               label="superiorExtremities"
+              [defaultChecked]="esup"
               (checked)="isChecked($event, 'esup')"
             ></app-pasi-checkbox>
             <app-pasi-select
@@ -154,6 +156,7 @@
           <div class="box-pasi">
             <app-pasi-checkbox
               label="body"
+              [defaultChecked]="tronco"
               (checked)="isChecked($event, 'tronco')"
             ></app-pasi-checkbox>
             <app-pasi-select
@@ -169,6 +172,7 @@
           <div class="box-pasi">
             <app-pasi-checkbox
               label="lowerExtremities"
+              [defaultChecked]="einf"
               (checked)="isChecked($event, 'einf')"
             ></app-pasi-checkbox>
             <app-pasi-select
@@ -217,9 +221,14 @@
         <div class="container-flex">
           <div class="custom-select">
             <label class="label">PGA</label>
-            <select name="pga" id="pga" (change)="onSelectPGA($event)">
-              <option *ngFor="let option of pga" [ngValue]="option">
-                {{ option | translate }}
+            <select
+              name="pga"
+              id="pga"
+              formControlName="pga"
+              (change)="onSelectPGA($event)"
+            >
+              <option *ngFor="let option of pga" [ngValue]="option.id">
+                {{ option.label | translate }}
               </option>
             </select>
           </div>

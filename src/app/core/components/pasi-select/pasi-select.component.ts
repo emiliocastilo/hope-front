@@ -52,8 +52,8 @@ export class PasiSelectComponent implements OnInit {
 
   onSelect(event: any) {
     this.calculatePasi();
-    this.total = this.calculateTotalPasi();
-    this.score.emit({ total: this.total, bsa: this.bsaScore });
+    // this.total = this.calculateTotalPasi();
+    this.score.emit({ pasi: this.total, bsa: this.bsaScore });
   }
 
   calculatePasi() {
@@ -77,6 +77,8 @@ export class PasiSelectComponent implements OnInit {
         const einf = 0.4 * this.calculateTotalZone(this.group);
         this.totaleinf = Math.round(einf * 100) / 100;
         this.form.value[this.group].total = this.totaleinf;
+        break;
+      default:
         break;
     }
 

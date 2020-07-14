@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class PasiCheckboxComponent implements OnInit {
   @Input() label: string;
+  @Input() defaultChecked: boolean;
   @Output() checked: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor() {}
 
