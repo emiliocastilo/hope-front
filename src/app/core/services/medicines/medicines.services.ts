@@ -11,4 +11,12 @@ export class MedicinesServices {
   getAll(query: string): Observable<any> {
     return this._http.get(`/medicines?${query}`);
   }
+
+  getByText(query: string) {
+    return this._http.get(`/medicines/searches?${query}`);
+  }
+
+  getDosesByMedicine(query: string) {
+    return this._http.get(`/medicines/doses?${query}`);
+  }
 }

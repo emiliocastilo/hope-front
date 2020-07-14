@@ -34,4 +34,8 @@ export class FormsService {
   public async callEndpoint(endpoint: string) {
     return this._http.get(endpoint).toPromise();
   }
+
+  public getFormsDatas(query: string) {
+    return this._http.get(`/forms/datas?${query}`, { responseType: 'text' });
+  }
 }

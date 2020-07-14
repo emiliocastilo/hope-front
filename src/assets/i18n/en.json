@@ -344,5 +344,14 @@
   "datePrescription": "Prescription date",
   "expectedEndDate": "Expected end date",
   "reasonChangeOrSuspension": "Reason",
-  "dateSuspension": "Fecha suspensión"
+  "dateSuspension": "Fecha suspensión",
+  "medicine": "Medicamento",
+  "medicinePlaceholder": "Busqueda por principio activo / presentacion'",
+  "atc": "ATC",
+  "cn": "Codigo Nacional",
+  "otherDosis": "Otra",
+  "tract": "Via",
+  "regimenTreatment": "Regimen de tratamiento",
+  "treatmentContinue": "Tratamiento continuo",
+  "treatmentPulsatil": "Tratamiento pulsátil"
 }

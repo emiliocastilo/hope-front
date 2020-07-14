@@ -65,7 +65,9 @@ import { ChangePasswordModalComponent } from './components/modals/change-passwor
 import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
 import { NumericInput } from './directives/numeric-input.directive';
 import { PhototherapyModalComponent } from './components/modals/phototherapy-modal/phototherapy-modal.component';
+import { PrincipalTreatmentModalComponent } from './components/modals/principal-treatment-modal/principal-treatment-modal.component';
 import { InputTextareaComponent } from './components/basics/app-input-textarea/app-input-textarea.component';
+import { InputTypeaheadComponent } from './components/basics/input-typeahead/input-typeahead.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -129,7 +131,9 @@ export function createTranslateLoader(http: HttpClient) {
     ChangePasswordModalComponent,
     QuestionnaireAnalysisArtritisPsoriasicaComponent,
     PhototherapyModalComponent,
+    PrincipalTreatmentModalComponent,
     InputTextareaComponent,
+    InputTypeaheadComponent,
   ],
   imports: [
     CommonModule,
@@ -186,6 +190,7 @@ export function createTranslateLoader(http: HttpClient) {
     ResultsPerPageComponent,
     LineChartComponent,
     InputTextareaComponent,
+    InputTypeaheadComponent,
   ],
   providers: [GenderFormatter],
   entryComponents: [

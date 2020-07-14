@@ -34,6 +34,7 @@ import { BiologicalDrugMonitoringComponent } from './patients/components/biologi
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
+import { PrincipalTreatmentComponent } from './patients/components/principal-treatment/principal-treatment.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { PhototherapyComponent } from './patients/components/phototherapy/photot
     BiologicalDrugMonitoringComponent,
     SharedPatientsComponent,
     PhototherapyComponent,
+    PrincipalTreatmentComponent,
   ],
   imports: [
     CommonModule,

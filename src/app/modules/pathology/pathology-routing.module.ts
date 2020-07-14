@@ -31,6 +31,7 @@ import { SerologyComponent } from './patients/components/serology/serology.compo
 import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
+import { PrincipalTreatmentComponent } from './patients/components/principal-treatment/principal-treatment.component';
 
 const routes: Routes = [
   {
@@ -236,6 +237,11 @@ const routes: Routes = [
   {
     path: 'patients/phototherapy',
     component: PhototherapyComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/principal-treatment',
+    component: PrincipalTreatmentComponent,
     canActivate: [AuthGuard],
   },
 ];

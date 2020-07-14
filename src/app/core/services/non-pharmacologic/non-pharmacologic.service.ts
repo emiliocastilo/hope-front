@@ -25,6 +25,73 @@ export class NonParmacologicServices {
   }
 
   getMock(query: string): any {
+    const data = {
+      template: 'farmacologies-treatments',
+      data: [
+        {
+          type: 'table',
+          name: 'principal-treatment',
+          value: [
+            {
+              indication: 'Psoriasis en placas',
+              principle: 'Adalimuma',
+              brand: 'Marca',
+              type: 'Químico',
+              dateEnd: '2020-06-10T00:00:00',
+              specialIndication: true,
+              bigPsychologicalImpact: true,
+              visibleInjury: true,
+              other: 'sadfasdf',
+              startPresentation: { id: 41, name: 'Oklahoma' },
+              family: 'sdfsad',
+              atc: 'fsdfsdf',
+              cn: 'sdfsad',
+              dose: [{ id: 0, name: 'dfgdsg' }],
+              otherDosis: 'sdfsadf',
+              tract: [{ id: 1, name: '454' }],
+              regimenTreatment: [{ id: 0, name: 'Cambio' }],
+              datePrescription: '2020-07-16',
+              dateStart: '2020-07-31',
+              expectedEndDate: '2020-07-30',
+              observations: 'sdfsdfds',
+              treatmentContinue: true,
+              treatmentPulsatil: true,
+            },
+            {
+              indication: 'Psoriasis en placas',
+              principle: 'Adalimuma',
+              brand: 'Marca',
+              type: 'Químico',
+              dateEnd: '2020-06-10T00:00:00',
+              specialIndication: true,
+              bigPsychologicalImpact: true,
+              visibleInjury: true,
+              other: 'sadfasdf',
+              startPresentation: { id: 41, name: 'Oklahoma' },
+              family: 'sdfsad',
+              atc: 'fsdfsdf',
+              cn: 'sdfsad',
+              dose: [{ id: 0, name: 'Cambio' }],
+              otherDosis: 'sdfsadf',
+              tract: [{ id: 1, name: 'Suspensión' }],
+              regimenTreatment: [{ id: 0, name: 'Cambio' }],
+              datePrescription: '2020-07-16',
+              dateStart: '2020-07-31',
+              expectedEndDate: '2020-07-30',
+              observations: 'sdfsdfds',
+              treatmentContinue: true,
+              treatmentPulsatil: true,
+            },
+          ],
+        },
+      ],
+      patientId: 5,
+    };
+    // for(let i = 0; i <= 100; i++) {
+    //   data.data[0].value.push(data.data[0].value[0]);
+    // }
+
+    return data;
     const object = {
       content: [
         {

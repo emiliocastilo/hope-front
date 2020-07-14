@@ -347,5 +347,14 @@
   "expectedEndDate": "Fecha fin prevista",
   "areYouSureDelete": "¿Está seguro de que desea eliminar este registro?",
   "reasonChangeOrSuspension": "Motivo",
-  "dateSuspension": "Fecha suspensión"
+  "dateSuspension": "Fecha suspensión",
+  "medicine": "Medicamento",
+  "medicinePlaceholder": "Busqueda por principio activo / presentacion'",
+  "atc": "ATC",
+  "cn": "Codigo Nacional",
+  "otherDosis": "Otra",
+  "tract": "Via",
+  "regimenTreatment": "Regimen de tratamiento",
+  "treatmentContinue": "Tratamiento continuo",
+  "treatmentPulsatil": "Tratamiento pulsátil"
 }
