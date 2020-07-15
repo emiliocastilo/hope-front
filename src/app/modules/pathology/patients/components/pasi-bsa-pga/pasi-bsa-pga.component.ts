@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import moment from 'moment';
 import PasiUtils from './PasiUtils';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { PatientModel } from '../../models/patient.model';
 import { constants } from '../../../../../../constants/constants';
+import { PasiService } from '../../services/pasi.service';
+import { HealthOutcomeModel } from '../../models/health-outcome.model';
 
 @Component({
   selector: 'app-pasi-bsa-pga',
@@ -33,6 +40,7 @@ export class PasiBsaPgaComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _formsService: FormsService,
+    private _pasiService: PasiService,
     private _notification: NotificationService
   ) {}
 
@@ -48,9 +56,22 @@ export class PasiBsaPgaComponent implements OnInit {
   get eritema(): FormControl {
     return this.pasiForm.controls['eritema'] as FormControl;
   }
+  get valid(): boolean {
+    return this.pasiForm.valid;
+  }
 
   ngOnInit(): void {
     this.today = moment(new Date()).format('YYYY-MM-DD');
+    this.pga = PasiUtils.getPGAOptions();
+    this.getPatientId();
+    this.getAndParseForm();
+  }
+
+  getPatientId() {
+    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+  }
+
+  async getAndParseForm() {
     this.pasiForm = this.fb.group({
       cabeza: this.fb.group({
         area: new FormControl({ value: '', disabled: true }),
@@ -80,20 +101,10 @@ export class PasiBsaPgaComponent implements OnInit {
         escamas: new FormControl({ value: '', disabled: true }),
         total: new FormControl({ value: '', disabled: true }),
       }),
-      evaluationDate: '',
-      pga: '',
-      bsa: '',
+      evaluationDate: [this.today, Validators.required],
+      pga: ['', Validators.required],
+      bsa: ['', Validators.required],
     });
-    this.pga = PasiUtils.getPGAOptions();
-    this.getPatientId();
-    this.getAndParseForm();
-  }
-
-  getPatientId() {
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
-  }
-
-  async getAndParseForm() {
     const retrievedForm: any = await this._formsService.retrieveForm(
       this.key,
       this.patient.id
@@ -121,18 +132,57 @@ export class PasiBsaPgaComponent implements OnInit {
       data: PasiUtils.parseEntriesForm(this.pasiForm.value),
       patientId: this.patient.id,
     };
-    this.fillForm(form);
+
+    // if (this.pasiForm.valid) {
+    //    this.fillForm(form);
+    //   for (let i = 0; i < 3; i++) {
+    //     this.saveHealthOutcome(i);
+    //   }
+    // }
   }
 
-  onClose() {
-    //TODO CLEAR FORM?
-    console.log('cancel');
+  saveHealthOutcome(index: number) {
+    let ho: HealthOutcomeModel = {
+      patient: this.patient.id,
+      date: new Date(this.pasiForm.value.evaluationDate).toISOString(),
+    };
+    switch (index) {
+      case 0:
+        ho = {
+          ...ho,
+          indexType: 'pasi',
+          value: this.pasiScore,
+          result: this.pasiCalification,
+        };
+        break;
+      case 1:
+        ho = {
+          ...ho,
+          indexType: 'bsa',
+          value: this.bsaScore,
+          result: this.bsaCalification,
+        };
+        break;
+      case 2:
+        ho = {
+          ...ho,
+          indexType: 'pga',
+          value: this.pasiForm.value.pga,
+          result: this.pgaCalification,
+        };
+        break;
+    }
+    this._pasiService.saveScore(ho);
+  }
+
+  showGraph() {
+    console.log('graph');
   }
 
   getScore(scores: any) {
     this.pasiScore = scores.pasi;
     this.bsaScore = scores.bsa;
-    this.pasiForm.value.bsa = this.bsaScore;
+    this.pasiForm.controls.bsa.setValue(this.bsaScore);
     this.pasiCalification = PasiUtils.getCalificationPasi(this.pasiScore);
     this.bsaCalification = PasiUtils.getCalificationBsa(this.bsaScore);
   }
@@ -151,5 +201,26 @@ export class PasiBsaPgaComponent implements OnInit {
         this._notification.showErrorToast(error.errorCode);
       }
     );
+  }
+
+  onClear() {
+    this.pasiForm.reset();
+    this.clearLabels();
+    this.clearChecks();
+  }
+
+  clearChecks() {
+    this.isChecked(false, 'cabeza');
+    this.isChecked(false, 'tronco');
+    this.isChecked(false, 'esup');
+    this.isChecked(false, 'einf');
+  }
+
+  clearLabels() {
+    this.pasiCalification = '';
+    this.pgaCalification = '';
+    this.bsaCalification = '';
+    this.pasiScore = '';
+    this.bsaScore = '';
   }
 }

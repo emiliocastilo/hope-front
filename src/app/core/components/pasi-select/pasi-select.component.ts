@@ -12,10 +12,11 @@ export class PasiSelectComponent implements OnInit {
   @Input() escamas: FormControl;
   @Input() eritema: FormControl;
   @Input() infiltracion: FormControl;
+  @Input() total: FormControl;
   @Input() form: FormGroup;
 
   selects: Array<any>;
-  total: any;
+  totalPasi: any;
   totalcabeza: any;
   totaltronco: any;
   totalesup: any;
@@ -52,8 +53,8 @@ export class PasiSelectComponent implements OnInit {
 
   onSelect(event: any) {
     this.calculatePasi();
-    // this.total = this.calculateTotalPasi();
-    this.score.emit({ pasi: this.total, bsa: this.bsaScore });
+    this.totalPasi = this.calculateTotalPasi();
+    this.score.emit({ pasi: this.totalPasi, bsa: this.bsaScore });
   }
 
   calculatePasi() {
@@ -83,27 +84,27 @@ export class PasiSelectComponent implements OnInit {
     }
 
     this.bsaScore =
-      this.parseValue(this.form.value.cabeza.area, 'int') * 0.1 +
-      this.parseValue(this.form.value.tronco.area, 'int') * 0.3 +
-      this.parseValue(this.form.value.esup.area, 'int') * 0.2 +
-      this.parseValue(this.form.value.einf.area, 'int') * 0.4;
+      this.parseValue(this.form.value.cabeza, 'area', 'int') * 0.1 +
+      this.parseValue(this.form.value.tronco, 'area', 'int') * 0.3 +
+      this.parseValue(this.form.value.esup, 'area', 'int') * 0.2 +
+      this.parseValue(this.form.value.einf, 'area', 'int') * 0.4;
   }
 
   calculateTotalZone(field: string) {
     return (
       this.calculateST(this.form.value[field].area) *
-      (this.parseValue(this.form.value[field].eritema, 'int') +
-        this.parseValue(this.form.value[field].infiltracion, 'int') +
-        this.parseValue(this.form.value[field].escamas, 'int'))
+      (this.parseValue(this.form.value[field], 'eritema', 'int') +
+        this.parseValue(this.form.value[field], 'infiltracion', 'int') +
+        this.parseValue(this.form.value[field], 'escamas', 'int'))
     );
   }
 
   calculateTotalPasi() {
     return (
-      this.parseValue(this.form.value.cabeza.total, 'float') +
-      this.parseValue(this.form.value.tronco.total, 'float') +
-      this.parseValue(this.form.value.esup.total, 'float') +
-      this.parseValue(this.form.value.einf.total, 'float')
+      this.parseValue(this.form.value.cabeza, 'total', 'float') +
+      this.parseValue(this.form.value.tronco, 'total', 'float') +
+      this.parseValue(this.form.value.esup, 'total', 'float') +
+      this.parseValue(this.form.value.einf, 'total', 'float')
     );
   }
 
@@ -125,12 +126,12 @@ export class PasiSelectComponent implements OnInit {
     }
   }
 
-  parseValue(value: any, type: string) {
+  parseValue(value: any, child: string, type: string) {
     switch (type) {
       case 'int':
-        return parseInt(value ? value : 0, 10);
+        return parseInt(value && value[child] ? value[child] : 0, 10);
       case 'float':
-        return parseFloat(value ? value : 0);
+        return parseFloat(value && value[child] ? value[child] : 0);
     }
   }
 }

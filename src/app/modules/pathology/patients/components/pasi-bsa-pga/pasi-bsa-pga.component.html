@@ -264,14 +264,22 @@
         icono="check-circle"
         clasesBtn="btn-primary btn-sm mx-2"
         texto="btn.save"
+        [readOnly]="!valid"
         (click)="onSave()"
+      ></app-button>
+      <app-button
+        type="button"
+        icono="bar-chart-2"
+        clasesBtn="btn-primary btn-sm mx-2"
+        texto="btn.graphs"
+        (click)="showGraph()"
       ></app-button>
       <app-button
         type="button"
         clasesBtn="btn-danger btn-sm mx-2"
         icono="x"
-        texto="btn.cancel"
-        (click)="onClose()"
+        texto="btn.clean"
+        (click)="onClear()"
       ></app-button>
     </div>
   </form>

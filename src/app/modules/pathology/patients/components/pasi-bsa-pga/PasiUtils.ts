@@ -63,13 +63,14 @@ export default class PasiUtils {
   }
 
   static parseEntriesForm(values: any) {
+    console.log(values);
     const form = [];
-    const entry = {
-      type: 'pasi-form',
-      name: 'pasi',
-      value: values,
-    };
-    form.push(entry);
+    // const entry = {
+    //   type: 'pasi-form',
+    //   name: 'pasi',
+    //   value: values,
+    // };
+    // form.push(entry);
     return form;
   }
 
