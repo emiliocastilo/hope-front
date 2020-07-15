@@ -84,6 +84,9 @@
   "modal.editor.field.roles": "Roles",
   "modal.editor.field.activeroles": "Roles activos",
   "modal.editor.field.fathersection": "Sección padre",
+  "modal.editor.field.subject": "Subject",
+  "modal.editor.field.message": "Message",
+  "modal.editor.field.send": "Send",
   "logout": "Logout",
   "fullName": "full name",
   "age": "Age",
@@ -120,7 +123,8 @@
     "passwordChangedSuccessfully": "Password succesfully updated",
     "passwordChangeFailed": "Wrong password",
     "missDate": "There are dates missing",
-    "errorUserLogin": "User name or password are not valid."
+    "errorUserLogin": "User name or password are not valid.",
+    "sent": "Sent"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
   "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",
