@@ -34,4 +34,8 @@ export class FormsService {
   public async callEndpoint(endpoint: string) {
     return this._http.get(endpoint).toPromise();
   }
+
+  public support(form: any) {
+    return this._http.post('/support', form);
+  }
 }

@@ -1,0 +1,77 @@
+@import '~src/assets/styles/variables.scss';
+
+.dynamic-group {
+  position: relative;
+  padding: 0.938rem 0 0;
+  margin-top: 0.625rem;
+  margin-right: 0.625rem;
+}
+
+.dynamic-label {
+  position: absolute;
+  top: -5px;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: $app-color-gray-dark;
+}
+
+.dynamic-label-red {
+  color: red;
+  font-size: 1.2rem;
+}
+
+.dynamic-field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 0.125rem solid $app-color-gray-dark;
+  outline: 0;
+  font-size: 1rem;
+  color: $app-color-black;
+  padding: 0.438rem 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .dynamic-label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 1.25rem;
+  }
+
+  &:focus {
+    ~ .dynamic-label {
+      position: absolute;
+      top: -5;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: $app-color-blue-medium;
+    }
+
+    padding-bottom: 0.375rem;
+    border-width: 0.188rem;
+    border-image: linear-gradient(to right, $app-color-blue-medium, $app-color-blue-light);
+    border-image-slice: 1;
+  }
+
+  &:required,
+  &:invalid {
+    box-shadow: none;
+  }
+}
+
+.requiredLegend {
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+
+  &::before {
+    content: ' * ';
+    color: red;
+    font-size: 1.2rem;
+  }
+}
