@@ -3,9 +3,8 @@
     <div class="custom-select" *ngFor="let select of selects">
       <label class="label">{{ select.label }}</label>
       <select
-        [name]="select.id"
+        [name]="select.id + select.label"
         [formControlName]="select.id"
-        [id]="select.id"
         (change)="onSelect($event)"
       >
         <option *ngFor="let option of select.options" [ngValue]="option.value">
@@ -21,6 +20,7 @@
         *ngSwitchCase="'cabeza'"
         formControlName="total"
         [value]="totalcabeza"
+        readonly
       />
       <input
         type="text"
@@ -28,6 +28,7 @@
         *ngSwitchCase="'tronco'"
         formControlName="total"
         [value]="totaltronco"
+        readonly
       />
       <input
         type="text"
@@ -35,6 +36,7 @@
         *ngSwitchCase="'esup'"
         formControlName="total"
         [value]="totalesup"
+        readonly
       />
       <input
         type="text"
@@ -42,19 +44,8 @@
         *ngSwitchCase="'einf'"
         formControlName="total"
         [value]="totaleinf"
+        readonly
       />
-      <!-- <div class="box-data-info" *ngSwitchCase="'tronco'">
-        {{ totaltronco }}
-      </div>
-      <div class="box-data-info" *ngSwitchCase="'esup'">
-        {{ totalesup }}
-      </div>
-      <div class="box-data-info" *ngSwitchCase="'einf'">
-        {{ totaleinf }}
-      </div>
-      <div class="box-data-info" *ngSwitchCaseDefault>
-        -
-      </div> -->
     </div>
   </div>
 </div>

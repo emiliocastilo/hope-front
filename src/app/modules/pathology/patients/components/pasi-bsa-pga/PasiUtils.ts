@@ -1,16 +1,4 @@
 export default class PasiUtils {
-  static getPGAOptions() {
-    return [
-      { id: 0, label: '0' },
-      { id: 1, label: '1' },
-      { id: 2, label: '2' },
-      { id: 3, label: '3' },
-      { id: 4, label: '4' },
-      { id: 5, label: '5' },
-      { id: 6, label: '6' },
-    ];
-  }
-
   static getCalificationPasi(pasi: any) {
     const score = parseFloat(pasi);
     switch (true) {
@@ -44,7 +32,7 @@ export default class PasiUtils {
   }
 
   static selectPGA(option) {
-    switch (option) {
+    switch (option.toString()) {
       case '0':
         return 'Blanqueada';
       case '1':
@@ -63,18 +51,33 @@ export default class PasiUtils {
   }
 
   static parseEntriesForm(values: any) {
-    console.log(values);
     const form = [];
-    // const entry = {
-    //   type: 'pasi-form',
-    //   name: 'pasi',
-    //   value: values,
-    // };
-    // form.push(entry);
-    return form;
-  }
 
-  static parseFormFilled(filledForm: any) {
-    console.log(filledForm);
+    Object.entries(values).forEach((e: any) => {
+      if (typeof e[1] !== 'object') {
+        const entry = {
+          type: 'input',
+          name: e[0],
+          value: typeof e[1] === 'string' ? new Date(e[1]).toISOString() : e[1],
+        };
+        form.push(entry);
+      }
+    });
+
+    Object.entries(values).forEach((e) => {
+      if (Object.entries(e[1]).length === 1) {
+        const ob = {
+          area: '',
+          eritema: '',
+          escamas: '',
+          infiltracion: '',
+          total: '',
+        };
+        Object.assign(values[e[0]], ob);
+      }
+    });
+
+    form.push({ type: 'form', name: 'form', value: JSON.stringify(values) });
+    return form;
   }
 }

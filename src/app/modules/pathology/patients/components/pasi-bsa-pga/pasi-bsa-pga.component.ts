@@ -21,7 +21,6 @@ import { HealthOutcomeModel } from '../../models/health-outcome.model';
 })
 export class PasiBsaPgaComponent implements OnInit {
   pasiForm: FormGroup;
-  pga: Array<any>;
   pasiScore: string;
   bsaScore: string;
   bsaCalification: string;
@@ -62,7 +61,6 @@ export class PasiBsaPgaComponent implements OnInit {
 
   ngOnInit(): void {
     this.today = moment(new Date()).format('YYYY-MM-DD');
-    this.pga = PasiUtils.getPGAOptions();
     this.getPatientId();
     this.getAndParseForm();
   }
@@ -78,42 +76,44 @@ export class PasiBsaPgaComponent implements OnInit {
         eritema: new FormControl({ value: '', disabled: true }),
         infiltracion: new FormControl({ value: '', disabled: true }),
         escamas: new FormControl({ value: '', disabled: true }),
-        total: new FormControl({ value: '', disabled: true }),
+        total: '',
       }),
       tronco: this.fb.group({
         area: new FormControl({ value: '', disabled: true }),
         eritema: new FormControl({ value: '', disabled: true }),
         infiltracion: new FormControl({ value: '', disabled: true }),
         escamas: new FormControl({ value: '', disabled: true }),
-        total: new FormControl({ value: '', disabled: true }),
+        total: '',
       }),
       esup: this.fb.group({
         area: new FormControl({ value: '', disabled: true }),
         eritema: new FormControl({ value: '', disabled: true }),
         infiltracion: new FormControl({ value: '', disabled: true }),
         escamas: new FormControl({ value: '', disabled: true }),
-        total: new FormControl({ value: '', disabled: true }),
+        total: '',
       }),
       einf: this.fb.group({
         area: new FormControl({ value: '', disabled: true }),
         eritema: new FormControl({ value: '', disabled: true }),
         infiltracion: new FormControl({ value: '', disabled: true }),
         escamas: new FormControl({ value: '', disabled: true }),
-        total: new FormControl({ value: '', disabled: true }),
+        total: '',
       }),
       evaluationDate: [this.today, Validators.required],
       pga: ['', Validators.required],
       bsa: ['', Validators.required],
+      pasi: ['', Validators.required],
     });
     const retrievedForm: any = await this._formsService.retrieveForm(
       this.key,
       this.patient.id
     );
     if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
-      this.filledForm = retrievedForm.data[0].value;
-      // PasiUtils.parseFormFilled(this.filledForm[0].value);
-      // this.pasiForm.setValue(this.filledForm);
-      //this.isChecked(true, 'cabeza');
+      this.filledForm = JSON.parse(
+        retrievedForm.data.find((e) => e.type === 'form').value
+      );
+      this.pasiForm.setValue(this.filledForm);
+      this.printFormValues(this.filledForm);
     }
   }
 
@@ -133,12 +133,16 @@ export class PasiBsaPgaComponent implements OnInit {
       patientId: this.patient.id,
     };
 
-    // if (this.pasiForm.valid) {
-    //    this.fillForm(form);
-    //   for (let i = 0; i < 3; i++) {
-    //     this.saveHealthOutcome(i);
-    //   }
-    // }
+    if (this.pasiForm.valid) {
+      if (this.filledForm) {
+        this.updateForm(form);
+      } else {
+        this.fillForm(form);
+      }
+      for (let i = 0; i < 3; i++) {
+        this.saveHealthOutcome(i);
+      }
+    }
   }
 
   saveHealthOutcome(index: number) {
@@ -183,6 +187,7 @@ export class PasiBsaPgaComponent implements OnInit {
     this.pasiScore = scores.pasi;
     this.bsaScore = scores.bsa;
     this.pasiForm.controls.bsa.setValue(this.bsaScore);
+    this.pasiForm.controls.pasi.setValue(this.pasiScore);
     this.pasiCalification = PasiUtils.getCalificationPasi(this.pasiScore);
     this.bsaCalification = PasiUtils.getCalificationBsa(this.bsaScore);
   }
@@ -196,6 +201,17 @@ export class PasiBsaPgaComponent implements OnInit {
     this._formsService.fillForm(form).subscribe(
       () => {
         this._notification.showSuccessToast('elementCreated');
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
+  }
+
+  updateForm(form: any) {
+    this._formsService.updateForm(form).subscribe(
+      () => {
+        this._notification.showSuccessToast('elementUpdated');
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
@@ -222,5 +238,18 @@ export class PasiBsaPgaComponent implements OnInit {
     this.bsaCalification = '';
     this.pasiScore = '';
     this.bsaScore = '';
+  }
+
+  printFormValues(form: any) {
+    this.pasiCalification = PasiUtils.getCalificationPasi(form.pasi);
+    this.bsaCalification = PasiUtils.getCalificationBsa(form.bsa);
+    this.pgaCalification = PasiUtils.selectPGA(form.pga);
+    Object.entries(form).forEach((e: any) => {
+      if (typeof e[1] === 'object') {
+        if (typeof e[1].total === 'number') {
+          this.isChecked(true, e[0]);
+        }
+      }
+    });
   }
 }

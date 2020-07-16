@@ -1,5 +1,11 @@
 @import '~src/assets/styles/variables.scss';
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .title {
   font-size: 1.2rem;
   font-weight: 600;
@@ -43,6 +49,18 @@
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+
+    input[type='number'] {
+      -moz-appearance: textfield;
+
+      &:read-only {
+        cursor: not-allowed;
+        border: unset;
+        width: 1.5rem;
+        font-weight: 600;
+        background: transparent;
+      }
+    }
   }
 }
 
@@ -59,10 +77,14 @@
     0% 0% no-repeat padding-box;
 
   svg {
-    height: 80%;
+    height: 90%;
     position: relative;
     top: 4vh;
-    left: 8vw;
+    left: 6vw;
+
+    path.st1 {
+      cursor: pointer;
+    }
 
     #cabeza.checked-color,
     #esup.checked-color,
@@ -71,11 +93,6 @@
       fill: rgb(41, 169, 224);
       stroke: rgb(54, 62, 99);
     }
-  }
-
-  .svg-data {
-    display: flex;
-    margin: 3rem 0 0 1rem;
   }
 }
 
