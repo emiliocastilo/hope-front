@@ -28,29 +28,8 @@ export class BoxDataComponent implements OnInit {
   }
 
   public parsedata(object: PatientModel, key: string): string {
-    const customFields = {
-      name: this.calculateFullName(object),
-      genderCode: this.showGender(object),
-    };
-
-    const valuetoPrint = customFields[key]
-      ? customFields[key]
-      : object[key]
-      ? object[key]
-      : '';
+    const valuetoPrint = object[key] ? object[key] : '';
     return valuetoPrint;
-  }
-
-  private calculateFullName(object: PatientModel): string {
-    const fullName = object.fullName
-      ? object.fullName
-      : `${object.name} ${object.firstSurname} ${object.lastSurname}`;
-    return fullName ? fullName : '';
-  }
-
-  private showGender(object: PatientModel): string {
-    this.gender = object.genderCode === 'F' ? 'female' : 'male';
-    return object.genderCode ? this.gender : '';
   }
 
   public showKey(key: string): string {

@@ -32,6 +32,7 @@ import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-l
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/family-history.component';
 import { NapsiComponent } from './patients/components/evolution-clinical-indices/napsi/napsi.component';
+import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 
 const routes: Routes = [
   {
@@ -141,6 +142,14 @@ const routes: Routes = [
   {
     path: 'patients/diagnosis/comorbidities',
     component: ComorbiditiesComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/evolution-clinical-indices/pasi-bsa-pga',
+    component: PasiBsaPgaComponent,
     resolve: {
       patients: PatientsResolverService,
     },

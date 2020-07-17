@@ -1,0 +1,64 @@
+<div class="container-fluid">
+  <form class="row" [formGroup]="form">
+    <div class="col-12">
+      <app-input
+        [id]="'email'"
+        [name]="'email'"
+        [formControlName]="'email'"
+        [label]="'modal.editor.field.' + 'email' | translate"
+        [value]="form.controls['email'].value"
+        [required]="checkIfRequired('email')"
+        [invalidLabel]="getInvalidLabel('email')"
+      >
+      </app-input>
+    </div>
+
+    <div class="col-12">
+      <app-input
+        [id]="'subject'"
+        [name]="'subject'"
+        [formControlName]="'subject'"
+        [label]="'modal.editor.field.' + 'subject' | translate"
+        [value]="form.controls['subject'].value"
+        [required]="checkIfRequired('subject')"
+        [invalidLabel]="getInvalidLabel('subject')"
+      >
+      </app-input>
+    </div>
+
+    <div class="col-12">
+      <label class="dynamic-label" for="'message'">
+        {{ 'modal.editor.field.' + 'message' | lowercase | translate }}
+        <span class="dynamic-label-red">{{
+          checkIfRequired('message') ? '*' : null
+        }}</span>
+      </label>
+      <div class="form-group dynamic-group field">
+        <textarea
+          [attr.id]="'message'"
+          [attr.name]="'message'"
+          [formControlName]="'message'"
+          class="dynamic-field"
+          [attr.rows]="2"
+        >
+        </textarea>
+      </div>
+    </div>
+
+    <label *ngIf="showRequiredLegend" class="requiredLegend">
+      {{ 'requiredLegendText' | translate }}
+    </label>
+
+    <div class="col-12 mt-4">
+      <app-button
+        class="button_change-password"
+        type="button"
+        clasesBtn="btn-primary btn-sm"
+        texto="modal.editor.field.send"
+        (click)="send()"
+        [readOnly]="form.invalid"
+      >
+      </app-button>
+    </div>
+  </form>
+</div>

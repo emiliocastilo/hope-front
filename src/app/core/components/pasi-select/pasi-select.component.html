@@ -1,0 +1,51 @@
+<div [formGroup]="form">
+  <div [formGroupName]="group">
+    <div class="custom-select" *ngFor="let select of selects">
+      <label class="label">{{ select.label }}</label>
+      <select
+        [name]="select.id + select.label"
+        [formControlName]="select.id"
+        (change)="onSelect($event)"
+      >
+        <option *ngFor="let option of select.options" [ngValue]="option.value">
+          {{ option.label | translate }}
+        </option>
+      </select>
+    </div>
+    <div class="box-data" [ngSwitch]="group">
+      <span class="total-label">TOTAL</span>
+      <input
+        type="text"
+        class="box-data-info"
+        *ngSwitchCase="'cabeza'"
+        formControlName="total"
+        [value]="totalcabeza"
+        readonly
+      />
+      <input
+        type="text"
+        class="box-data-info"
+        *ngSwitchCase="'tronco'"
+        formControlName="total"
+        [value]="totaltronco"
+        readonly
+      />
+      <input
+        type="text"
+        class="box-data-info"
+        *ngSwitchCase="'esup'"
+        formControlName="total"
+        [value]="totalesup"
+        readonly
+      />
+      <input
+        type="text"
+        class="box-data-info"
+        *ngSwitchCase="'einf'"
+        formControlName="total"
+        [value]="totaleinf"
+        readonly
+      />
+    </div>
+  </div>
+</div>
