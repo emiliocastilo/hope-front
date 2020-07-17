@@ -96,7 +96,6 @@ export class NapsiComponent implements OnInit {
     }
   }
   save() {
-    console.log(this.form);
     const form = {
       template: this.key,
       data: PasiUtils.parseNailsForm(this.form.value),
@@ -109,13 +108,13 @@ export class NapsiComponent implements OnInit {
       } else {
         this.fillForm(form);
       }
-      /*this._pasiService.saveScore({
-        patient: this.patient.id,
-        date: new Date(this.form.value.evaluationDate).toISOString(),
-        indexType: 'napsi',
-        value: this.napsiScore,
-        result: this.pasiCalification,
-        });*/
+      // this._pasiService.saveScore({
+      //   patient: this.patient.id,
+      //   date: new Date(this.form.value.evaluationDate).toISOString(),
+      //   indexType: 'napsi',
+      //   value: '0',
+      //   result: '',
+      // });
     }
   }
 
@@ -156,17 +155,23 @@ export class NapsiComponent implements OnInit {
     });
   }
 
-  showChartFront() {
-    event.preventDefault();
-
-    const parseData = FormUtils.formatDataMultiGraph(
-      this._translate,
-      this.formKeys,
-      'napsi',
-      this.retrievedFormFormat
+  async showChartFront() {
+    const dataGraph: any = await this._formsService.retrieveFormGraph(
+      this.key,
+      this.patient.id
     );
 
-    this.showModalGraph(parseData);
+    if (dataGraph.length > 0) {
+      dataGraph.forEach((element) => {
+        if (element.values.length > 0) {
+          element.values.forEach((value) => {
+            value.date = new Date(value.date);
+          });
+        }
+      });
+    }
+
+    this.showModalGraph(dataGraph);
   }
 
   async getForm() {

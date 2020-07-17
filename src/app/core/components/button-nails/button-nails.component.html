@@ -1,5 +1,5 @@
-<div>
-  <div [ngSwitch]="Valuehand">
+<div [formGroup]="form">
+  <div [ngSwitch]="Valuehand" [formGroupName]="group">
     <div *ngSwitchCase="'leftHand'" class="stileHand">
       <div class="svgStyle">
         <svg
@@ -220,38 +220,48 @@
       </div>
       <div class="buttonStyle">
         <input
-          type="button"
+          type="text"
           [id]="'ValueMen'"
           [placeholder]="'Meñique'"
           class="buttonNapsi"
+          formControlName="ValueMen"
+          readonly
           [value]="ValueMen"
         />
         <input
-          type="button"
+          type="text"
           [id]="'ValueAnul'"
           [placeholder]="'Anular'"
           class="buttonNapsi"
+          formControlName="ValueAnul"
+          readonly
           [value]="ValueAnul"
         />
         <input
-          type="button"
+          type="text"
           [id]="'ValueCor'"
           [placeholder]="'Corazon'"
+          formControlName="ValueCor"
           class="buttonNapsi"
+          readonly
           [value]="ValueCor"
         />
         <input
-          type="button"
+          type="text"
           [id]="'ValueInd'"
           [placeholder]="'Indice'"
+          formControlName="ValueInd"
           class="buttonNapsi"
+          readonly
           [value]="ValueInd"
         />
         <input
-          type="button"
+          type="text"
           [placeholder]="'Pulgar'"
           [id]="'ValuePul'"
+          formControlName="ValuePul"
           class="buttonNapsi"
+          readonly
           [value]="ValuePul"
         />
       </div>
@@ -481,8 +491,10 @@
         <input
           type="text"
           [id]="'ValuePul'"
-          placeholder="Meñique"
+          placeholder="Pulgar"
           class="buttonNapsi"
+          formControlName="ValuePul"
+          readonly
           [value]="ValuePul"
         />
 
@@ -491,6 +503,8 @@
           [id]="'ValueInd'"
           [placeholder]="'Indice'"
           class="buttonNapsi"
+          formControlName="ValueInd"
+          readonly
           [value]="ValueInd"
         />
 
@@ -499,6 +513,8 @@
           [id]="'ValueCor'"
           [placeholder]="'Corazon'"
           class="buttonNapsi"
+          formControlName="ValueCor"
+          readonly
           [value]="ValueCor"
         />
 
@@ -506,7 +522,9 @@
           type="text"
           [id]="'ValueAnul'"
           [placeholder]="'Anular'"
+          formControlName="ValueAnul"
           class="buttonNapsi"
+          readonly
           [value]="ValueAnul"
         />
 
@@ -514,7 +532,9 @@
           type="text"
           [id]="'ValueMen'"
           [placeholder]="'Meñique'"
+          formControlName="ValueMen"
           class="buttonNapsi"
+          readonly
           [value]="ValueMen"
         />
       </div>

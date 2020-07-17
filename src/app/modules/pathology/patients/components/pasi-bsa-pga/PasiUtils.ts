@@ -84,13 +84,18 @@ export default class PasiUtils {
   static parseNailsForm(values: any) {
     const form = [
       {
+        type: 'datepicker',
+        name: 'evaluationDate',
+        value: values.evaluationDate,
+      },
+      {
         type: 'input',
         name: 'napsiScore',
-        value: values.napsi,
+        value: values.napsi ? values.napsi : 0,
       },
     ];
 
-    /*form.push({ type: 'form', name: 'form', value: JSON.stringify(values)});*/
+    form.push({ type: 'form', name: 'form', value: JSON.stringify(values) });
     return form;
   }
 }
