@@ -64,6 +64,7 @@ import { MyAccountComponent } from './components/my-account/my-account.component
 import { ChangePasswordModalComponent } from './components/modals/change-password-modal/change-password-modal.component';
 import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
 import { NumericInput } from './directives/numeric-input.directive';
+import { ButtonNailsComponent } from './components/button-nails/button-nails.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -86,6 +87,7 @@ export function createTranslateLoader(http: HttpClient) {
     SelectRoleComponent,
     SearchComponent,
     TableComponent,
+    ButtonNailsComponent,
     BoxDataComponent,
     DynamicFormComponent,
     FormInputComponent,
@@ -181,6 +183,7 @@ export function createTranslateLoader(http: HttpClient) {
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
+    ButtonNailsComponent,
   ],
   providers: [GenderFormatter],
   entryComponents: [

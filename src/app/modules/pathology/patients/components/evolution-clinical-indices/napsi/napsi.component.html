@@ -1,203 +1,106 @@
-<div>
-  <app-patient-header></app-patient-header>
+<div [formGroup]="form">
   <div>
     <p>Otros índices: NAPSI</p>
   </div>
   <div>
-    <p>Matriz ungueal</p>
+    <label>Fecha </label>
+    <input
+      [formControlName]="'Date'"
+      [id]="'Date'"
+      id="date"
+      type="date"
+      [value]="Date"
+      (keydown)="(DontPush)"
+    />
   </div>
   <div>
-    <label>Fecha </label>
-    <input id="date" type="date" [value]="Date" (keydown)="(DontPush)" />
+    <p>Matriz ungueal</p>
   </div>
-  <div class="rightHandStyle">
-    <p>Mano derecha</p>
-    <div>
-      <input class="rightButtonNailMen" type="button" />
-      <input class="leftButtonNailMen" type="button" />
-      <input class="leftUpButtonNailMen" type="button" />
-      <input class="rightUpButtonNailMen" type="button" />
-      <div class="menStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">
-        <p>Meñique</p>
-        {{ Prueba }}
-      </button>
+  <div class="handsContainer">
+    <div class="HandStyle">
+      <span class="spanStyle">Mano izquierda</span>
+      <app-button-nails
+        [form]="form"
+        [group]="'mano_izquierda_matriz'"
+        class="col-12"
+        [Valuehand]="'leftHand'"
+      ></app-button-nails>
     </div>
-    <div>
-      <input class="rightButtonNailAnu" type="button" />
-      <input class="leftButtonNailAnu" type="button" />
-      <input class="leftUpButtonNailAnu" type="button" />
-      <input class="rightUpButtonNailAnu" type="button" />
-      <div class="anuStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Anular</button>
-    </div>
-    <div>
-      <input class="rightButtonNailCor" type="button" />
-      <input class="leftButtonNailCor" type="button" />
-      <input class="leftUpButtonNailCor" type="button" />
-      <input class="rightUpButtonNailCor" type="button" />
-      <div class="corStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">
-        Corazón
-      </button>
-    </div>
-    <div>
-      <input class="rightButtonNailInd" type="button" />
-      <input class="leftButtonNailInd" type="button" />
-      <input class="leftUpButtonNailInd" type="button" />
-      <input class="rightUpButtonNailInd" type="button" />
-      <div class="indStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Indice</button>
-    </div>
-    <div>
-      <input class="rightButtonNailpul" type="button" />
-      <input class="leftButtonNailpul" type="button" />
-      <input class="leftUpButtonNailpul" type="button" />
-      <input class="rightUpButtonNailpul" type="button" />
-      <div class="pulStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Pulgar</button>
-    </div>
-  </div>
-  <div class="leftHandStyle">
-    <div>
-      <input class="rightButtonNailpul" type="button" />
-      <input class="leftButtonNailpul" type="button" />
-      <input class="leftUpButtonNailpul" type="button" />
-      <input class="rightUpButtonNailpul" type="button" />
-      <div class="pulStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Pulgar</button>
-    </div>
-    <div>
-      <input class="rightButtonNailInd" type="button" />
-      <input class="leftButtonNailInd" type="button" />
-      <input class="leftUpButtonNailInd" type="button" />
-      <input class="rightUpButtonNailInd" type="button" />
-      <div class="indStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Indice</button>
-    </div>
-    <div>
-      <input class="rightButtonNailCor" type="button" />
-      <input class="leftButtonNailCor" type="button" />
-      <input class="leftUpButtonNailCor" type="button" />
-      <input class="rightUpButtonNailCor" type="button" />
-      <div class="corStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">
-        Corazón
-      </button>
-    </div>
-    <div>
-      <input class="rightButtonNailAnu" type="button" />
-      <input class="leftButtonNailAnu" type="button" />
-      <input class="leftUpButtonNailAnu" type="button" />
-      <input class="rightUpButtonNailAnu" type="button" />
-      <div class="anuStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Anular</button>
-    </div>
-    <div>
-      <input class="rightButtonNailMen" type="button" />
-      <input class="leftButtonNailMen" type="button" />
-      <input class="leftUpButtonNailMen" type="button" />
-      <input class="rightUpButtonNailMen" type="button" />
-      <div class="menStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">
-        <p>Meñique</p>
-        {{ Prueba }}
-      </button>
+    <div class="HandStyle">
+      <span class="spanStyle">Mano Derecha</span>
+      <app-button-nails
+        [form]="form"
+        [group]="'mano_derecha_matriz'"
+        class="col-12"
+        [Valuehand]="'rightHand'"
+      ></app-button-nails>
     </div>
   </div>
   <div><p>Lecho ungueal</p></div>
-  <div class="rightHandStyle">
-    <div>
-      <input class="rightButtonNailMen" type="button" />
-      <input class="leftButtonNailMen" type="button" />
-      <input class="leftUpButtonNailMen" type="button" />
-      <input class="rightUpButtonNailMen" type="button" />
-      <div class="menStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">
-        <p>Meñique</p>
-        {{ Prueba }}
-      </button>
+  <div class="handsContainer">
+    <div class="HandStyle">
+      <span class="spanStyle">Mano izquierda</span>
+      <app-button-nails
+        [form]="form"
+        [group]="'mano_izquierda_lecho'"
+        class="col-12"
+        [Valuehand]="'leftHand'"
+      ></app-button-nails>
     </div>
-    <div>
-      <input class="rightButtonNailAnu" type="button" />
-      <input class="leftButtonNailAnu" type="button" />
-      <input class="leftUpButtonNailAnu" type="button" />
-      <input class="rightUpButtonNailAnu" type="button" />
-      <div class="anuStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Anular</button>
-    </div>
-    <div>
-      <input class="rightButtonNailCor" type="button" />
-      <input class="leftButtonNailCor" type="button" />
-      <input class="leftUpButtonNailCor" type="button" />
-      <input class="rightUpButtonNailCor" type="button" />
-      <div class="corStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">
-        Corazón
-      </button>
-    </div>
-    <div>
-      <input class="rightButtonNailInd" type="button" />
-      <input class="leftButtonNailInd" type="button" />
-      <input class="leftUpButtonNailInd" type="button" />
-      <input class="rightUpButtonNailInd" type="button" />
-      <div class="indStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Indice</button>
-    </div>
-    <div>
-      <input class="rightButtonNailpul" type="button" />
-      <input class="leftButtonNailpul" type="button" />
-      <input class="leftUpButtonNailpul" type="button" />
-      <input class="rightUpButtonNailpul" type="button" />
-      <div class="pulStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Pulgar</button>
+    <div class="HandStyle">
+      <span class="spanStyle">Mano derecha</span>
+      <app-button-nails
+        [form]="form"
+        [group]="'mano_derecha_lecho'"
+        class="col-12"
+        [Valuehand]="'rightHand'"
+      ></app-button-nails>
     </div>
   </div>
-  <div class="leftHandStyle">
-    <div>
-      <input class="rightButtonNailpul" type="button" />
-      <input class="leftButtonNailpul" type="button" />
-      <input class="leftUpButtonNailpul" type="button" />
-      <input class="rightUpButtonNailpul" type="button" />
-      <div class="pulStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Pulgar</button>
-    </div>
-    <div>
-      <input class="rightButtonNailInd" type="button" />
-      <input class="leftButtonNailInd" type="button" />
-      <input class="leftUpButtonNailInd" type="button" />
-      <input class="rightUpButtonNailInd" type="button" />
-      <div class="indStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Indice</button>
-    </div>
-    <div>
-      <input class="rightButtonNailCor" type="button" />
-      <input class="leftButtonNailCor" type="button" />
-      <input class="leftUpButtonNailCor" type="button" />
-      <input class="rightUpButtonNailCor" type="button" />
-      <div class="corStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">
-        Corazón
-      </button>
-    </div>
-    <div>
-      <input class="rightButtonNailAnu" type="button" />
-      <input class="leftButtonNailAnu" type="button" />
-      <input class="leftUpButtonNailAnu" type="button" />
-      <input class="rightUpButtonNailAnu" type="button" />
-      <div class="anuStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">Anular</button>
-    </div>
-    <div>
-      <input class="rightButtonNailMen" type="button" />
-      <input class="leftButtonNailMen" type="button" />
-      <input class="leftUpButtonNailMen" type="button" />
-      <input class="rightUpButtonNailMen" type="button" />
-      <div class="menStyle"></div>
-      <button type="button" class="buttonNapsi" [value]="Prueba">
-        <p>Meñique</p>
-        {{ Prueba }}
-      </button>
+  <div class="pga">
+    <div class="container-flex">
+      <div class="custom-select">
+        <label class="label">PGA</label>
+        <select
+          name="pga"
+          id="pga"
+          formControlName="pga"
+          (change)="onSelectPGA($event)"
+        >
+          <option *ngFor="let option of [1, 2, 3, 4, 5, 6]" [ngValue]="option">
+            {{ option | translate }}
+          </option>
+        </select>
+      </div>
+      <div class="box-data">
+        <span class="box-title">
+          {{ 'calificationPga' | translate | uppercase }}</span
+        >
+        <div class="box-data-info">
+          {{ pgaCalification ? (pgaCalification | translate) : '-' }}
+        </div>
+      </div>
     </div>
   </div>
+
+  <section class="col-sm-12">
+    <div class="buttons">
+      <div class="submit-button">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          (click)="save()"
+          [disabled]="invalidForm()"
+        >
+          {{ 'btn.save' | translate }}
+        </button>
+        <button class="btn btn-primary" (click)="showChartFront()">
+          {{ 'Graficos' | translate }}
+        </button>
+        <button class="btn btn-primary" type="submit" (click)="onClear()">
+          {{ 'btn.cancel' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
 </div>
