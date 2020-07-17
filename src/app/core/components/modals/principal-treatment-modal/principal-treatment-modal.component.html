@@ -19,6 +19,7 @@
         [type]="options[formKey].type"
         [invalidLabel]="getInvalidLabel(formKey)"
         [required]="checkIfRequired(formKey)"
+        [isDisabled]="isDisabled(formKey)"
         [search]="options[formKey].typeahead"
         [inputFormatter]="options[formKey].inputFormatter"
         [resultFormatter]="options[formKey].resultFormatter"
@@ -41,6 +42,7 @@
         [type]="options[formKey].type"
         [invalidLabel]="getInvalidLabel(formKey)"
         [required]="checkIfRequired(formKey)"
+        [isDisabled]="isDisabled(formKey)"
       >
       </app-input>
       <app-switch
@@ -80,6 +82,7 @@
         [form]="form"
         [required]="checkIfRequired(formKey)"
         (selectTrigger)="select(formKey, $event)"
+        [changes]="options[formKey].changes"
       >
       </app-input-select>
     </div>
@@ -102,7 +105,7 @@
     >
     </app-button>
     <app-button
-      *ngIf="type === 'update'"
+      *ngIf="type === 'edit' || type === 'changeSuspend'"
       clasesBtn="btn btn-primary mr-4"
       (click)="onUpdate()"
       [readOnly]="!validForm"

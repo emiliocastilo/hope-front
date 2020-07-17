@@ -17,6 +17,6 @@ export class MedicinesServices {
   }
 
   getDosesByMedicine(query: string) {
-    return this._http.get(`/medicines/doses?${query}`);
+    return this._http.get(`/medicines/doses?${query}`).toPromise();
   }
 }

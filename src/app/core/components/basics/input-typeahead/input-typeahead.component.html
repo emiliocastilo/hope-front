@@ -22,6 +22,10 @@
       name="{{ name }}"
       type="{{ type }}"
       attr.max="{{ type ? maxDate : null }}"
+      [ngbTypeahead]="search"
+      [inputFormatter]="inputFormatter"
+      [resultFormatter]="resultFormatter"
+      (selectItem)="selectedItem($event)"
     />
   </span>
   <span *ngIf="invalid && invalidLabel" class="invalid-value">

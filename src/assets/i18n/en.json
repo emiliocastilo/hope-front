@@ -340,7 +340,7 @@
   "specialIndication": "Special indication",
   "bigPsychologicalImpact": "Big psychological impact",
   "visibleInjury": "Visible injury",
-  "other": "Other",
+  "others": "Others",
   "datePrescription": "Prescription date",
   "expectedEndDate": "Expected end date",
   "reasonChangeOrSuspension": "Reason",
@@ -353,5 +353,26 @@
   "tract": "Via",
   "regimenTreatment": "Regimen de tratamiento",
   "treatmentContinue": "Tratamiento continuo",
-  "treatmentPulsatil": "Tratamiento pulsátil"
+  "treatmentPulsatil": "Tratamiento pulsátil",
+  "changeSuspend": "Cambiar/Suspender",
+  "edit": "Editar",
+  "delete": "Borrar",
+  "newTreatment": "Nuevo tratamiento",
+  "changeSuspendTreatment": "Cambiar o suspender tratamiento",
+  "editTreatment": "Editar tratamiento",
+  "intensificada": "Intensificada",
+  "standard": "Estandar",
+  "reduced": "Reducida",
+  "reasonChangeOrSuspensionList": {
+    "motive1": "Ineficacia",
+    "motive2": "Fallo primario (no se alcanzó nunca PASI 75)",
+    "motive3": "Fallo secundario (perdida de PASI 75)",
+    "motive4": "Blanqueamiento",
+    "motive5": "Incumplimiento",
+    "motive6": "Abandono",
+    "motive7": "Efectos adversos",
+    "motive8": "Preferencia del paciente",
+    "motive9": "Embarazo",
+    "motive10": "Otros"
+  }
 }

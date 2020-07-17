@@ -23,6 +23,7 @@ import {
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { constants } from '../../../../../../constants/constants';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
+import moment from 'moment';
 
 @Component({
   selector: 'app-principal-treatment',
@@ -37,11 +38,11 @@ export class PrincipalTreatmentComponent implements OnInit {
     'brand',
     'dose',
     'dateStart',
-    'dateEnd',
+    'datePrescription',
     'type',
   ];
   public actions: TableActionsModel[] = [
-    new TableActionsModel('change', 'edit-3'),
+    new TableActionsModel('changeSuspend', 'edit-3'),
     new TableActionsModel('edit', 'edit-2'),
     new TableActionsModel('delete', 'trash'),
   ];
@@ -55,7 +56,7 @@ export class PrincipalTreatmentComponent implements OnInit {
   //   localStorage.getItem('selectedUser' || '{}')
   // );
   // private currentTreatment: string = 'phototherapy';
-  public tableData: any[];
+  public tableData: any[] = [];
   private modalForm: FormGroup = this._formBuilder.group({
     indication: ['', Validators.required],
     specialIndication: [false],
@@ -89,57 +90,14 @@ export class PrincipalTreatmentComponent implements OnInit {
     regimenTreatment: ['', Validators.required],
     dateSuspension: ['', Validators.required],
   });
-  private changeOrSuspensionOptionsModalChange = [
-    {
-      id: 0,
-      name: 'Ineficacia',
-    },
-    {
-      id: 1,
-      name: 'Fallo primario (no se alcanzó nunca PASI 75)',
-    },
-    {
-      id: 1,
-      name: 'Fallo secundario (perdida de PASI 75)',
-    },
-    {
-      id: 1,
-      name: 'Blanqueamiento',
-    },
-    {
-      id: 1,
-      name: 'Incumplimiento',
-    },
-    {
-      id: 1,
-      name: 'Abandono',
-    },
-    {
-      id: 1,
-      name: 'Efectos adversos',
-    },
-    {
-      id: 1,
-      name: 'Preferencia del paciente',
-    },
-    {
-      id: 1,
-      name: 'Embarazo',
-    },
-    {
-      id: 1,
-      name: 'Otros',
-    },
-  ];
 
-  public model;
   public patient: PatientModel;
   private indication = '';
 
   formatter = (state) => state.name;
 
-  search = (text$: Observable<string>) =>
-    text$.pipe(
+  search = (text$: Observable<string>) => {
+    return text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
       switchMap((term) =>
@@ -150,7 +108,6 @@ export class PrincipalTreatmentComponent implements OnInit {
           tap((data) => {
             data.forEach((element) => {
               element.name = element.description;
-              console.log(element);
             });
           }),
           catchError(() => {
@@ -159,6 +116,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         )
       )
     );
+  };
 
   private modalOptions = {
     indication: { type: 'text', class: 'col-12' },
@@ -191,15 +149,16 @@ export class PrincipalTreatmentComponent implements OnInit {
       class: 'col-6',
       options: [
         {
-          name: 'Intensificada',
+          name: this._translate.instant('intensificada'),
         },
         {
-          name: 'Estandar',
+          name: this._translate.instant('standard'),
         },
         {
-          name: 'Reducida',
+          name: this._translate.instant('reduced'),
         },
       ],
+      changes: true,
     },
     datePrescription: { type: 'date', class: 'col-6' },
     dateStart: { type: 'date', class: 'col-6' },
@@ -210,9 +169,52 @@ export class PrincipalTreatmentComponent implements OnInit {
     reasonChangeOrSuspension: {
       type: 'select',
       class: 'col-12',
-      options: this.changeOrSuspensionOptionsModalChange,
+      options: [
+        {
+          id: 0,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive1'),
+        },
+        {
+          id: 1,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive2'),
+        },
+        {
+          id: 2,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive3'),
+        },
+        {
+          id: 3,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive4'),
+        },
+        {
+          id: 4,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive5'),
+        },
+        {
+          id: 5,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive6'),
+        },
+        {
+          id: 6,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive7'),
+        },
+        {
+          id: 7,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive8'),
+        },
+        {
+          id: 8,
+          name: this._translate.instant('reasonChangeOrSuspensionList.motive9'),
+        },
+        {
+          id: 9,
+          name: this._translate.instant(
+            'reasonChangeOrSuspensionList.motive10'
+          ),
+        },
+      ],
     },
-    dateSuspension: { type: 'text', class: 'col-6' },
+    dateSuspension: { type: 'date', class: 'col-6' },
   };
 
   constructor(
@@ -229,7 +231,6 @@ export class PrincipalTreatmentComponent implements OnInit {
   ngOnInit(): void {
     this.patient = JSON.parse(localStorage.getItem('selectedUser'));
     // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
-    this.getData();
     this.getFormDatas();
     this.getForm();
   }
@@ -255,7 +256,7 @@ export class PrincipalTreatmentComponent implements OnInit {
           this.indication = data;
         },
         ({ error }) => {
-          this._notification.showErrorToast(error.errorCode);
+          // this._notification.showErrorToast(error.errorCode);
         }
       );
   }
@@ -266,7 +267,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       specialIndication: false,
       bigPsychologicalImpact: false,
       visibleInjury: false,
-      others: 'dsfsdfdf',
+      others: '',
       medicine: '',
       family: '',
       atc: '',
@@ -287,7 +288,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     });
 
     modalRef.componentInstance.type = 'create';
-    modalRef.componentInstance.title = 'btn.new';
+    modalRef.componentInstance.title = 'newTreatment';
     modalRef.componentInstance.form = this.modalForm;
     this.modalOptions.dose.options = [];
     modalRef.componentInstance.options = this.modalOptions;
@@ -301,23 +302,22 @@ export class PrincipalTreatmentComponent implements OnInit {
       );
       this._medicinesService
         .getDosesByMedicine(`medicineId=${event.id}`)
-        .subscribe(
-          (data: any) => {
-            data.forEach((element) => {
-              element.name = element.description;
-            });
-            data.push({ name: 'Otra' });
-            modalRef.componentInstance.options.dose.options = data;
-          },
-          ({ error }) => {
-            this._notification.showErrorToast(error.errorCode);
-          }
-        );
+        .then((data: any) => {
+          data.forEach((element) => {
+            element.name = element.description;
+          });
+          data.push({ name: 'Otra' });
+          modalRef.componentInstance.options.dose.options = data;
+        })
+        .catch(({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
+        });
     });
 
     modalRef.componentInstance.selectDose.subscribe((event: any) => {
       if (event.name === 'Otra') {
         this.modalForm.controls.otherDosis.setValidators(Validators.required);
+        // this.modalForm.controls.regimenTreatment.setValue('');
       } else {
         this.modalForm.controls.otherDosis.clearValidators();
         this.modalForm.controls.regimenTreatment.setValue({
@@ -331,56 +331,193 @@ export class PrincipalTreatmentComponent implements OnInit {
     });
 
     modalRef.componentInstance.save.subscribe((event: any) => {
-      event.value.reasonChangeOrSuspension = '';
-      event.value.dateSuspension = '';
+      event.value.dose = event.value.dose[0];
+      if (Array.isArray(event.value.regimenTreatment)) {
+        event.value.regimenTreatment = event.value.regimenTreatment[0];
+      }
+      event.value.reasonChangeOrSuspension = null;
+      event.value.dateSuspension = null;
       event.value.principle = event.value.medicine.actIngredients;
-      event.value.brand = event.value.medicine.presentation;
+      event.value.brand = event.value.medicine.brand;
       event.value.type = event.value.medicine.family;
+
+      Object.keys(event.value).forEach((key: string) => {
+        if (key.toLowerCase().includes('date') && event.value[key]) {
+          event.value[key] = new Date(event.value[key]).toISOString();
+        }
+      });
+
       this.tableData.push(event.value);
       this.save(modalRef, 'create');
     });
   }
 
-  public showModalChange(index: number, type: string): void {
-    this.modalForm.reset();
-    const dataEdit = this.tableData[index];
+  public async showModalChange(index: number, type: string) {
+    const dataEdit = { ...this.tableData[index] };
+
+    Object.keys(dataEdit).forEach((key: string) => {
+      if (key.toLowerCase().includes('date') && dataEdit[key]) {
+        dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
+      }
+    });
+
+    await this._medicinesService
+      .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+      .then((data: any) => {
+        data.forEach((element) => {
+          element.name = element.description;
+        });
+        data.push({ name: 'Otra' });
+        this.modalOptions.dose.options = data;
+      })
+      .catch(({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      });
+
     this.fillForm(this.modalFormUpdate, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
     });
 
-    modalRef.componentInstance.type = 'update';
-    modalRef.componentInstance.title = 'btn.update';
+    modalRef.componentInstance.type = 'changeSuspend';
+    modalRef.componentInstance.title = 'changeSuspendTreatment';
     modalRef.componentInstance.form = this.modalFormUpdate;
     modalRef.componentInstance.options = this.modalOptions;
+    modalRef.componentInstance.selectDose.subscribe((event: any) => {
+      if (event.name === 'Otra') {
+        this.modalFormUpdate.controls.otherDosis.setValidators(
+          Validators.required
+        );
+        // this.modalFormUpdate.controls.regimenTreatment.setValue('');
+      } else {
+        this.modalFormUpdate.controls.otherDosis.clearValidators();
+        this.modalFormUpdate.controls.regimenTreatment.setValue({
+          name: event.recommendation,
+        });
+      }
+    });
     modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
     });
 
     modalRef.componentInstance.update.subscribe((event: any) => {
-      this.tableData[index] = event.value;
+      if (Array.isArray(event.value.dose)) {
+        event.value.dose = event.value.dose[0];
+      }
+
+      if (Array.isArray(event.value.regimenTreatment)) {
+        event.value.regimenTreatment = event.value.regimenTreatment[0];
+      }
+
+      if (Array.isArray(event.value.reasonChangeOrSuspension)) {
+        event.value.reasonChangeOrSuspension =
+          event.value.reasonChangeOrSuspension[0];
+      }
+
+      Object.keys(event.value).forEach((key: string) => {
+        if (key.toLowerCase().includes('date') && event.value[key]) {
+          event.value[key] = new Date(event.value[key]).toISOString();
+        }
+      });
+
+      Object.keys(event.value).forEach((key: string) => {
+        this.tableData[index][key] = event.value[key];
+      });
+
       this.save(modalRef, 'edit');
     });
   }
 
-  public showModalEdit(index: number, type: string): void {
-    this.modalForm.reset();
-    const dataEdit = this.tableData[index];
+  public async showModalEdit(index: number, type: string) {
+    const dataEdit = { ...this.tableData[index] };
+
+    Object.keys(dataEdit).forEach((key: string) => {
+      if (key.toLowerCase().includes('date') && dataEdit[key]) {
+        dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
+      }
+    });
+
+    await this._medicinesService
+      .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+      .then((data: any) => {
+        data.forEach((element) => {
+          element.name = element.description;
+        });
+        data.push({ name: 'Otra' });
+        this.modalOptions.dose.options = data;
+      })
+      .catch(({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      });
+
     this.fillForm(this.modalForm, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
     });
 
-    modalRef.componentInstance.type = 'update';
-    modalRef.componentInstance.title = 'btn.update';
+    modalRef.componentInstance.type = 'edit';
+    modalRef.componentInstance.title = 'editTreatment';
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
+    modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
+      modalRef.componentInstance.options.dose.options = [];
+      modalRef.componentInstance.form.controls.family.setValue(event.family);
+      modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
+      modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
+      modalRef.componentInstance.form.controls.tract.setValue(
+        event.viaAdministration
+      );
+      this._medicinesService
+        .getDosesByMedicine(`medicineId=${event.id}`)
+        .then((data: any) => {
+          data.forEach((element) => {
+            element.name = element.description;
+          });
+          data.push({ name: 'Otra' });
+          modalRef.componentInstance.options.dose.options = data;
+        })
+        .catch(({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
+        });
+    });
+    modalRef.componentInstance.selectDose.subscribe((event: any) => {
+      if (event.name === 'Otra') {
+        this.modalForm.controls.otherDosis.setValidators(Validators.required);
+        // this.modalForm.controls.regimenTreatment.setValue('');
+      } else {
+        this.modalForm.controls.otherDosis.clearValidators();
+        this.modalForm.controls.regimenTreatment.setValue({
+          name: event.recommendation,
+        });
+      }
+    });
+
     modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
     });
 
     modalRef.componentInstance.update.subscribe((event: any) => {
-      this.tableData[index] = event.value;
+      if (Array.isArray(event.value.dose)) {
+        event.value.dose = event.value.dose[0];
+      }
+      if (Array.isArray(event.value.regimenTreatment)) {
+        event.value.regimenTreatment = event.value.regimenTreatment[0];
+      }
+
+      event.value.principle = event.value.medicine.actIngredients;
+      event.value.brand = event.value.medicine.brand;
+      event.value.type = event.value.medicine.family;
+
+      Object.keys(event.value).forEach((key: string) => {
+        if (key.toLowerCase().includes('date') && event.value[key]) {
+          event.value[key] = new Date(event.value[key]).toISOString();
+        }
+      });
+
+      Object.keys(event.value).forEach((key: string) => {
+        this.tableData[index][key] = event.value[key];
+      });
+
       this.save(modalRef, 'edit');
     });
   }
@@ -403,7 +540,7 @@ export class PrincipalTreatmentComponent implements OnInit {
 
   public onIconButtonClick($event: any) {
     switch ($event.type) {
-      case 'change':
+      case 'changeSuspend':
         this.showModalChange($event.selectedItem, $event.type);
         break;
       case 'edit':
@@ -440,6 +577,8 @@ export class PrincipalTreatmentComponent implements OnInit {
   // }
 
   private save(modalRef, type) {
+    console.log(this.tableData);
+
     const form = {
       template: this.key,
       data: [
@@ -455,11 +594,11 @@ export class PrincipalTreatmentComponent implements OnInit {
     this._formsService.fillForm(form).subscribe(
       () => {
         if (type === 'create') {
-          this._notification.showSuccessToast('element_created');
+          this._notification.showSuccessToast('elementCreated');
         } else if (type === 'edit') {
-          this._notification.showSuccessToast('element_edited');
+          this._notification.showSuccessToast('elementUpdated');
         } else if (type === 'delete') {
-          this._notification.showSuccessToast('element_deleted');
+          this._notification.showSuccessToast('elementDeleted');
         }
 
         modalRef.close();
@@ -468,14 +607,5 @@ export class PrincipalTreatmentComponent implements OnInit {
         this._notification.showErrorToast(error.errorCode);
       }
     );
-  }
-
-  private getData(): void {
-    const response = this._nonParmacologicService.getMock('');
-    if (response && response.data.length > 0) {
-      this.tableData = response.data[0].value;
-    }
-    // this.tableData = this._nonParmacologicService.getMock(query).content;
-    // this.paginationData = this._nonParmacologicService.getMock(query);
   }
 }

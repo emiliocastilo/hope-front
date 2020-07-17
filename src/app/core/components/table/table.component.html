@@ -47,6 +47,7 @@
               *ngFor="let action of actions"
               href=""
               (click)="emitIconButtonClick(action.name, i)"
+              title="{{ action.name | translate }}"
               [ngClass]="{
                 'table-body_row_actions-container': true,
                 delete: action.name == 'delete'

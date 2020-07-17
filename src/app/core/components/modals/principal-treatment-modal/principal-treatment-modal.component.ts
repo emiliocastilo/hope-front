@@ -26,7 +26,6 @@ export class PrincipalTreatmentModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.options, this.type, this.form);
     this.formKeys = Object.keys(this.form.controls);
     this.showRequiredLegend = this.checkIfThereRequiredField();
   }
@@ -45,6 +44,14 @@ export class PrincipalTreatmentModalComponent implements OnInit {
 
   public onClose() {
     this.cancel.emit(null);
+  }
+
+  public isDisabled(formKey) {
+    if (this.type === 'changeSuspend') {
+      return ['medicine', 'family', 'atc', 'cn', 'tract'].indexOf(formKey) > -1;
+    } else {
+      return ['family', 'atc', 'cn', 'tract'].indexOf(formKey) > -1;
+    }
   }
 
   public selectInputTypeaheadModal(event) {
