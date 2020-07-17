@@ -5,11 +5,11 @@
   <div>
     <label>Fecha </label>
     <input
-      [formControlName]="'Date'"
-      [id]="'Date'"
+      [formControlName]="'evaluationDate'"
+      [id]="'evaluationDate'"
       id="date"
       type="date"
-      [value]="Date"
+      [value]="evaluationDate"
       (keydown)="(DontPush)"
     />
   </div>
@@ -57,41 +57,10 @@
       ></app-button-nails>
     </div>
   </div>
-  <div class="pga">
-    <div class="container-flex">
-      <div class="custom-select">
-        <label class="label">PGA</label>
-        <select
-          name="pga"
-          id="pga"
-          formControlName="pga"
-          (change)="onSelectPGA($event)"
-        >
-          <option *ngFor="let option of [1, 2, 3, 4, 5, 6]" [ngValue]="option">
-            {{ option | translate }}
-          </option>
-        </select>
-      </div>
-      <div class="box-data">
-        <span class="box-title">
-          {{ 'calificationPga' | translate | uppercase }}</span
-        >
-        <div class="box-data-info">
-          {{ pgaCalification ? (pgaCalification | translate) : '-' }}
-        </div>
-      </div>
-    </div>
-  </div>
-
   <section class="col-sm-12">
     <div class="buttons">
       <div class="submit-button">
-        <button
-          class="btn btn-primary"
-          type="submit"
-          (click)="save()"
-          [disabled]="invalidForm()"
-        >
+        <button class="btn btn-primary" type="submit" (click)="save()">
           {{ 'btn.save' | translate }}
         </button>
         <button class="btn btn-primary" (click)="showChartFront()">

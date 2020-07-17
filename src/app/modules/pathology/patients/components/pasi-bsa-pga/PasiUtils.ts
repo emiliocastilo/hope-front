@@ -80,4 +80,17 @@ export default class PasiUtils {
     form.push({ type: 'form', name: 'form', value: JSON.stringify(values) });
     return form;
   }
+
+  static parseNailsForm(values: any) {
+    const form = [
+      {
+        type: 'input',
+        name: 'napsiScore',
+        value: values.napsi,
+      },
+    ];
+
+    /*form.push({ type: 'form', name: 'form', value: JSON.stringify(values)});*/
+    return form;
+  }
 }

@@ -13,6 +13,10 @@ import FormUtils from '../../../../../../core/utils/FormUtils';
 import { TranslateService } from '@ngx-translate/core';
 import { ManyChartModalComponent } from '../../../../../../core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import PasiUtils from '../../pasi-bsa-pga/PasiUtils';
+import { NotificationService } from '../../../../../../core/services/notification.service';
+import { HealthOutcomeModel } from '../../../models/health-outcome.model';
+import { PasiService } from '../../../services/pasi.service';
 
 @Component({
   selector: 'app-napsi',
@@ -20,8 +24,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./napsi.component.scss'],
 })
 export class NapsiComponent implements OnInit {
-  key = constants.eavPase;
-  public Date: string;
+  key = 'napsi';
+  public evaluationDate: string;
+  filledForm: any;
   public DontPush: boolean;
   public form: FormGroup;
   patient: PatientModel;
@@ -29,9 +34,11 @@ export class NapsiComponent implements OnInit {
   public formKeys: Array<string> = [];
   public retrievedForm;
   constructor(
+    private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _formsService: FormsService,
     public _translate: TranslateService,
+    private _pasiService: PasiService,
     private _modalService: NgbModal
   ) {
     this.DontPush = false;
@@ -40,8 +47,12 @@ export class NapsiComponent implements OnInit {
   ngOnInit(): void {
     this.patient = JSON.parse(localStorage.getItem('selectedUser'));
     this.getForm();
+    this.getFormNails();
+  }
+
+  async getFormNails() {
     this.form = this._formBuilder.group({
-      Date: [moment(new Date()).format('YYYY-MM-DD')],
+      evaluationDate: [moment(new Date()).format('YYYY-MM-DD')],
       mano_izquierda_matriz: this._formBuilder.group({
         ValueAnul: new FormControl(0),
         ValuePul: new FormControl(0),
@@ -70,16 +81,25 @@ export class NapsiComponent implements OnInit {
         ValueCor: new FormControl(0),
         ValueMen: new FormControl(0),
       }),
-      pga: ['', Validators.required],
-      bsa: ['', Validators.required],
-      pasi: ['', Validators.required],
+      napsiScore: [''],
     });
+    const retrievedForm: any = await this._formsService.retrieveForm(
+      this.key,
+      this.patient.id
+    );
+    if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
+      this.filledForm = JSON.parse(
+        retrievedForm.data.find((e) => e.type === 'form').value
+      );
+      this.form.setValue(this.filledForm);
+      /*this.printFormValues(this.filledForm);*/
+    }
   }
   save() {
     console.log(this.form);
     const form = {
       template: this.key,
-      data: PasiUtils.parseEntriesForm(this.pasiForm.value),
+      data: PasiUtils.parseNailsForm(this.form.value),
       patientId: this.patient.id,
     };
 
@@ -89,18 +109,29 @@ export class NapsiComponent implements OnInit {
       } else {
         this.fillForm(form);
       }
-      for (let i = 0; i < 3; i++) {
-        this.saveHealthOutcome(i);
-      }
+      /*this._pasiService.saveScore({
+        patient: this.patient.id,
+        date: new Date(this.form.value.evaluationDate).toISOString(),
+        indexType: 'napsi',
+        value: this.napsiScore,
+        result: this.pasiCalification,
+        });*/
     }
   }
 
   onClear() {
     this.form.reset();
   }
-  onSelectPGA(event: any) {
-    const option = event.target.value.split(':')[1].trim();
-    this.pgaCalification = PasiUtils.selectPGA(option);
+
+  updateForm(form: any) {
+    this._formsService.updateForm(form).subscribe(
+      () => {
+        this._notification.showSuccessToast('elementUpdated');
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
   }
 
   fillForm(form: any) {
@@ -131,27 +162,11 @@ export class NapsiComponent implements OnInit {
     const parseData = FormUtils.formatDataMultiGraph(
       this._translate,
       this.formKeys,
-      'eavpase',
+      'napsi',
       this.retrievedFormFormat
     );
 
     this.showModalGraph(parseData);
-  }
-  public invalidForm() {
-    return this.form.invalid;
-  }
-
-  public resetForm() {
-    this.form.reset({
-      date: moment(new Date()).format('YYYY-MM-DD'),
-      evaluationPrurito: '',
-      evaluationGlobalPatient: '',
-      evaluationGlobalMedic: '',
-      dateEvaluation2: moment(new Date()).format('YYYY-MM-DD'),
-      paseScoreTotal: '',
-      valuationSymptoms: '',
-      valuationFunctional: '',
-    });
   }
 
   async getForm() {
