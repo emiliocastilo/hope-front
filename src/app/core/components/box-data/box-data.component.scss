@@ -12,7 +12,6 @@
   min-height: 4rem;
   max-width: 4rem;
   max-height: 4rem;
-  border: 1px solid $app-color-blue-border;
   background: $app-color-blue-very-light;
   margin-right: 1.5rem;
   cursor: pointer;
@@ -31,7 +30,7 @@
 
 .data-box {
   justify-content: space-between;
-  border: 1px solid $app-color-blue-border;
+  background-color: $app-color-blue-very-light;
   display: flex;
   padding: 0.7rem 1rem;
 }
@@ -42,8 +41,8 @@
 
   .header {
     font-size: 0.8rem;
+    font-weight: 600;
     color: $app-color-blue-main;
-    text-transform: uppercase;
     margin-bottom: -0.1rem;
     text-overflow: ellipsis;
     overflow: hidden;

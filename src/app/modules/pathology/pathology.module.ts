@@ -32,6 +32,7 @@ import { SerologyComponent } from './patients/components/serology/serology.compo
 import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
 import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
+import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 
 @NgModule({
@@ -64,6 +65,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
     LeukocyteAntibodyAntigenComponent,
     BiologicalDrugMonitoringComponent,
     SharedPatientsComponent,
+    PasiBsaPgaComponent,
   ],
   imports: [
     CommonModule,

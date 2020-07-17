@@ -58,6 +58,8 @@ import { LineChartComponent } from './components/charts/line-chart/line-chart.co
 import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
 import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from './components/basics/from-section/from-section.component';
+import { PasiSelectComponent } from './components/pasi-select/pasi-select.component';
+import { PasiCheckboxComponent } from './components/pasi-checkbox/pasi-checkbox.component';
 import { FormSearchComponent } from './components/basics/form-search/form-search.component';
 import { ManyChartModalComponent } from './components/modals/many-chart-modal/many-chart-modal.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
@@ -122,6 +124,8 @@ export function createTranslateLoader(http: HttpClient) {
     ResultsPerPageComponent,
     LineChartComponent,
     FormHistoricComponent,
+    PasiSelectComponent,
+    PasiCheckboxComponent,
     FormSearchComponent,
     ManyChartModalComponent,
     MyAccountComponent,
@@ -160,6 +164,8 @@ export function createTranslateLoader(http: HttpClient) {
     ButtonComponent,
     InputComponent,
     InputSelectComponent,
+    PasiSelectComponent,
+    PasiCheckboxComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,
