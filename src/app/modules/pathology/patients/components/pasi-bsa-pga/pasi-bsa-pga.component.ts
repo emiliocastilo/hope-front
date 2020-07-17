@@ -13,6 +13,9 @@ import { PatientModel } from '../../models/patient.model';
 import { constants } from '../../../../../../constants/constants';
 import { PasiService } from '../../services/pasi.service';
 import { HealthOutcomeModel } from '../../models/health-outcome.model';
+import { TranslateService } from '@ngx-translate/core';
+import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-pasi-bsa-pga',
@@ -40,7 +43,9 @@ export class PasiBsaPgaComponent implements OnInit {
     private fb: FormBuilder,
     private _formsService: FormsService,
     private _pasiService: PasiService,
-    private _notification: NotificationService
+    private _notification: NotificationService,
+    private _modalService: NgbModal,
+    public _translate: TranslateService
   ) {}
 
   get area(): FormControl {
@@ -179,8 +184,34 @@ export class PasiBsaPgaComponent implements OnInit {
     this._pasiService.saveScore(ho);
   }
 
-  showGraph() {
-    console.log('graph');
+  async showGraph() {
+    const dataGraph: any = await this._formsService.retrieveFormGraph(
+      this.key,
+      this.patient.id
+    );
+
+    if (dataGraph.length > 0) {
+      dataGraph.forEach((element) => {
+        if (element.values.length > 0) {
+          element.values.forEach((value) => {
+            value.date = new Date(value.date);
+          });
+        }
+      });
+    }
+
+    this.showModal(dataGraph);
+  }
+
+  private showModal(data: any[]) {
+    const modalRef = this._modalService.open(ManyChartModalComponent, {
+      size: 'lg',
+    });
+    modalRef.componentInstance.title = 'pasi';
+    modalRef.componentInstance.data = data;
+    modalRef.componentInstance.close.subscribe(() => {
+      modalRef.close();
+    });
   }
 
   getScore(scores: any) {

@@ -58,7 +58,7 @@ export default class PasiUtils {
         const entry = {
           type: 'input',
           name: e[0],
-          value: typeof e[1] === 'string' ? new Date(e[1]).toISOString() : e[1],
+          value: e[1],
         };
         form.push(entry);
       }
