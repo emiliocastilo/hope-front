@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import moment from 'moment';
 import {
   FormBuilder,
@@ -16,7 +16,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import PasiUtils from '../../pasi-bsa-pga/PasiUtils';
 import { NotificationService } from '../../../../../../core/services/notification.service';
 import { HealthOutcomeModel } from '../../../models/health-outcome.model';
-import { PasiService } from '../../../services/pasi.service';
+import { ButtonNailsComponent } from '../../../../../../core/components/button-nails/button-nails.component';
+import { NapsiService } from '../../../services/napsi.service';
 
 @Component({
   selector: 'app-napsi',
@@ -25,20 +26,23 @@ import { PasiService } from '../../../services/pasi.service';
 })
 export class NapsiComponent implements OnInit {
   key = 'napsi';
+  napsiScore: string;
   public evaluationDate: string;
   filledForm: any;
+  napsiCalification: string;
   public DontPush: boolean;
   public form: FormGroup;
   patient: PatientModel;
   public retrievedFormFormat = {};
   public formKeys: Array<string> = [];
   public retrievedForm;
+  @ViewChild(ButtonNailsComponent) resetNails: ButtonNailsComponent;
   constructor(
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _formsService: FormsService,
     public _translate: TranslateService,
-    private _pasiService: PasiService,
+    private _napsiService: NapsiService,
     private _modalService: NgbModal
   ) {
     this.DontPush = false;
@@ -59,6 +63,26 @@ export class NapsiComponent implements OnInit {
         ValueInd: new FormControl(0),
         ValueCor: new FormControl(0),
         ValueMen: new FormControl(0),
+        isActiveButtonNailRightMen: new FormControl(false),
+        isActiveButtonNailRightUpMen: new FormControl(false),
+        isActiveButtonNailLeftUpMen: new FormControl(false),
+        isActiveButtonNailLeftMen: new FormControl(false),
+        isActiveButtonNailRightUpAnu: new FormControl(false),
+        isActiveButtonNailLeftUpAnu: new FormControl(false),
+        isActiveButtonNailLeftAnu: new FormControl(false),
+        isActiveButtonNailRightAnu: new FormControl(false),
+        isActiveButtonNailRightUpCor: new FormControl(false),
+        isActiveButtonNailLeftUpCor: new FormControl(false),
+        isActiveButtonNailLeftCor: new FormControl(false),
+        isActiveButtonNailRightCor: new FormControl(false),
+        isActiveButtonNailRightUpInd: new FormControl(false),
+        isActiveButtonNailLeftUpInd: new FormControl(false),
+        isActiveButtonNailLeftInd: new FormControl(false),
+        isActiveButtonNailRightInd: new FormControl(false),
+        isActiveButtonNailRightUpPul: new FormControl(false),
+        isActiveButtonNailLeftUpPul: new FormControl(false),
+        isActiveButtonNailLeftPul: new FormControl(false),
+        isActiveButtonNailRightPul: new FormControl(false),
       }),
       mano_derecha_matriz: this._formBuilder.group({
         ValueAnul: new FormControl(0),
@@ -66,6 +90,26 @@ export class NapsiComponent implements OnInit {
         ValueInd: new FormControl(0),
         ValueCor: new FormControl(0),
         ValueMen: new FormControl(0),
+        isActiveButtonNailRightMen: new FormControl(false),
+        isActiveButtonNailRightUpMen: new FormControl(false),
+        isActiveButtonNailLeftUpMen: new FormControl(false),
+        isActiveButtonNailLeftMen: new FormControl(false),
+        isActiveButtonNailRightUpAnu: new FormControl(false),
+        isActiveButtonNailLeftUpAnu: new FormControl(false),
+        isActiveButtonNailLeftAnu: new FormControl(false),
+        isActiveButtonNailRightAnu: new FormControl(false),
+        isActiveButtonNailRightUpCor: new FormControl(false),
+        isActiveButtonNailLeftUpCor: new FormControl(false),
+        isActiveButtonNailLeftCor: new FormControl(false),
+        isActiveButtonNailRightCor: new FormControl(false),
+        isActiveButtonNailRightUpInd: new FormControl(false),
+        isActiveButtonNailLeftUpInd: new FormControl(false),
+        isActiveButtonNailLeftInd: new FormControl(false),
+        isActiveButtonNailRightInd: new FormControl(false),
+        isActiveButtonNailRightUpPul: new FormControl(false),
+        isActiveButtonNailLeftUpPul: new FormControl(false),
+        isActiveButtonNailLeftPul: new FormControl(false),
+        isActiveButtonNailRightPul: new FormControl(false),
       }),
       mano_izquierda_lecho: this._formBuilder.group({
         ValueAnul: new FormControl(0),
@@ -73,6 +117,26 @@ export class NapsiComponent implements OnInit {
         ValueInd: new FormControl(0),
         ValueCor: new FormControl(0),
         ValueMen: new FormControl(0),
+        isActiveButtonNailRightMen: new FormControl(false),
+        isActiveButtonNailRightUpMen: new FormControl(false),
+        isActiveButtonNailLeftUpMen: new FormControl(false),
+        isActiveButtonNailLeftMen: new FormControl(false),
+        isActiveButtonNailRightUpAnu: new FormControl(false),
+        isActiveButtonNailLeftUpAnu: new FormControl(false),
+        isActiveButtonNailLeftAnu: new FormControl(false),
+        isActiveButtonNailRightAnu: new FormControl(false),
+        isActiveButtonNailRightUpCor: new FormControl(false),
+        isActiveButtonNailLeftUpCor: new FormControl(false),
+        isActiveButtonNailLeftCor: new FormControl(false),
+        isActiveButtonNailRightCor: new FormControl(false),
+        isActiveButtonNailRightUpInd: new FormControl(false),
+        isActiveButtonNailLeftUpInd: new FormControl(false),
+        isActiveButtonNailLeftInd: new FormControl(false),
+        isActiveButtonNailRightInd: new FormControl(false),
+        isActiveButtonNailRightUpPul: new FormControl(false),
+        isActiveButtonNailLeftUpPul: new FormControl(false),
+        isActiveButtonNailLeftPul: new FormControl(false),
+        isActiveButtonNailRightPul: new FormControl(false),
       }),
       mano_derecha_lecho: this._formBuilder.group({
         ValueAnul: new FormControl(0),
@@ -80,6 +144,26 @@ export class NapsiComponent implements OnInit {
         ValueInd: new FormControl(0),
         ValueCor: new FormControl(0),
         ValueMen: new FormControl(0),
+        isActiveButtonNailRightMen: new FormControl(false),
+        isActiveButtonNailRightUpMen: new FormControl(false),
+        isActiveButtonNailLeftUpMen: new FormControl(false),
+        isActiveButtonNailLeftMen: new FormControl(false),
+        isActiveButtonNailRightUpAnu: new FormControl(false),
+        isActiveButtonNailLeftUpAnu: new FormControl(false),
+        isActiveButtonNailLeftAnu: new FormControl(false),
+        isActiveButtonNailRightAnu: new FormControl(false),
+        isActiveButtonNailRightUpCor: new FormControl(false),
+        isActiveButtonNailLeftUpCor: new FormControl(false),
+        isActiveButtonNailLeftCor: new FormControl(false),
+        isActiveButtonNailRightCor: new FormControl(false),
+        isActiveButtonNailRightUpInd: new FormControl(false),
+        isActiveButtonNailLeftUpInd: new FormControl(false),
+        isActiveButtonNailLeftInd: new FormControl(false),
+        isActiveButtonNailRightInd: new FormControl(false),
+        isActiveButtonNailRightUpPul: new FormControl(false),
+        isActiveButtonNailLeftUpPul: new FormControl(false),
+        isActiveButtonNailLeftPul: new FormControl(false),
+        isActiveButtonNailRightPul: new FormControl(false),
       }),
       napsiScore: [''],
     });
@@ -92,6 +176,7 @@ export class NapsiComponent implements OnInit {
         retrievedForm.data.find((e) => e.type === 'form').value
       );
       this.form.setValue(this.filledForm);
+      this.resetNails.activateButton(this.filledForm);
       /*this.printFormValues(this.filledForm);*/
     }
   }
@@ -108,15 +193,20 @@ export class NapsiComponent implements OnInit {
       } else {
         this.fillForm(form);
       }
-      // this._pasiService.saveScore({
-      //   patient: this.patient.id,
-      //   date: new Date(this.form.value.evaluationDate).toISOString(),
-      //   indexType: 'napsi',
-      //   value: '0',
-      //   result: '',
-      // });
+      /*this._napsiService.saveScore({
+        patient: this.patient.id,
+         date: new Date(this.form.value.evaluationDate).toISOString(),
+         indexType: 'napsi',
+         value: this.napsiScore,
+         result: this.napsiCalification,
+       });*/
     }
   }
+  /* getScore(scores: any) {
+    this.napsiScore = scores.napsi;
+    this.form.setValue(this.napsiScore);
+    this.napsiCalification = PasiUtils.getCalificationNapsi(this.napsiScore);
+  }*/
 
   onClear() {
     this.form.reset();

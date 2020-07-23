@@ -17,6 +17,10 @@ export default class PasiUtils {
     }
   }
 
+  static getCalificationNapsi(napsi: any) {
+    const score = parseFloat(napsi);
+  }
+
   static getCalificationBsa(bsa: any) {
     const score = parseFloat(bsa);
     switch (true) {
