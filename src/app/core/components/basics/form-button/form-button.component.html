@@ -1,9 +1,5 @@
 <div class="form-group dynamic-field" [formGroup]="group">
-  <button
-    attr.type="{{ type }}"
-    class="btn {{ clasesBtn }}"
-    [disabled]="config.disabled"
-  >
+  <button [attr.disabled]="config.calculated_front" class="btn {{ clasesBtn }}">
     <i class="{{ config.icon }}"></i> {{ config.label | translate }}
   </button>
 </div>

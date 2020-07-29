@@ -3,6 +3,7 @@ import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
 import { ValidatorFn, Validators } from '@angular/forms';
+import { ManyChartModalComponent } from '../components/modals/many-chart-modal/many-chart-modal.component';
 
 export default class FormUtils {
   static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
@@ -54,6 +55,7 @@ export default class FormUtils {
     fieldConfig.actions = value.actions;
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
+    fieldConfig.button_click = value.button_click;
     fieldConfig.calculated_front = value.calculated_front;
     fieldConfig.endpoint = value.endpoint;
     fieldConfig.event = value.event;
@@ -63,6 +65,7 @@ export default class FormUtils {
     fieldConfig.enableWhen = value.enableWhen;
     fieldConfig.hiddenWhen = value.hiddenWhen;
     fieldConfig.hidden = value.hidden;
+    fieldConfig.button = value.button;
     fieldConfig.endpoint = value.endpoint;
     if (value.validation) {
       const validations = StringUtils.stringToArray(value.validation);
@@ -74,7 +77,7 @@ export default class FormUtils {
   static parseValidations(validation: string[]): ValidatorFn[] {
     const finalValidators: any[] = [];
     validation.forEach((element) => {
-      //Required
+      // Required
       if (element.trim() === 'Validators.required') {
         finalValidators.push(Validators.required);
       }
@@ -243,6 +246,35 @@ export default class FormUtils {
     }
 
     return '';
+  }
+
+  static calculateDlqi(params: Array<any>) {
+    if (!params[0] || !params[1]) {
+      return '';
+    }
+    const imc = parseFloat(this.calculateIMC(params));
+    if (imc >= 21) {
+      return 'severa-grave';
+    } else if (imc >= 11 && imc < 21) {
+      return 'severa';
+    } else if (imc >= 6 && imc < 11) {
+      return 'moderada';
+    } else if (imc >= 2 && imc < 6) {
+      return 'leve';
+    } else if (imc === 1) {
+      return 'blanqueado';
+    }
+
+    return '';
+  }
+
+  static openQuestionnaire(data: any[]) {
+    const modalRef = this._modalService.open(ManyChartModalComponent, {});
+    modalRef.componentInstance.title = this.data[0] ? this.data[0].name : '';
+    modalRef.componentInstance.data = data;
+    modalRef.componentInstance.close.subscribe(() => {
+      modalRef.close();
+    });
   }
 
   static calculateBodyArea(params: Array<any>) {

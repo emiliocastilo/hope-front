@@ -31,6 +31,7 @@ import { SerologyComponent } from './patients/components/serology/serology.compo
 import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
+import { DlqiComponent } from './patients/components/evolution-clinical-indices/dlqi/dlqi.component';
 
 const routes: Routes = [
   {
@@ -148,6 +149,14 @@ const routes: Routes = [
   {
     path: 'patients/evolution-clinical-indices/eav-pase',
     component: EavPaseComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/evolution-clinical-indices/dlqi',
+    component: DlqiComponent,
     resolve: {
       patients: PatientsResolverService,
     },
