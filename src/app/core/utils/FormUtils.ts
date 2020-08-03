@@ -268,15 +268,6 @@ export default class FormUtils {
     return '';
   }
 
-  static openQuestionnaire(data: any[]) {
-    /*const modalRef = this._modalService.open(ManyChartModalComponent, {});
-    modalRef.componentInstance.title = this.data[0] ? this.data[0].name : '';
-    modalRef.componentInstance.data = data;
-    modalRef.componentInstance.close.subscribe(() => {
-      modalRef.close();
-    });*/
-  }
-
   static calculateBodyArea(params: Array<any>) {
     const weight = Math.pow(params[0], 0.425);
     const height = Math.pow(params[1], 0.725);

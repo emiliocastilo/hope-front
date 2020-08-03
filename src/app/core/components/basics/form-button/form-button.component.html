@@ -1,5 +1,10 @@
 <div class="form-group dynamic-field" [formGroup]="group">
-  <button [attr.disabled]="config.calculated_front" class="btn {{ clasesBtn }}">
+  <button
+    [attr.type]="type"
+    [attr.disabled]="config.calculated_front"
+    class="btn {{ clasesBtn }}"
+    (click)="selectClick()"
+  >
     <i class="{{ config.icon }}"></i> {{ config.label | translate }}
   </button>
 </div>
