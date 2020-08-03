@@ -27,7 +27,7 @@ export class ButtonNailsComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() filledForm: any;
   @Input() score: string;
-  @Input() myLabel: string = '';
+  @Input() myLabel = '';
   public ValueMen: number;
   public ValueAnul: number;
   public ValueCor: number;
@@ -83,6 +83,26 @@ export class ButtonNailsComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+  public paintButton(key, isRetrieving?) {
+    if (isRetrieving) {
+      const detailNails = [];
+      key.forEach((hand) => {
+        Object.entries(hand).forEach((nail) => {
+          const entry = {
+            name: nail[0],
+            value: nail[1],
+          };
+          detailNails.push(entry);
+        });
+        detailNails.forEach((nails) => {
+          this.activateButton(nails);
+        });
+      });
+    } else {
+      this.activateButton(key);
+    }
+  }
+
   public activateButton(key) {
     switch (key) {
       case 'rightButtonNailMen':
