@@ -269,12 +269,12 @@ export default class FormUtils {
   }
 
   static openQuestionnaire(data: any[]) {
-    const modalRef = this._modalService.open(ManyChartModalComponent, {});
+    /*const modalRef = this._modalService.open(ManyChartModalComponent, {});
     modalRef.componentInstance.title = this.data[0] ? this.data[0].name : '';
     modalRef.componentInstance.data = data;
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
-    });
+    });*/
   }
 
   static calculateBodyArea(params: Array<any>) {
