@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditorModalComponent } from '../../modals/editor-modal/editor-modal/editor-modal.component';
+import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
 
 @Component({
   selector: 'app-form-button',
@@ -11,7 +11,7 @@ import { EditorModalComponent } from '../../modals/editor-modal/editor-modal/edi
   styleUrls: ['./form-button.component.scss'],
 })
 export class FormButtonComponent {
-  @Input() clasesBtn: string;
+  @Input() clasesBtn = 'btn-primary';
   @Input() texto: string;
   @Input() type = 'button';
   config: FieldConfig;
@@ -22,10 +22,8 @@ export class FormButtonComponent {
   selectClick() {
     switch (this.config.button_click) {
       case 'openQuestionnaire':
-        const modalRef = this._modalService.open(EditorModalComponent, {});
-        modalRef.componentInstance.title = 'pepe';
-        modalRef.componentInstance.data = this.config.params;
-        modalRef.componentInstance.form = this.group;
+        const modalRef = this._modalService.open(DynamicModalComponent, {});
+        modalRef.componentInstance.key = this.config.template;
         modalRef.componentInstance.close.subscribe(() => {
           modalRef.close();
         });

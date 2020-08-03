@@ -67,6 +67,7 @@ import { ChangePasswordModalComponent } from './components/modals/change-passwor
 import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
 import { NumericInput } from './directives/numeric-input.directive';
 import { ContactComponent } from './components/contact/contact.component';
+import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -99,6 +100,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormCheckboxComponent,
     FormRadioComponent,
     EditorModalComponent,
+    DynamicModalComponent,
     ConfirmModalComponent,
     GenericModalHeaderComponent,
     EditorModalFooterComponent,
@@ -175,6 +177,7 @@ export function createTranslateLoader(http: HttpClient) {
     DynamicFieldDirective,
     NumericInput,
     EditorModalComponent,
+    DynamicModalComponent,
     ConfirmModalComponent,
     FormSwitchComponent,
     FormsComponent,

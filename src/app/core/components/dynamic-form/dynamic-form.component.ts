@@ -25,7 +25,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() config: FieldConfig[] = [];
   @Input() buttons: string[] = [];
   @Input() key: string;
+  @Input() isModal = false;
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
   public f: any;
 
@@ -262,6 +264,12 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   cleanClick(event: Event) {
     this.form.reset();
+  }
+
+  cancelClick() {
+    if (this.isModal) {
+      this.cancel.emit(true);
+    }
   }
 
   showChartFront(event: Event) {

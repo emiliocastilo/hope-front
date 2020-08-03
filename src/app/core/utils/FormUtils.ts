@@ -3,7 +3,6 @@ import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
 import { ValidatorFn, Validators } from '@angular/forms';
-import { ManyChartModalComponent } from '../components/modals/many-chart-modal/many-chart-modal.component';
 
 export default class FormUtils {
   static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
@@ -66,7 +65,7 @@ export default class FormUtils {
     fieldConfig.hiddenWhen = value.hiddenWhen;
     fieldConfig.hidden = value.hidden;
     fieldConfig.button = value.button;
-    fieldConfig.endpoint = value.endpoint;
+    fieldConfig.template = value.template;
     if (value.validation) {
       const validations = StringUtils.stringToArray(value.validation);
       fieldConfig.validation = this.parseValidations(validations);

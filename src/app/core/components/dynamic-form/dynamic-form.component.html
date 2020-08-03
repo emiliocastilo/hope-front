@@ -79,6 +79,17 @@
           </button>
         </div>
       </div>
+      <div *ngIf="button === 'cancel'">
+        <div class="submit-button">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="cancelClick($event)"
+          >
+            {{ 'btn.cancel' | translate }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </form>

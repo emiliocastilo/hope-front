@@ -1,0 +1,12 @@
+<div class="dynamic-modal">
+  <dynamic-form
+    [config]="config"
+    [buttons]="buttons"
+    [key]="key"
+    [isModal]="true"
+    #form="dynamicForm"
+    (submit)="submit($event)"
+    (cancel)="cancel($event)"
+  >
+  </dynamic-form>
+</div>

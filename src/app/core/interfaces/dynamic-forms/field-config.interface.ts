@@ -35,4 +35,5 @@ export interface FieldConfig {
   fields?: Array<any>;
   historic?: Array<any>;
   endpoint?: string;
+  template?: string;
 }
