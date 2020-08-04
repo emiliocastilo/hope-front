@@ -27,7 +27,7 @@ export class ButtonNailsComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() filledForm: any;
   @Input() score: string;
-  @Input() myLabel: string = '';
+  @Input() myLabel = '';
   public ValueMen: number;
   public ValueAnul: number;
   public ValueCor: number;
