@@ -219,51 +219,71 @@
         </svg>
       </div>
       <div class="buttonStyle">
-        <input
-          type="text"
-          [id]="'ValueMen'"
-          [placeholder]="'Meñique'"
-          class="buttonNapsi"
-          formControlName="ValueMen"
-          readonly
-          [value]="ValueMen"
-        />
-        <input
-          type="text"
-          [id]="'ValueAnul'"
-          [placeholder]="'Anular'"
-          class="buttonNapsi"
-          formControlName="ValueAnul"
-          readonly
-          [value]="ValueAnul"
-        />
-        <input
-          type="text"
-          [id]="'ValueCor'"
-          [placeholder]="'Corazon'"
-          formControlName="ValueCor"
-          class="buttonNapsi"
-          readonly
-          [value]="ValueCor"
-        />
-        <input
-          type="text"
-          [id]="'ValueInd'"
-          [placeholder]="'Indice'"
-          formControlName="ValueInd"
-          class="buttonNapsi"
-          readonly
-          [value]="ValueInd"
-        />
-        <input
-          type="text"
-          [placeholder]="'Pulgar'"
-          [id]="'ValuePul'"
-          formControlName="ValuePul"
-          class="buttonNapsi"
-          readonly
-          [value]="ValuePul"
-        />
+        <div class="contMen">
+          <label for="ValueMen">
+            {{ 'nail.men' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValueMen"
+            class="buttonNapsi"
+            formControlName="ValueMen"
+            readonly
+            [value]="ValueMen"
+          />
+        </div>
+        <div class="contAnul">
+          <label for="ValueAnul">
+            {{ 'nail.anul' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValueAnul"
+            class="buttonNapsi"
+            formControlName="ValueAnul"
+            readonly
+            [value]="ValueAnul"
+          />
+        </div>
+        <div class="contCor">
+          <label for="ValueCor">
+            {{ 'nail.cor' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValueCor"
+            formControlName="ValueCor"
+            class="buttonNapsi"
+            readonly
+            [value]="ValueCor"
+          />
+        </div>
+        <div class="contInd">
+          <label for="ValueInd">
+            {{ 'nail.ind' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValueInd"
+            formControlName="ValueInd"
+            class="buttonNapsi"
+            readonly
+            [value]="ValueInd"
+          />
+        </div>
+        <div class="contPul">
+          <label for="ValuePul">
+            {{ 'nail.pul' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValuePul"
+            formControlName="ValuePul"
+            class="buttonNapsi"
+            readonly
+            [value]="ValuePul"
+          />
+        </div>
       </div>
     </div>
     <div *ngSwitchCase="'rightHand'" class="stileHand">
@@ -488,55 +508,71 @@
         </svg>
       </div>
       <div class="buttonStyle">
-        <input
-          type="text"
-          [id]="'ValuePul'"
-          placeholder="Pulgar"
-          class="buttonNapsi"
-          formControlName="ValuePul"
-          readonly
-          [value]="ValuePul"
-        />
-
-        <input
-          type="text"
-          [id]="'ValueInd'"
-          [placeholder]="'Indice'"
-          class="buttonNapsi"
-          formControlName="ValueInd"
-          readonly
-          [value]="ValueInd"
-        />
-
-        <input
-          type="text"
-          [id]="'ValueCor'"
-          [placeholder]="'Corazon'"
-          class="buttonNapsi"
-          formControlName="ValueCor"
-          readonly
-          [value]="ValueCor"
-        />
-
-        <input
-          type="text"
-          [id]="'ValueAnul'"
-          [placeholder]="'Anular'"
-          formControlName="ValueAnul"
-          class="buttonNapsi"
-          readonly
-          [value]="ValueAnul"
-        />
-
-        <input
-          type="text"
-          [id]="'ValueMen'"
-          [placeholder]="'Meñique'"
-          formControlName="ValueMen"
-          class="buttonNapsi"
-          readonly
-          [value]="ValueMen"
-        />
+        <div class="contPul">
+          <label for="ValuePul">
+            {{ 'nail.pul' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValuePul"
+            formControlName="ValuePul"
+            class="buttonNapsi"
+            readonly
+            [value]="ValuePul"
+          />
+        </div>
+        <div class="contInd">
+          <label for="ValueInd">
+            {{ 'nail.ind' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValueInd"
+            formControlName="ValueInd"
+            class="buttonNapsi"
+            readonly
+            [value]="ValueInd"
+          />
+        </div>
+        <div class="contCor">
+          <label for="ValueCor">
+            {{ 'nail.cor' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValueCor"
+            formControlName="ValueCor"
+            class="buttonNapsi"
+            readonly
+            [value]="ValueCor"
+          />
+        </div>
+        <div class="contAnul">
+          <label for="ValueAnul">
+            {{ 'nail.anul' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValueAnul"
+            class="buttonNapsi"
+            formControlName="ValueAnul"
+            readonly
+            [value]="ValueAnul"
+          />
+        </div>
+        <div class="contMen">
+          <label for="ValueMen">
+            {{ 'nail.men' | translate }}
+          </label>
+          <input
+            type="text"
+            id="ValueMen"
+            class="buttonNapsi"
+            formControlName="ValueMen"
+            readonly
+            [value]="ValueMen"
+          />
+        </div>
       </div>
     </div>
     <div *ngSwitchDefault></div>

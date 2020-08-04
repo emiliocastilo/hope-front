@@ -1,9 +1,9 @@
 <div [formGroup]="form">
-  <div>
-    <p>Otros índices: NAPSI</p>
+  <div class="title">
+    <p>{{ 'napsi.title' | translate }}</p>
   </div>
-  <div>
-    <label>Fecha </label>
+  <div class="custom-select">
+    <label for="date" class="label"> {{ 'napsi.date' | translate }} </label>
     <input
       [formControlName]="'evaluationDate'"
       [id]="'evaluationDate'"
@@ -13,12 +13,12 @@
       (keydown)="(DontPush)"
     />
   </div>
-  <div>
-    <p>Matriz ungueal</p>
+  <div class="subTitle">
+    <p>{{ 'napsi.subtitleOne' | translate }}</p>
   </div>
   <div class="handsContainer">
     <div class="HandStyle">
-      <span class="spanStyle">Mano izquierda</span>
+      <span class="spanStyle">{{ 'napsi.leftHand' | translate }}</span>
       <app-button-nails
         [form]="form"
         [group]="'mano_izquierda_matriz'"
@@ -27,7 +27,7 @@
       ></app-button-nails>
     </div>
     <div class="HandStyle">
-      <span class="spanStyle">Mano Derecha</span>
+      <span class="spanStyle">{{ 'napsi.rightHand' | translate }}</span>
       <app-button-nails
         [form]="form"
         [group]="'mano_derecha_matriz'"
@@ -36,10 +36,12 @@
       ></app-button-nails>
     </div>
   </div>
-  <div><p>Lecho ungueal</p></div>
+  <div class="subTitle">
+    <p>{{ 'napsi.subtitleTwo' | translate }}</p>
+  </div>
   <div class="handsContainer">
     <div class="HandStyle">
-      <span class="spanStyle">Mano izquierda</span>
+      <span class="spanStyle">{{ 'napsi.leftHand' | translate }}</span>
       <app-button-nails
         [form]="form"
         [group]="'mano_izquierda_lecho'"
@@ -48,7 +50,7 @@
       ></app-button-nails>
     </div>
     <div class="HandStyle">
-      <span class="spanStyle">Mano derecha</span>
+      <span class="spanStyle">{{ 'napsi.rightHand' | translate }}</span>
       <app-button-nails
         [form]="form"
         [group]="'mano_derecha_lecho'"
@@ -58,7 +60,7 @@
     </div>
   </div>
   <div class="box-data">
-    <span class="box-title">NapsiScore</span>
+    <span class="box-title">{{ 'napsi.score' | translate }}</span>
     <div class="box-data-info">
       <input type="number" readonly formControlName="napsiScore" />
       /72

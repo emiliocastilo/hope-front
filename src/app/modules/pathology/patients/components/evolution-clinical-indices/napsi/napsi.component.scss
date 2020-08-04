@@ -17,17 +17,78 @@ label {
 }
 
 .HandStyle {
-  top: 354px;
-  left: 590px;
-  width: 432px;
-  height: 347px;
-  background: transparent linear-gradient(180deg, rgba(204, 224, 242, 0.14) 0%, rgba(204, 224, 242, 0.48) 100%) 0% 0% no-repeat padding-box;
-  border: 1px solid rgba(204, 224, 242, 1);
+  top: 22.125rem;
+  left: 36.875rem;
+  width: 27rem;
+  height: 21.688rem;
+  background: transparent linear-gradient(180deg, $app-color-blue-box-nails 0%, $app-color-blue-box-nails-two 100%);
+  border: 0.063rem solid $app-color-blue-border;
   opacity: 1;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-right: 2.5rem;
+  padding: 0.938rem;
+
+  &:nth-child(2n) {
+    background: $app-color-white;
+
+    .spanStyle {
+      float: right;
+    }
+  }
 }
 
-.spanStyle {
-  height: 5px;
+.title {
+  margin-top: 3.125rem;
+  border-bottom: 0.063rem solid $app-color-blue-border;
+  font-weight: 800;
+  font-size: 1.125rem;
+}
+
+.subTitle {
+  margin-top: 2.625rem;
+  margin-bottom: 2.438rem;
+  font-size: 1rem;
+  font-weight: 800;
+  border-bottom: 0.063rem solid $app-color-blue-border;
+}
+
+.dateStyle {
+  color: red;
+}
+
+.custom-select {
+  width: 15rem;
+  height: 2.4rem;
+  border: 0.063rem solid $app-color-blue-border;
+  border-radius: 0;
+  margin-top: 1.25rem;
+
+  input {
+    position: relative;
+    left: 6.6rem;
+    top: -2.7rem;
+    border: none;
+    width: 7rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .label {
+    padding: 0.3rem;
+    position: relative;
+    top: -0.35rem;
+    left: -0.75rem;
+    background-color: $app-color-blue-very-light;
+    height: 2.2rem;
+    width: 7rem;
+  }
+}
+
+.buttons {
+  margin-top: 1.875rem;
+}
+
+.box-data {
+  margin-top: 1.875rem;
+  margin-bottom: 1.875rem;
 }
