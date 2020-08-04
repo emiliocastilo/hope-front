@@ -7,6 +7,7 @@ import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 import { HttpClient } from '@angular/common/http';
+import { HealthOutcomeService } from 'src/app/modules/pathology/patients/services/health-outcome.service';
 
 @Component({
   selector: 'app-forms',
@@ -25,6 +26,7 @@ export class FormsComponent implements OnInit {
     private _formsService: FormsService,
     public _translate: TranslateService,
     private _notification: NotificationService,
+    private hoService: HealthOutcomeService,
     private _http: HttpClient
   ) {}
 
@@ -71,6 +73,16 @@ export class FormsComponent implements OnInit {
         this.updateForm(form);
       } else {
         this.fillForm(form);
+      }
+      if (this.key === 'dlqi') {
+        const ho = {
+          patient: this.patient.id,
+          date: new Date(value.evaluationDate).toISOString(),
+          indexType: 'DLQI',
+          value: value.dlqiScore,
+          result: value.clasificationScore,
+        };
+        this.hoService.saveScore(ho);
       }
     } else {
       this._notification.showErrorToast('errorForm');

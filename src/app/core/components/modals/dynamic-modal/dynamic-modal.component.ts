@@ -14,6 +14,7 @@ export class DynamicModalComponent implements OnInit {
   public buttons: string[] = [];
   @Input() key: string;
   @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() save: EventEmitter<any> = new EventEmitter();
 
   constructor(private _formsService: FormsService) {}
 
@@ -32,11 +33,11 @@ export class DynamicModalComponent implements OnInit {
   }
 
   submit(value: { [name: string]: any }) {
-    console.log('value modal form', value);
+    this.save.emit(value);
   }
 
-  cancel(closeModal: boolean) {
-    if (closeModal) {
+  closeModal(cancel: boolean) {
+    if (cancel) {
       this.close.emit(null);
     }
   }

@@ -32,7 +32,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   public f: any;
 
   get controls() {
-    return this.config.filter(({ type }) => type !== 'button');
+    return this.config.filter(({ type }) => type !== 'button' || 'title');
   }
   get changes() {
     return this.form.valueChanges;
@@ -57,7 +57,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   isNormalType(type: string) {
-    const isArray = ['table', 'historic'];
+    const isArray = ['table', 'historic', 'title', 'button'];
     const found = isArray.find((e) => e === type);
     if (found) {
       return false;
@@ -394,7 +394,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
       }
     });
-
     return this.value;
   }
 

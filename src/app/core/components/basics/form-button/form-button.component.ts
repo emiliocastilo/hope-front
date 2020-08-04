@@ -22,12 +22,26 @@ export class FormButtonComponent {
   selectClick() {
     switch (this.config.button_click) {
       case 'openQuestionnaire':
-        const modalRef = this._modalService.open(DynamicModalComponent, {});
+        const modalRef = this._modalService.open(DynamicModalComponent, {
+          size: 'xl',
+        });
         modalRef.componentInstance.key = this.config.template;
         modalRef.componentInstance.close.subscribe(() => {
           modalRef.close();
         });
+        modalRef.componentInstance.save.subscribe((event) => {
+          this.setValues(event);
+          modalRef.close();
+        });
         break;
     }
+  }
+
+  setValues(values: any) {
+    this.config.params.forEach((p: any) => {
+      if (values[p.name]) {
+        this.group.controls[p.name].setValue(values[p.name]);
+      }
+    });
   }
 }

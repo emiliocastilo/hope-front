@@ -248,19 +248,32 @@ export default class FormUtils {
   }
 
   static calculateDlqi(params: Array<any>) {
-    if (!params[0] || !params[1]) {
+    let total = 0;
+    params.forEach((p) => {
+      const score = parseInt(p, 10);
+      if (score) {
+        total = total + score;
+      }
+    });
+
+    return total;
+  }
+
+  static clasificationDlqi(params: Array<any>) {
+    const score = params[0];
+
+    if (!score) {
       return '';
     }
-    const imc = parseFloat(this.calculateIMC(params));
-    if (imc >= 21) {
+    if (score >= 21) {
       return 'severa-grave';
-    } else if (imc >= 11 && imc < 21) {
+    } else if (score >= 11 && score < 21) {
       return 'severa';
-    } else if (imc >= 6 && imc < 11) {
+    } else if (score >= 6 && score < 11) {
       return 'moderada';
-    } else if (imc >= 2 && imc < 6) {
+    } else if (score >= 2 && score < 6) {
       return 'leve';
-    } else if (imc === 1) {
+    } else if (score === 1) {
       return 'blanqueado';
     }
 
