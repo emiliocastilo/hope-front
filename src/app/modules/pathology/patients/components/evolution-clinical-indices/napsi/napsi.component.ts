@@ -176,7 +176,7 @@ export class NapsiComponent implements OnInit {
         retrievedForm.data.find((e) => e.type === 'form').value
       );
       this.form.setValue(this.filledForm);
-      this.resetNails.activateButton(this.filledForm);
+      this.resetNails.paintNails(this.filledForm, true);
       /*this.printFormValues(this.filledForm);*/
     }
   }

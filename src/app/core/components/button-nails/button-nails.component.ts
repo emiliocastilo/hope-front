@@ -83,6 +83,22 @@ export class ButtonNailsComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  public paintNails(key, isFilled?) {
+    if (isFilled) {
+      const keys = Object.keys(key[this.group]).filter((k) => {
+        return key[this.group][k];
+      });
+      keys.forEach((e) => {
+        if (e.includes('isActive')) {
+          this[e] = true;
+        }
+      });
+    } else {
+      this.activateButton(key);
+    }
+  }
+
   public activateButton(key) {
     switch (key) {
       case 'rightButtonNailMen':
