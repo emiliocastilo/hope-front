@@ -11,7 +11,7 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { PatientModel } from '../../models/patient.model';
 import { constants } from '../../../../../../constants/constants';
-import { PasiService } from '../../services/pasi.service';
+import { HealthOutcomeService } from '../../services/health-outcome.service';
 import { HealthOutcomeModel } from '../../models/health-outcome.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
@@ -42,7 +42,7 @@ export class PasiBsaPgaComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _formsService: FormsService,
-    private _pasiService: PasiService,
+    private hoService: HealthOutcomeService,
     private _notification: NotificationService,
     private _modalService: NgbModal,
     public _translate: TranslateService
@@ -181,7 +181,7 @@ export class PasiBsaPgaComponent implements OnInit {
         };
         break;
     }
-    this._pasiService.saveScore(ho);
+    this.hoService.saveScore(ho);
   }
 
   async showGraph() {

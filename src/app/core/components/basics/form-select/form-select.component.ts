@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
@@ -8,11 +8,11 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
   templateUrl: './form-select.component.html',
   styleUrls: ['./form-select.component.scss'],
 })
-export class FormSelectComponent {
+export class FormSelectComponent implements OnInit {
   config: FieldConfig;
   group: FormGroup;
   optionSelected: boolean;
-  required: boolean = false;
+  required = false;
 
   ngOnInit() {
     this.hasRequiredField(this.group.controls[this.config.name]);

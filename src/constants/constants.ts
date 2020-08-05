@@ -23,4 +23,5 @@ export const constants = {
   keySharedPatient: 'shared-patients',
   eavPase: 'eav-pase',
   keyPasiBsaPga: 'pasi-bsa-pga',
+  keyDlqi: 'dlqi',
 };

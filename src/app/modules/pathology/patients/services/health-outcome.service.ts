@@ -6,7 +6,7 @@ import { HealthOutcomeModel } from '../models/health-outcome.model';
 @Injectable({
   providedIn: 'root',
 })
-export class PasiService {
+export class HealthOutcomeService {
   constructor(private _httpClient: HttpClient) {}
 
   public saveScore(healthOutcome: HealthOutcomeModel): Observable<any> {

@@ -13,7 +13,7 @@ export class FormDatepickerComponent implements OnInit {
   @Input() type = 'date';
   config: FieldConfig;
   group: FormGroup;
-  required: boolean = false;
+  required = false;
   public minDate: string;
   public maxDate: string;
 
