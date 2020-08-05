@@ -32,9 +32,11 @@ import { SerologyComponent } from './patients/components/serology/serology.compo
 import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
 import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
+import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
 import { PrincipalTreatmentComponent } from './patients/components/principal-treatment/principal-treatment.component';
+import { DlqiComponent } from './patients/components/evolution-clinical-indices/dlqi/dlqi.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { PrincipalTreatmentComponent } from './patients/components/principal-tre
     PhysicalConditionComponent,
     WorkGroupsComponent,
     ConsumptionHabitsComponent,
+    DlqiComponent,
     PersonalInformationComponent,
     PrincipalDiagnosisComponent,
     SecundaryDiagnosisComponent,
@@ -68,6 +71,7 @@ import { PrincipalTreatmentComponent } from './patients/components/principal-tre
     SharedPatientsComponent,
     PhototherapyComponent,
     PrincipalTreatmentComponent,
+    PasiBsaPgaComponent,
   ],
   imports: [
     CommonModule,

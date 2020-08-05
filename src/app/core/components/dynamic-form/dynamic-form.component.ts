@@ -25,12 +25,14 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() config: FieldConfig[] = [];
   @Input() buttons: string[] = [];
   @Input() key: string;
+  @Input() isModal = false;
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
   public f: any;
 
   get controls() {
-    return this.config.filter(({ type }) => type !== 'button');
+    return this.config.filter(({ type }) => type !== 'button' || 'title');
   }
   get changes() {
     return this.form.valueChanges;
@@ -55,7 +57,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   isNormalType(type: string) {
-    const isArray = ['table', 'historic'];
+    const isArray = ['table', 'historic', 'title', 'button'];
     const found = isArray.find((e) => e === type);
     if (found) {
       return false;
@@ -264,6 +266,12 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     this.form.reset();
   }
 
+  cancelClick() {
+    if (this.isModal) {
+      this.cancel.emit(true);
+    }
+  }
+
   showChartFront(event: Event) {
     const parseData = [];
     this.controls.forEach((control) => {
@@ -386,7 +394,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
       }
     });
-
     return this.value;
   }
 

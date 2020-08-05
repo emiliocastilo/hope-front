@@ -24,6 +24,7 @@ export class SideBarMenuComponent implements OnInit {
     Calendario: 'calendar',
     Alertas: 'bell',
     Paciente: 'users',
+    Soporte: 'mail',
   };
 
   @Input() menu: Array<SideBarItemModel>;

@@ -58,6 +58,8 @@ import { LineChartComponent } from './components/charts/line-chart/line-chart.co
 import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
 import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from './components/basics/from-section/from-section.component';
+import { PasiSelectComponent } from './components/pasi-select/pasi-select.component';
+import { PasiCheckboxComponent } from './components/pasi-checkbox/pasi-checkbox.component';
 import { FormSearchComponent } from './components/basics/form-search/form-search.component';
 import { ManyChartModalComponent } from './components/modals/many-chart-modal/many-chart-modal.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
@@ -68,6 +70,8 @@ import { PhototherapyModalComponent } from './components/modals/phototherapy-mod
 import { PrincipalTreatmentModalComponent } from './components/modals/principal-treatment-modal/principal-treatment-modal.component';
 import { InputTextareaComponent } from './components/basics/app-input-textarea/app-input-textarea.component';
 import { InputTypeaheadComponent } from './components/basics/input-typeahead/input-typeahead.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -100,6 +104,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormCheckboxComponent,
     FormRadioComponent,
     EditorModalComponent,
+    DynamicModalComponent,
     ConfirmModalComponent,
     GenericModalHeaderComponent,
     EditorModalFooterComponent,
@@ -125,6 +130,8 @@ export function createTranslateLoader(http: HttpClient) {
     ResultsPerPageComponent,
     LineChartComponent,
     FormHistoricComponent,
+    PasiSelectComponent,
+    PasiCheckboxComponent,
     FormSearchComponent,
     ManyChartModalComponent,
     MyAccountComponent,
@@ -134,6 +141,7 @@ export function createTranslateLoader(http: HttpClient) {
     PrincipalTreatmentModalComponent,
     InputTextareaComponent,
     InputTypeaheadComponent,
+    ContactComponent,
   ],
   imports: [
     CommonModule,
@@ -166,6 +174,8 @@ export function createTranslateLoader(http: HttpClient) {
     ButtonComponent,
     InputComponent,
     InputSelectComponent,
+    PasiSelectComponent,
+    PasiCheckboxComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,
@@ -175,6 +185,7 @@ export function createTranslateLoader(http: HttpClient) {
     DynamicFieldDirective,
     NumericInput,
     EditorModalComponent,
+    DynamicModalComponent,
     ConfirmModalComponent,
     FormSwitchComponent,
     FormsComponent,

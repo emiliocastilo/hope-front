@@ -1,0 +1,54 @@
+@import '~src/assets/styles/variables.scss';
+
+.custom-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 2rem;
+  margin: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: rgb(54, 62, 99);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0.2rem;
+  left: 0;
+  height: 1.1rem;
+  width: 1.1rem;
+  border: 1px solid $app-color-blue-main;
+}
+
+.checkmark::after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox .checkmark::after {
+  left: 0.4rem;
+  top: 0.2rem;
+  width: 5px;
+  height: 10px;
+  border: solid $app-color-blue-main;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.custom-checkbox input:checked ~ .checkmark::after {
+  display: block;
+}

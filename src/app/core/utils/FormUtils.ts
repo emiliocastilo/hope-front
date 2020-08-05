@@ -54,6 +54,7 @@ export default class FormUtils {
     fieldConfig.actions = value.actions;
     fieldConfig.columns = value.columns;
     fieldConfig.fields = value.fields;
+    fieldConfig.button_click = value.button_click;
     fieldConfig.calculated_front = value.calculated_front;
     fieldConfig.endpoint = value.endpoint;
     fieldConfig.event = value.event;
@@ -63,7 +64,8 @@ export default class FormUtils {
     fieldConfig.enableWhen = value.enableWhen;
     fieldConfig.hiddenWhen = value.hiddenWhen;
     fieldConfig.hidden = value.hidden;
-    fieldConfig.endpoint = value.endpoint;
+    fieldConfig.button = value.button;
+    fieldConfig.template = value.template;
     if (value.validation) {
       const validations = StringUtils.stringToArray(value.validation);
       fieldConfig.validation = this.parseValidations(validations);
@@ -74,7 +76,7 @@ export default class FormUtils {
   static parseValidations(validation: string[]): ValidatorFn[] {
     const finalValidators: any[] = [];
     validation.forEach((element) => {
-      //Required
+      // Required
       if (element.trim() === 'Validators.required') {
         finalValidators.push(Validators.required);
       }
@@ -240,6 +242,39 @@ export default class FormUtils {
       return 'Normal';
     } else if (imc < 18.5) {
       return 'Bajo peso';
+    }
+
+    return '';
+  }
+
+  static calculateDlqi(params: Array<any>) {
+    let total = 0;
+    params.forEach((p) => {
+      const score = parseInt(p, 10);
+      if (score) {
+        total = total + score;
+      }
+    });
+
+    return total;
+  }
+
+  static clasificationDlqi(params: Array<any>) {
+    const score = params[0];
+
+    if (!score) {
+      return '';
+    }
+    if (score >= 21) {
+      return 'severa-grave';
+    } else if (score >= 11 && score < 21) {
+      return 'severa';
+    } else if (score >= 6 && score < 11) {
+      return 'moderada';
+    } else if (score >= 2 && score < 6) {
+      return 'leve';
+    } else if (score === 1) {
+      return 'blanqueado';
     }
 
     return '';

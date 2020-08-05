@@ -1,4 +1,3 @@
-<!-- <div class="row m-0 p-0"> -->
 <section class="col-md-12 col-lg-12 box-data-section">
   <div class="col-md-1 back-button" (click)="back()">
     <i-feather name="arrow-left" class="feather-icon"></i-feather>
@@ -12,19 +11,9 @@
       <div class="header">
         {{ showKey(key) | translate }}
       </div>
-      <div class="data" *ngIf="key !== 'genderCode'">
+      <div class="data">
         {{ parsedata(currentData, key) | translate }}
-      </div>
-      <div class="data" *ngIf="key === 'genderCode'">
-        <i
-          class="fa"
-          [ngClass]="{
-            'fa-mars': currentData.genderCode === 'M',
-            'fa-venus': currentData.genderCode === 'F'
-          }"
-        ></i>
       </div>
     </div>
   </div>
 </section>
-<!-- </div> -->

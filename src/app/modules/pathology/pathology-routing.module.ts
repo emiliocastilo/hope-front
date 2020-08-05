@@ -32,6 +32,8 @@ import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-l
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
 import { PrincipalTreatmentComponent } from './patients/components/principal-treatment/principal-treatment.component';
+import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
+import { DlqiComponent } from './patients/components/evolution-clinical-indices/dlqi/dlqi.component';
 
 const routes: Routes = [
   {
@@ -123,6 +125,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/evolution-clinical-indices/pasi-bsa-pga',
+    component: PasiBsaPgaComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/tracing',
     component: TracingComponent,
     resolve: {
@@ -133,6 +143,14 @@ const routes: Routes = [
   {
     path: 'patients/evolution-clinical-indices/eav-pase',
     component: EavPaseComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/evolution-clinical-indices/dlqi',
+    component: DlqiComponent,
     resolve: {
       patients: PatientsResolverService,
     },
