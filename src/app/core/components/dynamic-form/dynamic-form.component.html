@@ -34,60 +34,66 @@
     <div *ngFor="let button of buttons">
       <div *ngIf="button === 'save'">
         <div class="submit-button">
-          <button [disabled]="!valid" class="btn btn-primary" type="submit">
-            {{ 'btn.save' | translate }}
-          </button>
+          <app-button
+            type="submit"
+            icono="check-circle"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.save"
+            [readOnly]="!valid"
+          ></app-button>
         </div>
       </div>
       <div *ngIf="button === 'clean'">
         <div class="submit-button">
-          <button
-            class="btn btn-primary"
+          <app-button
             type="reset"
+            clasesBtn="btn-danger btn-sm mx-2"
+            icono="x"
+            texto="btn.clean"
             (click)="cleanClick($event)"
-          >
-            {{ 'btn.clean' | translate }}
-          </button>
+          ></app-button>
         </div>
       </div>
       <div *ngIf="button === 'graphs'">
         <div class="submit-button">
-          <button
-            class="btn btn-primary"
+          <app-button
             type="button"
+            icono="bar-chart-2"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.graphs"
             (click)="showChartFront($event)"
-          >
-            {{ 'btn.graphs' | translate }}
-          </button>
+          ></app-button>
         </div>
       </div>
       <div *ngIf="button === 'graphsBack'">
         <div class="submit-button">
-          <button
-            class="btn btn-primary"
+          <app-button
             type="button"
+            icono="bar-chart-2"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.graphs"
             (click)="showChartFromBack()"
-          >
-            {{ 'btn.graphs' | translate }}
-          </button>
+          ></app-button>
         </div>
       </div>
       <div *ngIf="button === 'historic'">
         <div class="submit-button">
-          <button class="btn btn-primary" type="button">
-            {{ 'btn.historic' | translate }}
-          </button>
+          <app-button
+            type="button"
+            icono="align-center"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.historic"
+          ></app-button>
         </div>
       </div>
       <div *ngIf="button === 'cancel'">
         <div class="submit-button">
-          <button
-            class="btn btn-primary"
+          <app-button
             type="button"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.cancel"
             (click)="cancelClick($event)"
-          >
-            {{ 'btn.cancel' | translate }}
-          </button>
+          ></app-button>
         </div>
       </div>
     </div>
