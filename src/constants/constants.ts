@@ -22,6 +22,7 @@ export const constants = {
   keyBiologicalDrugMonitoring: 'biological-drug-monitoring',
   keySharedPatient: 'shared-patients',
   eavPase: 'eav-pase',
+  farmacologiesTreatments: 'farmacology-treatment',
   keyPasiBsaPga: 'pasi-bsa-pga',
   keyDlqi: 'dlqi',
 };

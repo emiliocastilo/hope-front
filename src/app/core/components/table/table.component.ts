@@ -96,6 +96,10 @@ export class TableComponent implements OnInit {
       data = this.genderFormatter.transform(row);
     }
 
+    if (data && typeof data === 'object') {
+      return data.name;
+    }
+
     return data;
   }
 }

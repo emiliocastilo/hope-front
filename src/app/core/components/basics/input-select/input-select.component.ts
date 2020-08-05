@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from '@angular/core';
 import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +13,8 @@ import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
   templateUrl: './input-select.component.html',
   styleUrls: ['./input-select.component.scss'],
 })
-export class InputSelectComponent implements OnInit, ControlValueAccessor {
+export class InputSelectComponent
+  implements OnInit, ControlValueAccessor, OnChanges {
   constructor() {}
 
   @Input() id: string;
@@ -21,6 +29,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
   @Input() clearAfterSelect = false;
   @Input() form: FormGroup;
   @Input() required = false;
+  @Input() changes = false;
 
   @Output() selectTrigger: EventEmitter<any> = new EventEmitter<any>();
 
@@ -43,6 +52,20 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
+  ngOnChanges(changes) {
+    if (this.changes) {
+      if (
+        changes.currentValue.currentValue &&
+        changes.currentValue.currentValue.name
+      ) {
+        this.value = changes.currentValue.currentValue.name;
+      }
+      // else if (!changes.currentValue.currentValue) {
+      //   this.value = '';
+      // }
+    }
+  }
+
   onChange(value: any): void {
     if (this.currentValue) {
       this.optionChangeSelected = true;
@@ -53,6 +76,12 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor {
     if (this.clearAfterSelect && this.value) {
       this.writeValue('');
     }
+  }
+
+  isSelected(option, value) {
+    return (
+      option.name && value && option.name.toLowerCase() === value.toLowerCase()
+    );
   }
 
   writeValue(value: any): void {
