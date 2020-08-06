@@ -51,39 +51,39 @@
             id="dedos"
             class="st0"
             d="M65.1,206v-70.2c0-16.2-13.1-29.3-29.3-29.3c0,0,0,0,0,0l0,0c-16.2,0-29.3,13.1-29.3,29.3
-	c0,0,0,0,0,0V206 M322.2,206v-39.8c0-20,16.2-36.3,36.3-36.3c0,0,0,0,0,0l0,0c17.6,0,31.9,14.3,31.9,31.9c0,0,0,0,0,0V206
-	 M149.6,206V61.6c0-18.6-15.1-33.7-33.7-33.7l0,0c-18.6,0-33.7,15.1-33.7,33.7c0,0,0,0,0,0l0,144.4 M230.3,206V43.6
-	c0-18.6-15.1-33.7-33.7-33.7l0,0c-18.6,0-33.7,15.1-33.7,33.7V206 M309.9,206V61.6c0-18.6-15.1-33.7-33.7-33.7l0,0
-	c-18.6,0-33.7,15.1-33.7,33.7c0,0,0,0,0,0l0,144.4"
+      c0,0,0,0,0,0V206 M322.2,206v-39.8c0-20,16.2-36.3,36.3-36.3c0,0,0,0,0,0l0,0c17.6,0,31.9,14.3,31.9,31.9c0,0,0,0,0,0V206
+       M149.6,206V61.6c0-18.6-15.1-33.7-33.7-33.7l0,0c-18.6,0-33.7,15.1-33.7,33.7c0,0,0,0,0,0l0,144.4 M230.3,206V43.6
+      c0-18.6-15.1-33.7-33.7-33.7l0,0c-18.6,0-33.7,15.1-33.7,33.7V206 M309.9,206V61.6c0-18.6-15.1-33.7-33.7-33.7l0,0
+      c-18.6,0-33.7,15.1-33.7,33.7c0,0,0,0,0,0l0,144.4"
           />
           <g id="D5">
             <path
               id="D5C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftPul }"
-              (click)="activateButton('leftButtonNailPul')"
+              [ngClass]="{ 'radio-button-active': pulgar[0] }"
+              (click)="clickNail('pulgar', 0)"
               class="st1"
               d="M338,165.1V176c0,13.7,11.1,24.9,24.9,24.9l0,0v-35.7H338z"
             />
             <path
               id="D5C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightPul }"
-              (click)="activateButton('rightButtonNailPul')"
+              [ngClass]="{ 'radio-button-active': pulgar[3] }"
+              (click)="clickNail('pulgar', 3)"
               class="st1"
               d="M362.9,165.1v35.7c13.7,0,24.9-11.1,24.9-24.9c0,0,0,0,0,0v-10.8H362.9z"
             />
             <path
               id="D5C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpPul
+                'radio-button-active': pulgar[2]
               }"
-              (click)="activateButton('rightUpButtonNailPul')"
+              (click)="clickNail('pulgar', 2)"
               class="st1"
               d="M387.8,165.1v-11.5c0-11.8-9.5-24.2-21.3-24.2h-3.6v35.7H387.8z"
             />
             <path
               id="D5C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpPul }"
-              (click)="activateButton('leftUpButtonNailPul')"
+              [ngClass]="{ 'radio-button-active': pulgar[1] }"
+              (click)="clickNail('pulgar', 1)"
               class="st1"
               d="M362.9,129.4h-3.6c-11.8,0-21.3,12.5-21.3,24.2v11.5h24.9V129.4z"
             />
@@ -91,31 +91,31 @@
           <g id="D4">
             <path
               id="D4C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftInd }"
-              (click)="activateButton('leftButtonNailInd')"
+              [ngClass]="{ 'radio-button-active': indice[0] }"
+              (click)="clickNail('indice', 0)"
               class="st1"
               d="M251.3,59.6v10.8c0,13.8,11.1,24.9,24.9,24.9V59.6H251.3z"
             />
             <path
               id="D4C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightInd }"
-              (click)="activateButton('rightButtonNailInd')"
+              [ngClass]="{ 'radio-button-active': indice[3] }"
+              (click)="clickNail('indice', 3)"
               class="st1"
               d="M276.2,59.6v35.7l0,0c13.7,0,24.9-11.1,24.9-24.9c0,0,0,0,0,0V59.6H276.2z"
             />
             <path
               id="D4C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpInd
+                'radio-button-active': indice[2]
               }"
-              (click)="activateButton('rightUpButtonNailInd')"
+              (click)="clickNail('indice', 2)"
               class="st1"
               d="M301.1,59.6V48.1c0-11.8-9.5-24.2-21.3-24.2h-3.6v35.7H301.1z"
             />
             <path
               id="D4C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpInd }"
-              (click)="activateButton('leftUpButtonNailInd')"
+              [ngClass]="{ 'radio-button-active': indice[1] }"
+              (click)="clickNail('indice', 1)"
               class="st1"
               d="M276.2,23.9h-3.6c-11.8,0-21.3,12.5-21.3,24.2v11.5h24.9V23.9z"
             />
@@ -123,31 +123,31 @@
           <g id="D3">
             <path
               id="D3C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftCor }"
-              (click)="activateButton('leftButtonNailCor')"
+              [ngClass]="{ 'radio-button-active': anular[0] }"
+              (click)="clickNail('anular', 0)"
               class="st1"
               d="M171.7,41.7v10.8c0,13.7,11.1,24.9,24.9,24.9V41.7H171.7z"
             />
             <path
               id="D3C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightCor }"
-              (click)="activateButton('rightButtonNailCor')"
+              [ngClass]="{ 'radio-button-active': anular[3] }"
+              (click)="clickNail('anular', 3)"
               class="st1"
               d="M196.6,41.7v35.7l0,0c13.7,0,24.9-11.1,24.9-24.9V41.7H196.6z"
             />
             <path
               id="D3C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpCor
+                'radio-button-active': anular[2]
               }"
-              (click)="activateButton('rightUpButtonNailCor')"
+              (click)="clickNail('anular', 2)"
               class="st1"
               d="M221.5,41.7V30.2C221.5,18.5,212,6,200.2,6h-3.6v35.7H221.5z"
             />
             <path
               id="D3C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpCor }"
-              (click)="activateButton('leftUpButtonNailCor')"
+              [ngClass]="{ 'radio-button-active': anular[1] }"
+              (click)="clickNail('anular', 1)"
               class="st1"
               d="M196.6,6H193c-11.8,0-21.3,12.5-21.3,24.2v11.5h24.9V6z"
             />
@@ -155,31 +155,31 @@
           <g id="D2">
             <path
               id="D2C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftAnu }"
-              (click)="activateButton('leftButtonNailAnu')"
+              [ngClass]="{ 'radio-button-active': corazon[0] }"
+              (click)="clickNail('corazon', 0)"
               class="st1"
               d="M91,59.6v10.8c0,13.8,11.1,24.9,24.9,24.9V59.6H91z"
             />
             <path
               id="D2C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightAnu }"
-              (click)="activateButton('rightButtonNailAnu')"
+              [ngClass]="{ 'radio-button-active': corazon[3] }"
+              (click)="clickNail('corazon', 3)"
               class="st1"
               d="M115.9,59.6v35.7l0,0c13.7,0,24.9-11.2,24.9-24.9V59.6H115.9z"
             />
             <path
               id="D2C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpAnu
+                'radio-button-active': corazon[2]
               }"
-              (click)="activateButton('rightUpButtonNailAnu')"
+              (click)="clickNail('corazon', 2)"
               class="st1"
               d="M140.8,59.6V48.1c0-11.8-9.5-24.2-21.3-24.2h-3.6v35.7H140.8z"
             />
             <path
               id="D2C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpAnu }"
-              (click)="activateButton('leftUpButtonNailAnu')"
+              [ngClass]="{ 'radio-button-active': corazon[1] }"
+              (click)="clickNail('corazon', 1)"
               class="st1"
               d="M115.9,23.9h-3.6C100.6,23.9,91,36.3,91,48.1v11.5h24.9V23.9z"
             />
@@ -187,31 +187,31 @@
           <g id="D1">
             <path
               id="D1C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftMen }"
-              (click)="activateButton('leftButtonNailMen')"
+              [ngClass]="{ 'radio-button-active': menique[0] }"
+              (click)="clickNail('menique', 0)"
               class="st1"
               d="M14.2,134v9.4c0,12,9.7,21.6,21.6,21.6c0,0,0,0,0,0V134H14.2z"
             />
             <path
               id="D1C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightMen }"
-              (click)="activateButton('rightButtonNailMen')"
+              [ngClass]="{ 'radio-button-active': menique[3] }"
+              (click)="clickNail('menique', 3)"
               class="st1"
               d="M35.8,134v31.1c12,0,21.6-9.7,21.6-21.6c0,0,0,0,0,0V134H35.8z"
             />
             <path
               id="D1C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpMen
+                'radio-button-active': menique[2]
               }"
-              (click)="activateButton('rightUpButtonNailMen')"
+              (click)="clickNail('menique', 2)"
               class="st1"
               d="M57.4,134v-12.6c0-10.2-8.3-18.5-18.5-18.5h-3.1V134H57.4z"
             />
             <path
               id="D1C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpMen }"
-              (click)="activateButton('leftUpButtonNailMen')"
+              [ngClass]="{ 'radio-button-active': menique[1] }"
+              (click)="clickNail('menique', 1)"
               class="st1"
               d="M35.8,103h-3.1c-10.2,0-18.5,8.3-18.5,18.5V134h21.6V103z"
             />
@@ -219,71 +219,26 @@
         </svg>
       </div>
       <div class="buttonStyle">
-        <div class="contMen">
-          <label for="ValueMen">
-            {{ 'nail.men' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValueMen"
-            class="buttonNapsi"
-            formControlName="ValueMen"
-            readonly
-            [value]="ValueMen"
-          />
-        </div>
-        <div class="contAnul">
-          <label for="ValueAnul">
-            {{ 'nail.anul' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValueAnul"
-            class="buttonNapsi"
-            formControlName="ValueAnul"
-            readonly
-            [value]="ValueAnul"
-          />
-        </div>
-        <div class="contCor">
-          <label for="ValueCor">
-            {{ 'nail.cor' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValueCor"
-            formControlName="ValueCor"
-            class="buttonNapsi"
-            readonly
-            [value]="ValueCor"
-          />
-        </div>
-        <div class="contInd">
-          <label for="ValueInd">
-            {{ 'nail.ind' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValueInd"
-            formControlName="ValueInd"
-            class="buttonNapsi"
-            readonly
-            [value]="ValueInd"
-          />
-        </div>
-        <div class="contPul">
-          <label for="ValuePul">
-            {{ 'nail.pul' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValuePul"
-            formControlName="ValuePul"
-            class="buttonNapsi"
-            readonly
-            [value]="ValuePul"
-          />
-        </div>
+        <label>
+          menique<br />
+          {{ meniqueScore ? meniqueScore : 0 }}
+        </label>
+        <label>
+          corazon<br />
+          {{ corazonScore ? corazonScore : 0 }}
+        </label>
+        <label>
+          anular<br />
+          {{ anularScore ? anularScore : 0 }}
+        </label>
+        <label>
+          indice<br />
+          {{ indiceScore ? indiceScore : 0 }}
+        </label>
+        <label>
+          pulgar<br />
+          {{ pulgarScore ? pulgarScore : 0 }}
+        </label>
       </div>
     </div>
     <div *ngSwitchCase="'rightHand'" class="stileHand">
@@ -340,39 +295,39 @@
             id="dedos"
             class="st0"
             d="M390.3,206v-70.2c0,0,0,0,0,0c0-16.2-13.1-29.3-29.3-29.3l0,0c0,0,0,0,0,0
-	c-16.2,0-29.3,13.1-29.3,29.3V206 M6.5,206v-44.2c0,0,0,0,0,0c0-17.6,14.3-31.9,31.9-31.9l0,0c0,0,0,0,0,0c20,0,36.3,16.2,36.3,36.3
-	V206 M314.6,206l0-144.4c0,0,0,0,0,0c0-18.6-15.1-33.7-33.7-33.7l0,0c-18.6,0-33.7,15.1-33.7,33.7V206 M233.9,206V43.6
-	c0-18.6-15.1-33.7-33.7-33.7l0,0c-18.6,0-33.7,15.1-33.7,33.7V206 M154.3,206l0-144.4c0,0,0,0,0,0c0-18.6-15.1-33.7-33.7-33.7l0,0
-	C102,27.9,86.9,43,86.9,61.6V206"
+      c-16.2,0-29.3,13.1-29.3,29.3V206 M6.5,206v-44.2c0,0,0,0,0,0c0-17.6,14.3-31.9,31.9-31.9l0,0c0,0,0,0,0,0c20,0,36.3,16.2,36.3,36.3
+      V206 M314.6,206l0-144.4c0,0,0,0,0,0c0-18.6-15.1-33.7-33.7-33.7l0,0c-18.6,0-33.7,15.1-33.7,33.7V206 M233.9,206V43.6
+      c0-18.6-15.1-33.7-33.7-33.7l0,0c-18.6,0-33.7,15.1-33.7,33.7V206 M154.3,206l0-144.4c0,0,0,0,0,0c0-18.6-15.1-33.7-33.7-33.7l0,0
+      C102,27.9,86.9,43,86.9,61.6V206"
           />
           <g id="D5">
             <path
               id="D5C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftPul }"
-              (click)="activateButton('leftButtonNailPul')"
+              [ngClass]="{ 'radio-button-active': pulgar[0] }"
+              (click)="clickNail('pulgar', 0)"
               class="st1"
               d="M9,165.1V176c0,0,0,0,0,0c0,13.7,11.2,24.9,24.9,24.9v-35.7H9z"
             />
             <path
               id="D5C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightPul }"
-              (click)="activateButton('rightButtonNailPul')"
+              [ngClass]="{ 'radio-button-active': pulgar[3] }"
+              (click)="clickNail('pulgar', 3)"
               class="st1"
               d="M33.9,165.1v35.7l0,0c13.7,0,24.9-11.1,24.9-24.9v-10.8H33.9z"
             />
             <path
               id="D5C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpPul
+                'radio-button-active': pulgar[2]
               }"
-              (click)="activateButton('rightUpButtonNailPul')"
+              (click)="clickNail('pulgar', 2)"
               class="st1"
               d="M33.9,165.1h24.9v-11.5c0-11.8-9.5-24.2-21.3-24.2h-3.6V165.1z"
             />
             <path
               id="D5C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpPul }"
-              (click)="activateButton('leftUpButtonNailPul')"
+              [ngClass]="{ 'radio-button-active': pulgar[1] }"
+              (click)="clickNail('pulgar', 1)"
               class="st1"
               d="M33.9,165.1v-35.7h-3.6C18.6,129.4,9,141.9,9,153.6v11.5H33.9z"
             />
@@ -380,31 +335,31 @@
           <g id="D4">
             <path
               id="D4C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftInd }"
-              (click)="activateButton('leftButtonNailInd')"
+              [ngClass]="{ 'radio-button-active': indice[0] }"
+              (click)="clickNail('indice', 0)"
               class="st1"
               d="M95.7,59.6v10.8c0,0,0,0,0,0c0,13.7,11.1,24.9,24.9,24.9l0,0V59.6H95.7z"
             />
             <path
               id="D4C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightInd }"
-              (click)="activateButton('rightButtonNailInd')"
+              [ngClass]="{ 'radio-button-active': indice[3] }"
+              (click)="clickNail('indice', 3)"
               class="st1"
               d="M120.6,59.6v35.7c13.8,0,24.9-11.1,24.9-24.9V59.6H120.6z"
             />
             <path
               id="D4C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpInd
+                'radio-button-active': indice[2]
               }"
-              (click)="activateButton('rightUpButtonNailInd')"
+              (click)="clickNail('indice', 2)"
               class="st1"
               d="M120.6,59.6h24.9V48.1c0-11.8-9.5-24.2-21.3-24.2h-3.6V59.6z"
             />
             <path
               id="D4C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpInd }"
-              (click)="activateButton('leftUpButtonNailInd')"
+              [ngClass]="{ 'radio-button-active': indice[1] }"
+              (click)="clickNail('indice', 1)"
               class="st1"
               d="M120.6,59.6V23.9H117c-11.8,0-21.3,12.5-21.3,24.2v11.5H120.6z"
             />
@@ -412,31 +367,31 @@
           <g id="D3">
             <path
               id="D3C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftCor }"
-              (click)="activateButton('leftButtonNailCor')"
+              [ngClass]="{ 'radio-button-active': corazon[0] }"
+              (click)="clickNail('corazon', 0)"
               class="st1"
               d="M175.3,41.7v10.8c0,13.7,11.1,24.9,24.9,24.9l0,0V41.7H175.3z"
             />
             <path
               id="D3C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightCor }"
-              (click)="activateButton('rightButtonNailCor')"
+              [ngClass]="{ 'radio-button-active': corazon[3] }"
+              (click)="clickNail('corazon', 3)"
               class="st1"
               d="M200.2,41.7v35.7c13.7,0,24.9-11.1,24.9-24.9V41.7H200.2z"
             />
             <path
               id="D3C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpCor
+                'radio-button-active': corazon[2]
               }"
-              (click)="activateButton('rightUpButtonNailCor')"
+              (click)="clickNail('corazon', 2)"
               class="st1"
               d="M200.2,41.7h24.9V30.2c0-11.8-9.5-24.2-21.3-24.2h-3.6V41.7z"
             />
             <path
               id="D3C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpCor }"
-              (click)="activateButton('leftUpButtonNailCor')"
+              [ngClass]="{ 'radio-button-active': corazon[1] }"
+              (click)="clickNail('corazon', 1)"
               class="st1"
               d="M200.2,41.7V6h-3.6c-11.8,0-21.3,12.5-21.3,24.2v11.5H200.2z"
             />
@@ -444,31 +399,31 @@
           <g id="D2">
             <path
               id="D2C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftAnu }"
-              (click)="activateButton('leftButtonNailAnu')"
+              [ngClass]="{ 'radio-button-active': anular[0] }"
+              (click)="clickNail('anular', 0)"
               class="st1"
               d="M256,59.6v10.8c0,13.7,11.1,24.9,24.9,24.9l0,0V59.6H256z"
             />
             <path
               id="D2C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightAnu }"
-              (click)="activateButton('rightButtonNailAnu')"
+              [ngClass]="{ 'radio-button-active': anular[3] }"
+              (click)="clickNail('anular', 3)"
               class="st1"
               d="M280.9,59.6v35.7c13.8,0,24.9-11.1,24.9-24.9V59.6H280.9z"
             />
             <path
               id="D2C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpAnu
+                'radio-button-active': anular[2]
               }"
-              (click)="activateButton('rightUpButtonNailAnu')"
+              (click)="clickNail('anular', 2)"
               class="st1"
               d="M280.9,59.6h24.9V48.1c0-11.8-9.5-24.2-21.3-24.2h-3.6V59.6z"
             />
             <path
               id="D2C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpAnu }"
-              (click)="activateButton('leftUpButtonNailAnu')"
+              [ngClass]="{ 'radio-button-active': anular[1] }"
+              (click)="clickNail('anular', 1)"
               class="st1"
               d="M280.9,59.6V23.9h-3.6c-11.8,0-21.3,12.5-21.3,24.2v11.5H280.9z"
             />
@@ -476,31 +431,31 @@
           <g id="D1">
             <path
               id="D1C4"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftMen }"
-              (click)="activateButton('leftButtonNailMen')"
+              [ngClass]="{ 'radio-button-active': menique[0] }"
+              (click)="clickNail('menique', 0)"
               class="st1"
               d="M339.4,134v9.4c0,0,0,0,0,0c0,12,9.7,21.6,21.6,21.6V134H339.4z"
             />
             <path
               id="D1C3"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailRightMen }"
-              (click)="activateButton('rightButtonNailMen')"
+              [ngClass]="{ 'radio-button-active': menique[3] }"
+              (click)="clickNail('menique', 3)"
               class="st1"
               d="M361,134v31.1c0,0,0,0,0,0c12,0,21.6-9.7,21.6-21.6V134H361z"
             />
             <path
               id="D1C2"
               [ngClass]="{
-                'radio-button-active': isActiveButtonNailRightUpMen
+                'radio-button-active': menique[2]
               }"
-              (click)="activateButton('rightUpButtonNailMen')"
+              (click)="clickNail('menique', 2)"
               class="st1"
               d="M361,134h21.6v-12.6c0-10.2-8.3-18.5-18.5-18.5H361V134z"
             />
             <path
               id="D1C1"
-              [ngClass]="{ 'radio-button-active': isActiveButtonNailLeftUpMen }"
-              (click)="activateButton('leftUpButtonNailMen')"
+              [ngClass]="{ 'radio-button-active': menique[1] }"
+              (click)="clickNail('menique', 1)"
               class="st1"
               d="M361,134V103h-3.1c-10.2,0-18.5,8.3-18.5,18.5V134H361z"
             />
@@ -508,71 +463,26 @@
         </svg>
       </div>
       <div class="buttonStyle">
-        <div class="contPul">
-          <label for="ValuePul">
-            {{ 'nail.pul' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValuePul"
-            formControlName="ValuePul"
-            class="buttonNapsi"
-            readonly
-            [value]="ValuePul"
-          />
-        </div>
-        <div class="contInd">
-          <label for="ValueInd">
-            {{ 'nail.ind' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValueInd"
-            formControlName="ValueInd"
-            class="buttonNapsi"
-            readonly
-            [value]="ValueInd"
-          />
-        </div>
-        <div class="contCor">
-          <label for="ValueCor">
-            {{ 'nail.cor' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValueCor"
-            formControlName="ValueCor"
-            class="buttonNapsi"
-            readonly
-            [value]="ValueCor"
-          />
-        </div>
-        <div class="contAnul">
-          <label for="ValueAnul">
-            {{ 'nail.anul' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValueAnul"
-            class="buttonNapsi"
-            formControlName="ValueAnul"
-            readonly
-            [value]="ValueAnul"
-          />
-        </div>
-        <div class="contMen">
-          <label for="ValueMen">
-            {{ 'nail.men' | translate }}
-          </label>
-          <input
-            type="text"
-            id="ValueMen"
-            class="buttonNapsi"
-            formControlName="ValueMen"
-            readonly
-            [value]="ValueMen"
-          />
-        </div>
+        <label>
+          pulgar<br />
+          {{ pulgarScore ? pulgarScore : 0 }}
+        </label>
+        <label>
+          indice<br />
+          {{ indiceScore ? indiceScore : 0 }}
+        </label>
+        <label>
+          anular<br />
+          {{ anularScore ? anularScore : 0 }}
+        </label>
+        <label>
+          corazon<br />
+          {{ corazonScore ? corazonScore : 0 }}
+        </label>
+        <label>
+          menique<br />
+          {{ meniqueScore ? meniqueScore : 0 }}
+        </label>
       </div>
     </div>
     <div *ngSwitchDefault></div>

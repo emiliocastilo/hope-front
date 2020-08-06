@@ -5,6 +5,7 @@ import {
   FormControl,
   FormGroup,
   Validators,
+  FormArray,
 } from '@angular/forms';
 import { FormsService } from '../../../../../../core/services/forms/forms.service';
 import { constants } from '../../../../../../../constants/constants';
@@ -15,7 +16,7 @@ import { ManyChartModalComponent } from '../../../../../../core/components/modal
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import PasiUtils from '../../pasi-bsa-pga/PasiUtils';
 import { NotificationService } from '../../../../../../core/services/notification.service';
-import { HealthOutcomeModel } from '../../../models/health-outcome.model';
+// import { HealthOutcomeModel } from '../../../models/health-outcome.model';
 import { ButtonNailsComponent } from '../../../../../../core/components/button-nails/button-nails.component';
 import { NapsiService } from '../../../services/napsi.service';
 
@@ -26,7 +27,7 @@ import { NapsiService } from '../../../services/napsi.service';
 })
 export class NapsiComponent implements OnInit {
   key = 'napsi';
-  napsiScore: string;
+  napsiScore = 0;
   public evaluationDate: string;
   filledForm: any;
   napsiCalification: string;
@@ -36,6 +37,7 @@ export class NapsiComponent implements OnInit {
   public retrievedFormFormat = {};
   public formKeys: Array<string> = [];
   public retrievedForm;
+  clear = false;
   @ViewChild(ButtonNailsComponent) resetNails: ButtonNailsComponent;
   constructor(
     private _notification: NotificationService,
@@ -48,168 +50,78 @@ export class NapsiComponent implements OnInit {
     this.DontPush = false;
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.patient = JSON.parse(localStorage.getItem('selectedUser'));
-    this.getForm();
     this.getFormNails();
+    this.getForm();
   }
 
-  async getFormNails() {
+  getFormNails() {
     this.form = this._formBuilder.group({
       evaluationDate: [moment(new Date()).format('YYYY-MM-DD')],
       mano_izquierda_matriz: this._formBuilder.group({
-        ValueAnul: new FormControl(0),
-        ValuePul: new FormControl(0),
-        ValueInd: new FormControl(0),
-        ValueCor: new FormControl(0),
-        ValueMen: new FormControl(0),
-        isActiveButtonNailRightMen: new FormControl(false),
-        isActiveButtonNailRightUpMen: new FormControl(false),
-        isActiveButtonNailLeftUpMen: new FormControl(false),
-        isActiveButtonNailLeftMen: new FormControl(false),
-        isActiveButtonNailRightUpAnu: new FormControl(false),
-        isActiveButtonNailLeftUpAnu: new FormControl(false),
-        isActiveButtonNailLeftAnu: new FormControl(false),
-        isActiveButtonNailRightAnu: new FormControl(false),
-        isActiveButtonNailRightUpCor: new FormControl(false),
-        isActiveButtonNailLeftUpCor: new FormControl(false),
-        isActiveButtonNailLeftCor: new FormControl(false),
-        isActiveButtonNailRightCor: new FormControl(false),
-        isActiveButtonNailRightUpInd: new FormControl(false),
-        isActiveButtonNailLeftUpInd: new FormControl(false),
-        isActiveButtonNailLeftInd: new FormControl(false),
-        isActiveButtonNailRightInd: new FormControl(false),
-        isActiveButtonNailRightUpPul: new FormControl(false),
-        isActiveButtonNailLeftUpPul: new FormControl(false),
-        isActiveButtonNailLeftPul: new FormControl(false),
-        isActiveButtonNailRightPul: new FormControl(false),
+        pulgar: this._formBuilder.array([], Validators.minLength(4)),
+        indice: this._formBuilder.array([], Validators.minLength(4)),
+        anular: this._formBuilder.array([], Validators.minLength(4)),
+        corazon: this._formBuilder.array([], Validators.minLength(4)),
+        menique: this._formBuilder.array([], Validators.minLength(4)),
       }),
       mano_derecha_matriz: this._formBuilder.group({
-        ValueAnul: new FormControl(0),
-        ValuePul: new FormControl(0),
-        ValueInd: new FormControl(0),
-        ValueCor: new FormControl(0),
-        ValueMen: new FormControl(0),
-        isActiveButtonNailRightMen: new FormControl(false),
-        isActiveButtonNailRightUpMen: new FormControl(false),
-        isActiveButtonNailLeftUpMen: new FormControl(false),
-        isActiveButtonNailLeftMen: new FormControl(false),
-        isActiveButtonNailRightUpAnu: new FormControl(false),
-        isActiveButtonNailLeftUpAnu: new FormControl(false),
-        isActiveButtonNailLeftAnu: new FormControl(false),
-        isActiveButtonNailRightAnu: new FormControl(false),
-        isActiveButtonNailRightUpCor: new FormControl(false),
-        isActiveButtonNailLeftUpCor: new FormControl(false),
-        isActiveButtonNailLeftCor: new FormControl(false),
-        isActiveButtonNailRightCor: new FormControl(false),
-        isActiveButtonNailRightUpInd: new FormControl(false),
-        isActiveButtonNailLeftUpInd: new FormControl(false),
-        isActiveButtonNailLeftInd: new FormControl(false),
-        isActiveButtonNailRightInd: new FormControl(false),
-        isActiveButtonNailRightUpPul: new FormControl(false),
-        isActiveButtonNailLeftUpPul: new FormControl(false),
-        isActiveButtonNailLeftPul: new FormControl(false),
-        isActiveButtonNailRightPul: new FormControl(false),
+        pulgar: this._formBuilder.array([], Validators.minLength(4)),
+        indice: this._formBuilder.array([], Validators.minLength(4)),
+        anular: this._formBuilder.array([], Validators.minLength(4)),
+        corazon: this._formBuilder.array([], Validators.minLength(4)),
+        menique: this._formBuilder.array([], Validators.minLength(4)),
       }),
       mano_izquierda_lecho: this._formBuilder.group({
-        ValueAnul: new FormControl(0),
-        ValuePul: new FormControl(0),
-        ValueInd: new FormControl(0),
-        ValueCor: new FormControl(0),
-        ValueMen: new FormControl(0),
-        isActiveButtonNailRightMen: new FormControl(false),
-        isActiveButtonNailRightUpMen: new FormControl(false),
-        isActiveButtonNailLeftUpMen: new FormControl(false),
-        isActiveButtonNailLeftMen: new FormControl(false),
-        isActiveButtonNailRightUpAnu: new FormControl(false),
-        isActiveButtonNailLeftUpAnu: new FormControl(false),
-        isActiveButtonNailLeftAnu: new FormControl(false),
-        isActiveButtonNailRightAnu: new FormControl(false),
-        isActiveButtonNailRightUpCor: new FormControl(false),
-        isActiveButtonNailLeftUpCor: new FormControl(false),
-        isActiveButtonNailLeftCor: new FormControl(false),
-        isActiveButtonNailRightCor: new FormControl(false),
-        isActiveButtonNailRightUpInd: new FormControl(false),
-        isActiveButtonNailLeftUpInd: new FormControl(false),
-        isActiveButtonNailLeftInd: new FormControl(false),
-        isActiveButtonNailRightInd: new FormControl(false),
-        isActiveButtonNailRightUpPul: new FormControl(false),
-        isActiveButtonNailLeftUpPul: new FormControl(false),
-        isActiveButtonNailLeftPul: new FormControl(false),
-        isActiveButtonNailRightPul: new FormControl(false),
+        pulgar: this._formBuilder.array([], Validators.minLength(4)),
+        indice: this._formBuilder.array([], Validators.minLength(4)),
+        anular: this._formBuilder.array([], Validators.minLength(4)),
+        corazon: this._formBuilder.array([], Validators.minLength(4)),
+        menique: this._formBuilder.array([], Validators.minLength(4)),
       }),
       mano_derecha_lecho: this._formBuilder.group({
-        ValueAnul: new FormControl(0),
-        ValuePul: new FormControl(0),
-        ValueInd: new FormControl(0),
-        ValueCor: new FormControl(0),
-        ValueMen: new FormControl(0),
-        isActiveButtonNailRightMen: new FormControl(false),
-        isActiveButtonNailRightUpMen: new FormControl(false),
-        isActiveButtonNailLeftUpMen: new FormControl(false),
-        isActiveButtonNailLeftMen: new FormControl(false),
-        isActiveButtonNailRightUpAnu: new FormControl(false),
-        isActiveButtonNailLeftUpAnu: new FormControl(false),
-        isActiveButtonNailLeftAnu: new FormControl(false),
-        isActiveButtonNailRightAnu: new FormControl(false),
-        isActiveButtonNailRightUpCor: new FormControl(false),
-        isActiveButtonNailLeftUpCor: new FormControl(false),
-        isActiveButtonNailLeftCor: new FormControl(false),
-        isActiveButtonNailRightCor: new FormControl(false),
-        isActiveButtonNailRightUpInd: new FormControl(false),
-        isActiveButtonNailLeftUpInd: new FormControl(false),
-        isActiveButtonNailLeftInd: new FormControl(false),
-        isActiveButtonNailRightInd: new FormControl(false),
-        isActiveButtonNailRightUpPul: new FormControl(false),
-        isActiveButtonNailLeftUpPul: new FormControl(false),
-        isActiveButtonNailLeftPul: new FormControl(false),
-        isActiveButtonNailRightPul: new FormControl(false),
+        pulgar: this._formBuilder.array([], Validators.minLength(4)),
+        indice: this._formBuilder.array([], Validators.minLength(4)),
+        anular: this._formBuilder.array([], Validators.minLength(4)),
+        corazon: this._formBuilder.array([], Validators.minLength(4)),
+        menique: this._formBuilder.array([], Validators.minLength(4)),
       }),
-      napsiScore: [''],
+      napsiScore: ['0'],
     });
-    const retrievedForm: any = await this._formsService.retrieveForm(
-      this.key,
-      this.patient.id
-    );
-    if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
-      this.filledForm = JSON.parse(
-        retrievedForm.data.find((e) => e.type === 'form').value
-      );
-      this.form.setValue(this.filledForm);
-      this.resetNails.paintNails(this.filledForm, true);
-      /*this.printFormValues(this.filledForm);*/
-    }
   }
+
   save() {
     const form = {
       template: this.key,
       data: PasiUtils.parseNailsForm(this.form.value),
       patientId: this.patient.id,
     };
-
     if (this.form.valid) {
       if (this.filledForm) {
         this.updateForm(form);
       } else {
         this.fillForm(form);
       }
-      /*this._napsiService.saveScore({
+      this._napsiService.saveScore({
         patient: this.patient.id,
-         date: new Date(this.form.value.evaluationDate).toISOString(),
-         indexType: 'napsi',
-         value: this.napsiScore,
-         result: this.napsiCalification,
-       });*/
+        date: new Date(this.form.value.evaluationDate).toISOString(),
+        indexType: 'napsi',
+        value: this.napsiScore.toString(),
+        result: this.napsiCalification,
+      });
     }
   }
-  /* getScore(scores: any) {
-    this.napsiScore = scores.napsi;
-    this.form.setValue(this.napsiScore);
-    this.napsiCalification = PasiUtils.getCalificationNapsi(this.napsiScore);
-  }*/
+
+  getScore(score: number) {
+    this.napsiScore = this.napsiScore + score;
+    this.form.controls.napsiScore.setValue(this.napsiScore);
+    //  this.napsiCalification = PasiUtils.getCalificationNapsi(this.napsiScore);
+  }
 
   onClear() {
     this.form.reset();
+    this.clear = true;
   }
 
   updateForm(form: any) {
@@ -274,6 +186,9 @@ export class NapsiComponent implements OnInit {
       for (const element of this.retrievedForm.data) {
         this.retrievedFormFormat[element.name] = element.value;
       }
+      this.filledForm = JSON.parse(
+        this.retrievedForm.data.find((e) => e.type === 'form').value
+      );
     }
   }
 }

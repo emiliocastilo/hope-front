@@ -22,8 +22,11 @@
       <app-button-nails
         [form]="form"
         [group]="'mano_izquierda_matriz'"
+        [filledForm]="filledForm"
         class="col-12"
+        [clearHand]="clear"
         [Valuehand]="'leftHand'"
+        (napsi)="getScore($event)"
       ></app-button-nails>
     </div>
     <div class="HandStyle">
@@ -31,8 +34,11 @@
       <app-button-nails
         [form]="form"
         [group]="'mano_derecha_matriz'"
+        [filledForm]="filledForm"
         class="col-12"
+        [clearHand]="clear"
         [Valuehand]="'rightHand'"
+        (napsi)="getScore($event)"
       ></app-button-nails>
     </div>
   </div>
@@ -46,7 +52,10 @@
         [form]="form"
         [group]="'mano_izquierda_lecho'"
         class="col-12"
+        [filledForm]="filledForm"
         [Valuehand]="'leftHand'"
+        [clearHand]="clear"
+        (napsi)="getScore($event)"
       ></app-button-nails>
     </div>
     <div class="HandStyle">
@@ -54,8 +63,11 @@
       <app-button-nails
         [form]="form"
         [group]="'mano_derecha_lecho'"
+        [filledForm]="filledForm"
         class="col-12"
+        [clearHand]="clear"
         [Valuehand]="'rightHand'"
+        (napsi)="getScore($event)"
       ></app-button-nails>
     </div>
   </div>
