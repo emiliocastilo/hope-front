@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class GraphsService {
+  public selectedUser: any;
   constructor(private _httpClient: HttpClient) {}
 
   //TODO: delete if it isn't using it
@@ -21,17 +22,21 @@ export class GraphsService {
   //   );
   // }
 
-  public getChartTableCIE9(): Observable<any> {
-    return this._httpClient.get('/patients-diagnoses/cie9');
-  }
-
-  public getPatientsDetailCIE9(query: string): Observable<any> {
-    return this._httpClient.get(`/patients-diagnoses/cie9/patients?${query}`);
-  }
-
-  public getPatientsDetailCIE9Export(query: string): Observable<any> {
+  public getChartTableCIE(): Observable<any> {
+    this.selectedUser = JSON.parse(localStorage.getItem('user'));
+    const userHospital: any = this.selectedUser.hospitalId;
     return this._httpClient.get(
-      `/patients-diagnoses/cie9/patients-export?${query}`
+      '/patients-diagnoses/cie?hospitalId=' + userHospital
+    );
+  }
+
+  public getPatientsDetailCIE(query: string): Observable<any> {
+    return this._httpClient.get(`/patients-diagnoses/cie/patients?${query}`);
+  }
+
+  public getPatientsDetailCIEExport(query: string): Observable<any> {
+    return this._httpClient.get(
+      `/patients-diagnoses/cie/patients-export?${query}`
     );
   }
 
@@ -50,20 +55,6 @@ export class GraphsService {
   public getDetailsResultByTypeExport(query: string): Observable<any> {
     return this._httpClient.get(
       `/health-outcomes/get-detail-results-by-type-export?${query}`
-    );
-  }
-
-  public getChartTableCIE10(): Observable<any> {
-    return this._httpClient.get('/patients-diagnoses/cie10');
-  }
-
-  public getPatientsDetailCIE10(query: string): Observable<any> {
-    return this._httpClient.get(`/patients-diagnoses/cie10/patients?${query}`);
-  }
-
-  public getPatientsDetailCIE10Export(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/cie10/patients-export?${query}`
     );
   }
 

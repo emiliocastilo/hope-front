@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Cie10Component } from './cie10.component';
+import { CieComponent } from './cie.component';
 
-describe('Cie10Component', () => {
-  let component: Cie10Component;
-  let fixture: ComponentFixture<Cie10Component>;
+describe('Cie9Component', () => {
+  let component: CieComponent;
+  let fixture: ComponentFixture<CieComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [Cie10Component],
+      declarations: [CieComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Cie10Component);
+    fixture = TestBed.createComponent(CieComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

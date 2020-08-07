@@ -4,7 +4,7 @@ import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
 import { PatientsIndicationResolverService } from '../management/services/patients-indication/patients-indication-resolver.service';
-import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
+import { CieComponent } from './components/diagnosis/cie/cie.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
 import { PatientsTreatmentsResolverService } from '../management/services/patients-treatments/patients-treatments-resolver.service';
 import { BiologicalAgentsComponent } from './components/treatments/biological-agents/biological-agents.component';
@@ -23,7 +23,6 @@ import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/r
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
 import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
-import { Cie10Component } from './components/diagnosis/cie10/cie10.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
 import { MonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/monthly-consuption-euros/monthly-consuption-euros.component';
 import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/average-consuption-biological-treatment/accumulated-average-monthly-consuption-euros/accumulated-average-monthly-consuption-euros.component';
@@ -48,8 +47,8 @@ const routes: Routes = [
     },
   },
   {
-    path: 'diagnosis/cie9',
-    component: Cie9Component,
+    path: 'diagnosis/cie',
+    component: CieComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -177,11 +176,6 @@ const routes: Routes = [
   {
     path: 'diagnosis/reason-stop-biological-treatment-five-years',
     component: ReasonStopBiologicalTreatmentFiveYearsrsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'diagnosis/cie10',
-    component: Cie10Component,
     canActivate: [AuthGuard],
   },
   {

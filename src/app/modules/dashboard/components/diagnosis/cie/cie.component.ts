@@ -7,11 +7,11 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cie9',
-  templateUrl: './cie9.component.html',
-  styleUrls: ['./cie9.component.scss'],
+  selector: 'app-cie',
+  templateUrl: './cie.component.html',
+  styleUrls: ['./cie.component.scss'],
 })
-export class Cie9Component implements OnInit {
+export class CieComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
   menu: SideBarItemModel[] = [];
   menuId = 2;
@@ -19,7 +19,7 @@ export class Cie9Component implements OnInit {
   public showingDetail = false;
   public dataChart: any[];
   public dataTable: any[];
-  public columHeaders = ['cie9Diagnostic', 'patients'];
+  public columHeaders = ['cieDiagnostic', 'patients'];
   public headersDetailsTable: string[] = [
     'nhc',
     'healthCard',
@@ -34,7 +34,7 @@ export class Cie9Component implements OnInit {
   ];
   public detailsDataTable: any[];
   paginationData: any;
-  private selectedCie9: string;
+  private selectedCie: string;
   private currentPage = 0;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
   public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
@@ -49,12 +49,12 @@ export class Cie9Component implements OnInit {
 
   getData() {
     this.charts
-      .getChartTableCIE9()
+      .getChartTableCIE()
       .subscribe((response) => this.parseData(response));
   }
 
   private getPatientsDetail(query: string) {
-    this.charts.getPatientsDetailCIE9(query).subscribe(
+    this.charts.getPatientsDetailCIE(query).subscribe(
       (data) => {
         this.detailsDataTable = data.content;
         this.paginationData = data;
@@ -66,7 +66,7 @@ export class Cie9Component implements OnInit {
   }
 
   private getDetailsToExport(query: string) {
-    this.charts.getPatientsDetailCIE9Export(query).subscribe(
+    this.charts.getPatientsDetailCIEExport(query).subscribe(
       (data: any) => {
         this.dataToExport = data;
       },
@@ -79,7 +79,7 @@ export class Cie9Component implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `page=${this.currentPage}&cie9=${this.selectedCie9}`;
+      const query = `page=${this.currentPage}&cie=${this.selectedCie}`;
       this.getPatientsDetail(query);
     }
   }
@@ -89,15 +89,15 @@ export class Cie9Component implements OnInit {
     this.dataTable = [];
     Object.entries(data).forEach((entry) => {
       this.dataChart.push({ name: entry[0], value: entry[1] });
-      this.dataTable.push({ cie9Diagnostic: entry[0], patients: entry[1] });
+      this.dataTable.push({ cieDiagnostic: entry[0], patients: entry[1] });
     });
   }
 
   onIconButtonClick(event: any) {
     if (event && event.type === 'detail') {
       this.showingDetail = true;
-      this.selectedCie9 = this.dataChart[event.selectedItem].name;
-      const query = `page=${this.currentPage}&cie9=${this.selectedCie9}`;
+      this.selectedCie = this.dataChart[event.selectedItem].name;
+      const query = `page=${this.currentPage}&cie=${this.selectedCie}`;
       this.getPatientsDetail(query);
       this.getDetailsToExport(query);
     } else {
@@ -115,7 +115,7 @@ export class Cie9Component implements OnInit {
   }
 
   public onSortTableDetail(event: any) {
-    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&cie9=${this.selectedCie9}`;
+    const query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&cie=${this.selectedCie}`;
     this.getPatientsDetail(query);
   }
 }
