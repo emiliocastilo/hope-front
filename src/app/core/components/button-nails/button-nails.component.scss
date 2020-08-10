@@ -58,8 +58,7 @@ label {
   text-align: center;
   margin-bottom: 0.938rem;
   margin-top: 0.938rem;
-  padding-top: 1.875rem;
-  font-weight: 600;
+  padding-top: 0.875rem;
 }
 
 .svgStyle {
@@ -72,6 +71,7 @@ label {
   padding-left: 0 !important;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 
   div {
     position: relative;
@@ -81,8 +81,7 @@ label {
     align-items: center;
   }
 
-  label {
-    position: absolute;
-    top: 1.563rem;
+  span {
+    font-weight: 600;
   }
 }
