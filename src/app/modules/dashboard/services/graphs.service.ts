@@ -26,8 +26,7 @@ export class GraphsService {
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
     const userHospital: any = this.selectedUser.hospitalId;
     return this._httpClient.get(
-      /*'/patients-diagnoses/cie?hospitalId=' + userHospital*/
-      '/patients-diagnoses/cie/patients?cieDescription=COLERA&hospitalId=1'
+      '/patients-diagnoses/cie?hospitalId=' + userHospital
     );
   }
 
