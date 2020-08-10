@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { EvolutionClinicalIndicesComponent } from './family-history.component';
+import { EvolutionClinicalIndicesComponent } from './evolution-clinical-indices.component';
 
 describe('EvolutionClinicalIndicesComponent', () => {
   let component: EvolutionClinicalIndicesComponent;

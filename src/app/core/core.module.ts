@@ -178,6 +178,7 @@ export function createTranslateLoader(http: HttpClient) {
     InputSelectComponent,
     PasiSelectComponent,
     PasiCheckboxComponent,
+    ButtonNailsComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,

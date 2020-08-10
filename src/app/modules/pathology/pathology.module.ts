@@ -33,7 +33,7 @@ import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocy
 import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 import { NapsiComponent } from './patients/components/evolution-clinical-indices/napsi/napsi.component';
-import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/family-history.component';
+import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/evolution-clinical-indices.component';
 import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
