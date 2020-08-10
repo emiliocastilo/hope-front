@@ -32,6 +32,8 @@ import { SerologyComponent } from './patients/components/serology/serology.compo
 import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
 import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
 import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
+import { NapsiComponent } from './patients/components/evolution-clinical-indices/napsi/napsi.component';
+import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/family-history.component';
 import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
@@ -53,6 +55,8 @@ import { DlqiComponent } from './patients/components/evolution-clinical-indices/
     AdherenceToTreatmentMoriskyComponent,
     AdherenceToTreatmentHaynesComponent,
     ConsentComponent,
+    EvolutionClinicalIndicesComponent,
+    NapsiComponent,
     FamilyHistoryComponent,
     PhysicalConditionComponent,
     WorkGroupsComponent,

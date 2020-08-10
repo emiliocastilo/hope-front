@@ -1,0 +1,87 @@
+@import '~src/assets/styles/variables.scss';
+
+label {
+  display: block;
+}
+
+#ManoDer {
+  width: 100%;
+}
+
+#ManoIzq {
+  width: 100%;
+}
+
+[type="date"]::-webkit-inner-spin-button {
+  display: none;
+}
+
+[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.rightHandStyle {
+  top: 22.125rem;
+  left: 36.875rem;
+  width: 27rem;
+  height: 21.688rem;
+  background: transparent linear-gradient(180deg, $app-color-blue-box-nails 0%, $app-color-blue-box-nails-two 100%);
+  border: 0.063rem solid $app-color-blue-border;
+  opacity: 1;
+}
+
+.radio-button-active {
+  fill: $app-color-blue-nails !important;
+  stroke: $app-color-blue-main !important;
+}
+
+.menStyle {
+  top: 31.063rem;
+  left: 38.625rem;
+  width: 3.688rem;
+  height: 6.25rem;
+  transform: matrix(-1, 0, 0, -1, 0, 0);
+  background: $app-color-blue-men 0% 0% no-repeat padding-box;
+  border: 0.063rem solid $app-color-blue-border;
+  opacity: 1;
+  display: flex;
+}
+
+.buttonNapsi {
+  top: 38.063rem;
+  left: 38.25rem;
+  width: 4.375rem;
+  height: 4.5rem;
+  border: 0.063rem solid $app-color-blue-border;
+  opacity: 1;
+  background-color: white;
+  text-align: center;
+  margin-bottom: 0.938rem;
+  margin-top: 0.938rem;
+  padding-top: 0.875rem;
+}
+
+.svgStyle {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.buttonStyle {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0.688rem;
+    align-items: center;
+  }
+
+  span {
+    font-weight: 600;
+  }
+}
