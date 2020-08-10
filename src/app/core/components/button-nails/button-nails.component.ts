@@ -21,6 +21,7 @@ export class ButtonNailsComponent implements OnInit, OnChanges {
   @Input() form: FormGroup;
   @Input() filledForm: any;
   @Input() clearHand: boolean;
+  @Output() eventClear: EventEmitter<any> = new EventEmitter<any>();
   menique: Array<boolean>;
   pulgar: Array<boolean>;
   indice: Array<boolean>;
@@ -46,6 +47,7 @@ export class ButtonNailsComponent implements OnInit, OnChanges {
   ngOnChanges() {
     if (this.clearHand) {
       this.clear();
+      this.eventClear.emit(false);
     }
   }
 
@@ -66,14 +68,18 @@ export class ButtonNailsComponent implements OnInit, OnChanges {
       this.form.value[this.group][e] = form[group][e];
       this.calculateNail(form[group][e], e);
     });
-    this.calculateNapsi();
   }
 
   clickNail(nail, index) {
     this[nail][index] = !this[nail][index];
     this.form.value[this.group][nail][index] = this[nail][index];
     this.calculateNail(this[nail], nail);
-    this.calculateNapsi();
+
+    if (this[nail][index]) {
+      this.napsi.emit(1);
+    } else {
+      this.napsi.emit(-1);
+    }
   }
 
   calculateNail(nail: Array<boolean>, key) {
@@ -108,18 +114,12 @@ export class ButtonNailsComponent implements OnInit, OnChanges {
         break;
     }
   }
-
-  calculateNapsi() {
-    const total =
-      this.meniqueNapsi +
-      this.pulgarNapsi +
-      this.indiceNapsi +
-      this.anularNapsi +
-      this.corazonNapsi;
-    this.napsi.emit(total);
-  }
-
   clear() {
+    this.meniqueScore = 0;
+    this.corazonScore = 0;
+    this.anularScore = 0;
+    this.indiceScore = 0;
+    this.pulgarScore = 0;
     this.pulgar = [false, false, false, false];
     this.menique = [false, false, false, false];
     this.indice = [false, false, false, false];

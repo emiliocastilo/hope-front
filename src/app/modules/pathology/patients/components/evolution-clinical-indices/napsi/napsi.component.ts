@@ -87,7 +87,7 @@ export class NapsiComponent implements OnInit {
         corazon: this._formBuilder.array([], Validators.minLength(4)),
         menique: this._formBuilder.array([], Validators.minLength(4)),
       }),
-      napsiScore: ['0'],
+      napsiScore: [0],
     });
   }
 
@@ -114,14 +114,22 @@ export class NapsiComponent implements OnInit {
   }
 
   getScore(score: number) {
-    this.napsiScore = this.napsiScore + score;
+    this.napsiScore = this.form.value.napsiScore + score;
     this.form.controls.napsiScore.setValue(this.napsiScore);
     //  this.napsiCalification = PasiUtils.getCalificationNapsi(this.napsiScore);
   }
 
-  onClear() {
-    this.form.reset();
-    this.clear = true;
+  onClear(event: any) {
+    this.clear = event;
+    this.form.reset({
+      napsiScore: 0,
+      evaluationDate: moment(new Date()).format('YYYY-MM-DD'),
+    });
+    setTimeout(() => {
+      if (!this.clear) {
+        this.clear = true;
+      }
+    }, 100);
   }
 
   updateForm(form: any) {
@@ -189,6 +197,7 @@ export class NapsiComponent implements OnInit {
       this.filledForm = JSON.parse(
         this.retrievedForm.data.find((e) => e.type === 'form').value
       );
+      this.form.controls.napsiScore.setValue(this.filledForm.napsiScore);
     }
   }
 }

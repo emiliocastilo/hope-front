@@ -27,6 +27,7 @@
         [clearHand]="clear"
         [Valuehand]="'leftHand'"
         (napsi)="getScore($event)"
+        (eventClear)="onClear($event)"
       ></app-button-nails>
     </div>
     <div class="HandStyle">
@@ -39,6 +40,7 @@
         [clearHand]="clear"
         [Valuehand]="'rightHand'"
         (napsi)="getScore($event)"
+        (eventClear)="onClear($event)"
       ></app-button-nails>
     </div>
   </div>
@@ -56,6 +58,7 @@
         [Valuehand]="'leftHand'"
         [clearHand]="clear"
         (napsi)="getScore($event)"
+        (eventClear)="onClear($event)"
       ></app-button-nails>
     </div>
     <div class="HandStyle">
@@ -68,6 +71,7 @@
         [clearHand]="clear"
         [Valuehand]="'rightHand'"
         (napsi)="getScore($event)"
+        (eventClear)="onClear($event)"
       ></app-button-nails>
     </div>
   </div>
@@ -88,7 +92,11 @@
           <button class="btn btn-primary" (click)="showChartFront()">
             {{ 'Graficos' | translate }}
           </button>
-          <button class="btn btn-primary" type="submit" (click)="onClear()">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            (click)="onClear(false)"
+          >
             {{ 'btn.cancel' | translate }}
           </button>
         </div>

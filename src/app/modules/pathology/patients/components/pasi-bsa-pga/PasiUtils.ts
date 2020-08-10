@@ -95,7 +95,7 @@ export default class PasiUtils {
       {
         type: 'input',
         name: 'napsiScore',
-        value: values.napsi ? values.napsi : 0,
+        value: values.napsiScore ? values.napsiScore : 0,
       },
     ];
 
