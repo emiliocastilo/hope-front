@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Cie9Component } from './cie9.component';
+import { InputTypeaheadComponent } from './input-typeahead.component';
 
-describe('Cie9Component', () => {
-  let component: Cie9Component;
-  let fixture: ComponentFixture<Cie9Component>;
+describe('InputTypeaheadComponent', () => {
+  let component: InputTypeaheadComponent;
+  let fixture: ComponentFixture<InputTypeaheadComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [Cie9Component],
+      declarations: [InputTypeaheadComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Cie9Component);
+    fixture = TestBed.createComponent(InputTypeaheadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

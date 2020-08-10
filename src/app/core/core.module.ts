@@ -67,7 +67,12 @@ import { ChangePasswordModalComponent } from './components/modals/change-passwor
 import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
 import { NumericInput } from './directives/numeric-input.directive';
 import { ButtonNailsComponent } from './components/button-nails/button-nails.component';
+import { PhototherapyModalComponent } from './components/modals/phototherapy-modal/phototherapy-modal.component';
+import { PrincipalTreatmentModalComponent } from './components/modals/principal-treatment-modal/principal-treatment-modal.component';
+import { InputTextareaComponent } from './components/basics/app-input-textarea/app-input-textarea.component';
+import { InputTypeaheadComponent } from './components/basics/input-typeahead/input-typeahead.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -101,6 +106,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormCheckboxComponent,
     FormRadioComponent,
     EditorModalComponent,
+    DynamicModalComponent,
     ConfirmModalComponent,
     GenericModalHeaderComponent,
     EditorModalFooterComponent,
@@ -133,6 +139,10 @@ export function createTranslateLoader(http: HttpClient) {
     MyAccountComponent,
     ChangePasswordModalComponent,
     QuestionnaireAnalysisArtritisPsoriasicaComponent,
+    PhototherapyModalComponent,
+    PrincipalTreatmentModalComponent,
+    InputTextareaComponent,
+    InputTypeaheadComponent,
     ContactComponent,
   ],
   imports: [
@@ -177,6 +187,7 @@ export function createTranslateLoader(http: HttpClient) {
     DynamicFieldDirective,
     NumericInput,
     EditorModalComponent,
+    DynamicModalComponent,
     ConfirmModalComponent,
     FormSwitchComponent,
     FormsComponent,
@@ -191,7 +202,8 @@ export function createTranslateLoader(http: HttpClient) {
     BreadcrumbComponent,
     ResultsPerPageComponent,
     LineChartComponent,
-    ButtonNailsComponent,
+    InputTextareaComponent,
+    InputTypeaheadComponent,
   ],
   providers: [GenderFormatter],
   entryComponents: [

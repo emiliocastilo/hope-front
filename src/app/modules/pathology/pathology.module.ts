@@ -36,6 +36,9 @@ import { NapsiComponent } from './patients/components/evolution-clinical-indices
 import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/family-history.component';
 import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
+import { PrincipalTreatmentComponent } from './patients/components/principal-treatment/principal-treatment.component';
+import { DlqiComponent } from './patients/components/evolution-clinical-indices/dlqi/dlqi.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
     PhysicalConditionComponent,
     WorkGroupsComponent,
     ConsumptionHabitsComponent,
+    DlqiComponent,
     PersonalInformationComponent,
     PrincipalDiagnosisComponent,
     SecundaryDiagnosisComponent,
@@ -69,6 +73,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     LeukocyteAntibodyAntigenComponent,
     BiologicalDrugMonitoringComponent,
     SharedPatientsComponent,
+    PhototherapyComponent,
+    PrincipalTreatmentComponent,
     PasiBsaPgaComponent,
   ],
   imports: [

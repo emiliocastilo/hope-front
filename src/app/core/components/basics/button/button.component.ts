@@ -1,6 +1,7 @@
-import { ControlValueAccessor, FormControl } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroup } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { FieldConfig } from '../../../interfaces/dynamic-forms/field-config.interface';
 
 @Component({
   selector: 'app-button',
@@ -15,6 +16,8 @@ export class ButtonComponent implements ControlValueAccessor {
   @Input() readOnly = false;
   @Input() texto: string;
   @Input() type = 'button';
+  config: FieldConfig;
+  group: FormGroup;
 
   childControl = new FormControl();
 

@@ -6,7 +6,6 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { DashboardRoutingModule } from 'src/app/modules/dashboard/dashboard-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Cie9Component } from './components/diagnosis/cie9/cie9.component';
 import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
 import { PatientsByPasiComponent } from './components/healths-outcomes/patients-by-pasi/patients-by-pasi.component';
@@ -21,7 +20,6 @@ import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/r
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
 import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
-import { Cie10Component } from './components/diagnosis/cie10/cie10.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
 import { MonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/monthly-consuption-euros/monthly-consuption-euros.component';
 import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/average-consuption-biological-treatment/accumulated-average-monthly-consuption-euros/accumulated-average-monthly-consuption-euros.component';
@@ -35,11 +33,12 @@ import { PsoriasisPlacasComponent } from './components/treatments/psoriasis-plac
 import { PsoriasisPalmoPlantarComponent } from './components/treatments/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
 import { EritrodermiaComponent } from './components/treatments/eritrodermia/eritrodermia.component';
 import { PsoriasisPustulosaComponent } from './components/treatments/psoriasis-pustulosa/psoriasis-pustulosa.component';
+import { CieComponent } from './components/diagnosis/cie/cie.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    Cie9Component,
+    CieComponent,
     PatientsIndicationComponent,
     PatientsTreatmentComponent,
     PatientsByPasiComponent,
@@ -54,7 +53,6 @@ import { PsoriasisPustulosaComponent } from './components/treatments/psoriasis-p
     NumberChangesBiologicalTreatmentComponent,
     ReasonChangeBiologicalTreatmentFiveYearsComponent,
     ReasonStopBiologicalTreatmentFiveYearsrsComponent,
-    Cie10Component,
     BiologicalTreatmentFrequencyComponent,
     MonthlyConsuptionEurosComponent,
     AccumulatedAverageMonthlyConsuptionEurosComponent,

@@ -5,12 +5,7 @@
     {{ texto | translate }}</span
   >
 </button>
-<button
-  *ngIf="readOnly"
-  attr.type="{{ type }}"
-  class="btn {{ clasesBtn }}"
-  disabled
->
+<button *ngIf="readOnly" attr.type="{{ type }}" class="btn {{ clasesBtn }}">
   <i-feather *ngIf="icono" name="{{ icono }}"></i-feather>
   {{ texto | translate }}
 </button>

@@ -26,6 +26,8 @@ export interface FieldConfig {
   enableWhen?: Array<any>;
   hiddenWhen?: Array<any>;
   defaultValue?: any;
+  button?: any;
+  button_click?: any;
   hidden?: boolean;
   params?: Array<string>;
   actions?: Array<string>;
@@ -33,4 +35,5 @@ export interface FieldConfig {
   fields?: Array<any>;
   historic?: Array<any>;
   endpoint?: string;
+  template?: string;
 }

@@ -1,0 +1,112 @@
+@import '~src/assets/styles/variables.scss';
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.dynamic-field {
+  font-family: inherit;
+  width: 100%;
+  outline: 0;
+  font-size: 1rem;
+  border: 1px solid $app-color-border-blue;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:required,
+  &:invalid {
+    box-shadow: none;
+  }
+
+  &.invalid,
+  &.invalid:focus {
+    border-image: linear-gradient(to right, rgb(242, 0, 0), rgb(245, 0, 0));
+    border-image-slice: 1;
+
+    ~ .dynamic-label {
+      color: rgb(242, 0, 0);
+    }
+  }
+}
+
+.invalid-value {
+  color: rgb(242, 0, 0);
+  font-size: 0.7rem;
+}
+
+@supports (-moz-appearance: none) {
+  .date-label {
+    position: relative;
+    top: -3.5rem;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.8rem;
+    color: $app-color-blue-main;
+  }
+
+  .dynamic-group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    width: 13rem;
+  }
+
+  .ui-float-label > label {
+    position: absolute;
+    top: 0.3rem;
+    left: 10px;
+    font-size: 0.8rem;
+    margin-left: 0.3rem;
+    background-color: white;
+    color: $app-color-blue-main;
+  }
+
+  .required-label {
+    top: 0 !important;
+  }
+
+  .firefox-position {
+    z-index: 1;
+  }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+  .date-label {
+    position: relative;
+    top: 1.3rem;
+    left: 0.8rem;
+    transition: 0.2s;
+    font-size: 0.8rem;
+    background-color: white;
+    color: $app-color-blue-main;
+    padding: 0 0.4rem;
+  }
+
+  .dynamic-field {
+    padding: 0.6rem;
+  }
+
+  .dynamic-label {
+    position: relative;
+    top: 1.2rem;
+    font-size: 0.8rem;
+    left: 0.5rem;
+    margin-left: 0.3rem;
+    color: $app-color-blue-main;
+    background-color: white;
+    padding: 0 0.4rem;
+  }
+}
