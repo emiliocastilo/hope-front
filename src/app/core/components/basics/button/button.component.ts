@@ -16,6 +16,7 @@ export class ButtonComponent implements ControlValueAccessor {
   @Input() readOnly = false;
   @Input() texto: string;
   @Input() type = 'button';
+  @Input() disabledButton: boolean;
   config: FieldConfig;
   group: FormGroup;
 

@@ -266,6 +266,7 @@
         texto="btn.save"
         [readOnly]="!valid"
         (click)="onSave()"
+        [disabledButton]="pasiForm.invalid"
       ></app-button>
       <app-button
         type="button"
