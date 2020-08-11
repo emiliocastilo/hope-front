@@ -76,18 +76,17 @@
       *ngIf="type === 'create'"
       clasesBtn="btn btn-primary mr-4"
       (click)="onSave()"
-      [readOnly]="!validForm"
       icono="plus-circle"
       texto="btn.save"
       type="button"
-      [disabledButton]="form.invalid"
+      [disabledButton]="!validForm"
     >
     </app-button>
     <app-button
       *ngIf="type === 'update'"
       clasesBtn="btn btn-primary mr-4"
       (click)="onUpdate()"
-      [readOnly]="!validForm"
+      [disabledButton]="!validForm"
       icono="check"
       texto="btn.update"
       type="button"

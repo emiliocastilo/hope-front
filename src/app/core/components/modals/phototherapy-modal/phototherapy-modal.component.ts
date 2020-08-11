@@ -24,7 +24,6 @@ export class PhototherapyModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.options, this.type, this.form);
     this.formKeys = Object.keys(this.form.controls);
     this.showRequiredLegend = this.checkIfThereRequiredField();
   }
