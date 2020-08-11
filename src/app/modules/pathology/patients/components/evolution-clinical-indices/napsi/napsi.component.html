@@ -1,0 +1,106 @@
+<div [formGroup]="form">
+  <div class="title">
+    <p>{{ 'napsi.title' | translate }}</p>
+  </div>
+  <div class="custom-select">
+    <label for="date" class="label"> {{ 'napsi.date' | translate }} </label>
+    <input
+      [formControlName]="'evaluationDate'"
+      [id]="'evaluationDate'"
+      id="date"
+      type="date"
+      [value]="evaluationDate"
+      (keydown)="(DontPush)"
+    />
+  </div>
+  <div class="subTitle">
+    <p>{{ 'napsi.subtitleOne' | translate }}</p>
+  </div>
+  <div class="handsContainer">
+    <div class="HandStyle">
+      <span class="spanStyle">{{ 'napsi.leftHand' | translate }}</span>
+      <app-button-nails
+        [form]="form"
+        [group]="'mano_izquierda_matriz'"
+        [filledForm]="filledForm"
+        class="col-12"
+        [clearHand]="clear"
+        [Valuehand]="'leftHand'"
+        (napsi)="getScore($event)"
+        (eventClear)="onClear($event)"
+      ></app-button-nails>
+    </div>
+    <div class="HandStyle">
+      <span class="spanStyle">{{ 'napsi.rightHand' | translate }}</span>
+      <app-button-nails
+        [form]="form"
+        [group]="'mano_derecha_matriz'"
+        [filledForm]="filledForm"
+        class="col-12"
+        [clearHand]="clear"
+        [Valuehand]="'rightHand'"
+        (napsi)="getScore($event)"
+        (eventClear)="onClear($event)"
+      ></app-button-nails>
+    </div>
+  </div>
+  <div class="subTitle">
+    <p>{{ 'napsi.subtitleTwo' | translate }}</p>
+  </div>
+  <div class="handsContainer">
+    <div class="HandStyle">
+      <span class="spanStyle">{{ 'napsi.leftHand' | translate }}</span>
+      <app-button-nails
+        [form]="form"
+        [group]="'mano_izquierda_lecho'"
+        class="col-12"
+        [filledForm]="filledForm"
+        [Valuehand]="'leftHand'"
+        [clearHand]="clear"
+        (napsi)="getScore($event)"
+        (eventClear)="onClear($event)"
+      ></app-button-nails>
+    </div>
+    <div class="HandStyle">
+      <span class="spanStyle">{{ 'napsi.rightHand' | translate }}</span>
+      <app-button-nails
+        [form]="form"
+        [group]="'mano_derecha_lecho'"
+        [filledForm]="filledForm"
+        class="col-12"
+        [clearHand]="clear"
+        [Valuehand]="'rightHand'"
+        (napsi)="getScore($event)"
+        (eventClear)="onClear($event)"
+      ></app-button-nails>
+    </div>
+  </div>
+  <div class="box-data">
+    <span class="box-title">{{ 'napsi.score' | translate }}</span>
+    <div class="box-data-info">
+      <input type="number" readonly formControlName="napsiScore" />
+      /72
+    </div>
+  </div>
+  <div>
+    <section class="col-sm-12">
+      <div class="buttons">
+        <div class="submit-button">
+          <button class="btn btn-primary" type="submit" (click)="save()">
+            {{ 'btn.save' | translate }}
+          </button>
+          <button class="btn btn-primary" (click)="showChartFront()">
+            {{ 'Graficos' | translate }}
+          </button>
+          <button
+            class="btn btn-primary"
+            type="submit"
+            (click)="onClear(false)"
+          >
+            {{ 'btn.cancel' | translate }}
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

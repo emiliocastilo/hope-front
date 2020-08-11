@@ -66,6 +66,7 @@ import { MyAccountComponent } from './components/my-account/my-account.component
 import { ChangePasswordModalComponent } from './components/modals/change-password-modal/change-password-modal.component';
 import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
 import { NumericInput } from './directives/numeric-input.directive';
+import { ButtonNailsComponent } from './components/button-nails/button-nails.component';
 import { PhototherapyModalComponent } from './components/modals/phototherapy-modal/phototherapy-modal.component';
 import { PrincipalTreatmentModalComponent } from './components/modals/principal-treatment-modal/principal-treatment-modal.component';
 import { InputTextareaComponent } from './components/basics/app-input-textarea/app-input-textarea.component';
@@ -94,6 +95,7 @@ export function createTranslateLoader(http: HttpClient) {
     SelectRoleComponent,
     SearchComponent,
     TableComponent,
+    ButtonNailsComponent,
     BoxDataComponent,
     DynamicFormComponent,
     FormInputComponent,
@@ -176,6 +178,7 @@ export function createTranslateLoader(http: HttpClient) {
     InputSelectComponent,
     PasiSelectComponent,
     PasiCheckboxComponent,
+    ButtonNailsComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,

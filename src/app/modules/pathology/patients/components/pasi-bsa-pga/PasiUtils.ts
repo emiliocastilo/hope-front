@@ -17,6 +17,10 @@ export default class PasiUtils {
     }
   }
 
+  static getCalificationNapsi(napsi: any) {
+    const score = parseFloat(napsi);
+  }
+
   static getCalificationBsa(bsa: any) {
     const score = parseFloat(bsa);
     switch (true) {
@@ -76,6 +80,24 @@ export default class PasiUtils {
         Object.assign(values[e[0]], ob);
       }
     });
+
+    form.push({ type: 'form', name: 'form', value: JSON.stringify(values) });
+    return form;
+  }
+
+  static parseNailsForm(values: any) {
+    const form = [
+      {
+        type: 'datepicker',
+        name: 'evaluationDate',
+        value: values.evaluationDate,
+      },
+      {
+        type: 'input',
+        name: 'napsiScore',
+        value: values.napsiScore ? values.napsiScore : 0,
+      },
+    ];
 
     form.push({ type: 'form', name: 'form', value: JSON.stringify(values) });
     return form;
