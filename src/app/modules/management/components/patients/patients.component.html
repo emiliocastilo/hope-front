@@ -15,6 +15,7 @@
           clasesBtn="btn-primary btn-sm mx-2"
           texto="btn.new"
           (click)="savePatient()"
+          [disabledButton]="modalForm.invalid"
         ></app-button>
       </section>
       <div class="mt-4">

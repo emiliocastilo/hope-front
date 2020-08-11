@@ -20,6 +20,7 @@
         clasesBtn="btn-primary btn-sm"
         texto="changePassword"
         (click)="showChangePasswordModal()"
+        [disabledButton]="userDataForm.invalid"
       >
       </app-button>
     </div>

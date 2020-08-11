@@ -10,7 +10,12 @@
     [attr.disabled]="true"
     class="dynamic-field"
   />
-  <app-button (click)="openModal(content)" class="search-btn" icono="search">
+  <app-button
+    (click)="openModal(content)"
+    class="search-btn"
+    icono="search"
+    [disabledButton]="modalForm.invalid"
+  >
   </app-button>
   <ng-template #content let-modal>
     <div class="modal-header">
