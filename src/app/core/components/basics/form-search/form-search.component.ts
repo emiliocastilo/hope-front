@@ -67,9 +67,8 @@ export class FormSearchComponent implements OnInit {
 
   selectResult(e: any) {
     const element = this.response.content[e.selectedItem];
-    this.group.controls[this.config.name].setValue(
-      element.code + ' ' + element.description
-    );
+    this.group.controls[this.config.name].setValue(element.code);
+    this.group.controls['cieDescription'].setValue(element.description);
     this.closeModal();
   }
 }
