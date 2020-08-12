@@ -1,6 +1,18 @@
 @import '~src/assets/styles/variables.scss';
 @import '../form-input/form-input.component.scss';
 
+.content {
+  margin-top: 18.75rem;
+  position: absolute;
+  width: 100%;
+  pointer-events: auto;
+  background-color: $app-color-white;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
 .search-btn {
   position: absolute;
   top: 2rem;
