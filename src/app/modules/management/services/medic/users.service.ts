@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MedicModel } from '../../models/medic/medic.model';
+import { UserModel } from '../../../../core/models/user/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MedicService {
+export class UsersService {
   constructor(private _http: HttpClient) {}
 
   getAll(query: string): Observable<any> {
@@ -14,19 +14,19 @@ export class MedicService {
     return this._http.get(`/doctors?${query}`);
   }
 
-  findDoctors(medicModel: string): Observable<any> {
-    return this._http.get('/doctors/searches?search=' + medicModel);
+  findDoctors(UserModel: string): Observable<any> {
+    return this._http.get('/doctors/searches?search=' + UserModel);
   }
 
-  postDoctor(medicModel: MedicModel): Observable<any> {
-    return this._http.post('/doctors', medicModel);
+  postDoctor(UserModel: UserModel): Observable<any> {
+    return this._http.post('/doctors', UserModel);
   }
 
   deleteDoctor(id: number): Observable<any> {
     return this._http.delete(`/doctors/${id}`);
   }
 
-  updateDoctor(medicModel: MedicModel): Observable<any> {
-    return this._http.put('/doctors', medicModel);
+  updateDoctor(UserModel: UserModel): Observable<any> {
+    return this._http.put('/doctors', UserModel);
   }
 }

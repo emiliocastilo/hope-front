@@ -8,8 +8,8 @@ import {
   FormBuilder,
   FormControl,
 } from '@angular/forms';
-import { MedicModel } from 'src/app/modules/management/models/medic/medic.model';
-import { MedicService } from 'src/app/modules/management/services/medic/medic.service';
+import { UsersModel } from 'src/app/modules/management/models/user/user.model';
+import { UsersService } from 'src/app/modules/management/services/medic/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceModel } from 'src/app/core/models/service/service.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,17 +22,17 @@ import { TableActionsModel } from 'src/app/core/models/table/table-actions-model
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 
 @Component({
-  selector: 'app-medics',
-  templateUrl: './medics.component.html',
-  styleUrls: ['./medics.component.scss'],
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss'],
 })
-export class MedicsComponent implements OnInit {
+export class UsersComponent implements OnInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
   constructor(
     private _modalService: NgbModal,
     private _notification: NotificationService,
-    public _medicService: MedicService,
+    public _usersService: UsersService,
     public _translate: TranslateService,
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute
@@ -47,14 +47,14 @@ export class MedicsComponent implements OnInit {
   public isEditModal = false;
   public isEditing = false;
   public isNewModal = false;
-  public medics: MedicModel[] = [];
+  public users: UsersModel[] = [];
   public selectedItem: number;
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
   private currentPage: number = 0;
   private colOrder: any;
   private typeOrder: any;
-  public selectedDoctor = new MedicModel();
+  public selectedUsers = new UsersModel();
   public selectedUser: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
   private itemsPerPage: number;
@@ -62,8 +62,8 @@ export class MedicsComponent implements OnInit {
   ngOnInit() {
     this.services = this._activatedRoute.snapshot.data.services;
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
-    this.medics = this._activatedRoute.snapshot.data.medics.content;
-    this.paginationData = this._activatedRoute.snapshot.data.medics;
+    this.users = this._activatedRoute.snapshot.data.users.content;
+    this.paginationData = this._activatedRoute.snapshot.data.users;
 
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
 
@@ -103,9 +103,9 @@ export class MedicsComponent implements OnInit {
   }
 
   onSearch(data: any) {
-    this._medicService.findDoctors(data).subscribe(
+    this._usersService.findDoctors(data).subscribe(
       (response) => {
-        this.medics = response.content;
+        this.users = response.content;
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
@@ -116,14 +116,14 @@ export class MedicsComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedItem = event;
 
-    // this.medics[event].serviceDTO = this.selectedDoctor.hospital[0].serviceDTO;
+    // this.users[event].serviceDTO = this.selectedUsers.hospital[0].serviceDTO;
 
-    this.selectedDoctor.setValuesFromObject(this.medics[event], this.hospitals);
+    this.selectedUsers.setValuesFromObject(this.users[event], this.hospitals);
 
-    Object.keys(this.selectedDoctor).forEach((doctorKey: string) => {
+    Object.keys(this.selectedUsers).forEach((doctorKey: string) => {
       if (this.modalForm.controls[doctorKey]) {
         this.modalForm.controls[doctorKey].setValue(
-          this.selectedDoctor[doctorKey]
+          this.selectedUsers[doctorKey]
         );
       }
     });
@@ -131,8 +131,8 @@ export class MedicsComponent implements OnInit {
 
   public onIconButtonClick(event: any): void {
     if (event && event.type === 'edit') {
-      if (this.selectedDoctor && this.selectedDoctor.hospital.length > 0) {
-        this.services = this.selectedDoctor.hospital[0].serviceDTO;
+      if (this.selectedUsers && this.selectedUsers.hospital.length > 0) {
+        this.services = this.selectedUsers.hospital[0].serviceDTO;
         if (this.services.length === 0) {
           this.modalForm.controls['serviceDTO'].setValue(null);
         }
@@ -150,8 +150,8 @@ export class MedicsComponent implements OnInit {
 
     modalRef.componentInstance.title = 'Eliminar Médico';
     modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el médico
-      ${this.medics[this.selectedItem].name} ${
-      this.medics[this.selectedItem].surname
+      ${this.users[this.selectedItem].name} ${
+      this.users[this.selectedItem].surname
     }?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
@@ -178,15 +178,15 @@ export class MedicsComponent implements OnInit {
   }
 
   private saveOrUpdate(event: FormGroup, modalRef: any): void {
-    const formValues: MedicModel = event.value;
+    const formValues: UsersModel = event.value;
     let id: number;
-    const currentDoctor = this.medics[this.selectedItem];
+    const currentDoctor = this.users[this.selectedItem];
     if (this.isEditing) {
       id = currentDoctor.id;
       formValues.userDTO = currentDoctor.userDTO;
     }
 
-    const doctor: MedicModel = new MedicModel(
+    const doctor: UsersModel = new UsersModel(
       id,
       formValues.name,
       formValues.surname,
@@ -204,7 +204,7 @@ export class MedicsComponent implements OnInit {
     doctor.setValuesFromDinamicForm(formValues);
 
     if (this.isEditing) {
-      this._medicService.updateDoctor(doctor).subscribe(
+      this._usersService.updateDoctor(doctor).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementUpdated');
           this.isEditing = false;
@@ -216,7 +216,7 @@ export class MedicsComponent implements OnInit {
         }
       );
     } else {
-      this._medicService.postDoctor(doctor).subscribe(
+      this._usersService.postDoctor(doctor).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementCreated');
           modalRef.close();
@@ -236,14 +236,14 @@ export class MedicsComponent implements OnInit {
     let options: any = {};
     if (
       this.selectedItem != null &&
-      this.selectedDoctor.hospital.length > 0 &&
-      this.selectedDoctor.serviceDTO
+      this.selectedUsers.hospital.length > 0 &&
+      this.selectedUsers.serviceDTO
     ) {
-      const servicesDto: any[] = [this.selectedDoctor.serviceDTO];
+      const servicesDto: any[] = [this.selectedUsers.serviceDTO];
       options = {
         hospital: {
           options: this.hospitals,
-          optionSelected: this.selectedDoctor.hospital[0].id,
+          optionSelected: this.selectedUsers.hospital[0].id,
         },
         serviceDTO: {
           options: this.services,
@@ -302,8 +302,8 @@ export class MedicsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._medicService.getAll(query).subscribe((data) => {
-      this.medics = data.content;
+    this._usersService.getAll(query).subscribe((data) => {
+      this.users = data.content;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
@@ -311,16 +311,14 @@ export class MedicsComponent implements OnInit {
   }
 
   public deleteDoctor(): void {
-    this._medicService
-      .deleteDoctor(this.medics[this.selectedItem].id)
-      .subscribe(
-        (response) => {
-          this.refreshData(`&page=${this.currentPage}`);
-          this._notification.showSuccessToast('elementDeleted');
-        },
-        ({ error }) => {
-          this._notification.showErrorToast(error.errorCode);
-        }
-      );
+    this._usersService.deleteDoctor(this.users[this.selectedItem].id).subscribe(
+      (response) => {
+        this.refreshData(`&page=${this.currentPage}`);
+        this._notification.showSuccessToast('elementDeleted');
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
   }
 }

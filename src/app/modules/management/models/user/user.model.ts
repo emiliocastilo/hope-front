@@ -2,7 +2,7 @@ import { ServiceModel } from '../../../../core/models/service/service.model';
 import { UserModel } from '../../../../core/models/user/user.model';
 import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 
-export class MedicModel {
+export class UsersModel {
   constructor(
     public id?: number,
     public name?: string,
@@ -10,7 +10,7 @@ export class MedicModel {
     public phone?: string,
     public dni?: string,
     public collegeNumber?: string,
-    public userDTO?: UserModel,
+    public userDTO?: UsersModel,
     public username?: string,
     public password?: string,
     public email?: string,
@@ -22,7 +22,7 @@ export class MedicModel {
     const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
     const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
 
-    const user: UserModel = {
+    const user: UsersModel = {
       id: form.userDTO ? form.userDTO.id : null,
       username: form.username,
       password: form.password,
@@ -41,10 +41,10 @@ export class MedicModel {
     this.serviceDTO = service as any;
   }
 
-  public setValuesFromObject(object: MedicModel, hospitals: HospitalModel[]) {
+  public setValuesFromObject(object: UsersModel, hospitals: HospitalModel[]) {
     const services: ServiceModel[] = object.serviceDTO;
 
-    const user: UserModel = object.userDTO;
+    const user: UsersModel = object.userDTO;
 
     const hospital: HospitalModel[] = this.setHospital(
       user.hospitalId,
