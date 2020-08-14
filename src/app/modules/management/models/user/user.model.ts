@@ -1,6 +1,7 @@
 import { ServiceModel } from '../../../../core/models/service/service.model';
 import { UserModel } from '../../../../core/models/user/user.model';
 import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
+import { RolModel } from '../rol.model';
 
 export class UsersModel {
   constructor(
@@ -10,25 +11,25 @@ export class UsersModel {
     public phone?: string,
     public dni?: string,
     public collegeNumber?: string,
-    public userDTO?: UsersModel,
+    public userDTO?: UserModel,
     public username?: string,
-    public password?: string,
     public email?: string,
     public serviceDTO?: ServiceModel[],
-    public hospital?: HospitalModel[]
+    public hospital?: HospitalModel[],
+    public roles?: Array<RolModel>
   ) {}
 
   public setValuesFromDinamicForm(form: any) {
     const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
     const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
+    const roles: RolModel = form.roles ? form.roles[0] : null;
 
-    const user: UsersModel = {
+    const user: UserModel = {
       id: form.userDTO ? form.userDTO.id : null,
       username: form.username,
-      password: form.password,
       email: form.email,
       // los roles los coge de la patologia TODO en el futuro
-      roles: [5],
+      roles: roles ? roles.description : null,
       hospitalId: hospital ? hospital.id : null,
     };
 
@@ -44,7 +45,7 @@ export class UsersModel {
   public setValuesFromObject(object: UsersModel, hospitals: HospitalModel[]) {
     const services: ServiceModel[] = object.serviceDTO;
 
-    const user: UsersModel = object.userDTO;
+    const user: UserModel = object.userDTO;
 
     const hospital: HospitalModel[] = this.setHospital(
       user.hospitalId,
@@ -62,6 +63,7 @@ export class UsersModel {
     this.userDTO = user;
     this.serviceDTO = services;
     this.hospital = hospital;
+    this.roles = object.roles;
   }
 
   private setHospital(id: number, hospitals: HospitalModel[]): HospitalModel[] {

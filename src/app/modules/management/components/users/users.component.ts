@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { UsersModel } from 'src/app/modules/management/models/user/user.model';
 import { UsersService } from 'src/app/modules/management/services/medic/users.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceModel } from 'src/app/core/models/service/service.model';
 import { TranslateService } from '@ngx-translate/core';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
@@ -20,6 +20,13 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { RolModel } from '../../models/rol.model';
+import { UserModel } from '../../../../core/models/user/user.model';
+import { RoleService } from '../../../../core/services/role/role.service';
+import { forkJoin } from 'rxjs';
+import { SectionModel } from '../../models/section.model';
+import { RoleManagementService } from '../../services/roles/role-management.service';
+import { SectionsService } from '../../services/sections/sections.service';
 
 @Component({
   selector: 'app-users',
@@ -35,9 +42,10 @@ export class UsersComponent implements OnInit {
     public _usersService: UsersService,
     public _translate: TranslateService,
     private _formBuilder: FormBuilder,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private rolService: RoleManagementService,
+    private sectionsService: SectionsService
   ) {}
-
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
@@ -58,6 +66,8 @@ export class UsersComponent implements OnInit {
   public selectedUser: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
   private itemsPerPage: number;
+  public roles: Array<RolModel> = [];
+  public activeRoles: Array<RolModel> = [];
 
   ngOnInit() {
     this.services = this._activatedRoute.snapshot.data.services;
@@ -98,12 +108,12 @@ export class UsersComponent implements OnInit {
       hospital: [null, Validators.required],
       serviceDTO: [null, Validators.required],
       username: ['', Validators.required],
-      password: ['', Validators.required],
+      roles: [null],
     });
   }
 
   onSearch(data: any) {
-    this._usersService.findDoctors(data).subscribe(
+    this._usersService.findUsers(data).subscribe(
       (response) => {
         this.users = response.content;
       },
@@ -157,27 +167,29 @@ export class UsersComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.accept.subscribe((event) => {
-      this.deleteDoctor();
+      this.deleteUser();
       modalRef.close();
     });
   }
 
-  public saveDoctor(): void {
-    const control = new FormControl('', Validators.required);
-    this.modalForm.addControl('password', control);
+  public saveUser(parentNode?: SectionModel): void {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
     this.showModal();
+    this.makeRequests(parentNode ? parentNode.id : 1);
   }
 
   public editDoctor(): void {
-    this.modalForm.removeControl('password');
     this.isEditing = true;
     this.showModal();
   }
 
-  private saveOrUpdate(event: FormGroup, modalRef: any): void {
+  private saveOrUpdate(
+    event: FormGroup,
+    modalRef: any,
+    node: SectionModel
+  ): void {
     const formValues: UsersModel = event.value;
     let id: number;
     const currentDoctor = this.users[this.selectedItem];
@@ -186,7 +198,7 @@ export class UsersComponent implements OnInit {
       formValues.userDTO = currentDoctor.userDTO;
     }
 
-    const doctor: UsersModel = new UsersModel(
+    const user: UsersModel = new UsersModel(
       id,
       formValues.name,
       formValues.surname,
@@ -195,16 +207,16 @@ export class UsersComponent implements OnInit {
       formValues.collegeNumber,
       formValues.userDTO,
       formValues.username,
-      formValues.password,
       formValues.email,
       formValues.serviceDTO,
-      formValues.hospital
+      formValues.hospital,
+      formValues.roles
     );
 
-    doctor.setValuesFromDinamicForm(formValues);
+    user.setValuesFromDinamicForm(formValues);
 
     if (this.isEditing) {
-      this._usersService.updateDoctor(doctor).subscribe(
+      this._usersService.updateUser(UsersModel).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementUpdated');
           this.isEditing = false;
@@ -216,7 +228,7 @@ export class UsersComponent implements OnInit {
         }
       );
     } else {
-      this._usersService.postDoctor(doctor).subscribe(
+      this._usersService.postUser(UsersModel).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementCreated');
           modalRef.close();
@@ -228,8 +240,34 @@ export class UsersComponent implements OnInit {
       );
     }
   }
+  private makeRequests(id: number): void {
+    const getRoles = this.rolService.getAllRoles();
+    const getNodeData = this.sectionsService.getSectionById(id);
 
-  private showModal() {
+    forkJoin([getRoles, getNodeData]).subscribe((responseData) => {
+      this.roles = responseData[0];
+      this.activeRoles = this.isEditing ? responseData[1].roles : [];
+      this.setFormValues(responseData[1]);
+      this.showModal(responseData[1]);
+    });
+  }
+  private setFormValues(node: SectionModel): void {
+    Object.keys(node).forEach((nodeKey) => {
+      if (this.modalForm.controls[nodeKey]) {
+        if (nodeKey === 'fatherSection') {
+          if (node[nodeKey] && this.isEditing) {
+            this.modalForm.controls[nodeKey].setValue(node[nodeKey].title);
+          } else {
+            this.modalForm.controls[nodeKey].setValue(node.title);
+          }
+        } else if (nodeKey !== 'roles' && this.isEditing === true) {
+          this.modalForm.controls[nodeKey].setValue(node[nodeKey]);
+        }
+      }
+    });
+  }
+
+  private showModal(node?: SectionModel) {
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
@@ -241,6 +279,7 @@ export class UsersComponent implements OnInit {
     ) {
       const servicesDto: any[] = [this.selectedUsers.serviceDTO];
       options = {
+        roles: { options: this.roles },
         hospital: {
           options: this.hospitals,
           optionSelected: this.selectedUsers.hospital[0].id,
@@ -253,20 +292,22 @@ export class UsersComponent implements OnInit {
     } else {
       this.services = [];
       options = {
+        roles: { options: this.roles },
         hospital: { options: this.hospitals },
         serviceDTO: { options: this.services },
       };
     }
 
     modalRef.componentInstance.id = 'doctoreditor';
-    modalRef.componentInstance.title = 'Nuevo Médico';
+    modalRef.componentInstance.title = 'Nuevo Usuario';
     modalRef.componentInstance.options = options;
+    modalRef.componentInstance.activeRoles = this.activeRoles;
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event) => {
-      this.saveOrUpdate(event, modalRef);
+      this.saveOrUpdate(event, modalRef, node);
     });
   }
 
@@ -310,8 +351,8 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  public deleteDoctor(): void {
-    this._usersService.deleteDoctor(this.users[this.selectedItem].id).subscribe(
+  public deleteUser(): void {
+    this._usersService.deleteUser(this.users[this.selectedItem].id).subscribe(
       (response) => {
         this.refreshData(`&page=${this.currentPage}`);
         this._notification.showSuccessToast('elementDeleted');
