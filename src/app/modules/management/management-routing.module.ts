@@ -19,34 +19,37 @@ const routes: Routes = [
     path: '',
     component: ManagementComponent,
     canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'medics',
+        component: MedicsComponent,
+        resolve: {
+          hospitals: HospitalResolverService,
+          medics: MedicResolverService,
+          services: ServiceResolverService,
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'patients',
+        component: PatientsComponent,
+        resolve: {
+          hospitals: HospitalResolverService,
+          patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'roles',
+        component: RoleManagementComponent,
+        resolve: {
+          roles: RoleManagementResolverService,
+        },
+        canActivate: [AuthGuard],
+      },
+    ],
   },
-  {
-    path: 'medics',
-    component: MedicsComponent,
-    resolve: {
-      hospitals: HospitalResolverService,
-      medics: MedicResolverService,
-      services: ServiceResolverService,
-    },
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'patients',
-    component: PatientsComponent,
-    resolve: {
-      hospitals: HospitalResolverService,
-      patients: PatientsResolverService,
-    },
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'roles',
-    component: RoleManagementComponent,
-    resolve: {
-      roles: RoleManagementResolverService,
-    },
-    canActivate: [AuthGuard],
-  },
+
   {
     path: 'dispensations',
     component: DispensationsComponent,
