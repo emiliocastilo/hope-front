@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+// import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
 import { PatientsIndicationResolverService } from '../management/services/patients-indication/patients-indication-resolver.service';
 import { CieComponent } from './components/diagnosis/cie/cie.component';
@@ -24,20 +24,43 @@ import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosi
 import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
 import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
-import { MonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/monthly-consuption-euros/monthly-consuption-euros.component';
-import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/average-consuption-biological-treatment/accumulated-average-monthly-consuption-euros/accumulated-average-monthly-consuption-euros.component';
-import { AverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/average-consuption-biological-treatment/average-monthly-consuption-euros/average-monthly-consuption-euros.component';
-import { AccumulatedMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/anual-consumption-biological/accumulated-monthly-consuption-euros/accumulated-monthly-consuption-euros.component';
+import { MonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/monthly-consuption-euros/monthly-consuption-euros.component';
+import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/accumulated-average-monthly-consuption-euros/accumulated-average-monthly-consuption-euros.component';
+import { AverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/average-monthly-consuption-euros/average-monthly-consuption-euros.component';
+import { AccumulatedMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/accumulated-monthly-consuption-euros/accumulated-monthly-consuption-euros.component';
 import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses/total-expenses.component';
 import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
 import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
 import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses/accumulated-expenses.component';
+import { ConsumptionBiologicalTreatmentComponent } from './components/pharmacoeconomic/consumption-biological-treatment/consumption-biological-treatment.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: DashboardComponent,
+    path: 'pharmacoeconomic/consumption-biological-treatment',
+    component: ConsumptionBiologicalTreatmentComponent,
     canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'accumulated-monthly-consuption-euros',
+        component: AccumulatedMonthlyConsuptionEurosComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'monthly-consuption-euros',
+        component: MonthlyConsuptionEurosComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'accumulated-avg-mon-con-eu',
+        component: AccumulatedAverageMonthlyConsuptionEurosComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'avg-mon-con-eu',
+        component: AverageMonthlyConsuptionEurosComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
   },
   {
     path: 'diagnosis/patients-indication',
@@ -181,30 +204,6 @@ const routes: Routes = [
   {
     path: 'patient-dose/biological-treatment-frequency',
     component: BiologicalTreatmentFrequencyComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path:
-      'pharmacoeconomic/anual-consumption-biological/accumulated-monthly-consuption-euros',
-    component: AccumulatedMonthlyConsuptionEurosComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path:
-      'pharmacoeconomic/anual-consumption-biological/monthly-consuption-euros',
-    component: MonthlyConsuptionEurosComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path:
-      'pharmacoeconomic/average-consuption-biological-treatment/accumulated-avg-mon-con-eu',
-    component: AccumulatedAverageMonthlyConsuptionEurosComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path:
-      'pharmacoeconomic/average-consuption-biological-treatment/avg-mon-con-eu',
-    component: AverageMonthlyConsuptionEurosComponent,
     canActivate: [AuthGuard],
   },
 

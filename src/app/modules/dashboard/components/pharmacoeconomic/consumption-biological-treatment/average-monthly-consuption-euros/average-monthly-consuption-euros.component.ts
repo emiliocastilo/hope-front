@@ -4,13 +4,14 @@ import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service
 import { Router } from '@angular/router';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { TranslateService } from '@ngx-translate/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-monthly-consuption-euros',
-  templateUrl: './monthly-consuption-euros.component.html',
-  styleUrls: ['./monthly-consuption-euros.component.scss'],
+  selector: 'app-average-monthly-consuption-euros',
+  templateUrl: './average-monthly-consuption-euros.component.html',
+  styleUrls: ['./average-monthly-consuption-euros.component.scss'],
 })
-export class MonthlyConsuptionEurosComponent implements OnInit {
+export class AverageMonthlyConsuptionEurosComponent implements OnInit {
   public dataChart: ChartObjectModel[];
   public dataTable: any[];
   public columHeaders: string[] = [
@@ -30,6 +31,10 @@ export class MonthlyConsuptionEurosComponent implements OnInit {
   ];
   public dataToExport: any[] = [];
   public configChart: ColumnChartModel;
+  public formYearlyGoal: FormGroup = new FormGroup({
+    yearlyGoalValue: new FormControl(),
+  });
+  private yearlyGoalValue: number = 2;
 
   constructor(
     private _graphService: GraphsService,
@@ -38,17 +43,19 @@ export class MonthlyConsuptionEurosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getTreatments();
+    console.log('medio false');
+    const query = `lastYears=${this.yearlyGoalValue}`;
+    this.getTreatments(query);
   }
 
-  private getTreatments(): void {
-    this._graphService.getMonthlyConsuptionEuros().subscribe(
+  private getTreatments(query: string): void {
+    this._graphService.getMonthlyConsuptionEurosAvg(query).subscribe(
       (data) => {
         const dataToParse = this.sortByMonth(data);
         this.dataTable = this.parseDataTable(dataToParse);
         this.dataChart = this.parseDataChart(dataToParse);
 
-        const title = 'monthlyConsuptionEuros';
+        const title = 'monthlyConsuptionEurosAvg';
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
@@ -126,5 +133,12 @@ export class MonthlyConsuptionEurosComponent implements OnInit {
     });
 
     return object;
+  }
+
+  public onFormSubmit(): void {
+    this.dataChart = null;
+    this.yearlyGoalValue = this.formYearlyGoal.controls.yearlyGoalValue.value;
+    const query = `lastYears=${this.yearlyGoalValue}`;
+    this.getTreatments(query);
   }
 }

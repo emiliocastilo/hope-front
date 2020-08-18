@@ -59,6 +59,7 @@ export class AccumulatedAverageMonthlyConsuptionEurosComponent
   ) {}
 
   ngOnInit(): void {
+    console.log('medio true');
     const query = `lastYears=${this.yearlyGoalValue}`;
     this.getTreatments(query);
   }

@@ -6,11 +6,11 @@ import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model'
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-accumulated-monthly-consuption-euros',
-  templateUrl: './accumulated-monthly-consuption-euros.component.html',
-  styleUrls: ['./accumulated-monthly-consuption-euros.component.scss'],
+  selector: 'app-monthly-consuption-euros',
+  templateUrl: './monthly-consuption-euros.component.html',
+  styleUrls: ['./monthly-consuption-euros.component.scss'],
 })
-export class AccumulatedMonthlyConsuptionEurosComponent implements OnInit {
+export class MonthlyConsuptionEurosComponent implements OnInit {
   public dataChart: ChartObjectModel[];
   public dataTable: any[];
   public columHeaders: string[] = [
@@ -38,17 +38,18 @@ export class AccumulatedMonthlyConsuptionEurosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('anual false');
     this.getTreatments();
   }
 
   private getTreatments(): void {
-    this._graphService.getMonthlyConsuptionEurosAccumulated().subscribe(
+    this._graphService.getMonthlyConsuptionEuros().subscribe(
       (data) => {
         const dataToParse = this.sortByMonth(data);
         this.dataTable = this.parseDataTable(dataToParse);
         this.dataChart = this.parseDataChart(dataToParse);
 
-        const title = 'monthlyAccumulatedConsuptionEuros';
+        const title = 'monthlyConsuptionEuros';
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
