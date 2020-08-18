@@ -13,10 +13,10 @@ import { PsoriasisPlacasComponent } from './components/treatments/psoriasis-plac
 import { PsoriasisPalmoPlantarComponent } from './components/treatments/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
 import { EritrodermiaComponent } from './components/treatments/eritrodermia/eritrodermia.component';
 import { PsoriasisPustulosaComponent } from './components/treatments/psoriasis-pustulosa/psoriasis-pustulosa.component';
-import { PatientsByPasiComponent } from './components/healths-outcomes/patients-by-pasi/patients-by-pasi.component';
-import { PatientsByBsaComponent } from './components/healths-outcomes/patients-by-bsa/patients-by-bsa.component';
-import { PatientsByPgaComponent } from './components/healths-outcomes/patients-by-pga/patients-by-pga.component';
-import { PatientsByDlqiComponent } from './components/healths-outcomes/patients-by-dlqi/patients-by-dlqi.component';
+import { PatientsByPasiComponent } from './components/health-outcomes/patients-by-pasi/patients-by-pasi.component';
+import { PatientsByBsaComponent } from './components/health-outcomes/patients-by-bsa/patients-by-bsa.component';
+import { PatientsByPgaComponent } from './components/health-outcomes/patients-by-pga/patients-by-pga.component';
+import { PatientsByDlqiComponent } from './components/health-outcomes/patients-by-dlqi/patients-by-dlqi.component';
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { ReasonLastChangeBiologicalTreatmentComponent } from './components/diagnosis/reason-last-change-biological-treatment/reason-last-change-biological-treatment.component';
 import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/reason-stop-biological-treatment/reason-stop-biological-treatment.component';
@@ -33,6 +33,8 @@ import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expens
 import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
 import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses/accumulated-expenses.component';
 import { ConsumptionBiologicalTreatmentComponent } from './components/pharmacoeconomic/consumption-biological-treatment/consumption-biological-treatment.component';
+import { TotalExpensesBiologicalTreatmentComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses-biological-treatment.component';
+import { HeatlhOutcomesComponent } from './components/health-outcomes/health-outcomes.component';
 
 const routes: Routes = [
   {
@@ -58,6 +60,60 @@ const routes: Routes = [
       {
         path: 'avg-mon-con-eu',
         component: AverageMonthlyConsuptionEurosComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
+  },
+  {
+    path: 'pharmacoeconomic/total-expenses-biological-treatment',
+    component: TotalExpensesBiologicalTreatmentComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'total-expenses',
+        component: TotalExpensesComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'accumulated-expenses',
+        component: AccumulatedExpensesComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'avg-expenses',
+        component: AvgExpensesComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'accumulated-avg-expenses',
+        component: AvgAccumulatedExpensesComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
+  },
+  {
+    path: 'health-outcomes',
+    component: HeatlhOutcomesComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'patients-by-pasi',
+        component: PatientsByPasiComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'patients-by-bsa',
+        component: PatientsByBsaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'patients-by-pga',
+        component: PatientsByPgaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'patients-by-dlqi',
+        component: PatientsByDlqiComponent,
         canActivate: [AuthGuard],
       },
     ],
@@ -151,26 +207,7 @@ const routes: Routes = [
       patientsTreatments: PatientsTreatmentsResolverService,
     },
   },
-  {
-    path: 'healths-outcomes/patients-by-pasi',
-    component: PatientsByPasiComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'healths-outcomes/patients-by-bsa',
-    component: PatientsByBsaComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'healths-outcomes/patients-by-pga',
-    component: PatientsByPgaComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'healths-outcomes/patients-by-dlqi',
-    component: PatientsByDlqiComponent,
-    canActivate: [AuthGuard],
-  },
+
   {
     path: 'diagnosis/patients-combined-treatments',
     component: PatientsCombinedTreatmentsComponent,
@@ -204,29 +241,6 @@ const routes: Routes = [
   {
     path: 'patient-dose/biological-treatment-frequency',
     component: BiologicalTreatmentFrequencyComponent,
-    canActivate: [AuthGuard],
-  },
-
-  {
-    path: 'pharmacoeconomic/total-expenses-biological-treatment/total-expenses',
-    component: TotalExpensesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path:
-      'pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses',
-    component: AccumulatedExpensesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'pharmacoeconomic/avg-expenses-biological-treatment/avg-expenses',
-    component: AvgExpensesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path:
-      'pharmacoeconomic/avg-expenses-biological-treatment/accumulated-avg-expenses',
-    component: AvgAccumulatedExpensesComponent,
     canActivate: [AuthGuard],
   },
 ];
