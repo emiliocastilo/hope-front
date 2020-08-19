@@ -73,6 +73,7 @@ import { InputTextareaComponent } from './components/basics/app-input-textarea/a
 import { InputTypeaheadComponent } from './components/basics/input-typeahead/input-typeahead.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
+import { EntryMenuSelectComponent } from './components/basics/entry-menu-select/entry-menu-select.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -144,6 +145,7 @@ export function createTranslateLoader(http: HttpClient) {
     InputTextareaComponent,
     InputTypeaheadComponent,
     ContactComponent,
+    EntryMenuSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -205,6 +207,7 @@ export function createTranslateLoader(http: HttpClient) {
     LineChartComponent,
     InputTextareaComponent,
     InputTypeaheadComponent,
+    EntryMenuSelectComponent,
   ],
   providers: [GenderFormatter],
   entryComponents: [

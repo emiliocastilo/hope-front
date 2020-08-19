@@ -2,20 +2,20 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PatientModel } from '../../models/patients/patient.model';
-import { PathologyModel } from '../../models/patients/pathology.model';
-import { PatientsService } from '../../services/patients/patients.service';
+import { PatientModel } from '../../../models/patients/patient.model';
+import { PathologyModel } from '../../../models/patients/pathology.model';
+import { PatientsService } from '../../../services/patients/patients.service';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { PATIENT_TABLE_KEYS } from '../../constants/patients.constants';
+import { PATIENT_TABLE_KEYS } from '../../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { HospitalService } from 'src/app/core/services/hospital/hospital.service';
-import { DynamicFormComponent } from '../../../../core/components/dynamic-form/dynamic-form.component';
+import { DynamicFormComponent } from '../../../../../core/components/dynamic-form/dynamic-form.component';
 
 @Component({
   selector: 'app-patients',

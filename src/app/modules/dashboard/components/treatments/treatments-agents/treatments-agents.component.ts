@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-treatments-agents',
@@ -7,23 +6,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./treatments-agents.component.scss'],
 })
 export class TreatmentsAgentsComponent implements OnInit {
-  options = [
+  entries = [
     {
-      name: 'Quimico',
+      name: 'chemical',
       url: 'dashboard/treatments/treatments-agents/chemical-agents',
     },
     {
-      name: 'Biologico',
+      name: 'biological',
       url: 'dashboard/treatments/treatments-agents/biological-agents',
     },
   ];
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  handleChange(event) {
-    const url = event.target.value;
-    this.router.navigate([url]);
-  }
 }

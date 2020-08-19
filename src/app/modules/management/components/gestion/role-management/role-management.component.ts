@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RoleManagementService } from '../../services/roles/role-management.service';
+import { RoleManagementService } from '../../../services/roles/role-management.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { RolModel } from '../../models/rol.model';
+import { RolModel } from '../../../models/rol.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

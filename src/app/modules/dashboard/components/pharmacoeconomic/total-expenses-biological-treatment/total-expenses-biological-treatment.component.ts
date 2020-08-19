@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./total-expenses-biological-treatment.component.scss'],
 })
 export class TotalExpensesBiologicalTreatmentComponent implements OnInit {
-  options = ['Total', 'Medio'];
+  options = ['total', 'average'];
   form: FormGroup;
 
   constructor(private router: Router, private fb: FormBuilder) {}

@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./consumption-biological-treatment.component.scss'],
 })
 export class ConsumptionBiologicalTreatmentComponent implements OnInit {
-  options = ['Anual', 'Medio'];
+  options = ['annual', 'average'];
   form: FormGroup;
 
   constructor(private router: Router, private fb: FormBuilder) {}

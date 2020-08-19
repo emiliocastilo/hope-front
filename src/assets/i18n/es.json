@@ -22,6 +22,7 @@
   "validation.password": "La contraseña es obligatoria.",
   "select.rol": "Seleccione un Rol",
   "medic": "Médico",
+  "medics": "Médicos",
   "modify": "Modificar",
   "create": "Crear",
   "detail": "Detalle",
@@ -364,7 +365,7 @@
   "dose": "Dosis",
   "type": "Tipo",
   "waveLongitude": "Longitud de honda",
-  "timesAWeek":  "Veces por semana",
+  "timesAWeek": "Veces por semana",
   "sessionNumbers": "Numero de sesiones",
   "uvb": "UVB",
   "psoralenoPlusUva": "Psoraleno+Uva",
@@ -407,5 +408,14 @@
     "motive8": "Preferencia del paciente",
     "motive9": "Embarazo",
     "motive10": "Otros"
-  }
+  },
+  "selectManagement": "Selecciona lo que quieras mostrar...",
+  "biological": "Biológico",
+  "chemical": "Químico",
+  "annual": "Anual",
+  "total": "Total",
+  "average": "Medio",
+  "accumulated": "Acumulado",
+  "totalExpensesBiologicalTreatment": "Coste por tratamientos biológicos",
+  "consumptionBiologicalTreatment": "Consumo de tratamientos biológicos"
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-treatments-patients',
@@ -7,31 +6,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./treatments-patients.component.scss'],
 })
 export class TreatmentsPatientsComponent implements OnInit {
-  options = [
+  entries = [
     {
-      name: 'Psoriasis en placas',
+      name: 'patientsTreatmentPsoriasisPlacas',
       url: 'dashboard/treatments/treatments-patients/psoriasis-placas',
     },
     {
-      name: 'Psoriasis palmoplantar',
+      name: 'patientsTreatmentPsoriasisPalmoPlantar',
       url: 'dashboard/treatments/treatments-patients/psoriasis-palmo-plantar',
     },
     {
-      name: 'Eritrodermia',
+      name: 'patientsTreatmentEritrodermia',
       url: 'dashboard/treatments/treatments-patients/eritrodermia',
     },
     {
-      name: 'Psoriasis pustulosa',
+      name: 'patientsTreatmentPsoriasisPustulosa',
       url: 'dashboard/treatments/treatments-patients/psoriasis-pustulosa',
     },
   ];
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  handleChange(event) {
-    const url = event.target.value;
-    this.router.navigate([url]);
-  }
 }

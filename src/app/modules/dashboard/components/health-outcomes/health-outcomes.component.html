@@ -3,14 +3,10 @@
     class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center"
   >
     <div class="row pt-3">
-      <div class="col-lg-4 col-md-4">heatlh otcomes</div>
-      <div class="col-lg-4 col-md-4">
-        <select (change)="handleChange($event)">
-          <option *ngFor="let entry of options" [value]="entry.url">
-            {{ entry.name }}
-          </option>
-        </select>
-      </div>
+      <app-entry-menu-select
+        [label]="'selectManagement'"
+        [entries]="entries"
+      ></app-entry-menu-select>
     </div>
   </section>
 </div>

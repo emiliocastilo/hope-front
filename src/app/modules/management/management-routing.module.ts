@@ -5,19 +5,25 @@ import { HospitalResolverService } from 'src/app/core/services/hospital/hospital
 import { ServiceResolverService } from 'src/app/core/services/service/service-resolver.service';
 import { DispensationsComponent } from './components/dispensations/dispensations.component';
 import { ManagementComponent } from './components/management/management.component';
-import { MedicsComponent } from './components/medics/medics.component';
-import { PatientsComponent } from './components/patients/patients.component';
-import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { MedicsComponent } from './components/gestion/medics/medics.component';
+import { PatientsComponent } from './components/gestion/patients/patients.component';
+import { RoleManagementComponent } from './components/gestion/role-management/role-management.component';
 import { SectionsComponent } from './components/sections/sections.component';
 import { DispensationResolverService } from './services/dispensation/dispensation-resolver.service';
 import { MedicResolverService } from './services/medic/medic-resolver.service';
 import { PatientsResolverService } from './services/patients/patients-resolver.service';
 import { RoleManagementResolverService } from './services/roles/role-management-resolver.service';
+import { GestionComponent } from './components/gestion/gestion.component';
 
 const routes: Routes = [
   {
     path: '',
     component: ManagementComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'gestion',
+    component: GestionComponent,
     canActivate: [AuthGuard],
     children: [
       {
@@ -49,7 +55,6 @@ const routes: Routes = [
       },
     ],
   },
-
   {
     path: 'dispensations',
     component: DispensationsComponent,
