@@ -14,11 +14,11 @@ import { PatientsByDlqiComponent } from './components/health-outcomes/patients-b
 import { BiologicalAgentsComponent } from './components/treatments/treatments-agents/biological-agents/biological-agents.component';
 import { ChemicalAgentsComponent } from './components/treatments/treatments-agents/chemical-agents/chemical-agents.component';
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
-import { ReasonLastChangeBiologicalTreatmentComponent } from './components/diagnosis/reason-last-change-biological-treatment/reason-last-change-biological-treatment.component';
-import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/reason-stop-biological-treatment/reason-stop-biological-treatment.component';
+import { ReasonLastChangeBiologicalTreatmentComponent } from './components/diagnosis/reasons/reason-last-change-biological-treatment/reason-last-change-biological-treatment.component';
+import { ReasonStopBiologicalTreatmentComponent } from './components/diagnosis/reasons/reason-stop-biological-treatment/reason-stop-biological-treatment.component';
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
-import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
-import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
+import { ReasonChangeBiologicalTreatmentFiveYearsComponent } from './components/diagnosis/reasons/reason-change-biological-treatment-five-years/reason-change-biological-treatment-five-years.component';
+import { ReasonStopBiologicalTreatmentFiveYearsrsComponent } from './components/diagnosis/reasons/reason-stop-biological-treatment-five-yearsrs/reason-stop-biological-treatment-five-yearsrs.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
 import { MonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/monthly-consuption-euros/monthly-consuption-euros.component';
 import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/accumulated-average-monthly-consuption-euros/accumulated-average-monthly-consuption-euros.component';
@@ -38,6 +38,7 @@ import { TotalExpensesBiologicalTreatmentComponent } from './components/pharmaco
 import { HeatlhOutcomesComponent } from './components/health-outcomes/health-outcomes.component';
 import { TreatmentsAgentsComponent } from './components/treatments/treatments-agents/treatments-agents.component';
 import { TreatmentsPatientsComponent } from './components/treatments/treatments-patients/treatments-patients.component';
+import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagnosis-reasons.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { TreatmentsPatientsComponent } from './components/treatments/treatments-
     HeatlhOutcomesComponent,
     TreatmentsAgentsComponent,
     TreatmentsPatientsComponent,
+    DiagnosisReasonsComponent,
     CieComponent,
     PatientsIndicationComponent,
     PatientsTreatmentComponent,
