@@ -7,12 +7,12 @@ import { PatientsIndicationResolverService } from '../management/services/patien
 import { CieComponent } from './components/diagnosis/cie/cie.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
 import { PatientsTreatmentsResolverService } from '../management/services/patients-treatments/patients-treatments-resolver.service';
-import { BiologicalAgentsComponent } from './components/treatments/biological-agents/biological-agents.component';
-import { ChemicalAgentsComponent } from './components/treatments/chemical-agents/chemical-agents.component';
-import { PsoriasisPlacasComponent } from './components/treatments/psoriasis-placas/psoriasis-placas.component';
-import { PsoriasisPalmoPlantarComponent } from './components/treatments/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
-import { EritrodermiaComponent } from './components/treatments/eritrodermia/eritrodermia.component';
-import { PsoriasisPustulosaComponent } from './components/treatments/psoriasis-pustulosa/psoriasis-pustulosa.component';
+import { BiologicalAgentsComponent } from './components/treatments/treatments-agents/biological-agents/biological-agents.component';
+import { ChemicalAgentsComponent } from './components/treatments/treatments-agents/chemical-agents/chemical-agents.component';
+import { PsoriasisPlacasComponent } from './components/treatments/treatments-patients/psoriasis-placas/psoriasis-placas.component';
+import { PsoriasisPalmoPlantarComponent } from './components/treatments/treatments-patients/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
+import { EritrodermiaComponent } from './components/treatments/treatments-patients/eritrodermia/eritrodermia.component';
+import { PsoriasisPustulosaComponent } from './components/treatments/treatments-patients/psoriasis-pustulosa/psoriasis-pustulosa.component';
 import { PatientsByPasiComponent } from './components/health-outcomes/patients-by-pasi/patients-by-pasi.component';
 import { PatientsByBsaComponent } from './components/health-outcomes/patients-by-bsa/patients-by-bsa.component';
 import { PatientsByPgaComponent } from './components/health-outcomes/patients-by-pga/patients-by-pga.component';
@@ -35,6 +35,8 @@ import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/tota
 import { ConsumptionBiologicalTreatmentComponent } from './components/pharmacoeconomic/consumption-biological-treatment/consumption-biological-treatment.component';
 import { TotalExpensesBiologicalTreatmentComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses-biological-treatment.component';
 import { HeatlhOutcomesComponent } from './components/health-outcomes/health-outcomes.component';
+import { TreatmentsPatientsComponent } from './components/treatments/treatments-patients/treatments-patients.component';
+import { TreatmentsAgentsComponent } from './components/treatments/treatments-agents/treatments-agents.component';
 
 const routes: Routes = [
   {
@@ -119,6 +121,92 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'treatments/treatments-agents',
+    component: TreatmentsAgentsComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'biological-agents',
+        component: BiologicalAgentsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          type: 'BIOLOGICO',
+          indication: '',
+        },
+        resolve: {
+          patientsTreatments: PatientsTreatmentsResolverService,
+        },
+      },
+      {
+        path: 'chemical-agents',
+        component: ChemicalAgentsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          type: 'QUIMICO',
+          indication: '',
+        },
+        resolve: {
+          patientsTreatments: PatientsTreatmentsResolverService,
+        },
+      },
+    ],
+  },
+  {
+    path: 'treatments/treatments-patients',
+    component: TreatmentsPatientsComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'psoriasis-placas',
+        component: PsoriasisPlacasComponent,
+        canActivate: [AuthGuard],
+        data: {
+          type: 'BIOLOGICO',
+          indication: 'EN PLACAS',
+        },
+        resolve: {
+          patientsTreatments: PatientsTreatmentsResolverService,
+        },
+      },
+      {
+        path: 'psoriasis-palmo-plantar',
+        component: PsoriasisPalmoPlantarComponent,
+        canActivate: [AuthGuard],
+        data: {
+          type: 'BIOLOGICO',
+          indication: 'PALMOPLANTAR',
+        },
+        resolve: {
+          patientsTreatments: PatientsTreatmentsResolverService,
+        },
+      },
+      {
+        path: 'eritrodermia',
+        component: EritrodermiaComponent,
+        canActivate: [AuthGuard],
+        data: {
+          type: 'BIOLOGICO',
+          indication: 'ERITRODERMIA',
+        },
+        resolve: {
+          patientsTreatments: PatientsTreatmentsResolverService,
+        },
+      },
+      {
+        path: 'psoriasis-pustulosa',
+        component: PsoriasisPustulosaComponent,
+        canActivate: [AuthGuard],
+        data: {
+          type: 'BIOLOGICO',
+          indication: 'PUSTULOSA',
+        },
+        resolve: {
+          patientsTreatments: PatientsTreatmentsResolverService,
+        },
+      },
+    ],
+  },
+  {
     path: 'diagnosis/patients-indication',
     component: PatientsIndicationComponent,
     resolve: {
@@ -135,79 +223,6 @@ const routes: Routes = [
     component: PatientsTreatmentComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'treatments/biological-agents',
-    component: BiologicalAgentsComponent,
-    canActivate: [AuthGuard],
-    data: {
-      type: 'BIOLOGICO',
-      indication: '',
-    },
-    resolve: {
-      patientsTreatments: PatientsTreatmentsResolverService,
-    },
-  },
-  {
-    path: 'treatments/chemical-agents',
-    component: ChemicalAgentsComponent,
-    canActivate: [AuthGuard],
-    data: {
-      type: 'QUIMICO',
-      indication: '',
-    },
-    resolve: {
-      patientsTreatments: PatientsTreatmentsResolverService,
-    },
-  },
-  {
-    path: 'treatments/psoriasis-placas',
-    component: PsoriasisPlacasComponent,
-    canActivate: [AuthGuard],
-    data: {
-      type: 'BIOLOGICO',
-      indication: 'EN PLACAS',
-    },
-    resolve: {
-      patientsTreatments: PatientsTreatmentsResolverService,
-    },
-  },
-  {
-    path: 'treatments/psoriasis-palmo-plantar',
-    component: PsoriasisPalmoPlantarComponent,
-    canActivate: [AuthGuard],
-    data: {
-      type: 'BIOLOGICO',
-      indication: 'PALMOPLANTAR',
-    },
-    resolve: {
-      patientsTreatments: PatientsTreatmentsResolverService,
-    },
-  },
-  {
-    path: 'treatments/eritrodermia',
-    component: EritrodermiaComponent,
-    canActivate: [AuthGuard],
-    data: {
-      type: 'BIOLOGICO',
-      indication: 'ERITRODERMIA',
-    },
-    resolve: {
-      patientsTreatments: PatientsTreatmentsResolverService,
-    },
-  },
-  {
-    path: 'treatments/psoriasis-pustulosa',
-    component: PsoriasisPustulosaComponent,
-    canActivate: [AuthGuard],
-    data: {
-      type: 'BIOLOGICO',
-      indication: 'PUSTULOSA',
-    },
-    resolve: {
-      patientsTreatments: PatientsTreatmentsResolverService,
-    },
-  },
-
   {
     path: 'diagnosis/patients-combined-treatments',
     component: PatientsCombinedTreatmentsComponent,

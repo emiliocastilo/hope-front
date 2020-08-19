@@ -7,19 +7,18 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { TranslateService } from '@ngx-translate/core';
-
 @Component({
-  selector: 'app-biological-agents',
-  templateUrl: './biological-agents.component.html',
-  styleUrls: ['./biological-agents.component.scss'],
+  selector: 'app-chemical-agents',
+  templateUrl: './chemical-agents.component.html',
+  styleUrls: ['./chemical-agents.component.scss'],
 })
-export class BiologicalAgentsComponent implements OnInit {
+export class ChemicalAgentsComponent implements OnInit {
   public showingDetail = false;
   private data: ChartObjectModel[];
   public dataChart: ColumnChartModel;
   public dataTable: any[];
   public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
-  public columHeaders: string[] = ['typeTreatmentBiological', 'patients'];
+  public columHeaders: string[] = ['typeTreatmentChemical', 'patients'];
   public headersDetailsTable: string[] = [
     'nhc',
     'sip',
@@ -51,13 +50,14 @@ export class BiologicalAgentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('chemical agents');
     this.getData();
   }
 
   private getData(): void {
     const data = this._activatedRoute.snapshot.data.patientsTreatments;
 
-    const chartTitle = 'patientsTreatmentBiological';
+    const chartTitle = 'patientsTreatmentChemical';
     const view = null;
     const scheme = {
       domain: ['#249cf1'],
@@ -88,7 +88,7 @@ export class BiologicalAgentsComponent implements OnInit {
   private parseDataTable(data: any[]) {
     const arrayData = Object.keys(data).map((key: any) => {
       const object = {
-        typeTreatmentBiological: key,
+        typeTreatmentChemical: key,
         patients: data[key],
       };
       return object;
@@ -120,7 +120,7 @@ export class BiologicalAgentsComponent implements OnInit {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
 
-      const query = 'type=BIOLOGICO&indication=';
+      const query = 'type=QUIMICO&indication=""';
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -169,13 +169,13 @@ export class BiologicalAgentsComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `type=BIOLOGICO&indication=""&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `type=QUIMICO&indication=""&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    const query = `type=BIOLOGICO&indication=""&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+    const query = `type=QUIMICO&indication=""&page=${this.currentPage}&sort=${event.column},${event.direction}`;
     this.currentSort = event;
     this.getDetails(query);
   }
