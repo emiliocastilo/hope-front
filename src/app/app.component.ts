@@ -133,14 +133,12 @@ export class AppComponent implements OnInit {
   }
 
   private generateCrumbs(url: string) {
-    if (url !== '/') {
-      const currenSelected = SectionActionBuilder.findSection(
-        'url',
-        this.menu,
-        url
-      );
-      this.selectedSection = currenSelected;
-    }
+    const currenSelected = SectionActionBuilder.findSection(
+      'url',
+      this.menu,
+      url
+    );
+    this.selectedSection = currenSelected;
 
     if (this.selectedSection && this.selectedSection.id) {
       this.getSectionById(this.selectedSection.id);

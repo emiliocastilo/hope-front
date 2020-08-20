@@ -58,8 +58,8 @@ export class SideBarComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.accept.subscribe((event) => {
-      modalRef.close();
       localStorage.clear();
+      modalRef.close();
       this.loginService.logout();
     });
   }
