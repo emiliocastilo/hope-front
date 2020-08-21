@@ -2,9 +2,7 @@
   <div class="app-main_container m-0 p-0">
     <div class="m-0 p-0" *ngIf="!showOnlyMainContainer">
       <side-bar
-        [menu]="menu"
         [currentMenuId]="menuId"
-        [selected]="selectedSection"
         [level]="level"
         (collapse)="onCollapse($event)"
       ></side-bar>

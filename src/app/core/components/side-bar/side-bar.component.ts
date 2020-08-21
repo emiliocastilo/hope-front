@@ -4,6 +4,7 @@ import { LoginService } from '../../services/login/login.service';
 import { ConfirmModalComponent } from '../modals/confirm-modal/confirm-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { SideBarService } from '../../services/side-bar/side-bar.service';
 
 @Component({
   selector: 'side-bar',
@@ -11,8 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./side-bar.component.scss'],
 })
 export class SideBarComponent implements OnInit {
-  @Input() menu: Array<SideBarItemModel>;
-  @Input() selected: SideBarItemModel;
+  menu: any;
   @Input() currentMenuId: number;
   @Input() level: number;
   @Output() collapse: EventEmitter<boolean> = new EventEmitter();
@@ -24,16 +24,55 @@ export class SideBarComponent implements OnInit {
   constructor(
     private _router: Router,
     private _modalService: NgbModal,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private _sidebar: SideBarService
   ) {}
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
+    this.detectRouterChanges();
+    if (!this.menu) {
+      this.fetchMenu();
+    }
     if (user) {
       this.rol =
         user.rolSelected && user.rolSelected.name ? user.rolSelected.name : '';
       this.name = user.username;
     }
+  }
+
+  detectRouterChanges() {
+    this._router.events.subscribe((event: any) => {
+      const url = event.urlAfterRedirects;
+      if (url) {
+        this.fetchLocalMenu(event.urlAfterRedirects);
+      }
+    });
+  }
+
+  async fetchMenu() {
+    const response: any = await this._sidebar.getSideBar();
+    this.parseMenu(response.children);
+  }
+
+  parseMenu(menu: any) {
+    menu.forEach((entry) => {
+      if (entry.title === 'Paciente') {
+        localStorage.setItem('patientMenu', JSON.stringify(menu));
+        entry.children = [];
+      }
+    });
+    localStorage.setItem('menu', JSON.stringify(menu));
+    this.fetchLocalMenu(this._router.url);
+  }
+
+  fetchLocalMenu(url: string) {
+    if (!url.includes('/pathology/patients/')) {
+      this.menu = JSON.parse(localStorage.getItem('menu'));
+    } else {
+      this.menu = JSON.parse(localStorage.getItem('patientMenu'));
+    }
+    this.level = 1;
   }
 
   showSideBar(menuArray: SideBarItemModel[]): SideBarItemModel[] {

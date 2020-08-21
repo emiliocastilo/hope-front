@@ -10,6 +10,7 @@ import {
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { Router } from '@angular/router';
 import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
+import SectionActionBuilder from 'src/app/core/utils/SectionActionsBuilder';
 
 @Component({
   selector: 'side-bar-menu',
@@ -28,7 +29,7 @@ export class SideBarMenuComponent implements OnInit {
   };
 
   @Input() menu: Array<SideBarItemModel>;
-  @Input() selected: SideBarItemModel;
+  selected: SideBarItemModel;
   @Input() level: number;
   @Input() collapsed: boolean;
   @Output() nav: EventEmitter<any> = new EventEmitter();
@@ -45,6 +46,18 @@ export class SideBarMenuComponent implements OnInit {
     if (!this.level) {
       this.level = this.LEVEL_ONE;
     }
+    // this.getSelected();
+  }
+
+  getSelected() {
+    const currentSelected = SectionActionBuilder.findSection(
+      'url',
+      this.menu,
+      this._router.url
+    );
+    if (currentSelected) {
+      this.selected = currentSelected;
+    }
   }
 
   goUrl(section: SideBarItemModel) {
@@ -56,7 +69,7 @@ export class SideBarMenuComponent implements OnInit {
     if (url) {
       this._router.navigate([url]);
     }
-    this._sidebar.event.next(section);
+    this.selected = section;
   }
 
   public toggleColapseMenu(menu: SideBarItemModel): void {

@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+// import { TestBed } from '@angular/core/testing';
 
-import { SideBarResolverService } from './side-bar-resolver.service';
+// import { SideBarResolverService } from './side-bar-resolver.service';
 
-describe('SideBarResolverService', () => {
-  let service: SideBarResolverService;
+// describe('SideBarResolverService', () => {
+//   let service: SideBarResolverService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(SideBarResolverService);
-  });
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({});
+//     service = TestBed.inject(SideBarResolverService);
+//   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+//   it('should be created', () => {
+//     expect(service).toBeTruthy();
+//   });
+// });

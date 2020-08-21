@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class HomeDashboardService {
   constructor(private _httpClient: HttpClient) {}
 
-  getHomeDashboardModules(): Observable<any> {
-    return this._httpClient.get('/menus');
-  }
+  // getHomeDashboardModules(): Observable<any> {
+  //   return this._httpClient.get('/menus');
+  // }
 }

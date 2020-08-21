@@ -53,10 +53,6 @@ export class AppComponent implements OnInit {
       if (event instanceof ResolveEnd) {
         const url = event.url;
         this.showOnlyMainContainer = this.show(url);
-
-        if (url) {
-          this.getMenu(url);
-        }
       }
     });
   }
@@ -69,79 +65,43 @@ export class AppComponent implements OnInit {
     return pass;
   }
 
-  private getSectionById(id: number): void {
-    this._sectionsService.getSectionById(id).subscribe((response) => {
-      this.checkCollapsedSection(response);
-      this.crumbs = SectionActionBuilder.getCrumbs(response);
-    });
-  }
+  // private getSectionById(id: number): void {
+  //   this._sectionsService.getSectionById(id).subscribe((response) => {
+  //     this.checkCollapsedSection(response);
+  //     this.crumbs = SectionActionBuilder.getCrumbs(response);
+  //   });
+  // }
 
-  checkCollapsedSection(section: SideBarItemModel) {
-    if (section && section.fatherSection !== null) {
-      this.collapsedSections.push(section.fatherSection.id);
-      this.checkCollapsedSection(section.fatherSection);
-    }
-    this.activateCollapse(this.menu, section.id);
-  }
+  // checkCollapsedSection(section: SideBarItemModel) {
+  //   if (section && section.fatherSection !== null) {
+  //     this.collapsedSections.push(section.fatherSection.id);
+  //     this.checkCollapsedSection(section.fatherSection);
+  //   }
+  //   this.activateCollapse(this.menu, section.id);
+  // }
 
-  activateCollapse(array: any, id: number) {
-    array.some((o) =>
-      o.id === id
-        ? (o.collapsed = true)
-        : this.activateCollapse(o.children || [], id)
-    );
-  }
-
-  private getMenu(url: string) {
-    const localMenu: Array<any> = JSON.parse(localStorage.getItem('menu'));
-    if (!localMenu) {
-      if (!['/login', '/select-role', '/reset-password'].includes(url)) {
-        this._sideBar.getSideBar().subscribe((response) => {
-          if (response.children) {
-            this.parseMenu(response.children, url);
-          }
-        });
-      }
-    } else {
-      this.fetchLocalMenu(url);
-    }
-  }
-
-  parseMenu(menu: any, url: string) {
-    menu.forEach((entry) => {
-      if (entry.title === 'Paciente') {
-        localStorage.setItem('patientMenu', JSON.stringify(menu));
-        entry.children = [];
-      }
-    });
-    localStorage.setItem('menu', JSON.stringify(menu));
-    this.fetchLocalMenu(url);
-  }
-
-  fetchLocalMenu(url) {
-    if (!url.includes('/pathology/patients/')) {
-      this.menu = JSON.parse(localStorage.getItem('menu'));
-    } else {
-      this.menu = JSON.parse(localStorage.getItem('patientMenu'));
-    }
-    this.level = 1;
-    this.generateCrumbs(url);
-  }
+  // activateCollapse(array: any, id: number) {
+  //   array.some((o) =>
+  //     o.id === id
+  //       ? (o.collapsed = true)
+  //       : this.activateCollapse(o.children || [], id)
+  //   );
+  // }
 
   onCollapse(event) {
     this.isCollapsed = event;
   }
 
-  private generateCrumbs(url: string) {
-    const currenSelected = SectionActionBuilder.findSection(
-      'url',
-      this.menu,
-      url
-    );
-    this.selectedSection = currenSelected;
+  // private generateCrumbs(url: string) {
+  //   const currenSelected = SectionActionBuilder.findSection(
+  //     'url',
+  //     this.menu,
+  //     url
+  //   );
+  //   this.selectedSection = currenSelected;
 
-    if (this.selectedSection && this.selectedSection.id) {
-      this.getSectionById(this.selectedSection.id);
-    }
-  }
+  //   if (this.selectedSection && this.selectedSection.id) {
+  //     this.getSectionById(this.selectedSection.id);
+  //   }
+  // }
 }
