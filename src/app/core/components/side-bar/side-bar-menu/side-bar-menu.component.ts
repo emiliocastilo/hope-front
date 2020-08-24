@@ -32,7 +32,6 @@ export class SideBarMenuComponent implements OnInit {
   selected: SideBarItemModel;
   @Input() level: number;
   @Input() collapsed: boolean;
-  @Output() nav: EventEmitter<any> = new EventEmitter();
   public icons: any;
 
   constructor(
@@ -70,6 +69,7 @@ export class SideBarMenuComponent implements OnInit {
       this._router.navigate([url]);
     }
     this.selected = section;
+    this._sidebar.event.next(section);
   }
 
   public toggleColapseMenu(menu: SideBarItemModel): void {

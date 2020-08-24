@@ -65,13 +65,6 @@ export class AppComponent implements OnInit {
     return pass;
   }
 
-  // private getSectionById(id: number): void {
-  //   this._sectionsService.getSectionById(id).subscribe((response) => {
-  //     this.checkCollapsedSection(response);
-  //     this.crumbs = SectionActionBuilder.getCrumbs(response);
-  //   });
-  // }
-
   // checkCollapsedSection(section: SideBarItemModel) {
   //   if (section && section.fatherSection !== null) {
   //     this.collapsedSections.push(section.fatherSection.id);
@@ -91,17 +84,4 @@ export class AppComponent implements OnInit {
   onCollapse(event) {
     this.isCollapsed = event;
   }
-
-  // private generateCrumbs(url: string) {
-  //   const currenSelected = SectionActionBuilder.findSection(
-  //     'url',
-  //     this.menu,
-  //     url
-  //   );
-  //   this.selectedSection = currenSelected;
-
-  //   if (this.selectedSection && this.selectedSection.id) {
-  //     this.getSectionById(this.selectedSection.id);
-  //   }
-  // }
 }
