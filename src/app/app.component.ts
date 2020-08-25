@@ -4,12 +4,6 @@ import { LoginService } from './core/services/login/login.service';
 import { Router, ResolveEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import defaultLanguage from './../assets/i18n/es.json';
-import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
-import { SectionsService } from 'src/app/modules/management/services/sections/sections.service';
-import SectionActionBuilder from 'src/app/core/utils/SectionActionsBuilder';
-import { SideBarItemModel } from './core/models/side-bar/side-bar-item.model';
-
-import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
 
 @Component({
   selector: 'body',
@@ -21,20 +15,12 @@ export class AppComponent implements OnInit {
   public showOnlyMainContainer: boolean = true;
 
   currentUser: LoginModel;
-  public menu: SideBarItemModel[];
-  public modules: Array<HomeDashboardModule>;
-  public selectedSection: SideBarItemModel;
-  public crumbs: SideBarItemModel[];
   public isCollapsed: boolean;
-  public level: number;
-  collapsedSections = [];
 
   constructor(
     public _router: Router,
     private _loginService: LoginService,
-    private translate: TranslateService,
-    private _sectionsService: SectionsService,
-    private _sideBar: SideBarService
+    private translate: TranslateService
   ) {
     this._loginService.currentUser.subscribe((x) => (this.currentUser = x));
 
@@ -64,22 +50,6 @@ export class AppComponent implements OnInit {
 
     return pass;
   }
-
-  // checkCollapsedSection(section: SideBarItemModel) {
-  //   if (section && section.fatherSection !== null) {
-  //     this.collapsedSections.push(section.fatherSection.id);
-  //     this.checkCollapsedSection(section.fatherSection);
-  //   }
-  //   this.activateCollapse(this.menu, section.id);
-  // }
-
-  // activateCollapse(array: any, id: number) {
-  //   array.some((o) =>
-  //     o.id === id
-  //       ? (o.collapsed = true)
-  //       : this.activateCollapse(o.children || [], id)
-  //   );
-  // }
 
   onCollapse(event) {
     this.isCollapsed = event;
