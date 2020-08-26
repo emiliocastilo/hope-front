@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
 
 @Component({
@@ -48,8 +48,15 @@ export class SideBarMenuComponent implements OnInit {
     if (url) {
       this._router.navigate([url]);
     }
-    this.checkCollapsedSection(section);
+    this.selected = section;
     this._sidebar.event.next(section);
+    this.listenSection();
+  }
+
+  listenSection() {
+    this._sidebar.event.subscribe((s: any) => {
+      this.checkCollapsedSection(s);
+    });
   }
 
   public toggleColapseMenu(menu: SideBarItemModel): void {
@@ -59,8 +66,8 @@ export class SideBarMenuComponent implements OnInit {
   checkCollapsedSection(section: SideBarItemModel) {
     if (section && section.fatherSection !== null) {
       this.checkCollapsedSection(section.fatherSection);
+      this.activateCollapse(this.menu, section.id);
     }
-    this.activateCollapse(this.menu, section.id);
   }
 
   activateCollapse(array: any, id: number) {

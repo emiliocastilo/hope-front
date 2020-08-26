@@ -65,6 +65,7 @@ export class BreadcrumbComponent implements OnInit {
   private getSectionById(id: number): void {
     this._sectionsService.getSectionById(id).subscribe((response) => {
       localStorage.setItem('section', JSON.stringify(response));
+      this._sidebar.event.next(response);
       this.crumbs = SectionActionBuilder.getCrumbs(response);
     });
   }
