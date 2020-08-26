@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { SideBarService } from '../../services/side-bar/side-bar.service';
 import SectionActionBuilder from '../../utils/SectionActionsBuilder';
 import { SectionsService } from 'src/app/modules/management/services/sections/sections.service';
@@ -22,7 +22,7 @@ export class BreadcrumbComponent implements OnInit {
     private _sectionsService: SectionsService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.menu = [JSON.parse(localStorage.getItem('completeMenu'))];
     this.receiveSection();
     this.listenRouter();
@@ -38,8 +38,10 @@ export class BreadcrumbComponent implements OnInit {
 
   listenRouter() {
     this._router.events.subscribe((events: any) => {
-      if (this.selectedSection) {
-        this.getSectionById(this.selectedSection.id);
+      if (events instanceof NavigationEnd) {
+        if (this.selectedSection) {
+          this.getSectionById(this.selectedSection.id);
+        }
       }
     });
   }
@@ -62,6 +64,7 @@ export class BreadcrumbComponent implements OnInit {
 
   private getSectionById(id: number): void {
     this._sectionsService.getSectionById(id).subscribe((response) => {
+      localStorage.setItem('section', JSON.stringify(response));
       this.crumbs = SectionActionBuilder.getCrumbs(response);
     });
   }

@@ -73,7 +73,7 @@ export class SideBarComponent implements OnInit {
     } else {
       this.menu = JSON.parse(localStorage.getItem('patientMenu'));
     }
-    this.level = 1;
+    //this.level = 1;
   }
 
   showSideBar(menuArray: SideBarItemModel[]): SideBarItemModel[] {
@@ -107,20 +107,4 @@ export class SideBarComponent implements OnInit {
   public goToMyAccount(): void {
     this._router.navigate(['my-account']);
   }
-
-  // checkCollapsedSection(section: SideBarItemModel) {
-  //   if (section && section.fatherSection !== null) {
-  //     this.collapsedSections.push(section.fatherSection.id);
-  //     this.checkCollapsedSection(section.fatherSection);
-  //   }
-  //   this.activateCollapse(this.menu, section.id);
-  // }
-
-  // activateCollapse(array: any, id: number) {
-  //   array.some((o) =>
-  //     o.id === id
-  //       ? (o.collapsed = true)
-  //       : this.activateCollapse(o.children || [], id)
-  //   );
-  // }
 }
