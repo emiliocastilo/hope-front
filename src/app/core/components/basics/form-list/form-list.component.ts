@@ -44,20 +44,6 @@ export class FormListComponent implements OnInit {
       this.rows.push(event);
       modalRef.close();
     });
-    // if (!this.isEditing) {
-    //   let newRow = {};
-    //   this.config.fields.forEach((field) => {
-    //     newRow = {
-    //       ...newRow,
-    //       [field.name]: field.type === 'select' ? field.options[0].name : '',
-    //     };
-    //   });
-    //   this.rows.push(newRow);
-    //   this.isEditing = true;
-    //   this.enableEditIndex = this.rows.length - 1;
-    //   this.isAddingNewLine = true;
-    //   this.setInvalidForm(true);
-    // }
   }
 
   setInvalidForm(error: boolean) {
