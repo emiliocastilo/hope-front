@@ -31,6 +31,7 @@ export class SideBarComponent implements OnInit {
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
     this.detectRouterChanges();
+    this.listenEvents();
     if (!this.menu) {
       this.fetchMenu();
     }
@@ -39,6 +40,16 @@ export class SideBarComponent implements OnInit {
         user.rolSelected && user.rolSelected.name ? user.rolSelected.name : '';
       this.name = user.username;
     }
+  }
+
+  listenEvents() {
+    this._sidebar.event.subscribe((events) => {
+      if (events === 'fetch menu') {
+        setTimeout(() => {
+          this.fetchMenu();
+        }, 500);
+      }
+    });
   }
 
   detectRouterChanges() {
@@ -53,10 +64,11 @@ export class SideBarComponent implements OnInit {
   async fetchMenu() {
     const response: any = await this._sidebar.getSideBar();
     localStorage.setItem('completeMenu', JSON.stringify(response));
-    this.parseMenu(response.children);
+    this.parseMenu();
   }
 
-  parseMenu(menu: any) {
+  parseMenu() {
+    const menu = JSON.parse(localStorage.getItem('completeMenu')).children;
     menu.forEach((entry) => {
       if (entry.title === 'Paciente') {
         localStorage.setItem('patientMenu', JSON.stringify(menu));
