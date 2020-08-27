@@ -4,6 +4,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
+import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
 
 @Component({
   selector: 'app-form-list',
@@ -32,20 +33,31 @@ export class FormListComponent implements OnInit {
   }
 
   newRow() {
-    if (!this.isEditing) {
-      let newRow = {};
-      this.config.fields.forEach((field) => {
-        newRow = {
-          ...newRow,
-          [field.name]: field.type === 'select' ? field.options[0].name : '',
-        };
-      });
-      this.rows.push(newRow);
-      this.isEditing = true;
-      this.enableEditIndex = this.rows.length - 1;
-      this.isAddingNewLine = true;
-      this.setInvalidForm(true);
-    }
+    const modalRef = this.modalService.open(DynamicModalComponent, {
+      size: 'xl',
+    });
+    modalRef.componentInstance.key = this.config.template;
+    modalRef.componentInstance.close.subscribe(() => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.save.subscribe((event) => {
+      this.rows.push(event);
+      modalRef.close();
+    });
+    // if (!this.isEditing) {
+    //   let newRow = {};
+    //   this.config.fields.forEach((field) => {
+    //     newRow = {
+    //       ...newRow,
+    //       [field.name]: field.type === 'select' ? field.options[0].name : '',
+    //     };
+    //   });
+    //   this.rows.push(newRow);
+    //   this.isEditing = true;
+    //   this.enableEditIndex = this.rows.length - 1;
+    //   this.isAddingNewLine = true;
+    //   this.setInvalidForm(true);
+    // }
   }
 
   setInvalidForm(error: boolean) {
