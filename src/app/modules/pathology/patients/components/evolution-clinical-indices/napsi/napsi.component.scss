@@ -4,11 +4,11 @@ label {
   display: block;
 }
 
-[type="date"]::-webkit-inner-spin-button {
+[type='date']::-webkit-inner-spin-button {
   display: none;
 }
 
-[type="date"]::-webkit-calendar-picker-indicator {
+[type='date']::-webkit-calendar-picker-indicator {
   display: none;
 }
 
@@ -21,7 +21,13 @@ label {
   left: 36.875rem;
   width: 27rem;
   height: 21.688rem;
-  background: transparent linear-gradient(180deg, $app-color-blue-box-nails 0%, $app-color-blue-box-nails-two 100%);
+  background:
+    transparent
+    linear-gradient(
+      180deg,
+      $app-color-blue-box-nails 0%,
+      $app-color-blue-box-nails-two 100%
+    );
   border: 0.063rem solid $app-color-blue-border;
   opacity: 1;
   margin-right: 2.5rem;
@@ -85,7 +91,8 @@ label {
 }
 
 .buttons {
-  margin-top: 1.875rem;
+  margin: 2rem 0 2rem 0;
+  text-align: center;
 }
 
 .box-data {

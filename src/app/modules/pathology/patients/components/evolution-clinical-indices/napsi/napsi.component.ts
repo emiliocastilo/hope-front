@@ -87,7 +87,7 @@ export class NapsiComponent implements OnInit {
         corazon: this._formBuilder.array([], Validators.minLength(4)),
         menique: this._formBuilder.array([], Validators.minLength(4)),
       }),
-      napsiScore: [0],
+      napsiScore: [0, Validators.min(1)],
     });
   }
 
@@ -158,7 +158,7 @@ export class NapsiComponent implements OnInit {
     const modalRef = this._modalService.open(ManyChartModalComponent, {
       size: 'lg',
     });
-    modalRef.componentInstance.title = this._translate.instant('eavPase');
+    modalRef.componentInstance.title = this._translate.instant('napsi.score');
     modalRef.componentInstance.data = data;
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();

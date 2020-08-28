@@ -82,25 +82,28 @@
       /72
     </div>
   </div>
-  <div>
-    <section class="col-sm-12">
-      <div class="buttons">
-        <div class="submit-button">
-          <button class="btn btn-primary" type="submit" (click)="save()">
-            {{ 'btn.save' | translate }}
-          </button>
-          <button class="btn btn-primary" (click)="showChartFront()">
-            {{ 'Graficos' | translate }}
-          </button>
-          <button
-            class="btn btn-primary"
-            type="submit"
-            (click)="onClear(false)"
-          >
-            {{ 'btn.cancel' | translate }}
-          </button>
-        </div>
-      </div>
-    </section>
+  <div class="buttons">
+    <app-button
+      type="button"
+      icono="check-circle"
+      clasesBtn="btn-primary btn-sm mx-2"
+      texto="btn.save"
+      (click)="save()"
+      [disabledButton]="form.invalid"
+    ></app-button>
+    <app-button
+      type="button"
+      icono="bar-chart-2"
+      clasesBtn="btn-primary btn-sm mx-2"
+      texto="btn.graphs"
+      (click)="showChartFront()"
+    ></app-button>
+    <app-button
+      type="button"
+      clasesBtn="btn-danger btn-sm mx-2"
+      icono="x"
+      texto="btn.clean"
+      (click)="onClear(false)"
+    ></app-button>
   </div>
 </div>

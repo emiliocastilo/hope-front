@@ -12,11 +12,11 @@ label {
   width: 100%;
 }
 
-[type="date"]::-webkit-inner-spin-button {
+[type='date']::-webkit-inner-spin-button {
   display: none;
 }
 
-[type="date"]::-webkit-calendar-picker-indicator {
+[type='date']::-webkit-calendar-picker-indicator {
   display: none;
 }
 
@@ -25,7 +25,13 @@ label {
   left: 36.875rem;
   width: 27rem;
   height: 21.688rem;
-  background: transparent linear-gradient(180deg, $app-color-blue-box-nails 0%, $app-color-blue-box-nails-two 100%);
+  background:
+    transparent
+    linear-gradient(
+      180deg,
+      $app-color-blue-box-nails 0%,
+      $app-color-blue-box-nails-two 100%
+    );
   border: 0.063rem solid $app-color-blue-border;
   opacity: 1;
 }
@@ -50,7 +56,7 @@ label {
 .buttonNapsi {
   top: 38.063rem;
   left: 38.25rem;
-  width: 4.375rem;
+  width: 4.5rem;
   height: 4.5rem;
   border: 0.063rem solid $app-color-blue-border;
   opacity: 1;

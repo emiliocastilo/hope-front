@@ -64,6 +64,24 @@ input::-webkit-inner-spin-button {
   }
 }
 
+@media screen and (max-width: 1350px) {
+  svg#Cuerpo {
+    top: 4vh;
+    left: 0;
+  }
+
+  .box-data-info {
+    min-width: 3rem !important;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .double-title {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
 .svg {
   width: 45vw;
   height: 97.5vh;
