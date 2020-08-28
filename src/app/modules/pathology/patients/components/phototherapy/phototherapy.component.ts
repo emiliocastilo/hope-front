@@ -259,7 +259,6 @@ export class PhototherapyComponent implements OnInit {
   }
 
   private deleteTreatment(event: any): void {
-    console.log(event);
     const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}`;
     this._nonParmacologicService.delete(query).subscribe(
       (data: any) => {

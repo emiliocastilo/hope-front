@@ -577,8 +577,6 @@ export class PrincipalTreatmentComponent implements OnInit {
   // }
 
   private save(modalRef, type) {
-    console.log(this.tableData);
-
     const form = {
       template: this.key,
       data: [
