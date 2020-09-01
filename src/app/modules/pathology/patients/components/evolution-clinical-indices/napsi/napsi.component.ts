@@ -27,7 +27,7 @@ import { NapsiService } from '../../../services/napsi.service';
 })
 export class NapsiComponent implements OnInit {
   key = 'napsi';
-  napsiScore = 0;
+  napsiScore;
   public evaluationDate: string;
   filledForm: any;
   napsiCalification: string;
@@ -67,11 +67,11 @@ export class NapsiComponent implements OnInit {
         menique: this._formBuilder.array([], Validators.minLength(4)),
       }),
       mano_derecha_matriz: this._formBuilder.group({
-        pulgar: this._formBuilder.array([], Validators.minLength(4)),
-        indice: this._formBuilder.array([], Validators.minLength(4)),
-        anular: this._formBuilder.array([], Validators.minLength(4)),
-        corazon: this._formBuilder.array([], Validators.minLength(4)),
         menique: this._formBuilder.array([], Validators.minLength(4)),
+        corazon: this._formBuilder.array([], Validators.minLength(4)),
+        anular: this._formBuilder.array([], Validators.minLength(4)),
+        indice: this._formBuilder.array([], Validators.minLength(4)),
+        pulgar: this._formBuilder.array([], Validators.minLength(4)),
       }),
       mano_izquierda_lecho: this._formBuilder.group({
         pulgar: this._formBuilder.array([], Validators.minLength(4)),
@@ -81,13 +81,13 @@ export class NapsiComponent implements OnInit {
         menique: this._formBuilder.array([], Validators.minLength(4)),
       }),
       mano_derecha_lecho: this._formBuilder.group({
-        pulgar: this._formBuilder.array([], Validators.minLength(4)),
-        indice: this._formBuilder.array([], Validators.minLength(4)),
-        anular: this._formBuilder.array([], Validators.minLength(4)),
-        corazon: this._formBuilder.array([], Validators.minLength(4)),
         menique: this._formBuilder.array([], Validators.minLength(4)),
+        corazon: this._formBuilder.array([], Validators.minLength(4)),
+        anular: this._formBuilder.array([], Validators.minLength(4)),
+        indice: this._formBuilder.array([], Validators.minLength(4)),
+        pulgar: this._formBuilder.array([], Validators.minLength(4)),
       }),
-      napsiScore: [0, Validators.min(1)],
+      napsiScore: [1, Validators.min(1)],
     });
   }
 
@@ -122,7 +122,7 @@ export class NapsiComponent implements OnInit {
   onClear(event: any) {
     this.clear = event;
     this.form.reset({
-      napsiScore: 0,
+      napsiScore: 1,
       evaluationDate: moment(new Date()).format('YYYY-MM-DD'),
     });
     setTimeout(() => {

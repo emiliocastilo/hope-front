@@ -46,11 +46,12 @@ export class ButtonNailsComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.clearHand) {
-      this.clear();
-      this.eventClear.emit(false);
+      setTimeout(() => {
+        this.clear();
+        this.eventClear.emit(false);
+      }, 100);
     }
   }
-
   ngOnInit(): void {
     setTimeout(() => {
       if (this.filledForm) {
