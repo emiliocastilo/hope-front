@@ -82,7 +82,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           });
         });
       }
-      this.enabledThen(this.config);
+      setTimeout(() => {
+        this.enabledThen(this.config);
+      }, 20);
     });
   }
 
