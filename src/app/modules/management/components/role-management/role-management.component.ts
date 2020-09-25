@@ -12,6 +12,9 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
+import { ServiceModel } from '../../../../core/models/service/service.model';
+import { MedicModel } from '../../models/medic/medic.model';
 
 @Component({
   selector: 'app-role-management',
@@ -27,8 +30,12 @@ export class RoleManagementComponent implements OnInit {
   public selectedItem: number;
   public selectedRole: RolModel;
   public isEditing = false;
+  public rol: RolModel[] = [];
   public paginationData: PaginationModel;
   private currentPage = 0;
+  public hospitals: HospitalModel[] = [];
+  public services: ServiceModel[] = [];
+  public selectedUser: any;
   private colOrder: any;
   private typeOrder: any;
   public modalForm: FormGroup;
@@ -45,16 +52,27 @@ export class RoleManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.paginationData = this._activatedRoute.snapshot.data.roles;
+    this.services = this._activatedRoute.snapshot.data.services;
+    this.hospitals = this._activatedRoute.snapshot.data.hospitals;
 
+    this.selectedUser = JSON.parse(localStorage.getItem('user'));
+
+    const userHospital: any = this.hospitals.find(
+      (hospital) => hospital.id === this.selectedUser.hospitalId
+    );
+    this.hospitals = [userHospital];
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
+      hospital: ['', Validators.required],
+      serviceDTO: ['', Validators.required],
     });
   }
 
   public onSelectedItem(event: number): void {
     this.selectedRole = this.roles[event];
     this.selectedItem = event;
+    this.selectedRole.setValuesFromObject(this.rol[event], this.hospitals);
     Object.keys(this.roles[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
         this.modalForm.controls[patientKey].setValue(
@@ -88,9 +106,34 @@ export class RoleManagementComponent implements OnInit {
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
+    let options: any = {};
+    if (
+      this.selectedItem != null &&
+      this.selectedRole.hospital.length > 0 &&
+      this.selectedRole.serviceDTO
+    ) {
+      const servicesDto: any[] = [this.selectedRole.serviceDTO];
+      options = {
+        hospital: {
+          options: this.hospitals,
+          optionSelected: this.selectedRole.hospital[0].id,
+        },
+        serviceDTO: {
+          options: this.services,
+          optionSelected: servicesDto[0].id,
+        },
+      };
+    } else {
+      this.services = [];
+      options = {
+        hospital: { options: this.hospitals },
+        serviceDTO: { options: this.services },
+      };
+    }
     modalRef.componentInstance.id = 'rolesEditor';
     modalRef.componentInstance.title = 'Rol';
     modalRef.componentInstance.form = this.modalForm;
+    modalRef.componentInstance.options = options;
     modalRef.componentInstance.close.subscribe((event) => {
       modalRef.close();
     });
@@ -109,9 +152,11 @@ export class RoleManagementComponent implements OnInit {
     const rol: RolModel = new RolModel(
       id,
       formValues.name,
-      formValues.description
+      formValues.description,
+      formValues.serviceDTO,
+      formValues.hospital
     );
-
+    rol.setValuesFromDinamicForm(formValues);
     this.selectedRole = new RolModel();
     if (this.isEditing) {
       this._roleManagementService.updateRole(rol).subscribe(
