@@ -15,6 +15,10 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 import { ServiceModel } from '../../../../core/models/service/service.model';
 import { MedicModel } from '../../models/medic/medic.model';
+import { MedicService } from '../../services/medic/medic.service';
+import { HospitalService } from '../../../../core/services/hospital/hospital.service';
+import { PathologyModel } from '../../models/patients/pathology.model';
+import { PatientModel } from '../../models/patients/patient.model';
 
 @Component({
   selector: 'app-role-management',
@@ -35,6 +39,9 @@ export class RoleManagementComponent implements OnInit {
   private currentPage = 0;
   public hospitals: HospitalModel[] = [];
   public services: ServiceModel[] = [];
+  private pathologies: PathologyModel[] = [];
+  private pathologiesIds: string[] = [];
+  public selectedPatient: PatientModel = new PatientModel();
   public selectedUser: any;
   private colOrder: any;
   private typeOrder: any;
@@ -45,9 +52,13 @@ export class RoleManagementComponent implements OnInit {
   constructor(
     private _roleManagementService: RoleManagementService,
     private _modalService: NgbModal,
+    public _medicService: MedicService,
     private _activatedRoute: ActivatedRoute,
     private _notification: NotificationService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _hospitalService: HospitalService,
+    public serviceDTO?: ServiceModel[],
+    public hospital?: HospitalModel[]
   ) {}
 
   ngOnInit(): void {
@@ -56,16 +67,18 @@ export class RoleManagementComponent implements OnInit {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
 
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
-
     const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.hospitalId
     );
     this.hospitals = [userHospital];
+    this.pathologies = userHospital.pathologies;
+    this.getPathologiesIds();
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       hospital: ['', Validators.required],
       serviceDTO: ['', Validators.required],
+      pathology: ['', Validators.required],
     });
   }
 
@@ -79,6 +92,11 @@ export class RoleManagementComponent implements OnInit {
           this.roles[event][patientKey]
         );
       }
+    });
+  }
+  public getPathologiesIds() {
+    this.pathologies.forEach((pathology) => {
+      this.pathologiesIds.push(pathology.id);
     });
   }
 
@@ -122,12 +140,17 @@ export class RoleManagementComponent implements OnInit {
           options: this.services,
           optionSelected: servicesDto[0].id,
         },
+        pathology: {
+          options: this.pathologies,
+          optionSelected: this.selectedPatient.pathologies[0].id,
+        },
       };
     } else {
       this.services = [];
       options = {
         hospital: { options: this.hospitals },
         serviceDTO: { options: this.services },
+        pathology: { options: this.pathologies },
       };
     }
     modalRef.componentInstance.id = 'rolesEditor';
@@ -148,13 +171,15 @@ export class RoleManagementComponent implements OnInit {
     if (this.isEditing) {
       id = this.roles[this.selectedItem].id;
     }
-
+    const pathologies = [];
+    pathologies.push(formValues.pathologies[0]);
     const rol: RolModel = new RolModel(
       id,
       formValues.name,
       formValues.description,
       formValues.serviceDTO,
-      formValues.hospital
+      formValues.hospital,
+      pathologies
     );
     rol.setValuesFromDinamicForm(formValues);
     this.selectedRole = new RolModel();

@@ -1,6 +1,7 @@
 import { ServiceModel } from '../../../core/models/service/service.model';
 import { HospitalModel } from '../../../core/models/hospital/hospital.model';
 import { UserModel } from '../../../core/models/user/user.model';
+import { PathologyModel } from './patients/pathology.model';
 
 export class RolModel {
   constructor(
@@ -15,7 +16,8 @@ export class RolModel {
     public traduction?: string,
     public userDTO?: UserModel,
     public serviceDTO?: ServiceModel[],
-    public hospital?: HospitalModel[]
+    public hospital?: HospitalModel[],
+    public pathologies?: Array<PathologyModel>
   ) {}
   public setValuesFromDinamicForm(form: any) {
     const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
