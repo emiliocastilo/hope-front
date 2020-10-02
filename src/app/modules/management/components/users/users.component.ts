@@ -56,6 +56,7 @@ export class UsersComponent implements OnInit {
   public isEditing = false;
   public isNewModal = false;
   public users: UsersModel[] = [];
+  public user: UsersModel;
   public selectedItem: number;
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
@@ -105,8 +106,6 @@ export class UsersComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern('[0-9]{9}')],
       ],
-      hospital: [null, Validators.required],
-      serviceDTO: [null, Validators.required],
       username: ['', Validators.required],
       roles: [null],
     });
@@ -213,7 +212,7 @@ export class UsersComponent implements OnInit {
     user.setValuesFromDinamicForm(formValues);
 
     if (this.isEditing) {
-      this._usersService.updateUser(this.users).subscribe(
+      this._usersService.updateUser(this.user).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementUpdated');
           this.isEditing = false;
@@ -225,7 +224,7 @@ export class UsersComponent implements OnInit {
         }
       );
     } else {
-      this._usersService.postUser(this.users).subscribe(
+      this._usersService.postUser(this.user).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementCreated');
           modalRef.close();
@@ -277,8 +276,6 @@ export class UsersComponent implements OnInit {
       this.services = [];
       options = {
         roles: { options: this.roles },
-        hospital: { options: this.hospitals },
-        serviceDTO: { options: this.services },
       };
     }
 

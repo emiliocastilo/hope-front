@@ -3,15 +3,15 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { UsersService } from './users.service';
-import { UserModel } from '../../models/user/user.model';
+import { UsersModel } from '../../models/user/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UsersResolverService implements Resolve<Array<UserModel>> {
+export class UsersResolverService implements Resolve<Array<UsersModel>> {
   constructor(private UsersService: UsersService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Array<UserModel>> {
+  resolve(route: ActivatedRouteSnapshot): Observable<Array<UsersModel>> {
     return this.UsersService.getAll('&page=0');
   }
 }

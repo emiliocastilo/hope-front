@@ -18,14 +18,14 @@ export class UsersModel {
   ) {}
 
   public setValuesFromDinamicForm(form: any) {
-    const roles: RolModel = form.roles ? form.roles[0] : null;
+    const roles = form.roles ? form.roles[0] : null;
 
     const user: UserModel = {
       id: form.userDTO ? form.userDTO.id : null,
       username: form.username,
       email: form.email,
       // los roles los coge de la patologia TODO en el futuro
-      roles: roles ? roles.description : null,
+      roles: roles ? roles : null,
     };
 
     this.name = form.name;
