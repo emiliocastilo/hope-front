@@ -141,8 +141,7 @@ export class UsersComponent implements OnInit {
 
   public onIconButtonClick(event: any): void {
     if (event && event.type === 'edit') {
-      if (this.selectedUsers && this.selectedUsers.hospital.length > 0) {
-        this.services = this.selectedUsers.hospital[0].serviceDTO;
+      if (this.selectedUsers) {
         if (this.services.length === 0) {
           this.modalForm.controls['serviceDTO'].setValue(null);
         }
@@ -208,15 +207,13 @@ export class UsersComponent implements OnInit {
       formValues.userDTO,
       formValues.username,
       formValues.email,
-      formValues.serviceDTO,
-      formValues.hospital,
       formValues.roles
     );
 
     user.setValuesFromDinamicForm(formValues);
 
     if (this.isEditing) {
-      this._usersService.updateUser(UsersModel).subscribe(
+      this._usersService.updateUser(this.users).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementUpdated');
           this.isEditing = false;
@@ -228,7 +225,7 @@ export class UsersComponent implements OnInit {
         }
       );
     } else {
-      this._usersService.postUser(UsersModel).subscribe(
+      this._usersService.postUser(this.users).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementCreated');
           modalRef.close();
@@ -272,22 +269,9 @@ export class UsersComponent implements OnInit {
       size: 'lg',
     });
     let options: any = {};
-    if (
-      this.selectedItem != null &&
-      this.selectedUsers.hospital.length > 0 &&
-      this.selectedUsers.serviceDTO
-    ) {
-      const servicesDto: any[] = [this.selectedUsers.serviceDTO];
+    if (this.selectedItem != null) {
       options = {
         roles: { options: this.roles },
-        hospital: {
-          options: this.hospitals,
-          optionSelected: this.selectedUsers.hospital[0].id,
-        },
-        serviceDTO: {
-          options: this.services,
-          optionSelected: servicesDto[0].id,
-        },
       };
     } else {
       this.services = [];
