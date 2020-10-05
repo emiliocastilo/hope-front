@@ -5,7 +5,7 @@ export class UserModel {
     public username?: string,
     public password?: string,
     public email?: string,
-    public roles?: string,
+    public roles?: any,
     public rolSelected?: {
       id: number;
       name: string;

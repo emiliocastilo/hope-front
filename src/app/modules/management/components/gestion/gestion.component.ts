@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GestionComponent implements OnInit {
   entries = [
-    { name: 'medics', url: 'management/gestion/medics' },
+    { name: 'users', url: 'management/gestion/users' },
     { name: 'patients', url: 'management/gestion/patients' },
     { name: 'modal.editor.field.roles', url: 'management/gestion/roles' },
   ];

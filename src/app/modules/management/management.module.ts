@@ -7,12 +7,12 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { CoreModule, createTranslateLoader } from 'src/app/core/core.module';
 import { DispensationsComponent } from './components/dispensations/dispensations.component';
 import { ManagementComponent } from './components/management/management.component';
-import { PatientsComponent } from './components/patients/patients.component';
-import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { SectionsComponent } from './components/sections/sections.component';
 import { ManagementRoutingModule } from './management-routing.module';
 import { UsersComponent } from './components/users/users.component';
 import { GestionComponent } from './components/gestion/gestion.component';
+import { RoleManagementComponent } from './components/gestion/role-management/role-management.component';
+import { PatientsComponent } from './components/gestion/patients/patients.component';
 @NgModule({
   declarations: [
     ManagementComponent,

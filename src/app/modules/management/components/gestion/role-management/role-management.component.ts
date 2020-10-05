@@ -16,7 +16,6 @@ import { HospitalModel } from '../../../../../core/models/hospital/hospital.mode
 import { ServiceModel } from '../../../../../core/models/service/service.model';
 import { PatientModel } from '../../../models/patients/patient.model';
 import { PathologyModel } from '../../../models/patients/pathology.model';
-import { MedicService } from '../../../services/medic/medic.service';
 import { HospitalService } from '../../../../../core/services/hospital/hospital.service';
 
 @Component({
@@ -51,7 +50,6 @@ export class RoleManagementComponent implements OnInit {
   constructor(
     private _roleManagementService: RoleManagementService,
     private _modalService: NgbModal,
-    public _medicService: MedicService,
     private _activatedRoute: ActivatedRoute,
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
@@ -62,13 +60,13 @@ export class RoleManagementComponent implements OnInit {
     this.paginationData = this._activatedRoute.snapshot.data.roles;
     this.services = this._activatedRoute.snapshot.data.services;
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
+    this.pathologies = this._activatedRoute.snapshot.data.services[0].pathologies;
 
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
     const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.hospitalId
     );
     this.hospitals = [userHospital];
-    this.pathologies = userHospital.pathologies;
     this.getPathologiesIds();
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],

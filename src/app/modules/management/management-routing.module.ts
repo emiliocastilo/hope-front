@@ -5,8 +5,6 @@ import { HospitalResolverService } from 'src/app/core/services/hospital/hospital
 import { ServiceResolverService } from 'src/app/core/services/service/service-resolver.service';
 import { DispensationsComponent } from './components/dispensations/dispensations.component';
 import { ManagementComponent } from './components/management/management.component';
-import { PatientsComponent } from './components/patients/patients.component';
-import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { SectionsComponent } from './components/sections/sections.component';
 import { DispensationResolverService } from './services/dispensation/dispensation-resolver.service';
 import { UsersResolverService } from './services/medic/users-resolver.service';
@@ -14,6 +12,8 @@ import { PatientsResolverService } from './services/patients/patients-resolver.s
 import { RoleManagementResolverService } from './services/roles/role-management-resolver.service';
 import { GestionComponent } from './components/gestion/gestion.component';
 import { UsersComponent } from './components/users/users.component';
+import { PatientsComponent } from './components/gestion/patients/patients.component';
+import { RoleManagementComponent } from './components/gestion/role-management/role-management.component';
 
 const routes: Routes = [
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
         component: UsersComponent,
         resolve: {
           hospitals: HospitalResolverService,
-          medics: UsersResolverService,
+          users: UsersResolverService,
           services: ServiceResolverService,
         },
         canActivate: [AuthGuard],
@@ -49,7 +49,9 @@ const routes: Routes = [
         path: 'roles',
         component: RoleManagementComponent,
         resolve: {
+          hospitals: HospitalResolverService,
           roles: RoleManagementResolverService,
+          services: ServiceResolverService,
         },
         canActivate: [AuthGuard],
       },
