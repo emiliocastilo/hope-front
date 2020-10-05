@@ -1,8 +1,9 @@
 import { ServiceModel } from '../../../../core/models/service/service.model';
 import { UserModel } from '../../../../core/models/user/user.model';
 import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
+import { RolModel } from '../rol.model';
 
-export class MedicModel {
+export class UsersModel {
   constructor(
     public id?: number,
     public name?: string,
@@ -12,24 +13,19 @@ export class MedicModel {
     public collegeNumber?: string,
     public userDTO?: UserModel,
     public username?: string,
-    public password?: string,
     public email?: string,
-    public serviceDTO?: ServiceModel[],
-    public hospital?: HospitalModel[]
+    public roles?: Array<RolModel>
   ) {}
 
   public setValuesFromDinamicForm(form: any) {
-    const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
-    const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
+    const roles = form.roles ? form.roles[0] : null;
 
     const user: UserModel = {
       id: form.userDTO ? form.userDTO.id : null,
       username: form.username,
-      password: form.password,
       email: form.email,
       // los roles los coge de la patologia TODO en el futuro
-      roles: [5],
-      hospitalId: hospital ? hospital.id : null,
+      roles: roles ? roles : null,
     };
 
     this.name = form.name;
@@ -38,12 +34,9 @@ export class MedicModel {
     this.dni = form.dni;
     this.collegeNumber = form.collegeNumber;
     this.userDTO = user;
-    this.serviceDTO = service as any;
   }
 
-  public setValuesFromObject(object: MedicModel, hospitals: HospitalModel[]) {
-    const services: ServiceModel[] = object.serviceDTO;
-
+  public setValuesFromObject(object: UsersModel, hospitals: HospitalModel[]) {
     const user: UserModel = object.userDTO;
 
     const hospital: HospitalModel[] = this.setHospital(
@@ -60,8 +53,7 @@ export class MedicModel {
     this.dni = object.dni;
     this.collegeNumber = object.collegeNumber;
     this.userDTO = user;
-    this.serviceDTO = services;
-    this.hospital = hospital;
+    this.roles = object.roles;
   }
 
   private setHospital(id: number, hospitals: HospitalModel[]): HospitalModel[] {
