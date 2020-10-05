@@ -12,13 +12,12 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
-import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
-import { ServiceModel } from '../../../../core/models/service/service.model';
-import { MedicModel } from '../../models/medic/medic.model';
-import { MedicService } from '../../services/medic/medic.service';
-import { HospitalService } from '../../../../core/services/hospital/hospital.service';
-import { PathologyModel } from '../../models/patients/pathology.model';
-import { PatientModel } from '../../models/patients/patient.model';
+import { HospitalModel } from '../../../../../core/models/hospital/hospital.model';
+import { ServiceModel } from '../../../../../core/models/service/service.model';
+import { PatientModel } from '../../../models/patients/patient.model';
+import { PathologyModel } from '../../../models/patients/pathology.model';
+import { MedicService } from '../../../services/medic/medic.service';
+import { HospitalService } from '../../../../../core/services/hospital/hospital.service';
 
 @Component({
   selector: 'app-role-management',
