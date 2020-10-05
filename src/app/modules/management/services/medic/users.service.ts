@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserModel } from '../../../../core/models/user/user.model';
 import { UsersModel } from '../../models/user/user.model';
 
 @Injectable({
@@ -12,22 +11,22 @@ export class UsersService {
 
   getAll(query: string): Observable<any> {
     query = query ? query : '';
-    return this._http.get(`/doctors?${query}`);
+    return this._http.get(`/users?${query}`);
   }
 
-  findUsers(UserModel: string): Observable<any> {
-    return this._http.get('/doctors/searches?search=' + UserModel);
+  findUsers(search: string): Observable<any> {
+    return this._http.get('/users/searches?search=' + search);
   }
 
-  postUser(UserModel: UserModel): Observable<any> {
-    return this._http.post('/doctors', UserModel);
+  postUser(user: UsersModel): Observable<any> {
+    return this._http.post('/users', user);
   }
 
   deleteUser(id: number): Observable<any> {
-    return this._http.delete(`/doctors/${id}`);
+    return this._http.delete(`/users/${id}`);
   }
 
-  updateUser(UserModel: UsersModel): Observable<any> {
-    return this._http.put('/doctors', UserModel);
+  updateUser(user: UsersModel): Observable<any> {
+    return this._http.put('/users', user);
   }
 }
