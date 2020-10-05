@@ -56,9 +56,7 @@ export class RoleManagementComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
-    private _hospitalService: HospitalService,
-    public serviceDTO?: ServiceModel[],
-    public hospital?: HospitalModel[]
+    private _hospitalService: HospitalService
   ) {}
 
   ngOnInit(): void {
@@ -83,9 +81,9 @@ export class RoleManagementComponent implements OnInit {
   }
 
   public onSelectedItem(event: number): void {
-    this.selectedRole = this.roles[event];
+    /*this.selectedRole = this.roles[event];*/
     this.selectedItem = event;
-    this.selectedRole.setValuesFromObject(this.rol[event], this.hospitals);
+    /*this.selectedRole.setValuesFromObject(this.rol[event], this.hospitals);*/
     Object.keys(this.roles[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
         this.modalForm.controls[patientKey].setValue(
@@ -172,11 +170,12 @@ export class RoleManagementComponent implements OnInit {
       id = this.roles[this.selectedItem].id;
     }
     const pathologies = [];
-    pathologies.push(formValues.pathologies[0]);
+    pathologies.push(formValues.pathology[0]);
     const rol: RolModel = new RolModel(
       id,
       formValues.name,
       formValues.description,
+      formValues.userDTO,
       formValues.serviceDTO,
       formValues.hospital,
       pathologies

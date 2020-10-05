@@ -43,7 +43,9 @@ const routes: Routes = [
     path: 'roles',
     component: RoleManagementComponent,
     resolve: {
+      hospitals: HospitalResolverService,
       roles: RoleManagementResolverService,
+      services: ServiceResolverService,
     },
     canActivate: [AuthGuard],
   },
