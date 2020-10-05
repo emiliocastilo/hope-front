@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
+import * as shape from 'd3-shape';
+
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
@@ -19,6 +21,7 @@ export class LineChartComponent implements OnInit {
     legendPosition: 'right',
     showXAxisLabel: false,
     showYAxisLabel: false,
+    curve: shape.curveBasis,
   };
 
   constructor() {}

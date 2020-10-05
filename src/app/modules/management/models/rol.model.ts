@@ -1,8 +1,31 @@
+import { ServiceModel } from '../../../core/models/service/service.model';
+import { HospitalModel } from '../../../core/models/hospital/hospital.model';
+import { UserModel } from '../../../core/models/user/user.model';
+import { PathologyModel } from './patients/pathology.model';
+
 export class RolModel {
   constructor(
     public id?: string,
     public name?: string,
     public description?: string,
-    public traduction?: string
+    public userDTO?: UserModel,
+    public serviceDTO?: ServiceModel[],
+    public hospital?: HospitalModel[],
+    public pathology?: Array<PathologyModel>
   ) {}
+  public setValuesFromDinamicForm(form: any) {
+    const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
+    const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
+    const pathologyId = form.pathology ? form.pathology[0] : null;
+    const user: UserModel = {
+      id: form.userDTO ? form.userDTO.id : null,
+      roles: [5],
+      hospitalId: hospital ? hospital.id : null,
+    };
+
+    this.pathology = pathologyId;
+    this.name = form.name;
+    this.serviceDTO = service as any;
+    this.userDTO = user;
+  }
 }
