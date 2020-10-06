@@ -51,6 +51,7 @@ const routes: Routes = [
         resolve: {
           hospitals: HospitalResolverService,
           roles: RoleManagementResolverService,
+          users: UsersResolverService,
           services: ServiceResolverService,
         },
         canActivate: [AuthGuard],

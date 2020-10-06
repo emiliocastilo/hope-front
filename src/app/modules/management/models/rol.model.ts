@@ -2,10 +2,11 @@ import { ServiceModel } from '../../../core/models/service/service.model';
 import { HospitalModel } from '../../../core/models/hospital/hospital.model';
 import { UserModel } from '../../../core/models/user/user.model';
 import { PathologyModel } from './patients/pathology.model';
+import { UsersModel } from './user/user.model';
 
 export class RolModel {
   constructor(
-    public id?: string,
+    public id?: any,
     public name?: string,
     public description?: string,
     public userDTO?: UserModel,
@@ -27,5 +28,21 @@ export class RolModel {
     this.name = form.name;
     this.serviceDTO = service as any;
     this.userDTO = user;
+  }
+
+  public setValuesFromObject(object: UsersModel, hospitals: HospitalModel[]) {
+    const user: UserModel = object.userDTO;
+
+    const hospital: HospitalModel[] = this.setHospital(
+      user.hospitalId,
+      hospitals
+    );
+
+    this.id = object.id;
+    this.name = object.name;
+    this.userDTO = user;
+  }
+  private setHospital(id: number, hospitals: HospitalModel[]): HospitalModel[] {
+    return hospitals.filter((value: HospitalModel) => value.id === id);
   }
 }

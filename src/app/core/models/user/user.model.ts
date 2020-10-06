@@ -1,6 +1,6 @@
 export class UserModel {
   constructor(
-    public id?: number,
+    public id?: any,
     public hospitalId?: number,
     public username?: string,
     public password?: string,

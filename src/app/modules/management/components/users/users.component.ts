@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit {
         [Validators.required, Validators.pattern('[0-9]{9}')],
       ],
       username: ['', Validators.required],
-      roles: [null],
+      roles: [''],
     });
   }
 
@@ -190,10 +190,10 @@ export class UsersComponent implements OnInit {
   ): void {
     const formValues: UsersModel = event.value;
     let id: number;
-    const currentDoctor = this.users[this.selectedItem];
+    const currentUser = this.users[this.selectedItem];
     if (this.isEditing) {
-      id = currentDoctor.id;
-      formValues.userDTO = currentDoctor.userDTO;
+      id = currentUser.id;
+      formValues.userDTO = currentUser.userDTO;
     }
 
     const user: UsersModel = new UsersModel(

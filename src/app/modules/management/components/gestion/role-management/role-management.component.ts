@@ -17,6 +17,7 @@ import { ServiceModel } from '../../../../../core/models/service/service.model';
 import { PatientModel } from '../../../models/patients/patient.model';
 import { PathologyModel } from '../../../models/patients/pathology.model';
 import { HospitalService } from '../../../../../core/services/hospital/hospital.service';
+import { UsersModel } from '../../../models/user/user.model';
 
 @Component({
   selector: 'app-role-management',
@@ -33,6 +34,7 @@ export class RoleManagementComponent implements OnInit {
   public selectedRole: RolModel;
   public isEditing = false;
   public rol: RolModel[] = [];
+  public users: UsersModel[] = [];
   public paginationData: PaginationModel;
   private currentPage = 0;
   public hospitals: HospitalModel[] = [];
@@ -60,6 +62,7 @@ export class RoleManagementComponent implements OnInit {
     this.paginationData = this._activatedRoute.snapshot.data.roles;
     this.services = this._activatedRoute.snapshot.data.services;
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
+    this.users = this._activatedRoute.snapshot.data.users.content;
     this.pathologies = this._activatedRoute.snapshot.data.services[0].pathologies;
 
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
@@ -80,7 +83,7 @@ export class RoleManagementComponent implements OnInit {
   public onSelectedItem(event: number): void {
     /*this.selectedRole = this.roles[event];*/
     this.selectedItem = event;
-    /*this.selectedRole.setValuesFromObject(this.rol[event], this.hospitals);*/
+    this.selectedUser.setValuesFromObject(this.users[event], this.hospitals);
     Object.keys(this.roles[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
         this.modalForm.controls[patientKey].setValue(
@@ -122,14 +125,14 @@ export class RoleManagementComponent implements OnInit {
     let options: any = {};
     if (
       this.selectedItem != null &&
-      this.selectedRole.hospital.length > 0 &&
-      this.selectedRole.serviceDTO
+      this.selectedUser.hospital.length > 0 &&
+      this.selectedUser.serviceDTO
     ) {
-      const servicesDto: any[] = [this.selectedRole.serviceDTO];
+      const servicesDto: any[] = [this.selectedUser.serviceDTO];
       options = {
         hospital: {
           options: this.hospitals,
-          optionSelected: this.selectedRole.hospital[0].id,
+          optionSelected: this.selectedUser.hospital[0].id,
         },
         serviceDTO: {
           options: this.services,
@@ -141,7 +144,6 @@ export class RoleManagementComponent implements OnInit {
         },
       };
     } else {
-      this.services = [];
       options = {
         hospital: { options: this.hospitals },
         serviceDTO: { options: this.services },
