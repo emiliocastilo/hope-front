@@ -212,7 +212,7 @@ export class UsersComponent implements OnInit {
     user.setValuesFromDinamicForm(formValues);
 
     if (this.isEditing) {
-      this._usersService.updateUser(this.user).subscribe(
+      this._usersService.updateUser(user).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementUpdated');
           this.isEditing = false;
@@ -224,7 +224,7 @@ export class UsersComponent implements OnInit {
         }
       );
     } else {
-      this._usersService.postUser(this.user).subscribe(
+      this._usersService.postUser(user).subscribe(
         (response) => {
           this._notification.showSuccessToast('elementCreated');
           modalRef.close();

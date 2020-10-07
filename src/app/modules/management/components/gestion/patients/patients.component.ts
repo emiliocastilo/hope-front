@@ -55,7 +55,7 @@ export class PatientsComponent implements OnInit {
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     // this.patients = this._activatedRoute.snapshot.data.patients.content;
-    this.pathologies = this._activatedRoute.snapshot.data.pathologies;
+    this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
 
