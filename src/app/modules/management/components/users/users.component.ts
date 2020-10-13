@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit {
         [Validators.required, Validators.pattern('[0-9]{9}')],
       ],
       username: ['', Validators.required],
-      roles: [''],
+      roles: [[]],
     });
   }
 
@@ -206,7 +206,7 @@ export class UsersComponent implements OnInit {
       formValues.userDTO,
       formValues.username,
       formValues.email,
-      formValues.roles
+      modalRef.componentInstance.activeRoles
     );
 
     user.setValuesFromDinamicForm(formValues);
