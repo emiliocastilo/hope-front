@@ -20,15 +20,19 @@ export class BreadcrumbComponent implements OnInit {
     private _router: Router,
     private _sidebar: SideBarService,
     private _sectionsService: SectionsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.menu = [JSON.parse(localStorage.getItem('completeMenu'))];
     this.receiveSection();
     this.listenRouter();
-    this.selectedSection = this.findSection(this.menu);
-    if (this.selectedSection) {
-      this.getSectionById(this.selectedSection.id);
+    if (this.menu[0] == null) {
+      this.getSectionById(1);
+    } else {
+      this.selectedSection = this.findSection(this.menu);
+      if (this.selectedSection) {
+        this.getSectionById(this.selectedSection.id);
+      }
     }
   }
 
