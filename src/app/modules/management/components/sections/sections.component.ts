@@ -88,7 +88,8 @@ export class SectionsComponent implements OnInit {
   }
 
   private makeRequests(id: number): void {
-    const getRoles = this.rolService.getAllRoles();
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+    const getRoles = this.rolService.getAllRoles(user_aux['rolSelected']['id']);
     const getNodeData = this.sectionsService.getSectionById(id);
 
     forkJoin([getRoles, getNodeData]).subscribe((responseData) => {

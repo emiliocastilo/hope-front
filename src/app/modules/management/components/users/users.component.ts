@@ -45,7 +45,7 @@ export class UsersComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private rolService: RoleManagementService,
     private sectionsService: SectionsService
-  ) {}
+  ) { }
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
@@ -158,9 +158,8 @@ export class UsersComponent implements OnInit {
 
     modalRef.componentInstance.title = 'Eliminar Médico';
     modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el médico
-      ${this.users[this.selectedItem].name} ${
-      this.users[this.selectedItem].surname
-    }?`;
+      ${this.users[this.selectedItem].name} ${this.users[this.selectedItem].surname
+      }?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
     });
@@ -237,7 +236,8 @@ export class UsersComponent implements OnInit {
     }
   }
   private makeRequests(id: number): void {
-    const getRoles = this.rolService.getAllRoles();
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+    const getRoles = this.rolService.getAllRoles(user_aux['rolSelected']['id']);
     const getNodeData = this.sectionsService.getSectionById(id);
 
     forkJoin([getRoles, getNodeData]).subscribe((responseData) => {
