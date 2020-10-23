@@ -9,9 +9,9 @@ import { UsersModel } from '../../models/user/user.model';
 export class UsersService {
   constructor(private _http: HttpClient) {}
 
-  getAll(query: string): Observable<any> {
+  getAll(idRoleSelected , query: string): Observable<any> {
     query = query ? query : '';
-    return this._http.get(`/users?${query}`);
+    return this._http.get(`/users?idRoleSelected=${idRoleSelected}${query}`);
   }
 
   findUsers(search: string): Observable<any> {

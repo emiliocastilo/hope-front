@@ -256,7 +256,8 @@ export class RoleManagementComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._roleManagementService.getRoles(query).subscribe((data) => {
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+    this._roleManagementService.getRoles(user_aux['rolSelected']['id'],query).subscribe((data) => {
       this.roles = data.content;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;

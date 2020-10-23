@@ -9,9 +9,9 @@ import { RolModel } from '../../models/rol.model';
 export class RoleManagementService {
   constructor(private _httpClient: HttpClient) { }
 
-  public getRoles(query?: string): Observable<any> {
+  public getRoles(idRoleSelected , query?: string): Observable<any> {
     query = query ? query : '';
-    return this._httpClient.get(`/roles?${query}`);
+    return this._httpClient.get(`/roles?idRoleSelected=${idRoleSelected}${query}`);
   }
 
   public getAllRoles(idRoleSelected): Observable<any> {

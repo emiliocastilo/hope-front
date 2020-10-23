@@ -45,7 +45,7 @@ export class UsersComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private rolService: RoleManagementService,
     private sectionsService: SectionsService
-  ) { }
+  ) {}
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
@@ -158,8 +158,9 @@ export class UsersComponent implements OnInit {
 
     modalRef.componentInstance.title = 'Eliminar Médico';
     modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el médico
-      ${this.users[this.selectedItem].name} ${this.users[this.selectedItem].surname
-      }?`;
+      ${this.users[this.selectedItem].name} ${
+      this.users[this.selectedItem].surname
+    }?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
     });
@@ -324,7 +325,8 @@ export class UsersComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._usersService.getAll(query).subscribe((data) => {
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+    this._usersService.getAll(user_aux['rolSelected']['id'] , query).subscribe((data) => {
       this.users = data.content;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
