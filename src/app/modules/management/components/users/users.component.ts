@@ -45,7 +45,7 @@ export class UsersComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private rolService: RoleManagementService,
     private sectionsService: SectionsService
-  ) {}
+  ) { }
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
   public modalForm: FormGroup;
@@ -71,17 +71,17 @@ export class UsersComponent implements OnInit {
   public activeRoles: Array<RolModel> = [];
 
   ngOnInit() {
-    this.services = this._activatedRoute.snapshot.data.services;
-    this.hospitals = this._activatedRoute.snapshot.data.hospitals;
+    /*this.services = this._activatedRoute.snapshot.data.services;
+    this.hospitals = this._activatedRoute.snapshot.data.hospitals;*/
     this.users = this._activatedRoute.snapshot.data.users.content;
     this.paginationData = this._activatedRoute.snapshot.data.users;
 
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
 
-    const userHospital: any = this.hospitals.find(
+    /*const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.hospitalId
     );
-    this.hospitals = [userHospital];
+    this.hospitals = [userHospital];*/
 
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
@@ -123,11 +123,65 @@ export class UsersComponent implements OnInit {
   }
 
   public onSelectedItem(event: number): void {
+    this.roles = [];
+    this.hospitals = [];
+    this.activeRoles = [];
     this.selectedItem = event;
+
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}'); //Obtenemos el usuario
 
     // this.users[event].serviceDTO = this.selectedUsers.hospital[0].serviceDTO;
 
-    this.selectedUsers.setValuesFromObject(this.users[event], this.hospitals);
+    // Obtenemos los servicios del hospital (Supongo que un usuario solo pertenece a un hospital)
+    for (let i = 0; i < user_aux['rolSelected']['hospital']['services'].length; i++) {
+      this.services.push(new ServiceModel(
+        user_aux['rolSelected']['hospital']['services'][i]['id'],
+        user_aux['rolSelected']['hospital']['services'][i]['name']
+      ));
+    }
+
+    this.hospitals.push(new HospitalModel(
+      user_aux['rolSelected']['hospital']['id'],
+      user_aux['rolSelected']['hospital']['name'],
+      this.services
+    ));
+
+    //Obtenemos los roles
+    forkJoin([this.rolService.getAllRoles(this.selectedUser['rolSelected']['id'])]).subscribe((responseData) => {
+      for (let i = 0; i < responseData[0].length; i++) {
+        this.roles.push(new RolModel(
+          responseData[0][i]['id'],
+          responseData[0][i]['name'],
+          responseData[0][i]['description'],
+        ));
+      }
+    });
+
+    // Obtenemos los roles activos del usuario
+    for (let i = 0; i < this.users[event]['roles'].length; i++) {
+      forkJoin([this.rolService.getRoleById(String(this.users[event]['roles'][i]))]).subscribe((responseData) => {
+        this.activeRoles.push(new RolModel(
+          responseData[0]['id'],
+          responseData[0]['name'],
+          responseData[0]['description']
+        ));
+      });
+    }
+
+    const aux = new UsersModel(
+      this.users[event].id,
+      this.users[event].name,
+      this.users[event].surname,
+      this.users[event].phone,
+      this.users[event].dni,
+      this.users[event].collegeNumber,
+      this.users[event].username,
+      this.users[event].email,
+      this.roles,
+      this.activeRoles
+    )
+
+    this.selectedUsers.setValuesFromObject(aux, this.hospitals, user_aux['rolSelected']['hospital']['id']);
 
     Object.keys(this.selectedUsers).forEach((doctorKey: string) => {
       if (this.modalForm.controls[doctorKey]) {
@@ -158,9 +212,8 @@ export class UsersComponent implements OnInit {
 
     modalRef.componentInstance.title = 'Eliminar Médico';
     modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el médico
-      ${this.users[this.selectedItem].name} ${
-      this.users[this.selectedItem].surname
-    }?`;
+      ${this.users[this.selectedItem].name} ${this.users[this.selectedItem].surname
+      }?`;
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
     });
@@ -193,7 +246,6 @@ export class UsersComponent implements OnInit {
     const currentUser = this.users[this.selectedItem];
     if (this.isEditing) {
       id = currentUser.id;
-      formValues.userDTO = currentUser.userDTO;
     }
 
     const user: UsersModel = new UsersModel(
@@ -203,7 +255,6 @@ export class UsersComponent implements OnInit {
       formValues.phone,
       formValues.dni,
       formValues.collegeNumber,
-      formValues.userDTO,
       formValues.username,
       formValues.email,
       modalRef.componentInstance.activeRoles
@@ -326,7 +377,7 @@ export class UsersComponent implements OnInit {
 
   private refreshData(query: string): void {
     const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    this._usersService.getAll(user_aux['rolSelected']['id'] , query).subscribe((data) => {
+    this._usersService.getAll(user_aux['rolSelected']['id'], query).subscribe((data) => {
       this.users = data.content;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;

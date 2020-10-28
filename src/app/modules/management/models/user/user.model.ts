@@ -11,10 +11,10 @@ export class UsersModel {
     public phone?: string,
     public dni?: string,
     public collegeNumber?: string,
-    public userDTO?: UserModel,
     public username?: string,
     public email?: string,
-    public roles?: Array<RolModel>
+    public roles?: Array<RolModel>,
+    public rolSelected?: Array<RolModel>,
   ) {}
 
   public setValuesFromDinamicForm(form: any) {
@@ -33,27 +33,27 @@ export class UsersModel {
     this.phone = form.phone;
     this.dni = form.dni;
     this.collegeNumber = form.collegeNumber;
-    this.userDTO = user;
+    
   }
 
-  public setValuesFromObject(object: UsersModel, hospitals: HospitalModel[]) {
-    const user: UserModel = object.userDTO;
+  public setValuesFromObject(object: UsersModel, hospitals: HospitalModel[], hospitalId: number ) {
+    const user: UsersModel = object;
 
     const hospital: HospitalModel[] = this.setHospital(
-      user.hospitalId,
+      hospitalId,
       hospitals
     );
 
-    this.id = object.id;
+    this.id = user.id;
     this.username = user.username;
     this.email = user.email;
-    this.name = object.name;
-    this.surname = object.surname;
-    this.phone = object.phone;
-    this.dni = object.dni;
-    this.collegeNumber = object.collegeNumber;
-    this.userDTO = user;
-    this.roles = object.roles;
+    this.name = user.name;
+    this.surname = user.surname;
+    this.phone = user.phone;
+    this.dni = user.dni;
+    this.collegeNumber = user.collegeNumber;
+    this.roles = user.roles;
+    this.rolSelected = user.rolSelected;
   }
 
   private setHospital(id: number, hospitals: HospitalModel[]): HospitalModel[] {
