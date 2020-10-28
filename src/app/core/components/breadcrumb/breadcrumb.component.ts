@@ -20,7 +20,7 @@ export class BreadcrumbComponent implements OnInit {
     private _router: Router,
     private _sidebar: SideBarService,
     private _sectionsService: SectionsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.menu = [JSON.parse(localStorage.getItem('completeMenu'))];

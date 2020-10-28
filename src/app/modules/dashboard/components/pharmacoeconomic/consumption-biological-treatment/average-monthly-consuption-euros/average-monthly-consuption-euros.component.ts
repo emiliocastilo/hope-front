@@ -43,7 +43,6 @@ export class AverageMonthlyConsuptionEurosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('medio false');
     const query = `lastYears=${this.yearlyGoalValue}`;
     this.getTreatments(query);
   }

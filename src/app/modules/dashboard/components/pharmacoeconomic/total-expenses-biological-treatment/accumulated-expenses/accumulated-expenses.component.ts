@@ -25,7 +25,6 @@ export class AccumulatedExpensesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('total true');
     this.getMedicines();
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RoleManagementService } from '../../../services/roles/role-management.service';
+import { RoleManagementService } from '../../services/roles/role-management.service';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { RolModel } from '../../../models/rol.model';
+import { RolModel } from '../../models/rol.model';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,12 +12,12 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
-import { HospitalModel } from '../../../../../core/models/hospital/hospital.model';
-import { ServiceModel } from '../../../../../core/models/service/service.model';
-import { PatientModel } from '../../../models/patients/patient.model';
-import { PathologyModel } from '../../../models/patients/pathology.model';
-import { HospitalService } from '../../../../../core/services/hospital/hospital.service';
-import { UsersModel } from '../../../models/user/user.model';
+import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
+import { ServiceModel } from '../../../../core/models/service/service.model';
+import { PatientModel } from '../../models/patients/patient.model';
+import { PathologyModel } from '../../models/patients/pathology.model';
+import { HospitalService } from '../../../../core/services/hospital/hospital.service';
+import { UsersModel } from '../../models/user/user.model';
 
 @Component({
   selector: 'app-role-management',
@@ -257,12 +257,14 @@ export class RoleManagementComponent implements OnInit {
 
   private refreshData(query: string): void {
     const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    this._roleManagementService.getRoles(user_aux['rolSelected']['id'],query).subscribe((data) => {
-      this.roles = data.content;
-      if (this.paginationData.totalPages !== data.totalPages) {
-        this.paginationData = data;
-      }
-    });
+    this._roleManagementService
+      .getRoles(user_aux['rolSelected']['id'], query)
+      .subscribe((data) => {
+        this.roles = data.content;
+        if (this.paginationData.totalPages !== data.totalPages) {
+          this.paginationData = data;
+        }
+      });
   }
 
   public onSort(event: any) {

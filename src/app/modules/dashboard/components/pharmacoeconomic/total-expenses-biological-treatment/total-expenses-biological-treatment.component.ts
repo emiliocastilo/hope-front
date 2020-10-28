@@ -29,7 +29,7 @@ export class TotalExpensesBiologicalTreatmentComponent implements OnInit {
   }
 
   showScreen(values: any) {
-    if (values.selectValue === 'Total') {
+    if (values.selectValue === 'total') {
       if (values.switchValue) {
         this.router.navigate([
           'dashboard/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses',

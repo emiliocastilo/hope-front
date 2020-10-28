@@ -38,7 +38,6 @@ export class MonthlyConsuptionEurosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('anual false');
     this.getTreatments();
   }
 

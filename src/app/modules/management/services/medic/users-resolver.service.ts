@@ -13,6 +13,6 @@ export class UsersResolverService implements Resolve<Array<UsersModel>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Array<UsersModel>> {
     const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    return this.UsersService.getAll(user_aux['rolSelected']['id'],'&page=0');
+    return this.UsersService.getAll(user_aux['rolSelected']['id'], '&page=0');
   }
 }

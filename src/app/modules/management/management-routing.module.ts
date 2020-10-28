@@ -10,10 +10,9 @@ import { DispensationResolverService } from './services/dispensation/dispensatio
 import { UsersResolverService } from './services/medic/users-resolver.service';
 import { PatientsResolverService } from './services/patients/patients-resolver.service';
 import { RoleManagementResolverService } from './services/roles/role-management-resolver.service';
-import { GestionComponent } from './components/gestion/gestion.component';
 import { UsersComponent } from './components/users/users.component';
-import { PatientsComponent } from './components/gestion/patients/patients.component';
-import { RoleManagementComponent } from './components/gestion/role-management/role-management.component';
+import { PatientsComponent } from './components/patients/patients.component';
+import { RoleManagementComponent } from './components/role-management/role-management.component';
 
 const routes: Routes = [
   {
@@ -22,41 +21,34 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'gestion',
-    component: GestionComponent,
+    path: 'users',
+    component: UsersComponent,
+    resolve: {
+      hospitals: HospitalResolverService,
+      users: UsersResolverService,
+      services: ServiceResolverService,
+    },
     canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'users',
-        component: UsersComponent,
-        resolve: {
-          hospitals: HospitalResolverService,
-          users: UsersResolverService,
-          services: ServiceResolverService,
-        },
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'patients',
-        component: PatientsComponent,
-        resolve: {
-          hospitals: HospitalResolverService,
-          patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'roles',
-        component: RoleManagementComponent,
-        resolve: {
-          hospitals: HospitalResolverService,
-          roles: RoleManagementResolverService,
-          users: UsersResolverService,
-          services: ServiceResolverService,
-        },
-        canActivate: [AuthGuard],
-      },
-    ],
+  },
+  {
+    path: 'patients',
+    component: PatientsComponent,
+    resolve: {
+      hospitals: HospitalResolverService,
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'roles',
+    component: RoleManagementComponent,
+    resolve: {
+      hospitals: HospitalResolverService,
+      roles: RoleManagementResolverService,
+      users: UsersResolverService,
+      services: ServiceResolverService,
+    },
+    canActivate: [AuthGuard],
   },
   {
     path: 'dispensations',

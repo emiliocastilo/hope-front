@@ -25,7 +25,6 @@ export class TotalExpensesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('total false');
     this.getMedicines();
   }
 

@@ -11,7 +11,9 @@ export class EntryMenuSelectComponent implements OnInit {
   @Input() entries: Array<{ name: string; url: string }>;
   constructor(private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.router.navigate([this.entries[0].url]);
+  }
 
   onSelect(event): void {
     const url = event.target.value;

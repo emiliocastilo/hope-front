@@ -51,7 +51,6 @@ export class BiologicalAgentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('biological agents');
     this.getData();
   }
 

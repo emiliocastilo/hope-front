@@ -25,7 +25,6 @@ export class AvgAccumulatedExpensesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('medio true');
     this.getMedicines();
   }
 

@@ -50,7 +50,6 @@ export class ChemicalAgentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('chemical agents');
     this.getData();
   }
 

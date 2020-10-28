@@ -29,7 +29,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
   }
 
   showScreen(values: any) {
-    if (values.selectValue === 'Anual') {
+    if (values.selectValue === 'annual') {
       if (values.switchValue) {
         this.router.navigate([
           'dashboard/pharmacoeconomic/consumption-biological-treatment/accumulated-monthly-consuption-euros',

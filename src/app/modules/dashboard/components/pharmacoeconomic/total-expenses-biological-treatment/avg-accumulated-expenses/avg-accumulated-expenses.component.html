@@ -3,29 +3,34 @@
     <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
   </section>
 
-  <section class="table-container">
-    <div class="table-container_input-container">
-      <form
-        [formGroup]="form"
-        id="formYearlyGoal"
-        class="table-container_input-container_form"
-      >
-        <app-input-select
-          id="selectMedicine"
-          name="selectMedicine"
-          [isDisabled]="false"
-          type="number"
-          class="col-6"
-          currentValue="currenMedicine"
-          [options]="medicines"
-          [form]="form"
-          [optionSelected]="0"
-          [selectMultiple]="false"
-          [clearAfterSelect]="false"
-          (selectTrigger)="onSelectMedicine($event)"
+  <div *ngIf="medicines; else noContent">
+    <section class="table-container">
+      <div class="table-container_input-container">
+        <form
+          [formGroup]="form"
+          id="formYearlyGoal"
+          class="table-container_input-container_form"
         >
-        </app-input-select>
-      </form>
-    </div>
-  </section>
+          <app-input-select
+            id="selectMedicine"
+            name="selectMedicine"
+            [isDisabled]="false"
+            type="number"
+            class="col-6"
+            currentValue="currenMedicine"
+            [options]="medicines"
+            [form]="form"
+            [optionSelected]="0"
+            [selectMultiple]="false"
+            [clearAfterSelect]="false"
+            (selectTrigger)="onSelectMedicine($event)"
+          >
+          </app-input-select>
+        </form>
+      </div>
+    </section>
+  </div>
+  <ng-template #noContent>
+    {{ 'noData' | translate }}
+  </ng-template>
 </section>

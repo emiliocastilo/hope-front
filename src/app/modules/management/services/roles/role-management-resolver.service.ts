@@ -12,6 +12,6 @@ export class RoleManagementResolverService implements Resolve<Array<RolModel>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Array<RolModel>> {
     const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    return this.roleService.getRoles(user_aux['rolSelected']['id'],'&page=0');
+    return this.roleService.getRoles(user_aux['rolSelected']['id'], '&page=0');
   }
 }

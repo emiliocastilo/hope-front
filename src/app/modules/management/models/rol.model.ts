@@ -31,16 +31,16 @@ export class RolModel {
   }
 
   public setValuesFromObject(object: UsersModel, hospitals: HospitalModel[]) {
-    const user: UserModel = object.userDTO;
+    //  const user: UserModel = object;
 
-    const hospital: HospitalModel[] = this.setHospital(
-      user.hospitalId,
-      hospitals
-    );
+    // const hospital: HospitalModel[] = this.setHospital(
+    //   user.hospitalId,
+    //   hospitals
+    // );
 
     this.id = object.id;
     this.name = object.name;
-    this.userDTO = user;
+    //   this.userDTO = user;
   }
   private setHospital(id: number, hospitals: HospitalModel[]): HospitalModel[] {
     return hospitals.filter((value: HospitalModel) => value.id === id);
