@@ -29,7 +29,7 @@ export class RolModel {
     //this.userDTO = user;
   }
 
-  public setValuesFromObject(object: UsersModel, hospitals: HospitalModel[]) {
+  public setValuesFromObject(object: any, hospitals: HospitalModel[]) {
     //  const user: UserModel = object;
 
     // const hospital: HospitalModel[] = this.setHospital(

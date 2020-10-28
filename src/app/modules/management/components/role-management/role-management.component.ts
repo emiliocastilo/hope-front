@@ -31,9 +31,8 @@ export class RoleManagementComponent implements OnInit {
   public menuSelected: SideBarItemModel;
   public tableData: Array<RowDataModel>;
   public selectedItem: number;
-  public selectedRole: RolModel;
+  public selectedRole: RolModel = new RolModel();
   public isEditing = false;
-  public rol: RolModel[] = [];
   public users: UsersModel[] = [];
   public paginationData: PaginationModel;
   private currentPage = 0;
@@ -67,7 +66,7 @@ export class RoleManagementComponent implements OnInit {
 
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
     const userHospital: any = this.hospitals.find(
-      (hospital) => hospital.id === this.selectedUser.hospitalId
+      (hospital) => hospital.id === this.selectedUser.rolSelected.hospital.id
     );
     this.hospitals = [userHospital];
     this.getPathologiesIds();
@@ -81,9 +80,8 @@ export class RoleManagementComponent implements OnInit {
   }
 
   public onSelectedItem(event: number): void {
-    /*this.selectedRole = this.roles[event];*/
     this.selectedItem = event;
-    this.selectedUser.setValuesFromObject(this.users[event], this.hospitals);
+    this.selectedRole.setValuesFromObject(this.roles[event], this.hospitals);
     Object.keys(this.roles[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
         this.modalForm.controls[patientKey].setValue(
@@ -123,24 +121,19 @@ export class RoleManagementComponent implements OnInit {
       size: 'lg',
     });
     let options: any = {};
-    if (
-      this.selectedItem != null &&
-      this.selectedUser.hospital.length > 0 &&
-      this.selectedUser.serviceDTO
-    ) {
-      const servicesDto: any[] = [this.selectedUser.serviceDTO];
+    if (this.selectedItem !== null) {
       options = {
         hospital: {
           options: this.hospitals,
-          optionSelected: this.selectedUser.hospital[0].id,
+          optionSelected: this.selectedUser.rolSelected.hospital.id,
         },
         serviceDTO: {
           options: this.services,
-          optionSelected: servicesDto[0].id,
+          optionSelected: this.selectedUser.rolSelected.service.id,
         },
         pathology: {
           options: this.pathologies,
-          optionSelected: this.selectedPatient.pathologies[0].id,
+          optionSelected: this.selectedUser.rolSelected.pathology.id,
         },
       };
     } else {
