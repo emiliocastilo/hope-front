@@ -21,7 +21,6 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { RolModel } from '../../models/rol.model';
-import { UserModel } from '../../../../core/models/user/user.model';
 import { RoleService } from '../../../../core/services/role/role.service';
 import { forkJoin } from 'rxjs';
 import { SectionModel } from '../../models/section.model';

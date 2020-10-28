@@ -1,5 +1,4 @@
 import { ServiceModel } from '../../../../core/models/service/service.model';
-import { UserModel } from '../../../../core/models/user/user.model';
 import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 import { RolModel } from '../rol.model';
 
@@ -20,13 +19,13 @@ export class UsersModel {
   public setValuesFromDinamicForm(form: any) {
     const roles = form.roles ? form.roles[0] : null;
 
-    const user: UserModel = {
+    /*const user: UsersModel = {
       id: form.userDTO ? form.userDTO.id : null,
       username: form.username,
       email: form.email,
       // los roles los coge de la patologia TODO en el futuro
       roles: roles ? roles : null,
-    };
+    };*/
 
     this.name = form.name;
     this.surname = form.surname;

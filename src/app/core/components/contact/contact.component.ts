@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel } from '../../models/user/user.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { UsersModel } from 'src/app/modules/management/models/user/user.model';
 
 @Component({
   selector: 'app-contact',
@@ -11,7 +11,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./contact.component.scss'],
 })
 export class ContactComponent implements OnInit {
-  public currentUser: UserModel;
+  public currentUser: UsersModel;
   public form: FormGroup;
   public formKeys: string[];
   public showRequiredLegend: boolean = false;
