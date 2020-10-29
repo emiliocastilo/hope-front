@@ -60,7 +60,7 @@ export class PatientsComponent implements OnInit {
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
 
     const userHospital: any = this.hospitals.find(
-      (hospital) => hospital.id === this.selectedUser.hospitalId
+      (hospital) => hospital.id === this.selectedUser.rolSelected.hospital.id
     );
 
     this.hospitals = [userHospital];

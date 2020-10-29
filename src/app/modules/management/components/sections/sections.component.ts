@@ -29,6 +29,7 @@ export class SectionsComponent implements OnInit {
   public tableData: Array<RowDataModel>;
   public isEditing: boolean;
   public selectedItem: number;
+  public homeSection: number;
   public selectedSection: SectionModel = new SectionModel();
   public modalForm: FormGroup;
   public options: ITreeOptions;
@@ -79,7 +80,7 @@ export class SectionsComponent implements OnInit {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
-    this.makeRequests(parentNode ? parentNode.id : 1);
+    this.makeRequests(parentNode ? parentNode.id : this.homeSection);
   }
 
   public editSection(node: SectionModel): void {
@@ -211,6 +212,7 @@ export class SectionsComponent implements OnInit {
 
   private retrieveSections(): void {
     this.sectionsService.getSections().subscribe((data) => {
+      this.homeSection = data.id;
       this.sections = data.children;
     });
   }

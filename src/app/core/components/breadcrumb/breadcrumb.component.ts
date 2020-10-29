@@ -27,7 +27,9 @@ export class BreadcrumbComponent implements OnInit {
     this.receiveSection();
     this.listenRouter();
     if (this.menu[0] == null) {
-      this.getSectionById(1);
+      this._sectionsService
+        .getSections()
+        .subscribe((res) => this.getSectionById(res.id));
     } else {
       this.selectedSection = this.findSection(this.menu);
       if (this.selectedSection) {
