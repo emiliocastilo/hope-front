@@ -174,11 +174,11 @@ export class UsersComponent implements OnInit {
         this.rolService.getRoleById(String(this.users[event]['roles'][i])),
       ]).subscribe((responseData) => {
         this.activeRoles.push(
-          //  new RolModel(
-          responseData[0]['id']
-          //responseData[0]['name'],
-          // responseData[0]['description']
-          //   )
+          new RolModel(
+            responseData[0]['id'],
+            responseData[0]['name'],
+            responseData[0]['description']
+          )
         );
       });
     }
@@ -276,11 +276,14 @@ export class UsersComponent implements OnInit {
       formValues.dni,
       formValues.collegeNumber,
       formValues.username,
-      formValues.email,
-      modalRef.componentInstance.activeRoles
+      formValues.email
+      // modalRef.componentInstance.activeRoles
     );
 
-    user.setValuesFromDinamicForm(formValues);
+    user.setValuesFromDinamicForm(
+      formValues,
+      modalRef.componentInstance.activeRoles
+    );
 
     if (this.isEditing) {
       this._usersService.updateUser(user).subscribe(

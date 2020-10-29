@@ -16,22 +16,15 @@ export class UsersModel {
     public rolSelected?: Array<RolModel>
   ) {}
 
-  public setValuesFromDinamicForm(form: any) {
-    const roles = form.roles ? form.roles[0] : null;
-
-    /*const user: UsersModel = {
-      id: form.userDTO ? form.userDTO.id : null,
-      username: form.username,
-      email: form.email,
-      // los roles los coge de la patologia TODO en el futuro
-      roles: roles ? roles : null,
-    };*/
-
+  public setValuesFromDinamicForm(form: any, selectedRoles: Array<RolModel>) {
+    const parsedRoles = [];
+    selectedRoles.forEach((r: RolModel) => parsedRoles.push(r.id));
     this.name = form.name;
     this.surname = form.surname;
     this.phone = form.phone;
     this.dni = form.dni;
     this.collegeNumber = form.collegeNumber;
+    this.roles = parsedRoles;
   }
 
   public setValuesFromObject(
