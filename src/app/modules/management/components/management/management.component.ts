@@ -10,7 +10,7 @@ import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.mod
 export class ManagementComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
   menu: SideBarItemModel[] = [];
-  public menuId: number = 4;
+  public menuId = 4;
 
   constructor() {}
 

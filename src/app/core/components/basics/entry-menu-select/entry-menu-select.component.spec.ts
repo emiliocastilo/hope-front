@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SideBarLinkComponent } from './side-bar-link.component';
+import { EntryMenuSelectComponent } from './entry-menu-select.component';
 
-describe('SideBarLinkComponent', () => {
-  let component: SideBarLinkComponent;
-  let fixture: ComponentFixture<SideBarLinkComponent>;
+describe('EntryMenuSelectComponent', () => {
+  let component: EntryMenuSelectComponent;
+  let fixture: ComponentFixture<EntryMenuSelectComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SideBarLinkComponent],
+      declarations: [EntryMenuSelectComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SideBarLinkComponent);
+    fixture = TestBed.createComponent(EntryMenuSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

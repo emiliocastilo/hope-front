@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class GraphsService {
-  public selectedUser: any;
+  public selectedRole: any;
   constructor(private _httpClient: HttpClient) {}
 
   //TODO: delete if it isn't using it
@@ -23,8 +23,8 @@ export class GraphsService {
   // }
 
   public getChartTableCIE(): Observable<any> {
-    this.selectedUser = JSON.parse(localStorage.getItem('user'));
-    const userHospital: any = this.selectedUser.hospitalId;
+    this.selectedRole = JSON.parse(localStorage.getItem('role'));
+    const userHospital: any = this.selectedRole.hospital.id;
     return this._httpClient.get(
       '/patients-diagnoses/cie?hospitalId=' + userHospital
     );

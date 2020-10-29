@@ -14,6 +14,7 @@ import { SectionModel } from '../../models/section.model';
 import { RoleManagementService } from '../../services/roles/role-management.service';
 import { SectionsService } from '../../services/sections/sections.service';
 import { forkJoin } from 'rxjs';
+import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
 
 @Component({
   selector: 'app-sections',
@@ -36,6 +37,7 @@ export class SectionsComponent implements OnInit {
 
   constructor(
     private sectionsService: SectionsService,
+    private _sidebar: SideBarService,
     private rolService: RoleManagementService,
     private modalService: NgbModal,
     private toastr: ToastrService,
@@ -86,7 +88,8 @@ export class SectionsComponent implements OnInit {
   }
 
   private makeRequests(id: number): void {
-    const getRoles = this.rolService.getAllRoles();
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+    const getRoles = this.rolService.getAllRoles(user_aux['rolSelected']['id']);
     const getNodeData = this.sectionsService.getSectionById(id);
 
     forkJoin([getRoles, getNodeData]).subscribe((responseData) => {
@@ -203,6 +206,7 @@ export class SectionsComponent implements OnInit {
         }
       );
     }
+    this._sidebar.event.next('fetch menu');
   }
 
   private retrieveSections(): void {

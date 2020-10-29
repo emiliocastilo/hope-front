@@ -55,7 +55,7 @@ export class PatientsComponent implements OnInit {
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     // this.patients = this._activatedRoute.snapshot.data.patients.content;
-
+    this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
 
@@ -64,8 +64,6 @@ export class PatientsComponent implements OnInit {
     );
 
     this.hospitals = [userHospital];
-    // this.pathologies = this.selectedUser.pathologies; // TODO: esta deberia ser la llamada correcta, de momento cogemos las patologias del hospital del usuario
-    this.pathologies = userHospital.pathologies;
     this.getPathologiesIds();
     this.getPatients();
 

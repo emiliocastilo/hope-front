@@ -9,7 +9,6 @@ import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 })
 export class HeaderComponent implements OnInit {
   @Input() menuCollapsed = false;
-  @Input() crumbs: SideBarItemModel[];
   name: string = '';
   description: string = '';
 

@@ -40,11 +40,7 @@
         </a>
       </span>
       <p *ngIf="!collapsed && menuOption.collapsed" class="m-0 p-0">
-        <side-bar-menu
-          [level]="level + LEVEL_ONE"
-          [menu]="menuOption.children"
-          [selected]="selected"
-        >
+        <side-bar-menu [level]="level + LEVEL_ONE" [menu]="menuOption.children">
         </side-bar-menu>
       </p>
     </li>

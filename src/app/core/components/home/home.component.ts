@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeDashboardModule } from '../../models/home-dashboard/home-dashboard-module.model';
-import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
+import { SideBarService } from '../../services/side-bar/side-bar.service';
 
 @Component({
   selector: 'home',
@@ -10,13 +10,17 @@ import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service'
 export class HomeComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
 
-  constructor(private _sideBar: SideBarService) {}
+  constructor(private _sidebar: SideBarService) {}
 
   ngOnInit(): void {
-    this._sideBar.getSideBar().subscribe((response) => {
-      if (response.children) {
-        this.modules = response.children;
-      }
-    });
+    this.modules = JSON.parse(localStorage.getItem('menu'));
+    if (!this.modules) {
+      this.fetchModules();
+    }
+  }
+
+  async fetchModules() {
+    const response: any = await this._sidebar.getSideBar();
+    this.modules = response.children;
   }
 }

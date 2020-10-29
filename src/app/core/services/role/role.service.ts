@@ -7,7 +7,7 @@ export class RoleService {
   constructor() {}
 
   public get currentUserRole() {
-    return localStorage.getItem('role');
+    return JSON.parse(localStorage.getItem('role'));
   }
 
   public get userRoles() {

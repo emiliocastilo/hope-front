@@ -72,6 +72,7 @@ export class EditorModalBodyComponent implements OnInit {
       fileDispensation: 'file',
       photo: 'file',
       hospital: 'select',
+      rol: 'select',
       serviceDTO: 'select',
       pathology: 'select',
     };

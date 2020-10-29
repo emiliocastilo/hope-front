@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ProfileModel } from '../../models/login/profile.model';
 import { NotificationService } from '../../services/notification.service';
+import { RolModel } from '../../../modules/management/models/rol.model';
 
 @Component({
   selector: 'app-select-role',
@@ -17,8 +18,8 @@ export class SelectRoleComponent implements OnInit {
   selectRoleForm: FormGroup;
   loading = false;
   submitted = false;
-  roles: Array<string>;
-  selectedRole: string;
+  roles: Array<any>;
+  selectedRole: RolModel;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -41,7 +42,7 @@ export class SelectRoleComponent implements OnInit {
     }
   }
 
-  chooseProfile(role: string): void {
+  chooseProfile(role: RolModel): void {
     this._loginService.postChooseProfile(role).subscribe(
       (data) => {
         const token = data.headers.get('Authorization');
@@ -58,7 +59,7 @@ export class SelectRoleComponent implements OnInit {
   }
 
   setCurrentRole(data: ProfileModel): void {
-    localStorage.setItem('role', data.role);
+    localStorage.setItem('role', JSON.stringify(data.role));
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', data.user);
   }
@@ -67,7 +68,7 @@ export class SelectRoleComponent implements OnInit {
     return this.selectRoleForm.controls;
   }
 
-  onFormSubmit(selected: string) {
+  onFormSubmit(selected: RolModel) {
     this.selectedRole = selected;
     if (!this.selectedRole) {
       return;

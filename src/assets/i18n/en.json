@@ -22,6 +22,7 @@
   "validation.password": "Password is required.",
   "select.rol": "Select a Role",
   "medic": "Doctor",
+  "medics": "Doctors",
   "modify": "Modify",
   "create": "Create",
   "detail": "Detail",
@@ -37,6 +38,7 @@
   "email": "Email",
   "birthDate": "Birthdate",
   "anotherData": "Another data",
+  "users": "users",
   "cieCode": "Cie",
   "dateCie": "Date",
   "hospital": "Hospital",
@@ -350,7 +352,7 @@
   "dose": "Dose",
   "type": "Type",
   "waveLongitude": "Wave longitude",
-  "timesAWeek":  "Times a week",
+  "timesAWeek": "Times a week",
   "sessionNumbers": "Session number",
   "uvb": "UVB",
   "psoralenoPlusUva": "Psoraleno+Uva",
@@ -391,5 +393,14 @@
     "motive8": "Preferencia del paciente",
     "motive9": "Embarazo",
     "motive10": "Otros"
-  }
+  },
+  "selectManagement": "Select the option you want to show...",
+  "biological": "Biological",
+  "chemical": "Chemical",
+  "annual": "Annual",
+  "total": "Total",
+  "average": "Average",
+  "accumulated": "Accumulated",
+  "totalExpensesBiologicalTreatment": "Total expenses biological treatment",
+  "consumptionBiologicalTreatment": "Consumption biological treatment"
 }

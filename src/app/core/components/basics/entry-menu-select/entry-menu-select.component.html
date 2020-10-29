@@ -1,0 +1,12 @@
+<div class="select">
+  <div class="select-label">
+    <label> {{ label | translate }}</label>
+  </div>
+  <div class="select-entries">
+    <select (change)="onSelect($event)">
+      <option *ngFor="let entry of entries" [value]="entry.url">
+        {{ entry.name | translate }}
+      </option>
+    </select>
+  </div>
+</div>

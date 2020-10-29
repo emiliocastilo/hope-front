@@ -103,10 +103,12 @@ export class TotalExpensesComponent implements OnInit {
     const query = 'size=1000';
     this._medicinesService.getAll(query).subscribe(
       (data) => {
-        this.medicines = data.content;
-        this.addNameToMedicine(this.medicines);
-        this.currenMedicine = this.medicines[0];
-        this.getTreatments();
+        if (!data.empty) {
+          this.medicines = data.content;
+          this.addNameToMedicine(this.medicines);
+          this.currenMedicine = this.medicines[0];
+          this.getTreatments();
+        }
       },
       (error) => {
         console.error(error);

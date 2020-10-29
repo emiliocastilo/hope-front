@@ -5,14 +5,14 @@ import { HospitalResolverService } from 'src/app/core/services/hospital/hospital
 import { ServiceResolverService } from 'src/app/core/services/service/service-resolver.service';
 import { DispensationsComponent } from './components/dispensations/dispensations.component';
 import { ManagementComponent } from './components/management/management.component';
-import { MedicsComponent } from './components/medics/medics.component';
-import { PatientsComponent } from './components/patients/patients.component';
-import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { SectionsComponent } from './components/sections/sections.component';
 import { DispensationResolverService } from './services/dispensation/dispensation-resolver.service';
-import { MedicResolverService } from './services/medic/medic-resolver.service';
+import { UsersResolverService } from './services/medic/users-resolver.service';
 import { PatientsResolverService } from './services/patients/patients-resolver.service';
 import { RoleManagementResolverService } from './services/roles/role-management-resolver.service';
+import { UsersComponent } from './components/users/users.component';
+import { PatientsComponent } from './components/patients/patients.component';
+import { RoleManagementComponent } from './components/role-management/role-management.component';
 
 const routes: Routes = [
   {
@@ -21,11 +21,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'medics',
-    component: MedicsComponent,
+    path: 'users',
+    component: UsersComponent,
     resolve: {
       hospitals: HospitalResolverService,
-      medics: MedicResolverService,
+      users: UsersResolverService,
       services: ServiceResolverService,
     },
     canActivate: [AuthGuard],
@@ -43,7 +43,10 @@ const routes: Routes = [
     path: 'roles',
     component: RoleManagementComponent,
     resolve: {
+      hospitals: HospitalResolverService,
       roles: RoleManagementResolverService,
+      users: UsersResolverService,
+      services: ServiceResolverService,
     },
     canActivate: [AuthGuard],
   },

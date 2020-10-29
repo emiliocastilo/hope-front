@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class SideBarService {
 
   public event = new Subject();
 
-  public getSideBar(): Observable<any> {
-    return this._httpClient.get('/menus');
+  public getSideBar() {
+    return this._httpClient.get('/menus').toPromise();
   }
 }

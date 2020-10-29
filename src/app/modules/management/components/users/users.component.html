@@ -13,7 +13,7 @@
           type="button"
           icono="plus-circle"
           clasesBtn="btn-primary btn-sm mx-2"
-          (click)="saveDoctor()"
+          (click)="saveUser()"
           texto="btn.new"
         >
         </app-button>
@@ -29,7 +29,7 @@
       <div class="mt-4">
         <app-table
           [columnsHeader]="columHeaders"
-          [columnsData]="medics"
+          [columnsData]="users"
           (selectedItem)="onSelectedItem($event)"
           (sort)="onSort($event)"
           [showActionButtons]="true"
