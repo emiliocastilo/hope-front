@@ -3,5 +3,7 @@
     [(value)]="minValue"
     [(highValue)]="maxValue"
     [options]="options"
+    (valueChange)="onMinValueChange()"
+    (highValueChange)="onMaxValueChange()"
   ></ng5-slider>
 </div>

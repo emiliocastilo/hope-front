@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Options } from 'ng5-slider';
 
 @Component({
@@ -7,17 +7,32 @@ import { Options } from 'ng5-slider';
   styleUrls: ['./dates-bar.component.scss'],
 })
 export class DatesBarComponent implements OnInit {
-  dates = ['2020-12-19', '2020-12-20', '2020-12-21', '2020-12-22'];
-  minValue = 0;
-  maxValue = this.dates.length - 1;
-  options: Options = {
-    floor: 0,
-    ceil: this.dates.length - 1,
-    translate: (value: number): string => {
-      return this.dates[value];
-    },
-  };
+  @Input() dates: Array<string>;
+  minValue: number;
+  maxValue: number;
+  options: Options;
+  @Output() indexes: EventEmitter<any> = new EventEmitter();
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.dates && this.dates.length > 0) {
+      this.minValue = 0;
+      this.maxValue = this.dates.length - 1;
+      this.options = {
+        floor: 0,
+        ceil: this.dates.length - 1,
+        translate: (value: number): string => {
+          return this.dates[value];
+        },
+      };
+    }
+  }
+
+  onMinValueChange() {
+    this.indexes.emit({ min: this.minValue, max: this.maxValue });
+  }
+
+  onMaxValueChange() {
+    this.indexes.emit({ min: this.minValue, max: this.maxValue });
+  }
 }
