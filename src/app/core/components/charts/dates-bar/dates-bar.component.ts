@@ -22,17 +22,17 @@ export class DatesBarComponent implements OnInit {
         floor: 0,
         ceil: this.dates.length - 1,
         translate: (value: number): string => {
-          return this.dates[value];
+          return new Date(this.dates[value]).toLocaleDateString();
         },
       };
     }
   }
 
   onMinValueChange() {
-    this.indexes.emit({ min: this.minValue, max: this.maxValue });
+    this.indexes.emit({ min: this.minValue });
   }
 
   onMaxValueChange() {
-    this.indexes.emit({ min: this.minValue, max: this.maxValue });
+    this.indexes.emit({ max: this.maxValue });
   }
 }

@@ -8,6 +8,7 @@ import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart
 import { ScriptLoaderService } from 'angular-google-charts';
 // import { GraphsService } from '../../../../dashboard/services/graphs.service';
 // import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-dashboard-patients',
@@ -19,6 +20,7 @@ export class DashboardPatientsComponent implements OnInit {
   public menuSelected: SideBarItemModel;
   public patients: PatientModel[] = [];
   public selectedItem: number;
+  public data: any;
   public globalDates: Array<string>;
   public selectedPatient: PatientModel;
   public dataChart: ChartObjectModel[];
@@ -79,7 +81,7 @@ export class DashboardPatientsComponent implements OnInit {
     this._patientDashboardService
       .getPatientsDashboardById(this.selectedPatient.id)
       .subscribe((data) => {
-        data = {
+        this.data = {
           indicesEvolution: {
             DLQI: [
               {
@@ -247,18 +249,25 @@ export class DashboardPatientsComponent implements OnInit {
           },
           adherence: [],
         };
-        this.globalDates = [
-          '2020-12-19',
-          '2020-12-20',
-          '2020-12-21',
-          '2020-12-22',
-        ];
-        this.dataChart = this.parseDataChart(data);
+
+        this.dataChart = this.parseDataChart(this.data);
+
+        this.globalDates = _.sortBy(
+          _.union(
+            _.flatten(
+              this.dataChart.map((el) => {
+                return el.series.map((v) => {
+                  return v.name.toISOString().split('T')[0];
+                });
+              })
+            )
+          )
+        );
 
         const dataGantt = {
-          BIOLOGICO: data.treatments.BIOLOGICO,
-          FAME: data.treatments.FAME,
-          ADHERENCIA: data.adherence,
+          BIOLOGICO: this.data.treatments.BIOLOGICO,
+          FAME: this.data.treatments.FAME,
+          ADHERENCIA: this.data.adherence,
         };
 
         this.configGantt.data = this.parseDataGantt(dataGantt);
@@ -278,8 +287,25 @@ export class DashboardPatientsComponent implements OnInit {
       });
   }
 
+  parseDatesChart(dates: any) {
+    const { min, max } = dates;
+    const start = Date.parse(this.globalDates[min]);
+    const end = Date.parse(this.globalDates[max]);
+    Object.keys(this.data.indicesEvolution).forEach((element: any) => {
+      this.data.indicesEvolution[element].forEach((v) => {
+        const d = Date.parse(new Date(v.date).toISOString().split('T')[0]);
+        if (d > start && d < end) {
+          console.log('is inside range');
+        } else {
+          console.log('not inside range');
+        }
+      });
+    });
+  }
+
   onChangeIndexes(event: any) {
-    console.log(event);
+    console.log('change index', event);
+    // this.parseDatesChart(event);
   }
 
   private loadChart(data: any): void {
