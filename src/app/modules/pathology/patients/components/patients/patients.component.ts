@@ -1,7 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { PatientModel } from '../../models/patient.model';
-import { PatientsService } from '../../services/patients.service';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
@@ -11,6 +10,7 @@ import {
 } from 'src/app/modules/management/constants/patients.constants';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 
 @Component({
   selector: 'app-patients',
@@ -74,7 +74,7 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._patientsService.getPatients(query).subscribe((data) => {
+    this._patientsService.getPatients([],query).subscribe((data) => {
       this.patients = data.content;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
