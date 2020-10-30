@@ -163,13 +163,14 @@ export class RoleManagementComponent implements OnInit {
     }
     const pathologies = [];
     pathologies.push(formValues.pathology[0]);
+    console.log(formValues.hospital)
     const rol: RolModel = new RolModel(
       id,
       formValues.name,
       formValues.description,
       formValues.userDTO,
-      formValues.serviceDTO,
-      formValues.hospital,
+      formValues.service,
+      formValues.hospital[0],//Le pongo el 0 por que siempre viene uno 
       pathologies
     );
     rol.setValuesFromDinamicForm(formValues);
