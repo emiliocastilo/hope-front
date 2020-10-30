@@ -9,8 +9,8 @@ export class RolModel {
     public name?: string,
     public description?: string,
     public userDTO?: UsersModel,
-    public serviceDTO?: ServiceModel[],
-    public hospital?: HospitalModel[],
+    public service?: ServiceModel[],
+    public hospital?: HospitalModel,
     public pathology?: Array<PathologyModel>
   ) {}
   public setValuesFromDinamicForm(form: any) {
@@ -25,7 +25,7 @@ export class RolModel {
 
     this.pathology = pathologyId;
     this.name = form.name;
-    this.serviceDTO = service as any;
+    this.service = service as any;
     //this.userDTO = user;
   }
 
