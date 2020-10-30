@@ -105,8 +105,13 @@ export class PatientsComponent implements OnInit {
   }
 
   public getPatients() {
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+    let pathology_id = []
+    if(user_aux['rolSelected']['pathology'] != null){
+      pathology_id = user_aux['rolSelected']['pathology']['id'];
+    }
     this._patientsService
-      .getPatients(this.pathologiesIds, '')
+      .getPatients(pathology_id, '')
       .subscribe((data) => {
         this.patients = data.content;
       });
@@ -327,8 +332,13 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+    let pathology_id = []
+    if(user_aux['rolSelected']['pathology'] != null){
+      pathology_id = user_aux['rolSelected']['pathology']['id'];
+    }
     this._patientsService
-      .getPatients(this.pathologiesIds, query)
+      .getPatients(pathology_id, query)
       .subscribe((data) => {
         this.patients = data.content;
         if (this.paginationData.totalPages !== data.totalPages) {

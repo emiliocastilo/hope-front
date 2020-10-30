@@ -74,7 +74,12 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._patientsService.getPatients([],query).subscribe((data) => {
+    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+    let pathology_id = []
+    if(user_aux['rolSelected']['pathology'] != null){
+      pathology_id = user_aux['rolSelected']['pathology']['id'];
+    }
+    this._patientsService.getPatients(pathology_id,query).subscribe((data) => {
       this.patients = data.content;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
