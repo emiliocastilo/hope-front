@@ -123,7 +123,6 @@ export class RoleManagementComponent implements OnInit {
     });
     let options: any = {};
     if (this.selectedItem !== null) {
-      debugger;
       options = {
         hospital: {
           options: this.hospitals,
@@ -169,7 +168,6 @@ export class RoleManagementComponent implements OnInit {
     if (this.isEditing) {
       id = this.roles[this.selectedItem].id;
     }
-    debugger;
     console.log(formValues.hospital);
     const rol: RolModel = new RolModel(
       id,
