@@ -55,7 +55,7 @@ export class RoleManagementComponent implements OnInit {
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _hospitalService: HospitalService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.paginationData = this._activatedRoute.snapshot.data.roles;
@@ -123,19 +123,25 @@ export class RoleManagementComponent implements OnInit {
     });
     let options: any = {};
     if (this.selectedItem !== null) {
-      debugger
+      debugger;
       options = {
         hospital: {
           options: this.hospitals,
-          optionSelected: this.selectedRole.hospital ? this.selectedRole.hospital.id : null,
+          optionSelected: this.selectedRole.hospital
+            ? this.selectedRole.hospital.id
+            : null,
         },
         serviceDTO: {
           options: this.services,
-          optionSelected: this.selectedRole.service ? this.selectedRole.service.id : null,
+          optionSelected: this.selectedRole.service
+            ? this.selectedRole.service.id
+            : null,
         },
         pathology: {
           options: this.pathologies,
-          optionSelected: this.selectedRole.pathology ? this.selectedRole.pathology.id : null,
+          optionSelected: this.selectedRole.pathology
+            ? this.selectedRole.pathology.id
+            : null,
         },
       };
     } else {
@@ -163,14 +169,14 @@ export class RoleManagementComponent implements OnInit {
     if (this.isEditing) {
       id = this.roles[this.selectedItem].id;
     }
-debugger
-    console.log(formValues.hospital)
+    debugger;
+    console.log(formValues.hospital);
     const rol: RolModel = new RolModel(
       id,
       formValues.name,
       formValues.description,
       formValues.service,
-      formValues.hospital, 
+      formValues.hospital,
       formValues.pathology[0]
     );
     rol.setValuesFromDinamicForm(formValues);

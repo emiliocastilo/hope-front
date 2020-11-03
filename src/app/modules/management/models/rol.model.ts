@@ -12,7 +12,7 @@ export class RolModel {
     public hospital?: HospitalModel,
     public pathology?: PathologyModel,
     public code?: string
-  ) { }
+  ) {}
   public setValuesFromDinamicForm(form: any) {
     const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
     const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;

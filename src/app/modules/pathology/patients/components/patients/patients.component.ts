@@ -74,7 +74,7 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._patientsService.getPatients([],query).subscribe((data) => {
+    this._patientsService.getPatients([], query).subscribe((data) => {
       this.patients = data.content;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
