@@ -8,40 +8,32 @@ export class RolModel {
     public id?: any,
     public name?: string,
     public description?: string,
-    public userDTO?: UsersModel,
-    public service?: ServiceModel[],
+    public service?: ServiceModel,
     public hospital?: HospitalModel,
-    public pathology?: Array<PathologyModel>
-  ) {}
+    public pathology?: PathologyModel,
+    public code?: string
+  ) { }
   public setValuesFromDinamicForm(form: any) {
     const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
     const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
     const pathologyId = form.pathology ? form.pathology[0] : null;
-    /*const user: UsersModel = {
-      id: form.userDTO ? form.userDTO.id : null,
-      roles: [null],
-      //hospitalId: hospital ? hospital.id : null,
-    };*/
 
     this.pathology = pathologyId;
     this.name = form.name;
     this.service = service as any;
-    //this.userDTO = user;
   }
 
-  public setValuesFromObject(object: any, hospitals: HospitalModel[]) {
-    //  const user: UserModel = object;
-
-    // const hospital: HospitalModel[] = this.setHospital(
-    //   user.hospitalId,
-    //   hospitals
-    // );
+  public setValuesFromObject(object: any) {
+    const service: ServiceModel = object.service;
+    const pathology: PathologyModel = object.pathology;
+    const hospital: HospitalModel = object.hospital;
 
     this.id = object.id;
     this.name = object.name;
-    //   this.userDTO = user;
-  }
-  private setHospital(id: number, hospitals: HospitalModel[]): HospitalModel[] {
-    return hospitals.filter((value: HospitalModel) => value.id === id);
+    this.description = object.description;
+    this.code = object.code;
+    this.hospital = hospital;
+    this.pathology = pathology;
+    this.service = service;
   }
 }

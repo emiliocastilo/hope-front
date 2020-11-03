@@ -55,7 +55,7 @@ export class RoleManagementComponent implements OnInit {
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _hospitalService: HospitalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.paginationData = this._activatedRoute.snapshot.data.roles;
@@ -79,9 +79,10 @@ export class RoleManagementComponent implements OnInit {
     });
   }
 
-  public onSelectedItem(event: number): void {
+  public onSelectedItem(event: any): void {
     this.selectedItem = event;
-    this.selectedRole.setValuesFromObject(this.roles[event], this.hospitals);
+    this.selectedRole.setValuesFromObject(this.roles[event]);
+
     Object.keys(this.roles[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {
         this.modalForm.controls[patientKey].setValue(
@@ -122,18 +123,19 @@ export class RoleManagementComponent implements OnInit {
     });
     let options: any = {};
     if (this.selectedItem !== null) {
+      debugger
       options = {
         hospital: {
           options: this.hospitals,
-          optionSelected: this.selectedUser.rolSelected.hospital.id,
+          optionSelected: this.selectedRole.hospital ? this.selectedRole.hospital.id : null,
         },
         serviceDTO: {
           options: this.services,
-          optionSelected: this.selectedUser.rolSelected.service.id,
+          optionSelected: this.selectedRole.service ? this.selectedRole.service.id : null,
         },
         pathology: {
           options: this.pathologies,
-          optionSelected: this.selectedUser.rolSelected.pathology.id,
+          optionSelected: this.selectedRole.pathology ? this.selectedRole.pathology.id : null,
         },
       };
     } else {
@@ -161,17 +163,15 @@ export class RoleManagementComponent implements OnInit {
     if (this.isEditing) {
       id = this.roles[this.selectedItem].id;
     }
-    const pathologies = [];
-    pathologies.push(formValues.pathology[0]);
+debugger
     console.log(formValues.hospital)
     const rol: RolModel = new RolModel(
       id,
       formValues.name,
       formValues.description,
-      formValues.userDTO,
       formValues.service,
-      formValues.hospital[0],//Le pongo el 0 por que siempre viene uno 
-      pathologies
+      formValues.hospital, 
+      formValues.pathology[0]
     );
     rol.setValuesFromDinamicForm(formValues);
     this.selectedRole = new RolModel();
