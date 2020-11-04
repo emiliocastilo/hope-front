@@ -76,12 +76,14 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, query).subscribe((data) => {
-      this.patients = data.content;
-      if (this.paginationData.totalPages !== data.totalPages) {
-        this.paginationData = data;
-      }
-    });
+    this._patientsService
+      .getPatients(this.selectedUser.rolSelected.pathology.id, query)
+      .subscribe((data) => {
+        this.patients = data.content;
+        if (this.paginationData.totalPages !== data.totalPages) {
+          this.paginationData = data;
+        }
+      });
   }
 
   public onSort(event: any) {
