@@ -221,7 +221,7 @@ export class PatientsComponent implements OnInit {
     ) {
       // Se selecciona la patología del usuario logado, coincidente con la del paciente.
       const isInArrayPathology = this.selectedPatient.pathologies.findIndex(
-        (x) => x.id === this.selectedUser.rolSelected.pathology.id
+        (element) => element.id === this.selectedUser.rolSelected.pathology.id
       );
       options = {
         hospital: {
