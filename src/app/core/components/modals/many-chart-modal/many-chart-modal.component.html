@@ -4,6 +4,16 @@
     (close)="onClose()"
   ></app-generic-modal-header>
   <section class="row modal-content_checkbox-container">
+    <div class="modal-content_checkbox-container_container" *ngIf="dataParsed.length > 0">
+      <label for ="checkAll">Sel./Desel Todos</label>
+      <input
+        name="checkAll"
+        type="checkbox"
+        id="checkAll"
+        [(ngModel)]="masterSelected"
+        (change)="checkUncheckAll()"
+      />
+    </div>
     <div
       *ngFor="let chart of dataParsed"
       class="modal-content_checkbox-container_container"
@@ -15,7 +25,7 @@
         [name]="chart.chartConfig.chartTitle"
         type="checkbox"
         [id]="chart.chartConfig.chartTitle"
-        [(ngModel)]="chart.show"
+        [(ngModel)]="chart.show"  
       />
     </div>
   </section>

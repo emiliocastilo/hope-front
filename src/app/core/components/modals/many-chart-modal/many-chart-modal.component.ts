@@ -19,6 +19,8 @@ export class ManyChartModalComponent implements OnInit {
     totalElements: 0,
   };
 
+  public masterSelected = true;
+  
   public dataParsed: any[] = [];
   public columnsHeader: string[] = ['date', 'value'];
 
@@ -117,4 +119,10 @@ export class ManyChartModalComponent implements OnInit {
       return acc;
     }, []);
   }
-}
+
+  public checkUncheckAll() {
+    for (var i = 0; i < this.dataParsed.length; i++) {
+      this.dataParsed[i].show = this.masterSelected;
+    }
+  }
+} 
