@@ -105,9 +105,11 @@ export class PatientsComponent implements OnInit {
   }
 
   public getPatients() {
-    this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, '').subscribe((data) => {
-      this.patients = data.content;
-    });
+    this._patientsService
+      .getPatients(this.selectedUser.rolSelected.pathology.id, '')
+      .subscribe((data) => {
+        this.patients = data.content;
+      });
   }
 
   public getPathologiesIds() {
@@ -127,7 +129,6 @@ export class PatientsComponent implements OnInit {
   public onIconButtonClick(event: any) {
     if (event && event.type === 'edit') {
       if (this.selectedPatient) {
-        console.log(this.selectedPatient)
         this.pathologies = [];
         const role_aux = JSON.parse(localStorage.getItem('role') || '{}');
         if (role_aux['service']['pathologies'].length > 0) {
@@ -259,13 +260,18 @@ export class PatientsComponent implements OnInit {
     }
     const pathologies = [];
     for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
-      if((parseInt(this.selectedPatient.pathologies[i].id) != parseInt(formValues.pathology[0].id)) && (parseInt(this.selectedPatient.pathologies[i].id) == parseInt(this.selectedUser.rolSelected.pathology.id))){
+      if (
+        parseInt(this.selectedPatient.pathologies[i].id) !=
+          parseInt(formValues.pathology[0].id) &&
+        parseInt(this.selectedPatient.pathologies[i].id) ==
+          parseInt(this.selectedUser.rolSelected.pathology.id)
+      ) {
         pathologies.push(formValues.pathology[0]);
-      }else{
-        pathologies.push(this.selectedPatient.pathologies[i])
+      } else {
+        pathologies.push(this.selectedPatient.pathologies[i]);
       }
     }
-    console.log(pathologies)
+    console.log(pathologies);
     const hospital = formValues.hospital
       ? formValues.hospital[0]
         ? formValues.hospital[0]
@@ -327,11 +333,13 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, query).subscribe((data) => {
-      this.patients = data.content;
-      if (this.paginationData.totalPages !== data.totalPages) {
-        this.paginationData = data;
-      }
-    });
+    this._patientsService
+      .getPatients(this.selectedUser.rolSelected.pathology.id, query)
+      .subscribe((data) => {
+        this.patients = data.content;
+        if (this.paginationData.totalPages !== data.totalPages) {
+          this.paginationData = data;
+        }
+      });
   }
 }
