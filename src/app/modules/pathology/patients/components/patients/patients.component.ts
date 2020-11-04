@@ -31,6 +31,7 @@ export class PatientsComponent implements OnInit {
   public paginationData: PaginationModel;
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
   public itemsPerPage: number;
+  private selectedUser: any;
 
   constructor(
     private _patientsService: PatientsService,
@@ -44,6 +45,7 @@ export class PatientsComponent implements OnInit {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
+    this.selectedUser = JSON.parse(localStorage.getItem('user'));
   }
 
   public goToDermatologiPatients(): void {
@@ -74,12 +76,14 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    this._patientsService.getPatients([],query).subscribe((data) => {
-      this.patients = data.content;
-      if (this.paginationData.totalPages !== data.totalPages) {
-        this.paginationData = data;
-      }
-    });
+    this._patientsService
+      .getPatients(this.selectedUser.rolSelected.pathology.id, query)
+      .subscribe((data) => {
+        this.patients = data.content;
+        if (this.paginationData.totalPages !== data.totalPages) {
+          this.paginationData = data;
+        }
+      });
   }
 
   public onSort(event: any) {

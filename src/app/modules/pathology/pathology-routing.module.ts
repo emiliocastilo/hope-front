@@ -7,35 +7,16 @@ import { PatientsResolverService } from '../management/services/patients/patient
 import { PatientsComponent } from './patients/components/patients/patients.component';
 import { PersonalInformationComponent } from './patients/components/personal-information/personal-information.component';
 import { DashboardPatientsComponent } from './patients/components/dashboard-patients/dashboard-patients.component';
-import { SociodemographicDataComponent } from './patients/components/sociodemographic-data/sociodemographic-data.component';
-import { GeneralPatientDataComponent } from './patients/components/general-patient-data/general-patient-data.component';
-import { TracingComponent } from './patients/components/tracing/tracing.component';
 import { EavPaseComponent } from './patients/components/eav-pase/eav-pase.component';
 import { DiagnosisComponent } from './patients/components/diagnosis/diagnosis.component';
-import { ComplementaryImagingScansComponent } from './patients/components/complementary-imaging-scans/complementary-imaging-scans.component';
-import { AdherenceToTreatmentMoriskyComponent } from './patients/components/adherence-to-treatment-morisky/adherence-to-treatment-morisky.component';
-import { AdherenceToTreatmentHaynesComponent } from './patients/components/adherence-to-treatment-haynes/adherence-to-treatment-haynes.component';
-import { ConsentComponent } from './patients/components/consent/consent.component';
-import { FamilyHistoryComponent } from './patients/components/family-history/family-history.component';
-import { PhysicalConditionComponent } from './patients/components/physical-condition/physical-condition.component';
-import { WorkGroupsComponent } from './patients/components/work-groups/work-groups.component';
-import { ConsumptionHabitsComponent } from './patients/components/consumption-habits/consumption-habits.component';
-import { PrincipalDiagnosisComponent } from './patients/components/diagnosis/principal-diagnosis/principal-diagnosis.component';
-import { SecundaryDiagnosisComponent } from './patients/components/diagnosis/secundary-diagnosis/secundary-diagnosis.component';
 import { ComorbiditiesComponent } from './patients/components/diagnosis/comorbidities/comorbidities.component';
-import { BloodCountComponent } from './patients/components/blood-count/blood-count.component';
-import { MetabolicProfileComponent } from './patients/components/metabolic-profile/metabolic-profile.component';
-import { BiologicalDrugMonitoringComponent } from './patients/components/biological-drug-monitoring/biological-drug-monitoring.component';
-import { LeukocyteAntibodyAntigenComponent } from './patients/components/leukocyte-antibody-antigen/leukocyte-antibody-antigen.component';
-import { SerologyComponent } from './patients/components/serology/serology.component';
-import { KidneyLiverBiochemistryComponent } from './patients/components/kidney-liver-biochemistry/kidney-liver-biochemistry.component';
-import { SharedPatientsComponent } from './patients/components/shared-patients/shared-patients.component';
 import { EvolutionClinicalIndicesComponent } from './patients/components/evolution-clinical-indices/evolution-clinical-indices.component';
 import { NapsiComponent } from './patients/components/evolution-clinical-indices/napsi/napsi.component';
 import { PhototherapyComponent } from './patients/components/phototherapy/phototherapy.component';
 import { PrincipalTreatmentComponent } from './patients/components/principal-treatment/principal-treatment.component';
 import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 import { DlqiComponent } from './patients/components/evolution-clinical-indices/dlqi/dlqi.component';
+import { DynamicFormComponentComponent } from './patients/components/dynamic-form-component/dynamic-form-component.component';
 
 const routes: Routes = [
   {
@@ -67,12 +48,12 @@ const routes: Routes = [
   },
   {
     path: 'patients/family-history',
-    component: FamilyHistoryComponent,
+    component: DynamicFormComponentComponent,
     canActivate: [AuthGuard],
   },
   {
     path: 'patients/sociodemographic-data',
-    component: SociodemographicDataComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -80,7 +61,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/physical-condition',
-    component: PhysicalConditionComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -88,7 +69,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/consumption-habits',
-    component: ConsumptionHabitsComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -120,7 +101,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/diagnosis/principal-diagnosis',
-    component: PrincipalDiagnosisComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -128,7 +109,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/diagnosis/secundary-diagnosis',
-    component: SecundaryDiagnosisComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -152,7 +133,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/tracing',
-    component: TracingComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -176,23 +157,23 @@ const routes: Routes = [
   },
   {
     path: 'patients/complementary-imaging-scans',
-    component: ComplementaryImagingScansComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
     canActivate: [AuthGuard],
   },
   {
-    path: 'patients/morisky-green',
-    component: AdherenceToTreatmentMoriskyComponent,
+    path: 'patients/adherence-to-treatment-morisky',
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
     canActivate: [AuthGuard],
   },
   {
-    path: 'patients/haynes-sackett',
-    component: AdherenceToTreatmentHaynesComponent,
+    path: 'patients/adherence-to-treatment-haynes',
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -200,7 +181,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/consent',
-    component: ConsentComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -208,7 +189,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/blood-count',
-    component: BloodCountComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -216,7 +197,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/work-groups',
-    component: WorkGroupsComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -224,7 +205,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/metabolic-profile',
-    component: MetabolicProfileComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -232,7 +213,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/kidney-liver-biochemistry',
-    component: KidneyLiverBiochemistryComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -240,7 +221,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/serology',
-    component: SerologyComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -248,7 +229,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/leukocyte-antibody-antigen',
-    component: LeukocyteAntibodyAntigenComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -256,7 +237,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/biological-drug-monitoring',
-    component: BiologicalDrugMonitoringComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
@@ -264,7 +245,7 @@ const routes: Routes = [
   },
   {
     path: 'patients/shared-patients',
-    component: SharedPatientsComponent,
+    component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
     },
