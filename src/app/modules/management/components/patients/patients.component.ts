@@ -50,7 +50,7 @@ export class PatientsComponent implements OnInit {
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _hospitalService: HospitalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
@@ -106,15 +106,13 @@ export class PatientsComponent implements OnInit {
 
   public getPatients() {
     const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    let pathology_id = []
-    if(user_aux['rolSelected']['pathology'] != null){
+    let pathology_id = [];
+    if (user_aux['rolSelected']['pathology'] != null) {
       pathology_id = user_aux['rolSelected']['pathology']['id'];
     }
-    this._patientsService
-      .getPatients(pathology_id, '')
-      .subscribe((data) => {
-        this.patients = data.content;
-      });
+    this._patientsService.getPatients(pathology_id, '').subscribe((data) => {
+      this.patients = data.content;
+    });
   }
 
   public getPathologiesIds() {
@@ -133,26 +131,19 @@ export class PatientsComponent implements OnInit {
 
   public onIconButtonClick(event: any) {
     if (event && event.type === 'edit') {
-      if (this.selectedPatient.hospital) {
-        this._hospitalService
-          .getById(this.selectedPatient.hospital.id)
-          .subscribe((hospital) => {
-            if (
-              hospital &&
-              hospital.pathologies &&
-              hospital.pathologies.length > 0
-            ) {
-              this.pathologies = hospital.pathologies;
-              this.modalForm.controls['pathology'].setValue(
-                hospital.pathologies
-              );
-              this.editPatient();
-            } else {
-              this.pathologies = null;
-              this.modalForm.controls['pathology'].setValue(null);
-            }
-          });
-      } else {
+      if (this.selectedPatient) {
+        this.pathologies = [];
+        const role_aux = JSON.parse(localStorage.getItem('role') || '{}');
+        if (role_aux['service']['pathologies'].length > 0) {
+          for (let i = 0; i < role_aux['service']['pathologies'].length; i++) {
+              this.pathologies.push(new PathologyModel(
+                role_aux['service']['pathologies'][i]['id'],
+                role_aux['service']['pathologies'][i]['name'],
+                role_aux['service']['pathologies'][i]['description']
+              ));
+          }
+        }
+        this.modalForm.controls['pathology'].setValue(this.pathologies);
         this.editPatient();
       }
     } else if (event && event.type === 'delete') {
@@ -333,17 +324,15 @@ export class PatientsComponent implements OnInit {
 
   private refreshData(query: string): void {
     const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    let pathology_id = []
-    if(user_aux['rolSelected']['pathology'] != null){
+    let pathology_id = [];
+    if (user_aux['rolSelected']['pathology'] != null) {
       pathology_id = user_aux['rolSelected']['pathology']['id'];
     }
-    this._patientsService
-      .getPatients(pathology_id, query)
-      .subscribe((data) => {
-        this.patients = data.content;
-        if (this.paginationData.totalPages !== data.totalPages) {
-          this.paginationData = data;
-        }
-      });
+    this._patientsService.getPatients(pathology_id, query).subscribe((data) => {
+      this.patients = data.content;
+      if (this.paginationData.totalPages !== data.totalPages) {
+        this.paginationData = data;
+      }
+    });
   }
 }
