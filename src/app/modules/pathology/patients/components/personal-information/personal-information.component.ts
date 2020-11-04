@@ -28,6 +28,10 @@ export class PersonalInformationComponent implements OnInit {
     'healthCard',
     'dni',
     'address',
+    'cp',
+    'province',
+    'city',
+    'originCountry',
     'phone',
     'email',
     'genderCode',
@@ -50,6 +54,10 @@ export class PersonalInformationComponent implements OnInit {
     hospital: null,
     genderCode: '',
     pathologies: [],
+    cp: '',
+    city: '',
+    originCountry: '',
+    province: ''
   };
 
   public gender: string;
@@ -88,6 +96,7 @@ export class PersonalInformationComponent implements OnInit {
       .subscribe((data) => {
         if (data) {
           this.selectedPatient = data;
+          console.log(this.selectedPatient);
         }
       });
   }

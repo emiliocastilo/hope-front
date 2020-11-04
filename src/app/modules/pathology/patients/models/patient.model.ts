@@ -18,6 +18,10 @@ export class PatientModel {
     public hospital?: HospitalModel,
     public genderCode?: string,
     public pathologies?: Array<PathologyModel>,
-    public fullName?: string
+    public fullName?: string,
+    public cp?: string,
+    public city?: string,
+    public originCountry?: string,
+    public province?: string
   ) {}
 }

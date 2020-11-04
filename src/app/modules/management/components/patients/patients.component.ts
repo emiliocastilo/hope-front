@@ -81,6 +81,10 @@ export class PatientsComponent implements OnInit {
         ],
       ],
       address: [''],
+      cp: [''],
+      city: [''],
+      originCountry: [''],
+      province: [''],
       phone: ['', [Validators.pattern('^[0-9]{2,3}-? ?[0-9]{6,7}$')]],
       email: ['', [Validators.email]],
       hospital: ['', Validators.required],
@@ -214,7 +218,7 @@ export class PatientsComponent implements OnInit {
     });
   }
 
-  private showModal() {
+  private showModal() {    
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
@@ -285,7 +289,11 @@ export class PatientsComponent implements OnInit {
       birthDate,
       hospital,
       formValues.genderCode,
-      pathologies
+      pathologies,
+      formValues.cp,
+      formValues.city,
+      formValues.originCountry,
+      formValues.province
     );
     this.selectedPatient = new PatientModel();
     if (this.isEditing) {
