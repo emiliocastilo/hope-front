@@ -50,7 +50,7 @@ export class PatientsComponent implements OnInit {
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _hospitalService: HospitalService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
@@ -105,12 +105,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public getPatients() {
-    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    let pathology_id = [];
-    if (user_aux['rolSelected']['pathology'] != null) {
-      pathology_id = user_aux['rolSelected']['pathology']['id'];
-    }
-    this._patientsService.getPatients(pathology_id, '').subscribe((data) => {
+    this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, '').subscribe((data) => {
       this.patients = data.content;
     });
   }
@@ -132,15 +127,18 @@ export class PatientsComponent implements OnInit {
   public onIconButtonClick(event: any) {
     if (event && event.type === 'edit') {
       if (this.selectedPatient) {
+        console.log(this.selectedPatient)
         this.pathologies = [];
         const role_aux = JSON.parse(localStorage.getItem('role') || '{}');
         if (role_aux['service']['pathologies'].length > 0) {
           for (let i = 0; i < role_aux['service']['pathologies'].length; i++) {
-              this.pathologies.push(new PathologyModel(
+            this.pathologies.push(
+              new PathologyModel(
                 role_aux['service']['pathologies'][i]['id'],
                 role_aux['service']['pathologies'][i]['name'],
                 role_aux['service']['pathologies'][i]['description']
-              ));
+              )
+            );
           }
         }
         this.modalForm.controls['pathology'].setValue(this.pathologies);
@@ -260,8 +258,14 @@ export class PatientsComponent implements OnInit {
       id = this.patients[this.selectedItem].id;
     }
     const pathologies = [];
-    pathologies.push(formValues.pathology[0]);
-
+    for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
+      if((parseInt(this.selectedPatient.pathologies[i].id) != parseInt(formValues.pathology[0].id)) && (parseInt(this.selectedPatient.pathologies[i].id) == parseInt(this.selectedUser.rolSelected.pathology.id))){
+        pathologies.push(formValues.pathology[0]);
+      }else{
+        pathologies.push(this.selectedPatient.pathologies[i])
+      }
+    }
+    console.log(pathologies)
     const hospital = formValues.hospital
       ? formValues.hospital[0]
         ? formValues.hospital[0]
@@ -323,12 +327,7 @@ export class PatientsComponent implements OnInit {
   }
 
   private refreshData(query: string): void {
-    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    let pathology_id = [];
-    if (user_aux['rolSelected']['pathology'] != null) {
-      pathology_id = user_aux['rolSelected']['pathology']['id'];
-    }
-    this._patientsService.getPatients(pathology_id, query).subscribe((data) => {
+    this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, query).subscribe((data) => {
       this.patients = data.content;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
