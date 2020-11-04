@@ -12,7 +12,7 @@
     <app-dates-bar
       [dates]="globalDates"
       (indexes)="onChangeIndexes($event)"
-      *ngIf="globalDates"
+      *ngIf="globalDates && globalDates.length"
     ></app-dates-bar>
   </section>
 </div>

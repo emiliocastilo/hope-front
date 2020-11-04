@@ -63,14 +63,14 @@ export class DashboardPatientsComponent implements OnInit {
   };
 
   constructor(
-    private _patientService: PatientsService,
-    private _patientDashboardService: PatientsDashboardService,
+    private patientService: PatientsService,
+    private patientDashboardService: PatientsDashboardService,
     private loaderService: ScriptLoaderService
   ) {}
 
   ngOnInit(): void {
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
-    this._patientService
+    this.patientService
       .getPatientsById(this.selectedPatient.id)
       .subscribe((data) => {
         if (data) {
@@ -78,178 +78,12 @@ export class DashboardPatientsComponent implements OnInit {
         }
       });
 
-    this._patientDashboardService
+    this.patientDashboardService
       .getPatientsDashboardById(this.selectedPatient.id)
       .subscribe((data) => {
-        this.data = {
-          indicesEvolution: {
-            DLQI: [
-              {
-                indexType: 'DLQI',
-                value: 3.0,
-                date: '2020-06-01T11:32:13.548066',
-              },
-              {
-                indexType: 'DLQI',
-                value: 5.0,
-                date: '2020-06-18T11:32:13.548066',
-              },
-            ],
-            PASI: [
-              {
-                indexType: 'PASI',
-                value: 6.0,
-                date: '2020-04-01T19:53:53.14883',
-              },
-              {
-                indexType: 'PASI',
-                value: 4.0,
-                date: '2020-05-01T19:53:53.14883',
-              },
-              {
-                indexType: 'PASI',
-                value: 2.0,
-                date: '2020-06-01T19:53:53.14883',
-              },
-            ],
-          },
-          treatments: {
-            FAME: [
-              {
-                active: true,
-                type: 'QUIMICO',
-                medicine: {
-                  dateCreated: null,
-                  dateUpdated: null,
-                  id: 12,
-                  actIngredients: 'USTEKINUMAB',
-                  codeAct: 'L04AC05',
-                  acronym: '',
-                  nationalCode: '713947',
-                  description:
-                    'STELARA 130 MG CONCENTRADO PARA SOLUCION PARA PERFUSION, 1 vial',
-                  presentation:
-                    'STELARA 130 MG CONCENTRADO PARA SOLUCION PARA PERFUSION, 1 vial',
-                  commercialization: true,
-                  biologic: true,
-                  viaAdministration: null,
-                  family: null,
-                  brand: null,
-                },
-                dose: '',
-                initDate: '2020-06-10T10:00:12',
-                finalDate: null,
-                adherence: null,
-              },
-            ],
-            BIOLOGICO: [
-              {
-                active: false,
-                type: 'BIOLOGICO',
-                medicine: {
-                  dateCreated: null,
-                  dateUpdated: null,
-                  id: 8,
-                  actIngredients: 'GOLIMUMAB',
-                  codeAct: 'L04AB06',
-                  acronym: '',
-                  nationalCode: '699533',
-                  description:
-                    'SIMPONI 100 mg SOLUCION INYECTABLE EN PLUMA PRECARGADA , 1 pluma precargada de 1 ml',
-                  presentation:
-                    'SIMPONI 100 mg SOLUCION INYECTABLE EN PLUMA PRECARGADA , 1 pluma precargada de 1 ml',
-                  commercialization: true,
-                  biologic: true,
-                  viaAdministration: null,
-                  family: null,
-                  brand: null,
-                },
-                dose: '',
-                initDate: '2018-06-01T19:53:53.14883',
-                finalDate: null,
-                adherence: null,
-              },
-              {
-                active: false,
-                type: 'BIOLOGICO',
-                medicine: {
-                  dateCreated: null,
-                  dateUpdated: null,
-                  id: 7,
-                  actIngredients: 'ETANERCEPT',
-                  codeAct: 'L04AB01',
-                  acronym: '',
-                  nationalCode: '716046',
-                  description: 'BENEPALI 25 MG SOLUCION INYECTABLE',
-                  presentation: 'BENEPALI 25 MG SOLUCION INYECTABLE',
-                  commercialization: true,
-                  biologic: true,
-                  viaAdministration: null,
-                  family: null,
-                  brand: null,
-                },
-                dose: '',
-                initDate: '2019-01-08T15:00:12',
-                finalDate: '2020-06-10T10:00:12',
-                adherence: null,
-              },
-              {
-                active: false,
-                type: 'BIOLOGICO',
-                medicine: {
-                  dateCreated: null,
-                  dateUpdated: null,
-                  id: 9,
-                  actIngredients: 'INFLIXIMAB',
-                  codeAct: 'L04AB02',
-                  acronym: '',
-                  nationalCode: '711542',
-                  description:
-                    'FLIXABI 100MG POLVO PARA CONCENTRADO PARA SOLUCION PARA PERFUSION, 1 vial',
-                  presentation:
-                    'FLIXABI 100MG POLVO PARA CONCENTRADO PARA SOLUCION PARA PERFUSION, 1 vial',
-                  commercialization: true,
-                  biologic: true,
-                  viaAdministration: null,
-                  family: null,
-                  brand: null,
-                },
-                dose: '',
-                initDate: '2019-06-01T19:53:53.14883',
-                finalDate: null,
-                adherence: null,
-              },
-              {
-                active: true,
-                type: 'BIOLOGICO',
-                medicine: {
-                  dateCreated: null,
-                  dateUpdated: null,
-                  id: 11,
-                  actIngredients: 'SECUKINUMAB',
-                  codeAct: 'L04AC10',
-                  acronym: '',
-                  nationalCode: '705432',
-                  description:
-                    'COSENTYX 150 MG SOLUCION INYECTABLE EN JERINGA PRECARGADA 2 jeringas precargadas de 1 ml',
-                  presentation:
-                    'COSENTYX 150 MG SOLUCION INYECTABLE EN JERINGA PRECARGADA 2 jeringas precargadas de 1 ml',
-                  commercialization: true,
-                  biologic: true,
-                  viaAdministration: null,
-                  family: null,
-                  brand: null,
-                },
-                dose: '2mg/dia',
-                initDate: '2020-06-10T10:00:12',
-                finalDate: null,
-                adherence: null,
-              },
-            ],
-          },
-          adherence: [],
-        };
-
+        if (data) {
+          this.data = data;
+        }
         this.dataChart = this.parseDataChart(this.data);
 
         this.globalDates = _.sortBy(
@@ -365,7 +199,7 @@ export class DashboardPatientsComponent implements OnInit {
     chart.draw(dataTable, data.options);
 
     const labels = container.getElementsByTagName('text');
-    Array.prototype.forEach.call(labels, function (label) {
+    Array.prototype.forEach.call(labels, (label) => {
       if (label.getAttribute('text-anchor') === 'middle') {
         label.setAttribute('font-family', '"Raleway", sans-serif');
       }
@@ -407,7 +241,7 @@ export class DashboardPatientsComponent implements OnInit {
     this.configGantt.columns.forEach((value: string, key: number) => {
       if (data[value] && value !== 'ADHERENCIA') {
         data[value].forEach((element: any, keyT: number) => {
-          let objectRow = [
+          const objectRow = [
             value,
             element.medicine.actIngredients,
             element.medicine.actIngredients,
@@ -416,7 +250,7 @@ export class DashboardPatientsComponent implements OnInit {
           ];
 
           if (element.finalDate) {
-            let endDate = new Date(element.finalDate);
+            const endDate = new Date(element.finalDate);
             objectRow[objectRow.length - 1] = endDate;
           }
           objectChart.push(objectRow);
@@ -424,7 +258,7 @@ export class DashboardPatientsComponent implements OnInit {
       } else if (data[value] && value === 'ADHERENCIA') {
         data[value].forEach((element: any, keyTwo: number) => {
           const dateStart = new Date(element.date);
-          let objectRow = [
+          const objectRow = [
             value,
             '',
             element.description,
