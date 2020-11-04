@@ -29,10 +29,10 @@ export class DatesBarComponent implements OnInit {
   }
 
   onMinValueChange() {
-    this.indexes.emit({ min: this.minValue });
+    this.indexes.emit({ min: this.minValue, max: this.maxValue });
   }
 
   onMaxValueChange() {
-    this.indexes.emit({ max: this.maxValue });
+    this.indexes.emit({ min: this.minValue, max: this.maxValue });
   }
 }

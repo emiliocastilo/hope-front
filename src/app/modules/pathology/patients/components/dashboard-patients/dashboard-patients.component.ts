@@ -21,7 +21,7 @@ export class DashboardPatientsComponent implements OnInit {
   public patients: PatientModel[] = [];
   public selectedItem: number;
   public data: any;
-  public globalDates: Array<string>;
+  public globalDates: Array<any>;
   public selectedPatient: PatientModel;
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
@@ -91,7 +91,7 @@ export class DashboardPatientsComponent implements OnInit {
               },
               {
                 indexType: 'DLQI',
-                value: 3.0,
+                value: 5.0,
                 date: '2020-06-18T11:32:13.548066',
               },
             ],
@@ -103,7 +103,7 @@ export class DashboardPatientsComponent implements OnInit {
               },
               {
                 indexType: 'PASI',
-                value: 2.0,
+                value: 4.0,
                 date: '2020-05-01T19:53:53.14883',
               },
               {
@@ -254,65 +254,100 @@ export class DashboardPatientsComponent implements OnInit {
 
         this.globalDates = _.sortBy(
           _.union(
-            _.flatten(
-              this.dataChart.map((el) => {
-                return el.series.map((v) => {
-                  return v.name.toISOString().split('T')[0];
+            _.flattenDeep(
+              Object.values(this.data).map((array) => {
+                return Object.values(array).map((element) => {
+                  return element.map((d) => {
+                    return d.date
+                      ? d.date.split('T')[0]
+                      : d.initDate.split('T')[0];
+                  });
                 });
               })
             )
           )
         );
 
-        const dataGantt = {
-          BIOLOGICO: this.data.treatments.BIOLOGICO,
-          FAME: this.data.treatments.FAME,
-          ADHERENCIA: this.data.adherence,
-        };
+        this.loadChart(this.data);
 
-        this.configGantt.data = this.parseDataGantt(dataGantt);
-        this.loadChart(this.configGantt);
-
-        const title = 'evolutionIndex';
-        const view = null;
-        const scheme = {
-          domain: ['#ffc107', '#2196f3'],
-        };
-        this.configChart = new ColumnChartModel(
-          title,
-          view,
-          scheme,
-          this.dataChart
-        );
+        this.loadLines();
       });
   }
 
-  parseDatesChart(dates: any) {
-    const { min, max } = dates;
-    const start = Date.parse(this.globalDates[min]);
-    const end = Date.parse(this.globalDates[max]);
-    Object.keys(this.data.indicesEvolution).forEach((element: any) => {
-      this.data.indicesEvolution[element].forEach((v) => {
-        const d = Date.parse(new Date(v.date).toISOString().split('T')[0]);
-        if (d > start && d < end) {
-          console.log('is inside range');
-        } else {
-          console.log('not inside range');
-        }
+  loadLines() {
+    const title = 'evolutionIndex';
+    const view = null;
+    const scheme = {
+      domain: ['#ffc107', '#2196f3'],
+    };
+    const legend = false;
+    this.configChart = new ColumnChartModel(
+      title,
+      view,
+      scheme,
+      this.dataChart,
+      legend
+    );
+  }
+
+  parseDatesChart(start: number, end: number) {
+    const newData = {
+      indicesEvolution: {
+        DLQI: [],
+        PASI: [],
+      },
+      treatments: {
+        FAME: [],
+        BIOLOGICO: [],
+      },
+      adherence: [],
+    };
+
+    Object.values(this.data).forEach((element: any) => {
+      Object.values(element).forEach((v: any) => {
+        v.map((i) => {
+          const d = Date.parse(
+            new Date(i.date ? i.date : i.initDate).toISOString().split('T')[0]
+          );
+          if (d >= start && d <= end) {
+            if (i.date) {
+              newData.indicesEvolution[i.indexType].push(i);
+            }
+            if (i.initDate) {
+              const type = i.type === 'BIOLOGICO' ? i.type : 'FAME';
+              newData.treatments[type].push(i);
+            }
+          }
+        });
       });
     });
+    this.dataChart = this.parseDataChart(newData);
+    this.loadChart(newData);
+    this.configChart = { ...this.configChart, results: this.dataChart };
   }
 
   onChangeIndexes(event: any) {
-    console.log('change index', event);
-    // this.parseDatesChart(event);
+    const { min, max } = event;
+    const start = Date.parse(this.globalDates[min]);
+    const end = Date.parse(this.globalDates[max]);
+    this.parseDatesChart(start, end);
   }
 
   private loadChart(data: any): void {
-    this.loaderService.loadChartPackages(data.type).subscribe(() => {
-      google.charts.load('current', { packages: ['timeline'] });
-      google.charts.setOnLoadCallback(this.drawChart(data));
-    });
+    const dataGantt = {
+      BIOLOGICO: data.treatments.BIOLOGICO,
+      FAME: data.treatments.FAME,
+      ADHERENCIA: data.adherence,
+    };
+
+    this.configGantt.data = this.parseDataGantt(dataGantt);
+
+    this.loaderService
+      .loadChartPackages(this.configGantt.type)
+      .subscribe(() => {
+        google.charts.load('current', { packages: ['timeline'] });
+        google.charts.setOnLoadCallback(this.drawChart(this.configGantt));
+      });
   }
 
   public drawChart(data: any): any {
