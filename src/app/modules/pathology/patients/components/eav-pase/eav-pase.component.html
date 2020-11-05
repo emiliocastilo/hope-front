@@ -220,13 +220,38 @@
     {{ 'requiredLegendText' | translate }}
   </label>
 
-  <section class="col-sm-12">
+  <div class="buttons">
+    <app-button
+      type="button"
+      icono="check-circle"
+      clasesBtn="btn-primary btn-sm mx-2"
+      texto="btn.save"
+      [disabledButton]="form.invalid"
+      (click)="save($event)"
+    ></app-button>
+    <app-button
+      type="button"
+      icono="bar-chart-2"
+      clasesBtn="btn-primary btn-sm mx-2"
+      texto="btn.graphs"
+      (click)="showChartFront()"
+    ></app-button>
+    <app-button
+      type="button"
+      clasesBtn="btn-danger btn-sm mx-2"
+      icono="x"
+      texto="btn.clean"
+      (click)="resetForm()"
+    ></app-button>
+  </div>
+
+  <!-- <section class="col-sm-12">
     <div class="buttons">
       <div class="submit-button">
         <button
           class="btn btn-primary"
           type="submit"
-          [disabled]="invalidForm()"
+          [disabled]="form.invalid"
         >
           {{ 'btn.save' | translate }}
         </button>
@@ -238,5 +263,5 @@
         </button>
       </div>
     </div>
-  </section>
+  </section> -->
 </form>

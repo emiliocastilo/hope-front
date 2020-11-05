@@ -130,10 +130,6 @@ export class EavPaseComponent implements OnInit {
     return false;
   }
 
-  public invalidForm() {
-    return this.form.invalid;
-  }
-
   public showModal() {
     event.preventDefault();
     const modalRef = this._modalService.open(
