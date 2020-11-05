@@ -120,7 +120,7 @@ export class PatientsComponent implements OnInit {
 
   public onSearch(event: string): void {
     this._patientsService
-      .findPatients(this.pathologiesIds, event)
+      .findPatients(this.selectedUser.rolSelected.pathology.id, event)
       .subscribe((data) => {
         this.patients = data.content;
       });
@@ -237,7 +237,6 @@ export class PatientsComponent implements OnInit {
         },
       };
     } else {
-      this.pathologies = [];
       options = {
         hospital: { options: this.hospitals },
         pathology: { options: this.pathologies },
@@ -266,19 +265,23 @@ export class PatientsComponent implements OnInit {
       id = this.patients[this.selectedItem].id;
     }
     const pathologies = [];
-    for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
-      if (
-        parseInt(this.selectedPatient.pathologies[i].id) !=
-          parseInt(formValues.pathology[0].id) &&
-        parseInt(this.selectedPatient.pathologies[i].id) ==
-          parseInt(this.selectedUser.rolSelected.pathology.id)
-      ) {
-        pathologies.push(formValues.pathology[0]);
-      } else {
-        pathologies.push(this.selectedPatient.pathologies[i]);
+    if (this.selectedPatient.pathologies !== undefined) {
+      for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
+        if (
+          parseInt(this.selectedPatient.pathologies[i].id) !=
+            parseInt(formValues.pathology[0].id) &&
+          parseInt(this.selectedPatient.pathologies[i].id) ==
+            parseInt(this.selectedUser.rolSelected.pathology.id)
+        ) {
+          pathologies.push(formValues.pathology[0]);
+        } else {
+          pathologies.push(this.selectedPatient.pathologies[i]);
+        }
       }
+    } else {
+      pathologies.push(formValues.pathology[0]);
     }
-    console.log(pathologies);
+
     const hospital = formValues.hospital
       ? formValues.hospital[0]
         ? formValues.hospital[0]
