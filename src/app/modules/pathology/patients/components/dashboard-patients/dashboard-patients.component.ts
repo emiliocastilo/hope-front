@@ -23,48 +23,59 @@ export class DashboardPatientsComponent implements OnInit {
   public selectedPatient: PatientModel;
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
-  public configGantt: any = {
-    columns: ['BIOLOGICO', 'FAME', ' ', 'ADHERENCIA', 'OTR'],
-    type: 'Timeline',
-    data: [],
-    options: {
-      groupByRowLabel: true,
-      avoidOverlappingGridLines: true,
-      backgroundColor: '#FFFF',
-      fontName: 'Raleway, sans-serif',
-      timeline: {
-        barLabelStyle: {
-          fontName: 'Raleway, sans-serif',
-        },
-        rowLabelStyle: {
-          fontName: 'Raleway, sans-serif',
-        },
-      },
-      hAxis: {
-        format: 'dd/MM/YYYY',
-        gridlines: {
-          count: -1,
-        },
-      },
-      vAxis: {
-        scaleType: 'log',
-      },
-      colors: [
-        '#e66584',
-        '#5ba6e0',
-        '#e4804b',
-        '#4375bb',
-        '#fbbf53',
-        '#57833b',
-      ],
-    },
-  };
+  public configGantt: any;
+
+  private firstDate: string = '';
+  private lastDate: string = '';
 
   constructor(
     private patientService: PatientsService,
     private patientDashboardService: PatientsDashboardService,
     private loaderService: ScriptLoaderService
   ) {}
+
+  setConfigGannt(): void {
+    this.configGantt = {
+      columns: ['BIOLOGICO', 'FAME', ' ', 'ADHERENCIA', 'OTR'],
+      type: 'Timeline',
+      data: [],
+      options: {
+        groupByRowLabel: true,
+        avoidOverlappingGridLines: true,
+        backgroundColor: '#FFFF',
+        fontName: 'Raleway, sans-serif',
+        timeline: {
+          barLabelStyle: {
+            fontName: 'Raleway, sans-serif',
+          },
+          rowLabelStyle: {
+            fontName: 'Raleway, sans-serif',
+          },
+        },
+        hAxis: {
+          format: 'dd/MM/YYYY',
+          gridlines: {
+            count: -1,
+          },
+          viewWindow: {
+            min: new Date(this.firstDate),
+            max: new Date(this.lastDate),
+          },
+        },
+        vAxis: {
+          scaleType: 'log',
+        },
+        colors: [
+          '#e66584',
+          '#5ba6e0',
+          '#e4804b',
+          '#4375bb',
+          '#fbbf53',
+          '#57833b',
+        ],
+      },
+    };
+  }
 
   ngOnInit(): void {
     this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
@@ -98,6 +109,11 @@ export class DashboardPatientsComponent implements OnInit {
             )
           )
         );
+
+        this.firstDate = this.globalDates[0];
+        this.lastDate = this.globalDates[this.globalDates.length - 1];
+
+        this.setConfigGannt();
 
         this.dataChart = this.parseDataChart(this.data);
 
@@ -163,6 +179,10 @@ export class DashboardPatientsComponent implements OnInit {
     const { min, max } = event;
     const start = Date.parse(this.globalDates[min]);
     const end = Date.parse(this.globalDates[max]);
+
+    this.firstDate = this.globalDates[min];
+    this.lastDate = this.globalDates[max];
+
     this.parseDatesChart(start, end);
   }
 

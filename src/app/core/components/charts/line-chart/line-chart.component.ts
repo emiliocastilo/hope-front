@@ -10,6 +10,8 @@ import * as shape from 'd3-shape';
 export class LineChartComponent implements OnInit {
   @Input() config: ColumnChartModel;
   @Input() stacked = false;
+  @Input() firstDate = '';
+  @Input() lastDate = '';
   @Output() select: EventEmitter<any> = new EventEmitter<any>();
 
   private defaultValues = {
