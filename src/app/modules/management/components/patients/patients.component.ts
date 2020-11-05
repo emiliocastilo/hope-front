@@ -60,19 +60,18 @@ export class PatientsComponent implements OnInit {
     this.paginationData = this._activatedRoute.snapshot.data.patients;
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
     this.role_aux = JSON.parse(localStorage.getItem('role') || '{}');
-    //Obtenemos las patologias 
+    //Obtenemos las patologias
     if (this.role_aux['service']['pathologies'].length > 0) {
-          for (let i = 0; i < this.role_aux['service']['pathologies'].length; i++) {
-            this.pathologies.push(
-              new PathologyModel(
-                this.role_aux['service']['pathologies'][i]['id'],
-                this.role_aux['service']['pathologies'][i]['name'],
-                this.role_aux['service']['pathologies'][i]['description']
-              )
-            );
-          }
-        }
-
+      for (let i = 0; i < this.role_aux['service']['pathologies'].length; i++) {
+        this.pathologies.push(
+          new PathologyModel(
+            this.role_aux['service']['pathologies'][i]['id'],
+            this.role_aux['service']['pathologies'][i]['name'],
+            this.role_aux['service']['pathologies'][i]['description']
+          )
+        );
+      }
+    }
 
     const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.rolSelected.hospital.id
@@ -220,9 +219,13 @@ export class PatientsComponent implements OnInit {
       this.selectedPatient.pathologies
     ) {
       // Se selecciona la patología del usuario logado, coincidente con la del paciente.
-      const isInArrayPathology = this.selectedPatient.pathologies.findIndex(
+      const isInArrayPatientPathology = this.selectedPatient.pathologies.findIndex(
         (element) => element.id === this.selectedUser.rolSelected.pathology.id
       );
+      const isInArrayPathology = this.pathologies.findIndex(
+        (element) => element.id === this.selectedUser.rolSelected.pathology.id
+      );
+      debugger;
       options = {
         hospital: {
           options: this.hospitals,
@@ -231,7 +234,7 @@ export class PatientsComponent implements OnInit {
         pathology: {
           options: this.pathologies,
           optionSelected:
-            isInArrayPathology >= 0
+            isInArrayPatientPathology >= 0
               ? this.pathologies[isInArrayPathology].id
               : this.selectedPatient.pathologies[0].id,
         },
