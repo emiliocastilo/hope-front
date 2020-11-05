@@ -106,7 +106,7 @@ export class PatientsComponent implements OnInit {
 
   public getPatients() {
     this._patientsService
-      .getPatients(this.pathologiesIds, '')
+      .getPatients(this.selectedUser.rolSelected.pathology.id, '')
       .subscribe((data) => {
         this.patients = data.content;
       });
@@ -128,26 +128,21 @@ export class PatientsComponent implements OnInit {
 
   public onIconButtonClick(event: any) {
     if (event && event.type === 'edit') {
-      if (this.selectedPatient.hospital) {
-        this._hospitalService
-          .getById(this.selectedPatient.hospital.id)
-          .subscribe((hospital) => {
-            if (
-              hospital &&
-              hospital.pathologies &&
-              hospital.pathologies.length > 0
-            ) {
-              this.pathologies = hospital.pathologies;
-              this.modalForm.controls['pathology'].setValue(
-                hospital.pathologies
-              );
-              this.editPatient();
-            } else {
-              this.pathologies = null;
-              this.modalForm.controls['pathology'].setValue(null);
-            }
-          });
-      } else {
+      if (this.selectedPatient) {
+        this.pathologies = [];
+        const role_aux = JSON.parse(localStorage.getItem('role') || '{}');
+        if (role_aux['service']['pathologies'].length > 0) {
+          for (let i = 0; i < role_aux['service']['pathologies'].length; i++) {
+            this.pathologies.push(
+              new PathologyModel(
+                role_aux['service']['pathologies'][i]['id'],
+                role_aux['service']['pathologies'][i]['name'],
+                role_aux['service']['pathologies'][i]['description']
+              )
+            );
+          }
+        }
+        this.modalForm.controls['pathology'].setValue(this.pathologies);
         this.editPatient();
       }
     } else if (event && event.type === 'delete') {
@@ -224,6 +219,10 @@ export class PatientsComponent implements OnInit {
       this.selectedPatient.hospital &&
       this.selectedPatient.pathologies
     ) {
+      // Se selecciona la patología del usuario logado, coincidente con la del paciente.
+      const isInArrayPathology = this.selectedPatient.pathologies.findIndex(
+        (element) => element.id === this.selectedUser.rolSelected.pathology.id
+      );
       options = {
         hospital: {
           options: this.hospitals,
@@ -231,7 +230,10 @@ export class PatientsComponent implements OnInit {
         },
         pathology: {
           options: this.pathologies,
-          optionSelected: this.selectedPatient.pathologies[0].id,
+          optionSelected:
+            isInArrayPathology >= 0
+              ? this.pathologies[isInArrayPathology].id
+              : this.selectedPatient.pathologies[0].id,
         },
       };
     } else {
@@ -264,8 +266,19 @@ export class PatientsComponent implements OnInit {
       id = this.patients[this.selectedItem].id;
     }
     const pathologies = [];
-    pathologies.push(formValues.pathology[0]);
-
+    for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
+      if (
+        parseInt(this.selectedPatient.pathologies[i].id) !=
+          parseInt(formValues.pathology[0].id) &&
+        parseInt(this.selectedPatient.pathologies[i].id) ==
+          parseInt(this.selectedUser.rolSelected.pathology.id)
+      ) {
+        pathologies.push(formValues.pathology[0]);
+      } else {
+        pathologies.push(this.selectedPatient.pathologies[i]);
+      }
+    }
+    console.log(pathologies);
     const hospital = formValues.hospital
       ? formValues.hospital[0]
         ? formValues.hospital[0]
@@ -328,7 +341,7 @@ export class PatientsComponent implements OnInit {
 
   private refreshData(query: string): void {
     this._patientsService
-      .getPatients(this.pathologiesIds, query)
+      .getPatients(this.selectedUser.rolSelected.pathology.id, query)
       .subscribe((data) => {
         this.patients = data.content;
         if (this.paginationData.totalPages !== data.totalPages) {
