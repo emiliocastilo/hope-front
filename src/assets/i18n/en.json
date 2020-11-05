@@ -408,6 +408,8 @@
   "chemical": "Chemical",
   "annual": "Annual",
   "total": "Total",
+  "costs": "Costs",
+  "consumption": "Consumption",
   "average": "Average",
   "accumulated": "Accumulated",
   "totalExpensesBiologicalTreatment": "Total expenses biological treatment",
