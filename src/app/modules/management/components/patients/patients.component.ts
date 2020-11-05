@@ -120,7 +120,7 @@ export class PatientsComponent implements OnInit {
 
   public onSearch(event: string): void {
     this._patientsService
-      .findPatients(this.pathologiesIds, event)
+      .findPatients(this.selectedUser.rolSelected.pathology.id, event)
       .subscribe((data) => {
         this.patients = data.content;
       });
