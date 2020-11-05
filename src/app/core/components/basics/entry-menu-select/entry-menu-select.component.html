@@ -3,7 +3,7 @@
     <label class="dynamic-label">
       {{ selectLabel | translate }}
     </label>
-    <select class="form-control" (change)="onSelect($event)">
+    <select class="form-control" [style]="style" (change)="onSelect($event)">
       <option *ngFor="let entry of entries; index as i" [value]="i">
         {{ entry.name | translate }}
       </option>
@@ -17,7 +17,7 @@
     <input
       placeholder="years"
       type="number"
-      value="0"
+      [value]="selectedYears"
       (input)="onInput($event.target.value)"
     />
   </div>

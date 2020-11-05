@@ -10,22 +10,25 @@ export class EntryMenuSelectComponent implements OnInit {
   @Input() selectLabel: string;
   @Input() entries: Array<{ name: string; url: string }>;
   @Input() showYears: boolean;
-  selectedValue: number;
-  selectedYears: number;
+  @Input() style: string;
+  selectedValue = 0;
+  selectedYears = 0;
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.router.navigate([this.entries[0].url]);
+    this.router.navigate([this.entries[this.selectedValue].url]);
   }
 
   onSelect(event: any): void {
-    this.selectedValue = event.target.value;
+    this.selectedValue = parseInt(event.target.value);
     this.navigate();
   }
 
   onInput(years) {
-    this.selectedYears = years;
-    this.navigate();
+    if (years) {
+      this.selectedYears = parseInt(years);
+      this.navigate();
+    }
   }
 
   navigate() {
@@ -33,7 +36,7 @@ export class EntryMenuSelectComponent implements OnInit {
       this.router.navigate([this.entries[this.selectedValue].url]);
     } else {
       this.router.navigate([
-        !this.selectedValue || this.selectedValue === 0
+        this.selectedValue === 0
           ? 'dashboard/diagnosis/reasons/reason-change-biological-treatment-five-years'
           : 'dashboard/diagnosis/reasons/reason-stop-biological-treatment-five-years',
       ]);
