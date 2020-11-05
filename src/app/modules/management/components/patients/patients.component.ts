@@ -42,6 +42,7 @@ export class PatientsComponent implements OnInit {
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
   private itemsPerPage: number;
   private selectedUser: any;
+  private role_aux: any;
 
   constructor(
     private _patientsService: PatientsService,
@@ -50,23 +51,34 @@ export class PatientsComponent implements OnInit {
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _hospitalService: HospitalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     // this.patients = this._activatedRoute.snapshot.data.patients.content;
-    this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
+    //this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
+    this.role_aux = JSON.parse(localStorage.getItem('role') || '{}');
+    //Obtenemos las patologias
+    if (this.role_aux['service']['pathologies'].length > 0) {
+      for (let i = 0; i < this.role_aux['service']['pathologies'].length; i++) {
+        this.pathologies.push(
+          new PathologyModel(
+            this.role_aux['service']['pathologies'][i]['id'],
+            this.role_aux['service']['pathologies'][i]['name'],
+            this.role_aux['service']['pathologies'][i]['description']
+          )
+        );
+      }
+    }
 
     const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.rolSelected.hospital.id
     );
-
     this.hospitals = [userHospital];
     this.getPathologiesIds();
     this.getPatients();
-
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
       firstSurname: ['', Validators.required],
@@ -129,19 +141,6 @@ export class PatientsComponent implements OnInit {
   public onIconButtonClick(event: any) {
     if (event && event.type === 'edit') {
       if (this.selectedPatient) {
-        this.pathologies = [];
-        const role_aux = JSON.parse(localStorage.getItem('role') || '{}');
-        if (role_aux['service']['pathologies'].length > 0) {
-          for (let i = 0; i < role_aux['service']['pathologies'].length; i++) {
-            this.pathologies.push(
-              new PathologyModel(
-                role_aux['service']['pathologies'][i]['id'],
-                role_aux['service']['pathologies'][i]['name'],
-                role_aux['service']['pathologies'][i]['description']
-              )
-            );
-          }
-        }
         this.modalForm.controls['pathology'].setValue(this.pathologies);
         this.editPatient();
       }
@@ -220,8 +219,11 @@ export class PatientsComponent implements OnInit {
       this.selectedPatient.pathologies
     ) {
       // Se selecciona la patología del usuario logado, coincidente con la del paciente.
-      const isInArrayPathology = this.selectedPatient.pathologies.findIndex(
+      const isInArrayPatientPathology = this.selectedPatient.pathologies.findIndex(
         (element) => element.id === this.selectedUser.rolSelected.pathology.id
+      );
+      const isInArrayPathology = this.pathologies.findIndex(
+        (element2) => element2.id === this.selectedUser.rolSelected.pathology.id
       );
       options = {
         hospital: {
@@ -231,7 +233,7 @@ export class PatientsComponent implements OnInit {
         pathology: {
           options: this.pathologies,
           optionSelected:
-            isInArrayPathology >= 0
+            isInArrayPatientPathology >= 0
               ? this.pathologies[isInArrayPathology].id
               : this.selectedPatient.pathologies[0].id,
         },
@@ -264,24 +266,27 @@ export class PatientsComponent implements OnInit {
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;
     }
-    const pathologies = [];
+    let pathologies_aux: PathologyModel[] = [];
     if (this.selectedPatient.pathologies !== undefined) {
-      for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
-        if (
-          parseInt(this.selectedPatient.pathologies[i].id) !=
+      if (formValues.pathology.length > 1) {
+        pathologies_aux = this.selectedPatient.pathologies;
+      } else {
+        for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
+          if (
+            parseInt(this.selectedPatient.pathologies[i].id) !=
             parseInt(formValues.pathology[0].id) &&
-          parseInt(this.selectedPatient.pathologies[i].id) ==
+            parseInt(this.selectedPatient.pathologies[i].id) ==
             parseInt(this.selectedUser.rolSelected.pathology.id)
-        ) {
-          pathologies.push(formValues.pathology[0]);
-        } else {
-          pathologies.push(this.selectedPatient.pathologies[i]);
+          ) {
+            pathologies_aux.push(formValues.pathology[0]);
+          } else {
+            pathologies_aux.push(this.selectedPatient.pathologies[i]);
+          }
         }
       }
     } else {
-      pathologies.push(formValues.pathology[0]);
+      pathologies_aux.push(formValues.pathology[0]);
     }
-
     const hospital = formValues.hospital
       ? formValues.hospital[0]
         ? formValues.hospital[0]
@@ -301,7 +306,7 @@ export class PatientsComponent implements OnInit {
       birthDate,
       hospital,
       formValues.genderCode,
-      pathologies
+      pathologies_aux
     );
     this.selectedPatient = new PatientModel();
     if (this.isEditing) {
