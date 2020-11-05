@@ -347,7 +347,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
       });
 
-      if (!!this.tableData){
+      if (!this.tableData) {
         this.tableData = [];
       }
       this.tableData.push(event.value);
