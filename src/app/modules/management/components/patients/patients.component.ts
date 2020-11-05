@@ -51,7 +51,7 @@ export class PatientsComponent implements OnInit {
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _hospitalService: HospitalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
@@ -223,9 +223,8 @@ export class PatientsComponent implements OnInit {
         (element) => element.id === this.selectedUser.rolSelected.pathology.id
       );
       const isInArrayPathology = this.pathologies.findIndex(
-        (element) => element.id === this.selectedUser.rolSelected.pathology.id
+        (element2) => element2.id === this.selectedUser.rolSelected.pathology.id
       );
-      debugger;
       options = {
         hospital: {
           options: this.hospitals,
@@ -267,24 +266,27 @@ export class PatientsComponent implements OnInit {
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;
     }
-    const pathologies = [];
+    let pathologies_aux: PathologyModel[] = [];
     if (this.selectedPatient.pathologies !== undefined) {
-      for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
-        if (
-          parseInt(this.selectedPatient.pathologies[i].id) !=
+      if (formValues.pathology.length > 1) {
+        pathologies_aux = this.selectedPatient.pathologies;
+      } else {
+        for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
+          if (
+            parseInt(this.selectedPatient.pathologies[i].id) !=
             parseInt(formValues.pathology[0].id) &&
-          parseInt(this.selectedPatient.pathologies[i].id) ==
+            parseInt(this.selectedPatient.pathologies[i].id) ==
             parseInt(this.selectedUser.rolSelected.pathology.id)
-        ) {
-          pathologies.push(formValues.pathology[0]);
-        } else {
-          pathologies.push(this.selectedPatient.pathologies[i]);
+          ) {
+            pathologies_aux.push(formValues.pathology[0]);
+          } else {
+            pathologies_aux.push(this.selectedPatient.pathologies[i]);
+          }
         }
       }
     } else {
-      pathologies.push(formValues.pathology[0]);
+      pathologies_aux.push(formValues.pathology[0]);
     }
-
     const hospital = formValues.hospital
       ? formValues.hospital[0]
         ? formValues.hospital[0]
@@ -304,7 +306,7 @@ export class PatientsComponent implements OnInit {
       birthDate,
       hospital,
       formValues.genderCode,
-      pathologies
+      pathologies_aux
     );
     this.selectedPatient = new PatientModel();
     if (this.isEditing) {
