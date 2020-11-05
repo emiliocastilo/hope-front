@@ -410,6 +410,9 @@
     "motive9": "Embarazo",
     "motive10": "Otros"
   },
+  "reason": "Motivo",
+  "change": "Cambio",
+  "suspension": "Suspensión",
   "selectManagement": "Selecciona lo que quieras mostrar...",
   "biological": "Biológico",
   "chemical": "Químico",

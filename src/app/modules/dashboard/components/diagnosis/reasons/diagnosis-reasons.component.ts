@@ -8,23 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class DiagnosisReasonsComponent implements OnInit {
   entries = [
     {
-      name: 'reasonLastChangeBiologicalTreatment',
+      name: 'change',
       url:
         'dashboard/diagnosis/reasons/reason-last-change-biological-treatment',
     },
     {
-      name: 'reasonStopBiologicalTreatment',
+      name: 'suspension',
       url: 'dashboard/diagnosis/reasons/reason-stop-bioligical-treatment',
-    },
-    {
-      name: 'reasonChangeBiologicalTreatmentFiveYears',
-      url:
-        'dashboard/diagnosis/reasons/reason-change-biological-treatment-five-years',
-    },
-    {
-      name: 'reasonStopBiologicalTreatmentFiveYears',
-      url:
-        'dashboard/diagnosis/reasons/reason-stop-biological-treatment-five-years',
     },
   ];
 
