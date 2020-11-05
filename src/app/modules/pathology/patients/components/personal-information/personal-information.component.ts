@@ -57,7 +57,7 @@ export class PersonalInformationComponent implements OnInit {
     cp: '',
     city: '',
     originCountry: '',
-    province: ''
+    province: '',
   };
 
   public gender: string;
@@ -96,7 +96,6 @@ export class PersonalInformationComponent implements OnInit {
       .subscribe((data) => {
         if (data) {
           this.selectedPatient = data;
-          console.log(this.selectedPatient);
         }
       });
   }

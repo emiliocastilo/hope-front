@@ -69,7 +69,7 @@
   "modal.editor.field.cp": "Postal Code",
   "modal.editor.field.city": "City",
   "modal.editor.field.province": "Province",  
-  "modal.editor.field.origincountry": "Country", 
+  "modal.editor.field.originCountry": "Country", 
   "modal.editor.field.phone": "Phone",
   "modal.editor.field.email": "Email",
   "modal.editor.field.genderCode": "Gender",

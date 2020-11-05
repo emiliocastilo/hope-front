@@ -75,6 +75,7 @@ export class EditorModalBodyComponent implements OnInit {
       rol: 'select',
       serviceDTO: 'select',
       pathology: 'select',
+      originCountry: 'select',
     };
     return types[key] ? types[key] : 'text';
   }

@@ -8,7 +8,7 @@ import { PatientsService } from '../../services/patients/patients.service';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { PATIENT_TABLE_KEYS } from '../../constants/patients.constants';
+import { PATIENT_TABLE_KEYS, COUNTRIES } from '../../constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -34,6 +34,7 @@ export class PatientsComponent implements OnInit {
   public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
   private pathologies: PathologyModel[] = [];
+  private countries: any[] = COUNTRIES;
   private pathologiesIds: string[] = [];
   private currentPage = 0;
   private colOrder: any;
@@ -58,7 +59,7 @@ export class PatientsComponent implements OnInit {
     this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
-
+    
     const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.rolSelected.hospital.id
     );
@@ -149,6 +150,7 @@ export class PatientsComponent implements OnInit {
             } else {
               this.pathologies = null;
               this.modalForm.controls['pathology'].setValue(null);
+              this.editPatient();
             }
           });
       } else {
@@ -218,7 +220,7 @@ export class PatientsComponent implements OnInit {
     });
   }
 
-  private showModal() {    
+  private showModal() {
     const modalRef = this._modalService.open(EditorModalComponent, {
       size: 'lg',
     });
@@ -237,12 +239,15 @@ export class PatientsComponent implements OnInit {
           options: this.pathologies,
           optionSelected: this.selectedPatient.pathologies[0].id,
         },
+        originCountry: { options: this.countries,
+                         optionSelected: this.selectedPatient.originCountry },
       };
     } else {
       this.pathologies = [];
       options = {
         hospital: { options: this.hospitals },
         pathology: { options: this.pathologies },
+        originCountry: { options: this.countries },
       };
     }
     modalRef.componentInstance.id = 'patientseditor';
@@ -292,7 +297,7 @@ export class PatientsComponent implements OnInit {
       pathologies,
       formValues.cp,
       formValues.city,
-      formValues.originCountry,
+      formValues.originCountry[0].id,
       formValues.province
     );
     this.selectedPatient = new PatientModel();
