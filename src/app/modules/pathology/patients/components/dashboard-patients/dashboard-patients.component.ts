@@ -6,8 +6,6 @@ import { PatientsDashboardService } from 'src/app/modules/management/services/pa
 import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
 import { ScriptLoaderService } from 'angular-google-charts';
-// import { GraphsService } from '../../../../dashboard/services/graphs.service';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import _ from 'lodash';
 
 @Component({
@@ -43,7 +41,7 @@ export class DashboardPatientsComponent implements OnInit {
         },
       },
       hAxis: {
-        format: 'YYYY',
+        format: 'dd/MM/YYYY',
         gridlines: {
           count: -1,
         },
@@ -84,7 +82,6 @@ export class DashboardPatientsComponent implements OnInit {
         if (data) {
           this.data = data;
         }
-        this.dataChart = this.parseDataChart(this.data);
 
         this.globalDates = _.sortBy(
           _.union(
@@ -101,6 +98,8 @@ export class DashboardPatientsComponent implements OnInit {
             )
           )
         );
+
+        this.dataChart = this.parseDataChart(this.data);
 
         this.loadChart(this.data);
 
@@ -246,7 +245,7 @@ export class DashboardPatientsComponent implements OnInit {
             element.medicine.actIngredients,
             element.medicine.actIngredients,
             new Date(element.initDate),
-            new Date(),
+            new Date(this.globalDates[this.globalDates.length - 1]),
           ];
 
           if (element.finalDate) {
