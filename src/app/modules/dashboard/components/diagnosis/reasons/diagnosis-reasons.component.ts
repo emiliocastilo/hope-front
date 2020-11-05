@@ -17,6 +17,7 @@ export class DiagnosisReasonsComponent implements OnInit {
       url: 'dashboard/diagnosis/reasons/reason-stop-bioligical-treatment',
     },
   ];
+  config = { showYears: true };
 
   constructor() {}
 

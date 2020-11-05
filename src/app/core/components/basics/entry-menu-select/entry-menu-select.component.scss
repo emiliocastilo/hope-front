@@ -5,6 +5,12 @@
   display: flex;
 }
 
+.select-switch {
+  position: relative;
+  top: -1.75rem;
+  left: 3rem;
+}
+
 input[type='number'] {
   -moz-appearance: textfield;
 }

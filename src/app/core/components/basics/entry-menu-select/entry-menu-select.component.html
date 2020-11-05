@@ -10,7 +10,7 @@
     </select>
   </div>
 
-  <div *ngIf="showYears" class="dynamic-field">
+  <div *ngIf="config.showYears" class="dynamic-field">
     <label class="dynamic-label">
       {{ 'years' | translate }}
     </label>
@@ -20,5 +20,17 @@
       [value]="selectedYears"
       (input)="onInput($event.target.value)"
     />
+  </div>
+
+  <div
+    [formGroup]="form"
+    *ngIf="config.showToggle || config.showToggleExpenses"
+    class="select-switch"
+  >
+    <app-switch
+      [label]="'accumulated' | translate"
+      formControlName="switchValue"
+    >
+    </app-switch>
   </div>
 </div>
