@@ -51,7 +51,7 @@ export class PatientsComponent implements OnInit {
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _hospitalService: HospitalService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
@@ -274,9 +274,9 @@ export class PatientsComponent implements OnInit {
         for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
           if (
             parseInt(this.selectedPatient.pathologies[i].id) !=
-            parseInt(formValues.pathology[0].id) &&
+              parseInt(formValues.pathology[0].id) &&
             parseInt(this.selectedPatient.pathologies[i].id) ==
-            parseInt(this.selectedUser.rolSelected.pathology.id)
+              parseInt(this.selectedUser.rolSelected.pathology.id)
           ) {
             pathologies_aux.push(formValues.pathology[0]);
           } else {
@@ -355,7 +355,10 @@ export class PatientsComponent implements OnInit {
         if (this.paginationData.totalPages !== data.totalPages) {
           this.paginationData = data;
         }
-        if (this.patients.length === 0 && this.paginationData.totalElements > 0){
+        if (
+          this.patients.length === 0 &&
+          this.paginationData.totalElements > 0
+        ) {
           this.currentPage = this.currentPage - 1;
           this.selectPage(this.currentPage);
         }

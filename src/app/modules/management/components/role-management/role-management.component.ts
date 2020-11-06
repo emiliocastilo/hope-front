@@ -262,7 +262,7 @@ export class RoleManagementComponent implements OnInit {
         if (this.paginationData.totalPages !== data.totalPages) {
           this.paginationData = data;
         }
-        if (this.roles.length === 0 && this.paginationData.totalElements > 0){
+        if (this.roles.length === 0 && this.paginationData.totalElements > 0) {
           this.currentPage = this.currentPage - 1;
           this.selectPage(this.currentPage);
         }
