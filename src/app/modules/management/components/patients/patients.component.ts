@@ -355,6 +355,10 @@ export class PatientsComponent implements OnInit {
         if (this.paginationData.totalPages !== data.totalPages) {
           this.paginationData = data;
         }
+        if (this.patients.length === 0 && this.paginationData.totalElements > 0){
+          this.currentPage = this.currentPage - 1;
+          this.selectPage(this.currentPage);
+        }
       });
   }
 }
