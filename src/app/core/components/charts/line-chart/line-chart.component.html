@@ -17,6 +17,8 @@
     [yAxisLabel]="config.yAxisLabel"
     [curve]="config.curve"
     [xAxisTickFormatting]="formatDate"
+    [xScaleMin]="firstDate"
+    [xScaleMax]="lastDate"
     (select)="onSelect($event)"
   >
   </ngx-charts-line-chart>

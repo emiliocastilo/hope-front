@@ -3,11 +3,23 @@
     <app-patient-header></app-patient-header>
   </section>
   <section class="col-md-12 p-0 mt-4">
-    <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
+    <app-line-chart
+      [config]="configChart"
+      [lastDate]="lastDate"
+      [firstDate]="firstDate"
+      *ngIf="dataChart"
+    >
+    </app-line-chart>
   </section>
   <section class="col-md-12 p-0 mt-4">
-    {{ 'treatments' | translate }}
-    <hr />
+    <!-- {{ 'treatments' | translate }}
+    <hr /> -->
     <div id="google-timeline-chart"></div>
+    <app-dates-bar
+      [dates]="globalDates"
+      (indexes)="onChangeIndexes($event)"
+      *ngIf="globalDates && globalDates.length"
+    >
+    </app-dates-bar>
   </section>
 </div>

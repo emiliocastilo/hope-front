@@ -46,6 +46,7 @@ import { NgbdSortableHeader } from './directives/sortable.directive';
 import { FormsComponent } from './components/forms/forms.component';
 import { ColumnChartComponent } from './components/charts/column-chart/column-chart.component';
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
+import { DatesBarComponent } from './components/charts/dates-bar/dates-bar.component';
 import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
 import { FormListComponent } from './components/basics/form-list/form-list.component';
 import { GenderFormatter } from './pipes/gender.pipe';
@@ -73,6 +74,7 @@ import { InputTypeaheadComponent } from './components/basics/input-typeahead/inp
 import { ContactComponent } from './components/contact/contact.component';
 import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
 import { EntryMenuSelectComponent } from './components/basics/entry-menu-select/entry-menu-select.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -123,6 +125,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormsComponent,
     ColumnChartComponent,
     PieChartComponent,
+    DatesBarComponent,
     ExportButtonsComponent,
     FormListComponent,
     PatientHeaderComponent,
@@ -152,6 +155,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgbModule,
     IconsModule,
     NgxChartsModule,
+    Ng5SliderModule,
     RouterModule,
     TranslateModule.forChild({
       loader: {
@@ -195,6 +199,7 @@ export function createTranslateLoader(http: HttpClient) {
     PieChartComponent,
     ExportButtonsComponent,
     ColumnChartComponent,
+    DatesBarComponent,
     PaginationComponent,
     HomeDashboardModuleComponent,
     GenderFormatter,
