@@ -42,6 +42,7 @@ export class PatientsComponent implements OnInit {
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
   private itemsPerPage: number;
   private selectedUser: any;
+  private role_aux: any;
 
   constructor(
     private _patientsService: PatientsService,
@@ -50,23 +51,34 @@ export class PatientsComponent implements OnInit {
     private _notification: NotificationService,
     private _formBuilder: FormBuilder,
     private _hospitalService: HospitalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     // this.patients = this._activatedRoute.snapshot.data.patients.content;
-    this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
+    //this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
+    this.role_aux = JSON.parse(localStorage.getItem('role') || '{}');
+    //Obtenemos las patologias
+    if (this.role_aux['service']['pathologies'].length > 0) {
+      for (let i = 0; i < this.role_aux['service']['pathologies'].length; i++) {
+        this.pathologies.push(
+          new PathologyModel(
+            this.role_aux['service']['pathologies'][i]['id'],
+            this.role_aux['service']['pathologies'][i]['name'],
+            this.role_aux['service']['pathologies'][i]['description']
+          )
+        );
+      }
+    }
 
     const userHospital: any = this.hospitals.find(
       (hospital) => hospital.id === this.selectedUser.rolSelected.hospital.id
     );
-
     this.hospitals = [userHospital];
     this.getPathologiesIds();
     this.getPatients();
-
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
       firstSurname: ['', Validators.required],
@@ -106,7 +118,7 @@ export class PatientsComponent implements OnInit {
 
   public getPatients() {
     this._patientsService
-      .getPatients(this.pathologiesIds, '')
+      .getPatients(this.selectedUser.rolSelected.pathology.id, '')
       .subscribe((data) => {
         this.patients = data.content;
       });
@@ -120,7 +132,7 @@ export class PatientsComponent implements OnInit {
 
   public onSearch(event: string): void {
     this._patientsService
-      .findPatients(this.pathologiesIds, event)
+      .findPatients(this.selectedUser.rolSelected.pathology.id, event)
       .subscribe((data) => {
         this.patients = data.content;
       });
@@ -128,26 +140,8 @@ export class PatientsComponent implements OnInit {
 
   public onIconButtonClick(event: any) {
     if (event && event.type === 'edit') {
-      if (this.selectedPatient.hospital) {
-        this._hospitalService
-          .getById(this.selectedPatient.hospital.id)
-          .subscribe((hospital) => {
-            if (
-              hospital &&
-              hospital.pathologies &&
-              hospital.pathologies.length > 0
-            ) {
-              this.pathologies = hospital.pathologies;
-              this.modalForm.controls['pathology'].setValue(
-                hospital.pathologies
-              );
-              this.editPatient();
-            } else {
-              this.pathologies = null;
-              this.modalForm.controls['pathology'].setValue(null);
-            }
-          });
-      } else {
+      if (this.selectedPatient) {
+        this.modalForm.controls['pathology'].setValue(this.pathologies);
         this.editPatient();
       }
     } else if (event && event.type === 'delete') {
@@ -224,6 +218,13 @@ export class PatientsComponent implements OnInit {
       this.selectedPatient.hospital &&
       this.selectedPatient.pathologies
     ) {
+      // Se selecciona la patología del usuario logado, coincidente con la del paciente.
+      const isInArrayPatientPathology = this.selectedPatient.pathologies.findIndex(
+        (element) => element.id === this.selectedUser.rolSelected.pathology.id
+      );
+      const isInArrayPathology = this.pathologies.findIndex(
+        (element2) => element2.id === this.selectedUser.rolSelected.pathology.id
+      );
       options = {
         hospital: {
           options: this.hospitals,
@@ -231,11 +232,13 @@ export class PatientsComponent implements OnInit {
         },
         pathology: {
           options: this.pathologies,
-          optionSelected: this.selectedPatient.pathologies[0].id,
+          optionSelected:
+            isInArrayPatientPathology >= 0
+              ? this.pathologies[isInArrayPathology].id
+              : this.selectedPatient.pathologies[0].id,
         },
       };
     } else {
-      this.pathologies = [];
       options = {
         hospital: { options: this.hospitals },
         pathology: { options: this.pathologies },
@@ -263,9 +266,27 @@ export class PatientsComponent implements OnInit {
     if (this.isEditing) {
       id = this.patients[this.selectedItem].id;
     }
-    const pathologies = [];
-    pathologies.push(formValues.pathology[0]);
-
+    let pathologies_aux: PathologyModel[] = [];
+    if (this.selectedPatient.pathologies !== undefined) {
+      if (formValues.pathology.length > 1) {
+        pathologies_aux = this.selectedPatient.pathologies;
+      } else {
+        for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
+          if (
+            parseInt(this.selectedPatient.pathologies[i].id) !=
+            parseInt(formValues.pathology[0].id) &&
+            parseInt(this.selectedPatient.pathologies[i].id) ==
+            parseInt(this.selectedUser.rolSelected.pathology.id)
+          ) {
+            pathologies_aux.push(formValues.pathology[0]);
+          } else {
+            pathologies_aux.push(this.selectedPatient.pathologies[i]);
+          }
+        }
+      }
+    } else {
+      pathologies_aux.push(formValues.pathology[0]);
+    }
     const hospital = formValues.hospital
       ? formValues.hospital[0]
         ? formValues.hospital[0]
@@ -285,7 +306,7 @@ export class PatientsComponent implements OnInit {
       birthDate,
       hospital,
       formValues.genderCode,
-      pathologies
+      pathologies_aux
     );
     this.selectedPatient = new PatientModel();
     if (this.isEditing) {
@@ -328,11 +349,15 @@ export class PatientsComponent implements OnInit {
 
   private refreshData(query: string): void {
     this._patientsService
-      .getPatients(this.pathologiesIds, query)
+      .getPatients(this.selectedUser.rolSelected.pathology.id, query)
       .subscribe((data) => {
         this.patients = data.content;
         if (this.paginationData.totalPages !== data.totalPages) {
           this.paginationData = data;
+        }
+        if (this.patients.length === 0 && this.paginationData.totalElements > 0){
+          this.currentPage = this.currentPage - 1;
+          this.selectPage(this.currentPage);
         }
       });
   }

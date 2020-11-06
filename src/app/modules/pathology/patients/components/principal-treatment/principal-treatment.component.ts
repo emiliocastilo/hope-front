@@ -347,6 +347,9 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
       });
 
+      if (!this.tableData) {
+        this.tableData = [];
+      }
       this.tableData.push(event.value);
       this.save(modalRef, 'create');
     });
