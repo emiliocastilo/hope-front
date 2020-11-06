@@ -2,26 +2,12 @@
   <section
     class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center"
   >
-    <div class="row pt-3" [formGroup]="form">
-      <div class="select">
-        <div class="select-label">
-          <label> {{ 'totalExpensesBiologicalTreatment' | translate }}</label>
-        </div>
-        <div class="select-entries">
-          <select formControlName="selectValue">
-            <option *ngFor="let entry of options" [value]="entry">
-              {{ entry | translate }}
-            </option>
-          </select>
-        </div>
-        <div class="select-switch">
-          <app-switch
-            [label]="'accumulated' | translate"
-            formControlName="switchValue"
-          >
-          </app-switch>
-        </div>
-      </div>
+    <div class="row pt-3">
+      <app-entry-menu-select
+        [selectLabel]="'consumption'"
+        [entries]="options"
+        [config]="config"
+      ></app-entry-menu-select>
     </div>
   </section>
 </div>

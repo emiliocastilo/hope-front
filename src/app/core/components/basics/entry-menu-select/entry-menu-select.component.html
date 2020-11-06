@@ -1,12 +1,36 @@
-<div class="select">
-  <div class="select-label">
-    <label> {{ label | translate }}</label>
-  </div>
-  <div class="select-entries">
-    <select (change)="onSelect($event)">
-      <option *ngFor="let entry of entries" [value]="entry.url">
+<div class="container">
+  <div class="dynamic-field">
+    <label class="dynamic-label">
+      {{ selectLabel | translate }}
+    </label>
+    <select class="form-control" [style]="style" (change)="onSelect($event)">
+      <option *ngFor="let entry of entries; index as i" [value]="i">
         {{ entry.name | translate }}
       </option>
     </select>
+  </div>
+
+  <div *ngIf="config.showYears" class="dynamic-field">
+    <label class="dynamic-label">
+      {{ 'years' | translate }}
+    </label>
+    <input
+      placeholder="years"
+      type="number"
+      [value]="selectedYears"
+      (input)="onInput($event.target.value)"
+    />
+  </div>
+
+  <div
+    [formGroup]="form"
+    *ngIf="config.showToggle || config.showToggleExpenses"
+    class="select-switch"
+  >
+    <app-switch
+      [label]="'accumulated' | translate"
+      formControlName="switchValue"
+    >
+    </app-switch>
   </div>
 </div>

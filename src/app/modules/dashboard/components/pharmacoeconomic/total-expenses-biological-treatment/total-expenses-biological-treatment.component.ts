@@ -1,54 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-total-expenses-biological-treatment',
   templateUrl: './total-expenses-biological-treatment.component.html',
   styleUrls: ['./total-expenses-biological-treatment.component.scss'],
 })
-export class TotalExpensesBiologicalTreatmentComponent implements OnInit {
-  options = ['total', 'average'];
-  form: FormGroup;
+export class TotalExpensesBiologicalTreatmentComponent {
+  options = [
+    {
+      name: 'total',
+      url:
+        'dashboard/pharmacoeconomic/total-expenses-biological-treatment/total-expenses',
+    },
+    {
+      name: 'average',
+      url:
+        'dashboard/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses',
+    },
+  ];
+  config = {
+    showToggleExpenses: true,
+  };
 
-  constructor(private router: Router, private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      selectValue: [],
-      switchValue: [false],
-    });
-
-    this.onChanges();
-  }
-
-  onChanges(): void {
-    this.form.valueChanges.subscribe((val) => {
-      this.showScreen(val);
-    });
-  }
-
-  showScreen(values: any) {
-    if (values.selectValue === 'total') {
-      if (values.switchValue) {
-        this.router.navigate([
-          'dashboard/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses',
-        ]);
-      } else {
-        this.router.navigate([
-          'dashboard/pharmacoeconomic/total-expenses-biological-treatment/total-expenses',
-        ]);
-      }
-    } else {
-      if (values.switchValue) {
-        this.router.navigate([
-          'dashboard/pharmacoeconomic/total-expenses-biological-treatment/accumulated-avg-expenses',
-        ]);
-      } else {
-        this.router.navigate([
-          'dashboard/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses',
-        ]);
-      }
-    }
-  }
+  constructor() {}
 }

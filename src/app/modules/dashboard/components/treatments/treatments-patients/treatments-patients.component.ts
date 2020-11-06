@@ -8,19 +8,19 @@ import { Component, OnInit } from '@angular/core';
 export class TreatmentsPatientsComponent implements OnInit {
   entries = [
     {
-      name: 'patientsTreatmentPsoriasisPlacas',
+      name: 'psoriasisPlacas',
       url: 'dashboard/treatments/treatments-patients/psoriasis-placas',
     },
     {
-      name: 'patientsTreatmentPsoriasisPalmoPlantar',
+      name: 'psoriasisPalmoplantar',
       url: 'dashboard/treatments/treatments-patients/psoriasis-palmo-plantar',
     },
     {
-      name: 'patientsTreatmentEritrodermia',
+      name: 'eritrodermia',
       url: 'dashboard/treatments/treatments-patients/eritrodermia',
     },
     {
-      name: 'patientsTreatmentPsoriasisPustulosa',
+      name: 'psoriasisPustulosa',
       url: 'dashboard/treatments/treatments-patients/psoriasis-pustulosa',
     },
   ];
