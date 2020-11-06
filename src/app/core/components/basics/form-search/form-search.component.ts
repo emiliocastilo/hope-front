@@ -47,7 +47,7 @@ export class FormSearchComponent implements OnInit {
 
   onSearch(event: any) {
     let url = this.config.endpoint;
-    if (event.target.value.length > 3) {
+    if (event.target.value.length >= 2) {
       this.config.params.forEach((element: any, index: number) => {
         url = url.replace(
           '${' + index + '}',
