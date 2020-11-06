@@ -10,7 +10,7 @@ import { ChangePasswordModalComponent } from '../modals/change-password-modal/ch
   styleUrls: ['./my-account.component.scss'],
 })
 export class MyAccountComponent implements OnInit {
-  public currentUser: UsersModel;
+  public currentUser: any;
   public userDataForm: FormGroup;
   public formKeys: string[];
 
@@ -39,7 +39,7 @@ export class MyAccountComponent implements OnInit {
     this.userDataForm = this._formBuilder.group({
       username: [this.currentUser.username],
       email: [this.currentUser.email],
-      role: [this.currentUser.rolSelected],
+      role: [this.currentUser.rolSelected.name],
     });
 
     this.formKeys = Object.keys(this.userDataForm.controls);
