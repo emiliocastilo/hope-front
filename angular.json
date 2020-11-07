@@ -96,6 +96,8 @@
               "browserTarget": "apps-hopes-front:build:production"
             },"pre": {
               "browserTarget": "apps-hopes-front:build:preproduction"
+            },"dev": {
+              "browserTarget": "apps-hopes-front:build:dev"
             }
           }
         },
