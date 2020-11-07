@@ -6,7 +6,7 @@
     "start": "ng serve --base-href=/hopes/",
     "build": "ng build",
     "build:pre": "ng build --configuration=preproduction --base-href=/hopes/",
-    "build:dev": "ng serve --port 4200 --configuration=dev --base-href=/hopes/",
+    "build:dev": "ng build --configuration=dev --base-href=/hopes/",
     "test": "ng test",
     "lint": "prettier --check ./src/**/**.{ts,html}",
     "stylelint": "stylelint **/*.scss",
