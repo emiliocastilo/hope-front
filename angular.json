@@ -77,7 +77,6 @@
               ]
             },
             "dev": {
-              "outputPath": "dist/apps-hopes-front-dev",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
