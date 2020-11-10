@@ -83,7 +83,7 @@
     >
     </app-button>
     <app-button
-      *ngIf="type === 'update'"
+      *ngIf="type === 'edit' || type === 'changeSuspend'"
       clasesBtn="btn btn-primary mr-4"
       (click)="onUpdate()"
       [disabledButton]="!validForm"

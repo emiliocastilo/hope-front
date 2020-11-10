@@ -11,6 +11,9 @@ import { PhototherapyModalComponent } from 'src/app/core/components/modals/photo
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { constants } from '../../../../../../constants/constants';
+import { FormsService } from 'src/app/core/services/forms/forms.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-phototherapy',
@@ -18,14 +21,15 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./phototherapy.component.scss'],
 })
 export class PhototherapyComponent implements OnInit {
+  key = constants.farmacologiesTreatments;
   public columHeaders = [
     'indication',
-    'principle',
-    'brand',
-    'dose',
+    'uvb',
+    'psoralenoPlusUva',
+    'timesAWeek',
     'dateStart',
     'dateEnd',
-    'type',
+    'sessionNumbers',
   ];
   public actions: TableActionsModel[] = new TableActionsBuilder().getAllActions();
   public paginationData: PaginationModel = {
@@ -35,7 +39,7 @@ export class PhototherapyComponent implements OnInit {
   };
   private currentPage: number = 0;
   private currentUser: PatientModel = JSON.parse(
-    localStorage.getItem('selectedUser' || '{}')
+    localStorage.getItem('selectedUser' || '{}') 
   );
   private currentTreatment: string = 'phototherapy';
   public tableData: any[];
@@ -64,6 +68,9 @@ export class PhototherapyComponent implements OnInit {
     dateSuspension: ['', Validators.required],
   });
 
+  public patient: PatientModel;
+  private indication = '';
+
   private changeOrSuspensionOptions = [
     {
       id: 0,
@@ -80,8 +87,8 @@ export class PhototherapyComponent implements OnInit {
     bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
     visibleInjury: { type: 'checkbox', class: 'col-2' },
     other: { type: 'text', class: 'col-6' },
-    uvb: { type: 'checkbox', class: 'col-6' },
-    psoralenoPlusUva: { type: 'checkbox', class: 'col-6' },
+    uvb: { type: 'checkbox', class: 'col-3' },
+    psoralenoPlusUva: { type: 'checkbox', class: 'col-3' },
     waveLongitude: { type: 'number', class: 'col-6' },
     timesAWeek: { type: 'number', class: 'col-6' },
     datePrescription: { type: 'date', class: 'col-6' },
@@ -103,13 +110,44 @@ export class PhototherapyComponent implements OnInit {
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder,
     private _notification: NotificationService,
-    private _translate: TranslateService
+    private _translate: TranslateService,
+    private _formsService: FormsService
   ) {}
 
   ngOnInit(): void {
-    this.getCurrentPatient();
-    const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
-    this.getData(query);
+    //this.getCurrentPatient();
+    //const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
+    //this.getData(query);
+
+    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.getFormDatas();
+    this.getForm();
+  }
+
+  async getForm() {
+    const retrievedForm: any = await this._formsService.retrieveForm(
+      this.key,
+      this.patient.id
+    );
+
+    if (retrievedForm && retrievedForm.data.length > 0) {
+      this.tableData = retrievedForm.data[0].value;
+    }
+  }
+
+  getFormDatas() {
+    this._formsService
+      .getFormsDatas(
+        `template=principal-diagnosis&patientId=${this.patient.id}&name=psoriasisType`
+      )
+      .subscribe(
+        (data: string) => {
+          this.indication = data;
+        },
+        ({ error }) => {
+          // this._notification.showErrorToast(error.errorCode);
+        }
+      );
   }
 
   private getCurrentPatient(): void {
@@ -129,18 +167,29 @@ export class PhototherapyComponent implements OnInit {
     });
 
     modalRef.componentInstance.type = 'create';
-    modalRef.componentInstance.title = 'btn.new';
+    modalRef.componentInstance.title = 'newTreatment';
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
+
     modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
     });
-    modalRef.componentInstance.save.subscribe((event: any) => {
-      this.save(event, modalRef);
-    });
 
-    modalRef.componentInstance.update.subscribe((event: any) => {
-      this.update(event, modalRef);
+    modalRef.componentInstance.save.subscribe((event: any) => {
+      event.value.reasonChangeOrSuspension = null;
+      event.value.dateSuspension = null;
+
+      Object.keys(event.value).forEach((key: string) => {
+        if (key.toLowerCase().includes('date') && event.value[key]) {
+          event.value[key] = new Date(event.value[key]).toISOString();
+        }
+      });
+
+      if (!this.tableData) {
+        this.tableData = [];
+      }
+      this.tableData.push(event.value);
+      this.save(modalRef, 'create');
     });
   }
 
@@ -155,31 +204,91 @@ export class PhototherapyComponent implements OnInit {
     });
   }
 
-  public showModalEdit(index: number, type: string): void {
-    this.modalForm.reset();
-    this.currentUser = this.tableData[index];
-    this.fillForm(this.modalFormUpdate, this.currentUser, type);
+  public async showModalChange(index: number, type: string) {
+    const dataEdit = { ...this.tableData[index] };
+
+    Object.keys(dataEdit).forEach((key: string) => {
+      if (key.toLowerCase().includes('date') && dataEdit[key]) {
+        dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
+      }
+    });
+
+    this.fillForm(this.modalFormUpdate, dataEdit, type);
     const modalRef = this._modalService.open(PhototherapyModalComponent, {
       size: 'lg',
     });
 
-    modalRef.componentInstance.type = 'update';
-    modalRef.componentInstance.title = 'btn.update';
+    modalRef.componentInstance.type = 'changeSuspend';
+    modalRef.componentInstance.title = 'changeSuspendTreatment';
     modalRef.componentInstance.form = this.modalFormUpdate;
     modalRef.componentInstance.options = this.modalOptions;
+
     modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
     });
-    modalRef.componentInstance.save.subscribe((event: any) => {
-      this.save(event, modalRef);
-    });
 
     modalRef.componentInstance.update.subscribe((event: any) => {
-      this.update(event, modalRef);
+
+      if (Array.isArray(event.value.reasonChangeOrSuspension)) {
+        event.value.reasonChangeOrSuspension =
+          event.value.reasonChangeOrSuspension[0];
+      }
+
+      Object.keys(event.value).forEach((key: string) => {
+        if (key.toLowerCase().includes('date') && event.value[key]) {
+          event.value[key] = new Date(event.value[key]).toISOString();
+        }
+      });
+
+      Object.keys(event.value).forEach((key: string) => {
+        this.tableData[index][key] = event.value[key];
+      });
+
+      this.save(modalRef, 'edit');
     });
   }
 
-  private showModalDetail(index: number, type: string): void {
+  public async showModalEdit(index: number, type: string) {
+    const dataEdit = { ...this.tableData[index] };
+
+    Object.keys(dataEdit).forEach((key: string) => {
+      if (key.toLowerCase().includes('date') && dataEdit[key]) {
+        dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
+      }
+    });
+
+    this.fillForm(this.modalForm, dataEdit, type);
+    const modalRef = this._modalService.open(PhototherapyModalComponent, {
+      size: 'lg',
+    });
+
+    modalRef.componentInstance.type = 'edit';
+    modalRef.componentInstance.title = 'editTreatment';
+    modalRef.componentInstance.form = this.modalForm;
+    modalRef.componentInstance.options = this.modalOptions;
+
+    modalRef.componentInstance.cancel.subscribe((event: any) => {
+      modalRef.close();
+    });
+
+    modalRef.componentInstance.update.subscribe((event: any) => {
+      
+      Object.keys(event.value).forEach((key: string) => {
+        if (key.toLowerCase().includes('date') && event.value[key]) {
+          event.value[key] = new Date(event.value[key]).toISOString();
+        }
+      });
+
+      Object.keys(event.value).forEach((key: string) => {
+        this.tableData[index][key] = event.value[key];
+      });
+
+      this.save(modalRef, 'edit');
+    });
+  }
+
+  /*private showModalDetail(index: number, type: string): void {
+    console.log("Entra en detalle")
     this.modalForm.reset();
     this.currentUser = this.tableData[index];
     this.fillForm(this.modalForm, this.currentUser, type);
@@ -200,14 +309,66 @@ export class PhototherapyComponent implements OnInit {
     modalRef.componentInstance.update.subscribe((event: any) => {
       this.update(event, modalRef);
     });
+  }*/
+
+  private save(modalRef, type) {
+    console.log(this.tableData);
+
+    const form = {
+      template: this.key,
+      data: [
+        {
+          type: 'table',
+          name: 'phototherapy',
+          value: this.tableData,
+        },
+      ],
+      patientId: this.patient.id,
+    };
+
+    this._formsService.fillForm(form).subscribe(
+      () => {
+        if (type === 'create') {
+          this._notification.showSuccessToast('elementCreated');
+        } else if (type === 'edit') {
+          this._notification.showSuccessToast('elementUpdated');
+        } else if (type === 'delete') {
+          this._notification.showSuccessToast('elementDeleted');
+        }
+
+        modalRef.close();
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
   }
 
-  private save(event, modalRef) {
-    console.log('save:', event, modalRef);
-  }
+  private update(modalRef,type) {
+    console.log(this.tableData)
+    const form = {
+      template: this.key,
+      data: [
+        {
+          type: 'table',
+          name: 'phototherapy',
+          value: this.tableData,
+        },
+      ],
+      patientId: this.patient.id,
+    };
 
-  private update(event, modalRef) {
-    console.log('update:', event, modalRef);
+    this._formsService.fillForm(form).subscribe(
+      () => {
+        if (type === 'edit') {
+          this._notification.showSuccessToast('elementUpdated');
+        }
+        modalRef.close();
+      },
+      ({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      }
+    );
   }
 
   public onIconButtonClick($event: any) {
@@ -216,10 +377,10 @@ export class PhototherapyComponent implements OnInit {
         this.showModalConfirm($event.selectedItem);
         break;
       case 'edit':
-        this.showModalEdit($event.selectedItem, $event.type);
+        this.showModalChange($event.selectedItem, $event.type);
         break;
       case 'detail':
-        this.showModalDetail($event.selectedItem, $event.type);
+        this.showModalEdit($event.selectedItem, $event.type);
         break;
     }
   }
