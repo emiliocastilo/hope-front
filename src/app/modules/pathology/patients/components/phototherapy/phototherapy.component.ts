@@ -31,7 +31,12 @@ export class PhototherapyComponent implements OnInit {
     'dateEnd',
     'sessionNumbers',
   ];
-  public actions: TableActionsModel[] = new TableActionsBuilder().getAllActions();
+  public actions: TableActionsModel[] = [
+    new TableActionsModel('changeSuspend', 'edit-3'),
+    new TableActionsModel('edit', 'edit-2'),
+    new TableActionsModel('delete', 'trash'),
+  ];
+  //public actions: TableActionsModel[] = new TableActionsBuilder().getAllActions();
   public paginationData: PaginationModel = {
     number: 0,
     size: 5,
@@ -39,24 +44,24 @@ export class PhototherapyComponent implements OnInit {
   };
   private currentPage: number = 0;
   private currentUser: PatientModel = JSON.parse(
-    localStorage.getItem('selectedUser' || '{}') 
+    localStorage.getItem('selectedUser' || '{}')
   );
   private currentTreatment: string = 'phototherapy';
   public tableData: any[];
   private modalForm: FormGroup = this._formBuilder.group({
-    specialIndication: ['', Validators.required],
-    bigPsychologicalImpact: ['', Validators.required],
-    visibleInjury: ['', Validators.required],
+    specialIndication: [false],
+    bigPsychologicalImpact: [false],
+    visibleInjury: [false],
     other: ['', Validators.required],
-    uvb: ['', Validators.required],
-    psoralenoPlusUva: ['', Validators.required],
+    uvb: [false],
+    psoralenoPlusUva: [false],
     waveLongitude: ['', Validators.required],
     timesAWeek: ['', Validators.required],
     datePrescription: ['', Validators.required],
     dateStart: ['', Validators.required],
-    expectedEndDate: ['', Validators.required],
+    expectedEndDate: ['',],
     sessionNumbers: ['', Validators.required],
-    observations: ['', Validators.required],
+    observations: ['',],
   });
 
   private modalFormUpdate: FormGroup = this._formBuilder.group({
@@ -228,7 +233,6 @@ export class PhototherapyComponent implements OnInit {
     });
 
     modalRef.componentInstance.update.subscribe((event: any) => {
-
       if (Array.isArray(event.value.reasonChangeOrSuspension)) {
         event.value.reasonChangeOrSuspension =
           event.value.reasonChangeOrSuspension[0];
@@ -272,7 +276,6 @@ export class PhototherapyComponent implements OnInit {
     });
 
     modalRef.componentInstance.update.subscribe((event: any) => {
-      
       Object.keys(event.value).forEach((key: string) => {
         if (key.toLowerCase().includes('date') && event.value[key]) {
           event.value[key] = new Date(event.value[key]).toISOString();
@@ -344,8 +347,8 @@ export class PhototherapyComponent implements OnInit {
     );
   }
 
-  private update(modalRef,type) {
-    console.log(this.tableData)
+  private update(modalRef, type) {
+    console.log(this.tableData);
     const form = {
       template: this.key,
       data: [
