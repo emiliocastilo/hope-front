@@ -74,7 +74,10 @@ export class PhototherapyModalComponent implements OnInit {
     let pass = false;
     const count = this.formKeys.filter(
       (key: string) =>
-        this.form.get(key) && this.form.get(key).validator({} as any).required
+        this.form.get(key) &&
+        this.form.get(key).validator &&
+        this.form.get(key).validator({} as any) &&
+        this.form.get(key).validator({} as any).required
     );
 
     if (count.length > 0) {

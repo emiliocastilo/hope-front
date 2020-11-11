@@ -21,7 +21,7 @@ import moment from 'moment';
   styleUrls: ['./phototherapy.component.scss'],
 })
 export class PhototherapyComponent implements OnInit {
-  key = constants.farmacologiesTreatments;
+  key = constants.NofarmacologiesTreatments;
   public columHeaders = [
     'indication',
     'uvb',
@@ -31,12 +31,12 @@ export class PhototherapyComponent implements OnInit {
     'dateEnd',
     'sessionNumbers',
   ];
-  public actions: TableActionsModel[] = [
+  /*public actions: TableActionsModel[] = [
     new TableActionsModel('changeSuspend', 'edit-3'),
     new TableActionsModel('edit', 'edit-2'),
     new TableActionsModel('delete', 'trash'),
-  ];
-  //public actions: TableActionsModel[] = new TableActionsBuilder().getAllActions();
+  ];*/
+  public actions: TableActionsModel[] = new TableActionsBuilder().getAllActions();
   public paginationData: PaginationModel = {
     number: 0,
     size: 5,
@@ -56,18 +56,18 @@ export class PhototherapyComponent implements OnInit {
     uvb: [false],
     psoralenoPlusUva: [false],
     waveLongitude: ['', Validators.required],
+    sessionNumbers: ['', Validators.required],
     timesAWeek: ['', Validators.required],
     datePrescription: ['', Validators.required],
     dateStart: ['', Validators.required],
     expectedEndDate: ['',],
-    sessionNumbers: ['', Validators.required],
     observations: ['',],
   });
 
   private modalFormUpdate: FormGroup = this._formBuilder.group({
     reasonChangeOrSuspension: ['', Validators.required],
-    uvb: ['', Validators.required],
-    psoralenoPlusUva: ['', Validators.required],
+    uvb: [false],
+    psoralenoPlusUva: [false],
     waveLongitude: ['', Validators.required],
     timesAWeek: ['', Validators.required],
     dateSuspension: ['', Validators.required],
@@ -92,14 +92,14 @@ export class PhototherapyComponent implements OnInit {
     bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
     visibleInjury: { type: 'checkbox', class: 'col-2' },
     other: { type: 'text', class: 'col-6' },
-    uvb: { type: 'checkbox', class: 'col-3' },
-    psoralenoPlusUva: { type: 'checkbox', class: 'col-3' },
+    uvb: { type: 'checkbox', class: 'col-2' },
+    psoralenoPlusUva: { type: 'checkbox', class: 'col-2 margin_uvb' },
     waveLongitude: { type: 'number', class: 'col-6' },
+    sessionNumbers: { type: 'number', class: 'col-6' },
     timesAWeek: { type: 'number', class: 'col-6' },
     datePrescription: { type: 'date', class: 'col-6' },
     dateStart: { type: 'date', class: 'col-6' },
     expectedEndDate: { type: 'date', class: 'col-6' },
-    sessionNumbers: { type: 'number', class: 'col-6' },
     observations: { type: 'textarea', class: 'col-12' },
     dateSuspension: { type: 'date', class: 'col-6' },
     reasonChangeOrSuspension: {
@@ -424,11 +424,11 @@ export class PhototherapyComponent implements OnInit {
 
   private deleteTreatment(event: any): void {
     console.log(event);
-    const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}`;
+    const query = `patient=${this.currentUser.id}&treatment=phototherapy-treatment`;
     this._nonParmacologicService.delete(query).subscribe(
       (data: any) => {
         this._notification.showSuccessToast('element_deleted');
-        const queryGetData = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
+        const queryGetData = `patient=${this.currentUser.id}&treatment=phototherapy-treatment&page=${this.currentPage}`;
         this.getData(queryGetData);
       },
       (error: any) => {
