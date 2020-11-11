@@ -83,6 +83,8 @@ export class TableComponent implements OnInit {
   showDataTable(row: any, header: string) {
     let data = row;
 
+    console.log(header)
+
     const conditionDate =
       header.toLowerCase().includes('date') ||
       header.toLowerCase().includes('period') ||
@@ -98,6 +100,16 @@ export class TableComponent implements OnInit {
 
     if (data && typeof data === 'object') {
       return data.name;
+    }
+
+    if(data&& header == "uvb"){
+      data = "Si"
+    }else if(data == null&& header == "uvb"){
+      data = "No"
+    }else if(data&& header == "psoralenoPlusUva"){
+      data = "Si"
+    }else if(data == null&& header == "psoralenoPlusUva"){
+      data = "No"
     }
 
     return data;

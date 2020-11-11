@@ -397,27 +397,27 @@ export class PhototherapyComponent implements OnInit {
     });
   }
 
-  public sortTable(){
-    this.tableData.sort(function(a, b) {
+  public sortTable() {
+    this.tableData.sort(function (a, b) {
       if (a.dateSuspension === null && b.dateSuspension === null) {
         return a.dateStart < b.dateStart ? 1 : -1;
-      } else if (a.dateSuspension != null && b.dateSuspension != null){
+      } else if (a.dateSuspension != null && b.dateSuspension != null) {
         return a.dateSuspension < b.dateSuspension ? 1 : -1;
       } else {
-        if (a.dateSuspension === null){
+        if (a.dateSuspension === null) {
           return -1;
         } else {
           return 1;
         }
       }
-   });
+    });
   }
 
-  public onSort(event: any){
-    if (event.direction === ''){
+  public onSort(event: any) {
+    if (event.direction === '') {
       this.sortTable();
     } else {
-      this.tableData.sort(function(a, b) {
+      this.tableData.sort(function (a, b) {
         if (event.direction === 'asc') {
           return a[event.column] < b[event.column] ? 1 : -1;
         } else if (event.direction === 'desc') {
@@ -427,7 +427,3 @@ export class PhototherapyComponent implements OnInit {
     }
   }
 }
-
-
-
-
