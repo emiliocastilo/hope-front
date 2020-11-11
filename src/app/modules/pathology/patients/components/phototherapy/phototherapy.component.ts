@@ -29,14 +29,15 @@ export class PhototherapyComponent implements OnInit {
     'timesAWeek',
     'dateStart',
     'dateEnd',
+    'dateSuspension',
     'sessionNumbers',
   ];
-  /*public actions: TableActionsModel[] = [
-    new TableActionsModel('changeSuspend', 'edit-3'),
-    new TableActionsModel('edit', 'edit-2'),
+  public actions: TableActionsModel[] = [
+    new TableActionsModel('edit', 'edit-3'),
+    new TableActionsModel('detail', 'edit-2'),
     new TableActionsModel('delete', 'trash'),
-  ];*/
-  public actions: TableActionsModel[] = new TableActionsBuilder().getAllActions();
+  ];
+  //public actions: TableActionsModel[] = new TableActionsBuilder().getAllActions();
   public paginationData: PaginationModel = {
     number: 0,
     size: 5,
@@ -52,10 +53,10 @@ export class PhototherapyComponent implements OnInit {
     specialIndication: [false],
     bigPsychologicalImpact: [false],
     visibleInjury: [false],
-    other: ['',],
+    other: [''],
     uvb: [false],
     psoralenoPlusUva: [false],
-    waveLongitude: ['',],
+    waveLongitude: [''],
     sessionNumbers: ['', Validators.required],
     timesAWeek: ['', Validators.required],
     datePrescription: ['', Validators.required],
@@ -194,6 +195,7 @@ export class PhototherapyComponent implements OnInit {
         this.tableData = [];
       }
       this.tableData.push(event.value);
+      this.sortTable();
       this.save(modalRef, 'create');
     });
   }
@@ -247,7 +249,7 @@ export class PhototherapyComponent implements OnInit {
       Object.keys(event.value).forEach((key: string) => {
         this.tableData[index][key] = event.value[key];
       });
-
+      this.sortTable();
       this.save(modalRef, 'edit');
     });
   }
@@ -285,7 +287,7 @@ export class PhototherapyComponent implements OnInit {
       Object.keys(event.value).forEach((key: string) => {
         this.tableData[index][key] = event.value[key];
       });
-
+      this.sortTable();
       this.save(modalRef, 'edit');
     });
   }
@@ -347,33 +349,6 @@ export class PhototherapyComponent implements OnInit {
     );
   }
 
-  private update(modalRef, type) {
-    console.log(this.tableData);
-    const form = {
-      template: this.key,
-      data: [
-        {
-          type: 'table',
-          name: 'phototherapy',
-          value: this.tableData,
-        },
-      ],
-      patientId: this.patient.id,
-    };
-
-    this._formsService.fillForm(form).subscribe(
-      () => {
-        if (type === 'edit') {
-          this._notification.showSuccessToast('elementUpdated');
-        }
-        modalRef.close();
-      },
-      ({ error }) => {
-        this._notification.showErrorToast(error.errorCode);
-      }
-    );
-  }
-
   public onIconButtonClick($event: any) {
     switch ($event.type) {
       case 'delete':
@@ -421,4 +396,38 @@ export class PhototherapyComponent implements OnInit {
       this.save(modalRef, 'delete');
     });
   }
+
+  public sortTable(){
+    this.tableData.sort(function(a, b) {
+      if (a.dateSuspension === null && b.dateSuspension === null) {
+        return a.dateStart < b.dateStart ? 1 : -1;
+      } else if (a.dateSuspension != null && b.dateSuspension != null){
+        return a.dateSuspension < b.dateSuspension ? 1 : -1;
+      } else {
+        if (a.dateSuspension === null){
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+   });
+  }
+
+  public onSort(event: any){
+    if (event.direction === ''){
+      this.sortTable();
+    } else {
+      this.tableData.sort(function(a, b) {
+        if (event.direction === 'asc') {
+          return a[event.column] < b[event.column] ? 1 : -1;
+        } else if (event.direction === 'desc') {
+          return a[event.column] < b[event.column] ? -1 : 1;
+        }
+      });
+    }
+  }
 }
+
+
+
+
