@@ -51,12 +51,12 @@ export class PhototherapyComponent implements OnInit {
   public tableData: any[];
   private modalForm: FormGroup = this._formBuilder.group({
     indication: ['', Validators.required],
-    specialIndication: ['', Validators.required],
-    bigPsychologicalImpact: ['', Validators.required],
-    visibleInjury: ['', Validators.required],
+    specialIndication: [false],
+    bigPsychologicalImpact: [false],
+    visibleInjury: [false],
     other: ['', Validators.required],
-    uvb: ['', Validators.required],
-    psoralenoPlusUva: ['', Validators.required],
+    uvb: [false],
+    psoralenoPlusUva: [false],
     waveLongitude: ['', Validators.required],
     timesAWeek: ['', Validators.required],
     datePrescription: ['', Validators.required],
@@ -110,7 +110,6 @@ export class PhototherapyComponent implements OnInit {
       options: this.changeOrSuspensionOptions,
     },
   };
-  indication: string;
 
   constructor(
     private _nonParmacologicService: NonParmacologicServices,
@@ -443,20 +442,5 @@ export class PhototherapyComponent implements OnInit {
         }
       });
     }
-  }
-
-  getFormDatas() {
-    this._formsService
-      .getFormsDatas(
-        `template=principal-diagnosis&patientId=${this.currentUser.id}&name=psoriasisType`
-      )
-      .subscribe(
-        (data: string) => {
-          this.indication = data;
-        },
-        ({ error }) => {
-          // this._notification.showErrorToast(error.errorCode);
-        }
-      );
   }
 }
