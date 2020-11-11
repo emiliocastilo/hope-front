@@ -60,8 +60,8 @@ export class PhototherapyComponent implements OnInit {
     timesAWeek: ['', Validators.required],
     datePrescription: ['', Validators.required],
     dateStart: ['', Validators.required],
-    expectedEndDate: ['',],
-    observations: ['',],
+    expectedEndDate: [''],
+    observations: [''],
   });
 
   private modalFormUpdate: FormGroup = this._formBuilder.group({
@@ -417,23 +417,8 @@ export class PhototherapyComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.accept.subscribe((event: any) => {
-      this.deleteTreatment(event);
-      modalRef.close();
+      this.tableData.splice(index, 1);
+      this.save(modalRef, 'delete');
     });
-  }
-
-  private deleteTreatment(event: any): void {
-    console.log(event);
-    const query = `patient=${this.currentUser.id}&treatment=phototherapy-treatment`;
-    this._nonParmacologicService.delete(query).subscribe(
-      (data: any) => {
-        this._notification.showSuccessToast('element_deleted');
-        const queryGetData = `patient=${this.currentUser.id}&treatment=phototherapy-treatment&page=${this.currentPage}`;
-        this.getData(queryGetData);
-      },
-      (error: any) => {
-        this._notification.showSuccessToast('element_deleted');
-      }
-    );
   }
 }
