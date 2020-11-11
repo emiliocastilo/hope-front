@@ -16,6 +16,7 @@ export class EditorModalComponent implements OnInit {
   @Output() save: EventEmitter<FormGroup> = new EventEmitter();
   @Input() options: any = {};
   @Input() maxDate: string;
+  @Input() disabled = false;
   public type: string = 'lg';
 
   constructor() {}

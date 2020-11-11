@@ -70,6 +70,7 @@ export class EditorModalBodyComponent implements OnInit {
       startPeriod: 'date',
       endPeriod: 'date',
       fileDispensation: 'file',
+      fileMedicine: 'file',
       photo: 'file',
       hospital: 'select',
       rol: 'select',
@@ -126,6 +127,7 @@ export class EditorModalBodyComponent implements OnInit {
   public setAccept(key: string) {
     const types = {
       fileDispensation: '.csv',
+      fileMedicine: '.xlsx' || '.xls',
       photo: '.jpg' || '.png',
     };
 
@@ -156,6 +158,7 @@ export class EditorModalBodyComponent implements OnInit {
       'firstSurname',
       'dni',
       'healthCard',
+      'fileMedicine',
       'nhc',
       'birthDate',
     ];
