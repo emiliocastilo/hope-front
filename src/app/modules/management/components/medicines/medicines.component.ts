@@ -71,8 +71,8 @@ export class MedicinesComponent implements OnInit {
         this._medicinesService.get().subscribe(
             (response: QueryResult<MedicineModel>) => {
                 this.medicines = response.content;
-                this.paginationData = response;
                 this.dataMap();
+                this.paginationData = response;
             },
             error => this._notification.showErrorToast(error.errorCode),
             () => this.loading = false
@@ -91,6 +91,86 @@ export class MedicinesComponent implements OnInit {
         this.selectedItem = undefined;
     }
 
+    private saveMedicine (data: FormGroup, modal: any) {
+        const value = data.value;
+        this._medicinesService
+            .saveFromFile(value)
+            .then((response: any) => {
+                modal.close();
+                this.refreshData(`?page=${this.currentPage}`);
+                this._notification.showSuccessToast('elementCreated');
+            })
+            .catch((error: any) => {
+                this._notification.showErrorToast(error.errorCode);
+            });
+    }
+
+    private refreshData (query: string): void {
+        const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+        this._medicinesService
+            .get(query)
+            .subscribe((data: QueryResult<MedicineModel>) => {
+                this.medicines = data.content;
+                this.dataMap();
+
+                // ! Si number es reasignado se producirá un bucle infinito de llamadas a API
+                // if (this.paginationData.number !== data.number) this.paginationData.number = data.number;
+
+                if (this.paginationData.size !== data.size) this.paginationData.size = data.size;
+                if (this.paginationData.totalPages !== data.totalPages) this.paginationData.totalPages = data.totalPages;
+                if (this.paginationData.totalElements !== data.totalElements) this.paginationData.totalElements = data.totalElements;
+
+                if (this.paginationData.totalPages !== data.totalPages) {
+                    this.paginationData = data;
+                }
+
+                if (this.medicines.length === 0 && this.paginationData.totalElements > 0) {
+                    this.currentPage = this.currentPage - 1;
+                    this.selectPage(this.currentPage);
+                }
+            });
+    }
+
+    private delete (id: number) {
+        this._medicinesService.delete(id).subscribe(
+            success => {
+                this._notification.showSuccessToast('elementDeleted');
+                this.currentPage = 0;
+                
+                this.selectPage(this.currentPage);
+            }, error => this._notification.showErrorToast('errorDeleting')
+        );
+    }
+
+    private showModalConfirm () {
+        const modalRef = this._modalService.open(ConfirmModalComponent);
+        const current = this.medicines[this.selectedItem];
+        modalRef.componentInstance.title = 'Eliminar medicamento';
+        modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el medicamento ${current.nationalCode} ${current.actIngredients}?`;
+        modalRef.componentInstance.cancel.subscribe((event) => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.accept.subscribe((event) => {
+            this.delete(current.id);
+            modalRef.close();
+        });
+    }
+
+    public selectPage (page: number): void {
+        this.paginationData.number = page + 1;
+        let query: string;
+        if (this.colOrder && this.typeOrder) {
+            query = `?sort=${this.colOrder},${this.typeOrder}&page=${page}`;
+        } else {
+            query = `?page=${page}`;
+        }
+        this.currentPage = page;
+        if (this.itemsPerPage) {
+            query = `${query}&size=${this.itemsPerPage}`;
+        }
+        this.refreshData(query);
+    }
+
     public showModal () {
         this.cleanModal();
         let modalRef = this._modalService.open(EditorModalComponent, {
@@ -107,71 +187,14 @@ export class MedicinesComponent implements OnInit {
         });
     }
 
-    private saveMedicine (data: FormGroup, modal: any) {
-        const value = data.value;
-        this._medicinesService
-            .saveFromFile(value)
-            .then((response: any) => {
-                modal.close();
-                this.refreshData(`&page=${this.currentPage}`);
-                this._notification.showSuccessToast('elementCreated');
-            })
-            .catch((error: any) => {
-                this._notification.showErrorToast(error.errorCode);
-            });
-
-    }
-
-    private refreshData (query: string): void {
-        const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-        this._medicinesService
-            .get(query)
-            .subscribe((data: QueryResult<MedicineModel>) => {
-                this.medicines = data.content;
-                this.dataMap();
-                if (this.paginationData.totalPages !== data.totalPages) {
-                    this.paginationData = data;
-                }
-                if (this.medicines.length === 0 && this.paginationData.totalElements > 0) {
-                    this.currentPage = this.currentPage - 1;
-                    this.selectPage(this.currentPage);
-                }
-            });
-    }
-
-    private delete () { }
-
-    private showModalConfirm () {
-        const modalRef = this._modalService.open(ConfirmModalComponent);
-        modalRef.componentInstance.title = 'Eliminar medicamento';
-        modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el medicamento ${this.medicines[this.selectedItem].presentation}?`;
-        modalRef.componentInstance.cancel.subscribe((event) => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.accept.subscribe((event) => {
-            this.delete();
-            modalRef.close();
-        });
-    }
-
-    public selectPage (page: number): void {
-        let query: string;
-        if (this.colOrder && this.typeOrder) {
-            query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
-        } else {
-            query = `&page=${page}`;
-        }
-        this.currentPage = page;
-        if (this.itemsPerPage) {
-            query = `${query}&size=${this.itemsPerPage}`;
-        }
-        this.refreshData(query);
+    public selectItemsPerPage (number: number) {
+        this.itemsPerPage = number;
+        this.selectPage(0);
     }
 
     public onSelectedItem (event: any): void {
         this.selectedItem = event;
-        this.selectedMedicine.setValuesFromObject(this.medicines[event]);
-
+        this.selectedMedicine = this.medicines[event];
         Object.keys(this.medicines[event]).forEach((key: string) => {
             if (this.modalForm.controls[key]) {
                 this.modalForm.controls[key].setValue(
@@ -199,12 +222,13 @@ export class MedicinesComponent implements OnInit {
     public onSort (event: any) {
         this.colOrder = event.column;
         this.typeOrder = event.direction;
-        let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
+        let query = `?sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
         if (this.itemsPerPage) query = `${query}&size=${this.itemsPerPage}`;
         this.refreshData(query);
     }
 
     public onIconButtonClick (event: any) {
+        console.log(event);
         if (event && event.type === 'edit') {
             // this.edit();
         } else if (event && event.type === 'delete') {

@@ -123,6 +123,7 @@
         "elementCreated": "Elemento creado correctamente",
         "elementUpdated": "Elemento editado correctamente",
         "errorForm": "El formulario contiene errores",
+        "errorDeleting": "Ha ocurrido un error en el borrado del elemento.",
         "formNotFound": "No se ha encontrado el formulario",
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
@@ -431,7 +432,6 @@
     "accumulated": "Acumulado",
     "totalExpensesBiologicalTreatment": "Coste por tratamientos biológicos",
     "consumptionBiologicalTreatment": "Consumo de tratamientos biológicos",
-    
     "actIngredients": "Principio activo",
     "codeAct": "Código ATC",
     "authorized": "Autorizado",

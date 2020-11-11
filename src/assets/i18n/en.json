@@ -123,6 +123,7 @@
         "elementCreated": "Element created correctly",
         "elementUpdated": "Element updated correctly",
         "errorForm": "The form contains errors",
+        "errorDeleting": "There was an error deleting the element.",
         "formNotFound": "Form not found",
         "passwordChangedSuccessfully": "Password succesfully updated",
         "passwordChangeFailed": "Wrong password",

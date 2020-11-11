@@ -1,9 +1,7 @@
-import { query } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { QueryParams } from '../../interfaces/query-params.interface';
 import { QueryResult } from '../../interfaces/query-result.interface';
 import { MedicineModel } from '../../models/medicines/medicines.model';
 

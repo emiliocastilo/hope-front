@@ -27,6 +27,10 @@ export class MedicineModel {
     brand?: string;
 
     constructor(obj?: Partial<MedicineModel>) {
+        this.setValuesFromObject(obj);
+    }
+
+    public setValuesFromObject (obj?: Partial<MedicineModel>) {
         this.dateCreated = obj && obj.dateCreated ? obj.dateCreated : undefined;
         this.dateUpdated = obj && obj.dateUpdated ? obj.dateUpdated : undefined;
         this.id = obj && obj.id ? obj.id : undefined;
@@ -36,23 +40,21 @@ export class MedicineModel {
         this.nationalCode = obj && obj.nationalCode ? obj.nationalCode : undefined;
         this.description = obj && obj.description ? obj.description : undefined;
         this.presentation = obj && obj.presentation ? obj.presentation : undefined;
+        this.content = obj && obj.content ? obj.content : undefined;
+        this.authorizationDate = obj && obj.authorizationDate ? obj.authorizationDate : undefined;
+        this.authorized = obj && obj.authorized ? obj.authorized : undefined;
+        this.endDateAuthorization = obj && obj.endDateAuthorization ? obj.endDateAuthorization : undefined;
         this.commercialization = obj && obj.commercialization ? obj.commercialization : undefined;
+        this.commercializationDate = obj && obj.commercializationDate ? obj.commercializationDate : undefined;
+        this.endDateCommercialization = obj && obj.endDateCommercialization ? obj.endDateCommercialization : undefined;
+        this.units = obj && obj.units ? obj.units : undefined;
+        this.pvl = obj && obj.pvl ? obj.pvl : undefined;
+        this.pvlUnitary = obj && obj.pvlUnitary ? obj.pvlUnitary : undefined;
+        this.pvp = obj && obj.pvp ? obj.pvp : undefined;
+        this.pathology = obj && obj.pathology ? obj.pathology : undefined;
         this.biologic = obj && obj.biologic ? obj.biologic : undefined;
         this.viaAdministration = obj && obj.viaAdministration ? obj.viaAdministration : undefined;
         this.family = obj && obj.family ? obj.family : undefined;
-        this.brand = obj && obj.brand ? obj.brand : undefined;
-    }
-
-    public setValuesFromObject (object: any) {
-        // const service: ServiceModel = object.service;
-        // const pathology: PathologyModel = object.pathology;
-        // const hospital: HospitalModel = object.hospital;
-        // this.id = object.id;
-        // this.name = object.name;
-        // this.description = object.description;
-        // this.code = object.code;
-        // this.hospital = hospital;
-        // this.pathology = pathology;
-        // this.service = service;
+        this.brand = obj && obj.brand ? obj.family : undefined;
     }
 }

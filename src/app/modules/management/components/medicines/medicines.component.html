@@ -19,11 +19,11 @@
         </section>
   
         <div class="mt-4">
-          <!-- <app-results-per-page
+          <app-results-per-page *ngIf="!loading"
             (itemsPerPage)="selectItemsPerPage($event)"
             [paginationData]="paginationData"
           >
-          </app-results-per-page> -->
+          </app-results-per-page>
         </div>
   
         <section class="mt-4">
@@ -38,11 +38,11 @@
             [sortable]="true"
           ></app-table>
   
-          <!-- <app-pagination
+          <app-pagination *ngIf="!loading"
             (selectPage)="selectPage($event)"
             [paginationData]="paginationData"
           >
-          </app-pagination> -->
+          </app-pagination>
         </section>
       </section>
     </section>
