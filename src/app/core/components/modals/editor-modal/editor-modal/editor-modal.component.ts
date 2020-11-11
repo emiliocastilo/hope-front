@@ -17,6 +17,7 @@ export class EditorModalComponent implements OnInit {
   @Input() options: any = {};
   @Input() maxDate: string;
   @Input() disabled = false;
+  @Input() loading = false;
   public type: string = 'lg';
 
   constructor() {}

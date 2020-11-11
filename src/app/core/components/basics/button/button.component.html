@@ -4,6 +4,7 @@
   [disabled]="disabledButton"
 >
   <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+  <span *ngIf="loading"> {{ "btn.loading" | translate }}</span>
   <span *ngIf="!loading">
     <i-feather *ngIf="icono" name="{{ icono }}"></i-feather>
     {{ texto | translate }}</span

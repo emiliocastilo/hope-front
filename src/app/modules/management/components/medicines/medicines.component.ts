@@ -108,6 +108,7 @@ export class MedicinesComponent implements OnInit {
 
   private saveMedicine(data: FormGroup, modal: any) {
     const value = data.value;
+    modal.componentInstance.loading = true;
     modal.componentInstance.disabled = true;
     this._medicinesService
       .saveFromFile(value)
@@ -117,11 +118,13 @@ export class MedicinesComponent implements OnInit {
           this.loadData();
         } else {
           modal.componentInstance.disabled = false;
+          modal.componentInstance.loading = false;
           this._notification.showErrorToast(response.statusText);
         }
       })
       .catch((error: any) => {
         modal.componentInstance.disabled = false;
+        modal.componentInstance.loading = false;
         this._notification.showErrorToast(error.errorCode);
       });
   }

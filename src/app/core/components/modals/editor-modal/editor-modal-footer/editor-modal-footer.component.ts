@@ -9,6 +9,7 @@ export class EditorModalFooterComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<any> = new EventEmitter();
   @Input() disableSave: boolean;
+  @Input() loading = false;
 
   constructor() {}
 
