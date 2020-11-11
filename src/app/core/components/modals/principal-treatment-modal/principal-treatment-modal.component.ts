@@ -48,9 +48,9 @@ export class PrincipalTreatmentModalComponent implements OnInit {
 
   public isDisabled(formKey) {
     if (this.type === 'changeSuspend') {
-      return ['medicine', 'family', 'atc', 'cn', 'tract'].indexOf(formKey) > -1;
+      return ['medicine', 'family', 'atc', 'cn', 'tract', 'indication'].indexOf(formKey) > -1;
     } else {
-      return ['family', 'atc', 'cn', 'tract'].indexOf(formKey) > -1;
+      return ['family', 'atc', 'cn', 'tract', 'indication'].indexOf(formKey) > -1;
     }
   }
 
