@@ -23,6 +23,7 @@
         [type]="options[formKey].type"
         [invalidLabel]="getInvalidLabel(formKey)"
         [required]="checkIfRequired(formKey)"
+        [isDisabled]="isDisabled(formKey)"
       >
       </app-input>
       <app-switch

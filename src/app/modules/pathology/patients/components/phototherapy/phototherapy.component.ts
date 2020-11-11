@@ -50,14 +50,14 @@ export class PhototherapyComponent implements OnInit {
   private currentTreatment: string = 'phototherapy';
   public tableData: any[];
   private modalForm: FormGroup = this._formBuilder.group({
-    specialIndication: [false],
-    bigPsychologicalImpact: [false],
-    visibleInjury: [false],
-    other: [''],
-    uvb: [false],
-    psoralenoPlusUva: [false],
-    waveLongitude: [''],
-    sessionNumbers: ['', Validators.required],
+    indication: ['', Validators.required],
+    specialIndication: ['', Validators.required],
+    bigPsychologicalImpact: ['', Validators.required],
+    visibleInjury: ['', Validators.required],
+    other: ['', Validators.required],
+    uvb: ['', Validators.required],
+    psoralenoPlusUva: ['', Validators.required],
+    waveLongitude: ['', Validators.required],
     timesAWeek: ['', Validators.required],
     datePrescription: ['', Validators.required],
     dateStart: ['', Validators.required],
@@ -89,6 +89,7 @@ export class PhototherapyComponent implements OnInit {
   ];
 
   private modalOptions = {
+    indication: { type: 'text', class: 'col-12' },
     specialIndication: { type: 'checkbox', class: 'col-2' },
     bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
     visibleInjury: { type: 'checkbox', class: 'col-2' },
@@ -109,6 +110,7 @@ export class PhototherapyComponent implements OnInit {
       options: this.changeOrSuspensionOptions,
     },
   };
+  indication: string;
 
   constructor(
     private _nonParmacologicService: NonParmacologicServices,
@@ -167,7 +169,23 @@ export class PhototherapyComponent implements OnInit {
   }
 
   public showModalCreate(): void {
-    this.modalForm.reset();
+    this.modalForm.reset({
+      indication: this.indication,
+      specialIndication: false,
+      bigPsychologicalImpact: false,
+      visibleInjury: false,
+      other: '',
+      uvb: false,
+      psoralenoPlusUva: false,
+      waveLongitude: '',
+      timesAWeek: '',
+      datePrescription: '',
+      dateStart: '',
+      expectedEndDate: '',
+      sessionNumbers: '',
+      observations: '',
+    });
+
     const modalRef = this._modalService.open(PhototherapyModalComponent, {
       size: 'lg',
     });
@@ -425,5 +443,20 @@ export class PhototherapyComponent implements OnInit {
         }
       });
     }
+  }
+
+  getFormDatas() {
+    this._formsService
+      .getFormsDatas(
+        `template=principal-diagnosis&patientId=${this.currentUser.id}&name=psoriasisType`
+      )
+      .subscribe(
+        (data: string) => {
+          this.indication = data;
+        },
+        ({ error }) => {
+          // this._notification.showErrorToast(error.errorCode);
+        }
+      );
   }
 }
