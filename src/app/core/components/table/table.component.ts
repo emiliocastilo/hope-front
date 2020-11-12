@@ -82,7 +82,7 @@ export class TableComponent implements OnInit {
 
   showDataTable(row: any, header: string) {
     let data = row;
-    
+
     const conditionDate =
       header.toLowerCase().includes('date') ||
       header.toLowerCase().includes('period') ||

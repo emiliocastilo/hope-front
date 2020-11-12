@@ -87,6 +87,6 @@ export class PhototherapyModalComponent implements OnInit {
     return pass;
   }
   public isDisabled(formKey) {
-      return ['indication'].indexOf(formKey) > -1;
+    return ['indication'].indexOf(formKey) > -1;
   }
 }

@@ -54,10 +54,11 @@ export class PhototherapyComponent implements OnInit {
     specialIndication: [false],
     bigPsychologicalImpact: [false],
     visibleInjury: [false],
-    other: ['', Validators.required],
+    other: ['',],
     uvb: [false],
     psoralenoPlusUva: [false],
     waveLongitude: ['', Validators.required],
+    sessionNumbers: ['', Validators.required],
     timesAWeek: ['', Validators.required],
     datePrescription: ['', Validators.required],
     dateStart: ['', Validators.required],
@@ -435,13 +436,21 @@ export class PhototherapyComponent implements OnInit {
       this.sortTable();
     } else {
       this.tableData.sort(function (a, b) {
-        if (event.direction === 'asc' && !isNaN(a[event.column]) && !isNaN(b[event.column])) {
+        if (
+          event.direction === 'asc' &&
+          !isNaN(a[event.column]) &&
+          !isNaN(b[event.column])
+        ) {
           return parseInt(a[event.column]) < parseInt(b[event.column]) ? 1 : -1;
-        } else if (event.direction === 'desc' && !isNaN(a[event.column]) && !isNaN(b[event.column])) {
+        } else if (
+          event.direction === 'desc' &&
+          !isNaN(a[event.column]) &&
+          !isNaN(b[event.column])
+        ) {
           return parseInt(a[event.column]) < parseInt(b[event.column]) ? -1 : 1;
-        } else if(event.direction === 'asc'){
+        } else if (event.direction === 'asc') {
           return a[event.column] < b[event.column] ? 1 : -1;
-        } else if(event.direction === 'desc'){
+        } else if (event.direction === 'desc') {
           return a[event.column] < b[event.column] ? -1 : 1;
         }
       });
