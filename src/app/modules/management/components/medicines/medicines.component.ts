@@ -134,7 +134,7 @@ export class MedicinesComponent implements OnInit {
     private delete (id: number) {
         this._medicinesService.delete(id).subscribe(
             success => {
-                this._notification.showSuccessToast('elementDeleted');                
+                this._notification.showSuccessToast('elementDeleted');
                 this.selectPage(this.currentPage);
             }, error => this._notification.showErrorToast('errorDeleting')
         );
@@ -207,13 +207,9 @@ export class MedicinesComponent implements OnInit {
             (data: QueryResult<MedicineModel>) => {
                 this.medicines = data.content;
                 this.dataMap();
-                if (this.paginationData.totalPages !== data.totalPages) {
-                    this.paginationData = data;
-                }
-                if (this.medicines.length === 0 && this.paginationData.totalElements > 0) {
-                    this.currentPage = this.currentPage - 1;
-                    this.selectPage(this.currentPage);
-                }
+                this.paginationData.number = 1;
+                this.paginationData.size = data.size;
+                this.paginationData.totalElements = data.totalElements;
             });
     }
 
@@ -226,10 +222,7 @@ export class MedicinesComponent implements OnInit {
     }
 
     public onIconButtonClick (event: any) {
-        console.log(event);
-        if (event && event.type === 'edit') {
-            // this.edit();
-        } else if (event && event.type === 'delete') {
+        if (event && event.type === 'delete') {
             this.showModalConfirm();
         }
     }
