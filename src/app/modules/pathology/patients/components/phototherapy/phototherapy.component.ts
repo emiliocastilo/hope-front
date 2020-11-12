@@ -435,9 +435,13 @@ export class PhototherapyComponent implements OnInit {
       this.sortTable();
     } else {
       this.tableData.sort(function (a, b) {
-        if (event.direction === 'asc') {
+        if (event.direction === 'asc' && !isNaN(a[event.column]) && !isNaN(b[event.column])) {
+          return parseInt(a[event.column]) < parseInt(b[event.column]) ? 1 : -1;
+        } else if (event.direction === 'desc' && !isNaN(a[event.column]) && !isNaN(b[event.column])) {
+          return parseInt(a[event.column]) < parseInt(b[event.column]) ? -1 : 1;
+        } else if(event.direction === 'asc'){
           return a[event.column] < b[event.column] ? 1 : -1;
-        } else if (event.direction === 'desc') {
+        } else if(event.direction === 'desc'){
           return a[event.column] < b[event.column] ? -1 : 1;
         }
       });
