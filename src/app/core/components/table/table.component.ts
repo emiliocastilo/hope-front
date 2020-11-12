@@ -102,11 +102,11 @@ export class TableComponent implements OnInit {
 
     if (data && header == 'uvb') {
       data = 'Si';
-    } else if (data == null && header == 'uvb') {
+    } else if ((data == null || !data) && header == 'uvb') {
       data = 'No';
     } else if (data && header == 'psoralenoPlusUva') {
       data = 'Si';
-    } else if (data == null && header == 'psoralenoPlusUva') {
+    } else if ((data == null || !data) && header == 'psoralenoPlusUva') {
       data = 'No';
     }
 
