@@ -134,9 +134,7 @@ export class MedicinesComponent implements OnInit {
     private delete (id: number) {
         this._medicinesService.delete(id).subscribe(
             success => {
-                this._notification.showSuccessToast('elementDeleted');
-                this.currentPage = 0;
-                
+                this._notification.showSuccessToast('elementDeleted');                
                 this.selectPage(this.currentPage);
             }, error => this._notification.showErrorToast('errorDeleting')
         );
