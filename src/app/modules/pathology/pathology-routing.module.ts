@@ -108,6 +108,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/diagnosis/principal-diagnosis-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+     patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/diagnosis/secundary-diagnosis',
     component: DynamicFormComponentComponent,
     resolve: {
@@ -200,6 +208,94 @@ const routes: Routes = [
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+   path: 'patients/patient-situation-vih',
+   component: DynamicFormComponentComponent,
+   resolve: {
+     patients: PatientsResolverService,
+   },
+   canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/work-groups-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+     path: 'patients/sociodemographic-data-vih',
+     component: DynamicFormComponentComponent,
+     resolve: {
+       patients: PatientsResolverService,
+     },
+     canActivate: [AuthGuard],
+  },
+  {
+     path: 'patients/physical-condition-vih',
+     component: DynamicFormComponentComponent,
+     resolve: {
+       patients: PatientsResolverService,
+     },
+     canActivate: [AuthGuard],
+  },
+  {
+     path: 'patients/basic-urinalysis',
+     component: DynamicFormComponentComponent,
+     resolve: {
+       patients: PatientsResolverService,
+     },
+     canActivate: [AuthGuard],
+  },
+  {
+     path: 'patients/other-analysis-vih',
+     component: DynamicFormComponentComponent,
+     resolve: {
+       patients: PatientsResolverService,
+     },
+     canActivate: [AuthGuard],
+  },
+  {
+     path: 'patients/adherence-to-treatment-SMAQ',
+     component: DynamicFormComponentComponent,
+     resolve: {
+       patients: PatientsResolverService,
+     },
+     canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/serology-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/cardiovascular-risk',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/risk-factors',
+    component: DynamicFormComponentComponent,
+    resolve: {
+     patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/gynecology',
+    component: DynamicFormComponentComponent,
+    resolve: {
+    patients: PatientsResolverService,
     },
     canActivate: [AuthGuard],
   },
