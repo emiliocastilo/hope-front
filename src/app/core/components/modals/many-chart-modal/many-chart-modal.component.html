@@ -4,8 +4,11 @@
     (close)="onClose()"
   ></app-generic-modal-header>
   <section class="row modal-content_checkbox-container">
-    <div class="modal-content_checkbox-container_container" *ngIf="dataParsed.length > 0">
-      <label for ="checkAll">{{"labelAllNothing" | translate}}</label>
+    <div
+      class="modal-content_checkbox-container_container"
+      *ngIf="dataParsed.length > 0"
+    >
+      <label for="checkAll">{{ 'labelAllNothing' | translate }}</label>
       <input
         name="checkAll"
         type="checkbox"
@@ -32,10 +35,13 @@
   </section>
 
   <section class="row" *ngFor="let chart of dataParsed">
-    <div class="col-6" *ngIf="chart.show" class="mt-3">
+    <div class="col-6 mt-3" *ngIf="chart.show">
       <app-line-chart [config]="chart.chartConfig"> </app-line-chart>
     </div>
-    <div class="col-6 modal-content_table-container pt-0 mt-3" *ngIf="chart.show">
+    <div
+      class="col-6 modal-content_table-container pt-0 mt-3"
+      *ngIf="chart.show"
+    >
       <app-table
         [showActionButtons]="false"
         [sortable]="false"
