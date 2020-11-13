@@ -429,5 +429,6 @@
   "average": "Medio",
   "accumulated": "Acumulado",
   "totalExpensesBiologicalTreatment": "Coste por tratamientos biológicos",
-  "consumptionBiologicalTreatment": "Consumo de tratamientos biológicos"
+  "consumptionBiologicalTreatment": "Consumo de tratamientos biológicos",
+  "labelAllNothing": "Todo/Nada"
 }
