@@ -24,6 +24,7 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { constants } from '../../../../../../constants/constants';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-principal-treatment',
@@ -39,6 +40,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     'dose',
     'dateStart',
     'datePrescription',
+    'dateSuspension',
     'type',
   ];
   public actions: TableActionsModel[] = [
@@ -46,17 +48,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     new TableActionsModel('edit', 'edit-2'),
     new TableActionsModel('delete', 'trash'),
   ];
-  // public paginationData: PaginationModel = {
-  //   number: 0,
-  //   size: 5,
-  //   totalElements: 0,
-  // };
-  // private currentPage: number = 0;
-  // private currentUser: PatientModel = JSON.parse(
-  //   localStorage.getItem('selectedUser' || '{}')
-  // );
-  // private currentTreatment: string = 'phototherapy';
   public tableData: any[] = [];
+  public tableDataFilter: any[] = [];
   private modalForm: FormGroup = this._formBuilder.group({
     indication: ['', Validators.required],
     specialIndication: [false],
@@ -93,6 +86,12 @@ export class PrincipalTreatmentComponent implements OnInit {
 
   public patient: PatientModel;
   private indication = '';
+  private currentPage = 0;
+  private colOrder: any;
+  private typeOrder: any;
+  private itemsPerPage: number;
+  public paginationData: PaginationModel;
+  private sizeTable = 5;
 
   formatter = (state) => state.name;
 
@@ -230,6 +229,14 @@ export class PrincipalTreatmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.paginationData = {
+      number: 0,
+      totalPages: 0,
+      size: 0,
+      totalElements: 0
+    }
+    this.typeOrder = '';
+    this.colOrder = '';
     // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
     this.getFormDatas();
     this.getForm();
@@ -243,6 +250,15 @@ export class PrincipalTreatmentComponent implements OnInit {
 
     if (retrievedForm && retrievedForm.data.length > 0) {
       this.tableData = retrievedForm.data[0].value;
+      this.paginationData = {
+        number: this.currentPage,
+        totalPages: (this.tableData.length / this.sizeTable),
+        size: this.sizeTable,
+        totalElements: this.tableData.length
+      }
+      this.addColorRow(this.tableData);
+      this.tableDataFilter = this.tableData.map((x) => x);
+      this.tableDataFilter = this.tableDataFilter.splice((this.paginationData.number * this.paginationData.size), this.paginationData.size);
     }
   }
 
@@ -350,8 +366,13 @@ export class PrincipalTreatmentComponent implements OnInit {
       if (!this.tableData) {
         this.tableData = [];
       }
+      // si añadimos un elemento, aumentamos el total
+      if ((this.tableData.length % this.paginationData.size) === 0){
+        this.paginationData.totalElements++;
+      }
       this.tableData.push(event.value);
       this.save(modalRef, 'create');
+      this.refreshTable();
     });
   }
 
@@ -426,7 +447,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       Object.keys(event.value).forEach((key: string) => {
         this.tableData[index][key] = event.value[key];
       });
-
+      this.refreshTable();
       this.save(modalRef, 'edit');
     });
   }
@@ -521,6 +542,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.tableData[index][key] = event.value[key];
       });
 
+      this.refreshTable();
       this.save(modalRef, 'edit');
     });
   }
@@ -536,21 +558,27 @@ export class PrincipalTreatmentComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.accept.subscribe((event: any) => {
+      // si solo tenemos un elemento en esta página, y lo borramos, restamos el elemento para eliminar esa página
+      if ((this.tableData.length % this.paginationData.size) === 1){
+        this.paginationData.totalElements--;
+      }
       this.tableData.splice(index, 1);
+      this.refreshTable();
       this.save(modalRef, 'delete');
     });
   }
 
   public onIconButtonClick($event: any) {
+    var posIndex = (this.currentPage * this.paginationData.size) + $event.selectedItem;
     switch ($event.type) {
       case 'changeSuspend':
-        this.showModalChange($event.selectedItem, $event.type);
+        this.showModalChange(posIndex, $event.type);
         break;
       case 'edit':
-        this.showModalEdit($event.selectedItem, $event.type);
+        this.showModalEdit(posIndex, $event.type);
         break;
       case 'delete':
-        this.showModalConfirm($event.selectedItem, $event.type);
+        this.showModalConfirm(posIndex, $event.type);
         break;
     }
   }
@@ -564,20 +592,15 @@ export class PrincipalTreatmentComponent implements OnInit {
       //   form.controls[key].disable();
       // }
     });
+    if (type === "changeSuspend" && !form.controls["dateSuspension"].value){
+      var currentDate = new Date();
+      var month = (currentDate.getMonth()+1).toString();
+      var day = (currentDate.getDate()).toString();
+      month = month.length > 1 ? month : ('0' + month);
+      day= day.length > 1 ? day : '0' + day;
+      form.controls["dateSuspension"].setValue(currentDate.getFullYear() +"-"+ month +"-"+ day);
+    }
   }
-
-  // public selectPage(page: number): void {
-  //   this.currentPage = page;
-  //   const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
-  //   this.getData(query);
-  // }
-
-  // public onSearch(search: string) {
-  //   this.currentPage = 0;
-  //   const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
-  //   const serach = search ? `${query}&search=${search}` : query;
-  //   this.getData(serach);
-  // }
 
   private save(modalRef, type) {
     console.log(this.tableData);
@@ -610,5 +633,73 @@ export class PrincipalTreatmentComponent implements OnInit {
         this._notification.showErrorToast(error.errorCode);
       }
     );
+  }
+
+  public sortTableDefault(){
+    this.tableData.sort(function(a, b) {
+      if (a.dateSuspension === null && b.dateSuspension === null) {
+        return a.dateStart < b.dateStart ? 1 : -1;
+      } else if (a.dateSuspension != null && b.dateSuspension != null){
+        return a.dateSuspension < b.dateSuspension ? 1 : -1;
+      } else {
+        if (a.dateSuspension === null){
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+   });
+  }
+
+  public onSort(event: any){
+    this.typeOrder = event.direction;
+    this.colOrder = event.column;
+    this.refreshTable();
+  }
+
+  public selectPage(page: number): void {
+    this.currentPage = page;
+    this.refreshTable();
+  }
+
+  public selectItemsPerPage(number: number) {
+    this.itemsPerPage = number;
+    this.paginationData.size = number;
+    this.selectPage(0);
+  }
+
+  public refreshTable(){
+    if (this.typeOrder === ''){
+      this.sortTableDefault();
+    } else {
+      var typeOrder = this.typeOrder;
+      var colOrder = this.colOrder;
+      this.tableData.sort(function(a, b) {
+        if (typeOrder === 'asc') {
+          return a[colOrder] < b[colOrder] ? 1 : -1;
+        } else if (typeOrder === 'desc') {
+          return a[colOrder] < b[colOrder] ? -1 : 1;
+        }
+      });
+    }
+    this.tableDataFilter = this.tableData.map((x) => x);
+    this.tableDataFilter = this.tableDataFilter.splice((this.currentPage * this.paginationData.size), this.paginationData.size);
+  }
+
+  private addColorRow(tableData) {
+    tableData.forEach(element => {
+      element.rowColor = false;
+      if (element.dateSuspension) {
+        var currentDate = new Date();
+        var month = (currentDate.getMonth()+1).toString();
+        var day = (currentDate.getDate()).toString();
+        month = month.length > 1 ? month : ('0' + month);
+        day= day.length > 1 ? day : '0' + day;
+        var currentDateString = currentDate.getFullYear() +"-"+ month +"-"+ day;
+        if (currentDateString >= element.dateSuspension.substr(0,10)){
+          element.rowColor = true;
+        }
+      }
+    });
   }
 }

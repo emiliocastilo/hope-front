@@ -63,6 +63,24 @@
         background-color: $app-color-table-background;
       }
 
+      &.redRow {
+        &:nth-child(odd)td {
+          background-color: $app-color-red-light-impar;
+        }
+
+        &:nth-child(even)td {
+          background-color: $app-color-red-lighter-impar;
+        }
+
+        &:nth-child(odd)td:first-child {
+          background-color: $app-color-red-light-par;
+        }
+
+        &:nth-child(even)td:first-child {
+          background-color: $app-color-red-lighter-par;
+        }
+      }
+
       td {
         vertical-align: middle;
         padding-left: 1rem;

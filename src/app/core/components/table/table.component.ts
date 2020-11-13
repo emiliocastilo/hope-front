@@ -33,6 +33,8 @@ export class TableComponent implements OnInit {
   @Output() iconButtonClick: EventEmitter<any> = new EventEmitter();
   @Output() sort: EventEmitter<any> = new EventEmitter();
   @Input() actions: TableActionsModel[];
+  @Input() fieldRedRow: string;
+
   public internalSelectedItem: number;
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
@@ -101,5 +103,8 @@ export class TableComponent implements OnInit {
     }
 
     return data;
+  }
+  checkRowColor(row: any): string{
+      return row.rowColor;
   }
 }
