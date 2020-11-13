@@ -378,21 +378,13 @@ export default class FormUtils {
   }
 
   static furWeeks(params: Array<any>): any{
-    if(params != null){
-      let currentDate = moment(new Date());  
-      let date = moment(params[0]);
-      return date.diff(currentDate,'weeks')
-    }else{
-      return null;
-    }
+    var currentDate = moment(); 
+    var date = moment(params[0]);
+    return currentDate.diff(date,'weeks');
   }
 
   static furBirthDate(params: Array<any>): any{
-    if(params != null){ 
-      let date = moment(params[0]);
-      return date.add(280, 'days');
-    }else{
-      return null;
-    }
+    let date = moment(params[0]);
+    return date.add(280, 'days').format('DD/MM/YYYY');
   }
 }
