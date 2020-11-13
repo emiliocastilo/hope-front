@@ -413,5 +413,6 @@
   "average": "Average",
   "accumulated": "Accumulated",
   "totalExpensesBiologicalTreatment": "Total expenses biological treatment",
-  "consumptionBiologicalTreatment": "Consumption biological treatment"
+  "consumptionBiologicalTreatment": "Consumption biological treatment",
+  "labelAllNothing": "All/Nothing"
 }

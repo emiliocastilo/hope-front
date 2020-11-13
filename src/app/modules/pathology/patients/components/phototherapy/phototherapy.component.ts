@@ -11,6 +11,7 @@ import { PhototherapyModalComponent } from 'src/app/core/components/modals/photo
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { FormsService } from 'src/app/core/services/forms/forms.service';
 
 @Component({
   selector: 'app-phototherapy',
@@ -40,6 +41,7 @@ export class PhototherapyComponent implements OnInit {
   private currentTreatment: string = 'phototherapy';
   public tableData: any[];
   private modalForm: FormGroup = this._formBuilder.group({
+    indication: ['', Validators.required],
     specialIndication: ['', Validators.required],
     bigPsychologicalImpact: ['', Validators.required],
     visibleInjury: ['', Validators.required],
@@ -76,6 +78,7 @@ export class PhototherapyComponent implements OnInit {
   ];
 
   private modalOptions = {
+    indication: { type: 'text', class: 'col-12' },
     specialIndication: { type: 'checkbox', class: 'col-2' },
     bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
     visibleInjury: { type: 'checkbox', class: 'col-2' },
@@ -96,6 +99,7 @@ export class PhototherapyComponent implements OnInit {
       options: this.changeOrSuspensionOptions,
     },
   };
+  indication: string;
 
   constructor(
     private _nonParmacologicService: NonParmacologicServices,
@@ -103,11 +107,13 @@ export class PhototherapyComponent implements OnInit {
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder,
     private _notification: NotificationService,
-    private _translate: TranslateService
+    private _translate: TranslateService,
+    private _formsService: FormsService,
   ) {}
 
   ngOnInit(): void {
     this.getCurrentPatient();
+    this.getFormDatas()
     const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
     this.getData(query);
   }
@@ -123,7 +129,23 @@ export class PhototherapyComponent implements OnInit {
   }
 
   public showModalCreate(): void {
-    this.modalForm.reset();
+    this.modalForm.reset({
+      indication: this.indication,
+      specialIndication: false,
+      bigPsychologicalImpact: false,
+      visibleInjury: false,
+      other: '',
+      uvb: false,
+      psoralenoPlusUva: false,
+      waveLongitude: '',
+      timesAWeek: '',
+      datePrescription: '',
+      dateStart: '',
+      expectedEndDate: '',
+      sessionNumbers: '',
+      observations: '',
+    });
+
     const modalRef = this._modalService.open(PhototherapyModalComponent, {
       size: 'lg',
     });
@@ -271,5 +293,20 @@ export class PhototherapyComponent implements OnInit {
         this._notification.showSuccessToast('element_deleted');
       }
     );
+  }
+
+  getFormDatas() {
+    this._formsService
+      .getFormsDatas(
+        `template=principal-diagnosis&patientId=${this.currentUser.id}&name=psoriasisType`
+      )
+      .subscribe(
+        (data: string) => {
+          this.indication = data;
+        },
+        ({ error }) => {
+          // this._notification.showErrorToast(error.errorCode);
+        }
+      );
   }
 }
