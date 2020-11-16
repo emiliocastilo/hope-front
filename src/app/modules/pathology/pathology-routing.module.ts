@@ -124,6 +124,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/diagnosis/secundary-diagnosis-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/diagnosis/comorbidities',
     component: ComorbiditiesComponent,
     resolve: {
@@ -148,6 +156,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/tracing-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/evolution-clinical-indices/eav-pase',
     component: EavPaseComponent,
     resolve: {
@@ -165,6 +181,14 @@ const routes: Routes = [
   },
   {
     path: 'patients/complementary-imaging-scans',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/complementary-imaging-scans-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
@@ -197,6 +221,14 @@ const routes: Routes = [
   },
   {
     path: 'patients/blood-count',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/blood-count-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
@@ -308,6 +340,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/metabolic-profile-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/kidney-liver-biochemistry',
     component: DynamicFormComponentComponent,
     resolve: {
@@ -341,6 +381,14 @@ const routes: Routes = [
   },
   {
     path: 'patients/shared-patients',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/shared-patients-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
