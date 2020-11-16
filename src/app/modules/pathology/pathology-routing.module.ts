@@ -132,6 +132,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/diagnosis/sexually-transmitted-diseases-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/evolution-clinical-indices/pasi-bsa-pga',
     component: PasiBsaPgaComponent,
     resolve: {
