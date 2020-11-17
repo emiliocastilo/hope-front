@@ -12,6 +12,7 @@ import { ManagementRoutingModule } from './management-routing.module';
 import { UsersComponent } from './components/users/users.component';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { PatientsComponent } from './components/patients/patients.component';
+import { MedicinesComponent } from './components/medicines/medicines.component';
 @NgModule({
   declarations: [
     ManagementComponent,
@@ -20,6 +21,7 @@ import { PatientsComponent } from './components/patients/patients.component';
     PatientsComponent,
     DispensationsComponent,
     SectionsComponent,
+    MedicinesComponent,
   ],
   imports: [
     CommonModule,
