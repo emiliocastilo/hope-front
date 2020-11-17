@@ -124,5 +124,4 @@ export class ManyChartModalComponent implements OnInit {
       this.dataParsed[i].show = this.masterSelected;
     }
   }
-
 }
