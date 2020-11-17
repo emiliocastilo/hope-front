@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-phototherapy-modal',
@@ -49,7 +50,11 @@ export class PhototherapyModalComponent implements OnInit {
     const label = errors
       ? Object.keys(errors).filter((key: string) => errors[key])
       : undefined;
-    return label ? `form.validate.${label[0]}` : 'form.validate.required';
+    if(formKey == "indication" && this.form.get(formKey).value == ''){
+      return 'indicationError';
+    }else{
+      return label ? `form.validate.${label[0]}` : 'form.validate.required';
+    }
   }
 
   public checkInputType(array: string[], type: string): boolean {
@@ -65,6 +70,10 @@ export class PhototherapyModalComponent implements OnInit {
       if (field.validator({} as any)) {
         isRequired = field.validator({} as any).required;
       }
+    }
+    
+    if(key =="indication"){
+      this.form.get(key).markAsDirty();
     }
 
     return isRequired;
