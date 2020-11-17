@@ -56,7 +56,7 @@ export class PhototherapyComponent implements OnInit {
     specialIndication: [false],
     bigPsychologicalImpact: [false],
     visibleInjury: [false],
-    other: ['',],
+    other: [''],
     uvb: [false],
     psoralenoPlusUva: [false],
     waveLongitude: ['', Validators.required],
@@ -85,7 +85,6 @@ export class PhototherapyComponent implements OnInit {
   private itemsPerPage: number;
   public paginationData: PaginationModel;
   private sizeTable = 5;
-
 
   private changeOrSuspensionOptions = [
     {
@@ -141,8 +140,8 @@ export class PhototherapyComponent implements OnInit {
       number: 0,
       totalPages: 0,
       size: 0,
-      totalElements: 0
-    }
+      totalElements: 0,
+    };
     this.typeOrder = '';
     this.colOrder = '';
     this.getFormDatas();
@@ -159,13 +158,16 @@ export class PhototherapyComponent implements OnInit {
       this.tableData = retrievedForm.data[0].value;
       this.paginationData = {
         number: this.currentPage,
-        totalPages: (this.tableData.length / this.sizeTable),
+        totalPages: this.tableData.length / this.sizeTable,
         size: this.sizeTable,
-        totalElements: this.tableData.length
-      }
+        totalElements: this.tableData.length,
+      };
       this.addColorRow(this.tableData);
       this.tableDataFilter = this.tableData.map((x) => x);
-      this.tableDataFilter = this.tableDataFilter.splice((this.paginationData.number * this.paginationData.size), this.paginationData.size);
+      this.tableDataFilter = this.tableDataFilter.splice(
+        this.paginationData.number * this.paginationData.size,
+        this.paginationData.size
+      );
     }
   }
 
@@ -239,7 +241,7 @@ export class PhototherapyComponent implements OnInit {
         this.tableData = [];
       }
       // si añadimos un elemento, aumentamos el total
-      if ((this.tableData.length % this.paginationData.size) === 0){
+      if (this.tableData.length % this.paginationData.size === 0) {
         this.paginationData.totalElements++;
       }
       this.tableData.push(event.value);
@@ -258,13 +260,15 @@ export class PhototherapyComponent implements OnInit {
         form.controls[key].disable();
       }
     });
-    if (type === "changeSuspend" && !form.controls["dateSuspension"].value){
+    if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
       var currentDate = new Date();
-      var month = (currentDate.getMonth()+1).toString();
-      var day = (currentDate.getDate()).toString();
-      month = month.length > 1 ? month : ('0' + month);
-      day= day.length > 1 ? day : '0' + day;
-      form.controls["dateSuspension"].setValue(currentDate.getFullYear() +"-"+ month +"-"+ day);
+      var month = (currentDate.getMonth() + 1).toString();
+      var day = currentDate.getDate().toString();
+      month = month.length > 1 ? month : '0' + month;
+      day = day.length > 1 ? day : '0' + day;
+      form.controls['dateSuspension'].setValue(
+        currentDate.getFullYear() + '-' + month + '-' + day
+      );
     }
   }
 
@@ -383,7 +387,8 @@ export class PhototherapyComponent implements OnInit {
   }
 
   public onIconButtonClick($event: any) {
-    var posIndex = (this.currentPage * this.paginationData.size) + $event.selectedItem;
+    var posIndex =
+      this.currentPage * this.paginationData.size + $event.selectedItem;
     switch ($event.type) {
       case 'delete':
         this.showModalConfirm(posIndex, $event.type);
@@ -427,7 +432,7 @@ export class PhototherapyComponent implements OnInit {
     });
     modalRef.componentInstance.accept.subscribe((event: any) => {
       // si solo tenemos un elemento en esta página, y lo borramos, restamos el elemento para eliminar esa página
-      if ((this.tableData.length % this.paginationData.size) === 1){
+      if (this.tableData.length % this.paginationData.size === 1) {
         this.paginationData.totalElements--;
       }
       this.tableData.splice(index, 1);
@@ -435,24 +440,24 @@ export class PhototherapyComponent implements OnInit {
       this.save(modalRef, 'delete');
     });
   }
-  
-  public sortTableDefault(){
-    this.tableData.sort(function(a, b) {
+
+  public sortTableDefault() {
+    this.tableData.sort(function (a, b) {
       if (a.dateSuspension === null && b.dateSuspension === null) {
         return a.dateStart < b.dateStart ? 1 : -1;
-      } else if (a.dateSuspension != null && b.dateSuspension != null){
+      } else if (a.dateSuspension != null && b.dateSuspension != null) {
         return a.dateSuspension < b.dateSuspension ? 1 : -1;
       } else {
-        if (a.dateSuspension === null){
+        if (a.dateSuspension === null) {
           return -1;
         } else {
           return 1;
         }
       }
-   });
+    });
   }
 
-  public onSort(event: any){
+  public onSort(event: any) {
     this.typeOrder = event.direction;
     this.colOrder = event.column;
     this.refreshTable();
@@ -469,18 +474,14 @@ export class PhototherapyComponent implements OnInit {
     this.selectPage(0);
   }
 
-  public refreshTable(){
-    if (this.typeOrder === ''){
+  public refreshTable() {
+    if (this.typeOrder === '') {
       this.sortTableDefault();
     } else {
       var typeOrder = this.typeOrder;
       var colOrder = this.colOrder;
-      this.tableData.sort(function(a, b) {
-        if (
-          typeOrder === 'asc' &&
-          !isNaN(a[colOrder]) &&
-          !isNaN(b[colOrder])
-        ) {
+      this.tableData.sort(function (a, b) {
+        if (typeOrder === 'asc' && !isNaN(a[colOrder]) && !isNaN(b[colOrder])) {
           return parseInt(a[colOrder]) < parseInt(b[colOrder]) ? 1 : -1;
         } else if (
           typeOrder === 'desc' &&
@@ -497,24 +498,27 @@ export class PhototherapyComponent implements OnInit {
     }
     this.addColorRow(this.tableData);
     this.tableDataFilter = this.tableData.map((x) => x);
-    this.tableDataFilter = this.tableDataFilter.splice((this.currentPage * this.paginationData.size), this.paginationData.size);
+    this.tableDataFilter = this.tableDataFilter.splice(
+      this.currentPage * this.paginationData.size,
+      this.paginationData.size
+    );
   }
 
   private addColorRow(tableData) {
-    tableData.forEach(element => {
+    tableData.forEach((element) => {
       element.rowColor = false;
       if (element.dateSuspension) {
         var currentDate = new Date();
-        var month = (currentDate.getMonth()+1).toString();
-        var day = (currentDate.getDate()).toString();
-        month = month.length > 1 ? month : ('0' + month);
-        day= day.length > 1 ? day : '0' + day;
-        var currentDateString = currentDate.getFullYear() +"-"+ month +"-"+ day;
-        if (currentDateString >= element.dateSuspension.substr(0,10)){
+        var month = (currentDate.getMonth() + 1).toString();
+        var day = currentDate.getDate().toString();
+        month = month.length > 1 ? month : '0' + month;
+        day = day.length > 1 ? day : '0' + day;
+        var currentDateString =
+          currentDate.getFullYear() + '-' + month + '-' + day;
+        if (currentDateString >= element.dateSuspension.substr(0, 10)) {
           element.rowColor = true;
         }
       }
     });
   }
-
 }

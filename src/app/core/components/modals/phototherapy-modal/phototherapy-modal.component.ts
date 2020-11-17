@@ -45,14 +45,20 @@ export class PhototherapyModalComponent implements OnInit {
     this.cancel.emit(null);
   }
 
+  router_link: string;
+  router_link_text:string;
+
   public getInvalidLabel(formKey: string): string {
     const errors = this.form ? this.form.get(formKey).errors : undefined;
     const label = errors
       ? Object.keys(errors).filter((key: string) => errors[key])
       : undefined;
-    if(formKey == "indication" && this.form.get(formKey).value == ''){
+    if (formKey == 'indication' && this.form.get(formKey).value == '') {
+      // TO DO: No eliminar, hay que arreglar el routing, se deja texto original
+      //this.router_link = '/hopes/patients/diagnosis/principal-diagnosis';
+      //this.router_link_text = 'diganosisPrincipal'
       return 'indicationError';
-    }else{
+    } else {
       return label ? `form.validate.${label[0]}` : 'form.validate.required';
     }
   }
@@ -71,8 +77,8 @@ export class PhototherapyModalComponent implements OnInit {
         isRequired = field.validator({} as any).required;
       }
     }
-    
-    if(key =="indication"){
+
+    if (key == 'indication') {
       this.form.get(key).markAsDirty();
     }
 
