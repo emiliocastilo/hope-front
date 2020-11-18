@@ -47,6 +47,7 @@
           </span>
           <span *ngSwitchCase="formKey === 'roles'">
             <app-input-select
+              [required]="checkActiveRoles(activeRoles)"
               [id]="formKey"
               class="roles-select"
               [isDisabled]="false"

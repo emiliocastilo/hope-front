@@ -117,6 +117,10 @@ export class EditorModalBodyComponent implements OnInit {
     }
   }
 
+  checkActiveRoles(roles: Array<RolModel>) {
+    return roles.length === 0;
+  }
+
   removeActiveRol(rol: RolModel) {
     this.activeRoles.splice(
       this.activeRoles.findIndex((activeRol) => activeRol.id === rol.id),

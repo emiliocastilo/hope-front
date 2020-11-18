@@ -89,10 +89,7 @@ export class UsersComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern('^[0-9]{8,8}[A-Za-z]$')],
       ],
-      phone: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]{2,3}-? ?[0-9]{6,7}$')],
-      ],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       email: [
         '',
         [
@@ -106,7 +103,7 @@ export class UsersComponent implements OnInit {
         [Validators.required, Validators.pattern('[0-9]{9}')],
       ],
       username: ['', Validators.required],
-      roles: [[]],
+      roles: ['', [Validators.required]],
     });
   }
 
@@ -404,6 +401,7 @@ export class UsersComponent implements OnInit {
       .getAll(user_aux['rolSelected']['id'], query)
       .subscribe((data) => {
         this.users = data.content;
+        this.paginationData.totalElements = data.totalElements;
         if (this.paginationData.totalPages !== data.totalPages) {
           this.paginationData = data;
         }
