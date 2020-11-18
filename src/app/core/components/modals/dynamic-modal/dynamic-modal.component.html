@@ -1,4 +1,8 @@
 <div class="dynamic-modal">
+  <app-generic-modal-header
+    [title]="title"
+    (close)="onClose()"
+  ></app-generic-modal-header>
   <dynamic-form
     [config]="config"
     [buttons]="buttons"

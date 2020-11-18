@@ -12,7 +12,9 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
 export class DynamicModalComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
+  public title = 'this is a test';
   @Input() key: string;
+  @Input() fields: any;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<any> = new EventEmitter();
 
@@ -22,13 +24,22 @@ export class DynamicModalComponent implements OnInit {
     this.getAndParseForm();
   }
 
+  onClose() {
+    this.close.emit(null);
+  }
+
   async getAndParseForm() {
-    const data: any = await this._formsService.get(this.key);
-    if (data) {
-      const emptyForm = this._parseStringToJSON(data.form);
-      this.config = FormUtils.createFieldConfig(emptyForm);
-      const buttons = this._parseStringToJSON(data.buttons);
-      this.buttons = FormUtils.createButtons(buttons);
+    if (this.key) {
+      const data: any = await this._formsService.get(this.key);
+      if (data) {
+        const emptyForm = this._parseStringToJSON(data.form);
+        this.config = FormUtils.createFieldConfig(emptyForm);
+        const buttons = this._parseStringToJSON(data.buttons);
+        this.buttons = FormUtils.createButtons(buttons);
+      }
+    } else if (this.fields) {
+      this.config = FormUtils.createFieldConfig(this.fields);
+      this.buttons = FormUtils.createButtons(['save', 'cancel']);
     }
   }
 
