@@ -424,6 +424,7 @@
     "indicator": "Indicador",
     "biological": "Biológico",
     "chemical": "Químico",
+    "topical": "Tópico",
     "annual": "Anual",
     "total": "Total",
     "costs": "Costes",
@@ -437,5 +438,9 @@
     "codeAct": "Código ATC",
     "authorized": "Autorizado",
     "commercialization": "Comercialización",
-    "viaAdministration": "Vía de administración"
+    "viaAdministration": "Vía de administración",
+    "opcionMedicamento": "Medicamento",
+    "opcionFormulaMagistral": "Fórmula magistral",
+    "descripcionFormulaMagistral": "Descripción fórmula magistral",
+    "dosisFormulaMagistral": "Pauta/dosis de la fórmula magistral"
 }

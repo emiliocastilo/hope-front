@@ -56,11 +56,21 @@ export class PrincipalTreatmentComponent implements OnInit {
     bigPsychologicalImpact: [false],
     visibleInjury: [false],
     others: [''],
+    treatmentType: ['', Validators.required],
+    opcionMedicamento: [''],
+    opcionFormulaMagistral: [''],
+
+
+    // medicamento topico
     medicine: ['', Validators.required],
     family: ['', Validators.required],
     atc: ['', Validators.required],
     cn: ['', Validators.required],
     tract: ['', Validators.required],
+    // formula magistral topico
+    descripcionFormulaMagistral: [''],
+    dosisFormulaMagistral: [''],
+
     dose: ['', Validators.required],
     otherDosis: [''],
     regimenTreatment: ['', Validators.required],
@@ -82,6 +92,13 @@ export class PrincipalTreatmentComponent implements OnInit {
     otherDosis: [''],
     regimenTreatment: ['', Validators.required],
     dateSuspension: ['', Validators.required],
+
+
+    //TODO: habría que añadir también los campos cuando seleccionamos fórmula magistral (?)
+    // descripcionFormulaMagistral: ['', Validators.required],
+    // dosisFormulaMagistral: [''],
+    // opcionMedicamento: [''],
+    // opcionFormulaMagistral: [''],
   });
 
   public patient: PatientModel;
@@ -118,11 +135,40 @@ export class PrincipalTreatmentComponent implements OnInit {
   };
 
   private modalOptions = {
-    indication: { type: 'text', class: 'col-12' },
+    indication: { type: 'text', class: 'col-12', href: 'pepito' },
     specialIndication: { type: 'checkbox', class: 'col-2' },
     bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
     visibleInjury: { type: 'checkbox', class: 'col-2' },
     others: { type: 'text', class: 'col-6' },
+    treatmentType: {
+      type: 'select',
+      class: 'col-12',
+      options: [
+        {
+          id: 'biological',
+          name: this._translate.instant('biological'),
+        },
+        {
+          id: 'chemical',
+          name: this._translate.instant('chemical'),
+        },
+        {
+          id: 'topical',
+          name: this._translate.instant('topical'),
+        },
+      ],
+      value : {
+        id:'chemical'
+      }
+      },
+    opcionMedicamento: {
+      type: 'radio',
+      class: 'col-6',
+    },
+    opcionFormulaMagistral: {
+      type: 'radio',
+      class: 'col-6',
+    },
     medicine: {
       type: 'typeahead',
       class: 'col-12',
@@ -143,6 +189,8 @@ export class PrincipalTreatmentComponent implements OnInit {
       options: [],
     },
     otherDosis: { type: 'text', class: 'col-6' },
+    descripcionFormulaMagistral: { type: 'text', class: 'col-6' },
+    dosisFormulaMagistral: { type: 'text', class: 'col-6' },
     regimenTreatment: {
       type: 'select',
       class: 'col-6',
@@ -284,6 +332,9 @@ export class PrincipalTreatmentComponent implements OnInit {
       bigPsychologicalImpact: false,
       visibleInjury: false,
       others: '',
+      treatmentType: '',
+      opcionMedicamento: 'opcionMedicamento',
+      opcionFormulaMagistral: null,
       medicine: '',
       family: '',
       atc: '',
@@ -298,6 +349,9 @@ export class PrincipalTreatmentComponent implements OnInit {
       observations: '',
       treatmentContinue: false,
       treatmentPulsatil: false,
+      descripcionFormulaMagistral: '',
+      dosisFormulaMagistral: ''
+
     });
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
@@ -313,9 +367,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       modalRef.componentInstance.form.controls.family.setValue(event.family);
       modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
       modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
-      modalRef.componentInstance.form.controls.tract.setValue(
-        event.viaAdministration
-      );
+      modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
       this._medicinesService
         .getDosesByMedicine(`medicineId=${event.id}`)
         .then((data: any) => {
@@ -330,51 +382,66 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     });
 
-    modalRef.componentInstance.selectDose.subscribe((event: any) => {
-      if (event.name === 'Otra') {
-        this.modalForm.controls.otherDosis.setValidators(Validators.required);
-        // this.modalForm.controls.regimenTreatment.setValue('');
-      } else {
-        this.modalForm.controls.otherDosis.clearValidators();
-        this.modalForm.controls.regimenTreatment.setValue({
-          name: event.recommendation,
-        });
-      }
-    });
-
-    modalRef.componentInstance.cancel.subscribe((event: any) => {
-      modalRef.close();
-    });
-
-    modalRef.componentInstance.save.subscribe((event: any) => {
-      event.value.dose = event.value.dose[0];
-      if (Array.isArray(event.value.regimenTreatment)) {
-        event.value.regimenTreatment = event.value.regimenTreatment[0];
-      }
-      event.value.reasonChangeOrSuspension = null;
-      event.value.dateSuspension = null;
-      event.value.principle = event.value.medicine.actIngredients;
-      event.value.brand = event.value.medicine.brand;
-      event.value.type = event.value.medicine.family;
-
-      Object.keys(event.value).forEach((key: string) => {
-        if (key.toLowerCase().includes('date') && event.value[key]) {
-          event.value[key] = new Date(event.value[key]).toISOString();
-        }
+  modalRef.componentInstance.selectDose.subscribe((event: any) => {
+    if (event.name === 'Otra') {
+      this.modalForm.controls.otherDosis.setValidators(Validators.required);
+      // this.modalForm.controls.regimenTreatment.setValue('');
+    } else {
+      this.modalForm.controls.otherDosis.clearValidators();
+      this.modalForm.controls.regimenTreatment.setValue({
+        name: event.recommendation,
       });
+    }
+  });
 
-      if (!this.tableData) {
-        this.tableData = [];
+  modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
+    //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
+    this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
+    this.modalForm.controls.descripcionFormulaMagistral.setValue('');
+    this.modalForm.controls.dosisFormulaMagistral.setValue('');
+  });
+
+  modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
+    if (event === 'opcionMedicamento'){
+      this.deleteRequiredValidation(['descripcionFormulaMagistral']);
+      this.setRequiredValidation(['medicine','family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+    }
+    if (event === 'opcionFormulaMagistral'){
+      this.modalForm.controls.descripcionFormulaMagistral.setValidators(Validators.required);
+      this.deleteRequiredValidation(['medicine','family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+    }
+  });
+
+  modalRef.componentInstance.cancel.subscribe((event: any) => {
+    modalRef.close();
+  });
+
+  modalRef.componentInstance.save.subscribe((event: any) => {
+    event.value.dose = event.value.dose[0];
+    if (Array.isArray(event.value.regimenTreatment)) {
+      event.value.regimenTreatment = event.value.regimenTreatment[0];
+    }
+    event.value.reasonChangeOrSuspension = null;
+    event.value.dateSuspension = null;
+    event.value.principle = event.value.medicine.actIngredients;
+    event.value.brand = event.value.medicine.brand;
+    event.value.type = event.value.medicine.family;
+
+    Object.keys(event.value).forEach((key: string) => {
+      if (key.toLowerCase().includes('date') && event.value[key]) {
+        event.value[key] = new Date(event.value[key]).toISOString();
       }
-      // si añadimos un elemento, aumentamos el total
-      if ((this.tableData.length % this.paginationData.size) === 0){
-        this.paginationData.totalElements++;
-      }
-      this.tableData.push(event.value);
-      this.save(modalRef, 'create');
-      this.refreshTable();
     });
-  }
+
+    if (!this.tableData) {
+      this.tableData = [];
+    }
+    this.tableData.push(event.value);
+    this.paginationData.totalElements = this.tableData.length;
+    this.save(modalRef, 'create');
+    this.refreshTable();
+  });
+}
 
   public async showModalChange(index: number, type: string) {
     const dataEdit = { ...this.tableData[index] };
@@ -384,20 +451,19 @@ export class PrincipalTreatmentComponent implements OnInit {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
       }
     });
-
-    await this._medicinesService
-      .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
-      .then((data: any) => {
-        data.forEach((element) => {
-          element.name = element.description;
+// TODO: Aqui hay que comprobar antes si tenemos medicina, si no, no habría que llamar al servicio.
+      await this._medicinesService
+        .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+        .then((data: any) => {
+          data.forEach((element) => {
+            element.name = element.description;
+          });
+          data.push({ name: 'Otra' });
+          this.modalOptions.dose.options = data;
+        })
+        .catch(({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         });
-        data.push({ name: 'Otra' });
-        this.modalOptions.dose.options = data;
-      })
-      .catch(({ error }) => {
-        this._notification.showErrorToast(error.errorCode);
-      });
-
     this.fillForm(this.modalFormUpdate, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
@@ -407,6 +473,9 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.title = 'changeSuspendTreatment';
     modalRef.componentInstance.form = this.modalFormUpdate;
     modalRef.componentInstance.options = this.modalOptions;
+
+    // TODO: Aqui se debería hacer una comprobación si estamos con la opcion medicamento o formula magica, y activar/desactivar las validaciones necesarias.
+
     modalRef.componentInstance.selectDose.subscribe((event: any) => {
       if (event.name === 'Otra') {
         this.modalFormUpdate.controls.otherDosis.setValidators(
@@ -461,18 +530,19 @@ export class PrincipalTreatmentComponent implements OnInit {
       }
     });
 
-    await this._medicinesService
-      .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
-      .then((data: any) => {
-        data.forEach((element) => {
-          element.name = element.description;
+    // TODO: Aqui hay que comprobar antes si tenemos medicina, si no, no habría que llamar al servicio.
+      await this._medicinesService
+        .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+        .then((data: any) => {
+          data.forEach((element) => {
+            element.name = element.description;
+          });
+          data.push({ name: 'Otra' });
+          this.modalOptions.dose.options = data;
+        })
+        .catch(({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         });
-        data.push({ name: 'Otra' });
-        this.modalOptions.dose.options = data;
-      })
-      .catch(({ error }) => {
-        this._notification.showErrorToast(error.errorCode);
-      });
 
     this.fillForm(this.modalForm, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
@@ -483,7 +553,9 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.title = 'editTreatment';
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
-    modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
+    //seteamos el select del tipo de tratamiento para que venga seleccionado.
+    modalRef.componentInstance.form.controls.treatmentType.setValue(this.modalForm.value.treatmentType[0].id);
+      modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
       modalRef.componentInstance.options.dose.options = [];
       modalRef.componentInstance.form.controls.family.setValue(event.family);
       modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
@@ -515,10 +587,28 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
       }
     });
+    modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
+      //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
+      this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
+      this.modalForm.controls.descripcionFormulaMagistral.setValue('');
+      this.modalForm.controls.dosisFormulaMagistral.setValue('');
+    });
+
+    modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
+      if (event === 'opcionMedicamento'){
+        this.deleteRequiredValidation(['descripcionFormulaMagistral']);
+        this.setRequiredValidation(['medicine','family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+      }
+      if (event === 'opcionFormulaMagistral'){
+        this.modalForm.controls.descripcionFormulaMagistral.setValidators(Validators.required);
+        this.deleteRequiredValidation(['medicine','family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+      }
+    });
 
     modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
     });
+
 
     modalRef.componentInstance.update.subscribe((event: any) => {
       if (Array.isArray(event.value.dose)) {
@@ -526,6 +616,31 @@ export class PrincipalTreatmentComponent implements OnInit {
       }
       if (Array.isArray(event.value.regimenTreatment)) {
         event.value.regimenTreatment = event.value.regimenTreatment[0];
+      }
+      if (!Array.isArray(event.value.treatmentType)) {
+        switch (event.value.treatmentType) {
+          case 'biological':
+            event.value.treatmentType = [{
+              id: 'biological',
+              name: this._translate.instant('biological'),
+            }]
+            break;
+          case 'chemical':
+            event.value.treatmentType = [{
+              id: 'chemical',
+              name: this._translate.instant('chemical'),
+            }]
+            break;
+          case 'topical':
+            event.value.treatmentType = [{
+              id: 'topical',
+              name: this._translate.instant('topical'),
+            }]
+            break;
+
+          default:
+            break;
+        }
       }
 
       event.value.principle = event.value.medicine.actIngredients;
@@ -558,11 +673,8 @@ export class PrincipalTreatmentComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.accept.subscribe((event: any) => {
-      // si solo tenemos un elemento en esta página, y lo borramos, restamos el elemento para eliminar esa página
-      if ((this.tableData.length % this.paginationData.size) === 1){
-        this.paginationData.totalElements--;
-      }
       this.tableData.splice(index, 1);
+      this.paginationData.totalElements = this.tableData.length;
       this.refreshTable();
       this.save(modalRef, 'delete');
     });
@@ -682,6 +794,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
       });
     }
+    this.addColorRow(this.tableData);
     this.tableDataFilter = this.tableData.map((x) => x);
     this.tableDataFilter = this.tableDataFilter.splice((this.currentPage * this.paginationData.size), this.paginationData.size);
   }
@@ -700,6 +813,20 @@ export class PrincipalTreatmentComponent implements OnInit {
           element.rowColor = true;
         }
       }
+    });
+  }
+
+  private deleteRequiredValidation(keys: any[]) {
+    keys.forEach(key => {
+      this.modalForm.controls[key].clearValidators();
+      this.modalForm.controls[key].updateValueAndValidity();
+    });
+  }
+
+  private setRequiredValidation(keys: any[]) {
+    keys.forEach(key => {
+      this.modalForm.controls[key].setValidators(Validators.required);
+      this.modalForm.controls[key].updateValueAndValidity();
     });
   }
 }

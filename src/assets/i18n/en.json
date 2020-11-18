@@ -410,6 +410,7 @@
     "indicator": "Indicator",
     "biological": "Biological",
     "chemical": "Chemical",
+    "topical": "Topical",
     "annual": "Annual",
     "total": "Total",
     "costs": "Costs",
@@ -422,5 +423,9 @@
     "actIngredients": "Act ingredients",
     "codeAct": "ATC code",
     "commercialization": "Commercialization",
-    "viaAdministration": "Vía administration"
+    "viaAdministration": "Vía administration",
+    "opcionMedicamento": "Medicine",
+    "opcionFormulaMagistral": "Magistral form",
+    "descripcionFormulaMagistral": "Magistral form description",
+    "dosisFormulaMagistral": "Pattern/dose of magistral form"
 }
