@@ -29,7 +29,7 @@ export class PhototherapyComponent implements OnInit {
     'psoralenoPlusUva',
     'timesAWeek',
     'dateStart',
-    'dateEnd',
+    'expectedEndDate',
     'dateSuspension',
     'sessionNumbers',
   ];
@@ -155,6 +155,7 @@ export class PhototherapyComponent implements OnInit {
     );
 
     if (retrievedForm && retrievedForm.data.length > 0) {
+      console.log(retrievedForm.data[0].value)
       this.tableData = retrievedForm.data[0].value;
       this.paginationData = {
         number: this.currentPage,
@@ -481,7 +482,15 @@ export class PhototherapyComponent implements OnInit {
       var typeOrder = this.typeOrder;
       var colOrder = this.colOrder;
       this.tableData.sort(function (a, b) {
-        if (typeOrder === 'asc' && !isNaN(a[colOrder]) && !isNaN(b[colOrder])) {
+        console.log(`typeOrder: ${typeOrder} | a: ${a[colOrder]} | b: ${b[colOrder]} | numero a: ${!isNaN(a[colOrder])} | numero b: ${!isNaN(b[colOrder])}`);
+        if (typeOrder === 'asc' && typeof(a[colOrder]) === 'boolean' && typeof(b[colOrder]) === 'boolean') {
+          return a[colOrder] < b[colOrder] ? 1 : -1;
+        } else if (
+          typeOrder === 'desc' &&
+          typeof(a[colOrder]) === 'boolean' && typeof(b[colOrder]) === 'boolean'
+        ) {
+          return a[colOrder] < b[colOrder] ? -1 : 1;
+        } else if (typeOrder === 'asc' && !isNaN(a[colOrder]) && !isNaN(b[colOrder])) {
           return parseInt(a[colOrder]) < parseInt(b[colOrder]) ? 1 : -1;
         } else if (
           typeOrder === 'desc' &&
@@ -491,7 +500,7 @@ export class PhototherapyComponent implements OnInit {
           return parseInt(a[colOrder]) < parseInt(b[colOrder]) ? -1 : 1;
         } else if (typeOrder === 'asc') {
           return a[colOrder] < b[colOrder] ? 1 : -1;
-        } else if (colOrder === 'desc') {
+        } else if (typeOrder === 'desc') {
           return a[colOrder] < b[colOrder] ? -1 : 1;
         }
       });
