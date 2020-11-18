@@ -412,6 +412,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/viral-tropism-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/phototherapy',
     component: PhototherapyComponent,
     canActivate: [AuthGuard],
