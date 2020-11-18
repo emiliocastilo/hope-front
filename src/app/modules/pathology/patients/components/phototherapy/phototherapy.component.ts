@@ -240,13 +240,10 @@ export class PhototherapyComponent implements OnInit {
       if (!this.tableData) {
         this.tableData = [];
       }
-      // si añadimos un elemento, aumentamos el total
-      if (this.tableData.length % this.paginationData.size === 0) {
-        this.paginationData.totalElements++;
-      }
       this.tableData.push(event.value);
       //this.sortTable();
       this.refreshTable();
+      this.paginationData.totalElements = this.tableData.length;
       this.save(modalRef, 'create');
     });
   }
@@ -431,12 +428,9 @@ export class PhototherapyComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.accept.subscribe((event: any) => {
-      // si solo tenemos un elemento en esta página, y lo borramos, restamos el elemento para eliminar esa página
-      if (this.tableData.length % this.paginationData.size === 1) {
-        this.paginationData.totalElements--;
-      }
       this.tableData.splice(index, 1);
       this.refreshTable();
+      this.paginationData.totalElements = this.tableData.length;
       this.save(modalRef, 'delete');
     });
   }
