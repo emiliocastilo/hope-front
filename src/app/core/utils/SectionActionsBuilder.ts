@@ -34,7 +34,9 @@ export default class SectionActionBuilder {
     section: SideBarItemModel,
     arraySections: SideBarItemModel[]
   ): SideBarItemModel[] {
-    arraySections.push(section);
+    if (section.visible) {
+      arraySections.push(section);
+    }
 
     if (section.fatherSection) {
       this.pushCrumbs(section.fatherSection, arraySections);

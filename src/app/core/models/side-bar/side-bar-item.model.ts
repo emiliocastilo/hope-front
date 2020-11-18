@@ -10,6 +10,7 @@ export class SideBarItemModel {
     public principal: boolean,
     public children: Array<SideBarItemModel>,
     public collapsed?: boolean,
-    public fatherSection?: SideBarItemModel
+    public fatherSection?: SideBarItemModel,
+    public visible?: boolean
   ) {}
 }

@@ -1,7 +1,7 @@
 <ul class="nav navbar-light flex-column side-bar-menu">
   <ng-container *ngFor="let menuOption of menu; index as i">
     <li
-      *ngIf="menuOption.children"
+      *ngIf="menuOption.visible; else elseBlock"
       [ngClass]="'sub-side-bar-menu-level-' + level"
       class="nav-item"
     >
@@ -44,5 +44,9 @@
         </side-bar-menu>
       </p>
     </li>
+    <ng-template #elseBlock>
+      <side-bar-menu [level]="level" [menu]="menuOption.children">
+      </side-bar-menu>
+    </ng-template>
   </ng-container>
 </ul>
