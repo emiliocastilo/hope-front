@@ -244,7 +244,6 @@ export class UsersComponent implements OnInit {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
-    this.showModal();
     this.makeRequests(parentNode ? parentNode.id : 1);
   }
 
