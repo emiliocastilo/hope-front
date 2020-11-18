@@ -168,7 +168,6 @@ export class RoleManagementComponent implements OnInit {
     if (this.isEditing) {
       id = this.roles[this.selectedItem].id;
     }
-    console.log(formValues.hospital);
     const rol: RolModel = new RolModel(
       id,
       formValues.name,

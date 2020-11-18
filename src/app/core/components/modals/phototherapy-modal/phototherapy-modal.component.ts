@@ -46,7 +46,7 @@ export class PhototherapyModalComponent implements OnInit {
   }
 
   router_link: string;
-  router_link_text:string;
+  router_link_text: string;
 
   public getInvalidLabel(formKey: string): string {
     const errors = this.form ? this.form.get(formKey).errors : undefined;
