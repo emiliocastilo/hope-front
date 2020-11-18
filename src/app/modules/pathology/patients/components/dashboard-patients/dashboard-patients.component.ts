@@ -126,6 +126,7 @@ export class DashboardPatientsComponent implements OnInit {
   loadLines() {
     const title = 'evolutionIndex';
     const view = null;
+    const autoscale = true;
     const scheme = {
       domain: ['#ffc107', '#2196f3'],
     };
@@ -138,7 +139,6 @@ export class DashboardPatientsComponent implements OnInit {
       legend
     );
   }
-
   parseDatesChart(start: number, end: number) {
     const newData = {
       indicesEvolution: {
@@ -202,6 +202,26 @@ export class DashboardPatientsComponent implements OnInit {
         google.charts.setOnLoadCallback(this.drawChart(this.configGantt));
       });
   }
+
+  // drawGChart () {
+  //     const data = google.visualization.arrayToDataTable([
+  //         ['Year', 'Sales', 'Expenses'],
+  //         ['2004', 1000, 400],
+  //         ['2005', 1170, 460],
+  //         ['2006', 660, 1120],
+  //         ['2007', 1030, 540]
+  //     ]);
+
+  //     const options = {
+  //         title: 'Company Performance',
+  //         curveType: 'function',
+  //         legend: { position: 'bottom' }
+  //     };
+
+  //     var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+  //     chart.draw(data, options);
+  // }
 
   public drawChart(data: any): any {
     const container = document.getElementById('google-timeline-chart');
