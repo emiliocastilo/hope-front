@@ -28,10 +28,11 @@ export class FormListComponent implements OnInit {
     }
   }
 
-  openModal() {
+  openModalCreate() {
     const modalRef = this.modalService.open(DynamicModalComponent, {
       size: 'xl',
     });
+    modalRef.componentInstance.title = 'Crear nuevo';
     modalRef.componentInstance.fields = this.config.fields;
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -90,7 +91,7 @@ export class FormListComponent implements OnInit {
     event.preventDefault();
     switch (action) {
       case 'edit':
-        this.openModal();
+        this.openModalEdit(i);
         break;
       case 'delete':
         this.onDeleteRow(i);
@@ -101,6 +102,23 @@ export class FormListComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  openModalEdit(index: number) {
+    const modalRef = this.modalService.open(DynamicModalComponent, {
+      size: 'xl',
+    });
+    modalRef.componentInstance.title = 'Editar';
+    modalRef.componentInstance.fields = this.config.fields;
+    modalRef.componentInstance.form = this.rows[index];
+    modalRef.componentInstance.close.subscribe(() => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.save.subscribe((event) => {
+      this.rows[index] = event;
+      this.bindToForm();
+      modalRef.close();
+    });
   }
 
   formatDate(date) {

@@ -1,7 +1,7 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
   <div class="add-btn">
     <app-button
-      (click)="openModal()"
+      (click)="openModalCreate()"
       clasesBtn="btn-primary"
       icono="plus-circle"
     >
@@ -22,36 +22,6 @@
       <tbody [ngSwitch]="true">
         <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
           <td *ngFor="let header of config.fields">
-            <!-- <div *ngSwitchCase="header.type === 'datepicker'">
-              <input
-                *ngIf="isEditing && enableEditIndex === i"
-                type="date"
-                [max]="today"
-                [value]="formatDate(row[header.name])"
-                (change)="onChange($event, header.name)"
-              />
-            </div> -->
-            <!-- <div *ngSwitchCase="header.type === 'select'">
-              <select
-                *ngIf="isEditing && enableEditIndex === i"
-                (change)="onChange($event, header.name)"
-              >
-                <option
-                  *ngFor="let option of header.options"
-                  [ngValue]="option.value"
-                >
-                  {{ option.name | translate }}
-                </option>
-              </select>
-            </div> -->
-            <!-- <div *ngSwitchCase="header.type === 'input'">
-              <input
-                [ngClass]="{ 'input-table': header.label.includes('(cm') }"
-                *ngIf="isEditing && enableEditIndex === i"
-                [value]="row[header.name]"
-                (change)="onChange($event, header.name)"
-              />
-            </div> -->
             <div class="ellipsis">
               {{ showDataTable(row[header.name], header.name) }}
             </div>
@@ -73,14 +43,6 @@
                 ></i-feather>
               </a>
             </div>
-            <!-- <div *ngIf="isEditing && enableEditIndex === i">
-              <a href="" (click)="onSaveRow()">
-                <i-feather name="check" class="feather-icon"></i-feather>
-              </a>
-              <a href="" (click)="onCancelRow(i)">
-                <i-feather name="x" class="feather-icon"></i-feather>
-              </a>
-            </div> -->
           </td>
           <ng-template #content let-modal>
             <div class="modal-header">
