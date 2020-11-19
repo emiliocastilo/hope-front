@@ -89,6 +89,7 @@ export class DispensationsComponent implements OnInit {
   private refreshData(query: string): void {
     this._dispensationsService.getAll(query).subscribe((data) => {
       this.dispensations = data.content;
+      this.paginationData.totalElements = data.totalElements;
       if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
@@ -226,16 +227,19 @@ export class DispensationsComponent implements OnInit {
     const value = data.value;
     value.startPeriod = this.parseDate(value.startPeriod);
     value.endPeriod = this.parseDate(value.endPeriod);
-
-    this._dispensationsService
-      .save(value)
-      .then((response: any) => {
-        modal.close();
-        this.refreshData(`&page=${this.currentPage}`);
-        this._notification.showSuccessToast('elementCreated');
-      })
-      .catch((error: any) => {
-        this._notification.showErrorToast(error.errorCode);
-      });
+    if (value.endPeriod < value.startPeriod) {
+      this.modalForm.controls['endPeriod'].setErrors({ dateError: true });
+    } else {
+      this._dispensationsService
+        .save(value)
+        .then((response: any) => {
+          modal.close();
+          this.refreshData(`&page=${this.currentPage}`);
+          this._notification.showSuccessToast('elementCreated');
+        })
+        .catch((error: any) => {
+          this._notification.showErrorToast(error.errorCode);
+        });
+    }
   }
 }

@@ -54,6 +54,7 @@
   "form.validate.hasSmallCase": "Debe contener por lo menos una letra minuscula",
   "form.validate.hasNumber": "Debe contener por lo menos un numero",
   "form.validate.noPassswordMatch": "Las contraseñas deben coincidir",
+  "form.validate.dateError": "Periodo fin no puede ser anterior a periodo inicio",
   "modal.editor.field.name": "Nombre",
   "modal.editor.field.title": "Título",
   "modal.editor.field.firstsurname": "Primer apellido",
@@ -101,7 +102,7 @@
   "price": "Precio",
   "users": "usuarios",
   "daysDispensation": "Dias",
-  "code": "Code",
+  "code": "Código",
   "notifications": {
     "API-001": "Algo ha ido mal",
     "IE_001": "Excepcion desconocida",
