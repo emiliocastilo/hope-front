@@ -5,11 +5,25 @@ $line-chart-width: calc(100vw - 347px);
   height: 13rem;
 }
 
+.full-width {
+  max-width: $line-chart-width;
+  width: $line-chart-width;
+  min-width: $line-chart-width;
+}
+
 .line-chart {
   right: -12px;
   position: relative;
   padding-left: 41px;
-  max-width: $line-chart-width;
-  width: $line-chart-width;
-  min-width: $line-chart-width;
+  margin-bottom: 30px;
+}
+
+.date-selector {
+  position: absolute;
+  bottom: 45px;
+}
+
+.no-data {
+  margin-top: 5.5rem !important;
+  text-align: center !important;
 }

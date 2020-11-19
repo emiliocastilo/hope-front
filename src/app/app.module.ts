@@ -24,7 +24,6 @@ import { LoginService } from './core/services/login/login.service';
 import { DatePipe } from '@angular/common';
 import { IconsModule } from './icons/icons.module';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -49,7 +48,6 @@ export function createTranslateLoader(http: HttpClient) {
     CoreModule,
     ReactiveFormsModule,
     FormsModule,
-    FlexLayoutModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],

@@ -206,51 +206,53 @@ export class DashboardPatientsComponent implements OnInit {
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
 
-  public drawChart(data: any): any {
-    if (data && data.data && data.data.length > 0) {
-      this.noData = false;
-      const container = document.getElementById('google-timeline-chart');
-      const chart = new google.visualization.Timeline(container);
-      const dataTable = new google.visualization.DataTable();
-      dataTable.addColumn({ type: 'string', id: 'Title' });
-      dataTable.addColumn({ type: 'string', id: 'Name' });
-      dataTable.addColumn({ type: 'string', role: 'tooltip' });
-      dataTable.addColumn({ type: 'date', id: 'Start' });
-      dataTable.addColumn({ type: 'date', id: 'End' });
-      dataTable.addRows(data.data);
+  drawChart(data: any): any {
+    setTimeout(() => {
+      if (data && data.data && data.data.length > 0) {
+        this.noData = false;
+        const container = document.getElementById('google-timeline-chart');
+        const chart = new google.visualization.Timeline(container);
+        const dataTable = new google.visualization.DataTable();
+        dataTable.addColumn({ type: 'string', id: 'Title' });
+        dataTable.addColumn({ type: 'string', id: 'Name' });
+        dataTable.addColumn({ type: 'string', role: 'tooltip' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+        dataTable.addRows(data.data);
 
-      data.data.forEach((item) => {
-        const lastDate = new Date(this.lastDate);
-        const itemStartDate = new Date(item[3]);
-        const itemEndDate = new Date(item[4]);
-        if (itemEndDate > lastDate) {
-          if (lastDate < itemStartDate) item[4] = item[3];
-          else item[4] = lastDate;
-        }
-      });
+        data.data.forEach((item) => {
+          const lastDate = new Date(this.lastDate);
+          const itemStartDate = new Date(item[3]);
+          const itemEndDate = new Date(item[4]);
+          if (itemEndDate > lastDate) {
+            if (lastDate < itemStartDate) item[4] = item[3];
+            else item[4] = lastDate;
+          }
+        });
 
-      this.configGantt.options.hAxis = {
-        format: 'dd/MM/YYYY',
-        gridlines: { count: -1 },
-        minValue: new Date(this.firstDate),
-        maxValue: new Date(this.lastDate),
-      };
+        this.configGantt.options.hAxis = {
+          format: 'dd/MM/YYYY',
+          gridlines: { count: -1 },
+          minValue: new Date(this.firstDate),
+          maxValue: new Date(this.lastDate),
+        };
 
-      chart.draw(dataTable, data.options);
+        chart.draw(dataTable, data.options);
 
-      const labels = container.getElementsByTagName('text');
-      Array.prototype.forEach.call(labels, (label) => {
-        if (label.getAttribute('text-anchor') === 'middle') {
-          label.setAttribute('font-family', '"Raleway", sans-serif');
-        }
-        if (
-          label.getAttribute('font-weight') !== 'bold' &&
-          label.getAttribute('text-anchor') === 'middle'
-        ) {
-          label.setAttribute('display', 'none');
-        }
-      });
-    } else this.noData = true;
+        const labels = container.getElementsByTagName('text');
+        Array.prototype.forEach.call(labels, (label) => {
+          if (label.getAttribute('text-anchor') === 'middle') {
+            label.setAttribute('font-family', '"Raleway", sans-serif');
+          }
+          if (
+            label.getAttribute('font-weight') !== 'bold' &&
+            label.getAttribute('text-anchor') === 'middle'
+          ) {
+            label.setAttribute('display', 'none');
+          }
+        });
+      } else this.noData = true;
+    }, 1);
   }
 
   private parseDataChart(data: any): ChartObjectModel[] {
