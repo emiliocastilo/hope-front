@@ -3,7 +3,11 @@
     <app-patient-header></app-patient-header>
   </section>
 
-  <section class="col-md-12 p-0 mt-4" class="line-chart">
+  <section class="col-md-12 p-0 mt-4" align="middle" [hidden]="!noData">
+    <h4>No hay datos</h4>
+  </section>
+
+  <section class="col-md-12 p-0 mt-4" class="line-chart" *ngIf="!noData">
     <app-line-chart
       [config]="configChart"
       [lastDate]="lastDate"
@@ -13,7 +17,7 @@
     </app-line-chart>
   </section>
 
-  <section class="col-md-12 p-0 mt-4">
+  <section class="col-md-12 p-0 mt-4" *ngIf="!noData">
     <div id="google-timeline-chart"></div>
     <app-dates-bar
       [dates]="globalDates"
