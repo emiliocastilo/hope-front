@@ -130,11 +130,14 @@ export class FormListComponent implements OnInit {
 
     const conditionDate =
       header.toLowerCase().includes('date') ||
-      header.toLowerCase().includes('period') ||
       header.toLowerCase().includes('period');
 
     if (conditionDate) {
       data = this.datePipe.transform(row, 'dd/MM/yy');
+    }
+
+    if (typeof data === 'boolean') {
+      data = data ? 'Si' : 'No';
     }
 
     return data;
