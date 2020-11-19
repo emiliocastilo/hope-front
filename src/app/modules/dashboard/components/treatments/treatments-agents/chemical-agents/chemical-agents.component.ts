@@ -56,7 +56,7 @@ export class ChemicalAgentsComponent implements OnInit {
   private getData(): void {
     const data = this._activatedRoute.snapshot.data.patientsTreatments;
 
-    const chartTitle = 'patientsTreatmentChemical';
+    const chartTitle = ''; //patientsTreatmentChemical
     const view = null;
     const scheme = {
       domain: ['#249cf1'],

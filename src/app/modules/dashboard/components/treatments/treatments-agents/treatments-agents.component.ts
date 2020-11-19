@@ -8,14 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class TreatmentsAgentsComponent implements OnInit {
   entries = [
     {
-      name: 'chemical',
-      url: 'dashboard/treatments/treatments-agents/chemical-agents',
-    },
-    {
       name: 'biological',
       url: 'dashboard/treatments/treatments-agents/biological-agents',
     },
+    {
+      name: 'chemical',
+      url: 'dashboard/treatments/treatments-agents/chemical-agents',
+    },
   ];
+  config = {};
 
   constructor() {}
 
