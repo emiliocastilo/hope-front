@@ -55,6 +55,7 @@
     "form.validate.hasSmallCase": "Must have at leat one lowercase",
     "form.validate.hasNumber": "Must have at least one number",
     "form.validate.noPassswordMatch": "Password must match",
+    "form.validate.dateError": "End period can't be prior to Start period",
     "modal.editor.field.name": "Name",
     "modal.editor.field.title": "Title",
     "modal.editor.field.firstSurname": "First surname",
