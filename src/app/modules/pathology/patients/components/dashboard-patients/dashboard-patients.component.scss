@@ -1,4 +1,4 @@
-$line-chart-width: calc(100vw - 340px);
+$line-chart-width: calc(100vw - 347px);
 
 #google-timeline-chart {
   width: 100%;
@@ -8,7 +8,7 @@ $line-chart-width: calc(100vw - 340px);
 .line-chart {
   right: -12px;
   position: relative;
-  padding-left: 39px;
+  padding-left: 41px;
   max-width: $line-chart-width;
   width: $line-chart-width;
   min-width: $line-chart-width;

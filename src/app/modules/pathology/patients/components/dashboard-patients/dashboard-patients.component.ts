@@ -182,15 +182,6 @@ export class DashboardPatientsComponent implements OnInit {
     this.lastDate = this.globalDates[max];
 
     this.parseDatesChart(start, end);
-    // console.log(this.globalDates);
-    // console.log(this.firstDate, this.lastDate);
-
-    // const tempDates = [];
-    // for (let index = 0; index < this.globalDates.length; index++) {
-    //     const element = this.globalDates[index];
-    //     if (element >= this.firstDate && element <= this.lastDate ) tempDates.push(element);
-    // }
-    // console.log(tempDates);
   }
 
   private loadChart(data: any): void {
@@ -199,19 +190,18 @@ export class DashboardPatientsComponent implements OnInit {
       FAME: data.treatments.FAME,
       ADHERENCIA: data.adherence,
     };
-
-    console.log(
-      `start: ${this.firstDate} | end: ${this.lastDate} -------------------------------`
-    );
     this.configGantt.data = this.parseDataGantt(dataGantt);
 
-    console.log(this.configGantt);
     this.loaderService
       .loadChartPackages(this.configGantt.type)
       .subscribe(() => {
         google.charts.load('current', { packages: ['timeline'] });
         google.charts.setOnLoadCallback(this.drawChart(this.configGantt));
       });
+  }
+
+  parseDate(date: Date): string {
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
 
   public drawChart(data: any): any {
@@ -225,10 +215,15 @@ export class DashboardPatientsComponent implements OnInit {
     dataTable.addColumn({ type: 'date', id: 'End' });
     dataTable.addRows(data.data);
 
-    // this.configGantt.options.hAxis.viewWindow = {
-    //     min: new Date(this.firstDate),
-    //     max: new Date(this.lastDate),
-    //   };
+    data.data.forEach((item) => {
+      const lastDate = new Date(this.lastDate);
+      const itemStartDate = new Date(item[3]);
+      const itemEndDate = new Date(item[4]);
+      if (itemEndDate > lastDate) {
+        if (lastDate < itemStartDate) item[4] = item[3];
+        else item[4] = lastDate;
+      }
+    });
 
     this.configGantt.options.hAxis = {
       format: 'dd/MM/YYYY',
@@ -237,8 +232,6 @@ export class DashboardPatientsComponent implements OnInit {
       maxValue: new Date(this.lastDate),
     };
 
-    console.log(this.configGantt.options.hAxis);
-
     chart.draw(dataTable, data.options);
 
     const labels = container.getElementsByTagName('text');
@@ -246,7 +239,6 @@ export class DashboardPatientsComponent implements OnInit {
       if (label.getAttribute('text-anchor') === 'middle') {
         label.setAttribute('font-family', '"Raleway", sans-serif');
       }
-
       if (
         label.getAttribute('font-weight') !== 'bold' &&
         label.getAttribute('text-anchor') === 'middle'
