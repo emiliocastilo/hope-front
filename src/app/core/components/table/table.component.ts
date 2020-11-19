@@ -33,6 +33,7 @@ export class TableComponent implements OnInit {
   @Output() iconButtonClick: EventEmitter<any> = new EventEmitter();
   @Output() sort: EventEmitter<any> = new EventEmitter();
   @Input() actions: TableActionsModel[];
+  @Input() fieldRedRow: string;
   public internalSelectedItem: number;
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
@@ -100,6 +101,20 @@ export class TableComponent implements OnInit {
       return data.name;
     }
 
+    if (data && header == 'uvb') {
+      data = 'Si';
+    } else if ((data == null || !data) && header == 'uvb') {
+      data = 'No';
+    } else if (data && header == 'psoralenoPlusUva') {
+      data = 'Si';
+    } else if ((data == null || !data) && header == 'psoralenoPlusUva') {
+      data = 'No';
+    }
+
     return data;
+  }
+
+  checkRowColor(row: any): string {
+    return row.rowColor;
   }
 }
