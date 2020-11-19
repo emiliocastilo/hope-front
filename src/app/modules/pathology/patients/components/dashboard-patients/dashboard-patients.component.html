@@ -2,24 +2,18 @@
   <section class="col-md-12 p-0">
     <app-patient-header></app-patient-header>
   </section>
-  <div></div>
-  <section class="col-md-12 p-0 mt-4" fxLayout="row" fxLayoutAlign="end center">
-    <div class="line-chart">
-      <app-line-chart
-        [config]="configChart"
-        [lastDate]="lastDate"
-        [firstDate]="firstDate"
-        *ngIf="dataChart"
-      >
-      </app-line-chart>
-    </div>
+
+  <section class="col-md-12 p-0 mt-4" class="line-chart">
+    <app-line-chart
+      [config]="configChart"
+      [lastDate]="lastDate"
+      [firstDate]="firstDate"
+      *ngIf="dataChart"
+    >
+    </app-line-chart>
   </section>
 
-  <!-- <div id="curve_chart" style="width: 900px; height: 500px"></div> -->
-
   <section class="col-md-12 p-0 mt-4">
-    <!-- {{ 'treatments' | translate }}
-    <hr /> -->
     <div id="google-timeline-chart"></div>
     <app-dates-bar
       [dates]="globalDates"

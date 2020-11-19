@@ -114,9 +114,7 @@ export class DashboardPatientsComponent implements OnInit {
         this.lastDate = this.globalDates[this.globalDates.length - 1];
 
         this.setConfigGannt();
-
         this.dataChart = this.parseDataChart(this.data);
-
         this.loadChart(this.data);
 
         this.loadLines();
@@ -184,6 +182,15 @@ export class DashboardPatientsComponent implements OnInit {
     this.lastDate = this.globalDates[max];
 
     this.parseDatesChart(start, end);
+    // console.log(this.globalDates);
+    // console.log(this.firstDate, this.lastDate);
+
+    // const tempDates = [];
+    // for (let index = 0; index < this.globalDates.length; index++) {
+    //     const element = this.globalDates[index];
+    //     if (element >= this.firstDate && element <= this.lastDate ) tempDates.push(element);
+    // }
+    // console.log(tempDates);
   }
 
   private loadChart(data: any): void {
@@ -193,8 +200,16 @@ export class DashboardPatientsComponent implements OnInit {
       ADHERENCIA: data.adherence,
     };
 
+    console.log(
+      `start: ${this.firstDate} | end: ${this.lastDate} -------------------------------`
+    );
     this.configGantt.data = this.parseDataGantt(dataGantt);
+    this.configGantt.options.hAxis.viewWindow = {
+      min: new Date(this.firstDate),
+      max: new Date(this.lastDate),
+    };
 
+    console.log(this.configGantt);
     this.loaderService
       .loadChartPackages(this.configGantt.type)
       .subscribe(() => {
@@ -202,26 +217,6 @@ export class DashboardPatientsComponent implements OnInit {
         google.charts.setOnLoadCallback(this.drawChart(this.configGantt));
       });
   }
-
-  // drawGChart () {
-  //     const data = google.visualization.arrayToDataTable([
-  //         ['Year', 'Sales', 'Expenses'],
-  //         ['2004', 1000, 400],
-  //         ['2005', 1170, 460],
-  //         ['2006', 660, 1120],
-  //         ['2007', 1030, 540]
-  //     ]);
-
-  //     const options = {
-  //         title: 'Company Performance',
-  //         curveType: 'function',
-  //         legend: { position: 'bottom' }
-  //     };
-
-  //     var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-  //     chart.draw(data, options);
-  // }
 
   public drawChart(data: any): any {
     const container = document.getElementById('google-timeline-chart');
@@ -234,6 +229,8 @@ export class DashboardPatientsComponent implements OnInit {
     dataTable.addColumn({ type: 'date', id: 'End' });
 
     dataTable.addRows(data.data);
+
+    console.log(this.configGantt.options.hAxis.viewWindow);
 
     chart.draw(dataTable, data.options);
 
