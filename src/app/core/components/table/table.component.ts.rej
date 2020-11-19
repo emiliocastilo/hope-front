@@ -1,0 +1,10 @@
+diff a/src/app/core/components/table/table.component.ts b/src/app/core/components/table/table.component.ts	(rejected hunks)
+@@ -83,6 +83,8 @@
+   showDataTable(row: any, header: string) {
+     let data = row;
+ 
++    console.log(header)
++
+     const conditionDate =
+       header.toLowerCase().includes('date') ||
+       header.toLowerCase().includes('period') ||
