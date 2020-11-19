@@ -204,10 +204,6 @@ export class DashboardPatientsComponent implements OnInit {
       `start: ${this.firstDate} | end: ${this.lastDate} -------------------------------`
     );
     this.configGantt.data = this.parseDataGantt(dataGantt);
-    this.configGantt.options.hAxis.viewWindow = {
-      min: new Date(this.firstDate),
-      max: new Date(this.lastDate),
-    };
 
     console.log(this.configGantt);
     this.loaderService
@@ -227,10 +223,21 @@ export class DashboardPatientsComponent implements OnInit {
     dataTable.addColumn({ type: 'string', role: 'tooltip' });
     dataTable.addColumn({ type: 'date', id: 'Start' });
     dataTable.addColumn({ type: 'date', id: 'End' });
-
     dataTable.addRows(data.data);
 
-    console.log(this.configGantt.options.hAxis.viewWindow);
+    // this.configGantt.options.hAxis.viewWindow = {
+    //     min: new Date(this.firstDate),
+    //     max: new Date(this.lastDate),
+    //   };
+
+    this.configGantt.options.hAxis = {
+      format: 'dd/MM/YYYY',
+      gridlines: { count: -1 },
+      minValue: new Date(this.firstDate),
+      maxValue: new Date(this.lastDate),
+    };
+
+    console.log(this.configGantt.options.hAxis);
 
     chart.draw(dataTable, data.options);
 
