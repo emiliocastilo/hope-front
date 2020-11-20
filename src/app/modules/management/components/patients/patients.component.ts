@@ -93,7 +93,7 @@ export class PatientsComponent implements OnInit {
         ],
       ],
       address: [''],
-      phone: ['', [Validators.pattern('^[0-9]{2,3}-? ?[0-9]{6,7}$')]],
+      phone: ['', [Validators.pattern('^[0-9]{9}$')]],
       email: ['', [Validators.email]],
       hospital: ['', Validators.required],
       pathology: ['', Validators.required],
@@ -352,6 +352,7 @@ export class PatientsComponent implements OnInit {
       .getPatients(this.selectedUser.rolSelected.pathology.id, query)
       .subscribe((data) => {
         this.patients = data.content;
+        this.paginationData.totalElements = data.totalElements;
         if (this.paginationData.totalPages !== data.totalPages) {
           this.paginationData = data;
         }
