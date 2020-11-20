@@ -24,6 +24,8 @@
         [invalidLabel]="getInvalidLabel(formKey)"
         [required]="checkIfRequired(formKey)"
         [isDisabled]="isDisabled(formKey)"
+        [routerLink]="router_link"
+        [routerLinkText]="router_link_text"
       >
       </app-input>
       <app-switch
@@ -84,7 +86,7 @@
     >
     </app-button>
     <app-button
-      *ngIf="type === 'update'"
+      *ngIf="type === 'edit' || type === 'changeSuspend'"
       clasesBtn="btn btn-primary mr-4"
       (click)="onUpdate()"
       [disabledButton]="!validForm"

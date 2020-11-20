@@ -37,7 +37,10 @@
       </tr>
     </thead>
     <tbody *ngIf="columnsData && columnsData.length > 0">
-      <tr *ngFor="let row of columnsData; index as i">
+      <tr
+        *ngFor="let row of columnsData; index as i"
+        [ngClass]="checkRowColor(row) ? 'redRow' : ''"
+      >
         <td *ngFor="let header of columnsHeader" class="dataTable">
           {{ showDataTable(row[header], header) }}
         </td>
