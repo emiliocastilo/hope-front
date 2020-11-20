@@ -41,6 +41,6 @@ export class RoleManagementService {
   }
 
   public getRolSearches(search?: string) {
-    return this._httpClient.get(`/roles/searches?name=${search}&size=10`);
+    return this._httpClient.get(`/roles/searches?name=${search}`);
   }
 }
