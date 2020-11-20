@@ -97,7 +97,7 @@
             },"pre": {
               "browserTarget": "apps-hopes-front:build:preproduction"
             },"dev": {
-              "browserTarget": "apps-hopes-front-dev:build:dev"
+              "browserTarget": "apps-hopes-front:build:dev"
             }
           }
         },

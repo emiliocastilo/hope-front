@@ -14,13 +14,29 @@ export class RolModel {
     public code?: string
   ) {}
   public setValuesFromDinamicForm(form: any) {
-    const service: ServiceModel = form.serviceDTO ? form.serviceDTO[0] : null;
-    const hospital: HospitalModel = form.hospital ? form.hospital[0] : null;
-    const pathologyId = form.pathology ? form.pathology[0] : null;
+    const service: ServiceModel =
+      form.serviceDTO && form.serviceDTO.length > 0
+        ? form.serviceDTO[0]
+        : form.serviceDTO
+        ? form.serviceDTO
+        : null;
+    const hospital: HospitalModel =
+      form.hospital && form.hospital.length > 0
+        ? form.hospital[0]
+        : form.hospital
+        ? form.hospital
+        : null;
+    const pathologyId =
+      form.pathology && form.pathology.length > 0
+        ? form.pathology[0]
+        : form.pathology
+        ? form.pathology
+        : null;
 
     this.pathology = pathologyId;
     this.name = form.name;
     this.service = service as any;
+    this.hospital = hospital;
   }
 
   public setValuesFromObject(object: any) {
