@@ -14,7 +14,7 @@ export class DynamicModalComponent implements OnInit {
   public buttons: string[] = [];
   public filled = [];
   @Input() title: string;
-  @Input() form: any;
+  @Input() data: any;
   @Input() key: string;
   @Input() fields: any;
   @Output() close: EventEmitter<any> = new EventEmitter();
@@ -45,12 +45,8 @@ export class DynamicModalComponent implements OnInit {
   }
 
   getAndParseFromFields() {
-    if (this.form) {
-      this.fillForm();
-      this.config = FormUtils.createFieldConfig(this.fields, this.filled);
-    } else {
-      this.config = FormUtils.createFieldConfig(this.fields);
-    }
+    this.fillForm();
+    this.config = FormUtils.createFieldConfig(this.fields, this.filled);
     this.buttons = FormUtils.createButtons(['save']);
   }
 
@@ -59,11 +55,18 @@ export class DynamicModalComponent implements OnInit {
   }
 
   fillForm() {
-    Object.keys(this.form).forEach((key) => {
-      let field = this.fields.find((o) => o.name === key);
-      field = { ...field, value: this.form[key] };
-      this.filled.push(field);
-    });
+    if (this.data) {
+      Object.keys(this.data).forEach((key) => {
+        let field = this.fields.find((o) => o.name === key);
+        field = { ...field, value: this.data[key] };
+        this.filled.push(field);
+      });
+    } else {
+      this.fields.forEach((field) => {
+        field = { ...field, value: undefined };
+        this.filled.push(field);
+      });
+    }
   }
 
   closeModal(cancel: boolean) {

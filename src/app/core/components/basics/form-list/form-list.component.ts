@@ -30,7 +30,7 @@ export class FormListComponent implements OnInit {
 
   openModalCreate() {
     const modalRef = this.modalService.open(DynamicModalComponent, {
-      size: 'xl',
+      size: 'lg',
     });
     modalRef.componentInstance.title = 'Crear nuevo';
     modalRef.componentInstance.fields = this.config.fields;
@@ -106,11 +106,11 @@ export class FormListComponent implements OnInit {
 
   openModalEdit(index: number) {
     const modalRef = this.modalService.open(DynamicModalComponent, {
-      size: 'xl',
+      size: 'lg',
     });
     modalRef.componentInstance.title = 'Editar';
     modalRef.componentInstance.fields = this.config.fields;
-    modalRef.componentInstance.form = this.rows[index];
+    modalRef.componentInstance.data = this.rows[index];
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
     });
