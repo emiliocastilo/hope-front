@@ -46,7 +46,7 @@
           </td>
           <ng-template #content let-modal>
             <div class="modal-header">
-              <h4 class="modal-title">Detalles</h4>
+              <h4 class="modal-title">{{ 'detail' | translate }}</h4>
               <button
                 type="button"
                 class="close"
@@ -57,12 +57,14 @@
               </button>
             </div>
             <div class="modal-body custom-modal-body">
-              <div class="dataCell" *ngFor="let field of detailArray">
-                <div class="header">
-                  {{ field.name | translate }}
-                </div>
-                <div class="data">
-                  {{ showDataTable(field.value, field.name) }}
+              <div class="flex-container">
+                <div class="dataCell" *ngFor="let field of detailArray">
+                  <div class="header">
+                    {{ field.name | translate }}
+                  </div>
+                  <div class="data">
+                    {{ showDataTable(field.value, field.name) }}
+                  </div>
                 </div>
               </div>
             </div>
