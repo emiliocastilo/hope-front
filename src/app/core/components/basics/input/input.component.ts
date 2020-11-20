@@ -25,6 +25,8 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() type = 'text';
   @Input() invalidLabel: string;
   @Input() maxDate: string = null;
+  @Input() routerLink: string = null;
+  @Input() routerLinkText: string = null;
 
   @Input() value: string;
 
