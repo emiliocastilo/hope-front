@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-phototherapy-modal',
@@ -44,12 +45,22 @@ export class PhototherapyModalComponent implements OnInit {
     this.cancel.emit(null);
   }
 
+  router_link: string;
+  router_link_text: string;
+
   public getInvalidLabel(formKey: string): string {
     const errors = this.form ? this.form.get(formKey).errors : undefined;
     const label = errors
       ? Object.keys(errors).filter((key: string) => errors[key])
       : undefined;
-    return label ? `form.validate.${label[0]}` : 'form.validate.required';
+    if (formKey == 'indication' && this.form.get(formKey).value == '') {
+      // TO DO: No eliminar, hay que arreglar el routing, se deja texto original
+      //this.router_link = '/hopes/patients/diagnosis/principal-diagnosis';
+      //this.router_link_text = 'diganosisPrincipal'
+      return 'indicationError';
+    } else {
+      return label ? `form.validate.${label[0]}` : 'form.validate.required';
+    }
   }
 
   public checkInputType(array: string[], type: string): boolean {
@@ -67,6 +78,10 @@ export class PhototherapyModalComponent implements OnInit {
       }
     }
 
+    if (key == 'indication') {
+      this.form.get(key).markAsDirty();
+    }
+
     return isRequired;
   }
 
@@ -74,7 +89,10 @@ export class PhototherapyModalComponent implements OnInit {
     let pass = false;
     const count = this.formKeys.filter(
       (key: string) =>
-        this.form.get(key) && this.form.get(key).validator({} as any).required
+        this.form.get(key) &&
+        this.form.get(key).validator &&
+        this.form.get(key).validator({} as any) &&
+        this.form.get(key).validator({} as any).required
     );
 
     if (count.length > 0) {

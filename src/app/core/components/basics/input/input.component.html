@@ -26,5 +26,10 @@
   </span>
   <span *ngIf="invalid && invalidLabel" class="invalid-value">
     {{ invalidLabel | translate }}
+    <ng-template [ngIf]="routerLink && routerLinkText"
+      ><a routerLink="{{ routerLink }}">{{
+        routerLinkText | translate
+      }}</a></ng-template
+    >
   </span>
 </div>
