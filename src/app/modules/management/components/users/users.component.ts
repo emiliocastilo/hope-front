@@ -244,7 +244,7 @@ export class UsersComponent implements OnInit {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
-    this.makeRequests(parentNode ? parentNode.id : 80);
+    this.makeRequests(parentNode ? parentNode.id : 1);
   }
 
   public editDoctor(): void {
