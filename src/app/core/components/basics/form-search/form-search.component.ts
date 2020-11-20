@@ -51,7 +51,9 @@ export class FormSearchComponent implements OnInit {
       this.config.params.forEach((element: any, index: number) => {
         url = url.replace(
           '${' + index + '}',
-          element === 'hospitalId' ? this.patient.hospital.id : event.target.value
+          element === 'hospitalId'
+            ? this.patient.hospital.id
+            : event.target.value
         );
       });
       this.makeRequest(url);
