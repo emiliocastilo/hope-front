@@ -98,6 +98,9 @@ export class RoleManagementComponent implements OnInit {
   public onSearch(event: string): void {
     this._roleManagementService.getRolSearches(event).subscribe((data: any) => {
       this.roles = data.content;
+      this.paginationData.number = 1;
+      this.paginationData.size = data.size;
+      this.paginationData.totalElements = data.totalElements;
     });
   }
 
