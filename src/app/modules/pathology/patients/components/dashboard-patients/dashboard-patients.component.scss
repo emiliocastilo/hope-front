@@ -18,9 +18,18 @@ $line-chart-width: calc(100vw - 347px);
   margin-bottom: 30px;
 }
 
-.date-selector {
-  position: absolute;
-  bottom: 45px;
+@media (min-height: 911px) {
+  .date-selector {
+    position: absolute;
+    bottom: 1vh;
+  }
+}
+
+@media (max-height: 910px) {
+  .sticky-bottom {
+    position: absolute;
+    bottom: 1vh;
+  }
 }
 
 .no-data {

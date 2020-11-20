@@ -29,7 +29,10 @@
     <div id="google-timeline-chart"></div>
   </section>
 
-  <section class="col-md-12 p-0 mt-4 date-selector full-width">
+  <section
+    class="col-md-12 p-0 mt-4 date-selector full-width"
+    [ngClass]="{ 'sticky-bottom': noData }"
+  >
     <app-dates-bar
       [dates]="globalDates"
       (indexes)="onChangeIndexes($event)"
