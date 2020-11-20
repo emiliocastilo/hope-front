@@ -103,7 +103,7 @@ export class UsersComponent implements OnInit {
         [Validators.required, Validators.pattern('[0-9]{9}')],
       ],
       username: ['', Validators.required],
-      roles: ['', [Validators.required]],
+      roles: [[]],
     });
   }
 
@@ -244,7 +244,7 @@ export class UsersComponent implements OnInit {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
-    this.makeRequests(parentNode ? parentNode.id : 1);
+    this.makeRequests(parentNode ? parentNode.id : 80);
   }
 
   public editDoctor(): void {

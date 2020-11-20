@@ -108,12 +108,12 @@ export class PhototherapyComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _notification: NotificationService,
     private _translate: TranslateService,
-    private _formsService: FormsService,
+    private _formsService: FormsService
   ) {}
 
   ngOnInit(): void {
     this.getCurrentPatient();
-    this.getFormDatas()
+    this.getFormDatas();
     const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
     this.getData(query);
   }
