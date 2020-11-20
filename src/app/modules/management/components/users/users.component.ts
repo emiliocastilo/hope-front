@@ -111,6 +111,9 @@ export class UsersComponent implements OnInit {
     this._usersService.findUsers(data).subscribe(
       (response) => {
         this.users = response.content;
+        this.paginationData.number = 1;
+        this.paginationData.size = response.size;
+        this.paginationData.totalElements = response.totalElements;
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
