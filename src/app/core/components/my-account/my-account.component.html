@@ -24,5 +24,22 @@
       >
       </app-button>
     </div>
+
+    <div class="col-12 mt-4">
+      <app-input-select
+        id="currentRole"
+        name="currentRole"
+        [isDisabled]="false"
+        class="col-6"
+        currentValue="currentRole"
+        [options]="userRoles"
+        [labelValue]="'currentRole' | translate"
+        [optionSelected]="currentRole.id"
+        [selectMultiple]="false"
+        [clearAfterSelect]="false"
+        (selectTrigger)="onSelectRole($event)"
+      >
+      </app-input-select>
+    </div>
   </form>
 </div>

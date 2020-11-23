@@ -1,17 +1,29 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 import { LoginService } from '../../services/login/login.service';
 import { ConfirmModalComponent } from '../modals/confirm-modal/confirm-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { SideBarService } from '../../services/side-bar/side-bar.service';
+import { CurrentRoleListenerService } from '../../services/current-role-listener/current-role-listener.service';
+import { Subscription } from 'rxjs';
+import { RolModel } from 'src/app/modules/management/models/rol.model';
 
 @Component({
   selector: 'side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit, OnDestroy {
+  private currentRoleSubscription: Subscription;
+
   menu: any;
   @Input() currentMenuId: number;
   @Input() level: number;
@@ -25,7 +37,8 @@ export class SideBarComponent implements OnInit {
     private _router: Router,
     private _modalService: NgbModal,
     private loginService: LoginService,
-    private _sidebar: SideBarService
+    private _sidebar: SideBarService,
+    private _roleListener: CurrentRoleListenerService
   ) {}
 
   ngOnInit(): void {
@@ -35,11 +48,19 @@ export class SideBarComponent implements OnInit {
     if (!this.menu) {
       this.fetchMenu();
     }
+
     if (user) {
       this.rol =
         user.rolSelected && user.rolSelected.name ? user.rolSelected.name : '';
       this.name = user.username;
     }
+
+    this.currentRoleSubscription = this._roleListener
+      .getCurrentRole()
+      .subscribe((role: RolModel) => {
+        user.rolSelected = role;
+        this.rol = role.name;
+      });
   }
 
   listenEvents() {
@@ -118,5 +139,9 @@ export class SideBarComponent implements OnInit {
 
   public goToMyAccount(): void {
     this._router.navigate(['my-account']);
+  }
+
+  ngOnDestroy() {
+    this.currentRoleSubscription.unsubscribe();
   }
 }

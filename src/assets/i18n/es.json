@@ -433,6 +433,7 @@
   "totalExpensesBiologicalTreatment": "Coste por tratamientos biológicos",
   "consumptionBiologicalTreatment": "Consumo de tratamientos biológicos",
   "indicationError": "Por favor, cree un diagnóstico principal",
-  "diganosisPrincipal": "diagnóstico principal"
+  "diganosisPrincipal": "diagnóstico principal",
+  "currentRole": "Rol actual"
 
 }
