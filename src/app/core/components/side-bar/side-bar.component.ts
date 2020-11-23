@@ -32,6 +32,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
   rol: string;
 
   collapsed = false;
+  public reloading: Boolean = false;
 
   constructor(
     private _router: Router,
@@ -43,11 +44,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
+
+    console.log(user);
     this.detectRouterChanges();
     this.listenEvents();
-    if (!this.menu) {
-      this.fetchMenu();
-    }
 
     if (user) {
       this.rol =
@@ -55,11 +55,16 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.name = user.username;
     }
 
+    if (!this.menu) {
+      this.fetchMenu();
+    }
+
     this.currentRoleSubscription = this._roleListener
       .getCurrentRole()
       .subscribe((role: RolModel) => {
         user.rolSelected = role;
         this.rol = role.name;
+        this.fetchMenu();
       });
   }
 

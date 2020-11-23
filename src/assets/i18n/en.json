@@ -417,5 +417,5 @@
   "consumptionBiologicalTreatment": "Consumption biological treatment",
   "indicationError": "Please create a primary diagnosis",
   "diganosisPrincipal": "primary diagnosis",
-  "currentRole": "Current role"
+  "currentRole": "Change current role"
 }

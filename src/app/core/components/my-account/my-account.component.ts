@@ -31,7 +31,7 @@ export class MyAccountComponent implements OnInit {
 
   private getCurrentuser() {
     this.currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-    this.currentRole = new RolModel(this.currentUser.rolSelected);
+    this.currentRole = JSON.parse(localStorage.getItem('role') || '{}');
     this.userRoles = this.currentUser.roles;
 
     const allRoles: Array<RolModel> = JSON.parse(localStorage.getItem('roles'));
@@ -43,13 +43,10 @@ export class MyAccountComponent implements OnInit {
     this.userDataForm = this._formBuilder.group({
       username: [this.currentUser.username],
       email: [this.currentUser.email],
-      // role: [this.currentUser.rolSelected['name']],
       role: this.currentRole.name,
     });
 
     this.formKeys = Object.keys(this.userDataForm.controls);
-
-    console.log(this.userRoles);
   }
 
   public showChangePasswordModal(): void {
