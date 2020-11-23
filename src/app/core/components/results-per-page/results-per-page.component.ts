@@ -22,4 +22,25 @@ export class ResultsPerPageComponent implements OnInit {
   handleChange(event) {
     this.itemsPerPage.emit(this.selectedOption);
   }
+  calcLastPagElement(): number {
+    let total = this.paginationData.totalElements;
+    let pag = this.paginationData.number;
+    return total < this.selectedOption
+      ? total
+      : pag === 1
+      ? this.selectedOption
+      : total >= this.selectedOption * pag
+      ? this.selectedOption * pag
+      : total;
+  }
+
+  calcFirstPagElement() {
+    return this.paginationData.totalElements === 0
+      ? 0
+      : this.paginationData.number === 1
+      ? 1
+      : this.selectedOption * this.paginationData.number -
+        this.selectedOption +
+        1;
+  }
 }

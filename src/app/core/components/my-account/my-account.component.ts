@@ -39,7 +39,7 @@ export class MyAccountComponent implements OnInit {
     this.userDataForm = this._formBuilder.group({
       username: [this.currentUser.username],
       email: [this.currentUser.email],
-      role: [this.currentUser.rolSelected],
+      role: [this.currentUser.rolSelected['name']],
     });
 
     this.formKeys = Object.keys(this.userDataForm.controls);
