@@ -119,7 +119,7 @@ export class PsoriasisPalmoPlantarComponent implements OnInit {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
 
-      const query = 'type=PALMOPLANTAR&indication=' + this.currentSelected.name;
+      const query = 'type=PALMOPLANTAR&medicine=' + this.currentSelected.name;
 
       this.getDetails(query);
       this.getDetailsToExport(query);

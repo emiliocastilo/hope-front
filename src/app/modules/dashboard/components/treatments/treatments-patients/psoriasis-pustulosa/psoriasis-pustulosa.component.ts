@@ -121,7 +121,7 @@ export class PsoriasisPustulosaComponent implements OnInit {
       this.currentSelected = this.data[event.selectedItem];
 
       const query =
-        'type=PSORIASIS PULTULOSA&indication=' + this.currentSelected.name;
+        'type=PSORIASIS PULTULOSA&medicine=' + this.currentSelected.name;
 
       this.getDetails(query);
       this.getDetailsToExport(query);

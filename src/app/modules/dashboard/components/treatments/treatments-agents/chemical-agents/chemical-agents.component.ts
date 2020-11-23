@@ -117,7 +117,7 @@ export class ChemicalAgentsComponent implements OnInit {
     if (event && event.type === 'detail') {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
-      const query = 'type=QUIMICO&indication=' + this.currentSelected.name;
+      const query = 'type=QUIMICO&medicine=' + this.currentSelected.name;
       this.getDetails(query);
       this.getDetailsToExport(query);
     } else {
