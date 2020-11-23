@@ -71,7 +71,7 @@ export class PasiBsaPgaComponent implements OnInit {
   }
 
   getPatientId() {
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
   }
 
   async getAndParseForm() {

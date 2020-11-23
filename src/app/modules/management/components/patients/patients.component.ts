@@ -105,7 +105,7 @@ export class PatientsComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedPatient = this.patients[event];
     const selectedUser = JSON.stringify(this.selectedPatient || {});
-    localStorage.setItem('selectedUser', selectedUser);
+    localStorage.setItem('selectedPatient', selectedUser);
     this.selectedItem = event;
     Object.keys(this.patients[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {

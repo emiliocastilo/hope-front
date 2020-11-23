@@ -46,7 +46,7 @@ export class PhototherapyComponent implements OnInit {
   };
   private currentPage: number = 0;*/
   private currentUser: PatientModel = JSON.parse(
-    localStorage.getItem('selectedUser' || '{}')
+    localStorage.getItem('selectedPatient' || '{}')
   );
   private currentTreatment: string = 'phototherapy';
   public tableData: any[];
@@ -135,7 +135,7 @@ export class PhototherapyComponent implements OnInit {
     //const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
     //this.getData(query);
 
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     this.paginationData = {
       number: 0,
       totalPages: 0,

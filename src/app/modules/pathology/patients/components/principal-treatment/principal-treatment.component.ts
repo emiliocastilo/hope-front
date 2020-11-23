@@ -53,7 +53,7 @@ export class PrincipalTreatmentComponent implements OnInit {
   // };
   // private currentPage: number = 0;
   // private currentUser: PatientModel = JSON.parse(
-  //   localStorage.getItem('selectedUser' || '{}')
+  //   localStorage.getItem('selectedPatient' || '{}')
   // );
   // private currentTreatment: string = 'phototherapy';
   public tableData: any[] = [];
@@ -229,7 +229,7 @@ export class PrincipalTreatmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
     this.getFormDatas();
     this.getForm();
