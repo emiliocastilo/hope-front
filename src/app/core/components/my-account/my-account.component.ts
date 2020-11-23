@@ -1,4 +1,3 @@
-import { UsersLoggedModel } from './../../../modules/management/models/user/user-logged.model';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,7 +10,7 @@ import { ChangePasswordModalComponent } from '../modals/change-password-modal/ch
   styleUrls: ['./my-account.component.scss'],
 })
 export class MyAccountComponent implements OnInit {
-  public currentUser: UsersLoggedModel;
+  public currentUser: UsersModel;
   public userDataForm: FormGroup;
   public formKeys: string[];
 

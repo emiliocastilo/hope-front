@@ -192,8 +192,9 @@ export class UsersComponent implements OnInit {
       this.users[event].collegeNumber,
       this.users[event].username,
       this.users[event].email,
-      this.roles,
       this.activeRoles
+      // this.roles,
+      // this.activeRoles
     );
 
     this.selectedUsers.setValuesFromObject(
