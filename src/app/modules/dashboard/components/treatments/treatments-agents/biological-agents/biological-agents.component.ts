@@ -121,6 +121,7 @@ export class BiologicalAgentsComponent implements OnInit {
       this.currentSelected = this.data[event.selectedItem];
       const query = 'type=BIOLOGICO&indication=' + this.currentSelected.name;
       this.getDetails(query);
+      this.getDetailsToExport(query);
     } else {
       this.showingDetail = false;
     }

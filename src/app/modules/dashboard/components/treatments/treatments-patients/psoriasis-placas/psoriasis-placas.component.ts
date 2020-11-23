@@ -120,7 +120,7 @@ export class PsoriasisPlacasComponent implements OnInit {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
 
-      const query = 'type=EN PLACAS&indication=';
+      const query = 'type=EN PLACAS&indication=' + this.currentSelected.name;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
