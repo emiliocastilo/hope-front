@@ -24,6 +24,7 @@ export class TreatmentsPatientsComponent implements OnInit {
       url: 'dashboard/treatments/treatments-patients/psoriasis-pustulosa',
     },
   ];
+  config = {};
 
   constructor() {}
 

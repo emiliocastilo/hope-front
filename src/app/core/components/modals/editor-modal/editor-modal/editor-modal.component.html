@@ -14,6 +14,8 @@
   <app-editor-modal-footer
     (close)="onClose()"
     (save)="onSave()"
-    [disableSave]="!validForm || !activeRoles || activeRoles.length === 0"
+    [disableSave]="
+      !validForm || (this.activeRoles && this.activeRoles.length === 0)
+    "
   ></app-editor-modal-footer>
 </div>
