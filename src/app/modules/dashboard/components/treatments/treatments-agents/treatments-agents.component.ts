@@ -16,7 +16,9 @@ export class TreatmentsAgentsComponent implements OnInit {
       url: 'dashboard/treatments/treatments-agents/chemical-agents',
     },
   ];
-  config = {};
+  config = {
+    defaultConfig: true,
+  };
 
   constructor() {}
 

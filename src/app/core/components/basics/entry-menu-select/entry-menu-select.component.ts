@@ -82,5 +82,8 @@ export class EntryMenuSelectComponent implements OnInit {
         ]);
       }
     }
+    if (this.config.defaultConfig) {
+      this.router.navigate([this.entries[this.selectedValue].url]);
+    }
   }
 }
