@@ -56,7 +56,6 @@ export class BiologicalAgentsComponent implements OnInit {
 
   private getData(): void {
     const data = this._activatedRoute.snapshot.data.patientsTreatments;
-
     const chartTitle = 'patientsTreatmentBiological';
     const view = null;
     const scheme = {
@@ -79,6 +78,7 @@ export class BiologicalAgentsComponent implements OnInit {
           },
         ],
       };
+
       return object;
     });
 
