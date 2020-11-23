@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
 import { RolModel } from 'src/app/modules/management/models/rol.model';
 import { UsersModel } from 'src/app/modules/management/models/user/user.model';
 import { CurrentRoleListenerService } from '../../services/current-role-listener/current-role-listener.service';

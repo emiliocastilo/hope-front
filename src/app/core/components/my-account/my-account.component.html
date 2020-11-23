@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <form class="row" [formGroup]="userDataForm">
-    <div class="col-12" *ngFor="let formKey of formKeys; index as fieldIndex">
+    <!-- <div class="col-12" *ngFor="let formKey of formKeys; index as fieldIndex">
       <app-input
         [id]="formKey"
         [name]="formKey"
@@ -11,6 +11,65 @@
         [isDisabled]="true"
       >
       </app-input>
+    </div> -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <app-input
+            id="username"
+            name="username"
+            formControlName="username"
+            [label]="'modal.editor.field.username' | translate"
+            [value]="userDataForm.controls['username'].value"
+            [placeholder]="'modal.editor.field.username' | translate"
+            [isDisabled]="true"
+          >
+          </app-input>
+        </div>
+        <div class="col-sm-6">
+          <app-input
+            id="email"
+            name="email"
+            formControlName="email"
+            [label]="'modal.editor.field.email' | translate"
+            [value]="userDataForm.controls['email'].value"
+            [placeholder]="'modal.editor.field.email' | translate"
+            [isDisabled]="true"
+          >
+          </app-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <app-input
+            id="role"
+            name="role"
+            formControlName="role"
+            [label]="'modal.editor.field.role' | translate"
+            [value]="userDataForm.controls['role'].value"
+            [placeholder]="'modal.editor.field.role' | translate"
+            [isDisabled]="true"
+          >
+          </app-input>
+        </div>
+        <div class="col-sm-6 rol-select">
+          <app-input-select
+            id="currentRole"
+            name="currentRole"
+            [isDisabled]="false"
+            class="col-6"
+            currentValue="currentRole"
+            [options]="userRoles"
+            [labelValue]="'currentRole' | translate"
+            [optionSelected]="currentRole.id"
+            [selectMultiple]="false"
+            [clearAfterSelect]="false"
+            (selectTrigger)="onSelectRole($event)"
+          >
+          </app-input-select>
+        </div>
+      </div>
     </div>
 
     <div class="col-12 mt-4">
@@ -23,23 +82,6 @@
         [disabledButton]="userDataForm.invalid"
       >
       </app-button>
-    </div>
-
-    <div class="col-12 mt-4" *ngIf="currentRole">
-      <app-input-select
-        id="currentRole"
-        name="currentRole"
-        [isDisabled]="false"
-        class="col-6"
-        currentValue="currentRole"
-        [options]="userRoles"
-        [labelValue]="'currentRole' | translate"
-        [optionSelected]="currentRole.id"
-        [selectMultiple]="false"
-        [clearAfterSelect]="false"
-        (selectTrigger)="onSelectRole($event)"
-      >
-      </app-input-select>
     </div>
   </form>
 </div>
