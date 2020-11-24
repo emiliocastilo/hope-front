@@ -434,6 +434,9 @@
   "consumptionBiologicalTreatment": "Consumo de tratamientos biológicos",
   "indicationError": "Por favor, cree un diagnóstico principal",
   "diganosisPrincipal": "diagnóstico principal",
+  "opcionMedicamento": "Medicamento",
+  "opcionFormulaMagistral": "Fórmula Magistral",
+  "descripcionFormulaMagistral": "Descripción Fórmula Magistral",
+  "dosisFormulaMagistral": "Dosis Fórmula Magistral",
   "currentRole": "Cambiar rol"
-
 }

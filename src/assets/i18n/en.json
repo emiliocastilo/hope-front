@@ -417,5 +417,9 @@
   "consumptionBiologicalTreatment": "Consumption biological treatment",
   "indicationError": "Please create a primary diagnosis",
   "diganosisPrincipal": "primary diagnosis",
+  "opcionMedicamento": "Medicine",
+  "opcionFormulaMagistral": "Magistral Formula",
+  "descripcionFormulaMagistral": "Description Master Formula",
+  "dosisFormulaMagistral": "Dose Master Formula",
   "currentRole": "Change role"
 }
