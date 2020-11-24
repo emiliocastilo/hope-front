@@ -119,8 +119,7 @@ export class EritrodermiaComponent implements OnInit {
     if (event && event.type === 'detail') {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
-
-      const query = 'type=ERITRODERMIA&indication=';
+      const query = 'type=ERITRODERMIA&medicine=' + this.currentSelected.name;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
