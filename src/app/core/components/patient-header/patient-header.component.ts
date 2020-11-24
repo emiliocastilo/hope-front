@@ -30,7 +30,7 @@ export class PatientHeaderComponent implements OnInit {
   constructor(private _patientService: PatientsService) {}
 
   ngOnInit(): void {
-    this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
     this._patientService
       .getPatientsById(this.selectedPatient.id)
       .subscribe((data) => {
