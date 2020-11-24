@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-principal-treatment-modal',
@@ -16,6 +16,9 @@ export class PrincipalTreatmentModalComponent implements OnInit {
   @Output() update: EventEmitter<any> = new EventEmitter();
   @Output() selectInputTypeahead: EventEmitter<any> = new EventEmitter();
   @Output() selectDose: EventEmitter<any> = new EventEmitter();
+  @Output() selectTreatmentType: EventEmitter<any> = new EventEmitter();
+  @Output() selectTopicalType: EventEmitter<any> = new EventEmitter();
+
   public formKeys: string[] = [];
   public showRequiredLegend: boolean = false;
 
@@ -111,5 +114,120 @@ export class PrincipalTreatmentModalComponent implements OnInit {
     if (formKey === 'dose') {
       this.selectDose.emit(event);
     }
+
+    // Cuando cambiamos el tipo de tratamiento, seleccionamos el check de medicamento por defecto y limpiamos lo que hubiese en el formulario compartido.
+    if (
+      (formKey === 'treatmentType' && event.id === 'topical') ||
+      (formKey === 'treatmentType' && event.id === 'biological') ||
+      (formKey === 'treatmentType' && event.id === 'chemical')
+    ) {
+      this.form.get('opcionMedicamento').setValue('opcionMedicamento');
+      this.resetFields([
+        'family',
+        'atc',
+        'cn',
+        'tract',
+        'medicine',
+        'descripcionFormulaMagistral',
+        'dosisFormulaMagistral',
+      ]);
+      this.selectTreatmentType.emit(event);
+    }
+  }
+
+  checkTypeTreatment(key): boolean {
+    let show = true;
+    // Si estamos en cambiar o suspender
+    // TODO: comparar si estamos en cambiar o suspender, si es así, deshabilitar/habilitar los campos correspondientes
+    if (
+      this.form.get('treatmentType') &&
+      this.form.get('treatmentType').value
+    ) {
+      // this.resetFields(['descripcionFormulaMagistral','dosisFormulaMagistral']);
+      // Si el tratamiento es biológico o químico, ocultamos los radios y los campos de formula magistral y los vaciamos
+      if (
+        this.form.get('treatmentType').value[0].id === 'chemical' ||
+        this.form.get('treatmentType').value[0].id === 'biological'
+      ) {
+        if (
+          [
+            'opcionFormulaMagistral',
+            'opcionMedicamento',
+            'descripcionFormulaMagistral',
+            'dosisFormulaMagistral',
+          ].indexOf(key) > -1
+        ) {
+          show = false;
+        }
+        // Activamos la validación de la opción medicamento, y desactivamos la de la fórmula magistral
+        this.form.get('opcionFormulaMagistral').setValue('');
+        this.form.get('opcionMedicamento').setValue('opcionMedicamento');
+        // hemos seleccionado tratamiento topico
+      } else {
+        //Hemos seleccionado tratamiento topico y opcion medicamento
+        if (this.form.get('opcionMedicamento').value === 'opcionMedicamento') {
+          if (
+            ['descripcionFormulaMagistral', 'dosisFormulaMagistral'].indexOf(
+              key
+            ) > -1
+          ) {
+            show = false;
+          }
+          //Hemos seleccionado tratamiento topico y opcion formula magistral
+        } else if (
+          this.form.get('opcionFormulaMagistral').value ===
+          'opcionFormulaMagistral'
+        ) {
+          if (
+            [
+              'medicine',
+              'family',
+              'atc',
+              'cn',
+              'tract',
+              'dose',
+              'otherDosis',
+            ].indexOf(key) > -1
+          ) {
+            show = false;
+          }
+        }
+      }
+      //Todavia no se ha seleccionado ningún tratamiento
+    } else {
+      if (['opcionFormulaMagistral', 'opcionMedicamento'].indexOf(key) > -1) {
+        show = false;
+      }
+    }
+    return show;
+  }
+  setRadioValues(key) {
+    if (key === 'opcionFormulaMagistral') {
+      this.form.get('opcionFormulaMagistral').setValue(key);
+      this.form.get('opcionMedicamento').setValue('');
+      this.resetFields([
+        'family',
+        'atc',
+        'cn',
+        'tract',
+        'medicine',
+        'dose',
+        'otherDosis',
+      ]);
+    } else if (key === 'opcionMedicamento') {
+      this.form.get('opcionFormulaMagistral').setValue('');
+      this.form.get('opcionMedicamento').setValue(key);
+      this.resetFields([
+        'descripcionFormulaMagistral',
+        'dosisFormulaMagistral',
+      ]);
+    }
+    this.selectTopicalType.emit(key);
+  }
+
+  private resetFields(keys: any[]) {
+    keys.forEach((key) => {
+      this.form.get(key).reset('');
+    });
   }
 }
