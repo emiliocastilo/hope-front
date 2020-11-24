@@ -104,7 +104,7 @@ export class TableComponent implements OnInit {
 
     return data;
   }
-  checkRowColor(row: any): string{
-      return row.rowColor;
+  checkRowColor(row: any): string {
+    return row.rowColor;
   }
 }

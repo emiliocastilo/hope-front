@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
-import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { PatientModel } from '../../models/patient.model';
-import { NonParmacologicServices } from 'src/app/core/services/non-pharmacologic/non-pharmacologic.service';
-import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PrincipalTreatmentModalComponent } from 'src/app/core/components/modals/principal-treatment-modal/principal-treatment-modal.component';
@@ -24,7 +21,6 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { constants } from '../../../../../../constants/constants';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-principal-treatment',
@@ -91,12 +87,19 @@ export class PrincipalTreatmentComponent implements OnInit {
     otherDosis: [''],
     regimenTreatment: ['', Validators.required],
     dateSuspension: ['', Validators.required],
+  });
 
-    //TODO: habría que añadir también los campos cuando seleccionamos fórmula magistral (?)
-    // descripcionFormulaMagistral: ['', Validators.required],
-    // dosisFormulaMagistral: [''],
-    // opcionMedicamento: [''],
-    // opcionFormulaMagistral: [''],
+  //TO DO: Unificar los formularios con los campos comunes
+  private modalFormUpdateTopico: FormGroup = this._formBuilder.group({
+    reasonChangeOrSuspension: ['', Validators.required],
+
+    descripcionFormulaMagistral: ['', Validators.required],
+    dosisFormulaMagistral: [''],
+    opcionMedicamento: [''],
+    opcionFormulaMagistral: [''],
+
+    regimenTreatment: ['', Validators.required],
+    dateSuspension: ['', Validators.required],
   });
 
   public patient: PatientModel;
@@ -263,8 +266,6 @@ export class PrincipalTreatmentComponent implements OnInit {
   };
 
   constructor(
-    private _nonParmacologicService: NonParmacologicServices,
-    private _patientService: PatientsService,
     private _formsService: FormsService,
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder,
@@ -466,37 +467,50 @@ export class PrincipalTreatmentComponent implements OnInit {
 
   public async showModalChange(index: number, type: string) {
     const dataEdit = { ...this.tableData[index] };
+    let form_aux = null;
 
     Object.keys(dataEdit).forEach((key: string) => {
       if (key.toLowerCase().includes('date') && dataEdit[key]) {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
       }
     });
-    if(dataEdit.treatmentType.id !== 'topical' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'){
+    if (
+      dataEdit.treatmentType.id !== 'topical' &&
+      dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'
+    ) {
       await this._medicinesService
-      .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
-      .then((data: any) => {
-        data.forEach((element) => {
-          element.name = element.description;
+        .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+        .then((data: any) => {
+          data.forEach((element) => {
+            element.name = element.description;
+          });
+          data.push({ name: 'Otra' });
+          this.modalOptions.dose.options = data;
+        })
+        .catch(({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         });
-        data.push({ name: 'Otra' });
-        this.modalOptions.dose.options = data;
-      })
-      .catch(({ error }) => {
-        this._notification.showErrorToast(error.errorCode);
-      });
     }
-    this.fillForm(this.modalFormUpdate, dataEdit, type);
+    
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
     });
 
+    if (
+      dataEdit.treatmentType.id === 'topical' &&
+      dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral'
+    ) {
+      form_aux = this.modalFormUpdateTopico;
+    }else{
+      form_aux = this.modalFormUpdate;
+    }
+
+    this.fillForm(form_aux, dataEdit, type);
+
     modalRef.componentInstance.type = 'changeSuspend';
     modalRef.componentInstance.title = 'changeSuspendTreatment';
-    modalRef.componentInstance.form = this.modalFormUpdate;
+    modalRef.componentInstance.form = form_aux;
     modalRef.componentInstance.options = this.modalOptions;
-
-    // TODO: Aqui se debería hacer una comprobación si estamos con la opcion medicamento o formula magica, y activar/desactivar las validaciones necesarias.
 
     modalRef.componentInstance.selectDose.subscribe((event: any) => {
       if (event.name === 'Otra') {
@@ -552,19 +566,22 @@ export class PrincipalTreatmentComponent implements OnInit {
       }
     });
 
-    if(dataEdit.treatmentType.id !== 'topical' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'){
+    if (
+      dataEdit.treatmentType.id !== 'topical' &&
+      dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'
+    ) {
       await this._medicinesService
-      .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
-      .then((data: any) => {
-        data.forEach((element) => {
-          element.name = element.description;
+        .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+        .then((data: any) => {
+          data.forEach((element) => {
+            element.name = element.description;
+          });
+          data.push({ name: 'Otra' });
+          this.modalOptions.dose.options = data;
+        })
+        .catch(({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         });
-        data.push({ name: 'Otra' });
-        this.modalOptions.dose.options = data;
-      })
-      .catch(({ error }) => {
-        this._notification.showErrorToast(error.errorCode);
-      });
     }
     this.fillForm(this.modalForm, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
@@ -587,6 +604,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       modalRef.componentInstance.form.controls.tract.setValue(
         event.viaAdministration
       );
+      
       this._medicinesService
         .getDosesByMedicine(`medicineId=${event.id}`)
         .then((data: any) => {

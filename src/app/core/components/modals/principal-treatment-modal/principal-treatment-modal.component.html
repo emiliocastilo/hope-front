@@ -8,7 +8,10 @@
       *ngFor="let formKey of formKeys; index as fieldIndex"
     >
       <app-input-typeahead
-        *ngIf="checkInputType(['typeahead'], options[formKey].type) && checkTypeTreatment(formKey)"
+        *ngIf="
+          checkInputType(['typeahead'], options[formKey].type) &&
+          checkTypeTreatment(formKey)
+        "
         [id]="formKey"
         [name]="formKey"
         [controlForm]="form.controls[formKey]"
@@ -54,9 +57,25 @@
       >
       </app-switch>
 
-      <fieldset class="radioButtons" *ngIf="checkInputType(['radio'], options[formKey].type) && checkTypeTreatment(formKey)">
+      <fieldset
+        class="radioButtons"
+        *ngIf="
+          checkInputType(['radio'], options[formKey].type) &&
+          checkTypeTreatment(formKey)
+        "
+      >
         <label>
-          <input id="formKey" (click)="setRadioValues(formKey)" type="radio" name="opcionBiologica" [checked]=" (form.controls[formKey].value != '' && form.controls[formKey].value != null)"> {{formKey | translate}}
+          <input
+            id="formKey"
+            (click)="setRadioValues(formKey)"
+            type="radio"
+            name="opcionBiologica"
+            [checked]="
+              form.controls[formKey].value != '' &&
+              form.controls[formKey].value != null
+            "
+          />
+          {{ formKey | translate }}
         </label>
       </fieldset>
 
@@ -75,7 +94,10 @@
       </app-input-textarea>
 
       <app-input-select
-        *ngIf="checkInputType(['select'], options[formKey].type) && checkTypeTreatment(formKey)"
+        *ngIf="
+          checkInputType(['select'], options[formKey].type) &&
+          checkTypeTreatment(formKey)
+        "
         class="select-combo margin-firefox"
         [id]="formKey"
         [isDisabled]="false"
