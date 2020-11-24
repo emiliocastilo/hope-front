@@ -472,8 +472,8 @@ export class PrincipalTreatmentComponent implements OnInit {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
       }
     });
-    // TODO: Aqui hay que comprobar antes si tenemos medicina, si no, no habría que llamar al servicio.
-    await this._medicinesService
+    if(dataEdit.treatmentType.id !== 'topical' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'){
+      await this._medicinesService
       .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
       .then((data: any) => {
         data.forEach((element) => {
@@ -485,6 +485,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       .catch(({ error }) => {
         this._notification.showErrorToast(error.errorCode);
       });
+    }
     this.fillForm(this.modalFormUpdate, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
@@ -551,8 +552,8 @@ export class PrincipalTreatmentComponent implements OnInit {
       }
     });
 
-    // TODO: Aqui hay que comprobar antes si tenemos medicina, si no, no habría que llamar al servicio.
-    await this._medicinesService
+    if(dataEdit.treatmentType.id !== 'topical' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'){
+      await this._medicinesService
       .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
       .then((data: any) => {
         data.forEach((element) => {
@@ -564,7 +565,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       .catch(({ error }) => {
         this._notification.showErrorToast(error.errorCode);
       });
-
+    }
     this.fillForm(this.modalForm, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
