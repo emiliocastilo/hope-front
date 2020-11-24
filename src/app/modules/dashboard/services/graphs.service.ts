@@ -23,7 +23,7 @@ export class GraphsService {
   // }
 
   public getChartTableCIE(): Observable<any> {
-    this.selectedRole = JSON.parse(localStorage.getItem('role'));
+    this.selectedRole = JSON.parse(localStorage.getItem('user')).rolSelected;
     const userHospital: any = this.selectedRole.hospital.id;
     return this._httpClient.get(
       '/patients-diagnoses/cie?hospitalId=' + userHospital

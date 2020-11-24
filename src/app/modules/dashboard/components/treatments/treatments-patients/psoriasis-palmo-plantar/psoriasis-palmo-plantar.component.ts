@@ -119,7 +119,7 @@ export class PsoriasisPalmoPlantarComponent implements OnInit {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
 
-      const query = 'type=PALMOPLANTAR&indication=';
+      const query = 'type=PALMOPLANTAR&medicine=' + this.currentSelected.name;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -160,7 +160,7 @@ export class PsoriasisPalmoPlantarComponent implements OnInit {
     if (event.type === 'detail') {
       const currentUser = this.details[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
-      localStorage.setItem('selectedUser', selectedUser);
+      localStorage.setItem('selectedPatient', selectedUser);
       this._router.navigate(['pathology/patients/dashboard']);
     }
   }

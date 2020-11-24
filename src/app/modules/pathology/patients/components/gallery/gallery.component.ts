@@ -36,7 +36,7 @@ export class GalleryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
     this.pathologyId = this.selectedPatient.pathologies[0].id;
     this.modalForm = this._formBuilder.group({
       title: ['', Validators.required],

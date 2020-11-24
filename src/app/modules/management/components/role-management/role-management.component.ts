@@ -83,11 +83,9 @@ export class RoleManagementComponent implements OnInit {
     this.selectedItem = event;
     this.selectedRole.setValuesFromObject(this.roles[event]);
 
-    Object.keys(this.roles[event]).forEach((patientKey: string) => {
-      if (this.modalForm.controls[patientKey]) {
-        this.modalForm.controls[patientKey].setValue(
-          this.roles[event][patientKey]
-        );
+    Object.keys(this.roles[event]).forEach((roleKey: string) => {
+      if (this.modalForm.controls[roleKey]) {
+        this.modalForm.controls[roleKey].setValue(this.roles[event][roleKey]);
       }
     });
   }
@@ -98,9 +96,15 @@ export class RoleManagementComponent implements OnInit {
   }
 
   public onSearch(event: string): void {
-    this._roleManagementService.getRolSearches(event).subscribe((data: any) => {
-      this.roles = data.content;
-    });
+    this._roleManagementService
+      .getRolSearches(`${event}&size=${this.paginationData.size}`)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.roles = data.content;
+        this.paginationData.number = 1;
+        this.paginationData.size = data.size;
+        this.paginationData.totalElements = data.totalElements;
+      });
   }
 
   public selectPage(page: number): void {
@@ -168,20 +172,20 @@ export class RoleManagementComponent implements OnInit {
     if (this.isEditing) {
       id = this.roles[this.selectedItem].id;
     }
-    console.log(formValues.hospital);
     const rol: RolModel = new RolModel(
       id,
       formValues.name,
       formValues.description,
       formValues.service,
       formValues.hospital,
-      formValues.pathology[0]
+      formValues.pathology
     );
     rol.setValuesFromDinamicForm(formValues);
     this.selectedRole = new RolModel();
     if (this.isEditing) {
       this._roleManagementService.updateRole(rol).subscribe(
         (response) => {
+          this._notification.showSuccessToast('elementUpdated');
           this.isEditing = false;
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
@@ -193,6 +197,7 @@ export class RoleManagementComponent implements OnInit {
     } else {
       this._roleManagementService.createRole(rol).subscribe(
         (response) => {
+          this._notification.showSuccessToast('elementCreated');
           modalRef.close();
           this.refreshData(`&page=${this.currentPage}`);
         },

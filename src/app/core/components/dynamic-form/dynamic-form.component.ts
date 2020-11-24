@@ -122,7 +122,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           // field.params.forEach((e, i) => {
           //   params[i] = change[e];
           // });
-          // const patient = JSON.parse(localStorage.getItem('selectedUser'));
+          // const patient = JSON.parse(localStorage.getItem('selectedPatient'));
           // let urlEndpoint = field.endpoint;
           // urlEndpoint = urlEndpoint.replace('${patient}', patient.id);
           // for (let f = 0; f < params.length; f++) {
@@ -291,7 +291,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   }
 
   async showChartFromBack() {
-    const patient = JSON.parse(localStorage.getItem('selectedUser'));
+    const patient = JSON.parse(localStorage.getItem('selectedPatient'));
     const dataGraph: any = await this._formsService.retrieveFormGraph(
       this.key,
       patient.id

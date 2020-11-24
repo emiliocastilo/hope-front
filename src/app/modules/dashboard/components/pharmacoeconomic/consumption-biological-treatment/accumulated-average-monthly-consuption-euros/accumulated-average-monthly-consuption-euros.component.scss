@@ -11,6 +11,17 @@
 
     :first-child {
       margin-right: 1rem;
+      margin-bottom: -1rem;
+    }
+  }
+}
+
+@supports (-moz-appearance: none) {
+  .table-container_input-container {
+    .table-container_input-container_form {
+      :first-child {
+        margin-bottom: -0.5rem;
+      }
     }
   }
 }

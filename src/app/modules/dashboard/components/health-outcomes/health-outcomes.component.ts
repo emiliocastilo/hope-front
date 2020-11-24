@@ -12,6 +12,7 @@ export class HeatlhOutcomesComponent implements OnInit {
     { name: 'PGA', url: 'dashboard/health-outcomes/patients-by-pga' },
     { name: 'DLQI', url: 'dashboard/health-outcomes/patients-by-dlqi' },
   ];
+  config = { defaultConfig: true };
 
   constructor() {}
 
