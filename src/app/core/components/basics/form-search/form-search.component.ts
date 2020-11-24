@@ -31,7 +31,7 @@ export class FormSearchComponent implements OnInit {
     });
     this.headersDetailsTable = ['code', 'description'];
     this.actions = [{ name: 'select', icon: 'chevrons-right' }];
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
   }
 
   openModal(content: any) {

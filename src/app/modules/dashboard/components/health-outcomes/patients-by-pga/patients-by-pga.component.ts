@@ -144,7 +144,7 @@ export class PatientsByPgaComponent implements OnInit {
     if (event.type === 'detail') {
       const currentUser = this.details[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
-      localStorage.setItem('selectedUser', selectedUser);
+      localStorage.setItem('selectedPatient', selectedUser);
       this._router.navigate(['pathology/patients/dashboard']);
     }
   }

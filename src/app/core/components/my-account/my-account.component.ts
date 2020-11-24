@@ -30,7 +30,8 @@ export class MyAccountComponent implements OnInit {
 
   private getCurrentuser() {
     this.currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-    this.currentRole = JSON.parse(localStorage.getItem('role') || '{}');
+    // this.currentRole = JSON.parse(localStorage.getItem('role') || '{}');
+    this.currentRole = this.currentUser.rolSelected;
     this.userRoles = this.currentUser.roles;
 
     const allRoles: Array<RolModel> = JSON.parse(localStorage.getItem('roles'));

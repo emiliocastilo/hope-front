@@ -12,17 +12,29 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
 export class DynamicModalComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
+  public filled = [];
+  @Input() title: string;
+  @Input() data: any;
   @Input() key: string;
+  @Input() fields: any;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<any> = new EventEmitter();
 
   constructor(private _formsService: FormsService) {}
 
   ngOnInit() {
-    this.getAndParseForm();
+    if (this.key) {
+      this.getAndParseFromTemplate();
+    } else {
+      this.getAndParseFromFields();
+    }
   }
 
-  async getAndParseForm() {
+  onClose() {
+    this.close.emit(null);
+  }
+
+  async getAndParseFromTemplate() {
     const data: any = await this._formsService.get(this.key);
     if (data) {
       const emptyForm = this._parseStringToJSON(data.form);
@@ -32,8 +44,29 @@ export class DynamicModalComponent implements OnInit {
     }
   }
 
+  getAndParseFromFields() {
+    this.fillForm();
+    this.config = FormUtils.createFieldConfig(this.fields, this.filled);
+    this.buttons = FormUtils.createButtons(['save']);
+  }
+
   submit(value: { [name: string]: any }) {
     this.save.emit(value);
+  }
+
+  fillForm() {
+    if (this.data) {
+      Object.keys(this.data).forEach((key) => {
+        let field = this.fields.find((o) => o.name === key);
+        field = { ...field, value: this.data[key] };
+        this.filled.push(field);
+      });
+    } else {
+      this.fields.forEach((field) => {
+        field = { ...field, value: undefined };
+        this.filled.push(field);
+      });
+    }
   }
 
   closeModal(cancel: boolean) {

@@ -12,8 +12,8 @@ export class UsersModel {
     public collegeNumber?: string,
     public username?: string,
     public email?: string,
-    public roles?: Array<RolModel>,
-    public rolSelected?: Array<RolModel>
+    public roles?: Array<RolModel>, // roles que posee el usuario
+    public rolSelected?:  RolModel //rol con el que se hace login en la app
   ) {}
 
   public setValuesFromDinamicForm(form: any, selectedRoles: Array<RolModel>) {

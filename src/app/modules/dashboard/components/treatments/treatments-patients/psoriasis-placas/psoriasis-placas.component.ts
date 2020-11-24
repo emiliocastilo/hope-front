@@ -120,7 +120,7 @@ export class PsoriasisPlacasComponent implements OnInit {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
 
-      const query = 'type=EN PLACAS&indication=';
+      const query = 'type=EN PLACAS&medicine=' + this.currentSelected.name;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -161,7 +161,7 @@ export class PsoriasisPlacasComponent implements OnInit {
     if (event.type === 'detail') {
       const currentUser = this.details[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
-      localStorage.setItem('selectedUser', selectedUser);
+      localStorage.setItem('selectedPatient', selectedUser);
       this._router.navigate(['pathology/patients/dashboard']);
     }
   }
