@@ -41,7 +41,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     'dateStart',
     'datePrescription',
     'dateSuspension',
-    'type',
+    'treatmentType',
   ];
   public actions: TableActionsModel[] = [
     new TableActionsModel('changeSuspend', 'edit-3'),
@@ -446,6 +446,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       event.value.principle = event.value.medicine.actIngredients;
       event.value.brand = event.value.medicine.brand;
       event.value.type = event.value.medicine.family;
+      event.value.treatmentType = event.value.treatmentType[0];
 
       Object.keys(event.value).forEach((key: string) => {
         if (key.toLowerCase().includes('date') && event.value[key]) {
@@ -575,7 +576,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.options = this.modalOptions;
     //seteamos el select del tipo de tratamiento para que venga seleccionado.
     modalRef.componentInstance.form.controls.treatmentType.setValue(
-      this.modalForm.value.treatmentType[0].id
+      this.modalForm.value.treatmentType.id
     );
     modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
       modalRef.componentInstance.options.dose.options = [];
