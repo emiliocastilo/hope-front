@@ -275,7 +275,7 @@ export class PrincipalTreatmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     this.paginationData = {
       number: 0,
       totalPages: 0,
@@ -491,7 +491,7 @@ export class PrincipalTreatmentComponent implements OnInit {
           this._notification.showErrorToast(error.errorCode);
         });
     }
-    
+
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
     });
@@ -501,7 +501,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral'
     ) {
       form_aux = this.modalFormUpdateTopico;
-    }else{
+    } else {
       form_aux = this.modalFormUpdate;
     }
 
@@ -604,7 +604,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       modalRef.componentInstance.form.controls.tract.setValue(
         event.viaAdministration
       );
-      
+
       this._medicinesService
         .getDosesByMedicine(`medicineId=${event.id}`)
         .then((data: any) => {
