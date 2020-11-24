@@ -420,5 +420,6 @@
   "opcionMedicamento": "Medicine",
   "opcionFormulaMagistral": "Magistral Formula",
   "descripcionFormulaMagistral": "Description Master Formula",
-  "dosisFormulaMagistral": "Dose Master Formula"
+  "dosisFormulaMagistral": "Dose Master Formula",
+  "currentRole": "Change role"
 }

@@ -17,7 +17,7 @@ import { ServiceModel } from '../../../../core/models/service/service.model';
 import { PatientModel } from '../../models/patients/patient.model';
 import { PathologyModel } from '../../models/patients/pathology.model';
 import { HospitalService } from '../../../../core/services/hospital/hospital.service';
-import { UsersModel } from '../../models/user/user.model';
+import { UserModel } from '../../models/user/user.model';
 
 @Component({
   selector: 'app-role-management',
@@ -33,7 +33,7 @@ export class RoleManagementComponent implements OnInit {
   public selectedItem: number;
   public selectedRole: RolModel = new RolModel();
   public isEditing = false;
-  public users: UsersModel[] = [];
+  public users: UserModel[] = [];
   public paginationData: PaginationModel;
   private currentPage = 0;
   public hospitals: HospitalModel[] = [];

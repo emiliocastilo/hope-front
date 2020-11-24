@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
@@ -8,7 +8,7 @@ import {
   FormBuilder,
   FormControl,
 } from '@angular/forms';
-import { UsersModel } from 'src/app/modules/management/models/user/user.model';
+import { UserModel } from 'src/app/modules/management/models/user/user.model';
 import { UsersService } from 'src/app/modules/management/services/medic/users.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceModel } from 'src/app/core/models/service/service.model';
@@ -43,7 +43,8 @@ export class UsersComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private rolService: RoleManagementService,
-    private sectionsService: SectionsService
+    private sectionsService: SectionsService,
+    private _router: Router
   ) {}
   public menu: SideBarItemModel[] = [];
   public menuSelected: SideBarItemModel;
@@ -54,15 +55,15 @@ export class UsersComponent implements OnInit {
   public isEditModal = false;
   public isEditing = false;
   public isNewModal = false;
-  public users: UsersModel[] = [];
-  public user: UsersModel;
+  public users: UserModel[] = [];
+  public user: UserModel;
   public selectedItem: number;
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
   private currentPage: number = 0;
   private colOrder: any;
   private typeOrder: any;
-  public selectedUsers = new UsersModel();
+  public selectedUsers = new UserModel();
   public selectedUser: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
   private itemsPerPage: number;
@@ -71,16 +72,16 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     /*this.services = this._activatedRoute.snapshot.data.services;
-    this.hospitals = this._activatedRoute.snapshot.data.hospitals;*/
+        this.hospitals = this._activatedRoute.snapshot.data.hospitals;*/
     this.users = this._activatedRoute.snapshot.data.users.content;
     this.paginationData = this._activatedRoute.snapshot.data.users;
 
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
 
     /*const userHospital: any = this.hospitals.find(
-      (hospital) => hospital.id === this.selectedUser.hospitalId
-    );
-    this.hospitals = [userHospital];*/
+          (hospital) => hospital.id === this.selectedUser.hospitalId
+        );
+        this.hospitals = [userHospital];*/
 
     this.modalForm = this._formBuilder.group({
       name: ['', Validators.required],
@@ -183,7 +184,7 @@ export class UsersComponent implements OnInit {
       });
     }
 
-    const aux = new UsersModel(
+    const aux = new UserModel(
       this.users[event].id,
       this.users[event].name,
       this.users[event].surname,
@@ -261,14 +262,14 @@ export class UsersComponent implements OnInit {
     modalRef: any,
     node: SectionModel
   ): void {
-    const formValues: UsersModel = event.value;
+    const formValues: UserModel = event.value;
     let id: number;
     const currentUser = this.users[this.selectedItem];
     if (this.isEditing) {
       id = currentUser.id;
     }
 
-    const user: UsersModel = new UsersModel(
+    const user: UserModel = new UserModel(
       id,
       formValues.name,
       formValues.surname,
@@ -291,6 +292,21 @@ export class UsersComponent implements OnInit {
           this._notification.showSuccessToast('elementUpdated');
           this.isEditing = false;
           modalRef.close();
+
+          // TODO : Cuando un usuario se cambia a sí mismo los roles
+          // const currentUser: UserModel = JSON.parse(localStorage.getItem('user') || '{}');
+          // const rolesId = [];
+          // currentUser.roles.forEach(rol => rolesId.push(rol.id));
+          // console.log(currentUser.roles, user.roles);
+          // if (currentUser.username === user.name) {
+          //     currentUser.roles = user.roles;
+          //     if (!rolesId.includes(currentUser.rolSelected.id)) this._router.navigateByUrl('/login');
+          //     else {
+          //         localStorage.setItem('user', JSON.stringify(currentUser));
+          //         localStorage.setItem('roles', JSON.stringify(user.roles));
+          //     }
+          // }
+
           this.refreshData(`&page=${this.currentPage}`);
         },
         ({ error }) => {
