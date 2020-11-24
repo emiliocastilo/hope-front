@@ -89,10 +89,7 @@ export class UsersComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern('^[0-9]{8,8}[A-Za-z]$')],
       ],
-      phone: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]{2,3}-? ?[0-9]{6,7}$')],
-      ],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       email: [
         '',
         [
@@ -114,6 +111,9 @@ export class UsersComponent implements OnInit {
     this._usersService.findUsers(data).subscribe(
       (response) => {
         this.users = response.content;
+        this.paginationData.number = 1;
+        this.paginationData.size = response.size;
+        this.paginationData.totalElements = response.totalElements;
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
@@ -192,8 +192,9 @@ export class UsersComponent implements OnInit {
       this.users[event].collegeNumber,
       this.users[event].username,
       this.users[event].email,
-      this.roles,
       this.activeRoles
+      // this.roles,
+      // this.activeRoles
     );
 
     this.selectedUsers.setValuesFromObject(
@@ -247,7 +248,6 @@ export class UsersComponent implements OnInit {
     this.isEditing = false;
     this.selectedItem = null;
     this.modalForm.reset();
-    this.showModal();
     this.makeRequests(parentNode ? parentNode.id : 1);
   }
 
@@ -404,6 +404,7 @@ export class UsersComponent implements OnInit {
       .getAll(user_aux['rolSelected']['id'], query)
       .subscribe((data) => {
         this.users = data.content;
+        this.paginationData.totalElements = data.totalElements;
         if (this.paginationData.totalPages !== data.totalPages) {
           this.paginationData = data;
         }

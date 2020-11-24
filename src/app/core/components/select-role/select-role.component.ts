@@ -1,3 +1,5 @@
+import { forkJoin } from 'rxjs';
+import { RoleManagementService } from './../../../modules/management/services/roles/role-management.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login/login.service';
@@ -27,7 +29,8 @@ export class SelectRoleComponent implements OnInit {
     private _router: Router,
     public _translate: TranslateService,
     public _notification: NotificationService,
-    public _roleServices: RoleService
+    public _roleServices: RoleService,
+    private rolService: RoleManagementService,
   ) {}
   ngOnInit() {
     this.selectRoleForm = this._formBuilder.group({
@@ -46,10 +49,8 @@ export class SelectRoleComponent implements OnInit {
     this._loginService.postChooseProfile(role).subscribe(
       (data) => {
         const token = data.headers.get('Authorization');
-        this.setCurrentRole(
-          new ProfileModel(role, token, JSON.stringify(data.body))
-        );
-        this._router.navigate(['/']);
+        this.getRoleInfoComplete(data, role, token, data.body.roles);
+
       },
       ({ error }) => {
         this.loading = false;
@@ -58,9 +59,28 @@ export class SelectRoleComponent implements OnInit {
     );
   }
 
+  private getRoleInfoComplete(data, role: RolModel, token: string,  rolesId: number[]) {
+    // Obtenemos los roles activos del usuario
+    const petitions = [];
+    for (let i = 0; i < rolesId.length; i++) {
+      petitions.push(this.rolService.getRoleById(String(rolesId[i])));
+    }
+
+    forkJoin(petitions).subscribe((responseData) => {
+      data.body.roles = responseData;
+      this.setCurrentRole(
+        new ProfileModel(role, token, JSON.stringify(data.body))
+      );
+      this._router.navigate(['/']);
+
+      console.log(responseData);
+    });
+  }
+
   setCurrentRole(data: ProfileModel): void {
-    localStorage.setItem('role', JSON.stringify(data.role));
+    // localStorage.setItem('role', JSON.stringify(data.role));
     localStorage.setItem('token', data.token);
+    console.log('DATA USER', JSON.parse(data.user));
     localStorage.setItem('user', data.user);
   }
 

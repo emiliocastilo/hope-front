@@ -19,8 +19,8 @@
     <p
       [translate]="'showRegisterParams'"
       [translateParams]="{
-        start: 1,
-        end: selectedOption,
+        start: calcFirstPagElement(),
+        end: calcLastPagElement(),
         total: paginationData.totalElements
       }"
     ></p>
