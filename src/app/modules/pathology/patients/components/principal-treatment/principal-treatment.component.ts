@@ -60,7 +60,6 @@ export class PrincipalTreatmentComponent implements OnInit {
     opcionMedicamento: [''],
     opcionFormulaMagistral: [''],
 
-
     // medicamento topico
     medicine: ['', Validators.required],
     family: ['', Validators.required],
@@ -92,7 +91,6 @@ export class PrincipalTreatmentComponent implements OnInit {
     otherDosis: [''],
     regimenTreatment: ['', Validators.required],
     dateSuspension: ['', Validators.required],
-
 
     //TODO: habría que añadir también los campos cuando seleccionamos fórmula magistral (?)
     // descripcionFormulaMagistral: ['', Validators.required],
@@ -157,10 +155,10 @@ export class PrincipalTreatmentComponent implements OnInit {
           name: this._translate.instant('topical'),
         },
       ],
-      value : {
-        id:'chemical'
-      }
+      value: {
+        id: 'chemical',
       },
+    },
     opcionMedicamento: {
       type: 'radio',
       class: 'col-6',
@@ -281,8 +279,8 @@ export class PrincipalTreatmentComponent implements OnInit {
       number: 0,
       totalPages: 0,
       size: 0,
-      totalElements: 0
-    }
+      totalElements: 0,
+    };
     this.typeOrder = '';
     this.colOrder = '';
     // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
@@ -300,13 +298,16 @@ export class PrincipalTreatmentComponent implements OnInit {
       this.tableData = retrievedForm.data[0].value;
       this.paginationData = {
         number: this.currentPage,
-        totalPages: (this.tableData.length / this.sizeTable),
+        totalPages: this.tableData.length / this.sizeTable,
         size: this.sizeTable,
-        totalElements: this.tableData.length
-      }
+        totalElements: this.tableData.length,
+      };
       this.addColorRow(this.tableData);
       this.tableDataFilter = this.tableData.map((x) => x);
-      this.tableDataFilter = this.tableDataFilter.splice((this.paginationData.number * this.paginationData.size), this.paginationData.size);
+      this.tableDataFilter = this.tableDataFilter.splice(
+        this.paginationData.number * this.paginationData.size,
+        this.paginationData.size
+      );
     }
   }
 
@@ -350,8 +351,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       treatmentContinue: false,
       treatmentPulsatil: false,
       descripcionFormulaMagistral: '',
-      dosisFormulaMagistral: ''
-
+      dosisFormulaMagistral: '',
     });
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
@@ -367,7 +367,9 @@ export class PrincipalTreatmentComponent implements OnInit {
       modalRef.componentInstance.form.controls.family.setValue(event.family);
       modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
       modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
-      modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
+      modalRef.componentInstance.form.controls.tract.setValue(
+        event.viaAdministration
+      );
       this._medicinesService
         .getDosesByMedicine(`medicineId=${event.id}`)
         .then((data: any) => {
@@ -382,66 +384,84 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     });
 
-  modalRef.componentInstance.selectDose.subscribe((event: any) => {
-    if (event.name === 'Otra') {
-      this.modalForm.controls.otherDosis.setValidators(Validators.required);
-      // this.modalForm.controls.regimenTreatment.setValue('');
-    } else {
-      this.modalForm.controls.otherDosis.clearValidators();
-      this.modalForm.controls.regimenTreatment.setValue({
-        name: event.recommendation,
-      });
-    }
-  });
-
-  modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
-    //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
-    this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
-    this.modalForm.controls.descripcionFormulaMagistral.setValue('');
-    this.modalForm.controls.dosisFormulaMagistral.setValue('');
-  });
-
-  modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
-    if (event === 'opcionMedicamento'){
-      this.deleteRequiredValidation(['descripcionFormulaMagistral']);
-      this.setRequiredValidation(['medicine','family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
-    }
-    if (event === 'opcionFormulaMagistral'){
-      this.modalForm.controls.descripcionFormulaMagistral.setValidators(Validators.required);
-      this.deleteRequiredValidation(['medicine','family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
-    }
-  });
-
-  modalRef.componentInstance.cancel.subscribe((event: any) => {
-    modalRef.close();
-  });
-
-  modalRef.componentInstance.save.subscribe((event: any) => {
-    event.value.dose = event.value.dose[0];
-    if (Array.isArray(event.value.regimenTreatment)) {
-      event.value.regimenTreatment = event.value.regimenTreatment[0];
-    }
-    event.value.reasonChangeOrSuspension = null;
-    event.value.dateSuspension = null;
-    event.value.principle = event.value.medicine.actIngredients;
-    event.value.brand = event.value.medicine.brand;
-    event.value.type = event.value.medicine.family;
-
-    Object.keys(event.value).forEach((key: string) => {
-      if (key.toLowerCase().includes('date') && event.value[key]) {
-        event.value[key] = new Date(event.value[key]).toISOString();
+    modalRef.componentInstance.selectDose.subscribe((event: any) => {
+      if (event.name === 'Otra') {
+        this.modalForm.controls.otherDosis.setValidators(Validators.required);
+        // this.modalForm.controls.regimenTreatment.setValue('');
+      } else {
+        this.modalForm.controls.otherDosis.clearValidators();
+        this.modalForm.controls.regimenTreatment.setValue({
+          name: event.recommendation,
+        });
       }
     });
 
-    if (!this.tableData) {
-      this.tableData = [];
-    }
-    this.tableData.push(event.value);
-    this.paginationData.totalElements = this.tableData.length;
-    this.save(modalRef, 'create');
-    this.refreshTable();
-  });
-}
+    modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
+      //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
+      this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
+      this.modalForm.controls.descripcionFormulaMagistral.setValue('');
+      this.modalForm.controls.dosisFormulaMagistral.setValue('');
+    });
+
+    modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
+      if (event === 'opcionMedicamento') {
+        this.deleteRequiredValidation(['descripcionFormulaMagistral']);
+        this.setRequiredValidation([
+          'medicine',
+          'family',
+          'atc',
+          'cn',
+          'tract',
+          'dose',
+          'otherDosis',
+        ]);
+      }
+      if (event === 'opcionFormulaMagistral') {
+        this.modalForm.controls.descripcionFormulaMagistral.setValidators(
+          Validators.required
+        );
+        this.deleteRequiredValidation([
+          'medicine',
+          'family',
+          'atc',
+          'cn',
+          'tract',
+          'dose',
+          'otherDosis',
+        ]);
+      }
+    });
+
+    modalRef.componentInstance.cancel.subscribe((event: any) => {
+      modalRef.close();
+    });
+
+    modalRef.componentInstance.save.subscribe((event: any) => {
+      event.value.dose = event.value.dose[0];
+      if (Array.isArray(event.value.regimenTreatment)) {
+        event.value.regimenTreatment = event.value.regimenTreatment[0];
+      }
+      event.value.reasonChangeOrSuspension = null;
+      event.value.dateSuspension = null;
+      event.value.principle = event.value.medicine.actIngredients;
+      event.value.brand = event.value.medicine.brand;
+      event.value.type = event.value.medicine.family;
+
+      Object.keys(event.value).forEach((key: string) => {
+        if (key.toLowerCase().includes('date') && event.value[key]) {
+          event.value[key] = new Date(event.value[key]).toISOString();
+        }
+      });
+
+      if (!this.tableData) {
+        this.tableData = [];
+      }
+      this.tableData.push(event.value);
+      this.paginationData.totalElements = this.tableData.length;
+      this.save(modalRef, 'create');
+      this.refreshTable();
+    });
+  }
 
   public async showModalChange(index: number, type: string) {
     const dataEdit = { ...this.tableData[index] };
@@ -451,19 +471,19 @@ export class PrincipalTreatmentComponent implements OnInit {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
       }
     });
-// TODO: Aqui hay que comprobar antes si tenemos medicina, si no, no habría que llamar al servicio.
-      await this._medicinesService
-        .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
-        .then((data: any) => {
-          data.forEach((element) => {
-            element.name = element.description;
-          });
-          data.push({ name: 'Otra' });
-          this.modalOptions.dose.options = data;
-        })
-        .catch(({ error }) => {
-          this._notification.showErrorToast(error.errorCode);
+    // TODO: Aqui hay que comprobar antes si tenemos medicina, si no, no habría que llamar al servicio.
+    await this._medicinesService
+      .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+      .then((data: any) => {
+        data.forEach((element) => {
+          element.name = element.description;
         });
+        data.push({ name: 'Otra' });
+        this.modalOptions.dose.options = data;
+      })
+      .catch(({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      });
     this.fillForm(this.modalFormUpdate, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
@@ -531,18 +551,18 @@ export class PrincipalTreatmentComponent implements OnInit {
     });
 
     // TODO: Aqui hay que comprobar antes si tenemos medicina, si no, no habría que llamar al servicio.
-      await this._medicinesService
-        .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
-        .then((data: any) => {
-          data.forEach((element) => {
-            element.name = element.description;
-          });
-          data.push({ name: 'Otra' });
-          this.modalOptions.dose.options = data;
-        })
-        .catch(({ error }) => {
-          this._notification.showErrorToast(error.errorCode);
+    await this._medicinesService
+      .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+      .then((data: any) => {
+        data.forEach((element) => {
+          element.name = element.description;
         });
+        data.push({ name: 'Otra' });
+        this.modalOptions.dose.options = data;
+      })
+      .catch(({ error }) => {
+        this._notification.showErrorToast(error.errorCode);
+      });
 
     this.fillForm(this.modalForm, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
@@ -554,8 +574,10 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
     //seteamos el select del tipo de tratamiento para que venga seleccionado.
-    modalRef.componentInstance.form.controls.treatmentType.setValue(this.modalForm.value.treatmentType[0].id);
-      modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
+    modalRef.componentInstance.form.controls.treatmentType.setValue(
+      this.modalForm.value.treatmentType[0].id
+    );
+    modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
       modalRef.componentInstance.options.dose.options = [];
       modalRef.componentInstance.form.controls.family.setValue(event.family);
       modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
@@ -595,20 +617,37 @@ export class PrincipalTreatmentComponent implements OnInit {
     });
 
     modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
-      if (event === 'opcionMedicamento'){
+      if (event === 'opcionMedicamento') {
         this.deleteRequiredValidation(['descripcionFormulaMagistral']);
-        this.setRequiredValidation(['medicine','family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+        this.setRequiredValidation([
+          'medicine',
+          'family',
+          'atc',
+          'cn',
+          'tract',
+          'dose',
+          'otherDosis',
+        ]);
       }
-      if (event === 'opcionFormulaMagistral'){
-        this.modalForm.controls.descripcionFormulaMagistral.setValidators(Validators.required);
-        this.deleteRequiredValidation(['medicine','family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+      if (event === 'opcionFormulaMagistral') {
+        this.modalForm.controls.descripcionFormulaMagistral.setValidators(
+          Validators.required
+        );
+        this.deleteRequiredValidation([
+          'medicine',
+          'family',
+          'atc',
+          'cn',
+          'tract',
+          'dose',
+          'otherDosis',
+        ]);
       }
     });
 
     modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
     });
-
 
     modalRef.componentInstance.update.subscribe((event: any) => {
       if (Array.isArray(event.value.dose)) {
@@ -620,22 +659,28 @@ export class PrincipalTreatmentComponent implements OnInit {
       if (!Array.isArray(event.value.treatmentType)) {
         switch (event.value.treatmentType) {
           case 'biological':
-            event.value.treatmentType = [{
-              id: 'biological',
-              name: this._translate.instant('biological'),
-            }]
+            event.value.treatmentType = [
+              {
+                id: 'biological',
+                name: this._translate.instant('biological'),
+              },
+            ];
             break;
           case 'chemical':
-            event.value.treatmentType = [{
-              id: 'chemical',
-              name: this._translate.instant('chemical'),
-            }]
+            event.value.treatmentType = [
+              {
+                id: 'chemical',
+                name: this._translate.instant('chemical'),
+              },
+            ];
             break;
           case 'topical':
-            event.value.treatmentType = [{
-              id: 'topical',
-              name: this._translate.instant('topical'),
-            }]
+            event.value.treatmentType = [
+              {
+                id: 'topical',
+                name: this._translate.instant('topical'),
+              },
+            ];
             break;
 
           default:
@@ -681,7 +726,8 @@ export class PrincipalTreatmentComponent implements OnInit {
   }
 
   public onIconButtonClick($event: any) {
-    var posIndex = (this.currentPage * this.paginationData.size) + $event.selectedItem;
+    var posIndex =
+      this.currentPage * this.paginationData.size + $event.selectedItem;
     switch ($event.type) {
       case 'changeSuspend':
         this.showModalChange(posIndex, $event.type);
@@ -704,13 +750,15 @@ export class PrincipalTreatmentComponent implements OnInit {
       //   form.controls[key].disable();
       // }
     });
-    if (type === "changeSuspend" && !form.controls["dateSuspension"].value){
+    if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
       var currentDate = new Date();
-      var month = (currentDate.getMonth()+1).toString();
-      var day = (currentDate.getDate()).toString();
-      month = month.length > 1 ? month : ('0' + month);
-      day= day.length > 1 ? day : '0' + day;
-      form.controls["dateSuspension"].setValue(currentDate.getFullYear() +"-"+ month +"-"+ day);
+      var month = (currentDate.getMonth() + 1).toString();
+      var day = currentDate.getDate().toString();
+      month = month.length > 1 ? month : '0' + month;
+      day = day.length > 1 ? day : '0' + day;
+      form.controls['dateSuspension'].setValue(
+        currentDate.getFullYear() + '-' + month + '-' + day
+      );
     }
   }
 
@@ -747,23 +795,23 @@ export class PrincipalTreatmentComponent implements OnInit {
     );
   }
 
-  public sortTableDefault(){
-    this.tableData.sort(function(a, b) {
+  public sortTableDefault() {
+    this.tableData.sort(function (a, b) {
       if (a.dateSuspension === null && b.dateSuspension === null) {
         return a.dateStart < b.dateStart ? 1 : -1;
-      } else if (a.dateSuspension != null && b.dateSuspension != null){
+      } else if (a.dateSuspension != null && b.dateSuspension != null) {
         return a.dateSuspension < b.dateSuspension ? 1 : -1;
       } else {
-        if (a.dateSuspension === null){
+        if (a.dateSuspension === null) {
           return -1;
         } else {
           return 1;
         }
       }
-   });
+    });
   }
 
-  public onSort(event: any){
+  public onSort(event: any) {
     this.typeOrder = event.direction;
     this.colOrder = event.column;
     this.refreshTable();
@@ -780,14 +828,51 @@ export class PrincipalTreatmentComponent implements OnInit {
     this.selectPage(0);
   }
 
-  public refreshTable(){
-    if (this.typeOrder === ''){
+  public refreshTable() {
+    if (this.typeOrder === '') {
       this.sortTableDefault();
     } else {
       var typeOrder = this.typeOrder;
       var colOrder = this.colOrder;
-      this.tableData.sort(function(a, b) {
-        if (typeOrder === 'asc') {
+      this.tableData.sort(function (a, b) {
+        if (
+          typeOrder === 'asc' &&
+          typeof a[colOrder] === 'boolean' &&
+          typeof b[colOrder] === 'boolean'
+        ) {
+          return a[colOrder] < b[colOrder] ? 1 : -1;
+        } else if (
+          typeOrder === 'desc' &&
+          typeof a[colOrder] === 'boolean' &&
+          typeof b[colOrder] === 'boolean'
+        ) {
+          return a[colOrder] < b[colOrder] ? -1 : 1;
+        } else if (
+          typeOrder === 'asc' &&
+          !isNaN(a[colOrder]) &&
+          !isNaN(b[colOrder])
+        ) {
+          return parseInt(a[colOrder]) < parseInt(b[colOrder]) ? 1 : -1;
+        } else if (
+          typeOrder === 'desc' &&
+          !isNaN(a[colOrder]) &&
+          !isNaN(b[colOrder])
+        ) {
+          return parseInt(a[colOrder]) < parseInt(b[colOrder]) ? -1 : 1;
+        } //Para comparar las dosis que vienen como objeto {name : 'ejemplo'}
+        else if (
+          typeOrder === 'asc' &&
+          typeof a[colOrder] === 'object' &&
+          typeof b[colOrder] === 'object'
+        ) {
+          return a[colOrder]['name'] < b[colOrder]['name'] ? 1 : -1;
+        } else if (
+          typeOrder === 'desc' &&
+          typeof a[colOrder] === 'object' &&
+          typeof b[colOrder] === 'object'
+        ) {
+          return a[colOrder]['name'] < b[colOrder]['name'] ? -1 : 1;
+        } else if (typeOrder === 'asc') {
           return a[colOrder] < b[colOrder] ? 1 : -1;
         } else if (typeOrder === 'desc') {
           return a[colOrder] < b[colOrder] ? -1 : 1;
@@ -796,20 +881,24 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
     this.addColorRow(this.tableData);
     this.tableDataFilter = this.tableData.map((x) => x);
-    this.tableDataFilter = this.tableDataFilter.splice((this.currentPage * this.paginationData.size), this.paginationData.size);
+    this.tableDataFilter = this.tableDataFilter.splice(
+      this.currentPage * this.paginationData.size,
+      this.paginationData.size
+    );
   }
 
   private addColorRow(tableData) {
-    tableData.forEach(element => {
+    tableData.forEach((element) => {
       element.rowColor = false;
       if (element.dateSuspension) {
         var currentDate = new Date();
-        var month = (currentDate.getMonth()+1).toString();
-        var day = (currentDate.getDate()).toString();
-        month = month.length > 1 ? month : ('0' + month);
-        day= day.length > 1 ? day : '0' + day;
-        var currentDateString = currentDate.getFullYear() +"-"+ month +"-"+ day;
-        if (currentDateString >= element.dateSuspension.substr(0,10)){
+        var month = (currentDate.getMonth() + 1).toString();
+        var day = currentDate.getDate().toString();
+        month = month.length > 1 ? month : '0' + month;
+        day = day.length > 1 ? day : '0' + day;
+        var currentDateString =
+          currentDate.getFullYear() + '-' + month + '-' + day;
+        if (currentDateString >= element.dateSuspension.substr(0, 10)) {
           element.rowColor = true;
         }
       }
@@ -817,14 +906,14 @@ export class PrincipalTreatmentComponent implements OnInit {
   }
 
   private deleteRequiredValidation(keys: any[]) {
-    keys.forEach(key => {
+    keys.forEach((key) => {
       this.modalForm.controls[key].clearValidators();
       this.modalForm.controls[key].updateValueAndValidity();
     });
   }
 
   private setRequiredValidation(keys: any[]) {
-    keys.forEach(key => {
+    keys.forEach((key) => {
       this.modalForm.controls[key].setValidators(Validators.required);
       this.modalForm.controls[key].updateValueAndValidity();
     });
