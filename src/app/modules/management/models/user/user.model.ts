@@ -1,4 +1,3 @@
-import { ServiceModel } from '../../../../core/models/service/service.model';
 import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 import { RolModel } from '../rol.model';
 
