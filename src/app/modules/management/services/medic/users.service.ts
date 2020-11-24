@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UsersModel } from '../../models/user/user.model';
+import { UserModel } from '../../models/user/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class UsersService {
     return this._http.get('/users/searches?search=' + search);
   }
 
-  postUser(user: UsersModel): Observable<any> {
+  postUser(user: UserModel): Observable<any> {
     return this._http.post('/users', user);
   }
 
@@ -26,7 +26,7 @@ export class UsersService {
     return this._http.delete(`/users/${id}`);
   }
 
-  updateUser(user: UsersModel): Observable<any> {
+  updateUser(user: UserModel): Observable<any> {
     return this._http.put('/users', user);
   }
 }

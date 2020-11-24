@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RolModel } from 'src/app/modules/management/models/rol.model';
-import { UsersModel } from 'src/app/modules/management/models/user/user.model';
+import { UserModel } from 'src/app/modules/management/models/user/user.model';
 import { CurrentRoleListenerService } from '../../services/current-role-listener/current-role-listener.service';
 import { ChangePasswordModalComponent } from '../modals/change-password-modal/change-password-modal.component';
 
@@ -12,7 +12,7 @@ import { ChangePasswordModalComponent } from '../modals/change-password-modal/ch
   styleUrls: ['./my-account.component.scss'],
 })
 export class MyAccountComponent implements OnInit {
-  public currentUser: UsersModel;
+  public currentUser: UserModel;
   public currentRole: RolModel;
   public userRoles: Array<RolModel>;
   public userDataForm: FormGroup;

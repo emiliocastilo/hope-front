@@ -1,7 +1,7 @@
 import { ServiceModel } from '../../../core/models/service/service.model';
 import { HospitalModel } from '../../../core/models/hospital/hospital.model';
 import { PathologyModel } from './patients/pathology.model';
-import { UsersModel } from './user/user.model';
+import { UserModel } from './user/user.model';
 
 export class RolModel {
   constructor(

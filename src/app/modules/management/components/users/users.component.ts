@@ -8,7 +8,7 @@ import {
   FormBuilder,
   FormControl,
 } from '@angular/forms';
-import { UsersModel } from 'src/app/modules/management/models/user/user.model';
+import { UserModel } from 'src/app/modules/management/models/user/user.model';
 import { UsersService } from 'src/app/modules/management/services/medic/users.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceModel } from 'src/app/core/models/service/service.model';
@@ -54,15 +54,15 @@ export class UsersComponent implements OnInit {
   public isEditModal = false;
   public isEditing = false;
   public isNewModal = false;
-  public users: UsersModel[] = [];
-  public user: UsersModel;
+  public users: UserModel[] = [];
+  public user: UserModel;
   public selectedItem: number;
   public services: ServiceModel[] = [];
   public paginationData: PaginationModel;
   private currentPage: number = 0;
   private colOrder: any;
   private typeOrder: any;
-  public selectedUsers = new UsersModel();
+  public selectedUsers = new UserModel();
   public selectedUser: any;
   public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
   private itemsPerPage: number;
@@ -183,7 +183,7 @@ export class UsersComponent implements OnInit {
       });
     }
 
-    const aux = new UsersModel(
+    const aux = new UserModel(
       this.users[event].id,
       this.users[event].name,
       this.users[event].surname,
@@ -261,14 +261,14 @@ export class UsersComponent implements OnInit {
     modalRef: any,
     node: SectionModel
   ): void {
-    const formValues: UsersModel = event.value;
+    const formValues: UserModel = event.value;
     let id: number;
     const currentUser = this.users[this.selectedItem];
     if (this.isEditing) {
       id = currentUser.id;
     }
 
-    const user: UsersModel = new UsersModel(
+    const user: UserModel = new UserModel(
       id,
       formValues.name,
       formValues.surname,
