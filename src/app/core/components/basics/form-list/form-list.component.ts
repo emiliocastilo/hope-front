@@ -4,6 +4,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
+import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
 
 @Component({
   selector: 'app-form-list',
@@ -14,11 +15,7 @@ export class FormListComponent implements OnInit {
   config: FieldConfig;
   group: FormGroup;
   rows = [];
-  isEditing = false;
-  enableEditIndex: number;
   detailArray: Array<any>;
-  isAddingNewLine = false;
-  lastEditLine: any;
   today: string;
 
   constructor(private modalService: NgbModal, private datePipe: DatePipe) {}
@@ -31,21 +28,20 @@ export class FormListComponent implements OnInit {
     }
   }
 
-  newRow() {
-    if (!this.isEditing) {
-      let newRow = {};
-      this.config.fields.forEach((field) => {
-        newRow = {
-          ...newRow,
-          [field.name]: field.type === 'select' ? field.options[0].name : '',
-        };
-      });
-      this.rows.push(newRow);
-      this.isEditing = true;
-      this.enableEditIndex = this.rows.length - 1;
-      this.isAddingNewLine = true;
-      this.setInvalidForm(true);
-    }
+  openModalCreate() {
+    const modalRef = this.modalService.open(DynamicModalComponent, {
+      size: 'lg',
+    });
+    modalRef.componentInstance.title = 'Crear nuevo';
+    modalRef.componentInstance.fields = this.config.fields;
+    modalRef.componentInstance.close.subscribe(() => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.save.subscribe((event) => {
+      this.rows.push(event);
+      this.bindToForm();
+      modalRef.close();
+    });
   }
 
   setInvalidForm(error: boolean) {
@@ -58,46 +54,10 @@ export class FormListComponent implements OnInit {
     }, 100);
   }
 
-  onChange(event: any, header: string) {
-    const value = header.toLowerCase().includes('date')
-      ? new Date(event.target.value).toISOString()
-      : event.target.value;
-    this.rows[this.enableEditIndex][header] = value;
-  }
-
-  onSaveRow() {
-    event.preventDefault();
-    if (!this.isAddingNewLine) {
-      this.group.controls[this.config.name].value[
-        this.enableEditIndex
-      ] = this.rows[this.enableEditIndex];
-    } else {
-      this.bindToForm();
-    }
-
-    this.isEditing = false;
-    this.isAddingNewLine = false;
-    this.setInvalidForm(false);
-  }
-
   onDeleteRow(index) {
     event.preventDefault();
     this.rows.splice(index, 1);
     this.deleteToForm(index);
-    this.isEditing = false;
-  }
-
-  onCancelRow(index) {
-    event.preventDefault();
-    if (this.isAddingNewLine) {
-      this.rows.splice(index, 1);
-    } else {
-      this.rows[index] = this.lastEditLine;
-    }
-    this.bindToForm();
-    this.isAddingNewLine = false;
-    this.isEditing = false;
-    this.setInvalidForm(false);
   }
 
   bindToForm() {
@@ -131,10 +91,7 @@ export class FormListComponent implements OnInit {
     event.preventDefault();
     switch (action) {
       case 'edit':
-        this.isEditing = true;
-        this.enableEditIndex = i;
-        this.lastEditLine = { ...this.rows[i] };
-        this.setInvalidForm(true);
+        this.openModalEdit(i);
         break;
       case 'delete':
         this.onDeleteRow(i);
@@ -147,6 +104,23 @@ export class FormListComponent implements OnInit {
     }
   }
 
+  openModalEdit(index: number) {
+    const modalRef = this.modalService.open(DynamicModalComponent, {
+      size: 'lg',
+    });
+    modalRef.componentInstance.title = 'Editar';
+    modalRef.componentInstance.fields = this.config.fields;
+    modalRef.componentInstance.data = this.rows[index];
+    modalRef.componentInstance.close.subscribe(() => {
+      modalRef.close();
+    });
+    modalRef.componentInstance.save.subscribe((event) => {
+      this.rows[index] = event;
+      this.bindToForm();
+      modalRef.close();
+    });
+  }
+
   formatDate(date) {
     return moment(date).format('YYYY-MM-DD');
   }
@@ -156,11 +130,14 @@ export class FormListComponent implements OnInit {
 
     const conditionDate =
       header.toLowerCase().includes('date') ||
-      header.toLowerCase().includes('period') ||
       header.toLowerCase().includes('period');
 
     if (conditionDate) {
       data = this.datePipe.transform(row, 'dd/MM/yy');
+    }
+
+    if (typeof data === 'boolean') {
+      data = data ? 'Si' : 'No';
     }
 
     return data;
