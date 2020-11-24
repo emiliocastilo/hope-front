@@ -31,17 +31,12 @@ export class MyAccountComponent implements OnInit {
   }
 
   private getCurrentuser() {
-    this.currentUser = JSON.parse(localStorage.getItem('user') || undefined);
+    this.currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userRoles = JSON.parse(localStorage.getItem('roles') || '{}');
 
     if (this.currentUser && this.currentUser.rolSelected)
       this.currentRole = this.currentUser.rolSelected;
     else this._router.navigate(['/login']);
-
-    const allRoles: Array<RolModel> = JSON.parse(localStorage.getItem('roles'));
-    if (allRoles && allRoles.length > 0)
-      this.userRoles = allRoles.filter((f) =>
-        this.currentUser.roles.includes(f.id)
-      );
 
     this.userDataForm = this._formBuilder.group({
       username: [this.currentUser.username],
