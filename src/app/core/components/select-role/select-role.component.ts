@@ -30,7 +30,7 @@ export class SelectRoleComponent implements OnInit {
     public _translate: TranslateService,
     public _notification: NotificationService,
     public _roleServices: RoleService,
-    private rolService: RoleManagementService,
+    private rolService: RoleManagementService
   ) {}
   ngOnInit() {
     this.selectRoleForm = this._formBuilder.group({
@@ -50,7 +50,6 @@ export class SelectRoleComponent implements OnInit {
       (data) => {
         const token = data.headers.get('Authorization');
         this.getRoleInfoComplete(data, role, token, data.body.roles);
-
       },
       ({ error }) => {
         this.loading = false;
@@ -59,7 +58,12 @@ export class SelectRoleComponent implements OnInit {
     );
   }
 
-  private getRoleInfoComplete(data, role: RolModel, token: string,  rolesId: number[]) {
+  private getRoleInfoComplete(
+    data,
+    role: RolModel,
+    token: string,
+    rolesId: number[]
+  ) {
     // Obtenemos los roles activos del usuario
     const petitions = [];
     for (let i = 0; i < rolesId.length; i++) {
