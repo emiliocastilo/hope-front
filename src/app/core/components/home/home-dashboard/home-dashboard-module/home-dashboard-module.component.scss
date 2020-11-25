@@ -3,5 +3,17 @@
 }
 
 .card-body {
-  color: white;
+  background-color: #FBFDFF;
+  color: #363E63;
+
+  .btn-primary{
+    background-color: #FBFDFF;
+    border: 0;
+  }
+}
+
+.card-header{
+  background-color: #FBFDFF;
+  border-color: #ECF3FA;
+  border: 1px;
 }
