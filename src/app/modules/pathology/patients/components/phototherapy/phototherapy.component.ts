@@ -363,6 +363,7 @@ export class PhototherapyComponent implements OnInit {
         },
       ],
       patientId: this.patient.id,
+      job: true
     };
 
     this._formsService.fillForm(form).subscribe(
