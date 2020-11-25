@@ -45,7 +45,6 @@ export class SideBarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
 
-    console.log(user);
     this.detectRouterChanges();
     this.listenEvents();
 

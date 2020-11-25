@@ -7,7 +7,10 @@
     >
       <span
         class="item"
-        [ngClass]="{ active: selected ? menuOption.id === selected.id : null }"
+        [ngClass]="{
+          active: selected ? menuOption.id === currentSection.id : null,
+          current: menuOption.id === currentSection.id
+        }"
       >
         <span *ngIf="level < 2" class="icon">
           <i-feather
@@ -28,24 +31,32 @@
           *ngIf="menuOption.children.length"
         >
           <i-feather
-            *ngIf="!menuOption.collapsed"
+            *ngIf="menuOption.collapsed"
             name="chevron-down"
             class="feather-thin"
           ></i-feather>
           <i-feather
-            *ngIf="menuOption.collapsed"
+            *ngIf="!menuOption.collapsed"
             name="chevron-up"
             class="feather-thin"
           ></i-feather>
         </a>
       </span>
-      <p *ngIf="!collapsed && menuOption.collapsed" class="m-0 p-0">
-        <side-bar-menu [level]="level + LEVEL_ONE" [menu]="menuOption.children">
+      <p *ngIf="!collapsed && !menuOption.collapsed" class="m-0 p-0">
+        <side-bar-menu
+          [level]="level + LEVEL_ONE"
+          [menu]="menuOption.children"
+          [parentSection]="menuOption"
+        >
         </side-bar-menu>
       </p>
     </li>
     <ng-template #elseBlock>
-      <side-bar-menu [level]="level" [menu]="menuOption.children">
+      <side-bar-menu
+        [level]="level"
+        [menu]="menuOption.children"
+        [parentSection]="menuOption"
+      >
       </side-bar-menu>
     </ng-template>
   </ng-container>

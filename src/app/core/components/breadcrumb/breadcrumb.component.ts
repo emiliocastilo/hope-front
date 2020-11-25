@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
 import { Router, NavigationEnd } from '@angular/router';
 import { SideBarService } from '../../services/side-bar/side-bar.service';
 import SectionActionBuilder from '../../utils/SectionActionsBuilder';
 import { SectionsService } from 'src/app/modules/management/services/sections/sections.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss'],
 })
-export class BreadcrumbComponent implements OnInit {
+export class BreadcrumbComponent implements OnInit, OnDestroy {
+  private currentSectionSubscription: Subscription;
   public homeUrl = '/hopes';
   selectedSection: SideBarItemModel;
   crumbs: SideBarItemModel[];
@@ -24,7 +26,13 @@ export class BreadcrumbComponent implements OnInit {
 
   ngOnInit() {
     this.menu = [JSON.parse(localStorage.getItem('completeMenu'))];
-    this.receiveSection();
+
+    this.currentSectionSubscription = this._sidebar
+      .getCurrentSection()
+      .subscribe((currentSection: SideBarItemModel) => {
+        this.selectedSection = currentSection;
+      });
+
     this.listenRouter();
     if (this.menu[0] == null) {
       this._sectionsService
@@ -52,12 +60,6 @@ export class BreadcrumbComponent implements OnInit {
     });
   }
 
-  receiveSection() {
-    this._sidebar.event.subscribe((section: SideBarItemModel) => {
-      this.selectedSection = section;
-    });
-  }
-
   navigate(section: any) {
     event.preventDefault();
     const url =
@@ -73,6 +75,11 @@ export class BreadcrumbComponent implements OnInit {
       localStorage.setItem('section', JSON.stringify(response));
       this._sidebar.event.next(response);
       this.crumbs = SectionActionBuilder.getCrumbs(response);
+      console.log(this.crumbs);
     });
+  }
+
+  ngOnDestroy() {
+    this.currentSectionSubscription.unsubscribe();
   }
 }
