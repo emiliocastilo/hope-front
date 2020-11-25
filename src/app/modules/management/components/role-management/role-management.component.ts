@@ -99,7 +99,6 @@ export class RoleManagementComponent implements OnInit {
     this._roleManagementService
       .getRolSearches(`${event}&size=${this.paginationData.size}`)
       .subscribe((data: any) => {
-        console.log(data);
         this.roles = data.content;
         this.paginationData.number = 1;
         this.paginationData.size = data.size;

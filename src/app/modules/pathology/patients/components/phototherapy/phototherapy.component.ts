@@ -240,7 +240,10 @@ export class PhototherapyComponent implements OnInit {
       if (!this.tableData) {
         this.tableData = [];
       }
-      event.value['treatmentType'] = {id:'phototherapy', name: "fototerapia"};
+      event.value['treatmentType'] = {
+        id: 'phototherapy',
+        name: 'fototerapia',
+      };
       this.tableData.push(event.value);
       //this.sortTable();
       this.refreshTable();

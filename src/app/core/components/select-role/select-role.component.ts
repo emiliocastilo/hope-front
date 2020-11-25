@@ -76,15 +76,12 @@ export class SelectRoleComponent implements OnInit {
         new ProfileModel(role, token, JSON.stringify(data.body))
       );
       this._router.navigate(['/']);
-
-      console.log(responseData);
     });
   }
 
   setCurrentRole(data: ProfileModel): void {
     // localStorage.setItem('role', JSON.stringify(data.role));
     localStorage.setItem('token', data.token);
-    console.log('DATA USER', JSON.parse(data.user));
     localStorage.setItem('user', data.user);
   }
 
