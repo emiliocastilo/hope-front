@@ -1,0 +1,58 @@
+<div class="form-group dynamic-group field invalid" [formGroup]="group">
+  <label [attr.for]="config.name" class="firefox-position dynamic-label">
+    {{ config.label | translate }}
+  </label>
+  <input
+    [attr.id]="config.name"
+    [attr.name]="config.name"
+    [attr.placeholder]="config.placeholder"
+    [formControlName]="config.name"
+    [attr.disabled]="true"
+    class="dynamic-field"
+  />
+  <app-button
+    (click)="openModal(content)"
+    class="search-btn"
+    icono="search"
+    [disabledButton]="modalForm.invalid"
+  >
+  </app-button>
+  <ng-template #content let-modal>
+    <div class="content">
+      <div class="modal-header">
+        <h4 class="modal-title">Buscador</h4>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="closeModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body custom-modal-body" [formGroup]="modalForm">
+        <label [attr.for]="config.name" class="firefox-position dynamic-label">
+          {{ 'searchCodeDescription' | translate }}
+        </label>
+        <input
+          ngbAutofocus
+          id="search"
+          name="search"
+          formControlName="search"
+          class="dynamic-field"
+          (keyup)="onSearch($event)"
+        />
+        <div *ngIf="response && response.content" class="scroller">
+          <app-table
+            [columnsHeader]="headersDetailsTable"
+            [columnsData]="response.content"
+            [showActionButtons]="true"
+            [actions]="actions"
+            (iconButtonClick)="selectResult($event)"
+          >
+          </app-table>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -26,11 +26,11 @@ export const PATIENT_TABLE_KEYS = [
   'nhc',
   'healthCard',
   'dni',
-  'address',
+  // 'address',
   'phone',
-  'email',
-  'birthDate',
-  'hospital',
+  //  'email',
+  //  'birthDate',
+  // 'hospital',
   'genderCode',
 ];
 export const PATIENT_FORM = [
@@ -104,7 +104,7 @@ export const PATIENT_FORM = [
     label: 'modal.editor.field.email',
     name: 'email',
     placeholder: 'modal.editor.field.email',
-    validation: [Validators.required],
+    validation: [Validators.required, Validators.email],
   },
   {
     type: 'input',
@@ -112,5 +112,6 @@ export const PATIENT_FORM = [
     name: 'birthDate',
     placeholder: 'modal.editor.field.birthDate',
     validation: [Validators.required],
+    inputType: 'date',
   },
 ];

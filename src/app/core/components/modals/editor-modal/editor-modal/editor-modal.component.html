@@ -3,10 +3,17 @@
     [title]="title"
     (close)="onClose()"
   ></app-generic-modal-header>
-  <app-editor-modal-body [id]="id" [form]="form" [options]="options">
+  <app-editor-modal-body
+    [id]="id"
+    [form]="form"
+    [activeRoles]="activeRoles"
+    [options]="options"
+    [maxDate]="maxDate"
+  >
   </app-editor-modal-body>
   <app-editor-modal-footer
     (close)="onClose()"
     (save)="onSave()"
+    [disableSave]="!validForm"
   ></app-editor-modal-footer>
 </div>

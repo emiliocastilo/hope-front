@@ -4,9 +4,12 @@ import {
   Input,
   ComponentFactoryResolver,
   ViewContainerRef,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
-import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
 
 @Component({
   selector: 'side-bar-menu',
@@ -15,19 +18,48 @@ import { map } from 'rxjs/operators';
 })
 export class SideBarMenuComponent implements OnInit {
   public LEVEL_ONE = 1;
+  public ICONS = {
+    Administración: 'settings',
+    'Cuadro de Mando': 'bar-chart-2',
+    Calendario: 'calendar',
+    Alertas: 'bell',
+    Paciente: 'users',
+    Soporte: 'mail',
+  };
 
   @Input() menu: Array<SideBarItemModel>;
   @Input() selected: SideBarItemModel;
   @Input() level: number;
+  @Input() collapsed: boolean;
+  @Output() nav: EventEmitter<any> = new EventEmitter();
+  public icons: any;
 
   constructor(
+    private _sidebar: SideBarService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
     if (!this.level) {
       this.level = this.LEVEL_ONE;
     }
+  }
+
+  goUrl(section: SideBarItemModel) {
+    event.preventDefault();
+    if (section.children.length) {
+      this.toggleColapseMenu(section);
+    }
+    const url = section.url.split('hopes')[1];
+    if (url) {
+      this._router.navigate([url]);
+    }
+    this._sidebar.event.next(section);
+  }
+
+  public toggleColapseMenu(menu: SideBarItemModel): void {
+    menu.collapsed = !menu.collapsed;
   }
 }

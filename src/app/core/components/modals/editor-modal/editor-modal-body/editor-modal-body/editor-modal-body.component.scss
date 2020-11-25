@@ -1,20 +1,106 @@
-@import '~src/app/variables.scss';
+@import '~src/assets/styles/variables.scss';
 
 .modal-body {
+  padding: 0;
+
   &.editor-modal-body {
     section {
       display: inline-flex;
-      margin-right: 2rem;
+    }
+
+    label.btn-primary {
+      padding: 0.5rem 0.8rem;
     }
 
     .dynamic-label {
-      font-size: 1rem;
-      color: $app-color-gray-dark;
+      font-size: 0.8rem;
+      color: $app-color-blue-main;
+      margin-bottom: 0;
     }
 
     .ng-button {
       position: relative;
-      top: -1.55rem;
+
+      @media (min-width: 768px) {
+        @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+          top: 0.75rem;
+        }
+
+        @supports (-moz-appearance: none) {
+          top: -2.3rem;
+        }
+      }
+    }
+
+    .switch-type {
+      @media (min-width: 991px) {
+        @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+          position: relative;
+          top: 1rem;
+        }
+
+        @supports (-moz-appearance: none) {
+          position: relative;
+          top: -2rem;
+        }
+      }
     }
   }
+
+  .chip {
+    border: 1px solid $app-color-blue-medium;
+    color: $app-color-blue-medium;
+    border-radius: 14px;
+    transition: 0.25s ease-in-out;
+    padding: 2px 10px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+      background-color: $app-color-blue-medium;
+    }
+  }
+
+  @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+    .legend {
+      padding-top: 2rem;
+    }
+  }
+
+  @supports (-moz-appearance: none) {
+    .roles-select {
+      position: relative;
+      top: 2.5rem;
+    }
+
+    .legend {
+      padding-top: 0;
+    }
+
+    .margin-firefox {
+      margin-top: 2.4rem;
+      margin-bottom: -2rem;
+    }
+
+    .margin-firefox-gender {
+      margin-bottom: -1.3rem;
+    }
+  }
+
+  .requiredLegend {
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+
+    &::before {
+      content: ' * ';
+      color: red;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.select-combo {
+  width: 13rem;
 }

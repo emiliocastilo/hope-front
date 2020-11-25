@@ -1,0 +1,41 @@
+<div class="chart-container">
+  {{ config.chartTitle | translate }}
+  <hr />
+  <ngx-charts-bar-vertical
+    *ngIf="!stacked"
+    [view]="config.view"
+    [scheme]="config.scheme"
+    [results]="config.results"
+    [gradient]="config.gradient"
+    [xAxis]="config.xAxis"
+    [yAxis]="config.yAxis"
+    [legend]="config.legend"
+    [legendPosition]="config.legendPosition"
+    [legendTitle]="config.legendTitle"
+    [showXAxisLabel]="config.showXAxisLabel"
+    [showYAxisLabel]="config.showYAxisLabel"
+    [xAxisLabel]="config.xAxisLabel"
+    [yAxisLabel]="config.yAxisLabel"
+    (select)="onSelect($event)"
+  >
+  </ngx-charts-bar-vertical>
+
+  <ngx-charts-bar-vertical-stacked
+    *ngIf="stacked"
+    [view]="config.view"
+    [scheme]="config.scheme"
+    [results]="config.results"
+    [gradient]="config.gradient"
+    [xAxis]="config.xAxis"
+    [yAxis]="config.yAxis"
+    [legend]="config.legend"
+    [legendPosition]="config.legendPosition"
+    [legendTitle]="config.legendTitle"
+    [showXAxisLabel]="config.showXAxisLabel"
+    [showYAxisLabel]="config.showYAxisLabel"
+    [xAxisLabel]="config.xAxisLabel"
+    [yAxisLabel]="config.yAxisLabel"
+    (select)="onSelect($event)"
+  >
+  </ngx-charts-bar-vertical-stacked>
+</div>

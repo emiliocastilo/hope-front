@@ -1,0 +1,173 @@
+@import '~src/assets/styles/variables.scss';
+
+.form-group {
+  margin-bottom: 3rem;
+}
+
+.add-btn {
+  margin: 1rem;
+  text-align: right;
+}
+
+.master-table {
+  font-size: 0.75rem;
+  word-break: break-all;
+
+  .col-md-1,
+  .col-md-2,
+  .col-md-3 {
+    padding: 0 6px;
+  }
+
+  .master-table-column-headers {
+    height: 2rem;
+    font-weight: bold;
+    background-color: $app-color-blue-medium;
+    color: $app-color-white;
+  }
+
+  thead {
+    font-size: 0.75rem;
+
+    tr {
+      th {
+        border-bottom: 2px solid $app-color-blue-border;
+        border-top: 1px solid $app-color-blue-border;
+
+        &:first-child {
+          background-color: $app-color-table-background;
+        }
+      }
+    }
+  }
+
+  tbody {
+    color: $app-color-text-input;
+    font-size: 0.87rem;
+
+    tr {
+      height: 4rem;
+      border-bottom: 1px solid $app-color-blue-border;
+
+      &:nth-child(odd)td:first-child {
+        background-color: $app-color-blue-lighter;
+      }
+
+      &:nth-child(even)td:first-child {
+        background-color: $app-color-table-background;
+      }
+
+      &:nth-of-type(odd) {
+        background-color: $app-color-table-background;
+      }
+
+      td {
+        vertical-align: middle;
+        padding-left: 1rem;
+        width: 8rem;
+        border-top: 1px solid $app-color-blue-border;
+
+        .input-table {
+          width: 3rem;
+        }
+
+        .table-body_row_actions {
+          display: flex;
+
+          .feather-icon {
+            width: 1rem !important;
+          }
+
+          .table-body_row_actions-container {
+            align-items: center;
+            background-color: $app-color-blue-main;
+            border-radius: 100%;
+            color: $app-color-white;
+            display: flex;
+            height: 2rem;
+            justify-content: center;
+            margin-right: 1.2rem;
+            text-decoration: none;
+            width: 2rem;
+
+            &.delete {
+              background-color: $app-color-red-main;
+            }
+
+            i {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .row.master-table-data-row.activate {
+    background-color: $app-color-blue-lighter;
+  }
+}
+
+.custom-modal-field {
+  margin: 1rem;
+}
+
+.modal-header {
+  color: $app-color-blue-main;
+  border: none;
+
+  .modal-title {
+    position: relative;
+    top: 1rem;
+    left: 0.5rem;
+  }
+
+  .close {
+    color: $app-color-blue-main;
+    font-size: 3rem;
+    font-weight: 100;
+    position: relative;
+    top: 0.4rem;
+    right: 1rem;
+
+    &:focus {
+      outline-color: white;
+    }
+  }
+}
+
+.dataCell {
+  margin: 1rem;
+
+  .header {
+    font-size: 0.8rem;
+    color: $app-color-blue-main;
+    text-transform: uppercase;
+    margin-bottom: -0.1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .data {
+    margin-top: -0.1rem;
+    word-wrap: break-word;
+  }
+}
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+input[type='date'] {
+  max-width: 9rem;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  position: relative;
+  top: 0.2rem;
+  right: 0.5rem;
+  width: 0.7rem;
+}

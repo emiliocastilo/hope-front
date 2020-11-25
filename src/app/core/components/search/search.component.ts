@@ -7,7 +7,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -22,13 +22,12 @@ export class SearchComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     fromEvent(this.input.nativeElement, 'keyup')
-      .pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-        tap((text) => {
-          console.log(this.input.nativeElement.value);
-        })
-      )
+      .pipe(debounceTime(1000), distinctUntilChanged())
       .subscribe(() => this.emitAction.emit(this.input.nativeElement.value));
+  }
+
+  clearSearch() {
+    this.input.nativeElement.value = '';
+    this.emitAction.emit('');
   }
 }

@@ -1,0 +1,49 @@
+<div class="row m-0 p-0">
+  <section class="col-md-12 col-lg-12 p-0">
+    <section class="medics-container">
+      <div class="mt-4">
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <app-search (emitAction)="onSearch($event)"></app-search>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <app-button
+          type="button"
+          icono="plus-circle"
+          clasesBtn="btn-primary btn-sm mx-2"
+          (click)="saveDoctor()"
+          texto="btn.new"
+        >
+        </app-button>
+      </div>
+      <div class="mt-4">
+        <app-results-per-page
+          (itemsPerPage)="selectItemsPerPage($event)"
+          [paginationData]="paginationData"
+        >
+        </app-results-per-page>
+      </div>
+
+      <div class="mt-4">
+        <app-table
+          [columnsHeader]="columHeaders"
+          [columnsData]="medics"
+          (selectedItem)="onSelectedItem($event)"
+          (sort)="onSort($event)"
+          [showActionButtons]="true"
+          [actions]="actions"
+          (iconButtonClick)="onIconButtonClick($event)"
+          [sortable]="true"
+        >
+        </app-table>
+        <app-pagination
+          (selectPage)="selectPage($event)"
+          [paginationData]="paginationData"
+        >
+        </app-pagination>
+      </div>
+    </section>
+  </section>
+</div>

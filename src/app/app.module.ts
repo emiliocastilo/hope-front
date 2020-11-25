@@ -1,26 +1,29 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 import {
-  TranslateModule,
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
   TranslateLoader,
+  TranslateModule,
   TranslateService,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ToastrModule } from 'ngx-toastr';
-import { AppComponent } from './app.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-  HttpClient,
-} from '@angular/common/http';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { AppRoutingModule } from './app-routing.module';
-import { LoginService } from './core/services/login/login.service';
-import { InterceptorService } from './core/services/interceptor/interceptor.service';
+import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { InterceptorService } from './core/services/interceptor/interceptor.service';
+import { LoginService } from './core/services/login/login.service';
+import { DatePipe } from '@angular/common';
+import { IconsModule } from './icons/icons.module';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -32,6 +35,9 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
+    IconsModule,
+    RouterModule,
+    GoogleChartsModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -51,6 +57,7 @@ export function createTranslateLoader(http: HttpClient) {
     LoginService,
     TranslateService,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

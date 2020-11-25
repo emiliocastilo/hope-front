@@ -1,0 +1,23 @@
+<div class="chart-container">
+  {{ config.chartTitle | translate }}
+  <hr />
+  <ngx-charts-line-chart
+    [view]="config.view"
+    [scheme]="config.scheme"
+    [results]="config.results"
+    [gradient]="config.gradient"
+    [xAxis]="config.xAxis"
+    [yAxis]="config.yAxis"
+    [legend]="config.legend"
+    [legendPosition]="config.legendPosition"
+    [legendTitle]="config.legendTitle"
+    [showXAxisLabel]="config.showXAxisLabel"
+    [showYAxisLabel]="config.showYAxisLabel"
+    [xAxisLabel]="config.xAxisLabel"
+    [yAxisLabel]="config.yAxisLabel"
+    [curve]="config.curve"
+    [xAxisTickFormatting]="formatDate"
+    (select)="onSelect($event)"
+  >
+  </ngx-charts-line-chart>
+</div>

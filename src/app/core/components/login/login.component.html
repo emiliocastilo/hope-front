@@ -1,14 +1,17 @@
-<div class="app flex-row align-items-center">
+<div class="app-login-background app flex-row align-items-center">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-8 col-lg-4">
-        <div class="card">
-          <div class="card-body">
+        <div class="card app-login-card">
+          <div class="card-body app-login-container-body">
             <div class="wrapper fadeInDown">
               <div id="formContent">
                 <form [formGroup]="loginForm">
                   <div class="text-center mb-4">
-                    <img src="assets/img/hopes-launch.png" class="center" />
+                    <img
+                      src="assets/img/hopes-logo.png"
+                      class="center app-img-size"
+                    />
                   </div>
 
                   <app-input
@@ -45,26 +48,30 @@
                   >
                     {{ 'validation.password' | translate }}
                   </div>
-                  <div class="d-flex justify-content-center mt-4 mb-2">
+                  <div class="d-flex justify-content-center mt-4">
                     <app-button
                       (click)="onFormSubmit()"
                       [loading]="loading"
-                      clasesBtn="btn-outline-primary fadeIn fourth"
-                      texto="btn.enter"
+                      clasesBtn="btn-primary fadeIn fourth btn-block"
+                      texto="btn.accept"
                       type="submit"
+                      class="btn-block"
+                      [disabledButton]="loginForm.invalid"
                     >
                     </app-button>
                   </div>
                 </form>
-
-                <div id="formFooter">
-                  <a class="underlineHover" routerLink="/reset-password">{{
-                    'login.resetPassword' | translate
-                  }}</a>
-                </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div id="formFooter" class="app-text-recover-password">
+          <a
+            class="underlineHover mainColorBlue"
+            [routerLink]="['/reset-password']"
+            >{{ 'login.resetPassword' | translate }}</a
+          >
         </div>
       </div>
     </div>

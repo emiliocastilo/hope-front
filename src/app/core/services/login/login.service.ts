@@ -45,7 +45,13 @@ export class LoginService {
   }
 
   resetPassword(email: string): Observable<any> {
-    return this._http.post('/reset-passwords', email);
+    return this._http.post('/users/request-password-changes', { email: email });
+  }
+
+  updatePassword(passwords: any): Observable<any> {
+    return this._http.post('/users/update-passwords', passwords, {
+      responseType: 'text',
+    });
   }
 
   postChooseProfile(role: string): Observable<any> {
@@ -54,7 +60,6 @@ export class LoginService {
       .pipe(
         map((res) => {
           this.currentUserSubject.next(res);
-          // TODO: Acabar en tarea de enlace, cuando tengamos Back
           return res;
         })
       );

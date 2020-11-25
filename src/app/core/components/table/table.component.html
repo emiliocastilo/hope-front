@@ -1,93 +1,69 @@
-<div class="container-fluid master-table">
-  <section class="row master-table-column-headers">
-    <article
-      *ngFor="let columHeader of columnsHeader; index as headerIndex"
-      class="d-flex align-items-center"
-      [ngClass]="[
-        'master-table-column-header-' + headerIndex,
-        'col-md-' + columHeader.colSize
-      ]"
-    >
-      {{ columHeader.text }}
-    </article>
-  </section>
-  <section
-    class="row master-table-data-row"
-    [ngClass]="{ activate: rowDataIndex === internalSelectedItem }"
-    *ngFor="let columnData of columnsData; index as rowDataIndex"
-    (click)="activate(rowDataIndex)"
-  >
-    <ng-container
-      *ngFor="let item of columnData.columns; index as colDataIndex"
-    >
-      <ng-container [ngSwitch]="item.type">
-        <!-- DATE -->
-        <article
-          *ngSwitchCase="'date'"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
+<div class="master-table">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th
+          *ngFor="let header of columnsHeader"
+          scope="col"
+          sortable="{{ header }}"
+          (sort)="emitOnSort($event)"
+          [ngClass]="{ pointer: sortable === true }"
         >
-          {{ item.value | date: 'dd/MM' }}
-        </article>
-        <!-- HOUR -->
-        <article
-          *ngSwitchCase="'hour'"
-          class="col"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          {{ item.value | date: 'hh:mm' }}
-        </article>
-        <!-- LINK -->
-        <article
-          *ngSwitchCase="'link'"
-          class="col"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          <a
-            href="#"
-            (click)="$event.preventDefault()"
-            [routerLink]="item.value.link"
-            >{{ item.value.label }}</a
-          >
-        </article>
-        <!-- ICON BUTTONS -->
-        <article
-          *ngSwitchCase="'iconButtons'"
-          class="col"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          <div>
-            <a
-              *ngFor="let iconButton of item.value.iconButtons"
-              href="#"
-              (click)="emitIconButtonClick(iconButton.type, rowDataIndex)"
-              ><i class="mr-2 fa" [ngClass]="iconButton.icon"></i
-            ></a>
+          <div class="headerTable">
+            {{ header | translate }}
+            <span *ngIf="sortable === true" class="table-head_icon-box">
+              <i
+                [ngClass]="{
+                  'fa fa-long-arrow-up': true,
+                  'table-head_icon-box_icon-active':
+                    header + 'asc' === clickedHeader
+                }"
+                aria-hidden="true"
+              ></i>
+              <i
+                [ngClass]="{
+                  'fa fa-long-arrow-down': true,
+                  'table-head_icon-box_icon-active':
+                    header + 'desc' === clickedHeader
+                }"
+                aria-hidden="true"
+              ></i>
+            </span>
           </div>
-        </article>
-        <!-- TEXT -->
-        <article
-          *ngSwitchDefault
-          class="col"
-          [ngClass]="[
-            'master-table-data-col-' + colDataIndex,
-            'col-md-' + columnsHeader[colDataIndex].colSize
-          ]"
-        >
-          {{ item.value }}
-        </article>
-      </ng-container>
-    </ng-container>
-  </section>
+        </th>
+        <th scope="col" *ngIf="showActionButtons" class="headerTable">
+          {{ 'actions' | translate }}
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="columnsData && columnsData.length > 0">
+      <tr *ngFor="let row of columnsData; index as i">
+        <td *ngFor="let header of columnsHeader" class="dataTable">
+          {{ showDataTable(row[header], header) }}
+        </td>
+        <td *ngIf="showActionButtons">
+          <div class="table-body_row_actions">
+            <a
+              *ngFor="let action of actions"
+              href=""
+              (click)="emitIconButtonClick(action.name, i)"
+              title="{{ action.name | translate }}"
+              [ngClass]="{
+                'table-body_row_actions-container': true,
+                delete: action.name == 'delete'
+              }"
+            >
+              <i-feather
+                name="{{ action.icon }}"
+                class="feather-icon"
+              ></i-feather>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="columnsData && columnsData.length === 0" class="no-data">
+    {{ 'noData' | translate }}
+  </div>
 </div>

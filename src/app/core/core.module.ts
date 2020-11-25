@@ -5,7 +5,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ButtonComponent } from './components/basics/button/button.component';
 import { InputComponent } from './components/basics/input/input.component';
 import { InputSelectComponent } from './components/basics/input-select/input-select.component';
@@ -39,7 +39,40 @@ import { FormDatepickerComponent } from './components/basics/form-datepicker/for
 import { SwitchComponent } from './components/basics/app-switch/app-switch.component';
 import { PaginationComponent } from './components/basics/pagination/pagination.component';
 import { FormTextareaComponent } from './components/basics/form-textarea/form-textarea.component';
-import { Router, RouterModule } from '@angular/router';
+import { InputFileComponent } from './components/basics/input-file/input-file.component';
+import { RouterModule } from '@angular/router';
+import { FromDividerComponent } from './components/basics/from-divider/from-divider.component';
+import { FromTitleComponent } from './components/basics/from-title/from-title.component';
+import { NgbdSortableHeader } from './directives/sortable.directive';
+import { FormsComponent } from './components/forms/forms.component';
+import { ColumnChartComponent } from './components/charts/column-chart/column-chart.component';
+import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
+import { ExportButtonsComponent } from './components/export-buttons/export-buttons.component';
+import { FormListComponent } from './components/basics/form-list/form-list.component';
+import { GenderFormatter } from './pipes/gender.pipe';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { ResultsPerPageComponent } from './components/results-per-page/results-per-page.component';
+import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component';
+import { IconsModule } from '../icons/icons.module';
+import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
+import { PatientHeaderComponent } from './components/patient-header/patient-header.component';
+import { FormHistoricComponent } from './components/basics/form-historic/form-historic.component';
+import { FromSectionComponent } from './components/basics/from-section/from-section.component';
+import { PasiSelectComponent } from './components/pasi-select/pasi-select.component';
+import { PasiCheckboxComponent } from './components/pasi-checkbox/pasi-checkbox.component';
+import { FormSearchComponent } from './components/basics/form-search/form-search.component';
+import { ManyChartModalComponent } from './components/modals/many-chart-modal/many-chart-modal.component';
+import { MyAccountComponent } from './components/my-account/my-account.component';
+import { ChangePasswordModalComponent } from './components/modals/change-password-modal/change-password-modal.component';
+import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
+import { NumericInput } from './directives/numeric-input.directive';
+import { ButtonNailsComponent } from './components/button-nails/button-nails.component';
+import { PhototherapyModalComponent } from './components/modals/phototherapy-modal/phototherapy-modal.component';
+import { PrincipalTreatmentModalComponent } from './components/modals/principal-treatment-modal/principal-treatment-modal.component';
+import { InputTextareaComponent } from './components/basics/app-input-textarea/app-input-textarea.component';
+import { InputTypeaheadComponent } from './components/basics/input-typeahead/input-typeahead.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -62,15 +95,19 @@ export function createTranslateLoader(http: HttpClient) {
     SelectRoleComponent,
     SearchComponent,
     TableComponent,
+    ButtonNailsComponent,
     BoxDataComponent,
     DynamicFormComponent,
     FormInputComponent,
     FormSelectComponent,
     FormButtonComponent,
     DynamicFieldDirective,
+    NumericInput,
     FormCheckboxComponent,
     FormRadioComponent,
     EditorModalComponent,
+    DynamicModalComponent,
+    ConfirmModalComponent,
     GenericModalHeaderComponent,
     EditorModalFooterComponent,
     EditorModalBodyComponent,
@@ -79,12 +116,42 @@ export function createTranslateLoader(http: HttpClient) {
     SwitchComponent,
     PaginationComponent,
     FormTextareaComponent,
+    InputFileComponent,
+    FromDividerComponent,
+    FromTitleComponent,
+    FromSectionComponent,
+    NgbdSortableHeader,
+    FormsComponent,
+    ColumnChartComponent,
+    PieChartComponent,
+    ExportButtonsComponent,
+    FormListComponent,
+    PatientHeaderComponent,
+    GenderFormatter,
+    BreadcrumbComponent,
+    ResultsPerPageComponent,
+    LineChartComponent,
+    FormHistoricComponent,
+    PasiSelectComponent,
+    PasiCheckboxComponent,
+    FormSearchComponent,
+    ManyChartModalComponent,
+    MyAccountComponent,
+    ChangePasswordModalComponent,
+    QuestionnaireAnalysisArtritisPsoriasicaComponent,
+    PhototherapyModalComponent,
+    PrincipalTreatmentModalComponent,
+    InputTextareaComponent,
+    InputTypeaheadComponent,
+    ContactComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
+    IconsModule,
+    NgxChartsModule,
     RouterModule,
     TranslateModule.forChild({
       loader: {
@@ -109,6 +176,9 @@ export function createTranslateLoader(http: HttpClient) {
     ButtonComponent,
     InputComponent,
     InputSelectComponent,
+    PasiSelectComponent,
+    PasiCheckboxComponent,
+    ButtonNailsComponent,
     ResetPasswordComponent,
     SelectRoleComponent,
     SearchComponent,
@@ -116,13 +186,27 @@ export function createTranslateLoader(http: HttpClient) {
     BoxDataComponent,
     DynamicFormComponent,
     DynamicFieldDirective,
+    NumericInput,
     EditorModalComponent,
+    DynamicModalComponent,
+    ConfirmModalComponent,
     FormSwitchComponent,
+    FormsComponent,
     SwitchComponent,
+    PieChartComponent,
+    ExportButtonsComponent,
+    ColumnChartComponent,
     PaginationComponent,
     HomeDashboardModuleComponent,
+    GenderFormatter,
+    PatientHeaderComponent,
+    BreadcrumbComponent,
+    ResultsPerPageComponent,
+    LineChartComponent,
+    InputTextareaComponent,
+    InputTypeaheadComponent,
   ],
-  providers: [],
+  providers: [GenderFormatter],
   entryComponents: [
     FormButtonComponent,
     FormInputComponent,

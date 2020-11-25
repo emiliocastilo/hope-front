@@ -1,13 +1,102 @@
-<form
-  class="dynamic-form col-12"
-  [formGroup]="form"
-  (submit)="handleSubmit($event)"
->
-  <ng-container
+<form class="dynamic-form" [formGroup]="form" (submit)="handleSubmit($event)">
+  <div
     *ngFor="let field of config"
-    dynamicField
-    [config]="field"
-    [group]="form"
+    class=" {{ field.rows ? 'col-' + field.rows : 'col-12' }}"
+    [hidden]="field.hidden === true"
   >
-  </ng-container>
+    <ng-container dynamicField [config]="field" [group]="form"> </ng-container>
+    <div
+      *ngIf="
+        form.get(field.name) &&
+        form.get(field.name).errors &&
+        form.get(field.name).dirty
+      "
+    >
+      <p *ngIf="form.get(field.name).hasError('required')">
+        {{ 'validations.required' | translate }}
+      </p>
+      <p *ngIf="form.get(field.name).hasError('minlength')">
+        {{ 'validations.minLength' | translate }}
+      </p>
+      <p *ngIf="form.get(field.name).hasError('maxlength')">
+        {{ 'validations.maxLength' | translate }}
+      </p>
+      <p *ngIf="form.get(field.name).hasError('pattern')">
+        {{ 'validations.pattern' | translate }}
+      </p>
+      <p *ngIf="form.get(field.name).hasError('email')">
+        {{ 'validations.email' | translate }}
+      </p>
+    </div>
+  </div>
+  <!-- Form Buttons -->
+  <div class="buttons">
+    <div *ngFor="let button of buttons">
+      <div *ngIf="button === 'save'">
+        <div class="submit-button">
+          <app-button
+            type="submit"
+            icono="check-circle"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.save"
+            [readOnly]="!valid"
+            [disabledButton]="form.invalid"
+          ></app-button>
+        </div>
+      </div>
+      <div *ngIf="button === 'clean'">
+        <div class="submit-button">
+          <app-button
+            type="reset"
+            clasesBtn="btn-danger btn-sm mx-2"
+            icono="x"
+            texto="btn.clean"
+            (click)="cleanClick($event)"
+          ></app-button>
+        </div>
+      </div>
+      <div *ngIf="button === 'graphs'">
+        <div class="submit-button">
+          <app-button
+            type="button"
+            icono="bar-chart-2"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.graphs"
+            (click)="showChartFront($event)"
+          ></app-button>
+        </div>
+      </div>
+      <div *ngIf="button === 'graphsBack'">
+        <div class="submit-button">
+          <app-button
+            type="button"
+            icono="bar-chart-2"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.graphs"
+            (click)="showChartFromBack()"
+          ></app-button>
+        </div>
+      </div>
+      <div *ngIf="button === 'historic'">
+        <div class="submit-button">
+          <app-button
+            type="button"
+            icono="align-center"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.historic"
+          ></app-button>
+        </div>
+      </div>
+      <div *ngIf="button === 'cancel'">
+        <div class="submit-button">
+          <app-button
+            type="button"
+            clasesBtn="btn-primary btn-sm mx-2"
+            texto="btn.cancel"
+            (click)="cancelClick($event)"
+          ></app-button>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>

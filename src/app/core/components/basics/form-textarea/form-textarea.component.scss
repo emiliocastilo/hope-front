@@ -1,15 +1,13 @@
-@import '~src/app/variables.scss';
+@import '~src/assets/styles/variables.scss';
 
 .dynamic-group {
   position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
-  margin-right: 10px;
+  padding: 0.938rem 0 0;
+  margin-top: 0.625rem;
+  margin-right: 0.625rem;
 }
 
 .dynamic-label {
-  position: absolute;
-  top: -5px;
   display: block;
   transition: 0.2s;
   font-size: 1rem;
@@ -20,11 +18,11 @@
   font-family: inherit;
   width: 100%;
   border: 0;
-  border-bottom: 2px solid $app-color-gray-dark;
+  border-bottom: 0.125rem solid $app-color-gray-dark;
   outline: 0;
   font-size: 1rem;
   color: $app-color-black;
-  padding: 7px 0;
+  padding: 0.438rem 0;
   background: transparent;
   transition: border-color 0.2s;
 
@@ -35,7 +33,7 @@
   &:placeholder-shown ~ .dynamic-label {
     font-size: 1.3rem;
     cursor: text;
-    top: 20px;
+    top: 1.25rem;
   }
 
   &:focus {
@@ -48,8 +46,8 @@
       color: $app-color-blue-medium;
     }
 
-    padding-bottom: 6px;
-    border-width: 3px;
+    padding-bottom: 0.375rem;
+    border-width: 0.188rem;
     border-image: linear-gradient(to right, $app-color-blue-medium, $app-color-blue-light);
     border-image-slice: 1;
   }
@@ -57,5 +55,15 @@
   &:required,
   &:invalid {
     box-shadow: none;
+  }
+
+  .required-label::after {
+    content: ' *';
+    color: red;
+    font-size: 1.2rem;
+  }
+
+  .required-label {
+    top: 1.3rem;
   }
 }

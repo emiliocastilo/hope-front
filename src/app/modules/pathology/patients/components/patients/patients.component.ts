@@ -1,12 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from '../../services/patients.service';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { ToastrService } from 'ngx-toastr';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { environment } from 'src/environments/environment';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
@@ -14,7 +9,8 @@ import {
   PATIENT_DERMA_HEADERS,
   PATIENT_TABLE_KEYS,
 } from 'src/app/modules/management/constants/patients.constants';
-import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
+import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 
 @Component({
   selector: 'app-patients',
@@ -29,20 +25,17 @@ export class PatientsComponent implements OnInit {
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;
   public selectedPatient: PatientModel = new PatientModel();
-  public menuId: number = environment.MENU_ID.PATIENTS;
   public isEditing: boolean = false;
-  public modalForm: FormGroup;
   private hospitals: HospitalModel[] = [];
   private currentPage: number = 0;
   public paginationData: PaginationModel;
+  public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
+  public itemsPerPage: number;
 
   constructor(
     private _patientsService: PatientsService,
-    private _toastr: ToastrService,
-    private _modalService: NgbModal,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router,
-    private _formBuilder: FormBuilder
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -51,33 +44,10 @@ export class PatientsComponent implements OnInit {
     this.hospitals = this._activatedRoute.snapshot.data.hospitals;
     this.patients = this._activatedRoute.snapshot.data.patients.content;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
-
-    this.modalForm = this._formBuilder.group({
-      name: ['', Validators.required],
-      firstSurname: ['', Validators.required],
-      lastSurname: ['', Validators.required],
-      nhc: ['', Validators.required],
-      healthCard: ['', Validators.required],
-      dni: ['', Validators.required],
-      address: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', Validators.required],
-      genderCode: ['', Validators.required],
-      birthDate: ['', Validators.required],
-    });
-  }
-
-  public prepareTableData(): Array<RowDataModel> {
-    const rows = this.patients
-      ? this.patients.map((patient) => {
-          return this._adaptModelToRow(patient);
-        })
-      : [];
-    return rows;
   }
 
   public goToDermatologiPatients(): void {
-    this._router.navigate(['dermatology/patients/dashboard']);
+    this._router.navigate(['management/patients']);
   }
 
   public onSelectedItem(event: number): void {
@@ -85,13 +55,7 @@ export class PatientsComponent implements OnInit {
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedUser', selectedUser);
     this.selectedItem = event;
-    Object.keys(this.patients[event]).map((patientKey: string) => {
-      if (this.modalForm.controls[patientKey]) {
-        this.modalForm.controls[patientKey].setValue(
-          this.patients[event][patientKey]
-        );
-      }
-    });
+    this._router.navigate(['pathology/patients/dashboard']);
   }
 
   public onSearch(event: string): void {
@@ -101,42 +65,35 @@ export class PatientsComponent implements OnInit {
   }
 
   public selectPage(page: number): void {
+    let query = `&page=${page}`;
     this.currentPage = page;
-    this.refreshData(`&page=${page}`);
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+    this.refreshData(query);
   }
 
   private refreshData(query: string): void {
     this._patientsService.getPatients(query).subscribe((data) => {
       this.patients = data.content;
-      if (this.paginationData.totalElements !== data.totalElements) {
+      if (this.paginationData.totalPages !== data.totalPages) {
         this.paginationData = data;
       }
     });
   }
 
-  private _adaptModelToRow(patient: PatientModel): RowDataModel {
-    const row = new RowDataModel();
-    row.pushColumn(
-      new ColumnDataModel(
-        'text',
-        patient.name
-          .concat(' ')
-          .concat(patient.firstSurname)
-          .concat(' ')
-          .concat(patient.lastSurname)
-      )
-    );
-    row.pushColumn(new ColumnDataModel('text', patient.nhc));
-    row.pushColumn(new ColumnDataModel('text', patient.healthCard));
-    row.pushColumn(new ColumnDataModel('text', patient.dni));
-    row.pushColumn(new ColumnDataModel('text', patient.phone));
-    const genderValue = patient.genderCode === 'M' ? 'Hombre' : 'Mujer';
-    row.pushColumn(new ColumnDataModel('text', genderValue));
-    let pathologyList = '';
-    patient.pathologies.forEach((pathology) => {
-      pathologyList = pathologyList.concat(pathology.name).concat(';');
-    });
+  public onSort(event: any) {
+    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
 
-    return row;
+    if (this.itemsPerPage) {
+      query = `${query}&size=${this.itemsPerPage}`;
+    }
+
+    this.refreshData(query);
+  }
+
+  public selectItemsPerPage(number: number) {
+    this.itemsPerPage = number;
+    this.selectPage(0);
   }
 }

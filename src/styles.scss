@@ -1,18 +1,163 @@
-@import './app/variables.scss';
+@import './assets/styles/variables.scss';
+@import '~angular-tree-component/dist/angular-tree-component.css';
+@import './assets/styles/button-boostrap-theme.scss';
+
+@font-face {
+  font-family: 'Raleway-light';
+  src: url(assets/fonts/Raleway/Raleway-Light.ttf);
+}
+
+@font-face {
+  font-family: 'Raleway-thin';
+  src: url(assets/fonts/Raleway/Raleway-Thin.ttf);
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+}
 
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 /* EXTENSION FOR FONT AWESOME */
 .cfa-red {
-  color: $app-color-red;
+  color: $app-color-red-main;
+}
+
+.cfa-blue {
+  color: $app-color-blue-light;
+}
+
+.angular-tree-component {
+  .toggle-children {
+    background-image: none;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-radius: 1px;
+    height: 9px;
+    width: 9px;
+    transition: 0.25s;
+  }
+
+  .toggle-children-wrapper-expanded .toggle-children {
+    transform: rotate(45deg);
+  }
+
+  .toggle-children-wrapper-collapsed .toggle-children {
+    transform: rotate(-45deg);
+  }
+
+  .node-content-wrapper {
+    width: 100%;
+  }
+
+  .inactive {
+    color: rgb(170, 170, 170);
+  }
+}
+
+.dropdown.ngx-contextmenu {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: white;
+
+  .dropdown-menu {
+    border: none;
+    outline: none;
+    user-select: none;
+    padding: 0;
+
+    li {
+      padding: 0.25rem 0.5rem;
+      width: 100%;
+      transition: background-color 0.25s;
+
+      a {
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      &:hover {
+        background-color: rgb(235, 235, 235);
+      }
+    }
+
+    .edit {
+      color: rgb(0, 172, 43);
+    }
+
+    .remove {
+      color: $app-color-red-main;
+    }
+  }
 }
 
 @media (min-width: 1200px) {
   .col-md-4.col-lg-3.sidemenu {
     max-width: 330px;
   }
+}
+
+.legend {
+  color: $app-color-gray-dark;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+.side-bar {
+  .nav-item {
+    .item {
+      display: flex;
+
+      .icon {
+        min-width: 50px;
+      }
+
+      .nav-link {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  &.collapsed {
+    .nav-item .item .nav-link {
+      opacity: 0;
+    }
+  }
+}
+
+.no-data {
+  margin: 1rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 100;
+  color: $app-color-gray-dark;
+}
+
+.required-label::after {
+  content: ' *';
+  color: red;
+  font-size: 1.2rem;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: none;
+}
+
+hr {
+  background-color: $app-color-blue-border;
+  border-color: $app-color-blue-border;
+}
+
+[disabled] {
+  background-color: $app-color-gray-light !important;
+  cursor: not-allowed;
 }

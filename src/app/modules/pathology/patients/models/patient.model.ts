@@ -10,12 +10,14 @@ export class PatientModel {
     public nhc?: string,
     public healthCard?: string,
     public dni?: string,
+    public age?: string,
     public address?: string,
     public phone?: string,
     public email?: string,
     public birthDate?: string,
     public hospital?: HospitalModel,
     public genderCode?: string,
-    public pathologies?: Array<PathologyModel>
+    public pathologies?: Array<PathologyModel>,
+    public fullName?: string
   ) {}
 }

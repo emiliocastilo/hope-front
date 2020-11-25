@@ -23,17 +23,16 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() placeholder = '';
   @Input() required = false;
   @Input() type = 'text';
+  @Input() invalidLabel: string;
+  @Input() maxDate: string = null;
 
-  value: string;
+  @Input() value: string;
 
   childControl = new FormControl();
   onChange = (_: any) => {};
   onTouch = () => {};
 
-  ngOnInit() {
-    this.controlDirective.control.setValidators([this.validate.bind(this)]);
-    this.controlDirective.control.updateValueAndValidity();
-  }
+  ngOnInit() {}
 
   onInput(value: string) {
     this.value = value;
@@ -43,7 +42,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: any): void {
     if (value) {
-      this.value = value || '';
+      this.value = value;
     } else {
       this.value = '';
     }
@@ -64,11 +63,15 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   validate({ value }: FormControl) {
     const isNotValid =
-      this.value == '' || this.value == undefined || this.value == null;
+      this.value === '' || this.value === undefined || this.value === null;
     return (
       isNotValid && {
         invalid: true,
       }
     );
+  }
+
+  get invalid(): boolean {
+    return !this.controlDirective.valid && this.controlDirective.dirty;
   }
 }

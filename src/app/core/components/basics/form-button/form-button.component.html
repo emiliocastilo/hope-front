@@ -1,8 +1,9 @@
-<div class="form-group dynamic-field" [formGroup]="group">
+<div class="form-group dynamic-field center-button" [formGroup]="group">
   <button
-    [disabled]="config.disabled"
-    type="submit"
-    class="btn btn-primary btn-sm"
+    [attr.type]="type"
+    [attr.disabled]="config.calculated_front"
+    class="btn {{ clasesBtn }}"
+    (click)="selectClick()"
   >
     <i class="{{ config.icon }}"></i> {{ config.label | translate }}
   </button>

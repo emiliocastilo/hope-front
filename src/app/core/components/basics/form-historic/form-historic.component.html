@@ -1,0 +1,38 @@
+<div class="form-group dynamic-group field" [formGroup]="group">
+  <div class="dynamic-group_separated-label">
+    {{ config.label | translate }}
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-6 mb-4">
+      <label
+        [attr.for]="config.name"
+        class="firefox-position dynamic-label dynamic-label-old"
+      >
+        {{ 'oldValue' | translate }}
+      </label>
+      <input
+        [attr.id]="config.name + '-old'"
+        [attr.name]="config.name + '-old'"
+        class="dynamic-field"
+        type="text"
+        [attr.value]="oldValue"
+        [attr.disabled]="true"
+      />
+    </div>
+    <div class="col-md-12 col-lg-6 mb-4">
+      <label [attr.for]="config.name" class="firefox-position dynamic-label">
+        {{ 'actualValue' | translate }}
+      </label>
+      <input
+        NumericInput
+        [attr.id]="config.name"
+        [attr.name]="config.name"
+        class="dynamic-field"
+        [attr.disabled]="config.calculated_front"
+        [type]="today ? 'date' : 'number'"
+        [max]="today"
+        (change)="onChange($event, config.name)"
+      />
+    </div>
+  </div>
+</div>

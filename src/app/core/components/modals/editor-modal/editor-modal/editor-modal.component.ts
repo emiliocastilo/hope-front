@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { RolModel } from 'src/app/modules/management/models/rol.model';
 
 @Component({
   selector: 'app-editor-modal',
@@ -9,10 +10,12 @@ import { FormGroup } from '@angular/forms';
 export class EditorModalComponent implements OnInit {
   @Input() id: string;
   @Input() title: string;
+  @Input() activeRoles: Array<RolModel>;
   @Input() form: FormGroup;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<FormGroup> = new EventEmitter();
   @Input() options: any = {};
+  @Input() maxDate: string;
   public type: string = 'lg';
 
   constructor() {}
@@ -25,5 +28,9 @@ export class EditorModalComponent implements OnInit {
 
   public onSave() {
     this.save.emit(this.form);
+  }
+
+  get validForm(): boolean {
+    return this.form.valid;
   }
 }

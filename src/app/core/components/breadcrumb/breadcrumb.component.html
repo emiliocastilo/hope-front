@@ -1,0 +1,44 @@
+<ul class="breadcrumbs_list">
+  <li class="breadcrumbs_list-item" *ngIf="!crumbs">
+    <a [attr.href]="homeUrl" (click)="navigate(homeUrl)">
+      <i-feather
+        name="home"
+        class="feather breadcrumbs_list-item_home"
+      ></i-feather>
+    </a>
+    <i-feather name="chevron-right" class="chevron-right"></i-feather>
+  </li>
+
+  <li
+    [ngClass]="{
+      'breadcrumbs_list-item': true,
+      'breadcrumbs_list-item-active': i === crumbs.length - 1
+    }"
+    *ngFor="let crumb of crumbs; let i = index"
+    [attr.data-index]="i"
+  >
+    <a
+      [attr.href]="crumb.url"
+      (click)="navigate(crumb)"
+      *ngIf="crumb.description === 'Home'"
+    >
+      <i-feather
+        *ngIf="crumb.description === 'Home'"
+        name="home"
+        class="feather breadcrumbs_list-item_home"
+      ></i-feather>
+    </a>
+    <a
+      [attr.href]="crumb.url"
+      (click)="navigate(crumb)"
+      *ngIf="crumb.description !== 'Home'"
+    >
+      {{ crumb.title }}
+    </a>
+    <i-feather
+      *ngIf="i !== crumbs.length - 1"
+      name="chevron-right"
+      class="feather chevron-right"
+    ></i-feather>
+  </li>
+</ul>

@@ -1,14 +1,23 @@
-<div class="form-group dynamic-group field" [formGroup]="group">
+<div class="form-group dynamic-group field invalid" [formGroup]="group">
+  <label
+    [attr.for]="config.name"
+    class="firefox-position"
+    [ngClass]="{
+      'date-label': type === 'date',
+      'dynamic-label': type !== 'date',
+      'required-label': required
+    }"
+  >
+    {{ config.label | translate }}
+  </label>
   <input
     [attr.id]="config.name"
     [attr.name]="config.name"
     [attr.placeholder]="config.placeholder"
     [formControlName]="config.name"
+    [attr.disabled]="config.calculated_front"
     class="dynamic-field"
     type="{{ config.inputType ? config.inputType : 'input' }}"
     [attr.autocomplete]="config.inputType == 'password' ? 'nope' : ''"
   />
-  <label [attr.for]="config.name" class="dynamic-label">{{
-    config.label | translate
-  }}</label>
 </div>

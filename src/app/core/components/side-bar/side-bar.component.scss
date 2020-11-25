@@ -1,6 +1,138 @@
-@import '~src/app/variables.scss';
+@import '~src/assets/styles/variables.scss';
 
 .side-bar {
-  border: 1px solid $app-color-violet;
-  background-color: $app-color-blue-dark;
+  font-family: 'Raleway-thin', sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: $app-menu-blue-principal;
+  height: 100%;
+  color: $app-color-white;
+  width: 15.5rem;
+  box-shadow: 0 0 1.25rem rgba($color: $app-color-black, $alpha: 0.18);
+
+  .brand {
+    display: flex;
+    align-items: center;
+    background-color: $app-color-white;
+    color: $app-color-blue-dark;
+    padding: 0.8rem;
+    height: 5rem;
+
+    .logo {
+      margin: 0 auto;
+    }
+
+    .toggler {
+      cursor: pointer;
+      color: $app-color-blue-main;
+      font-size: 1.4rem;
+      margin-left: 0.5rem;
+    }
+
+    .logo,
+    .logo-img {
+      height: 1.9rem;
+    }
+
+    .logo-hidden {
+      display: none;
+    }
+  }
+
+  .user-item {
+    padding: 0.8rem;
+    display: flex;
+    align-items: center;
+    background-color: $app-menu-blue-user;
+    height: 4rem;
+
+    a {
+      cursor: pointer;
+    }
+
+    .user-data {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+
+      .username {
+        font-weight: 600;
+      }
+
+      .rol {
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+  .feather-thin {
+    stroke-width: 2px;
+    text-align: center;
+
+    &.user {
+      color: rgb(146, 149, 166);
+      position: relative;
+      left: 0.4rem;
+      top: 0.1rem;
+      width: 20px;
+    }
+  }
+
+  .icon {
+    color: rgb(146, 149, 166);
+
+    &.logout {
+      cursor: pointer;
+      font-size: 1.4rem;
+
+      &:hover {
+        color: $app-color-red-main;
+      }
+    }
+  }
+
+  .dot {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.7rem;
+    background-color: rgb(89, 89, 89);
+    border-radius: 50%;
+  }
+
+  &.collapsed {
+    overflow-x: hidden;
+    max-width: 4rem;
+
+    .dot {
+      flex-shrink: 0;
+    }
+
+    .brand .logo,
+    .user-item .user-data,
+    .user-data .icon.logout {
+      opacity: 0;
+    }
+  }
+}
+
+.scroller {
+  height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.scroller::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scroller::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+.scroller::-webkit-scrollbar-thumb {
+  background: $app-color-blue-main;
+  border-radius: 10px;
 }
