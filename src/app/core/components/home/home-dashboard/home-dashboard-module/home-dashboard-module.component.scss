@@ -3,17 +3,29 @@
 }
 
 .card-body {
-  background-color: #FBFDFF;
-  color: #363E63;
+  background-color: #fbfdff;
+  color: #363e63;
+  padding: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 
-  .btn-primary{
-    background-color: #FBFDFF;
+  .btn-primary {
+    background-color: #fbfdff;
     border: 0;
   }
 }
 
-.card-header{
-  background-color: #FBFDFF;
-  border-color: #ECF3FA;
+.card-header {
+  background-color: #fbfdff;
+  border-color: #ecf3fa;
   border: 1px;
+  padding-top: 1rem;
+}
+
+.card-img-top{
+  max-width: 4rem;
+  max-height: 4rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  height: -webkit-fill-available;
 }
