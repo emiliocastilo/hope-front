@@ -2,6 +2,11 @@
   width: 6rem;
 }
 
+.card{
+  max-width: 25rem;
+  max-height: 25rem;
+}
+
 .card-body {
   background-color: #fbfdff;
   color: #363e63;
@@ -13,6 +18,11 @@
     background-color: #fbfdff;
     border: 0;
   }
+
+  .btn-primary:hover {
+    background-color: #363e63;
+    color: #fbfdff;
+  }
 }
 
 .card-header {
@@ -22,7 +32,7 @@
   padding-top: 1rem;
 }
 
-.card-img-top{
+.card-img-top {
   max-width: 4rem;
   max-height: 4rem;
   min-width: 3rem;
