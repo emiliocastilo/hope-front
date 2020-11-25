@@ -42,6 +42,8 @@ export class PsoriasisPustulosaComponent implements OnInit {
   };
   public details: any[] = [];
   public dataToExport: any[] = [];
+  private type: string;
+  private indication: string;
 
   constructor(
     public _activatedRoute: ActivatedRoute,
@@ -56,7 +58,8 @@ export class PsoriasisPustulosaComponent implements OnInit {
 
   private getData(): void {
     const data = this._activatedRoute.snapshot.data.patientsTreatments;
-
+    this.type = this._activatedRoute.snapshot.data.type;
+    this.indication = this._activatedRoute.snapshot.data.indication;
     const chartTitle = 'patientsTreatmentPsoriasisPustulosa';
     const view = null;
     const scheme = {
@@ -119,9 +122,13 @@ export class PsoriasisPustulosaComponent implements OnInit {
     if (event && event.type === 'detail') {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
-
       const query =
-        'type=PSORIASIS PULTULOSA&medicine=' + this.currentSelected.name;
+        'type=' +
+        this.type +
+        '&indication=' +
+        this.indication +
+        '&medicine=' +
+        this.currentSelected.name;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -170,13 +177,13 @@ export class PsoriasisPustulosaComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `type=PSORIASIS PULTULOSA&indication=&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `type=${this.type}&indication=${this.indication}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    const query = `type=PSORIASIS PULTULOSA&indication=&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+    const query = `type=${this.type}&indication=${this.indication}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
     this.currentSort = event;
     this.getDetails(query);
   }
