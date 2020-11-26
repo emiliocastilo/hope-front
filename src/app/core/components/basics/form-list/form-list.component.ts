@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
+import { FormsService } from 'src/app/core/services/forms/forms.service';
 
 @Component({
   selector: 'app-form-list',
@@ -16,29 +17,31 @@ export class FormListComponent implements OnInit {
   group: FormGroup;
   rows = [];
   detailArray: Array<any>;
-  today: string;
+  today: string;  
 
-  constructor(private modalService: NgbModal, private datePipe: DatePipe) {}
+  constructor(private modalService: NgbModal, private datePipe: DatePipe, private _formsService: FormsService) {}  
 
   ngOnInit() {
-    this.today = moment(new Date()).format('YYYY-MM-DD');
+    this.today = moment(new Date()).format('YYYY-MM-DD');    
     if (this.config.value && this.config.value.length > 0) {
       this.rows = this.config.value;
-      this.bindToForm();
+      this.bindToForm();      
     }
+    
   }
 
   openModalCreate() {
     const modalRef = this.modalService.open(DynamicModalComponent, {
       size: 'lg',
     });
-    modalRef.componentInstance.title = 'Crear nuevo';
-    modalRef.componentInstance.fields = this.config.fields;
+    modalRef.componentInstance.title = 'Nuevo ' + this.config.label; 
+    modalRef.componentInstance.fields = this.config.fields;    
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event) => {
-      this.rows.push(event);
+      this._formsService.setSavedForm(false);     
+      this.rows.push(event);          
       this.bindToForm();
       modalRef.close();
     });
@@ -57,6 +60,7 @@ export class FormListComponent implements OnInit {
   onDeleteRow(index) {
     event.preventDefault();
     this.rows.splice(index, 1);
+    this._formsService.setSavedForm(false);            
     this.deleteToForm(index);
   }
 
@@ -65,7 +69,7 @@ export class FormListComponent implements OnInit {
       this.rows.forEach((r) => {
         this.group.controls[this.config.name].value.push(r);
       });
-    }, 500);
+    }, 500);    
   }
 
   deleteToForm(index) {
@@ -108,7 +112,7 @@ export class FormListComponent implements OnInit {
     const modalRef = this.modalService.open(DynamicModalComponent, {
       size: 'lg',
     });
-    modalRef.componentInstance.title = 'Editar';
+    modalRef.componentInstance.title = 'Editar ' + this.config.label;
     modalRef.componentInstance.fields = this.config.fields;
     modalRef.componentInstance.data = this.rows[index];
     modalRef.componentInstance.close.subscribe(() => {
@@ -116,6 +120,7 @@ export class FormListComponent implements OnInit {
     });
     modalRef.componentInstance.save.subscribe((event) => {
       this.rows[index] = event;
+      this._formsService.setSavedForm(false);           
       this.bindToForm();
       modalRef.close();
     });
@@ -141,5 +146,5 @@ export class FormListComponent implements OnInit {
     }
 
     return data;
-  }
+  }  
 }

@@ -13,7 +13,11 @@ export class GenericModalHeaderComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public onClick() {
+  public onClick(event?: any) {    
     this.close.emit(null);
+  }
+
+  public unfocus(event?: any){    
+    event.target.blur();
   }
 }

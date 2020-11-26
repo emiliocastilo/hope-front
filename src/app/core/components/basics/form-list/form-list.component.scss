@@ -166,6 +166,9 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+.max-width-cell{
+  max-width: 8rem;
+}
 
 input[type='date'] {
   max-width: 9rem;

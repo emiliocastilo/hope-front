@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormsService } from '../../services/forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
@@ -14,13 +14,13 @@ import { HealthOutcomeService } from 'src/app/modules/pathology/patients/service
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.scss'],
 })
-export class FormsComponent implements OnInit {
+export class FormsComponent implements OnInit, OnDestroy {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
   public filledForm: any;
   @Input() key = '';
   patient: PatientModel;
-  emptyForm: any;
+  emptyForm: any;  
 
   constructor(
     private _formsService: FormsService,
@@ -28,11 +28,12 @@ export class FormsComponent implements OnInit {
     private _notification: NotificationService,
     private hoService: HealthOutcomeService,
     private _http: HttpClient
-  ) {}
+  ) {}  
 
   ngOnInit(): void {
     this.getPatientId();
     this.getAndParseForm();
+    
   }
 
   getPatientId() {
@@ -60,6 +61,12 @@ export class FormsComponent implements OnInit {
       this._notification.showErrorToast('formNotFound');
     }
     this.detectCalculatedBackOnInit();
+    this._formsService.setSavedForm(true);
+    this.buttons.forEach(button => {      
+      if (button === 'save') {
+        this._formsService.setMustBeSaved(true);
+      }
+    });    
   }
 
   submit(value: { [name: string]: any }) {
@@ -74,6 +81,7 @@ export class FormsComponent implements OnInit {
       } else {
         this.fillForm(form);
       }
+      this._formsService.setSavedForm(true);
       if (this.key === 'dlqi') {
         const ho = {
           patient: this.patient.id,
@@ -141,6 +149,7 @@ export class FormsComponent implements OnInit {
       () => {
         this.getAndParseForm();
         this._notification.showSuccessToast('elementCreated');
+        this._formsService.setSavedForm(true);
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
@@ -153,6 +162,7 @@ export class FormsComponent implements OnInit {
       (data: any) => {
         this.getAndParseForm();
         this._notification.showSuccessToast('elementUpdated');
+        this._formsService.setSavedForm(true);
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
@@ -163,5 +173,9 @@ export class FormsComponent implements OnInit {
   private _parseStringToJSON(form: string): JSON {
     //TODO: check if json is valid
     return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
+  } 
+
+  ngOnDestroy(){
+    this._formsService.setSavedForm(true);
   }
 }
