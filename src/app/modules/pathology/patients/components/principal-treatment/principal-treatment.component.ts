@@ -566,7 +566,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
       }
     });
-    debugger
+    debugger;
     if (
       dataEdit.treatmentType.id !== 'topical' &&
       dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'
@@ -784,7 +784,6 @@ export class PrincipalTreatmentComponent implements OnInit {
   }
 
   private save(modalRef, type) {
-    console.log(this.tableData)
     const form = {
       template: this.key,
       data: [
