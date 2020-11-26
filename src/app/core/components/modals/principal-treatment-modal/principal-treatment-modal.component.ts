@@ -137,7 +137,6 @@ export class PrincipalTreatmentModalComponent implements OnInit {
 
   checkTypeTreatment(key): boolean {
     let show = true;
-    debugger;
     // Si estamos en cambiar o suspender
     // TODO: comparar si estamos en cambiar o suspender, si es así, deshabilitar/habilitar los campos correspondientes
     if (
