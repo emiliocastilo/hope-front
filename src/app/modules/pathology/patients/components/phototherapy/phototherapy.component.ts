@@ -240,6 +240,7 @@ export class PhototherapyComponent implements OnInit {
       if (!this.tableData) {
         this.tableData = [];
       }
+      // TO DO: cuando se vaya a refactorizar las opciones del treatmentType hay que cambiarlo tambien en la modal
       event.value['treatmentType'] = {
         id: 'phototherapy',
         name: 'fototerapia',

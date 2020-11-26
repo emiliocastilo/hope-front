@@ -135,6 +135,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     );
   };
 
+  // TO DO: cuando se vaya a refactorizar las opciones del treatmentType hay que cambiarlo tambien en la modal
   private modalOptions = {
     indication: { type: 'text', class: 'col-12', href: 'pepito' },
     specialIndication: { type: 'checkbox', class: 'col-2' },
@@ -146,11 +147,11 @@ export class PrincipalTreatmentComponent implements OnInit {
       class: 'col-12',
       options: [
         {
-          id: 'biological',
+          id: 'BIOLOGICO',
           name: this._translate.instant('biological'),
         },
         {
-          id: 'chemical',
+          id: 'QUIMICO',
           name: this._translate.instant('chemical'),
         },
         {
@@ -159,7 +160,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         },
       ],
       value: {
-        id: 'chemical',
+        id: 'QUIMICO',
       },
     },
     opcionMedicamento: {
@@ -391,9 +392,9 @@ export class PrincipalTreatmentComponent implements OnInit {
         // this.modalForm.controls.regimenTreatment.setValue('');
       } else {
         this.modalForm.controls.otherDosis.clearValidators();
-        this.modalForm.controls.regimenTreatment.setValue({
+        /*this.modalForm.controls.regimenTreatment.setValue({
           name: event.recommendation,
-        });
+        });*/
       }
     });
 
@@ -565,7 +566,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
       }
     });
-
+    debugger
     if (
       dataEdit.treatmentType.id !== 'topical' &&
       dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'
@@ -678,18 +679,18 @@ export class PrincipalTreatmentComponent implements OnInit {
       }
       if (!Array.isArray(event.value.treatmentType)) {
         switch (event.value.treatmentType) {
-          case 'biological':
+          case 'BIOLOGICO':
             event.value.treatmentType = [
               {
-                id: 'biological',
+                id: 'BIOLOGICO',
                 name: this._translate.instant('biological'),
               },
             ];
             break;
-          case 'chemical':
+          case 'QUIMICO':
             event.value.treatmentType = [
               {
-                id: 'chemical',
+                id: 'QUIMICO',
                 name: this._translate.instant('chemical'),
               },
             ];
@@ -783,6 +784,7 @@ export class PrincipalTreatmentComponent implements OnInit {
   }
 
   private save(modalRef, type) {
+    console.log(this.tableData)
     const form = {
       template: this.key,
       data: [

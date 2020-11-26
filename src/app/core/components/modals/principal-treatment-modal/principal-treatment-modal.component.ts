@@ -118,8 +118,8 @@ export class PrincipalTreatmentModalComponent implements OnInit {
     // Cuando cambiamos el tipo de tratamiento, seleccionamos el check de medicamento por defecto y limpiamos lo que hubiese en el formulario compartido.
     if (
       (formKey === 'treatmentType' && event.id === 'topical') ||
-      (formKey === 'treatmentType' && event.id === 'biological') ||
-      (formKey === 'treatmentType' && event.id === 'chemical')
+      (formKey === 'treatmentType' && event.id === 'BIOLOGICO') ||
+      (formKey === 'treatmentType' && event.id === 'QUIMICO')
     ) {
       this.form.get('opcionMedicamento').setValue('opcionMedicamento');
       this.resetFields([
@@ -137,6 +137,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
 
   checkTypeTreatment(key): boolean {
     let show = true;
+    debugger
     // Si estamos en cambiar o suspender
     // TODO: comparar si estamos en cambiar o suspender, si es así, deshabilitar/habilitar los campos correspondientes
     if (
@@ -146,8 +147,10 @@ export class PrincipalTreatmentModalComponent implements OnInit {
       // this.resetFields(['descripcionFormulaMagistral','dosisFormulaMagistral']);
       // Si el tratamiento es biológico o químico, ocultamos los radios y los campos de formula magistral y los vaciamos
       if (
-        this.form.get('treatmentType').value[0].id === 'chemical' ||
-        this.form.get('treatmentType').value[0].id === 'biological'
+        this.form.get('treatmentType').value[0].id === 'QUIMICO' ||
+        this.form.get('treatmentType').value[0].id === 'BIOLOGICO' ||
+        this.form.get('treatmentType').value === 'QUIMICO' ||
+        this.form.get('treatmentType').value === 'BIOLOGICO'
       ) {
         if (
           [
