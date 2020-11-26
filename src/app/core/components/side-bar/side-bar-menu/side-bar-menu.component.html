@@ -9,7 +9,7 @@
         class="item"
         [ngClass]="{
           active: selected ? menuOption.id === currentSection.id : null,
-          current: menuOption.id === currentSection.id
+          current: currentSection && menuOption.id === currentSection.id
         }"
       >
         <span *ngIf="level < 2" class="icon">
