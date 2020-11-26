@@ -566,7 +566,6 @@ export class PrincipalTreatmentComponent implements OnInit {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
       }
     });
-    debugger;
     if (
       dataEdit.treatmentType.id !== 'topical' &&
       dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'
