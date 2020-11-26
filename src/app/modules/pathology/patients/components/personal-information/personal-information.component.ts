@@ -61,7 +61,7 @@ export class PersonalInformationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.selectedPatient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
     let listFields: any = [
       {
         type: 'title',

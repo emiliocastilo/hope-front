@@ -31,7 +31,7 @@ export class BoxDataComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     this.currentData = changes.data
       ? changes.data.currentValue
-      : JSON.parse(localStorage.getItem('selectedUser') || '{}');
+      : JSON.parse(localStorage.getItem('selectedPatient') || '{}');
   }
 
   public parsedata(object: PatientModel, key: string): string {

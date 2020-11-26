@@ -59,7 +59,7 @@ export class PatientsComponent implements OnInit {
     //this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
     this.paginationData = this._activatedRoute.snapshot.data.patients;
     this.selectedUser = JSON.parse(localStorage.getItem('user'));
-    this.role_aux = JSON.parse(localStorage.getItem('role') || '{}');
+    this.role_aux = this.selectedUser.rolSelected || '{}';
     //Obtenemos las patologias
     if (this.role_aux['service']['pathologies'].length > 0) {
       for (let i = 0; i < this.role_aux['service']['pathologies'].length; i++) {
@@ -105,7 +105,7 @@ export class PatientsComponent implements OnInit {
   public onSelectedItem(event: number): void {
     this.selectedPatient = this.patients[event];
     const selectedUser = JSON.stringify(this.selectedPatient || {});
-    localStorage.setItem('selectedUser', selectedUser);
+    localStorage.setItem('selectedPatient', selectedUser);
     this.selectedItem = event;
     Object.keys(this.patients[event]).forEach((patientKey: string) => {
       if (this.modalForm.controls[patientKey]) {

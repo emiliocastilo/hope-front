@@ -42,6 +42,7 @@ export class BiologicalAgentsComponent implements OnInit {
   };
   public details: any[] = [];
   public dataToExport: any[] = [];
+  private type: string;
 
   constructor(
     public _activatedRoute: ActivatedRoute,
@@ -56,6 +57,7 @@ export class BiologicalAgentsComponent implements OnInit {
 
   private getData(): void {
     const data = this._activatedRoute.snapshot.data.patientsTreatments;
+    this.type = this._activatedRoute.snapshot.data.type;
     const chartTitle = 'patientsTreatmentBiological';
     const view = null;
     const scheme = {
@@ -119,7 +121,8 @@ export class BiologicalAgentsComponent implements OnInit {
     if (event && event.type === 'detail') {
       this.showingDetail = true;
       this.currentSelected = this.data[event.selectedItem];
-      const query = 'type=BIOLOGICO&indication=';
+      const query =
+        'type=' + this.type + '&medicine=' + this.currentSelected.name;
       this.getDetails(query);
       this.getDetailsToExport(query);
     } else {
@@ -159,7 +162,7 @@ export class BiologicalAgentsComponent implements OnInit {
     if (event.type === 'detail') {
       const currentUser = this.details[event.selectedItem];
       const selectedUser = JSON.stringify(currentUser || {});
-      localStorage.setItem('selectedUser', selectedUser);
+      localStorage.setItem('selectedPatient', selectedUser);
       this._router.navigate(['pathology/patients/dashboard']);
     }
   }
@@ -167,13 +170,13 @@ export class BiologicalAgentsComponent implements OnInit {
   public selectPage(page: number) {
     if (this.currentPage !== page) {
       this.currentPage = page;
-      const query = `type=BIOLOGICO&indication=""&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
 
   public onSort(event: any) {
-    const query = `type=BIOLOGICO&indication=""&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+    const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
     this.currentSort = event;
     this.getDetails(query);
   }
