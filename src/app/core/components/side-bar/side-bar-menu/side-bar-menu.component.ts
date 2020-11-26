@@ -30,7 +30,12 @@ export class SideBarMenuComponent implements OnInit {
   @Output() sectionChange: EventEmitter<any> = new EventEmitter<any>();
   private navigationCancel: boolean;
 
-  constructor(private _sidebar: SideBarService, private _formService: FormsService, private _modalService: NgbModal, private _router: Router) {}
+  constructor(
+    private _sidebar: SideBarService,
+    private _formService: FormsService,
+    private _modalService: NgbModal,
+    private _router: Router
+  ) {}
 
   ngOnInit(): void {
     this.selected = JSON.parse(localStorage.getItem('section'));
@@ -44,25 +49,23 @@ export class SideBarMenuComponent implements OnInit {
     }
   }
 
-  goUrl(section: SideBarItemModel) {    
+  goUrl(section: SideBarItemModel) {
     event.preventDefault();
     if (section.children.length) {
       this.toggleColapseMenu(section);
     }
     const url = section.url.split('hopes')[1];
-    if (url && this.checkConditionToNavigate()) {    
-        this._router.navigate([url]);      
-    }
-    else{
-      if(url && url != this._router.url){
+    if (url && this.checkConditionToNavigate()) {
+      this._router.navigate([url]);
+    } else {
+      if (url && url != this._router.url) {
         this.showModalConfirm();
       }
-     
     }
-      this.selected = section;
-      this._sidebar.event.next(section);
-      this.listenSection();
-    }
+    this.selected = section;
+    this._sidebar.event.next(section);
+    this.listenSection();
+  }
 
   checkConditionToNavigate(): boolean {
     if (this._formService.getMustBeSaved()) {
@@ -75,7 +78,6 @@ export class SideBarMenuComponent implements OnInit {
       return true;
     }
   }
-  
 
   listenSection() {
     this._sidebar.event.subscribe((s: any) => {
@@ -101,25 +103,23 @@ export class SideBarMenuComponent implements OnInit {
         : this.activateCollapse(o.children || [], id)
     );
   }
-  getUnsavedChanges(){
+  getUnsavedChanges() {
     this.navigationCancel = true;
   }
 
-  private showModalConfirm() {    
-      const modalRef = this._modalService.open(ConfirmModalComponent);
-      modalRef.componentInstance.title = 'Aviso de cambios';
-      modalRef.componentInstance.messageModal =
-        'Hay cambios sin guardar, ¿Continuar?';
-      modalRef.componentInstance.cancel.subscribe((event) => {
-        modalRef.close();
-        this._formService.setSavedForm(false);
-        
-      });
-      modalRef.componentInstance.accept.subscribe((event) => {        
-        modalRef.close();
-        this._formService.setSavedForm(true);
-        this.goUrl(this.selected);
-      });
-    
+  private showModalConfirm() {
+    const modalRef = this._modalService.open(ConfirmModalComponent);
+    modalRef.componentInstance.title = 'Aviso de cambios';
+    modalRef.componentInstance.messageModal =
+      'Hay cambios sin guardar, ¿Continuar?';
+    modalRef.componentInstance.cancel.subscribe((event) => {
+      modalRef.close();
+      this._formService.setSavedForm(false);
+    });
+    modalRef.componentInstance.accept.subscribe((event) => {
+      modalRef.close();
+      this._formService.setSavedForm(true);
+      this.goUrl(this.selected);
+    });
   }
 }

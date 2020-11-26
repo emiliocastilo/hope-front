@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import FormUtils from 'src/app/core/utils/FormUtils';
 import StringUtils from 'src/app/core/utils/StringUtils';
@@ -13,7 +13,7 @@ export class DynamicModalComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
   public filled = [];
-  private isEmpty = true;  
+  private isEmpty = true;
   @Input() title: string;
   @Input() data: any;
   @Input() key: string;
@@ -21,14 +21,14 @@ export class DynamicModalComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() save: EventEmitter<any> = new EventEmitter();
 
-  constructor(private _formsService: FormsService) {} 
+  constructor(private _formsService: FormsService) {}
 
   ngOnInit() {
     if (this.key) {
       this.getAndParseFromTemplate();
     } else {
       this.getAndParseFromFields();
-    }    
+    }
   }
 
   onClose() {
@@ -59,7 +59,8 @@ export class DynamicModalComponent implements OnInit {
       if (value) {
         this.isEmpty = false;
       }
-    } if (!this.isEmpty) {
+    }
+    if (!this.isEmpty) {
       this.save.emit(modalForm);
     } else {
       this.closeModal(true);
@@ -70,7 +71,7 @@ export class DynamicModalComponent implements OnInit {
     if (this.data) {
       Object.keys(this.data).forEach((key) => {
         let field = this.fields.find((o) => o.name === key);
-        field = { ...field, value: this.data[key] };        
+        field = { ...field, value: this.data[key] };
         this.filled.push(field);
       });
     } else {

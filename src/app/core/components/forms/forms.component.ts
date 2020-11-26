@@ -20,7 +20,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   public filledForm: any;
   @Input() key = '';
   patient: PatientModel;
-  emptyForm: any;  
+  emptyForm: any;
 
   constructor(
     private _formsService: FormsService,
@@ -28,12 +28,11 @@ export class FormsComponent implements OnInit, OnDestroy {
     private _notification: NotificationService,
     private hoService: HealthOutcomeService,
     private _http: HttpClient
-  ) {}  
+  ) {}
 
   ngOnInit(): void {
     this.getPatientId();
     this.getAndParseForm();
-    
   }
 
   getPatientId() {
@@ -62,11 +61,11 @@ export class FormsComponent implements OnInit, OnDestroy {
     }
     this.detectCalculatedBackOnInit();
     this._formsService.setSavedForm(true);
-    this.buttons.forEach(button => {      
+    this.buttons.forEach((button) => {
       if (button === 'save') {
         this._formsService.setMustBeSaved(true);
       }
-    });    
+    });
   }
 
   submit(value: { [name: string]: any }) {
@@ -173,9 +172,9 @@ export class FormsComponent implements OnInit, OnDestroy {
   private _parseStringToJSON(form: string): JSON {
     //TODO: check if json is valid
     return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
-  } 
+  }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this._formsService.setSavedForm(true);
   }
 }

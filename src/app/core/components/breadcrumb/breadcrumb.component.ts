@@ -106,7 +106,6 @@ export class BreadcrumbComponent implements OnInit {
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
       this._formService.setSavedForm(false);
-
     });
     modalRef.componentInstance.accept.subscribe((event) => {
       modalRef.close();

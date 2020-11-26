@@ -5,8 +5,6 @@ import {
   OnChanges,
   OnInit,
   Output,
-  
-  
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
@@ -30,8 +28,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   @Input() isModal = false;
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
-  form: FormGroup;  
-  public f: any;  
+  form: FormGroup;
+  public f: any;
 
   get controls() {
     return this.config.filter(({ type }) => type !== 'button' || 'title');
@@ -52,13 +50,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     private _formsService: FormsService,
     private _notification: NotificationService,
     private _http: HttpClient
-  ) {}  
-
+  ) {}
 
   ngOnInit() {
-    this.form = this.createGroup();       
+    this.form = this.createGroup();
   }
-
 
   isNormalType(type: string) {
     const isArray = ['table', 'historic', 'title', 'button'];
@@ -190,10 +186,10 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
   }
   ngOnChanges() {
-    if (this.form) {      
+    if (this.form) {
       const controls = Object.keys(this.form.controls);
-      const configControls = this.controls.map((item) => item.name);     
-      
+      const configControls = this.controls.map((item) => item.name);
+
       controls
         .filter((control) => !configControls.includes(control))
         .forEach((control) => this.form.removeControl(control));
@@ -206,7 +202,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.form.addControl(name, this.createControl(config));
           }
           if (config.type === 'table') {
-            this._formsService.setMustBeSaved(true);            
+            this._formsService.setMustBeSaved(true);
             const controlArray = this.createArray(config);
             controlArray.removeAt(0);
             this.form.addControl(name, controlArray);
@@ -217,13 +213,13 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         });
       this.detectCalculatedBack();
       this.detectCalculated();
-    }        
+    }
   }
 
   createGroup() {
     const group = this.fb.group({});
     this.controls.forEach((control) => {
-      group.addControl(control.name, this.createControl(control));      
+      group.addControl(control.name, this.createControl(control));
     });
     return group;
   }
@@ -234,7 +230,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       config.params.forEach((e, i) => {
         params[i] = this.form.getRawValue()[e];
       });
-      config.value = FormUtils[config.formula](params);      
+      config.value = FormUtils[config.formula](params);
     }
     const { disabled, validation, value } = config;
     return this.fb.control({ disabled, value }, validation);
@@ -242,7 +238,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   createArray(config: FieldConfig) {
     const group = this.fb.group({});
-    config.fields.forEach((field) => {      
+    config.fields.forEach((field) => {
       group.addControl(field.name, this.fb.control(''));
     });
     return this.fb.array([group]);
@@ -261,7 +257,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     event.stopPropagation();
     if (this.valid && this.validationHistoric(event)) {
       const form = this.setValueToEmptyHistoricInput(event);
-      this.submit.emit(form);     
+      this.submit.emit(form);
     } else {
       this.submit.emit(null);
     }
@@ -404,6 +400,5 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   private isStringEmpty(text: string): boolean {
     return !text || text === null || text === undefined || text === '';
-  }  
-
+  }
 }

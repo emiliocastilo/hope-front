@@ -15,7 +15,11 @@ export class BoxDataComponent implements OnInit {
   @Input() keysToShow: string[] = [];
   public gender: string;
 
-  constructor(public _translate: TranslateService, private _formService: FormsService, private _modalService: NgbModal ) {}
+  constructor(
+    public _translate: TranslateService,
+    private _formService: FormsService,
+    private _modalService: NgbModal
+  ) {}
 
   public currentData: PatientModel;
   private keysNotShow: any = {
@@ -56,7 +60,7 @@ export class BoxDataComponent implements OnInit {
   }
 
   public back() {
-    if(this.checkConditionToNavigate()) {
+    if (this.checkConditionToNavigate()) {
       window.history.back();
     } else {
       this.showModalConfirm();
@@ -74,7 +78,7 @@ export class BoxDataComponent implements OnInit {
       return true;
     }
   }
-  private showModalConfirm() {    
+  private showModalConfirm() {
     const modalRef = this._modalService.open(ConfirmModalComponent);
     modalRef.componentInstance.title = 'Aviso de cambios';
     modalRef.componentInstance.messageModal =
@@ -82,13 +86,11 @@ export class BoxDataComponent implements OnInit {
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
       this._formService.setSavedForm(false);
-      
     });
-    modalRef.componentInstance.accept.subscribe((event) => {        
+    modalRef.componentInstance.accept.subscribe((event) => {
       modalRef.close();
       this._formService.setSavedForm(true);
       this.back();
     });
-  
-}
+  }
 }

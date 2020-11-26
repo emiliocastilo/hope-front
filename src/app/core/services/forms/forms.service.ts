@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class FormsService {
   constructor(private _http: HttpClient) {}
 
-  private savedForm =  true;
+  private savedForm = true;
   private mustBeSaved = false;
 
   public async get(key: string) {
@@ -46,7 +46,7 @@ export class FormsService {
     return this._http.post('/support', form);
   }
 
-  public getSavedForm(): boolean{
+  public getSavedForm(): boolean {
     return this.savedForm;
   }
 
@@ -54,7 +54,7 @@ export class FormsService {
     this.savedForm = saved;
   }
 
-  public getMustBeSaved(): boolean{
+  public getMustBeSaved(): boolean {
     return this.mustBeSaved;
   }
 
@@ -63,7 +63,6 @@ export class FormsService {
   }
 
   public cancelNavigation(): boolean {
-
     return true;
   }
 }
