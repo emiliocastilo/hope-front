@@ -27,10 +27,17 @@ export class EditorModalBodyComponent implements OnInit {
     }
   }
   getColSection(keys: any) {
-    if (this.formKeys.length >= 3 && keys !== 'roles') {
+    if (
+      this.formKeys.length >= 3 &&
+      keys !== 'roles' &&
+      keys !== 'principal' &&
+      keys !== 'active'
+    ) {
       return 'col-sm-12  col-lg-4';
     } else if (this.formKeys.length < 3 && keys !== 'roles') {
       return 'col-lg-6';
+    } else if (keys === 'principal' || keys === 'active') {
+      return 'col-sm-2';
     } else {
       return 'col-sm-12 col-md-12 col-lg-12';
     }
