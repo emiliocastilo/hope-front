@@ -75,7 +75,6 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
       localStorage.setItem('section', JSON.stringify(response));
       this._sidebar.event.next(response);
       this.crumbs = SectionActionBuilder.getCrumbs(response);
-      console.log(this.crumbs);
     });
   }
 
