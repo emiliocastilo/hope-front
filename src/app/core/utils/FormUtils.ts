@@ -66,7 +66,7 @@ export default class FormUtils {
     fieldConfig.hidden = value.hidden;
     fieldConfig.button = value.button;
     fieldConfig.template = value.template;
-    fieldConfig.size = value.size;
+    fieldConfig.css = value.css;
 
     if (value.validation) {
       const validations = StringUtils.stringToArray(value.validation);

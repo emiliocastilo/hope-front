@@ -5,7 +5,7 @@
 >
   <div
     *ngFor="let field of config"
-    class=" {{ field.size ? field.size : 'col-12' }}"
+    class=" {{ field.css ? field.css : 'col-12' }}"
     [hidden]="field.hidden === true"
   >
     <ng-container dynamicField [config]="field" [group]="form"> </ng-container>
