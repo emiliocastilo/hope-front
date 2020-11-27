@@ -11,7 +11,6 @@ export class SideBarItemModel {
     public children: Array<SideBarItemModel>,
     public collapsed?: boolean,
     public fatherSection?: SideBarItemModel,
-    public visible?: boolean,
-    public selected?: boolean
+    public visible?: boolean
   ) {}
 }

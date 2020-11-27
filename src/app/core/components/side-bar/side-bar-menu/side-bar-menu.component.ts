@@ -12,7 +12,7 @@ import SectionActionBuilder from 'src/app/core/utils/SectionActionsBuilder';
 })
 export class SideBarMenuComponent implements OnInit, OnDestroy {
     private currentSectionSubscription: Subscription;
-    // private sectionSequence: Array<SideBarItemModel>;
+    // private sectionPath: Array<SideBarItemModel>;
     private homeUrl = '/hopes';
 
     public LEVEL_ONE = 1;
@@ -44,8 +44,8 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
             .getCurrentSection()
             .subscribe((section: SideBarItemModel) => {
                 this.currentSection = section;
-                // this.sectionSequence = SectionActionBuilder.getCrumbs(this.currentSection);
-                // this.sectionSequence.shift();
+                // this.sectionPath = SectionActionBuilder.getCrumbs(this.currentSection);
+                // this.sectionPath.shift();
                 this.collapseAll(this.menu);
                 this.updateCollapseState(this.menu);
                 // this.checkCollapsedSection(section);
@@ -54,9 +54,10 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
         setTimeout(() => {
             if (this.menu) {
                 this.assingParents();
-                // this.sectionSequence = SectionActionBuilder.getCrumbs(this.currentSection);
+                this.collapseAll();
+                // this.sectionPath = SectionActionBuilder.getCrumbs(this.currentSection);
                 if (this.currentSection) {
-                    // this.sectionSequence.shift();
+                    // this.sectionPath.shift();
                     this.updateCollapseState(this.menu);
                 } else this.menu.forEach(item => item.collapsed = true);
                 // console.log('menu', this.menu);
@@ -91,7 +92,7 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
         // );
 
         if (url) this._router.navigate([url]);
-        setTimeout(() => this._sidebar.currentSection.next(section), 150);
+        setTimeout(() => this._sidebar.currentSection.next(section), 250);
 
         // this.collapseAll();
         // this.updateCollapseState(this.menu);
@@ -112,7 +113,6 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
         //     if (item.id === this.currentSection.id) {
         //         // console.log('ITEM SELECCIONADO', item.title);
         //         item.collapsed = false;
-        //         item.selected = true;
 
         //         // * El elemento no es el seleccionado y tiene hijos
         //     } else if (item.children && item.children.length > 0) {
@@ -131,21 +131,23 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
 
         if (this.currentSection) {
             if (this.level === 1) console.log('>>>>>>>>>>>>>>>>>>>>>>', menu);
+            
+            // const path = this.currentSection.url === '#' ? '' : this.currentSection.url.substring(this.currentSection.url.indexOf('hopes/'), this.currentSection.url.length);
 
             menu.forEach((item) => {
-                item.collapsed = this.currentSection.url.includes(item.url) ? false : true;
-                console.log(this.currentSection.url, item.url, this.currentSection.url.includes(item.url));
+                // ! WIP :: Se compara con campo description a falta de un campo propio en back por el momento
+                item.collapsed = this.currentSection.description.includes(item.description) ? false : true;
+                // console.log(this.currentSection.description, item.description, this.currentSection.description.includes(item.description));
                 // item.collapsed = item.fatherSection.id === this.sectionSequence[this.level - 1].id ? false : true;
 
                 if (!item.collapsed && item.children && item.children.length > 0) {
                     this.updateCollapseState(item.children);
                 } else item.collapsed = true;
 
-                // } else item.collapsed = true;
-                console.log(`ITEM : ${item.title}`);
+                // console.log(`ITEM : ${item.title}`);
                 // console.log(`SECTION SEQUENCE : ${this.sectionSequence[this.level - 1].title}`);
-                console.log(`ITEM COLLAPSED : ${item.collapsed}`);
-                console.log('========================================');
+                // console.log(`ITEM COLLAPSED : ${item.collapsed}`);
+                // console.log('========================================');
             });
         }
     }

@@ -1,70 +1,70 @@
-@import '~src/assets/styles/variables.scss';
+@import "~src/assets/styles/variables.scss";
 
 .side-bar-menu,
 .side-bar-menu .item {
-  .icon {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
+    .icon {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
 
-    .feather-thin {
-      stroke-width: 0.5px;
-      color: white;
+        .feather-thin {
+            stroke-width: 0.5px;
+            color: white;
+        }
     }
-  }
 
-  .icon-hidden {
-    opacity: 0;
-  }
+    .icon-hidden {
+        opacity: 0;
+    }
 
-  .nav-link {
-    color: $app-color-white;
-    min-height: 3.75rem;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0 0.2rem;
-    font-weight: 100;
-  }
+    .nav-link {
+        color: $app-color-white;
+        min-height: 3.75rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 0 0.2rem;
+        font-weight: 100;
+    }
 
-  .nav-link-hidden {
-    color: $app-color-white;
-    min-height: 3.75rem;
-    display: flex;
-    align-items: center;
-    padding: 0 0.2rem;
-    font-weight: 100;
-    font-size: 0.2rem;
-    opacity: 0;
-  }
+    .nav-link-hidden {
+        color: $app-color-white;
+        min-height: 3.75rem;
+        display: flex;
+        align-items: center;
+        padding: 0 0.2rem;
+        font-weight: 100;
+        font-size: 0.2rem;
+        opacity: 0;
+    }
 }
 
 .sub-side-bar-menu-level-2 .item {
-  transition: 0.5s;
+    transition: 0.5s;
 
-  .nav-link {
-    padding-left: 1rem;
-    font-family: 'Raleway-light', sans-serif;
-    font-size: 0.8rem;
-  }
+    .nav-link {
+        padding-left: 1rem;
+        font-family: "Raleway-light", sans-serif;
+        font-size: 0.8rem;
+    }
 
-  &:hover {
-    background-color: $app-menu-blue-secondary-active;
-  }
+    &:hover {
+        background-color: $app-menu-blue-secondary-active;
+    }
 }
 
 .side-bar-menu .item.active {
-  background-color: $app-menu-blue-secondary-active;
-  border-right: 4px solid $app-menu-blue-secondary-active-border;
+    background-color: $app-menu-blue-secondary-active;
+    border-right: 4px solid $app-menu-blue-secondary-active-border;
 }
 
 .sub-side-bar-menu-level-1 {
-  p {
-    background-color: $app-menu-blue-secondary;
+    p {
+        background-color: $app-menu-blue-secondary;
 
-    a {
-      font-weight: normal !important;
+        a {
+            font-weight: normal !important;
+        }
     }
-  }
 }
