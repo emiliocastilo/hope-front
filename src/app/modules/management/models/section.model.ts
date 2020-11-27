@@ -8,6 +8,7 @@ export class SectionModel {
     public active?: boolean,
     public order?: number,
     public principal?: boolean,
+    public visible?: boolean,
     public title?: string,
     public url?: string,
     public roles?: Array<RolModel>,

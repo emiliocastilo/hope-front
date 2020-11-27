@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
+import { FormsService } from 'src/app/core/services/forms/forms.service';
 
 @Component({
   selector: 'app-form-list',
@@ -18,7 +19,11 @@ export class FormListComponent implements OnInit {
   detailArray: Array<any>;
   today: string;
 
-  constructor(private modalService: NgbModal, private datePipe: DatePipe) {}
+  constructor(
+    private modalService: NgbModal,
+    private datePipe: DatePipe,
+    private _formsService: FormsService
+  ) {}
 
   ngOnInit() {
     this.today = moment(new Date()).format('YYYY-MM-DD');
@@ -32,12 +37,13 @@ export class FormListComponent implements OnInit {
     const modalRef = this.modalService.open(DynamicModalComponent, {
       size: 'lg',
     });
-    modalRef.componentInstance.title = 'Crear nuevo';
+    modalRef.componentInstance.title = 'Nuevo ' + this.config.label;
     modalRef.componentInstance.fields = this.config.fields;
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
     });
     modalRef.componentInstance.save.subscribe((event) => {
+      this._formsService.setSavedForm(false);
       this.rows.push(event);
       this.bindToForm();
       modalRef.close();
@@ -57,6 +63,7 @@ export class FormListComponent implements OnInit {
   onDeleteRow(index) {
     event.preventDefault();
     this.rows.splice(index, 1);
+    this._formsService.setSavedForm(false);
     this.deleteToForm(index);
   }
 
@@ -108,7 +115,7 @@ export class FormListComponent implements OnInit {
     const modalRef = this.modalService.open(DynamicModalComponent, {
       size: 'lg',
     });
-    modalRef.componentInstance.title = 'Editar';
+    modalRef.componentInstance.title = 'Editar ' + this.config.label;
     modalRef.componentInstance.fields = this.config.fields;
     modalRef.componentInstance.data = this.rows[index];
     modalRef.componentInstance.close.subscribe(() => {
@@ -116,6 +123,7 @@ export class FormListComponent implements OnInit {
     });
     modalRef.componentInstance.save.subscribe((event) => {
       this.rows[index] = event;
+      this._formsService.setSavedForm(false);
       this.bindToForm();
       modalRef.close();
     });

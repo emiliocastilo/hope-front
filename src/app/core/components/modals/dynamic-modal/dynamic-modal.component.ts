@@ -13,6 +13,7 @@ export class DynamicModalComponent implements OnInit {
   public config: FieldConfig[] = [];
   public buttons: string[] = [];
   public filled = [];
+  private isEmpty = true;
   @Input() title: string;
   @Input() data: any;
   @Input() key: string;
@@ -50,8 +51,20 @@ export class DynamicModalComponent implements OnInit {
     this.buttons = FormUtils.createButtons(['save']);
   }
 
-  submit(value: { [name: string]: any }) {
-    this.save.emit(value);
+  submit(modalForm: { [name: string]: any }) {
+    // Impedimos que se añada un registro vacío aunque no haya campos requeridos
+    let object = modalForm;
+    for (let key in object) {
+      let value = object[key];
+      if (value) {
+        this.isEmpty = false;
+      }
+    }
+    if (!this.isEmpty) {
+      this.save.emit(modalForm);
+    } else {
+      this.closeModal(true);
+    }
   }
 
   fillForm() {
