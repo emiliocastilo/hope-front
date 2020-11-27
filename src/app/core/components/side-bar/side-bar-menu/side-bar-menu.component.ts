@@ -34,25 +34,26 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
     constructor(private _sidebar: SideBarService, private _router: Router) { }
 
     ngOnInit (): void {
-        this.currentSection = JSON.parse(localStorage.getItem('section') || '{}');
-
+        const storagedSection = localStorage.getItem('section');
+        if (storagedSection && storagedSection !== 'undefined') this.currentSection = JSON.parse(storagedSection);
         this.currentSectionSubscription = this._sidebar
             .getCurrentSection()
             .subscribe((section: SideBarItemModel) => {
                 this.currentSection = section;
-                this.collapseAll(this.menu);
-                this.updateCollapseState(this.menu);
+                setTimeout(() => { 
+                    this.collapseAll(this.menu);
+                    this.updateCollapseState(this.menu); 
+                }, 150);
             });
 
         setTimeout(() => {
             if (this.menu) {
                 this.assingParents();
-                this.collapseAll();
                 if (this.currentSection) {
                     this.updateCollapseState(this.menu);
-                } else this.menu.forEach(item => item.collapsed = true);
+                } else this.collapseAll();
             }
-        }, 1000);
+        }, 1500);
 
         if (!this.level) this.level = this.LEVEL_ONE;
     }
@@ -68,6 +69,7 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
 
     goUrl (section: SideBarItemModel) {
         const url = section.url === this.homeUrl ? this.homeUrl : section.url.split('hopes')[1];
+        // debugger
         if (url) this._router.navigate([url]);
         setTimeout(() => this._sidebar.currentSection.next(section), 250);
     }
@@ -82,7 +84,7 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
                     this.updateCollapseState(item.children);
                 } else item.collapsed = true;
             });
-        }
+        } else this.collapseAll();
     }
 
     public toggleColapseMenu (menuItem: SideBarItemModel): void {
@@ -97,6 +99,6 @@ export class SideBarMenuComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy () {
-        this.currentSectionSubscription.unsubscribe();
+        if (this.currentSectionSubscription) this.currentSectionSubscription.unsubscribe();
     }
 }

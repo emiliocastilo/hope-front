@@ -3,9 +3,7 @@
 
         <!-- * Cuando padre visible * -->
         <li *ngIf="menuOption.visible; else elseBlock" [ngClass]="'sub-side-bar-menu-level-' + level" class="nav-item">
-            <span class="item" [ngClass]="{ 
-                active: currentSection ? (menuOption.id === currentSection.id || menuOption.collapsed === false) : null
-            }">
+            <span class="item" [ngClass]="{ active: currentSection ? (menuOption.id === currentSection.id || menuOption.collapsed === false) : null }">
                 <span *ngIf="level < 2" class="icon">
                     <i-feather name="{{ ICONS[menuOption.title] }}" class="feather-thin"></i-feather>
                 </span>
