@@ -16,4 +16,5 @@ export class FieldConfigModel implements FieldConfig {
   labelCheckOn: string;
   rows?: number;
   inputType?: string;
+  css?: string;
 }

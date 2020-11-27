@@ -36,4 +36,5 @@ export interface FieldConfig {
   historic?: Array<any>;
   endpoint?: string;
   template?: string;
+  css?: string;
 }
