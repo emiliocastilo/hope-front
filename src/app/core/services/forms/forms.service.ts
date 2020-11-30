@@ -7,6 +7,9 @@ import { HttpClient } from '@angular/common/http';
 export class FormsService {
   constructor(private _http: HttpClient) {}
 
+  private savedForm = true;
+  private mustBeSaved = false;
+
   public async get(key: string) {
     return this._http.get(`/templates?key=${key}`).toPromise();
   }
@@ -41,5 +44,25 @@ export class FormsService {
 
   public support(form: any) {
     return this._http.post('/support', form);
+  }
+
+  public getSavedForm(): boolean {
+    return this.savedForm;
+  }
+
+  public setSavedForm(saved: boolean) {
+    this.savedForm = saved;
+  }
+
+  public getMustBeSaved(): boolean {
+    return this.mustBeSaved;
+  }
+
+  public setMustBeSaved(mustBeSaved: boolean) {
+    this.mustBeSaved = mustBeSaved;
+  }
+
+  public cancelNavigation(): boolean {
+    return true;
   }
 }

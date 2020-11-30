@@ -1,8 +1,7 @@
-import { ServiceModel } from '../../../../core/models/service/service.model';
 import { HospitalModel } from '../../../../core/models/hospital/hospital.model';
 import { RolModel } from '../rol.model';
 
-export class UsersModel {
+export class UserModel {
   constructor(
     public id?: number,
     public name?: string,
@@ -12,8 +11,8 @@ export class UsersModel {
     public collegeNumber?: string,
     public username?: string,
     public email?: string,
-    public roles?: Array<RolModel>,
-    public rolSelected?: Array<RolModel>
+    public roles?: Array<RolModel>, // roles que posee el usuario
+    public rolSelected?: RolModel //rol con el que se hace login en la app
   ) {}
 
   public setValuesFromDinamicForm(form: any, selectedRoles: Array<RolModel>) {
@@ -28,11 +27,11 @@ export class UsersModel {
   }
 
   public setValuesFromObject(
-    object: UsersModel,
+    object: UserModel,
     hospitals: HospitalModel[],
     hospitalId: number
   ) {
-    const user: UsersModel = object;
+    const user: UserModel = object;
 
     const hospital: HospitalModel[] = this.setHospital(hospitalId, hospitals);
 

@@ -36,7 +36,7 @@ export class EavPaseComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     this.getForm();
     this.form = this._formBuilder.group({
       dateEvaluation: [moment(new Date()).format('YYYY-MM-DD')],

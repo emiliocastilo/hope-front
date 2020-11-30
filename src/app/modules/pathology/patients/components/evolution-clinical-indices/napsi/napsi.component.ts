@@ -51,7 +51,7 @@ export class NapsiComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.patient = JSON.parse(localStorage.getItem('selectedUser'));
+    this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     this.getFormNails();
     this.getForm();
   }

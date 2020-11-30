@@ -38,7 +38,11 @@
           </span>
           <span
             class="ui-float-label switch-type"
-            *ngSwitchCase="formKey === 'active' || formKey === 'principal'"
+            *ngSwitchCase="
+              formKey === 'active' ||
+              formKey === 'principal' ||
+              formKey === 'visible'
+            "
           >
             <app-switch
               [label]="'modal.editor.field.' + formKey | lowercase | translate"
