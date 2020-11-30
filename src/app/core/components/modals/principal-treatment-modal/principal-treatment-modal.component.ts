@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 
@@ -21,7 +22,6 @@ export class PrincipalTreatmentModalComponent implements OnInit {
 
   public formKeys: string[] = [];
   public showRequiredLegend: boolean = false;
-
   constructor() {}
 
   get validForm(): boolean {
@@ -117,7 +117,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
 
     // Cuando cambiamos el tipo de tratamiento, seleccionamos el check de medicamento por defecto y limpiamos lo que hubiese en el formulario compartido.
     if (
-      (formKey === 'treatmentType' && event.id === 'topical') ||
+      (formKey === 'treatmentType' && event.id === 'TOPICO') ||
       (formKey === 'treatmentType' && event.id === 'BIOLOGICO') ||
       (formKey === 'treatmentType' && event.id === 'QUIMICO')
     ) {
@@ -146,8 +146,11 @@ export class PrincipalTreatmentModalComponent implements OnInit {
       // this.resetFields(['descripcionFormulaMagistral','dosisFormulaMagistral']);
       // Si el tratamiento es biológico o químico, ocultamos los radios y los campos de formula magistral y los vaciamos
       if (
-        this.form.get('treatmentType').value[0].id === 'QUIMICO' ||
-        this.form.get('treatmentType').value[0].id === 'BIOLOGICO' ||
+        (this.form.get('treatmentType').value[0] &&
+          (this.form.get('treatmentType').value[0].id === 'QUIMICO' ||
+            this.form.get('treatmentType').value[0].id === 'BIOLOGICO')) ||
+        this.form.get('treatmentType').value.id === 'QUIMICO' ||
+        this.form.get('treatmentType').value.id === 'BIOLOGICO' ||
         this.form.get('treatmentType').value === 'QUIMICO' ||
         this.form.get('treatmentType').value === 'BIOLOGICO'
       ) {
@@ -164,6 +167,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         // Activamos la validación de la opción medicamento, y desactivamos la de la fórmula magistral
         this.form.get('opcionFormulaMagistral').setValue('');
         this.form.get('opcionMedicamento').setValue('opcionMedicamento');
+
         // hemos seleccionado tratamiento topico
       } else {
         //Hemos seleccionado tratamiento topico y opcion medicamento
@@ -197,7 +201,14 @@ export class PrincipalTreatmentModalComponent implements OnInit {
       }
       //Todavia no se ha seleccionado ningún tratamiento
     } else {
-      if (['opcionFormulaMagistral', 'opcionMedicamento'].indexOf(key) > -1) {
+      if (
+        [
+          'opcionFormulaMagistral',
+          'opcionMedicamento',
+          'descripcionFormulaMagistral',
+          'dosisFormulaMagistral',
+        ].indexOf(key) > -1
+      ) {
         show = false;
       }
     }

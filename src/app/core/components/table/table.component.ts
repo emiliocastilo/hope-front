@@ -35,6 +35,7 @@ export class TableComponent implements OnInit {
   @Input() actions: TableActionsModel[];
   @Input() fieldRedRow: string;
   public internalSelectedItem: number;
+  @Input() modifiedString: boolean;
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
@@ -99,6 +100,17 @@ export class TableComponent implements OnInit {
 
     if (data && typeof data === 'object') {
       return data.name;
+    }
+    // Parseo para las tablas que usan constantes de back
+    if (data && this.modifiedString) {
+      switch (data) {
+        case 'BIOLOGICO':
+          return 'Biológico';
+        case 'QUIMICO':
+          return 'Químico';
+        case 'TOPICO':
+          return 'Tópico';
+      }
     }
 
     if (data && header == 'uvb') {

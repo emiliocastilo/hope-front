@@ -49,7 +49,7 @@ export class PhototherapyComponent implements OnInit {
     localStorage.getItem('selectedPatient' || '{}')
   );
   private currentTreatment: string = 'phototherapy';
-  public tableData: any[];
+  public tableData: any[] = [];
   public tableDataFilter: any[] = [];
   private modalForm: FormGroup = this._formBuilder.group({
     indication: ['', Validators.required],
@@ -74,7 +74,7 @@ export class PhototherapyComponent implements OnInit {
     psoralenoPlusUva: [false],
     waveLongitude: ['', Validators.required],
     timesAWeek: ['', Validators.required],
-    dateSuspension: ['', Validators.required],
+    dateSuspension: [],
   });
 
   public patient: PatientModel;
@@ -514,13 +514,15 @@ export class PhototherapyComponent implements OnInit {
     }
     this.addColorRow(this.tableData);
     this.tableDataFilter = this.tableData.map((x) => x);
-    this.tableDataFilter = this.tableDataFilter.splice(
-      this.currentPage * this.paginationData.size,
-      this.paginationData.size
-    );
+    if (this.currentPage > 0) {
+      this.tableDataFilter = this.tableDataFilter.splice(
+        this.currentPage * this.paginationData.size,
+        this.paginationData.size
+      );
+    }
   }
 
-  private addColorRow(tableData) {
+  private addColorRow(tableData: any) {
     tableData.forEach((element) => {
       element.rowColor = false;
       if (element.dateSuspension) {

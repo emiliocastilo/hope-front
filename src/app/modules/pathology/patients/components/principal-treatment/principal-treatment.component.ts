@@ -155,7 +155,7 @@ export class PrincipalTreatmentComponent implements OnInit {
           name: this._translate.instant('chemical'),
         },
         {
-          id: 'topical',
+          id: 'TOPICO',
           name: this._translate.instant('topical'),
         },
       ],
@@ -306,10 +306,12 @@ export class PrincipalTreatmentComponent implements OnInit {
       };
       this.addColorRow(this.tableData);
       this.tableDataFilter = this.tableData.map((x) => x);
-      this.tableDataFilter = this.tableDataFilter.splice(
-        this.paginationData.number * this.paginationData.size,
-        this.paginationData.size
-      );
+      if (this.currentPage > 0) {
+        this.tableDataFilter = this.tableDataFilter.splice(
+          this.currentPage * this.paginationData.size,
+          this.paginationData.size
+        );
+      }
     }
   }
 
@@ -328,6 +330,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       );
   }
 
+  // CREACIÓN
   public showModalCreate(): void {
     this.modalForm.reset({
       indication: this.indication,
@@ -366,6 +369,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.options = this.modalOptions;
     modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
       modalRef.componentInstance.options.dose.options = [];
+
       modalRef.componentInstance.form.controls.family.setValue(event.family);
       modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
       modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
@@ -392,9 +396,9 @@ export class PrincipalTreatmentComponent implements OnInit {
         // this.modalForm.controls.regimenTreatment.setValue('');
       } else {
         this.modalForm.controls.otherDosis.clearValidators();
-        /*this.modalForm.controls.regimenTreatment.setValue({
-          name: event.recommendation,
-        });*/
+        this.modalForm.controls.regimenTreatment.setValue({
+          name: this._translate.instant(event.recommendation),
+        });
       }
     });
 
@@ -403,6 +407,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
       this.modalForm.controls.descripcionFormulaMagistral.setValue('');
       this.modalForm.controls.dosisFormulaMagistral.setValue('');
+      this.modalForm.controls.treatmentType.setValue(event);
     });
 
     modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
@@ -440,16 +445,25 @@ export class PrincipalTreatmentComponent implements OnInit {
 
     modalRef.componentInstance.save.subscribe((event: any) => {
       event.value.dose = event.value.dose[0];
+
       if (Array.isArray(event.value.regimenTreatment)) {
-        event.value.regimenTreatment = event.value.regimenTreatment[0];
+        event.value.regimenTreatment = event.value.regimenTreatment[0].name;
+      } else {
+        if (event.value.regimenTreatment.name) {
+          event.value.regimenTreatment = event.value.regimenTreatment.name;
+        }
       }
+
       event.value.reasonChangeOrSuspension = null;
       event.value.dateSuspension = null;
       event.value.principle = event.value.medicine.actIngredients;
       event.value.brand = event.value.medicine.brand;
       event.value.type = event.value.medicine.family;
-      event.value.treatmentType = event.value.treatmentType[0];
-
+      if (Array.isArray(event.value.treatmentType)) {
+        event.value.treatmentType = event.value.treatmentType[0].id;
+      } else if (event.value.treatmentType.id) {
+        event.value.treatmentType = event.value.treatmentType.id;
+      }
       Object.keys(event.value).forEach((key: string) => {
         if (key.toLowerCase().includes('date') && event.value[key]) {
           event.value[key] = new Date(event.value[key]).toISOString();
@@ -476,7 +490,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       }
     });
     if (
-      dataEdit.treatmentType.id !== 'topical' &&
+      dataEdit.treatmentType.id !== 'TOPICO' &&
       dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'
     ) {
       await this._medicinesService
@@ -498,7 +512,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     });
 
     if (
-      dataEdit.treatmentType.id === 'topical' &&
+      dataEdit.treatmentType.id === 'TOPICO' &&
       dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral'
     ) {
       form_aux = this.modalFormUpdateTopico;
@@ -512,6 +526,9 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.title = 'changeSuspendTreatment';
     modalRef.componentInstance.form = form_aux;
     modalRef.componentInstance.options = this.modalOptions;
+    this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue({
+      name: this.modalFormUpdate.value.reasonChangeOrSuspension,
+    });
 
     modalRef.componentInstance.selectDose.subscribe((event: any) => {
       if (event.name === 'Otra') {
@@ -522,7 +539,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       } else {
         this.modalFormUpdate.controls.otherDosis.clearValidators();
         this.modalFormUpdate.controls.regimenTreatment.setValue({
-          name: event.recommendation,
+          name: this._translate.instant(event.recommendation),
         });
       }
     });
@@ -534,16 +551,18 @@ export class PrincipalTreatmentComponent implements OnInit {
       if (Array.isArray(event.value.dose)) {
         event.value.dose = event.value.dose[0];
       }
-
       if (Array.isArray(event.value.regimenTreatment)) {
-        event.value.regimenTreatment = event.value.regimenTreatment[0];
+        event.value.regimenTreatment = event.value.regimenTreatment[0].name;
+      } else {
+        if (event.value.regimenTreatment.name) {
+          event.value.regimenTreatment = event.value.regimenTreatment.name;
+        }
       }
 
       if (Array.isArray(event.value.reasonChangeOrSuspension)) {
         event.value.reasonChangeOrSuspension =
-          event.value.reasonChangeOrSuspension[0];
+          event.value.reasonChangeOrSuspension[0].name;
       }
-
       Object.keys(event.value).forEach((key: string) => {
         if (key.toLowerCase().includes('date') && event.value[key]) {
           event.value[key] = new Date(event.value[key]).toISOString();
@@ -558,16 +577,16 @@ export class PrincipalTreatmentComponent implements OnInit {
     });
   }
 
+  // EDICIÓN
   public async showModalEdit(index: number, type: string) {
     const dataEdit = { ...this.tableData[index] };
-
     Object.keys(dataEdit).forEach((key: string) => {
       if (key.toLowerCase().includes('date') && dataEdit[key]) {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
       }
     });
     if (
-      dataEdit.treatmentType.id !== 'topical' &&
+      dataEdit.treatmentType.id !== 'TOPICO' &&
       dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'
     ) {
       await this._medicinesService
@@ -583,6 +602,7 @@ export class PrincipalTreatmentComponent implements OnInit {
           this._notification.showErrorToast(error.errorCode);
         });
     }
+
     this.fillForm(this.modalForm, dataEdit, type);
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
@@ -592,12 +612,19 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.title = 'editTreatment';
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
+    if (this.modalForm.value.dose.name === 'Otra') {
+      this.modalForm.controls.otherDosis.setValidators(Validators.required);
+    }
+    this.modalForm.controls.regimenTreatment.setValue({
+      name: this.modalForm.value.regimenTreatment,
+    });
     //seteamos el select del tipo de tratamiento para que venga seleccionado.
     modalRef.componentInstance.form.controls.treatmentType.setValue(
-      this.modalForm.value.treatmentType.id
+      this.modalForm.value.treatmentType
     );
     modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
       modalRef.componentInstance.options.dose.options = [];
+
       modalRef.componentInstance.form.controls.family.setValue(event.family);
       modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
       modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
@@ -618,14 +645,16 @@ export class PrincipalTreatmentComponent implements OnInit {
           this._notification.showErrorToast(error.errorCode);
         });
     });
+
     modalRef.componentInstance.selectDose.subscribe((event: any) => {
       if (event.name === 'Otra') {
         this.modalForm.controls.otherDosis.setValidators(Validators.required);
         // this.modalForm.controls.regimenTreatment.setValue('');
       } else {
         this.modalForm.controls.otherDosis.clearValidators();
+
         this.modalForm.controls.regimenTreatment.setValue({
-          name: event.recommendation,
+          name: this._translate.instant(event.recommendation),
         });
       }
     });
@@ -674,38 +703,17 @@ export class PrincipalTreatmentComponent implements OnInit {
         event.value.dose = event.value.dose[0];
       }
       if (Array.isArray(event.value.regimenTreatment)) {
-        event.value.regimenTreatment = event.value.regimenTreatment[0];
-      }
-      if (!Array.isArray(event.value.treatmentType)) {
-        switch (event.value.treatmentType) {
-          case 'BIOLOGICO':
-            event.value.treatmentType = [
-              {
-                id: 'BIOLOGICO',
-                name: this._translate.instant('biological'),
-              },
-            ];
-            break;
-          case 'QUIMICO':
-            event.value.treatmentType = [
-              {
-                id: 'QUIMICO',
-                name: this._translate.instant('chemical'),
-              },
-            ];
-            break;
-          case 'topical':
-            event.value.treatmentType = [
-              {
-                id: 'topical',
-                name: this._translate.instant('topical'),
-              },
-            ];
-            break;
-
-          default:
-            break;
+        event.value.regimenTreatment = event.value.regimenTreatment[0].name;
+      } else {
+        if (event.value.regimenTreatment.name) {
+          event.value.regimenTreatment = event.value.regimenTreatment.name;
         }
+      }
+      if (Array.isArray(event.value.treatmentType)) {
+        event.value.treatmentType = event.value.treatmentType[0].id;
+      } else {
+        if (event.value.treatmentType.id)
+          event.value.treatmentType = event.value.treatmentType.id;
       }
 
       event.value.principle = event.value.medicine.actIngredients;
