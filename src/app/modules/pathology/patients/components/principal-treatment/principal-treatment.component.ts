@@ -612,7 +612,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.title = 'editTreatment';
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
-    if (
+    if (this.modalForm.value.dose &&
       this.modalForm.value.dose.name &&
       this.modalForm.value.dose.name === 'Otra'
     ) {
