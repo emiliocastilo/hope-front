@@ -364,6 +364,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/kidney-liver-biochemistry-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/serology',
     component: DynamicFormComponentComponent,
     resolve: {
