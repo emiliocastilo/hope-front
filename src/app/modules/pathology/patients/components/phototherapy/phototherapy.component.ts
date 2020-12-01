@@ -241,10 +241,11 @@ export class PhototherapyComponent implements OnInit {
         this.tableData = [];
       }
       // TO DO: cuando se vaya a refactorizar las opciones del treatmentType hay que cambiarlo tambien en la modal
-      event.value['treatmentType'] = {
+      /* event.value['treatmentType'] = {
         id: 'phototherapy',
         name: 'fototerapia',
-      };
+      }; */
+      event.value['treatmentType'] = 'fototerapia';
       this.tableData.push(event.value);
       //this.sortTable();
       this.refreshTable();
@@ -292,6 +293,13 @@ export class PhototherapyComponent implements OnInit {
     modalRef.componentInstance.title = 'changeSuspendTreatment';
     modalRef.componentInstance.form = this.modalFormUpdate;
     modalRef.componentInstance.options = this.modalOptions;
+    this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue({
+      name:
+        this.modalFormUpdate.value.reasonChangeOrSuspension &&
+        this.modalFormUpdate.value.reasonChangeOrSuspension.name
+          ? this.modalFormUpdate.value.reasonChangeOrSuspension.name
+          : this.modalFormUpdate.value.reasonChangeOrSuspension,
+    });
 
     modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
@@ -300,7 +308,10 @@ export class PhototherapyComponent implements OnInit {
     modalRef.componentInstance.update.subscribe((event: any) => {
       if (Array.isArray(event.value.reasonChangeOrSuspension)) {
         event.value.reasonChangeOrSuspension =
-          event.value.reasonChangeOrSuspension[0];
+          event.value.reasonChangeOrSuspension[0].name;
+      } else if (event.value.reasonChangeOrSuspension.name) {
+        event.value.reasonChangeOrSuspension =
+          event.value.reasonChangeOrSuspension.name;
       }
 
       Object.keys(event.value).forEach((key: string) => {

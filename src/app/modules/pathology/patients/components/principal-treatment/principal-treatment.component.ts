@@ -86,7 +86,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     dose: ['', Validators.required],
     otherDosis: [''],
     regimenTreatment: ['', Validators.required],
-    dateSuspension: ['', Validators.required],
+    dateSuspension: [''],
   });
 
   //TO DO: Unificar los formularios con los campos comunes
@@ -99,7 +99,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     opcionFormulaMagistral: [''],
 
     regimenTreatment: ['', Validators.required],
-    dateSuspension: ['', Validators.required],
+    dateSuspension: [],
   });
 
   public patient: PatientModel;
@@ -527,7 +527,18 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.form = form_aux;
     modalRef.componentInstance.options = this.modalOptions;
     this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue({
-      name: this.modalFormUpdate.value.reasonChangeOrSuspension,
+      name:
+        this.modalFormUpdate.value.reasonChangeOrSuspension &&
+        this.modalFormUpdate.value.reasonChangeOrSuspension.name
+          ? this.modalFormUpdate.value.reasonChangeOrSuspension.name
+          : this.modalFormUpdate.value.reasonChangeOrSuspension,
+    });
+    this.modalFormUpdate.controls.regimenTreatment.setValue({
+      name:
+        this.modalFormUpdate.value.regimenTreatment &&
+        this.modalFormUpdate.value.regimenTreatment.name
+          ? this.modalFormUpdate.value.regimenTreatment.name
+          : this.modalFormUpdate.value.regimenTreatment,
     });
 
     modalRef.componentInstance.selectDose.subscribe((event: any) => {
@@ -612,7 +623,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.title = 'editTreatment';
     modalRef.componentInstance.form = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
-    if (this.modalForm.value.dose &&
+    if (
+      this.modalForm.value.dose &&
       this.modalForm.value.dose.name &&
       this.modalForm.value.dose.name === 'Otra'
     ) {
