@@ -306,12 +306,10 @@ export class PrincipalTreatmentComponent implements OnInit {
       };
       this.addColorRow(this.tableData);
       this.tableDataFilter = this.tableData.map((x) => x);
-      if (this.currentPage > 0) {
-        this.tableDataFilter = this.tableDataFilter.splice(
-          this.currentPage * this.paginationData.size,
-          this.paginationData.size
-        );
-      }
+      this.tableDataFilter = this.tableDataFilter.splice(
+        this.paginationData.number * this.paginationData.size,
+        this.paginationData.size
+      );
     }
   }
 
@@ -526,13 +524,17 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.title = 'changeSuspendTreatment';
     modalRef.componentInstance.form = form_aux;
     modalRef.componentInstance.options = this.modalOptions;
-    this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue({
-      name:
-        this.modalFormUpdate.value.reasonChangeOrSuspension &&
-        this.modalFormUpdate.value.reasonChangeOrSuspension.name
-          ? this.modalFormUpdate.value.reasonChangeOrSuspension.name
-          : this.modalFormUpdate.value.reasonChangeOrSuspension,
-    });
+    if (!this.modalFormUpdate.value.reasonChangeOrSuspension) {
+      this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue('');
+    } else {
+      this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue({
+        name:
+          this.modalFormUpdate.value.reasonChangeOrSuspension &&
+          this.modalFormUpdate.value.reasonChangeOrSuspension.name
+            ? this.modalFormUpdate.value.reasonChangeOrSuspension.name
+            : this.modalFormUpdate.value.reasonChangeOrSuspension,
+      });
+    }
     this.modalFormUpdate.controls.regimenTreatment.setValue({
       name:
         this.modalFormUpdate.value.regimenTreatment &&
@@ -573,6 +575,9 @@ export class PrincipalTreatmentComponent implements OnInit {
       if (Array.isArray(event.value.reasonChangeOrSuspension)) {
         event.value.reasonChangeOrSuspension =
           event.value.reasonChangeOrSuspension[0].name;
+      } else if (event.value.reasonChangeOrSuspension.name) {
+        event.value.reasonChangeOrSuspension =
+          event.value.reasonChangeOrSuspension.name;
       }
       Object.keys(event.value).forEach((key: string) => {
         if (key.toLowerCase().includes('date') && event.value[key]) {
@@ -631,7 +636,11 @@ export class PrincipalTreatmentComponent implements OnInit {
       this.modalForm.controls.otherDosis.setValidators(Validators.required);
     }
     this.modalForm.controls.regimenTreatment.setValue({
-      name: this.modalForm.value.regimenTreatment,
+      name:
+        this.modalForm.value.regimenTreatment &&
+        this.modalForm.value.regimenTreatment.name
+          ? this.modalForm.value.regimenTreatment.name
+          : this.modalForm.value.regimenTreatment,
     });
     //seteamos el select del tipo de tratamiento para que venga seleccionado.
     modalRef.componentInstance.form.controls.treatmentType.setValue(
@@ -923,10 +932,12 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
     this.addColorRow(this.tableData);
     this.tableDataFilter = this.tableData.map((x) => x);
-    this.tableDataFilter = this.tableDataFilter.splice(
-      this.currentPage * this.paginationData.size,
-      this.paginationData.size
-    );
+    if (this.currentPage > 0) {
+      this.tableDataFilter = this.tableDataFilter.splice(
+        this.currentPage * this.paginationData.size,
+        this.paginationData.size
+      );
+    }
   }
 
   private addColorRow(tableData) {
