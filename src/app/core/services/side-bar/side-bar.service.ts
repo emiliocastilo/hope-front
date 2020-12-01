@@ -14,12 +14,19 @@ export class SideBarService {
     public currentSection = new Subject<SideBarItemModel>();
     public event = new Subject();
 
-    private assignCollapseState (menu: SideBarItemModel) {
+    private assignParentAndCollapseStatus (menu: SideBarItemModel) {
         menu.collapsed = true;
         if (menu.children && menu.children.length > 0) {
-            menu.children.forEach(menu => {
-                menu.collapsed = true;
-                if (menu.children && menu.children.length > 0) this.assignCollapseState(menu);
+            menu.children.forEach(submenu => {
+                submenu.fatherSection = {
+                    id: menu.id,
+                    title: menu.title,
+                    path: menu.path,
+                    url: menu.url,
+                    collapsed: menu.collapsed
+                };
+                submenu.collapsed = true;
+                if (submenu.children && submenu.children.length > 0) this.assignParentAndCollapseStatus(submenu);
             });
         }
         return menu;
