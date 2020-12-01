@@ -19,6 +19,6 @@ export class HomeDashboardModuleComponent implements OnInit {
     event.preventDefault();
     const url = section.url.split('hopes')[1];
     this._router.navigate([url]);
-    this._sidebar.event.next(section);
+    this._sidebar.setCurrentSection(section);
   }
 }

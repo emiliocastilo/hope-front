@@ -27,9 +27,8 @@
     </a>
   </div>
   <side-bar-menu
-    *ngIf="!reloading"
+    *ngIf="menu"
     class="scroller"
-    [collapsed]="collapsed"
     [menu]="menu"
     [level]="level"
   ></side-bar-menu>

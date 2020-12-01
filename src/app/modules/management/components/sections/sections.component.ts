@@ -207,7 +207,7 @@ export class SectionsComponent implements OnInit {
         }
       );
     }
-    this._sidebar.event.next('fetch menu');
+    // this._sidebar.event.next('fetch menu');
   }
 
   private retrieveSections(): void {
