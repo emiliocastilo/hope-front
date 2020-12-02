@@ -113,6 +113,32 @@ export class PrincipalTreatmentComponent implements OnInit {
 
   formatter = (state) => state.name;
 
+  filterMeds(meds: any): any {
+    let auxmeds = [];
+    meds.forEach((med) => {
+      if (Array.isArray(this.modalForm.controls.treatmentType.value)) {
+        if (
+          !med.family ||
+          med.family === this.modalForm.controls.treatmentType.value[0].id ||
+          this.modalForm.controls.treatmentType.value[0].id === 'TOPICO'
+        ) {
+          //&& this.modalForm.controls.treatmentType.value[0].id
+          auxmeds.push(med);
+        }
+      } else {
+        if (
+          !med.family ||
+          med.family === this.modalForm.controls.treatmentType.value.id ||
+          this.modalForm.controls.treatmentType.value.id === 'TOPICO' ||
+          med.family === this.modalForm.controls.treatmentType.value ||
+          this.modalForm.controls.treatmentType.value.id === 'TOPICO'
+        ) {
+          auxmeds.push(med);
+        }
+      }
+    });
+    return auxmeds;
+  }
   search = (text$: Observable<string>) => {
     return text$.pipe(
       debounceTime(200),
@@ -120,7 +146,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       switchMap((term) =>
         this._medicinesService.getByText(`search=${term}`).pipe(
           map((response: any) => {
-            return response.content;
+            return this.filterMeds(response.content);
           }),
           tap((data) => {
             data.forEach((element) => {
@@ -488,7 +514,7 @@ export class PrincipalTreatmentComponent implements OnInit {
       }
     });
     if (
-      dataEdit.treatmentType.id !== 'TOPICO' &&
+      dataEdit.treatmentType !== 'TOPICO' &&
       dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral'
     ) {
       await this._medicinesService
@@ -510,7 +536,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     });
 
     if (
-      dataEdit.treatmentType.id === 'TOPICO' &&
+      dataEdit.treatmentType === 'TOPICO' &&
       dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral'
     ) {
       form_aux = this.modalFormUpdateTopico;
@@ -524,23 +550,19 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.title = 'changeSuspendTreatment';
     modalRef.componentInstance.form = form_aux;
     modalRef.componentInstance.options = this.modalOptions;
-    if (!this.modalFormUpdate.value.reasonChangeOrSuspension) {
-      this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue('');
+    if (!modalRef.componentInstance.form.value.reasonChangeOrSuspension) {
+      modalRef.componentInstance.form.controls.reasonChangeOrSuspension.setValue(
+        ''
+      );
     } else {
-      this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue({
-        name:
-          this.modalFormUpdate.value.reasonChangeOrSuspension &&
-          this.modalFormUpdate.value.reasonChangeOrSuspension.name
-            ? this.modalFormUpdate.value.reasonChangeOrSuspension.name
-            : this.modalFormUpdate.value.reasonChangeOrSuspension,
-      });
+      modalRef.componentInstance.form.controls.reasonChangeOrSuspension.setValue(
+        {
+          name: dataEdit.reasonChangeOrSuspension,
+        }
+      );
     }
-    this.modalFormUpdate.controls.regimenTreatment.setValue({
-      name:
-        this.modalFormUpdate.value.regimenTreatment &&
-        this.modalFormUpdate.value.regimenTreatment.name
-          ? this.modalFormUpdate.value.regimenTreatment.name
-          : this.modalFormUpdate.value.regimenTreatment,
+    modalRef.componentInstance.form.controls.regimenTreatment.setValue({
+      name: dataEdit.regimenTreatment,
     });
 
     modalRef.componentInstance.selectDose.subscribe((event: any) => {
@@ -596,6 +618,7 @@ export class PrincipalTreatmentComponent implements OnInit {
   // EDICIÓN
   public async showModalEdit(index: number, type: string) {
     const dataEdit = { ...this.tableData[index] };
+
     Object.keys(dataEdit).forEach((key: string) => {
       if (key.toLowerCase().includes('date') && dataEdit[key]) {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
@@ -623,7 +646,6 @@ export class PrincipalTreatmentComponent implements OnInit {
     const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
       size: 'lg',
     });
-
     modalRef.componentInstance.type = 'edit';
     modalRef.componentInstance.title = 'editTreatment';
     modalRef.componentInstance.form = this.modalForm;

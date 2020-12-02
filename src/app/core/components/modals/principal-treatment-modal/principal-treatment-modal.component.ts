@@ -139,21 +139,79 @@ export class PrincipalTreatmentModalComponent implements OnInit {
     let show = true;
     // Si estamos en cambiar o suspender
     // TODO: comparar si estamos en cambiar o suspender, si es así, deshabilitar/habilitar los campos correspondientes
+
     if (
-      this.form.get('treatmentType') &&
-      this.form.get('treatmentType').value
+      !this.form.get('treatmentType') &&
+      this.form.get('reasonChangeOrSuspension')
     ) {
-      // this.resetFields(['descripcionFormulaMagistral','dosisFormulaMagistral']);
-      // Si el tratamiento es biológico o químico, ocultamos los radios y los campos de formula magistral y los vaciamos
+      if (['opcionFormulaMagistral', 'opcionMedicamento'].indexOf(key) > -1) {
+        show = false;
+      }
+    } else {
       if (
-        (this.form.get('treatmentType').value[0] &&
-          (this.form.get('treatmentType').value[0].id === 'QUIMICO' ||
-            this.form.get('treatmentType').value[0].id === 'BIOLOGICO')) ||
-        this.form.get('treatmentType').value.id === 'QUIMICO' ||
-        this.form.get('treatmentType').value.id === 'BIOLOGICO' ||
-        this.form.get('treatmentType').value === 'QUIMICO' ||
-        this.form.get('treatmentType').value === 'BIOLOGICO'
+        this.form.get('treatmentType') &&
+        this.form.get('treatmentType').value
       ) {
+        // this.resetFields(['descripcionFormulaMagistral','dosisFormulaMagistral']);
+        // Si el tratamiento es biológico o químico, ocultamos los radios y los campos de formula magistral y los vaciamos
+        if (
+          (this.form.get('treatmentType').value[0] &&
+            (this.form.get('treatmentType').value[0].id === 'QUIMICO' ||
+              this.form.get('treatmentType').value[0].id === 'BIOLOGICO')) ||
+          this.form.get('treatmentType').value.id === 'QUIMICO' ||
+          this.form.get('treatmentType').value.id === 'BIOLOGICO' ||
+          this.form.get('treatmentType').value === 'QUIMICO' ||
+          this.form.get('treatmentType').value === 'BIOLOGICO'
+        ) {
+          if (
+            [
+              'opcionFormulaMagistral',
+              'opcionMedicamento',
+              'descripcionFormulaMagistral',
+              'dosisFormulaMagistral',
+            ].indexOf(key) > -1
+          ) {
+            show = false;
+          }
+          // Activamos la validación de la opción medicamento, y desactivamos la de la fórmula magistral
+          this.form.get('opcionFormulaMagistral').setValue('');
+          this.form.get('opcionMedicamento').setValue('opcionMedicamento');
+
+          // hemos seleccionado tratamiento topico
+        } else {
+          //Hemos seleccionado tratamiento topico y opcion medicamento
+          if (
+            this.form.get('opcionMedicamento').value === 'opcionMedicamento'
+          ) {
+            if (
+              ['descripcionFormulaMagistral', 'dosisFormulaMagistral'].indexOf(
+                key
+              ) > -1
+            ) {
+              show = false;
+            }
+            //Hemos seleccionado tratamiento topico y opcion formula magistral
+          } else if (
+            this.form.get('opcionFormulaMagistral').value ===
+            'opcionFormulaMagistral'
+          ) {
+            if (
+              [
+                'medicine',
+                'family',
+                'atc',
+                'cn',
+                'tract',
+                'dose',
+                'otherDosis',
+              ].indexOf(key) > -1
+            ) {
+              show = false;
+            }
+          }
+        }
+        //Todavia no se ha seleccionado ningún tratamiento
+      } else {
         if (
           [
             'opcionFormulaMagistral',
@@ -164,52 +222,6 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         ) {
           show = false;
         }
-        // Activamos la validación de la opción medicamento, y desactivamos la de la fórmula magistral
-        this.form.get('opcionFormulaMagistral').setValue('');
-        this.form.get('opcionMedicamento').setValue('opcionMedicamento');
-
-        // hemos seleccionado tratamiento topico
-      } else {
-        //Hemos seleccionado tratamiento topico y opcion medicamento
-        if (this.form.get('opcionMedicamento').value === 'opcionMedicamento') {
-          if (
-            ['descripcionFormulaMagistral', 'dosisFormulaMagistral'].indexOf(
-              key
-            ) > -1
-          ) {
-            show = false;
-          }
-          //Hemos seleccionado tratamiento topico y opcion formula magistral
-        } else if (
-          this.form.get('opcionFormulaMagistral').value ===
-          'opcionFormulaMagistral'
-        ) {
-          if (
-            [
-              'medicine',
-              'family',
-              'atc',
-              'cn',
-              'tract',
-              'dose',
-              'otherDosis',
-            ].indexOf(key) > -1
-          ) {
-            show = false;
-          }
-        }
-      }
-      //Todavia no se ha seleccionado ningún tratamiento
-    } else {
-      if (
-        [
-          'opcionFormulaMagistral',
-          'opcionMedicamento',
-          'descripcionFormulaMagistral',
-          'dosisFormulaMagistral',
-        ].indexOf(key) > -1
-      ) {
-        show = false;
       }
     }
     return show;
