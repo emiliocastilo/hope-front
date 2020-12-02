@@ -108,7 +108,23 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/diagnosis/principal-diagnosis-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/diagnosis/secundary-diagnosis',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/diagnosis/secundary-diagnosis-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
@@ -124,6 +140,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/diagnosis/sexually-transmitted-diseases-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/evolution-clinical-indices/pasi-bsa-pga',
     component: PasiBsaPgaComponent,
     resolve: {
@@ -133,6 +157,14 @@ const routes: Routes = [
   },
   {
     path: 'patients/tracing',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/tracing-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
@@ -157,6 +189,14 @@ const routes: Routes = [
   },
   {
     path: 'patients/complementary-imaging-scans',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/complementary-imaging-scans-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
@@ -196,7 +236,103 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/blood-count-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/work-groups',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/patient-situation-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/work-groups-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/sociodemographic-data-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/physical-condition-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/basic-urinalysis',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/other-analysis-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/adherence-to-treatment-SMAQ',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/serology-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/cardiovascular-risk',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/risk-factors',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/gynecology',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
@@ -212,7 +348,23 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'patients/metabolic-profile-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'patients/kidney-liver-biochemistry',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/kidney-liver-biochemistry-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
@@ -245,6 +397,38 @@ const routes: Routes = [
   },
   {
     path: 'patients/shared-patients',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/shared-patients-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/comorbidities-coinfections-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/genotyping-resistances-vih',
+    component: DynamicFormComponentComponent,
+    resolve: {
+      patients: PatientsResolverService,
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/viral-tropism-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
