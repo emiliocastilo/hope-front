@@ -32,15 +32,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     constructor(private _sidebar: MenuService, private _router: Router) { }
 
     ngOnInit (): void {
-        const storagedSection = localStorage.getItem('section');
-        if (storagedSection && storagedSection !== 'undefined')
-            this.currentSection = JSON.parse(storagedSection);
+        this.currentSection = JSON.parse(localStorage.getItem('section'));
         this.currentSectionSubscription = this._sidebar
-            .getCurrentSection()
-            .subscribe((section: MenuItemModel) => {
-                this.currentSection = section;
-                this.updateCollapseState(this.menu);
-            });
+            .getCurrentSection().subscribe(
+                (section: MenuItemModel) => {
+                    console.log(section);
+                    this.currentSection = section;
+                    this.updateCollapseState(this.menu);
+                });
 
         if (!this.menu) {
             this.menu = JSON.parse(localStorage.getItem('menu'));

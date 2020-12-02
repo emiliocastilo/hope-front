@@ -35,8 +35,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     }
 
     private buildBreadcrumb (section: MenuItemModel, breadcrumbs?: MenuItemModel[]): MenuItemModel[] {
+        // console.log(section.title, section.visible, section.parent);
         if (!breadcrumbs) breadcrumbs = [];
-        if (section.visible) breadcrumbs.push(section);
+        if (section.visible === undefined || section.visible) breadcrumbs.push(section);
         if (section.parent) this.buildBreadcrumb(section.parent, breadcrumbs);
         return breadcrumbs;
     }
