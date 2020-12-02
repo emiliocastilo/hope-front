@@ -6,7 +6,7 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { DetailDispensationModel } from '../../models/dispensation/detail-dispensation.model';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -48,8 +48,8 @@ export class DispensationsComponent implements OnInit {
 
   public selectedItem: DispensationModel;
   private modalForm: FormGroup;
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
+  public menu: MenuItemModel[] = [];
+  public menuSelected: MenuItemModel;
   public showDetails: boolean = false;
   public dispensationsTableActions: TableActionsModel[] = new TableActionsBuilder().getDetailAndDelete();
   ç;

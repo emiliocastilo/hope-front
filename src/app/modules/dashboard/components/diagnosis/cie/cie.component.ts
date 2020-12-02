@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { GraphsService } from '../../../services/graphs.service';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class CieComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
-  menu: SideBarItemModel[] = [];
+  menu: MenuItemModel[] = [];
   menuId = 2;
   currentSection = 1;
   public showingDetail = false;

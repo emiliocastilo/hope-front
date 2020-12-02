@@ -15,7 +15,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { HomeDashboardComponent } from './components/home/home-dashboard/home-dashboard.component';
-import { SideBarMenuComponent } from './components/side-bar/side-bar-menu/side-bar-menu.component';
+import { MenuComponent } from './components/side-bar/menu/menu.component';
 import { HomeDashboardModuleComponent } from './components/home/home-dashboard/home-dashboard-module/home-dashboard-module.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SelectRoleComponent } from './components/select-role/select-role.component';
@@ -87,7 +87,7 @@ export function createTranslateLoader(http: HttpClient) {
     HeaderComponent,
     SideBarComponent,
     HomeDashboardComponent,
-    SideBarMenuComponent,
+    MenuComponent,
     HomeDashboardModuleComponent,
     ButtonComponent,
     InputComponent,
@@ -174,7 +174,7 @@ export function createTranslateLoader(http: HttpClient) {
     HeaderComponent,
     SideBarComponent,
     HomeDashboardComponent,
-    SideBarMenuComponent,
+    MenuComponent,
     HomeDashboardModuleComponent,
     ButtonComponent,
     InputComponent,

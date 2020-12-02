@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
-import { SideBarService } from '../../services/side-bar/side-bar.service';
+import { MenuItemModel } from '../../models/menu-item/menu-item.model';
+import { MenuService } from '../../services/menu/menu.service';
 
 @Component({
     selector: 'home',
@@ -8,10 +8,9 @@ import { SideBarService } from '../../services/side-bar/side-bar.service';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    // modules: Array<HomeDashboardModule>;
-    modules: Array<SideBarItemModel>;
+    modules: Array<MenuItemModel>;
 
-    constructor(private _sidebar: SideBarService) { }
+    constructor(private _sidebar: MenuService) { }
 
     ngOnInit (): void {
         this.modules = JSON.parse(localStorage.getItem('menu'));
@@ -21,8 +20,6 @@ export class HomeComponent implements OnInit {
     }
 
     fetchModules () {
-        // const response: any = await this._sidebar.getSideBar();
-        // this.modules = response.children;
         this._sidebar.getSideBar().subscribe(response => this.modules = response.children);
     }
 }

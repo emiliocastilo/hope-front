@@ -1,4 +1,4 @@
-export class SideBarItemModel {
+export class MenuItemModel {
     constructor(
         public id: number,
         public title: string,
@@ -8,11 +8,10 @@ export class SideBarItemModel {
         public active?: boolean,
         public principal?: boolean,
         public order?: number,
-        public children?: Array<SideBarItemModel>,
+        public children?: Array<MenuItemModel>,
         public collapsed?: boolean,
-        public fatherSection?: SideBarItemModel,
+        public parent?: MenuItemModel,
         public visible?: boolean,
         public path?: string
-
     ) { }
 }

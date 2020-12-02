@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 
 @Component({
     selector: 'app-management',
@@ -9,7 +9,7 @@ import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.mod
 })
 export class ManagementComponent implements OnInit {
     modules: Array<HomeDashboardModule>;
-    menu: SideBarItemModel[] = [];
+    menu: MenuItemModel[] = [];
     public menuId = 4;
 
     constructor() { }

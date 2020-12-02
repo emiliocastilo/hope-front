@@ -6,7 +6,7 @@ import {
   EventEmitter,
   OnChanges,
 } from '@angular/core';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -17,7 +17,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ButtonNailsComponent implements OnInit, OnChanges {
   @Input() Valuehand: string;
   @Input() group: string;
-  menu: SideBarItemModel[] = [];
+  menu: MenuItemModel[] = [];
   @Input() form: FormGroup;
   @Input() filledForm: any;
   @Input() clearHand: boolean;

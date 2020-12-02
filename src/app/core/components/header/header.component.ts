@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SideBarItemModel } from '../../models/side-bar/side-bar-item.model';
+import { MenuItemModel } from '../../models/menu-item/menu-item.model';
 
 @Component({
   selector: 'app-header',

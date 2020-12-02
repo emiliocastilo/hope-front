@@ -1,35 +1,26 @@
 <nav [ngClass]="{ collapsed: collapsed, 'side-bar': true }">
-  <div class="brand">
-    <span class="toggler" (click)="toggleCollapse()">
-      <i-feather name="menu"></i-feather>
-    </span>
-    <a class="logo" href="">
-      <img
-        [ngClass]="{
+    <div class="brand">
+        <span class="toggler" (click)="toggleCollapse()">
+            <i-feather name="menu"></i-feather>
+        </span>
+        <a class="logo" href="">
+            <img [ngClass]="{
           'logo-img': !collapsed,
           'logo-hidden': collapsed
-        }"
-        src="assets/img/hopes-logo.png"
-        alt="Hopes image, click here and it takes you home."
-      />
-    </a>
-  </div>
-  <div class="user-item">
-    <a class="dot" (click)="goToMyAccount()">
-      <i-feather name="user" class="feather-thin user"></i-feather>
-    </a>
-    <a class="user-data" (click)="goToMyAccount()">
-      <span class="username">{{ name | titlecase }}</span>
-      <span class="rol">{{ rol }}</span>
-    </a>
-    <a class="icon logout" (click)="logout()">
-      <i-feather name="power" class="feather-thin"></i-feather>
-    </a>
-  </div>
-  <side-bar-menu
-    *ngIf="menu"
-    class="scroller"
-    [menu]="menu"
-    [level]="level"
-  ></side-bar-menu>
+        }" src="assets/img/hopes-logo.png" alt="Hopes image, click here and it takes you home." />
+        </a>
+    </div>
+    <div class="user-item">
+        <a class="dot" (click)="goToMyAccount()">
+            <i-feather name="user" class="feather-thin user"></i-feather>
+        </a>
+        <a class="user-data" (click)="goToMyAccount()">
+            <span class="username">{{ name | titlecase }}</span>
+            <span class="rol">{{ rol }}</span>
+        </a>
+        <a class="icon logout" (click)="logout()">
+            <i-feather name="power" class="feather-thin"></i-feather>
+        </a>
+    </div>
+    <inner-menu *ngIf="menu && menu.length > 0" class="scroller" [menu]="menu" [level]="1"></inner-menu>
 </nav>

@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PatientsIndicationComponent implements OnInit {
   public modules: Array<HomeDashboardModule>;
-  public menu: SideBarItemModel[] = [];
+  public menu: MenuItemModel[] = [];
   public menuId = 2;
   public currentSection = 1;
   public data: ColumnChartModel;
