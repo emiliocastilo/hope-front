@@ -284,7 +284,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'patients/basic-urinalysis',
+    path: 'patients/basic-urinalysis-vih',
     component: DynamicFormComponentComponent,
     resolve: {
       patients: PatientsResolverService,
