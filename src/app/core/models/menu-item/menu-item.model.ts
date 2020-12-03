@@ -10,7 +10,7 @@ export class MenuItemModel {
     public order?: number,
     public children?: Array<MenuItemModel>,
     public collapsed?: boolean,
-    public parent?: MenuItemModel,
+    public parentId?: number,
     public visible?: boolean,
     public path?: string
   ) {}

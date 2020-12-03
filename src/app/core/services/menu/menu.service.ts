@@ -15,28 +15,19 @@ export class MenuService {
   public allSections: MenuItemModel[];
 
   constructor(private _httpClient: HttpClient) {
-    if (localStorage.getItem('allsections'))
-      this.allSections = JSON.parse(localStorage.getItem('allsections'));
-    else this.getSideBar();
+    this.getSideBar();
   }
 
-  private assignParentAndCollapseStatus(menu: MenuItemModel) {
+  private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
     menu.collapsed = true;
-    console.log(menu.parent);
+    menu.path = `${root ? root : ''}/${menu.id}`;
     if (menu.children && menu.children.length > 0) {
       menu.children.forEach((submenu) => {
-        // submenu.parent = this.allSections.filter(f => f.id === menu.id)[0];
-        // console.log(this.allSections.filter(f => f.id === menu.id)[0]);
-        submenu.parent = {
-          id: menu.id,
-          title: menu.title,
-          path: menu.path,
-          url: menu.url,
-          collapsed: menu.collapsed,
-        };
+        submenu.parentId = menu.id;
+        submenu.path = `${menu.path}/${submenu.id}/`;
         submenu.collapsed = true;
         if (submenu.children && submenu.children.length > 0)
-          this.assignParentAndCollapseStatus(submenu);
+          this.assignParentAndCollapseStatus(submenu, menu.path);
       });
     }
     return menu;
@@ -59,19 +50,14 @@ export class MenuService {
     return this.current;
   }
 
-  private fillSections(section: MenuItemModel) {
+  public fillSections(section: MenuItemModel) {
+    if (!this.allSections) this.allSections = [];
     this.allSections.push(section);
     if (section.children && section.children.length > 0)
       section.children.forEach((child) => {
-        child.parent = {
-          id: section.id,
-          title: section.title,
-          path: section.path,
-          url: section.url,
-        };
+        child.parentId = section.id;
         this.fillSections(child);
       });
-    localStorage.setItem('allsections', JSON.stringify(this.allSections));
   }
 
   public setCurrentSection(section: MenuItemModel) {
@@ -96,7 +82,9 @@ export class MenuService {
       map((response) => {
         this.allSections = [];
         this.fillSections(response);
-        return this.assignParentAndCollapseStatus(response);
+        const menu = this.assignParentAndCollapseStatus(response);
+        console.log(this.allSections);
+        return menu;
       })
     );
   }

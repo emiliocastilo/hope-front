@@ -11,7 +11,9 @@ import { Subscription } from 'rxjs';
 })
 export class BreadcrumbComponent implements OnInit, OnDestroy {
   private currentSectionSubscription: Subscription;
+  private fullMenu: MenuItemModel;
   public homeUrl = '/hopes';
+
   selectedSection: MenuItemModel;
   crumbs: MenuItemModel[];
   menu: Array<MenuItemModel>;
@@ -22,6 +24,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     this.crumbs = [];
     this.menu = JSON.parse(localStorage.getItem('menu'));
     this.selectedSection = JSON.parse(localStorage.getItem('section'));
+    this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
 
     if (this.selectedSection)
       this.crumbs = this.buildBreadcrumb(this.selectedSection).reverse();
@@ -29,6 +32,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     this.currentSectionSubscription = this._sidebar
       .getCurrentSection()
       .subscribe((currentSection: MenuItemModel) => {
+        console.log(currentSection);
         this.selectedSection = currentSection;
         this.crumbs = this.buildBreadcrumb(currentSection).reverse();
       });
@@ -38,40 +42,34 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     section: MenuItemModel,
     breadcrumbs?: MenuItemModel[]
   ): MenuItemModel[] {
-    console.log(section.parent);
     if (!breadcrumbs) breadcrumbs = [];
     if (
       (section.visible === undefined || section.visible) &&
-      section.path !== '/hopes'
+      section.url !== '/hopes'
     )
       breadcrumbs.push(section);
 
-    if (section.parent) {
-      if (this._sidebar.allSections && this._sidebar.allSections.length > 0)
-        this.buildBreadcrumb(
-          this._sidebar.allSections.filter(
-            (f) => f.id === section.parent.id
-          )[0],
-          breadcrumbs
-        );
+    console.log(section.parentId);
+    if (section.parentId) {
+      if (!this._sidebar.allSections) this._sidebar.fillSections(this.fullMenu);
+      this.buildBreadcrumb(
+        this._sidebar.allSections.filter((f) => f.id === section.parentId)[0],
+        breadcrumbs
+      );
     }
     return breadcrumbs;
   }
 
-  navigate(section: MenuItemModel) {
-    const url =
-      !section.url || section.url === this.homeUrl
-        ? this.homeUrl
-        : section.url.split('hopes')[1];
-    this._router.navigate([url]);
-    if (url !== this.homeUrl) {
-      this._sidebar.setCurrentSection(section);
-    } else {
-      debugger;
-      this._sidebar.setCurrentSection(
-        this._sidebar.allSections.filter((f) => f.path === this.homeUrl)[0]
-      );
+  navigate(section?: MenuItemModel) {
+    const url = !section ? this.homeUrl : section.url.split('hopes')[1];
+    if (!section) {
+      if (!this._sidebar.allSections) this._sidebar.fillSections(this.fullMenu);
+      section = this._sidebar.allSections.filter(
+        (f) => f.url === this.homeUrl
+      )[0];
     }
+    this._router.navigate([url]);
+    this._sidebar.setCurrentSection(section);
   }
 
   ngOnDestroy() {
