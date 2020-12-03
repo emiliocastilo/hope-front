@@ -83,7 +83,6 @@ export class MenuService {
         this.allSections = [];
         this.fillSections(response);
         const menu = this.assignParentAndCollapseStatus(response);
-        console.log(this.allSections);
         return menu;
       })
     );

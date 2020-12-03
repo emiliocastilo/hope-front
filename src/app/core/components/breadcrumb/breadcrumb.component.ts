@@ -32,7 +32,6 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     this.currentSectionSubscription = this._sidebar
       .getCurrentSection()
       .subscribe((currentSection: MenuItemModel) => {
-        console.log(currentSection);
         this.selectedSection = currentSection;
         this.crumbs = this.buildBreadcrumb(currentSection).reverse();
       });
@@ -49,7 +48,6 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     )
       breadcrumbs.push(section);
 
-    console.log(section.parentId);
     if (section.parentId) {
       if (!this._sidebar.allSections) this._sidebar.fillSections(this.fullMenu);
       this.buildBreadcrumb(
@@ -68,8 +66,11 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         (f) => f.url === this.homeUrl
       )[0];
     }
-    this._router.navigate([url]);
-    this._sidebar.setCurrentSection(section);
+
+    if (url) {
+      this._router.navigate([url]);
+      this._sidebar.setCurrentSection(section);
+    }
   }
 
   ngOnDestroy() {
