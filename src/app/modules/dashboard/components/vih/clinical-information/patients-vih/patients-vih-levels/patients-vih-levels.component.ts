@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
-import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
+import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
@@ -13,7 +14,7 @@ import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service
 })
 export class PatientsVihLevelsComponent implements OnInit {
   // Select, datos iniciales
-  selectLabel = 'Por parámetros de VIH';
+  selectLabel: string;
   selectedOption = 'CVP';
   selectedChart = '';
 
@@ -28,6 +29,15 @@ export class PatientsVihLevelsComponent implements OnInit {
     {
       name: 'CD4',
     },
+    {
+      name: 'Grupo de riesgo',
+    },
+    {
+      name: 'Infección viral',
+    },
+    {
+      name: 'VHC',
+    },
   ];
 
   //Tabla
@@ -36,12 +46,36 @@ export class PatientsVihLevelsComponent implements OnInit {
   dataTable: any[];
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
+  //Detalle
+  public headersDetailsTable: string[] = [
+    'nhc',
+    'sip',
+    'patient',
+    'principalIndication',
+    'principalDiagnose',
+    'treatment',
+  ];
+  public detailsDataTable: any[];
+  private currentSelected: any;
+  public details: any[] = [];
+  public dataToExport: any[] = [];
+
+  // Paginación
+  public currentPage: number = 0;
+  public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
+  public currentSort: any = {
+    column: 'nhc',
+    direction: 'asc',
+  };
+
   constructor(
     private _graphService: GraphsService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
+    this.selectLabel = this.translate.instant('byVIHParameters');
     this.loadValues(this.selectedOption);
   }
 
@@ -55,8 +89,6 @@ export class PatientsVihLevelsComponent implements OnInit {
         console.error(error);
       }
     );
-    //this.dataChart =  [{name: '<444', value: 8}, {name: '655', value:32}];
-    //this.dataTable = [{indication: '<444', patients: 8}, {indication: '655', patients: 32}];
   }
 
   onSelect(event: any) {
@@ -65,14 +97,28 @@ export class PatientsVihLevelsComponent implements OnInit {
   }
 
   loadValues(selectedOption: string) {
-    this.selectedChart = this.translate.instant('chart' + selectedOption);
+    console.log(selectedOption);
     let query: string;
     switch (selectedOption) {
       case 'CVP':
         query = 'type=CVP';
+        this.selectedChart = 'chartCVP';
         break;
       case 'CD4':
         query = 'type=CD4';
+        this.selectedChart = 'chartCD4';
+        break;
+      case 'Grupo de riesgo':
+        query = 'type=RISK';
+        this.selectedChart = 'chartRISK';
+        break;
+      case 'Infección viral':
+        query = 'type=VIRAL';
+        this.selectedChart = 'chartVIRAL';
+        break;
+      case 'VHC':
+        query = 'type=VHC';
+        this.selectedChart = 'chartVHC';
         break;
     }
     this.query = query;
@@ -80,8 +126,6 @@ export class PatientsVihLevelsComponent implements OnInit {
   }
 
   private parseDataChart(data: any): ChartObjectModel[] {
-    // let ejemplo = [{name: '<444', value: 8}];
-    // let objetoejemplo;
     const arrayData = Object.keys(data).map((key) => {
       const object = {
         name: key,
@@ -89,12 +133,11 @@ export class PatientsVihLevelsComponent implements OnInit {
       };
       return object;
     });
-    //return ejemplo;
+
     return arrayData;
   }
 
   private parseDataTable(data: any): any[] {
-    //let ejemplo = [{indication: '<444', patients: 8}];
     const arrayData = Object.keys(data).map((key) => {
       const object = {
         indication: key,
@@ -102,11 +145,92 @@ export class PatientsVihLevelsComponent implements OnInit {
       };
       return object;
     });
-  
+
     return arrayData;
   }
 
-  onIconButtonClick($event) {
-    // Query detalle
+  // Detalle
+  public onIconButtonClick(event: any): void {
+    if (event.type === 'detail') {
+      this.showingDetail = true;
+      this.currentSelected = this.dataTable[event.selectedItem];
+      const query =
+        this.query + '&indication=' + this.currentSelected.indication;
+
+      this.getDetails(query);
+      this.getDetailsToExport(query);
+    } else {
+      this.showingDetail = false;
+    }
+  }
+
+  private getDetails(query: string): void {
+    this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
+      (data: any) => {
+        this.details = data.content;
+        this.paginationData = data;
+        this.detailsDataTable = this.parseDataToTableDetails(data.content);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  private parseDataToTableDetails(data: any[]): any[] {
+    if (data) {
+      const arrayObject = data.map((value: any) => {
+        const object = {
+          nhc: value.nhc,
+          sip: value.healthCard,
+          patient: value.fullName,
+          principalIndication: value.principalIndication,
+          principalDiagnose: value.principalDiagnose,
+          treatment: value.treatment,
+        };
+        return object;
+      });
+      return arrayObject;
+    }
+  }
+
+  private getDetailsToExport(query: string) {
+    this._graphService
+      .getDetailPatientsByClinicalParameterToExport(query)
+      .subscribe(
+        (data: any) => {
+          this.dataToExport = data;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
+  public onPatientClick(event: any) {
+    if (event.type === 'detail') {
+      const currentUser = this.details[event.selectedItem];
+      const selectedUser = JSON.stringify(currentUser || {});
+      localStorage.setItem('selectedPatient', selectedUser);
+      this._router.navigate(['pathology/patients/dashboard']);
+    }
+  }
+
+  public selectPage(page: number) {
+    if (this.currentPage !== page) {
+      this.currentPage = page;
+      const query =
+        this.query +
+        `&result=${this.currentSelected.indication}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+      this.getDetails(query);
+    }
+  }
+
+  public onSort(event: any) {
+    const query =
+      this.query +
+      `&result=${this.currentSelected.indication}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+    this.currentSort = event;
+    this.getDetails(query);
   }
 }

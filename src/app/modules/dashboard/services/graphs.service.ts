@@ -208,4 +208,12 @@ export class GraphsService {
   public getPatientsByClinicalParameter(query: string) {
     return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
   }
+
+  public getDetailPatientsByClinicalParameter(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+  }
+
+  public getDetailPatientsByClinicalParameterToExport(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+  }
 }

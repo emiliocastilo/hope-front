@@ -441,6 +441,10 @@
   "descripcionFormulaMagistral": "Descripción Fórmula Magistral",
   "dosisFormulaMagistral": "Dosis Fórmula Magistral",
   "currentRole": "Cambiar rol",
-  "chartCVP": "Pacientes por carga viral plásmatica",
-  "chartCD4": "Pacientes estratificados por niveles de CD4"
+  "byVIHParameters": "Pacientes por parámetros",
+  "chartCVP": "Pacientes por carga viral plásmatica (CVP)",
+  "chartCD4": "Pacientes estratificados por niveles de CD4",
+  "chartRISK": "Pacientes según grupo de riesgo",
+  "chartVIRAL": "Pacientes según infección viral",
+  "chartVHC": "Pacientes coinfectados con VHC"
 }
