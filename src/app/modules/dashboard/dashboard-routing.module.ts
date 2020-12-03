@@ -38,6 +38,7 @@ import { HeatlhOutcomesComponent } from './components/health-outcomes/health-out
 import { TreatmentsPatientsComponent } from './components/treatments/treatments-patients/treatments-patients.component';
 import { TreatmentsAgentsComponent } from './components/treatments/treatments-agents/treatments-agents.component';
 import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagnosis-reasons.component';
+import { PatientsVihLevelsComponent } from './components/vih/clinical-information/patients-vih/patients-vih-levels/patients-vih-levels.component';
 
 const routes: Routes = [
   {
@@ -264,6 +265,11 @@ const routes: Routes = [
   {
     path: 'patient-dose/biological-treatment-frequency',
     component: BiologicalTreatmentFrequencyComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'patients/vih-levels',
+    component: PatientsVihLevelsComponent,
     canActivate: [AuthGuard],
   },
 ];

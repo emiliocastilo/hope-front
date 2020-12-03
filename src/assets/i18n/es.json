@@ -440,5 +440,7 @@
   "opcionFormulaMagistral": "Fórmula Magistral",
   "descripcionFormulaMagistral": "Descripción Fórmula Magistral",
   "dosisFormulaMagistral": "Dosis Fórmula Magistral",
-  "currentRole": "Cambiar rol"
+  "currentRole": "Cambiar rol",
+  "chartCVP": "Pacientes por carga viral plásmatica",
+  "chartCD4": "Pacientes estratificados por niveles de CD4"
 }
