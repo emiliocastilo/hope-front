@@ -110,6 +110,7 @@ export class PrincipalTreatmentComponent implements OnInit {
   private itemsPerPage: number;
   public paginationData: PaginationModel;
   private sizeTable = 5;
+  private currentModal: any;  
 
   formatter = (state) => state.name;
 
@@ -323,7 +324,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     );
 
     if (retrievedForm && retrievedForm.data.length > 0) {
-      this.tableData = retrievedForm.data[0].value;
+      this.tableData = retrievedForm.data[0].value;         
       this.paginationData = {
         number: this.currentPage,
         totalPages: this.tableData.length / this.sizeTable,
@@ -407,7 +408,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             element.name = element.description;
           });
           data.push({ name: 'Otra' });
-          modalRef.componentInstance.options.dose.options = data;
+          modalRef.componentInstance.options.dose.options = data;          
         })
         .catch(({ error }) => {
           this._notification.showErrorToast(error.errorCode);
@@ -497,16 +498,17 @@ export class PrincipalTreatmentComponent implements OnInit {
       if (!this.tableData) {
         this.tableData = [];
       }
-      this.tableData.push(event.value);
-      this.paginationData.totalElements = this.tableData.length;
-      this.save(modalRef, 'create');
-      this.refreshTable();
+      this.currentModal = this.modalForm;
+      //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado     
+      let newRow = event.value;
+      this.save(modalRef, 'create', newRow);
+      //this.refreshTable();
     });
   }
 
   public async showModalChange(index: number, type: string) {
     const dataEdit = { ...this.tableData[index] };
-    let form_aux = null;
+    let form_aux = null;   
 
     Object.keys(dataEdit).forEach((key: string) => {
       if (key.toLowerCase().includes('date') && dataEdit[key]) {
@@ -540,8 +542,10 @@ export class PrincipalTreatmentComponent implements OnInit {
       dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral'
     ) {
       form_aux = this.modalFormUpdateTopico;
+      this.currentModal = form_aux;
     } else {
       form_aux = this.modalFormUpdate;
+      this.currentModal = form_aux;
     }
 
     this.fillForm(form_aux, dataEdit, type);
@@ -609,16 +613,16 @@ export class PrincipalTreatmentComponent implements OnInit {
 
       Object.keys(event.value).forEach((key: string) => {
         this.tableData[index][key] = event.value[key];
-      });
-      this.refreshTable();
+      });      
       this.save(modalRef, 'edit');
+      //this.refreshTable();
     });
   }
 
   // EDICIÓN
   public async showModalEdit(index: number, type: string) {
-    const dataEdit = { ...this.tableData[index] };
-
+    const dataEdit = { ...this.tableData[index] }; 
+    console.log("index",index);   
     Object.keys(dataEdit).forEach((key: string) => {
       if (key.toLowerCase().includes('date') && dataEdit[key]) {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
@@ -649,7 +653,9 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.type = 'edit';
     modalRef.componentInstance.title = 'editTreatment';
     modalRef.componentInstance.form = this.modalForm;
+    this.currentModal = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
+    
     if (
       this.modalForm.value.dose &&
       this.modalForm.value.dose.name &&
@@ -775,9 +781,8 @@ export class PrincipalTreatmentComponent implements OnInit {
       Object.keys(event.value).forEach((key: string) => {
         this.tableData[index][key] = event.value[key];
       });
-
-      this.refreshTable();
-      this.save(modalRef, 'edit');
+      let indexString = index.toString();
+      this.save(modalRef, 'edit', null, indexString);      
     });
   }
 
@@ -793,9 +798,9 @@ export class PrincipalTreatmentComponent implements OnInit {
     });
     modalRef.componentInstance.accept.subscribe((event: any) => {
       this.tableData.splice(index, 1);
-      this.paginationData.totalElements = this.tableData.length;
-      this.refreshTable();
+      this.paginationData.totalElements = this.tableData.length;      
       this.save(modalRef, 'delete');
+      //this.refreshTable();
     });
   }
 
@@ -836,7 +841,30 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
   }
 
-  private save(modalRef, type) {
+  private save(modalRef, type, newRow?, index?:string) {       
+    let repeated = false;
+    let found = false;  
+    if(type != 'delete' && !this.currentModal.get('dateSuspension')){
+      // Controla si un medicamento ya existe para un tratamiento activo    
+      this.tableData.forEach(row => {
+        if (!row.dateSuspension && this.currentModal.controls.medicine && (this.currentModal.controls.medicine.value.name ===
+          row.medicine.name)) {
+          if (index && (this.tableData.indexOf(row).toString() === index)) {
+            // Salta si es él mismo           
+          } else {
+            repeated = true;
+          }
+        }
+      });
+      if (repeated) {
+        this._notification.showErrorToast('duplicatedTreatment');
+      }
+  }
+    if (!repeated){
+      if(type === 'create'){
+        this.tableData.push(newRow);
+        this.paginationData.totalElements = this.tableData.length;
+      }
     const form = {
       template: this.key,
       data: [
@@ -861,11 +889,14 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
 
         modalRef.close();
+        this.refreshTable();
+       
       },
       ({ error }) => {
         this._notification.showErrorToast(error.errorCode);
       }
     );
+    } 
   }
 
   public sortTableDefault() {
