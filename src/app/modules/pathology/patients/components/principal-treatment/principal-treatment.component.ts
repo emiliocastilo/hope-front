@@ -3,7 +3,12 @@ import { TableActionsModel } from 'src/app/core/models/table/table-actions-model
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { PatientModel } from '../../models/patient.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { PrincipalTreatmentModalComponent } from 'src/app/core/components/modals/principal-treatment-modal/principal-treatment-modal.component';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -110,7 +115,7 @@ export class PrincipalTreatmentComponent implements OnInit {
   private itemsPerPage: number;
   public paginationData: PaginationModel;
   private sizeTable = 5;
-  private currentModal: any;  
+  private currentModal: any;
 
   formatter = (state) => state.name;
 
@@ -324,7 +329,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     );
 
     if (retrievedForm && retrievedForm.data.length > 0) {
-      this.tableData = retrievedForm.data[0].value;         
+      this.tableData = retrievedForm.data[0].value;
       this.paginationData = {
         number: this.currentPage,
         totalPages: this.tableData.length / this.sizeTable,
@@ -408,7 +413,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             element.name = element.description;
           });
           data.push({ name: 'Otra' });
-          modalRef.componentInstance.options.dose.options = data;          
+          modalRef.componentInstance.options.dose.options = data;
         })
         .catch(({ error }) => {
           this._notification.showErrorToast(error.errorCode);
@@ -499,7 +504,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.tableData = [];
       }
       this.currentModal = this.modalForm;
-      //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado     
+      //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado
       let newRow = event.value;
       this.save(modalRef, 'create', newRow);
       //this.refreshTable();
@@ -508,7 +513,7 @@ export class PrincipalTreatmentComponent implements OnInit {
 
   public async showModalChange(index: number, type: string) {
     const dataEdit = { ...this.tableData[index] };
-    let form_aux = null;   
+    let form_aux = null;
 
     Object.keys(dataEdit).forEach((key: string) => {
       if (key.toLowerCase().includes('date') && dataEdit[key]) {
@@ -597,6 +602,7 @@ export class PrincipalTreatmentComponent implements OnInit {
           event.value.regimenTreatment = event.value.regimenTreatment.name;
         }
       }
+      AbstractControl;
 
       if (Array.isArray(event.value.reasonChangeOrSuspension)) {
         event.value.reasonChangeOrSuspension =
@@ -610,19 +616,16 @@ export class PrincipalTreatmentComponent implements OnInit {
           event.value[key] = new Date(event.value[key]).toISOString();
         }
       });
-
-      Object.keys(event.value).forEach((key: string) => {
-        this.tableData[index][key] = event.value[key];
-      });      
-      this.save(modalRef, 'edit');
+      let editedRow = event.value;
+      let indexString = index.toString();
+      this.save(modalRef, 'edit', null, indexString, editedRow);
       //this.refreshTable();
     });
   }
 
   // EDICIÓN
   public async showModalEdit(index: number, type: string) {
-    const dataEdit = { ...this.tableData[index] }; 
-    console.log("index",index);   
+    const dataEdit = { ...this.tableData[index] };
     Object.keys(dataEdit).forEach((key: string) => {
       if (key.toLowerCase().includes('date') && dataEdit[key]) {
         dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
@@ -655,7 +658,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     modalRef.componentInstance.form = this.modalForm;
     this.currentModal = this.modalForm;
     modalRef.componentInstance.options = this.modalOptions;
-    
+
     if (
       this.modalForm.value.dose &&
       this.modalForm.value.dose.name &&
@@ -778,11 +781,9 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
       });
 
-      Object.keys(event.value).forEach((key: string) => {
-        this.tableData[index][key] = event.value[key];
-      });
+      let editedRow = event.value;
       let indexString = index.toString();
-      this.save(modalRef, 'edit', null, indexString);      
+      this.save(modalRef, 'edit', null, indexString, editedRow);
     });
   }
 
@@ -797,9 +798,8 @@ export class PrincipalTreatmentComponent implements OnInit {
       modalRef.close();
     });
     modalRef.componentInstance.accept.subscribe((event: any) => {
-      this.tableData.splice(index, 1);
-      this.paginationData.totalElements = this.tableData.length;      
-      this.save(modalRef, 'delete');
+      let indexString = index.toString();
+      this.save(modalRef, 'delete', null, indexString, null);
       //this.refreshTable();
     });
   }
@@ -841,16 +841,19 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
   }
 
-  private save(modalRef, type, newRow?, index?:string) {       
+  private save(modalRef, type, newRow?, index?: string, editedRow?) {
     let repeated = false;
-    let found = false;  
-    if(type != 'delete' && !this.currentModal.get('dateSuspension')){
-      // Controla si un medicamento ya existe para un tratamiento activo    
-      this.tableData.forEach(row => {
-        if (!row.dateSuspension && this.currentModal.controls.medicine && (this.currentModal.controls.medicine.value.name ===
-          row.medicine.name)) {
-          if (index && (this.tableData.indexOf(row).toString() === index)) {
-            // Salta si es él mismo           
+    let found = false;
+    if (type != 'delete' && !this.currentModal.get('dateSuspension')) {
+      // Controla si un medicamento ya existe para un tratamiento activo
+      this.tableData.forEach((row) => {
+        if (
+          !row.dateSuspension &&
+          this.currentModal.controls.medicine &&
+          this.currentModal.controls.medicine.value.name === row.medicine.name
+        ) {
+          if (index && this.tableData.indexOf(row).toString() === index) {
+            // Salta si es él mismo
           } else {
             repeated = true;
           }
@@ -859,44 +862,46 @@ export class PrincipalTreatmentComponent implements OnInit {
       if (repeated) {
         this._notification.showErrorToast('duplicatedTreatment');
       }
-  }
-    if (!repeated){
-      if(type === 'create'){
-        this.tableData.push(newRow);
-        this.paginationData.totalElements = this.tableData.length;
-      }
-    const form = {
-      template: this.key,
-      data: [
-        {
-          type: 'table',
-          name: 'principal-treatment',
-          value: this.tableData,
+    }
+    if (!repeated) {
+      const form = {
+        template: this.key,
+        data: [
+          {
+            type: 'table',
+            name: 'principal-treatment',
+            value: this.tableData,
+          },
+        ],
+        patientId: this.patient.id,
+        job: true,
+      };
+
+      this._formsService.fillForm(form).subscribe(
+        () => {
+          if (type === 'create') {
+            this.tableData.push(newRow);
+            this.paginationData.totalElements = this.tableData.length;
+            this._notification.showSuccessToast('elementCreated');
+          } else if (type === 'edit') {
+            Object.keys(editedRow).forEach((key: string) => {
+              this.tableData[Number(index)][key] = editedRow[key];
+            });
+            this._notification.showSuccessToast('elementUpdated');
+          } else if (type === 'delete') {
+            this.tableData.splice(Number(index), 1);
+            this.paginationData.totalElements = this.tableData.length;
+            this._notification.showSuccessToast('elementDeleted');
+          }
+
+          modalRef.close();
+          this.refreshTable();
         },
-      ],
-      patientId: this.patient.id,
-      job: true,
-    };
-
-    this._formsService.fillForm(form).subscribe(
-      () => {
-        if (type === 'create') {
-          this._notification.showSuccessToast('elementCreated');
-        } else if (type === 'edit') {
-          this._notification.showSuccessToast('elementUpdated');
-        } else if (type === 'delete') {
-          this._notification.showSuccessToast('elementDeleted');
+        ({ error }) => {
+          this._notification.showErrorToast(error.errorCode);
         }
-
-        modalRef.close();
-        this.refreshTable();
-       
-      },
-      ({ error }) => {
-        this._notification.showErrorToast(error.errorCode);
-      }
-    );
-    } 
+      );
+    }
   }
 
   public sortTableDefault() {
