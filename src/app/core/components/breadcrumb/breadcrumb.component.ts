@@ -66,7 +66,6 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         (f) => f.url === this.homeUrl
       )[0];
     }
-
     if (url) {
       this._router.navigate([url]);
       this._sidebar.setCurrentSection(section);
