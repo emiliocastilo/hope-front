@@ -206,6 +206,6 @@ export class GraphsService {
 
   // VIH - plopezc
   public getPatientsByClinicalParameter(query: string) {
-    return this._httpClient.get(`/v1/patient-clinical-data/by-name?${query}`);
+    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
   }
 }
