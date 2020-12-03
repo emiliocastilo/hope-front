@@ -22,7 +22,7 @@
       <tbody [ngSwitch]="true">
         <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
           <td *ngFor="let header of config.fields">
-            <div class="ellipsis">
+            <div class="ellipsis max-width-cell">
               {{ showDataTable(row[header.name], header.name) }}
             </div>
           </td>

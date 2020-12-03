@@ -240,6 +240,10 @@ export class PhototherapyComponent implements OnInit {
       if (!this.tableData) {
         this.tableData = [];
       }
+      event.value['treatmentType'] = {
+        id: 'phototherapy',
+        name: 'fototerapia',
+      };
       this.tableData.push(event.value);
       //this.sortTable();
       this.refreshTable();
@@ -363,6 +367,7 @@ export class PhototherapyComponent implements OnInit {
         },
       ],
       patientId: this.patient.id,
+      job: true,
     };
 
     this._formsService.fillForm(form).subscribe(

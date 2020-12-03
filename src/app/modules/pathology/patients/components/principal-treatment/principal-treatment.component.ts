@@ -783,8 +783,6 @@ export class PrincipalTreatmentComponent implements OnInit {
   }
 
   private save(modalRef, type) {
-    console.log(this.tableData);
-
     const form = {
       template: this.key,
       data: [
@@ -795,6 +793,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         },
       ],
       patientId: this.patient.id,
+      job: true,
     };
 
     this._formsService.fillForm(form).subscribe(
