@@ -3,22 +3,24 @@ import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-das
 import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 
 @Component({
-    selector: 'app-management',
-    templateUrl: './management.component.html',
-    styleUrls: ['./management.component.scss'],
+  selector: 'app-management',
+  templateUrl: './management.component.html',
+  styleUrls: ['./management.component.scss'],
 })
 export class ManagementComponent implements OnInit {
-    modules: Array<HomeDashboardModule>;
-    menu: MenuItemModel[] = [];
-    public menuId = 4;
+  modules: Array<HomeDashboardModule>;
+  menu: MenuItemModel[] = [];
+  public menuId = 4;
 
-    constructor() { }
+  constructor() {}
 
-    ngOnInit (): void {
-        const rootMenu = JSON.parse(localStorage.getItem('menu'));
-        if (rootMenu) {
-            this.menu = rootMenu.filter((item) => item.url.endsWith('/management'));
-            this.modules = rootMenu.find((item) => item.url.endsWith('/management')).children;
-        }
+  ngOnInit(): void {
+    const rootMenu = JSON.parse(localStorage.getItem('menu'));
+    if (rootMenu) {
+      this.menu = rootMenu.filter((item) => item.url.endsWith('/management'));
+      this.modules = rootMenu.find((item) =>
+        item.url.endsWith('/management')
+      ).children;
     }
+  }
 }
