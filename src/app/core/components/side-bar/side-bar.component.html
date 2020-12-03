@@ -29,6 +29,7 @@
   <inner-menu
     *ngIf="menu && menu.length > 0"
     class="scroller"
+    [collapsed]="collapsed"
     [menu]="menu"
     [level]="1"
   ></inner-menu>
