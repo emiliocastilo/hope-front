@@ -56,6 +56,7 @@ export class PatientsVihLevelsComponent implements OnInit {
       }
     );
     //this.dataChart =  [{name: '<444', value: 8}, {name: '655', value:32}];
+    //this.dataTable = [{indication: '<444', patients: 8}, {indication: '655', patients: 32}];
   }
 
   onSelect(event: any) {
@@ -93,14 +94,15 @@ export class PatientsVihLevelsComponent implements OnInit {
   }
 
   private parseDataTable(data: any): any[] {
+    //let ejemplo = [{indication: '<444', patients: 8}];
     const arrayData = Object.keys(data).map((key) => {
       const object = {
-        name: key,
-        value: data[key],
+        indication: key,
+        patients: data[key],
       };
       return object;
     });
-
+  
     return arrayData;
   }
 
