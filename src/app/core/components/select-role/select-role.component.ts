@@ -80,7 +80,6 @@ export class SelectRoleComponent implements OnInit {
   }
 
   setCurrentRole(data: ProfileModel): void {
-    // localStorage.setItem('role', JSON.stringify(data.role));
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', data.user);
   }

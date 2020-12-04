@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -28,9 +28,9 @@ export class MedicinesComponent implements OnInit {
 
   public loading: boolean;
   public columnsHeader: Array<string> = [];
-  public menu: SideBarItemModel[] = [];
+  public menu: MenuItemModel[] = [];
   public modalForm: FormGroup;
-  public menuSelected: SideBarItemModel;
+  public menuSelected: MenuItemModel;
   public tableData: Array<RowDataModel>;
   public selectedItem: number;
   public isEditing = false;

@@ -61,8 +61,4 @@ export class FormsService {
   public setMustBeSaved(mustBeSaved: boolean) {
     this.mustBeSaved = mustBeSaved;
   }
-
-  public cancelNavigation(): boolean {
-    return true;
-  }
 }

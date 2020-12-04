@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PatientModel } from '../../models/patients/patient.model';
 import { PathologyModel } from '../../models/patients/pathology.model';
 import { PatientsService } from '../../services/patients/patients.service';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { PATIENT_TABLE_KEYS } from '../../constants/patients.constants';
@@ -24,8 +24,8 @@ import { DynamicFormComponent } from '../../../../core/components/dynamic-form/d
 })
 export class PatientsComponent implements OnInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
+  public menu: MenuItemModel[] = [];
+  public menuSelected: MenuItemModel;
   public patients: PatientModel[] = [];
   public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
   public selectedItem: number;

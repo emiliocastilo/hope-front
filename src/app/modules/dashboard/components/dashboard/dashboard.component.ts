@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 
 @Component({
@@ -9,7 +9,7 @@ import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-das
 })
 export class DashboardComponent implements OnInit {
   modules: Array<HomeDashboardModule>;
-  menu: SideBarItemModel[] = [];
+  menu: MenuItemModel[] = [];
   menuId: number = 2;
   currentSection: number = 1;
 

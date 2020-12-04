@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
@@ -14,8 +14,8 @@ import _ from 'lodash';
   styleUrls: ['./dashboard-patients.component.scss'],
 })
 export class DashboardPatientsComponent implements OnInit {
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
+  public menu: MenuItemModel[] = [];
+  public menuSelected: MenuItemModel;
   public patients: PatientModel[] = [];
   public selectedItem: number;
   public data: any;

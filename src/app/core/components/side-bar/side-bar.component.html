@@ -26,11 +26,11 @@
       <i-feather name="power" class="feather-thin"></i-feather>
     </a>
   </div>
-  <side-bar-menu
-    *ngIf="!reloading"
+  <inner-menu
+    *ngIf="menu && menu.length > 0"
     class="scroller"
     [collapsed]="collapsed"
     [menu]="menu"
-    [level]="level"
-  ></side-bar-menu>
+    [level]="1"
+  ></inner-menu>
 </nav>
