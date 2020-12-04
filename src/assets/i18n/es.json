@@ -447,5 +447,11 @@
   "chartCD4": "Pacientes estratificados por niveles de CD4",
   "chartRISK": "Pacientes según grupo de riesgo",
   "chartVIRAL": "Pacientes según infección viral",
-  "chartVHC": "Pacientes coinfectados con VHC"
+  "chartVHC": "Pacientes coinfectados con VHC",
+  "changeCause": "Motivo de cambio de tratamiento",
+  "treatmentChange": "Cambio de tratamiento",
+  "chartFailure": " Fallo viral",
+  "chartRAMS": "RAMs",
+  "chartChangeQuantity":"Número de cambios por tratamiento"
+
 }

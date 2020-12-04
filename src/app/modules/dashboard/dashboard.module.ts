@@ -40,6 +40,7 @@ import { TreatmentsAgentsComponent } from './components/treatments/treatments-ag
 import { TreatmentsPatientsComponent } from './components/treatments/treatments-patients/treatments-patients.component';
 import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagnosis-reasons.component';
 import { PatientsVihLevelsComponent } from './components/vih/clinical-information/patients-vih/patients-vih-levels/patients-vih-levels.component';
+import { PatientTreatmentsVihChangeComponent } from './components/vih/clinical-information/patient-treatments-vih/patient-treatments-vih-change/patient-treatments-vih-change.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { PatientsVihLevelsComponent } from './components/vih/clinical-informatio
     EritrodermiaComponent,
     PsoriasisPustulosaComponent,
     PatientsVihLevelsComponent,
+    PatientTreatmentsVihChangeComponent,
   ],
   imports: [
     NgbModule,

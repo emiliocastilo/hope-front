@@ -8,41 +8,40 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 
 @Component({
-  selector: 'app-patients-vih-levels',
-  templateUrl: './patients-vih-levels.component.html',
-  styleUrls: ['./patients-vih-levels.component.scss'],
+  selector: 'app-patient-treatments-vih-change',
+  templateUrl: './patient-treatments-vih-change.component.html',
+  styleUrls: ['./patient-treatments-vih-change.component.scss'],
 })
-export class PatientsVihLevelsComponent implements OnInit {
-  // Select, datos iniciales
-  selectLabel: string;
-  selectedOption = 'CVP';
-  selectedChart = '';
-
-  query: string;
+export class PatientTreatmentsVihChangeComponent implements OnInit {
   //Gráfica
+  pieChart = true;
+  barChart = false;
   dataChart: ChartObjectModel[];
-  data: ChartObjectModel[];
+
   options = [
     {
-      name: 'CVP',
+      name: 'Motivo de cambio',
     },
     {
-      name: 'CD4',
+      name: 'Fallo Viral',
     },
     {
-      name: 'Grupo de riesgo',
+      name: 'RAMs (Reacciones adversas a medicamentos)',
     },
     {
-      name: 'Infección viral',
-    },
-    {
-      name: 'VHC',
+      name: 'Número de cambios por tratamiento',
     },
   ];
 
+  // Select, datos iniciales
+  selectLabel: string;
+  selectedOption = this.options[0].name;
+  selectedChart = '';
+  query: string;
+
   //Tabla
   showingDetail = false;
-  columHeaders: string[] = ['indication', 'patients'];
+  columHeaders: string[] = ['changeCause', 'patients'];
   dataTable: any[];
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
@@ -75,12 +74,12 @@ export class PatientsVihLevelsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.selectLabel = this.translate.instant('byVIHParameters');
+    this.selectLabel = this.translate.instant('treatmentChange');
     this.loadValues(this.selectedOption);
   }
 
   private getData(query: string): void {
-    this._graphService.getPatientsByClinicalParameter(query).subscribe(
+    this._graphService.getPatientsByTreatmentChange(query).subscribe(
       (data) => {
         this.dataChart = this.parseDataChart(data);
         this.dataTable = this.parseDataTable(data);
@@ -99,25 +98,21 @@ export class PatientsVihLevelsComponent implements OnInit {
   loadValues(selectedOption: string) {
     let query: string;
     switch (selectedOption) {
-      case 'CVP':
-        query = 'type=CVP';
-        this.selectedChart = 'chartCVP';
+      case this.options[0].name:
+        query = 'type=cause';
+        this.selectedChart = 'changeCause';
         break;
-      case 'CD4':
-        query = 'type=CD4';
-        this.selectedChart = 'chartCD4';
+      case this.options[1].name:
+        query = 'type=failure';
+        this.selectedChart = 'chartFailure';
         break;
-      case 'Grupo de riesgo':
-        query = 'type=RISK';
-        this.selectedChart = 'chartRISK';
+      case this.options[2].name:
+        query = 'type=RAMS';
+        this.selectedChart = 'chartRAMS';
         break;
-      case 'Infección viral':
-        query = 'type=VIRAL';
-        this.selectedChart = 'chartVIRAL';
-        break;
-      case 'VHC':
-        query = 'type=VHC';
-        this.selectedChart = 'chartVHC';
+      case this.options[3].name:
+        query = 'type=changequantity';
+        this.selectedChart = 'chartChangeQuantity';
         break;
     }
     this.query = query;
@@ -133,17 +128,13 @@ export class PatientsVihLevelsComponent implements OnInit {
       return object;
     });
 
-    //return arrayData;
-    return [
-      { name: 'ffff', value: 9 },
-      { name: 'aaaaaff', value: 20 },
-    ];
+    return arrayData;
   }
 
   private parseDataTable(data: any): any[] {
     const arrayData = Object.keys(data).map((key) => {
       const object = {
-        indication: key,
+        changeCause: key,
         patients: data[key],
       };
       return object;
@@ -157,8 +148,8 @@ export class PatientsVihLevelsComponent implements OnInit {
     if (event.type === 'detail') {
       this.showingDetail = true;
       this.currentSelected = this.dataTable[event.selectedItem];
-      const query =
-        this.query + '&indication=' + this.currentSelected.indication;
+      console.log('cause', this.currentSelected.changeCause);
+      const query = this.query + '&reason=' + this.currentSelected.changeCause;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -168,7 +159,7 @@ export class PatientsVihLevelsComponent implements OnInit {
   }
 
   private getDetails(query: string): void {
-    this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
+    this._graphService.getDetailPatientsByTreatmentChange(query).subscribe(
       (data: any) => {
         this.details = data.content;
         this.paginationData = data;
@@ -199,7 +190,7 @@ export class PatientsVihLevelsComponent implements OnInit {
 
   private getDetailsToExport(query: string) {
     this._graphService
-      .getDetailPatientsByClinicalParameterToExport(query)
+      .getDetailPatientsByTreatmentChangeToExport(query)
       .subscribe(
         (data: any) => {
           this.dataToExport = data;
@@ -224,7 +215,7 @@ export class PatientsVihLevelsComponent implements OnInit {
       this.currentPage = page;
       const query =
         this.query +
-        `&result=${this.currentSelected.indication}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+        `&result=${this.currentSelected.changeCause}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
@@ -232,7 +223,7 @@ export class PatientsVihLevelsComponent implements OnInit {
   public onSort(event: any) {
     const query =
       this.query +
-      `&result=${this.currentSelected.indication}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+      `&result=${this.currentSelected.changeCause}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
     this.currentSort = event;
     this.getDetails(query);
   }

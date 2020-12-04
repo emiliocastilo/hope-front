@@ -204,7 +204,9 @@ export class GraphsService {
     );
   }
 
-  // VIH - plopezc
+  /***** VIH *****/
+
+  //Parámetros clínicos
   public getPatientsByClinicalParameter(query: string) {
     return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
   }
@@ -214,6 +216,18 @@ export class GraphsService {
   }
 
   public getDetailPatientsByClinicalParameterToExport(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+  }
+
+  //Cambio de tratamiento
+  public getPatientsByTreatmentChange(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-change?${query}`);
+  }
+  public getDetailPatientsByTreatmentChange(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+  }
+
+  public getDetailPatientsByTreatmentChangeToExport(query: string) {
     return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
   }
 }
