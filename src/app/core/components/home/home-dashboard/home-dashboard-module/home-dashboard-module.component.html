@@ -1,8 +1,8 @@
-<div class="card text-center">
+<div (click)="goToUrl(module)" class="card text-center btn btn-primary">
   <div class="card-header">
     <img [src]="module.icon" class="card-img-top" [alt]="module.title" />
   </div>
   <div class="card-body">
-    <a (click)="goToUrl(module)" class="btn btn-primary">{{ module.title }}</a>
+    <a>{{ module.title }}</a>
   </div>
 </div>
