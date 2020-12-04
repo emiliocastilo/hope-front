@@ -129,7 +129,8 @@
     "passwordChangeFailed": "Contraseña errónea",
     "missDate": "Faltan fechas por rellenar",
     "errorUserLogin": "Nombre de usuario o contraseña no válidos.",
-    "sent": "Enviado"
+    "sent": "Enviado",
+    "duplicatedTreatment": "El paciente ya tiene un tratamiento activo con este medicamento"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
   "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",

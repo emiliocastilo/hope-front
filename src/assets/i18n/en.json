@@ -128,7 +128,8 @@
     "passwordChangeFailed": "Wrong password",
     "missDate": "There are dates missing",
     "errorUserLogin": "User name or password are not valid.",
-    "sent": "Sent"
+    "sent": "Sent",
+    "duplicatedTreatment": "Mdicine already exists on an active patient treatment"
   },
   "sections.legend.actions": "Para añadir una sección pulse nuevo si quiere que se añada en la raíz o pulse con el botón derecho sobre una sección para añadir una sección hija, editar la sección o \"eliminarla\".",
   "sections.legend.select": "Para añadir un rol a la lista de roles activos, selecciónelo de la lista desplegable. Para eliminarlo, pulse sobre el rol deseado a eliminar en la lista de de roles activos",

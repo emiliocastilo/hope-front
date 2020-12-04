@@ -49,7 +49,7 @@ export class PhototherapyComponent implements OnInit {
     localStorage.getItem('selectedPatient' || '{}')
   );
   private currentTreatment: string = 'phototherapy';
-  public tableData: any[];
+  public tableData: any[] = [];
   public tableDataFilter: any[] = [];
   private modalForm: FormGroup = this._formBuilder.group({
     indication: ['', Validators.required],
@@ -74,7 +74,7 @@ export class PhototherapyComponent implements OnInit {
     psoralenoPlusUva: [false],
     waveLongitude: ['', Validators.required],
     timesAWeek: ['', Validators.required],
-    dateSuspension: ['', Validators.required],
+    dateSuspension: [],
   });
 
   public patient: PatientModel;
@@ -240,10 +240,12 @@ export class PhototherapyComponent implements OnInit {
       if (!this.tableData) {
         this.tableData = [];
       }
-      event.value['treatmentType'] = {
+      // TO DO: cuando se vaya a refactorizar las opciones del treatmentType hay que cambiarlo tambien en la modal
+      /* event.value['treatmentType'] = {
         id: 'phototherapy',
         name: 'fototerapia',
-      };
+      }; */
+      event.value['treatmentType'] = 'fototerapia';
       this.tableData.push(event.value);
       //this.sortTable();
       this.refreshTable();
@@ -291,6 +293,13 @@ export class PhototherapyComponent implements OnInit {
     modalRef.componentInstance.title = 'changeSuspendTreatment';
     modalRef.componentInstance.form = this.modalFormUpdate;
     modalRef.componentInstance.options = this.modalOptions;
+    this.modalFormUpdate.controls.reasonChangeOrSuspension.setValue({
+      name:
+        this.modalFormUpdate.value.reasonChangeOrSuspension &&
+        this.modalFormUpdate.value.reasonChangeOrSuspension.name
+          ? this.modalFormUpdate.value.reasonChangeOrSuspension.name
+          : this.modalFormUpdate.value.reasonChangeOrSuspension,
+    });
 
     modalRef.componentInstance.cancel.subscribe((event: any) => {
       modalRef.close();
@@ -299,7 +308,10 @@ export class PhototherapyComponent implements OnInit {
     modalRef.componentInstance.update.subscribe((event: any) => {
       if (Array.isArray(event.value.reasonChangeOrSuspension)) {
         event.value.reasonChangeOrSuspension =
-          event.value.reasonChangeOrSuspension[0];
+          event.value.reasonChangeOrSuspension[0].name;
+      } else if (event.value.reasonChangeOrSuspension.name) {
+        event.value.reasonChangeOrSuspension =
+          event.value.reasonChangeOrSuspension.name;
       }
 
       Object.keys(event.value).forEach((key: string) => {
@@ -513,13 +525,15 @@ export class PhototherapyComponent implements OnInit {
     }
     this.addColorRow(this.tableData);
     this.tableDataFilter = this.tableData.map((x) => x);
-    this.tableDataFilter = this.tableDataFilter.splice(
-      this.currentPage * this.paginationData.size,
-      this.paginationData.size
-    );
+    if (this.currentPage > 0) {
+      this.tableDataFilter = this.tableDataFilter.splice(
+        this.currentPage * this.paginationData.size,
+        this.paginationData.size
+      );
+    }
   }
 
-  private addColorRow(tableData) {
+  private addColorRow(tableData: any) {
     tableData.forEach((element) => {
       element.rowColor = false;
       if (element.dateSuspension) {
