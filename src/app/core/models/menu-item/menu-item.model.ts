@@ -3,6 +3,7 @@ export class MenuItemModel {
     public id: number,
     public title: string,
     public url: string,
+    public subsectionVisible: boolean = true,
     public description?: string,
     public icon?: string,
     public active?: boolean,

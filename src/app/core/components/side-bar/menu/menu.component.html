@@ -35,18 +35,23 @@
           *ngIf="menuOption.children.length"
         >
           <i-feather
-            *ngIf="menuOption.collapsed"
+            *ngIf="menuOption.collapsed && menuOption.subsectionVisible"
             name="chevron-down"
             class="feather-thin"
           ></i-feather>
           <i-feather
-            *ngIf="!menuOption.collapsed"
+            *ngIf="!menuOption.collapsed && menuOption.subsectionVisible"
             name="chevron-up"
             class="feather-thin"
           ></i-feather>
         </a>
       </span>
-      <p *ngIf="!collapsed && !menuOption.collapsed" class="m-0 p-0">
+      <p
+        *ngIf="
+          !collapsed && !menuOption.collapsed && menuOption.subsectionVisible
+        "
+        class="m-0 p-0"
+      >
         <inner-menu [level]="level + 1" [menu]="menuOption.children">
         </inner-menu>
       </p>

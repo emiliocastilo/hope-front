@@ -14,6 +14,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private homeUrl = '/hopes';
 
   public icons: any;
+  public subsectionVisible: boolean;
   public ICONS = {
     Administración: 'settings',
     'Cuadro de Mando': 'bar-chart-2',
@@ -29,11 +30,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   @Input() level: number;
   @Input() collapsed: boolean;
 
-  constructor(private _sidebar: MenuService, private _router: Router) {}
+  constructor(private _menuService: MenuService, private _router: Router) {}
 
   ngOnInit(): void {
     this.currentSection = JSON.parse(localStorage.getItem('section'));
-    this.currentSectionSubscription = this._sidebar
+    this.currentSectionSubscription = this._menuService
       .getCurrentSection()
       .subscribe((section: MenuItemModel) => {
         this.currentSection = section;
@@ -43,15 +44,15 @@ export class MenuComponent implements OnInit, OnDestroy {
     if (!this.menu) {
       this.menu = JSON.parse(localStorage.getItem('menu'));
       if (!this.menu) {
-        this._sidebar.getSideBar().subscribe((response: MenuItemModel) => {
+        this._menuService.getSideBar().subscribe((response: MenuItemModel) => {
           this.menu = response.children;
           localStorage.setItem('menu', JSON.stringify(response.children));
           localStorage.setItem('completeMenu', JSON.stringify(response));
+          if (this.currentSection) this.updateCollapseState(this.menu);
         });
-      }
+      } else if (this.currentSection) this.updateCollapseState(this.menu);
     }
 
-    if (this.currentSection) this.updateCollapseState(this.menu);
     if (!this.level) this.level = 1;
   }
 
@@ -59,6 +60,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     if (menu && menu.length > 0) {
       menu.forEach((element) => {
         element.collapsed = true;
+        element.subsectionVisible =
+          !element.url.includes('/pathology/patients') ||
+          (element.url.includes('/pathology/patients') &&
+            this._menuService.thereIsPatientSelected);
         if (element.children && element.children.length > 0)
           this.collapseAll(element.children);
       });
@@ -70,15 +75,17 @@ export class MenuComponent implements OnInit, OnDestroy {
       section.url === this.homeUrl
         ? this.homeUrl
         : section.url.split('hopes')[1];
-    if (url) {
-      this._router.navigate([url]);
-      this._sidebar.setCurrentSection(section);
-    }
+    if (url) this._router.navigate([url]);
+    this._menuService.setCurrentSection(section);
   }
 
   updateCollapseState(menu: Array<MenuItemModel>) {
     if (this.currentSection) {
       menu.forEach((item) => {
+        item.subsectionVisible =
+          !item.url.includes('/pathology/patients') ||
+          (item.url.includes('/pathology/patients') &&
+            this._menuService.thereIsPatientSelected);
         item.collapsed = this.currentSection.path.includes(item.path)
           ? false
           : true;

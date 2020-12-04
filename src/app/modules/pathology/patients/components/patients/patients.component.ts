@@ -59,6 +59,8 @@ export class PatientsComponent implements OnInit {
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedPatient', selectedUser);
     this.selectedItem = event;
+    this._menuService.thereIsPatientSelected = true;
+    localStorage.setItem('thereIsPatientSelected', 'true');
     this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard');
     this._router.navigate(['pathology/patients/dashboard']);
   }

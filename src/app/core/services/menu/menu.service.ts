@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SectionModel } from 'src/app/modules/management/models/section.model';
 import { MenuItemModel } from '../../models/menu-item/menu-item.model';
 
 @Injectable({
@@ -13,8 +12,12 @@ export class MenuService {
 
   public currentSection = new Subject<MenuItemModel>();
   public allSections: MenuItemModel[];
+  public thereIsPatientSelected: boolean = false;
 
   constructor(private _httpClient: HttpClient) {
+    this.thereIsPatientSelected =
+      localStorage.getItem('thereIsPatientSelected') !== undefined &&
+      localStorage.getItem('thereIsPatientSelected') !== null;
     this.getSideBar();
   }
 
@@ -26,6 +29,10 @@ export class MenuService {
         submenu.parentId = menu.id;
         submenu.path = `${menu.path}/${submenu.id}/`;
         submenu.collapsed = true;
+        submenu.subsectionVisible =
+          !submenu.url.includes('/pathology/patients') ||
+          (submenu.url.includes('/pathology/patients') &&
+            this.thereIsPatientSelected);
         if (submenu.children && submenu.children.length > 0)
           this.assignParentAndCollapseStatus(submenu, menu.path);
       });
