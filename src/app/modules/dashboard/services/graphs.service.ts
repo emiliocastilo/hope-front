@@ -203,4 +203,17 @@ export class GraphsService {
       `/dispensation-details/find-total-cost-treatments-accumulated-avg?${query}`
     );
   }
+
+  // VIH - plopezc
+  public getPatientsByClinicalParameter(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+  }
+
+  public getDetailPatientsByClinicalParameter(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+  }
+
+  public getDetailPatientsByClinicalParameterToExport(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+  }
 }

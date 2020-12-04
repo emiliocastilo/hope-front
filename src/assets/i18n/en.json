@@ -424,5 +424,11 @@
   "opcionFormulaMagistral": "Magistral Formula",
   "descripcionFormulaMagistral": "Description Master Formula",
   "dosisFormulaMagistral": "Dose Master Formula",
-  "currentRole": "Change role"
+  "currentRole": "Change role",
+  "byVIHParameters": "Patients by parameter",
+  "chartCVP": "Patients by CVP",
+  "chartCD4": "Patients by CD4",
+  "chartRISK": "Patients by risk group",
+  "chartVIRAL": "Patients by viral infection",
+  "chartVHC": "Patients by VHC"
 }
