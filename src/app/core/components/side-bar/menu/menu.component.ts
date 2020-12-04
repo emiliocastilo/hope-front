@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
-import { Router } from '@angular/router';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { Subscription } from 'rxjs';
 
@@ -30,10 +29,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   @Input() level: number;
   @Input() collapsed: boolean;
 
-  constructor(private _menuService: MenuService, private _router: Router) {}
+  constructor(private _menuService: MenuService) {}
 
   ngOnInit(): void {
     this.currentSection = JSON.parse(localStorage.getItem('section'));
+
     this.currentSectionSubscription = this._menuService
       .getCurrentSection()
       .subscribe((section: MenuItemModel) => {
@@ -41,18 +41,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.updateCollapseState(this.menu);
       });
 
-    if (!this.menu) {
-      this.menu = JSON.parse(localStorage.getItem('menu'));
-      if (!this.menu) {
-        this._menuService.getSideBar().subscribe((response: MenuItemModel) => {
-          this.menu = response.children;
-          localStorage.setItem('menu', JSON.stringify(response.children));
-          localStorage.setItem('completeMenu', JSON.stringify(response));
-          if (this.currentSection) this.updateCollapseState(this.menu);
-        });
-      } else if (this.currentSection) this.updateCollapseState(this.menu);
-    }
-
+    this.updateCollapseState(this.menu);
     if (!this.level) this.level = 1;
   }
 
@@ -71,11 +60,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   goUrl(section: MenuItemModel) {
-    const url =
-      section.url === this.homeUrl
-        ? this.homeUrl
-        : section.url.split('hopes')[1];
-    if (url) this._router.navigate([url]);
     this._menuService.setCurrentSection(section);
   }
 

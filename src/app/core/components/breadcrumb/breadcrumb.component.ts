@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuItemModel } from '../../models/menu-item/menu-item.model';
-import { Router } from '@angular/router';
 import { MenuService } from '../../services/menu/menu.service';
 import { Subscription } from 'rxjs';
 
@@ -18,7 +17,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   crumbs: MenuItemModel[];
   menu: Array<MenuItemModel>;
 
-  constructor(private _router: Router, private _sidebar: MenuService) {}
+  constructor(private _sidebar: MenuService) {}
 
   ngOnInit() {
     this.crumbs = [];
@@ -59,17 +58,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   }
 
   navigate(section?: MenuItemModel) {
-    const url = !section ? this.homeUrl : section.url.split('hopes')[1];
-    if (!section) {
-      if (!this._sidebar.allSections) this._sidebar.fillSections(this.fullMenu);
-      section = this._sidebar.allSections.filter(
-        (f) => f.url === this.homeUrl
-      )[0];
-    }
-    if (url) {
-      this._router.navigate([url]);
-      this._sidebar.setCurrentSection(section);
-    }
+    this._sidebar.setCurrentSection(section);
   }
 
   ngOnDestroy() {

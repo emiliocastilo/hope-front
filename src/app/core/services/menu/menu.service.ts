@@ -1,20 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MenuItemModel } from '../../models/menu-item/menu-item.model';
+import { FormsService } from '../forms/forms.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MenuService {
   private current: MenuItemModel;
+  private fullMenu: MenuItemModel;
+  private homeUrl = '/hopes';
 
   public currentSection = new Subject<MenuItemModel>();
   public allSections: MenuItemModel[];
   public thereIsPatientSelected: boolean = false;
 
-  constructor(private _httpClient: HttpClient) {
+  constructor(
+    private _httpClient: HttpClient,
+    private _formService: FormsService,
+    private _router: Router
+  ) {
+    this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
     this.thereIsPatientSelected =
       localStorage.getItem('thereIsPatientSelected') !== undefined &&
       localStorage.getItem('thereIsPatientSelected') !== null;
@@ -59,6 +68,7 @@ export class MenuService {
 
   public fillSections(section: MenuItemModel) {
     if (!this.allSections) this.allSections = [];
+    section.visible = true;
     this.allSections.push(section);
     if (section.children && section.children.length > 0)
       section.children.forEach((child) => {
@@ -68,9 +78,29 @@ export class MenuService {
   }
 
   public setCurrentSection(section: MenuItemModel) {
-    localStorage.setItem('section', JSON.stringify(section));
-    this.current = section;
-    this.currentSection.next(section);
+    if (
+      !this._formService.getMustBeSaved() ||
+      (this._formService.getMustBeSaved() && this._formService.getSavedForm())
+    ) {
+      if (!section) {
+        if (!this.allSections) this.fillSections(this.fullMenu);
+        section = this.allSections.filter((f) => f.url === '/hopes')[0];
+      }
+
+      const url =
+        section.url === this.homeUrl
+          ? this.homeUrl
+          : section.url.split('/hopes')[1];
+
+      this.current = section;
+      localStorage.setItem('section', JSON.stringify(section));
+
+      if (url) this._router.navigate([url]);
+      this.currentSection.next(section);
+    } else {
+      // TODO mostrar modal necesita guardar
+      alert('aquí tengo que mostrar modal');
+    }
   }
 
   public setCurrentSectionByUrl(url: string) {
