@@ -441,5 +441,7 @@
   "opcionFormulaMagistral": "Fórmula Magistral",
   "descripcionFormulaMagistral": "Descripción Fórmula Magistral",
   "dosisFormulaMagistral": "Dosis Fórmula Magistral",
-  "currentRole": "Cambiar rol"
+  "currentRole": "Cambiar rol",
+  "saveWarning":"Aviso de cambios",
+  "saveWarningMessage":"Hay cambios sin guardar, ¿Continuar?"
 }
