@@ -25,10 +25,12 @@ export class PatientExpensesVihComponent implements OnInit {
       name: this.translate.instant('average')
     }
   ];
-  selectLabel: string;
+  selectLabel = this.translate.instant('costs');
   selectedOption = this.options[0].name;
   selectedChart: string;
   query: string;
+  switchValue = false;
+ 
 
   //Tabla
   showingDetail = false;
@@ -75,7 +77,7 @@ export class PatientExpensesVihComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getMedicines();
+    this.mockData();
   }
 
   private getTreatments(): void {
@@ -130,6 +132,7 @@ export class PatientExpensesVihComponent implements OnInit {
     var months = [
       'ene',
       'feb',
+      /*
       'mar',
       'abr',
       'may',
@@ -139,7 +142,7 @@ export class PatientExpensesVihComponent implements OnInit {
       'sep',
       'oct',
       'nov',
-      'dic',
+      'dic', */
     ];
     const object = {};
     months.forEach((month: string) => {
@@ -149,7 +152,7 @@ export class PatientExpensesVihComponent implements OnInit {
     return object;
   }
 
-  private getMedicines(): void {
+/*   private getMedicines(): void {
     const query = 'size=1000';
     this._medicinesService.getAll(query).subscribe(
       (data) => {
@@ -164,7 +167,7 @@ export class PatientExpensesVihComponent implements OnInit {
         console.error(error);
       }
     );
-  }
+  } */
 
   public onFormSubmit(): void {
     this.dataChart = null;
@@ -222,7 +225,7 @@ export class PatientExpensesVihComponent implements OnInit {
     );
   }
 
-  private parseDataTable(data: any): any[] {
+  private parseDataTable(data: any): any[] {    
     const arrayData = Object.keys(data).map((key) => {
       const object = {
         patientType: key,
@@ -319,5 +322,35 @@ export class PatientExpensesVihComponent implements OnInit {
     this.currentSort = event;
     this.getDetails(query);
   }
+
+  //plopezc -borrar cuando haya datos reales
+  public mockData(){
+    //const query = `code=${this.currenMedicine.codeAct}`;
+    /* this._graphService.getTotalExpenses(query).subscribe(
+      (data) => { */
+       const data = {ene:{"2019 - Pacientes Controlados":5,"2020 - Todos los pacientes":10,"2020 - Pacientes Controlados":20,"2019 - Todos los pacientes":25},
+       feb:{"2019 - Pacientes Controlados":12,"2020 - Todos los pacientes":19,"2020 - Pacientes Controlados":10,"2019 - Todos los pacientes":90}};
+        const dataToParse = this.sortByMonth(data);
+        this.dataChart = this.parseDataChart(dataToParse);
+        this.dataTable = this.parseDataTable(data);
+
+        const title = 'totalCost';
+        const view = null;
+        const scheme = {
+          domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
+        };
+        this.configChart = new ColumnChartModel(
+          title,
+          view,
+          scheme,
+          this.dataChart
+        );
+     
+    
+   //this.dataChart =[{"jul":{"2019 - Pacientes Controlados":0.00,"2020 - Todos los pacientes":0.00,"2020 - Pacientes Controlados":0.00,"2019 - Todos los pacientes":0.00}
+  /* 
+   this.dataChart = [ { name: 'Fallo Viral', value: 9 },
+      { name: "RAMs", value: 20 }, { name: 'Número de cambios por tratamiento', value: 9 }] */
+}
 
 }
