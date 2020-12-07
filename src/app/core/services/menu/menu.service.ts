@@ -10,7 +10,6 @@ import { FormsService } from '../forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ifError } from 'assert';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -84,32 +83,32 @@ export class MenuService {
       });
   }
 
-  public setCurrentSection(section?: MenuItemModel) {    
+  public setCurrentSection(section?: MenuItemModel) {
     if (
       !this._formService.getMustBeSaved() ||
       (this._formService.getMustBeSaved() && this._formService.getSavedForm())
     ) {
       if (!section) {
         if (!this.allSections) this.fillSections(this.fullMenu);
-        section = this.allSections.filter((f) => f.url === '/hopes')[0];          
+        section = this.allSections.filter((f) => f.url === '/hopes')[0];
       }
 
       const url =
         section.url === this.homeUrl
           ? this.homeUrl
-          : section.url.split('/hopes')[1];         
+          : section.url.split('/hopes')[1];
 
       this.current = section;
-      localStorage.setItem('section', JSON.stringify(section));   
+      localStorage.setItem('section', JSON.stringify(section));
       if (url) this._router.navigate([url]);
       this.currentSection.next(section);
     } else {
-      if(section && section.url != '#' && section.url != this.current.url){          
-         this.showModalConfirm(section);
-      } else if(!section){
+      if (section && section.url != '#' && section.url != this.current.url) {
+        this.showModalConfirm(section);
+      } else if (!section) {
         this.showModalConfirm();
       }
-    }  
+    }
   }
 
   public setCurrentSectionByUrl(url: string) {
@@ -136,17 +135,17 @@ export class MenuService {
   private showModalConfirm(section?: MenuItemModel) {
     const modalRef = this._modalService.open(ConfirmModalComponent);
     modalRef.componentInstance.title = this.translate.instant('saveWarning');
-    modalRef.componentInstance.messageModal =
-      this.translate.instant('saveWarningMessage');
+    modalRef.componentInstance.messageModal = this.translate.instant(
+      'saveWarningMessage'
+    );
     modalRef.componentInstance.cancel.subscribe((event) => {
       modalRef.close();
-      this._formService.setSavedForm(false);       
+      this._formService.setSavedForm(false);
     });
     modalRef.componentInstance.accept.subscribe((event) => {
       modalRef.close();
-      this._formService.setSavedForm(true); 
+      this._formService.setSavedForm(true);
       section ? this.setCurrentSection(section) : this.setCurrentSection();
-         
-    });       
+    });
   }
 }
