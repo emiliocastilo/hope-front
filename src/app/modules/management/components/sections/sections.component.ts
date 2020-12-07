@@ -5,7 +5,7 @@ import { ITreeOptions, TREE_ACTIONS } from 'angular-tree-component';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/colum-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { SECTIONS_TABLE_HEADERS } from 'src/app/modules/management/constants/sections.constants';
@@ -14,7 +14,7 @@ import { SectionModel } from '../../models/section.model';
 import { RoleManagementService } from '../../services/roles/role-management.service';
 import { SectionsService } from '../../services/sections/sections.service';
 import { forkJoin } from 'rxjs';
-import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 @Component({
   selector: 'app-sections',
@@ -23,8 +23,8 @@ import { SideBarService } from 'src/app/core/services/side-bar/side-bar.service'
 })
 export class SectionsComponent implements OnInit {
   public sections: Array<SectionModel>;
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
+  public menu: MenuItemModel[] = [];
+  public menuSelected: MenuItemModel;
   public tableHeaders: Array<ColumnHeaderModel> = SECTIONS_TABLE_HEADERS;
   public tableData: Array<RowDataModel>;
   public isEditing: boolean;
@@ -38,7 +38,7 @@ export class SectionsComponent implements OnInit {
 
   constructor(
     private sectionsService: SectionsService,
-    private _sidebar: SideBarService,
+    private _sidebar: MenuService,
     private rolService: RoleManagementService,
     private modalService: NgbModal,
     private toastr: ToastrService,
@@ -209,7 +209,6 @@ export class SectionsComponent implements OnInit {
         }
       );
     }
-    this._sidebar.event.next('fetch menu');
   }
 
   private retrieveSections(): void {

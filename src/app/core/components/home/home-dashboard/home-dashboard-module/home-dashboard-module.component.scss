@@ -2,9 +2,39 @@
   width: 6rem;
 }
 
+.btn-primary {
+  background-color: #fbfdff;
+  border-color: #ecf3fa;
+}
+
+//Cuando haces clik en el boton
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: #ecf3fa;
+  border-color: #ecf3fa;
+}
+
 .card {
   max-width: 25rem;
   max-height: 25rem;
+
+  &:hover {
+    background-color: #ecf3fa;
+
+    .card-body {
+      background-color: #ecf3fa;
+    }
+
+    .card-header {
+      background-color: #ecf3fa;
+    }
+
+    .btn-primary {
+      background-color: #ecf3fa;
+      border-color: #ecf3fa;
+    }
+  }
 }
 
 .card-body {
@@ -13,16 +43,6 @@
   padding: 0;
   padding-top: 1rem;
   padding-bottom: 1rem;
-
-  .btn-primary {
-    background-color: #fbfdff;
-    border: 0;
-  }
-
-  .btn-primary:hover {
-    background-color: #363e63;
-    color: #fbfdff;
-  }
 }
 
 .card-header {

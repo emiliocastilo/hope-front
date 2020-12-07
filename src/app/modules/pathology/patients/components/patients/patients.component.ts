@@ -11,6 +11,7 @@ import {
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 @Component({
   selector: 'app-patients',
@@ -36,7 +37,8 @@ export class PatientsComponent implements OnInit {
   constructor(
     private _patientsService: PatientsService,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _menuService: MenuService
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +59,9 @@ export class PatientsComponent implements OnInit {
     const selectedUser = JSON.stringify(this.selectedPatient || {});
     localStorage.setItem('selectedPatient', selectedUser);
     this.selectedItem = event;
+    this._menuService.thereIsPatientSelected = true;
+    localStorage.setItem('thereIsPatientSelected', 'true');
+    this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard');
     this._router.navigate(['pathology/patients/dashboard']);
   }
 

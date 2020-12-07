@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { PhotosService } from '../../services/photos.service';
-import { SideBarItemModel } from 'src/app/core/models/side-bar/side-bar-item.model';
+import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { PhotoModel } from '../../models/photo.model';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -16,8 +16,8 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
   styleUrls: ['./gallery.component.scss'],
 })
 export class GalleryComponent implements OnInit {
-  public menu: SideBarItemModel[] = [];
-  public menuSelected: SideBarItemModel;
+  public menu: MenuItemModel[] = [];
+  public menuSelected: MenuItemModel;
   public isCollapsed = true;
   public photos: any = [];
   public modalForm: FormGroup;
