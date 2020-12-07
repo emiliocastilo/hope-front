@@ -1,3 +1,3 @@
 export class FormsModel {
-  constructor(key: string, form: string) {}
+    constructor(key: string, form: string) {}
 }

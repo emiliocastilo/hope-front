@@ -4,34 +4,34 @@ import { TranslateService } from '@ngx-translate/core';
 import { FieldConfig } from '../../../interfaces/dynamic-forms/field-config.interface';
 
 @Component({
-  selector: 'app-button',
-  templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss'],
+    selector: 'app-button',
+    templateUrl: './button.component.html',
+    styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent implements ControlValueAccessor {
-  @Input() clasesBtn: string;
-  @Input() icono: string;
-  @Input() id: string;
-  @Input() loading = false;
-  @Input() readOnly = false;
-  @Input() texto: string;
-  @Input() type = 'button';
-  @Input() disabledButton: boolean;
-  config: FieldConfig;
-  group: FormGroup;
+    @Input() clasesBtn: string;
+    @Input() icono: string;
+    @Input() id: string;
+    @Input() loading = false;
+    @Input() readOnly = false;
+    @Input() texto: string;
+    @Input() type = 'button';
+    @Input() disabledButton: boolean;
+    config: FieldConfig;
+    group: FormGroup;
 
-  childControl = new FormControl();
+    childControl = new FormControl();
 
-  writeValue(value: any): void {
-    this.childControl.setValue(value);
-  }
-  registerOnChange(fn: (value: any) => void) {
-    this.fn = fn;
-  }
+    writeValue(value: any): void {
+        this.childControl.setValue(value);
+    }
+    registerOnChange(fn: (value: any) => void) {
+        this.fn = fn;
+    }
 
-  registerOnTouched() {}
+    registerOnTouched() {}
 
-  fn = (value: any) => {};
+    fn = (value: any) => {};
 
-  constructor(public _translate: TranslateService) {}
+    constructor(public _translate: TranslateService) {}
 }

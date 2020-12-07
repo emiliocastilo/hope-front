@@ -2,16 +2,23 @@
   width: 6rem;
 }
 
-.btn-primary {
+.card-header {
   background-color: #fbfdff;
   border-color: #ecf3fa;
+  border: 1px;
+  padding-top: 1rem;
 }
 
-//Cuando haces clik en el boton
-.btn-primary:not(:disabled):not(.disabled):active,
-.btn-primary:not(:disabled):not(.disabled).active,
-.show > .btn-primary.dropdown-toggle {
-  background-color: #ecf3fa;
+.card-body {
+  background-color: #fbfdff;
+  color: #363e63;
+  padding: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.btn-primary {
+  background-color: #fbfdff;
   border-color: #ecf3fa;
 }
 
@@ -37,19 +44,12 @@
   }
 }
 
-.card-body {
-  background-color: #fbfdff;
-  color: #363e63;
-  padding: 0;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-.card-header {
-  background-color: #fbfdff;
+//Cuando haces clik en el boton
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: #ecf3fa;
   border-color: #ecf3fa;
-  border: 1px;
-  padding-top: 1rem;
 }
 
 .card-img-top {

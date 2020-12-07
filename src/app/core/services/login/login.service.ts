@@ -6,67 +6,65 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class LoginService {
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<LoginModel>;
+    private currentUserSubject: BehaviorSubject<any>;
+    public currentUser: Observable<LoginModel>;
 
-  constructor(private _http: HttpClient, private _router: Router) {
-    this.currentUserSubject = new BehaviorSubject<LoginModel>(
-      JSON.parse(localStorage.getItem('login'))
-    );
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
+    constructor(private _http: HttpClient, private _router: Router) {
+        this.currentUserSubject = new BehaviorSubject<LoginModel>(JSON.parse(localStorage.getItem('login')));
+        this.currentUser = this.currentUserSubject.asObservable();
+    }
 
-  public get currentUserValue(): LoginModel {
-    return this.currentUserSubject.value;
-  }
+    public get currentUserValue(): LoginModel {
+        return this.currentUserSubject.value;
+    }
 
-  login(login: LoginModel): Observable<any> {
-    return this._http.post('/login', login, { observe: 'response' }).pipe(
-      map((res) => {
-        this.currentUserSubject.next(res);
-        this._storeData(res);
-        return res;
-      })
-    );
-  }
+    login(login: LoginModel): Observable<any> {
+        return this._http.post('/login', login, { observe: 'response' }).pipe(
+            map((res) => {
+                this.currentUserSubject.next(res);
+                this._storeData(res);
+                return res;
+            })
+        );
+    }
 
-  logout() {
-    localStorage.clear();
-    this.currentUserSubject.next(null);
-    this._router.navigate(['/login']);
-  }
+    logout() {
+        localStorage.clear();
+        this.currentUserSubject.next(null);
+        this._router.navigate(['/login']);
+    }
 
-  isLogin() {
-    // comporbar token
-    return localStorage.getItem('token') ? true : false;
-  }
+    isLogin() {
+        // comporbar token
+        return localStorage.getItem('token') ? true : false;
+    }
 
-  resetPassword(email: string): Observable<any> {
-    return this._http.post('/users/request-password-changes', { email: email });
-  }
+    resetPassword(email: string): Observable<any> {
+        return this._http.post('/users/request-password-changes', {
+            email: email,
+        });
+    }
 
-  updatePassword(passwords: any): Observable<any> {
-    return this._http.post('/users/update-passwords', passwords, {
-      responseType: 'text',
-    });
-  }
+    updatePassword(passwords: any): Observable<any> {
+        return this._http.post('/users/update-passwords', passwords, {
+            responseType: 'text',
+        });
+    }
 
-  postChooseProfile(role: any): Observable<any> {
-    return this._http
-      .post('/users/choose-profiles/', role.code, { observe: 'response' })
-      .pipe(
-        map((res) => {
-          this.currentUserSubject.next(res);
-          return res;
-        })
-      );
-  }
+    postChooseProfile(role: any): Observable<any> {
+        return this._http.post('/users/choose-profiles/', role.code, { observe: 'response' }).pipe(
+            map((res) => {
+                this.currentUserSubject.next(res);
+                return res;
+            })
+        );
+    }
 
-  private _storeData(data: any): void {
-    localStorage.setItem('roles', JSON.stringify(data.body.roles));
-    localStorage.setItem('token', data.headers.get('Authorization'));
-  }
+    private _storeData(data: any): void {
+        localStorage.setItem('roles', JSON.stringify(data.body.roles));
+        localStorage.setItem('token', data.headers.get('Authorization'));
+    }
 }

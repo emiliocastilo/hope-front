@@ -9,175 +9,154 @@ import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-biological-agents',
-  templateUrl: './biological-agents.component.html',
-  styleUrls: ['./biological-agents.component.scss'],
+    selector: 'app-biological-agents',
+    templateUrl: './biological-agents.component.html',
+    styleUrls: ['./biological-agents.component.scss'],
 })
 export class BiologicalAgentsComponent implements OnInit {
-  public showingDetail = false;
-  private data: ChartObjectModel[];
-  public dataChart: ColumnChartModel;
-  public dataTable: any[];
-  public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
-  public columHeaders: string[] = ['typeTreatmentBiological', 'patients'];
-  public headersDetailsTable: string[] = [
-    'nhc',
-    'sip',
-    'patient',
-    'principalIndication',
-    'principalDiagnose',
-    'treatment',
-    'pasi',
-    'pasiDate',
-    'dlqi',
-    'dlqiDate',
-  ];
-  private currentPage: number = 0;
-  public detailsDataTable: any[];
-  public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
-  private currentSelected: any;
-  public currentSort: any = {
-    column: 'nhc',
-    direction: 'asc',
-  };
-  public details: any[] = [];
-  public dataToExport: any[] = [];
-  private type: string;
-
-  constructor(
-    public _activatedRoute: ActivatedRoute,
-    public _patientsTreatmentsService: PatientsTreatmentsService,
-    private _router: Router,
-    private _translate: TranslateService
-  ) {}
-
-  ngOnInit(): void {
-    this.getData();
-  }
-
-  private getData(): void {
-    const data = this._activatedRoute.snapshot.data.patientsTreatments;
-    this.type = this._activatedRoute.snapshot.data.type;
-    const chartTitle = 'patientsTreatmentBiological';
-    const view = null;
-    const scheme = {
-      domain: ['#249cf1'],
+    public showingDetail = false;
+    private data: ChartObjectModel[];
+    public dataChart: ColumnChartModel;
+    public dataTable: any[];
+    public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
+    public columHeaders: string[] = ['typeTreatmentBiological', 'patients'];
+    public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
+    private currentPage: number = 0;
+    public detailsDataTable: any[];
+    public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
+    private currentSelected: any;
+    public currentSort: any = {
+        column: 'nhc',
+        direction: 'asc',
     };
-    this.data = this.parseDataChart(data);
+    public details: any[] = [];
+    public dataToExport: any[] = [];
+    private type: string;
 
-    this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
-    this.dataTable = this.parseDataTable(data);
-  }
+    constructor(public _activatedRoute: ActivatedRoute, public _patientsTreatmentsService: PatientsTreatmentsService, private _router: Router, private _translate: TranslateService) {}
 
-  private parseDataChart(data: any): ChartObjectModel[] {
-    const arrayData: ChartObjectModel[] = Object.keys(data).map((key) => {
-      const object: ChartObjectModel = {
-        name: key,
-        series: [
-          {
-            name: this._translate.instant('patients').toUpperCase(),
-            value: data[key],
-          },
-        ],
-      };
-
-      return object;
-    });
-
-    return arrayData;
-  }
-
-  private parseDataTable(data: any[]) {
-    const arrayData = Object.keys(data).map((key: any) => {
-      const object = {
-        typeTreatmentBiological: key,
-        patients: data[key],
-      };
-      return object;
-    });
-    return arrayData;
-  }
-
-  private parseDataToTableDetails(data: any[]): any[] {
-    const arrayObject = data.map((value: any) => {
-      const object = {
-        nhc: value.nhc,
-        sip: value.healthCard,
-        patient: value.fullName,
-        principalIndication: value.principalIndication,
-        principalDiagnose: value.principalDiagnose,
-        treatment: value.treatment,
-        pasi: value.pasi,
-        pasiDate: value.pasiDate,
-        dlqi: value.dlqi,
-        dlqiDate: value.dlqiDate,
-      };
-      return object;
-    });
-    return arrayObject;
-  }
-
-  public onIconButtonClick(event: any) {
-    if (event && event.type === 'detail') {
-      this.showingDetail = true;
-      this.currentSelected = this.data[event.selectedItem];
-      const query =
-        'type=' + this.type + '&medicine=' + this.currentSelected.name;
-      this.getDetails(query);
-      this.getDetailsToExport(query);
-    } else {
-      this.showingDetail = false;
+    ngOnInit(): void {
+        this.getData();
     }
-  }
 
-  private getDetails(query: string) {
-    this._patientsTreatmentsService
-      .getDetailPatientsUnderTreatment(query)
-      .subscribe(
-        (data) => {
-          this.details = data.content;
-          this.paginationData = data;
-          this.detailsDataTable = this.parseDataToTableDetails(data.content);
-        },
-        (error) => {
-          console.error('error: ', error);
+    private getData(): void {
+        const data = this._activatedRoute.snapshot.data.patientsTreatments;
+        this.type = this._activatedRoute.snapshot.data.type;
+        const chartTitle = 'patientsTreatmentBiological';
+        const view = null;
+        const scheme = {
+            domain: ['#249cf1'],
+        };
+        this.data = this.parseDataChart(data);
+
+        this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
+        this.dataTable = this.parseDataTable(data);
+    }
+
+    private parseDataChart(data: any): ChartObjectModel[] {
+        const arrayData: ChartObjectModel[] = Object.keys(data).map((key) => {
+            const object: ChartObjectModel = {
+                name: key,
+                series: [
+                    {
+                        name: this._translate.instant('patients').toUpperCase(),
+                        value: data[key],
+                    },
+                ],
+            };
+
+            return object;
+        });
+
+        return arrayData;
+    }
+
+    private parseDataTable(data: any[]) {
+        const arrayData = Object.keys(data).map((key: any) => {
+            const object = {
+                typeTreatmentBiological: key,
+                patients: data[key],
+            };
+            return object;
+        });
+        return arrayData;
+    }
+
+    private parseDataToTableDetails(data: any[]): any[] {
+        const arrayObject = data.map((value: any) => {
+            const object = {
+                nhc: value.nhc,
+                sip: value.healthCard,
+                patient: value.fullName,
+                principalIndication: value.principalIndication,
+                principalDiagnose: value.principalDiagnose,
+                treatment: value.treatment,
+                pasi: value.pasi,
+                pasiDate: value.pasiDate,
+                dlqi: value.dlqi,
+                dlqiDate: value.dlqiDate,
+            };
+            return object;
+        });
+        return arrayObject;
+    }
+
+    public onIconButtonClick(event: any) {
+        if (event && event.type === 'detail') {
+            this.showingDetail = true;
+            this.currentSelected = this.data[event.selectedItem];
+            const query = 'type=' + this.type + '&medicine=' + this.currentSelected.name;
+            this.getDetails(query);
+            this.getDetailsToExport(query);
+        } else {
+            this.showingDetail = false;
         }
-      );
-  }
+    }
 
-  private getDetailsToExport(query: string) {
-    this._patientsTreatmentsService
-      .getDetailPatientsUnderTreatmentExport(query)
-      .subscribe(
-        (data: any) => {
-          this.dataToExport = data;
-        },
-        (error) => {
-          console.error(error);
+    private getDetails(query: string) {
+        this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
+            (data) => {
+                this.details = data.content;
+                this.paginationData = data;
+                this.detailsDataTable = this.parseDataToTableDetails(data.content);
+            },
+            (error) => {
+                console.error('error: ', error);
+            }
+        );
+    }
+
+    private getDetailsToExport(query: string) {
+        this._patientsTreatmentsService.getDetailPatientsUnderTreatmentExport(query).subscribe(
+            (data: any) => {
+                this.dataToExport = data;
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
+    }
+
+    public onPatientClick(event: any) {
+        if (event.type === 'detail') {
+            const currentUser = this.details[event.selectedItem];
+            const selectedUser = JSON.stringify(currentUser || {});
+            localStorage.setItem('selectedPatient', selectedUser);
+            this._router.navigate(['pathology/patients/dashboard']);
         }
-      );
-  }
-
-  public onPatientClick(event: any) {
-    if (event.type === 'detail') {
-      const currentUser = this.details[event.selectedItem];
-      const selectedUser = JSON.stringify(currentUser || {});
-      localStorage.setItem('selectedPatient', selectedUser);
-      this._router.navigate(['pathology/patients/dashboard']);
     }
-  }
 
-  public selectPage(page: number) {
-    if (this.currentPage !== page) {
-      this.currentPage = page;
-      const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
-      this.getDetails(query);
+    public selectPage(page: number) {
+        if (this.currentPage !== page) {
+            this.currentPage = page;
+            const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+            this.getDetails(query);
+        }
     }
-  }
 
-  public onSort(event: any) {
-    const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
-    this.currentSort = event;
-    this.getDetails(query);
-  }
+    public onSort(event: any) {
+        const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+        this.currentSort = event;
+        this.getDetails(query);
+    }
 }

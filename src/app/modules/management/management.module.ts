@@ -14,30 +14,22 @@ import { RoleManagementComponent } from './components/role-management/role-manag
 import { PatientsComponent } from './components/patients/patients.component';
 import { MedicinesComponent } from './components/medicines/medicines.component';
 @NgModule({
-  declarations: [
-    ManagementComponent,
-    RoleManagementComponent,
-    UsersComponent,
-    PatientsComponent,
-    DispensationsComponent,
-    SectionsComponent,
-    MedicinesComponent,
-  ],
-  imports: [
-    CommonModule,
-    CoreModule,
-    ManagementRoutingModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
-    TreeModule.forRoot(),
-    ContextMenuModule.forRoot({
-      autoFocus: true,
-    }),
-  ],
+    declarations: [ManagementComponent, RoleManagementComponent, UsersComponent, PatientsComponent, DispensationsComponent, SectionsComponent, MedicinesComponent],
+    imports: [
+        CommonModule,
+        CoreModule,
+        ManagementRoutingModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient],
+            },
+        }),
+        TreeModule.forRoot(),
+        ContextMenuModule.forRoot({
+            autoFocus: true,
+        }),
+    ],
 })
 export class ManagementModule {}

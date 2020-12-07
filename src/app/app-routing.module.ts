@@ -10,68 +10,59 @@ import { MyAccountComponent } from './core/components/my-account/my-account.comp
 import { ContactComponent } from './core/components/contact/contact.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'reset-password',
-    component: ResetPasswordComponent,
-  },
-  {
-    path: 'select-role',
-    component: SelectRoleComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'forms',
-    component: FormsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'my-account',
-    component: MyAccountComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'contact',
-    component: ContactComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'pathology',
-    loadChildren: () =>
-      import('./modules/pathology/pathology.module').then(
-        (m) => m.PathologyModule
-      ),
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'management',
-    loadChildren: () =>
-      import('./modules/management/management.module').then(
-        (m) => m.ManagementModule
-      ),
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'dashboard',
-    loadChildren: () =>
-      import('./modules/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
-      ),
-    canActivate: [AuthGuard],
-  },
-  { path: '**', redirectTo: '' },
+    {
+        path: '',
+        component: HomeComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'login',
+        component: LoginComponent,
+    },
+    {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
+    },
+    {
+        path: 'select-role',
+        component: SelectRoleComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'forms',
+        component: FormsComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'my-account',
+        component: MyAccountComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'contact',
+        component: ContactComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'pathology',
+        loadChildren: () => import('./modules/pathology/pathology.module').then((m) => m.PathologyModule),
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'management',
+        loadChildren: () => import('./modules/management/management.module').then((m) => m.ManagementModule),
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'dashboard',
+        loadChildren: () => import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
+        canActivate: [AuthGuard],
+    },
+    { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
 export class AppRoutingModule {}

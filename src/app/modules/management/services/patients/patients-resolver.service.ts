@@ -5,17 +5,17 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
 import { PatientsService } from './patients.service';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class PatientsResolverService implements Resolve<Array<PatientModel>> {
-  constructor(private patientsService: PatientsService) {}
+    constructor(private patientsService: PatientsService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Array<PatientModel>> {
-    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    let pathology_id = [];
-    if (user_aux['rolSelected']['pathology'] != null) {
-      pathology_id = user_aux['rolSelected']['pathology']['id'];
+    resolve(route: ActivatedRouteSnapshot): Observable<Array<PatientModel>> {
+        const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+        let pathology_id = [];
+        if (user_aux['rolSelected']['pathology'] != null) {
+            pathology_id = user_aux['rolSelected']['pathology']['id'];
+        }
+        return this.patientsService.getPatients(pathology_id, '&page=0');
     }
-    return this.patientsService.getPatients(pathology_id, '&page=0');
-  }
 }

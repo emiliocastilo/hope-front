@@ -1,69 +1,28 @@
 <div class="modal-content">
-  <app-generic-modal-header
-    [title]="title"
-    (close)="onClose()"
-  ></app-generic-modal-header>
-  <section class="row modal-content_checkbox-container">
-    <div
-      class="modal-content_checkbox-container_container"
-      *ngIf="dataParsed.length > 0"
-    >
-      <label for="checkAll">{{ 'labelAllNothing' | translate }}</label>
-      <input
-        name="checkAll"
-        type="checkbox"
-        id="checkAll"
-        [(ngModel)]="masterSelected"
-        (change)="checkUncheckAll()"
-      />
-    </div>
+    <app-generic-modal-header [title]="title" (close)="onClose()"></app-generic-modal-header>
+    <section class="row modal-content_checkbox-container">
+        <div class="modal-content_checkbox-container_container" *ngIf="dataParsed.length > 0">
+            <label for="checkAll">{{ 'labelAllNothing' | translate }}</label>
+            <input name="checkAll" type="checkbox" id="checkAll" [(ngModel)]="masterSelected" (change)="checkUncheckAll()" />
+        </div>
 
-    <div
-      *ngFor="let chart of dataParsed"
-      class="modal-content_checkbox-container_container"
-    >
-      <label [for]="chart.chartTitle">{{
-        chart.chartConfig.chartTitle | translate
-      }}</label>
-      <input
-        [name]="chart.chartConfig.chartTitle"
-        type="checkbox"
-        [id]="chart.chartConfig.chartTitle"
-        [(ngModel)]="chart.show"
-      />
-    </div>
-  </section>
+        <div *ngFor="let chart of dataParsed" class="modal-content_checkbox-container_container">
+            <label [for]="chart.chartTitle">{{ chart.chartConfig.chartTitle | translate }}</label>
+            <input [name]="chart.chartConfig.chartTitle" type="checkbox" [id]="chart.chartConfig.chartTitle" [(ngModel)]="chart.show" />
+        </div>
+    </section>
 
-  <section class="row" *ngFor="let chart of dataParsed">
-    <div class="col-6 mt-3" *ngIf="chart.show">
-      <app-line-chart [config]="chart.chartConfig"> </app-line-chart>
-    </div>
-    <div
-      class="col-6 modal-content_table-container pt-0 mt-3"
-      *ngIf="chart.show"
-    >
-      <app-table
-        [showActionButtons]="false"
-        [sortable]="false"
-        [columnsHeader]="columnsHeader"
-        [columnsData]="chart.tableConfig.series"
-      >
-      </app-table>
-      <app-pagination
-        [paginationData]="chart.tableConfig.paginationData"
-        (selectPage)="selectedPage($event, chart.tableConfig)"
-      >
-      </app-pagination>
-    </div>
-  </section>
+    <section class="row" *ngFor="let chart of dataParsed">
+        <div class="col-6 mt-3" *ngIf="chart.show">
+            <app-line-chart [config]="chart.chartConfig"> </app-line-chart>
+        </div>
+        <div class="col-6 modal-content_table-container pt-0 mt-3" *ngIf="chart.show">
+            <app-table [showActionButtons]="false" [sortable]="false" [columnsHeader]="columnsHeader" [columnsData]="chart.tableConfig.series"> </app-table>
+            <app-pagination [paginationData]="chart.tableConfig.paginationData" (selectPage)="selectedPage($event, chart.tableConfig)"> </app-pagination>
+        </div>
+    </section>
 
-  <section class="modal-content_button-container">
-    <app-button
-      type="button"
-      clasesBtn="btn-danger btn-sm mx-2"
-      icono="x"
-      texto="btn.close"
-      (click)="onClose()"
-    ></app-button>
-  </section>
+    <section class="modal-content_button-container">
+        <app-button type="button" clasesBtn="btn-danger btn-sm mx-2" icono="x" texto="btn.close" (click)="onClose()"></app-button>
+    </section>
 </div>

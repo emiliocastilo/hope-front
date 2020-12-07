@@ -6,91 +6,84 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-box-data',
-  templateUrl: './box-data.component.html',
-  styleUrls: ['./box-data.component.scss'],
+    selector: 'app-box-data',
+    templateUrl: './box-data.component.html',
+    styleUrls: ['./box-data.component.scss'],
 })
 export class BoxDataComponent implements OnInit {
-  @Input() data: any = {};
-  @Input() keysToShow: string[] = [];
-  public gender: string;
+    @Input() data: any = {};
+    @Input() keysToShow: string[] = [];
+    public gender: string;
 
-  constructor(
-    public _translate: TranslateService,
-    private _formService: FormsService,
-    private _modalService: NgbModal
-  ) {}
+    constructor(public _translate: TranslateService, private _formService: FormsService, private _modalService: NgbModal) {}
 
-  public currentData: PatientModel;
-  private keysNotShow: any = {
-    fullName: true,
-  };
+    public currentData: PatientModel;
+    private keysNotShow: any = {
+        fullName: true,
+    };
 
-  ngOnInit(): void {}
+    ngOnInit(): void {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.currentData = changes.data
-      ? changes.data.currentValue
-      : JSON.parse(localStorage.getItem('selectedPatient') || '{}');
-  }
-
-  public parsedata(object: PatientModel, key: string): string {
-    const valuetoPrint = object[key] ? object[key] : '';
-    return valuetoPrint;
-  }
-
-  public showKey(key: string): string {
-    return this.keysNotShow[key] ? '' : key;
-  }
-
-  public parserDataToShowInTooltip() {
-    let text = '';
-
-    if (this.currentData.hospital) {
-      text = `${this.currentData.hospital.name}`;
-    }
-    if (this.currentData.address) {
-      text += ` | ${this.currentData.address}`;
-    }
-    if (this.currentData.email) {
-      text += ` | ${this.currentData.email}`;
+    ngOnChanges(changes: SimpleChanges) {
+        this.currentData = changes.data ? changes.data.currentValue : JSON.parse(localStorage.getItem('selectedPatient') || '{}');
     }
 
-    return text;
-  }
-
-  public back() {
-    if (this.checkConditionToNavigate()) {
-      window.history.back();
-    } else {
-      this.showModalConfirm();
+    public parsedata(object: PatientModel, key: string): string {
+        const valuetoPrint = object[key] ? object[key] : '';
+        return valuetoPrint;
     }
-  }
 
-  checkConditionToNavigate(): boolean {
-    if (this._formService.getMustBeSaved()) {
-      if (this._formService.getSavedForm()) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return true;
+    public showKey(key: string): string {
+        return this.keysNotShow[key] ? '' : key;
     }
-  }
-  private showModalConfirm() {
-    const modalRef = this._modalService.open(ConfirmModalComponent);
-    modalRef.componentInstance.title = 'Aviso de cambios';
-    modalRef.componentInstance.messageModal =
-      'Hay cambios sin guardar, ¿Continuar?';
-    modalRef.componentInstance.cancel.subscribe((event) => {
-      modalRef.close();
-      this._formService.setSavedForm(false);
-    });
-    modalRef.componentInstance.accept.subscribe((event) => {
-      modalRef.close();
-      this._formService.setSavedForm(true);
-      this.back();
-    });
-  }
+
+    public parserDataToShowInTooltip() {
+        let text = '';
+
+        if (this.currentData.hospital) {
+            text = `${this.currentData.hospital.name}`;
+        }
+        if (this.currentData.address) {
+            text += ` | ${this.currentData.address}`;
+        }
+        if (this.currentData.email) {
+            text += ` | ${this.currentData.email}`;
+        }
+
+        return text;
+    }
+
+    public back() {
+        if (this.checkConditionToNavigate()) {
+            window.history.back();
+        } else {
+            this.showModalConfirm();
+        }
+    }
+
+    checkConditionToNavigate(): boolean {
+        if (this._formService.getMustBeSaved()) {
+            if (this._formService.getSavedForm()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    private showModalConfirm() {
+        const modalRef = this._modalService.open(ConfirmModalComponent);
+        modalRef.componentInstance.title = 'Aviso de cambios';
+        modalRef.componentInstance.messageModal = 'Hay cambios sin guardar, ¿Continuar?';
+        modalRef.componentInstance.cancel.subscribe((event) => {
+            modalRef.close();
+            this._formService.setSavedForm(false);
+        });
+        modalRef.componentInstance.accept.subscribe((event) => {
+            modalRef.close();
+            this._formService.setSavedForm(true);
+            this.back();
+        });
+    }
 }

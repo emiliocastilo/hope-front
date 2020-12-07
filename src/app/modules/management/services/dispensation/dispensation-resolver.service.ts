@@ -6,13 +6,12 @@ import { DispensationService } from './dispensation.service';
 import { DispensationModel } from '../../models/dispensation/dispensation.model';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class DispensationResolverService
-  implements Resolve<Array<DispensationModel>> {
-  constructor(private dispensationService: DispensationService) {}
+export class DispensationResolverService implements Resolve<Array<DispensationModel>> {
+    constructor(private dispensationService: DispensationService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Array<DispensationModel>> {
-    return this.dispensationService.getAll('&page=0');
-  }
+    resolve(route: ActivatedRouteSnapshot): Observable<Array<DispensationModel>> {
+        return this.dispensationService.getAll('&page=0');
+    }
 }

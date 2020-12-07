@@ -4,15 +4,12 @@ import { Observable } from 'rxjs';
 import { HealthOutcomeModel } from '../models/health-outcome.model';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class HealthOutcomeService {
-  constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) {}
 
-  public saveScore(healthOutcome: HealthOutcomeModel): Observable<any> {
-    return this._httpClient.post(
-      '/health-outcomes/save-score-data-by-index-type',
-      healthOutcome
-    );
-  }
+    public saveScore(healthOutcome: HealthOutcomeModel): Observable<any> {
+        return this._httpClient.post('/health-outcomes/save-score-data-by-index-type', healthOutcome);
+    }
 }

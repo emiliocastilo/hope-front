@@ -1,37 +1,10 @@
 <div class="form-checkbox" [formGroup]="group">
-  <label
-    [attr.for]="config.name"
-    class="dynamic-label switch-title"
-    [ngClass]="{ 'required-label': required }"
-  >
-    {{ config.label | translate }}
-  </label>
-  <div
-    class="switch"
-    (click)="switch()"
-    [ngClass]="{ checked: config.value, switchLabel: config.labelCheckOn }"
-  >
-    <input
-      type="checkbox"
-      [formControlName]="config.name"
-      [attr.name]="config.name"
-      [attr.id]="config.name"
-      [(ngModel)]="config.value"
-      class="switch-input"
-      [disabled]="config.disabled"
-    />
-    <span
-      class="switch-label"
-      [attr.data-on]="
-        config.labelCheckOn ? config.labelCheckOn : ('switch.yes' | translate)
-      "
-      [attr.data-off]="
-        config.labelCheckOff ? config.labelCheckOff : ('switch.no' | translate)
-      "
-    ></span>
-    <span
-      [ngClass]="{ 'switch-handle-label': config.labelCheckOn }"
-      class="switch-handle"
-    ></span>
-  </div>
+    <label [attr.for]="config.name" class="dynamic-label switch-title" [ngClass]="{ 'required-label': required }">
+        {{ config.label | translate }}
+    </label>
+    <div class="switch" (click)="switch()" [ngClass]="{ checked: config.value, switchLabel: config.labelCheckOn }">
+        <input type="checkbox" [formControlName]="config.name" [attr.name]="config.name" [attr.id]="config.name" [(ngModel)]="config.value" class="switch-input" [disabled]="config.disabled" />
+        <span class="switch-label" [attr.data-on]="config.labelCheckOn ? config.labelCheckOn : ('switch.yes' | translate)" [attr.data-off]="config.labelCheckOff ? config.labelCheckOff : ('switch.no' | translate)"></span>
+        <span [ngClass]="{ 'switch-handle-label': config.labelCheckOn }" class="switch-handle"></span>
+    </div>
 </div>

@@ -2,22 +2,22 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PrincipalDiagnosisComponent } from './comorbidities.component';
 
 describe('PrincipalDiagnosisComponent', () => {
-  let component: PrincipalDiagnosisComponent;
-  let fixture: ComponentFixture<PrincipalDiagnosisComponent>;
+    let component: PrincipalDiagnosisComponent;
+    let fixture: ComponentFixture<PrincipalDiagnosisComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PrincipalDiagnosisComponent],
-    }).compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [PrincipalDiagnosisComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PrincipalDiagnosisComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(PrincipalDiagnosisComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

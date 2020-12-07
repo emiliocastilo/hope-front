@@ -1,22 +1,13 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
-  <label
-    [attr.for]="config.name"
-    class="firefox-position"
-    [ngClass]="{
-      'date-label': type === 'date',
-      'dynamic-label': type !== 'date',
-      'required-label': required
-    }"
-    >{{ config.label | translate }}
-  </label>
-  <input
-    [attr.id]="config.name"
-    [attr.name]="config.name"
-    [attr.placeholder]="config.placeholder"
-    [formControlName]="config.name"
-    class="dynamic-field"
-    type="date"
-    [min]="minDate"
-    [max]="maxDate"
-  />
+    <label
+        [attr.for]="config.name"
+        class="firefox-position"
+        [ngClass]="{
+            'date-label': type === 'date',
+            'dynamic-label': type !== 'date',
+            'required-label': required
+        }"
+        >{{ config.label | translate }}
+    </label>
+    <input [attr.id]="config.name" [attr.name]="config.name" [attr.placeholder]="config.placeholder" [formControlName]="config.name" class="dynamic-field" type="date" [min]="minDate" [max]="maxDate" />
 </div>
