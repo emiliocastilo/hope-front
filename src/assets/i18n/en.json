@@ -434,6 +434,7 @@
   "infoTreatment:": "Treatment information",
   "CVP": "CVP",
   "CD4":"CD4",
-  "Adherence": "Adherence"
-
+  "Adherence": "Adherence",
+  "saveWarning":"Unsaved changes detected",
+  "saveWarningMessage":"There are unsaved changes. Continue?"
 }

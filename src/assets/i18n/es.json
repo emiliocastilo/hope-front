@@ -456,6 +456,7 @@
   "infoTreatment:": "Información del tratamiento",
   "CVP": "CVP",
   "CD4":"CD4",
-  "Adherence": "Adherencia"
-
+  "Adherence": "Adherencia",
+  "saveWarning":"Aviso de cambios",
+  "saveWarningMessage":"Hay cambios sin guardar, ¿Continuar?"
 }
