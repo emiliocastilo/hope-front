@@ -205,7 +205,7 @@ export class GraphsService {
   }
 
   /***** VIH *****/
-
+  // TODO plopezc - completar con back, ahora están puestas igual
   //Parámetros clínicos
   public getPatientsByClinicalParameter(query: string) {
     return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
