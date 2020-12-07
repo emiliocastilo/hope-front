@@ -424,5 +424,7 @@
   "opcionFormulaMagistral": "Magistral Formula",
   "descripcionFormulaMagistral": "Description Master Formula",
   "dosisFormulaMagistral": "Dose Master Formula",
-  "currentRole": "Change role"
+  "currentRole": "Change role",
+  "saveWarning":"Unsaved changes detected",
+  "saveWarningMessage":"There are unsaved changes. Continue?"
 }
