@@ -458,5 +458,6 @@
   "CD4":"CD4",
   "Adherence": "Adherencia",
   "saveWarning":"Aviso de cambios",
-  "saveWarningMessage":"Hay cambios sin guardar, ¿Continuar?"
+  "saveWarningMessage":"Hay cambios sin guardar, ¿Continuar?",
+  "patientType:": "Tipo de paciente"
 }

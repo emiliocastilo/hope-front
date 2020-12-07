@@ -1,0 +1,24 @@
+@import '~src/assets/styles/variables.scss';
+
+.dynamic-field {
+  position: relative;
+  margin-right: 2rem;
+  top: -2.75rem;
+  width: 12rem;
+
+  .dynamic-label {
+    position: relative;
+    top: 1.3rem;
+    font-size: 0.8rem;
+    left: 0.5rem;
+    margin-left: 0.3rem;
+    color: $app-color-blue-main;
+    background-color: white;
+    padding: 0 0.4rem;
+  }
+}
+
+.container {
+  margin-top: 1rem;
+  display: flex;
+}

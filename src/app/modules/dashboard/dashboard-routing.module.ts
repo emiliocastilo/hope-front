@@ -40,6 +40,7 @@ import { TreatmentsAgentsComponent } from './components/treatments/treatments-ag
 import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagnosis-reasons.component';
 import { PatientsVihLevelsComponent } from './components/vih/clinical-information/patients-vih/patients-vih-levels/patients-vih-levels.component';
 import { PatientTreatmentsVihChangeComponent } from './components/vih/clinical-information/patient-treatments-vih/patient-treatments-vih-change/patient-treatments-vih-change.component';
+import { PatientExpensesVihComponent } from './components/vih/pharmaeconomic-vih/patient-expenses-vih/patient-expenses-vih.component';
 
 const routes: Routes = [
   {
@@ -276,6 +277,11 @@ const routes: Routes = [
   {
     path: 'clinic-info/patient-treatments',
     component: PatientTreatmentsVihChangeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'pharmaeconomic/patient-expenses',
+    component: PatientExpensesVihComponent,
     canActivate: [AuthGuard],
   },
 ];
