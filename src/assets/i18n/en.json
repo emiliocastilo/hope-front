@@ -430,5 +430,10 @@
   "chartCD4": "Patients by CD4",
   "chartRISK": "Patients by risk group",
   "chartVIRAL": "Patients by viral infection",
-  "chartVHC": "Patients by VHC"
+  "chartVHC": "Patients by VHC",
+  "infoTreatment:": "Treatment information",
+  "CVP": "CVP",
+  "CD4":"CD4",
+  "Adherence": "Adherence"
+
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { stringify } from 'querystring';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
@@ -51,9 +52,11 @@ export class PatientsVihLevelsComponent implements OnInit {
     'nhc',
     'sip',
     'patient',
-    'principalIndication',
     'principalDiagnose',
-    'treatment',
+    'infoTreatment',
+    'CVP',
+    'CD4',
+    'Adherence',
   ];
   public detailsDataTable: any[];
   private currentSelected: any;
@@ -181,6 +184,7 @@ export class PatientsVihLevelsComponent implements OnInit {
   }
 
   private parseDataToTableDetails(data: any[]): any[] {
+    let abc;
     if (data) {
       const arrayObject = data.map((value: any) => {
         const object = {

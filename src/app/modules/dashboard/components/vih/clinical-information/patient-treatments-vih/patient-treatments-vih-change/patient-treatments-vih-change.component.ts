@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
@@ -14,10 +14,9 @@ import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service
 })
 export class PatientTreatmentsVihChangeComponent implements OnInit {
   //Gráfica
-  pieChart = true;
-  barChart = false;
   dataChart: ChartObjectModel[];
 
+  // Select, datos iniciales
   options = [
     {
       name: 'Motivo de cambio',
@@ -26,14 +25,12 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
       name: 'Fallo Viral',
     },
     {
-      name: 'RAMs (Reacciones adversas a medicamentos)',
+      name: 'RAMs', // (Reacciones adversas a medicamentos)
     },
     {
       name: 'Número de cambios por tratamiento',
     },
   ];
-
-  // Select, datos iniciales
   selectLabel: string;
   selectedOption = this.options[0].name;
   selectedChart = '';
@@ -50,9 +47,11 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     'nhc',
     'sip',
     'patient',
-    'principalIndication',
     'principalDiagnose',
-    'treatment',
+    'infoTreatment',
+    'CVP',
+    'CD4',
+    'Adherence',
   ];
   public detailsDataTable: any[];
   private currentSelected: any;
@@ -88,6 +87,9 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
         console.error(error);
       }
     );
+    // TODO: plopezc Eliminar comentario cuando acabe cuadros de mando - Datos de ejemplo
+    /* this.dataChart =  [ { name: 'Fallo Viral', value: 9 },
+      { name: "RAMs", value: 20 }, { name: 'Número de cambios por tratamiento', value: 9 }]; */
   }
 
   onSelect(event: any) {
@@ -148,7 +150,6 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     if (event.type === 'detail') {
       this.showingDetail = true;
       this.currentSelected = this.dataTable[event.selectedItem];
-      console.log('cause', this.currentSelected.changeCause);
       const query = this.query + '&reason=' + this.currentSelected.changeCause;
 
       this.getDetails(query);
@@ -226,5 +227,25 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
       `&result=${this.currentSelected.changeCause}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
     this.currentSort = event;
     this.getDetails(query);
+  }
+
+  // Control de interacción con la gráfica
+  public handleChartItemSelect(chartItemSelected: any) {
+    // Solo cuando estamos sobre la primera opción del select
+    if (this.selectedOption == this.options[0].name) {
+      // Control de selección de leyenda/quesito
+      chartItemSelected =
+        typeof chartItemSelected == 'string'
+          ? chartItemSelected
+          : chartItemSelected.name;
+      let charts = document.getElementById('chartSelector');
+      this.options.forEach((option, i) => {
+        if (chartItemSelected === option.name) {
+          charts[i].selected = true;
+          this.selectedOption = option.name;
+          this.loadValues(this.selectedOption);
+        }
+      });
+    }
   }
 }

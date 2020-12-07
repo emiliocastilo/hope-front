@@ -7,7 +7,11 @@
         <label class="dynamic-label">
           {{ selectLabel | translate }}
         </label>
-        <select class="form-control" (change)="onSelect($event)">
+        <select
+          id="chartSelector"
+          class="form-control"
+          (change)="onSelect($event)"
+        >
           <option *ngFor="let option of options">
             {{ option.name | translate }}
           </option>
@@ -18,10 +22,10 @@
   <section class="col-md-12 col-lg-12 m-0 p-0">
     <section class="patients-chart-container">
       <app-pie-chart
-        *ngIf="pieChart"
         [chartTitle]="selectedChart"
         [results]="dataChart"
         [showLabels]="true"
+        (chartItemSelected)="handleChartItemSelect($event)"
       ></app-pie-chart>
 
       <div class="table-container" *ngIf="!showingDetail">
@@ -58,7 +62,7 @@
         </app-pagination>
         <app-button
           type="button"
-          clasesBtn="btn-primary btn-sm mx-2"
+          clasesBtn="btn-primary btn-sm mx-2 "
           texto="btn.back"
           (click)="onIconButtonClick({ type: 'back' })"
           icono="arrow-left"

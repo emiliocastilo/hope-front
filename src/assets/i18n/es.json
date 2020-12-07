@@ -452,6 +452,10 @@
   "treatmentChange": "Cambio de tratamiento",
   "chartFailure": " Fallo viral",
   "chartRAMS": "RAMs",
-  "chartChangeQuantity":"Número de cambios por tratamiento"
+  "chartChangeQuantity": "Número de cambios por tratamiento",
+  "infoTreatment:": "Información del tratamiento",
+  "CVP": "CVP",
+  "CD4":"CD4",
+  "Adherence": "Adherencia"
 
 }
