@@ -269,12 +269,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'clinic-info/patients/vih-levels',
+    path: 'clinic-info/patients',
     component: PatientsVihLevelsComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'clinic-info/patient-treatments/change-reason',
+    path: 'clinic-info/patient-treatments',
     component: PatientTreatmentsVihChangeComponent,
     canActivate: [AuthGuard],
   },
