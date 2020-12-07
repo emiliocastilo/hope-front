@@ -6,13 +6,13 @@ import { UsersService } from './users.service';
 import { UserModel } from '../../models/user/user.model';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class UsersResolverService implements Resolve<Array<UserModel>> {
-  constructor(private UsersService: UsersService) {}
+    constructor(private UsersService: UsersService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Array<UserModel>> {
-    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    return this.UsersService.getAll(user_aux['rolSelected']['id'], '&page=0');
-  }
+    resolve(route: ActivatedRouteSnapshot): Observable<Array<UserModel>> {
+        const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+        return this.UsersService.getAll(user_aux['rolSelected']['id'], '&page=0');
+    }
 }

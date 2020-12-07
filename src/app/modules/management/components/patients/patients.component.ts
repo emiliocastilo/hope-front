@@ -18,351 +18,303 @@ import { HospitalService } from 'src/app/core/services/hospital/hospital.service
 import { DynamicFormComponent } from '../../../../core/components/dynamic-form/dynamic-form.component';
 
 @Component({
-  selector: 'app-patients',
-  templateUrl: './patients.component.html',
-  styleUrls: ['./patients.component.scss'],
+    selector: 'app-patients',
+    templateUrl: './patients.component.html',
+    styleUrls: ['./patients.component.scss'],
 })
 export class PatientsComponent implements OnInit {
-  @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
-  public menu: MenuItemModel[] = [];
-  public menuSelected: MenuItemModel;
-  public patients: PatientModel[] = [];
-  public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
-  public selectedItem: number;
-  public selectedPatient: PatientModel = new PatientModel();
-  public isEditing = false;
-  public modalForm: FormGroup;
-  private hospitals: HospitalModel[] = [];
-  private pathologies: PathologyModel[] = [];
-  private pathologiesIds: string[] = [];
-  private currentPage = 0;
-  private colOrder: any;
-  private typeOrder: any;
-  public paginationData: PaginationModel;
-  public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
-  private itemsPerPage: number;
-  private selectedUser: any;
-  private role_aux: any;
+    @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+    public menu: MenuItemModel[] = [];
+    public menuSelected: MenuItemModel;
+    public patients: PatientModel[] = [];
+    public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
+    public selectedItem: number;
+    public selectedPatient: PatientModel = new PatientModel();
+    public isEditing = false;
+    public modalForm: FormGroup;
+    private hospitals: HospitalModel[] = [];
+    private pathologies: PathologyModel[] = [];
+    private pathologiesIds: string[] = [];
+    private currentPage = 0;
+    private colOrder: any;
+    private typeOrder: any;
+    public paginationData: PaginationModel;
+    public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
+    private itemsPerPage: number;
+    private selectedUser: any;
+    private role_aux: any;
 
-  constructor(
-    private _patientsService: PatientsService,
-    private _modalService: NgbModal,
-    private _activatedRoute: ActivatedRoute,
-    private _notification: NotificationService,
-    private _formBuilder: FormBuilder,
-    private _hospitalService: HospitalService
-  ) {}
+    constructor(
+        private _patientsService: PatientsService,
+        private _modalService: NgbModal,
+        private _activatedRoute: ActivatedRoute,
+        private _notification: NotificationService,
+        private _formBuilder: FormBuilder,
+        private _hospitalService: HospitalService
+    ) {}
 
-  ngOnInit(): void {
-    this.hospitals = this._activatedRoute.snapshot.data.hospitals;
-    // this.patients = this._activatedRoute.snapshot.data.patients.content;
-    //this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
-    this.paginationData = this._activatedRoute.snapshot.data.patients;
-    this.selectedUser = JSON.parse(localStorage.getItem('user'));
-    this.role_aux = this.selectedUser.rolSelected || '{}';
-    //Obtenemos las patologias
-    if (this.role_aux['service']['pathologies'].length > 0) {
-      for (let i = 0; i < this.role_aux['service']['pathologies'].length; i++) {
-        this.pathologies.push(
-          new PathologyModel(
-            this.role_aux['service']['pathologies'][i]['id'],
-            this.role_aux['service']['pathologies'][i]['name'],
-            this.role_aux['service']['pathologies'][i]['description']
-          )
-        );
-      }
-    }
-
-    const userHospital: any = this.hospitals.find(
-      (hospital) => hospital.id === this.selectedUser.rolSelected.hospital.id
-    );
-    this.hospitals = [userHospital];
-    this.getPathologiesIds();
-    this.getPatients();
-    this.modalForm = this._formBuilder.group({
-      name: ['', Validators.required],
-      firstSurname: ['', Validators.required],
-      lastSurname: [''],
-      nhc: ['', Validators.required],
-      healthCard: ['', Validators.required],
-      dni: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('([a-z]|[A-Z]|[0-9])[0-9]{7}([a-z]|[A-Z]|[0-9])'),
-        ],
-      ],
-      address: [''],
-      phone: ['', [Validators.pattern('^[0-9]{9}$')]],
-      email: ['', [Validators.email]],
-      hospital: ['', Validators.required],
-      pathology: ['', Validators.required],
-      genderCode: [''],
-      birthDate: ['', Validators.required],
-    });
-  }
-
-  public onSelectedItem(event: number): void {
-    this.selectedPatient = this.patients[event];
-    const selectedUser = JSON.stringify(this.selectedPatient || {});
-    localStorage.setItem('selectedPatient', selectedUser);
-    this.selectedItem = event;
-    Object.keys(this.patients[event]).forEach((patientKey: string) => {
-      if (this.modalForm.controls[patientKey]) {
-        this.modalForm.controls[patientKey].setValue(
-          this.patients[event][patientKey]
-        );
-      }
-    });
-  }
-
-  public getPatients() {
-    this._patientsService
-      .getPatients(this.selectedUser.rolSelected.pathology.id, '')
-      .subscribe((data) => {
-        this.patients = data.content;
-      });
-  }
-
-  public getPathologiesIds() {
-    this.pathologies.forEach((pathology) => {
-      this.pathologiesIds.push(pathology.id);
-    });
-  }
-
-  public onSearch(event: string): void {
-    this._patientsService
-      .findPatients(this.selectedUser.rolSelected.pathology.id, event)
-      .subscribe((data) => {
-        this.patients = data.content;
-      });
-  }
-
-  public onIconButtonClick(event: any) {
-    if (event && event.type === 'edit') {
-      if (this.selectedPatient) {
-        this.modalForm.controls['pathology'].setValue(this.pathologies);
-        this.editPatient();
-      }
-    } else if (event && event.type === 'delete') {
-      this.showModalConfirm();
-    }
-  }
-
-  public onSort(event: any) {
-    this.colOrder = event.column;
-    this.typeOrder = event.direction;
-    let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
-
-    if (this.itemsPerPage) {
-      query = `${query}&size=${this.itemsPerPage}`;
-    }
-
-    this.refreshData(query);
-  }
-
-  public selectItemsPerPage(number: number) {
-    this.itemsPerPage = number;
-    this.selectPage(0);
-  }
-
-  public savePatient(): void {
-    this.isEditing = false;
-    this.selectedItem = null;
-    this.modalForm.reset();
-    this.modalForm.controls.lastSurname.setValue('');
-    this.showModal();
-  }
-
-  public editPatient(): void {
-    this.isEditing = true;
-    this.showModal();
-  }
-
-  public deletePatient(): void {
-    this._patientsService
-      .deletePatient(this.patients[this.selectedItem].id)
-      .subscribe(
-        (response) => {
-          this._notification.showSuccessToast('elementDeleted');
-          this.refreshData(`&page=${this.currentPage}`);
-        },
-        ({ error }) => {
-          this._notification.showErrorToast(error.errorCode);
+    ngOnInit(): void {
+        this.hospitals = this._activatedRoute.snapshot.data.hospitals;
+        // this.patients = this._activatedRoute.snapshot.data.patients.content;
+        //this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
+        this.paginationData = this._activatedRoute.snapshot.data.patients;
+        this.selectedUser = JSON.parse(localStorage.getItem('user'));
+        this.role_aux = this.selectedUser.rolSelected || '{}';
+        //Obtenemos las patologias
+        if (this.role_aux['service']['pathologies'].length > 0) {
+            for (let i = 0; i < this.role_aux['service']['pathologies'].length; i++) {
+                this.pathologies.push(new PathologyModel(this.role_aux['service']['pathologies'][i]['id'], this.role_aux['service']['pathologies'][i]['name'], this.role_aux['service']['pathologies'][i]['description']));
+            }
         }
-      );
-  }
 
-  private showModalConfirm() {
-    const modalRef = this._modalService.open(ConfirmModalComponent);
-
-    modalRef.componentInstance.title = 'Eliminar Paciente';
-    modalRef.componentInstance.messageModal =
-      '¿Estás seguro de borrar este paciente?';
-    modalRef.componentInstance.cancel.subscribe((event) => {
-      modalRef.close();
-    });
-    modalRef.componentInstance.accept.subscribe((event) => {
-      this.deletePatient();
-      modalRef.close();
-    });
-  }
-
-  private showModal() {
-    const modalRef = this._modalService.open(EditorModalComponent, {
-      size: 'lg',
-    });
-    let options: any = {};
-    if (
-      this.selectedItem != null &&
-      this.selectedPatient.hospital &&
-      this.selectedPatient.pathologies
-    ) {
-      // Se selecciona la patología del usuario logado, coincidente con la del paciente.
-      const isInArrayPatientPathology = this.selectedPatient.pathologies.findIndex(
-        (element) => element.id === this.selectedUser.rolSelected.pathology.id
-      );
-      const isInArrayPathology = this.pathologies.findIndex(
-        (element2) => element2.id === this.selectedUser.rolSelected.pathology.id
-      );
-      options = {
-        hospital: {
-          options: this.hospitals,
-          optionSelected: this.selectedPatient.hospital.id,
-        },
-        pathology: {
-          options: this.pathologies,
-          optionSelected:
-            isInArrayPatientPathology >= 0
-              ? this.pathologies[isInArrayPathology].id
-              : this.selectedPatient.pathologies[0].id,
-        },
-      };
-    } else {
-      options = {
-        hospital: { options: this.hospitals },
-        pathology: { options: this.pathologies },
-      };
+        const userHospital: any = this.hospitals.find((hospital) => hospital.id === this.selectedUser.rolSelected.hospital.id);
+        this.hospitals = [userHospital];
+        this.getPathologiesIds();
+        this.getPatients();
+        this.modalForm = this._formBuilder.group({
+            name: ['', Validators.required],
+            firstSurname: ['', Validators.required],
+            lastSurname: [''],
+            nhc: ['', Validators.required],
+            healthCard: ['', Validators.required],
+            dni: ['', [Validators.required, Validators.pattern('([a-z]|[A-Z]|[0-9])[0-9]{7}([a-z]|[A-Z]|[0-9])')]],
+            address: [''],
+            phone: ['', [Validators.pattern('^[0-9]{9}$')]],
+            email: ['', [Validators.email]],
+            hospital: ['', Validators.required],
+            pathology: ['', Validators.required],
+            genderCode: [''],
+            birthDate: ['', Validators.required],
+        });
     }
-    modalRef.componentInstance.id = 'patientseditor';
-    modalRef.componentInstance.title = 'Paciente';
-    modalRef.componentInstance.form = this.modalForm;
-    modalRef.componentInstance.options = options;
-    modalRef.componentInstance.maxDate = new Date().toISOString().split('T')[0];
-    modalRef.componentInstance.close.subscribe(() => {
-      modalRef.close();
-    });
-    modalRef.componentInstance.save.subscribe((event) => {
-      if (this.modalForm.valid) {
-        this.saveOrUpdate(event, modalRef);
-      }
-    });
-  }
 
-  private saveOrUpdate(event: any, modalRef: any): void {
-    const formValues: any = event.value;
-    const birthDate = new Date(formValues.birthDate).toISOString();
-    let id: string;
-    if (this.isEditing) {
-      id = this.patients[this.selectedItem].id;
+    public onSelectedItem(event: number): void {
+        this.selectedPatient = this.patients[event];
+        const selectedUser = JSON.stringify(this.selectedPatient || {});
+        localStorage.setItem('selectedPatient', selectedUser);
+        this.selectedItem = event;
+        Object.keys(this.patients[event]).forEach((patientKey: string) => {
+            if (this.modalForm.controls[patientKey]) {
+                this.modalForm.controls[patientKey].setValue(this.patients[event][patientKey]);
+            }
+        });
     }
-    let pathologies_aux: PathologyModel[] = [];
-    if (this.selectedPatient.pathologies !== undefined) {
-      if (formValues.pathology.length > 1) {
-        pathologies_aux = this.selectedPatient.pathologies;
-      } else {
-        for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
-          if (
-            parseInt(this.selectedPatient.pathologies[i].id) !=
-              parseInt(formValues.pathology[0].id) &&
-            parseInt(this.selectedPatient.pathologies[i].id) ==
-              parseInt(this.selectedUser.rolSelected.pathology.id)
-          ) {
+
+    public getPatients() {
+        this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, '').subscribe((data) => {
+            this.patients = data.content;
+        });
+    }
+
+    public getPathologiesIds() {
+        this.pathologies.forEach((pathology) => {
+            this.pathologiesIds.push(pathology.id);
+        });
+    }
+
+    public onSearch(event: string): void {
+        this._patientsService.findPatients(this.selectedUser.rolSelected.pathology.id, event).subscribe((data) => {
+            this.patients = data.content;
+        });
+    }
+
+    public onIconButtonClick(event: any) {
+        if (event && event.type === 'edit') {
+            if (this.selectedPatient) {
+                this.modalForm.controls['pathology'].setValue(this.pathologies);
+                this.editPatient();
+            }
+        } else if (event && event.type === 'delete') {
+            this.showModalConfirm();
+        }
+    }
+
+    public onSort(event: any) {
+        this.colOrder = event.column;
+        this.typeOrder = event.direction;
+        let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
+
+        if (this.itemsPerPage) {
+            query = `${query}&size=${this.itemsPerPage}`;
+        }
+
+        this.refreshData(query);
+    }
+
+    public selectItemsPerPage(number: number) {
+        this.itemsPerPage = number;
+        this.selectPage(0);
+    }
+
+    public savePatient(): void {
+        this.isEditing = false;
+        this.selectedItem = null;
+        this.modalForm.reset();
+        this.modalForm.controls.lastSurname.setValue('');
+        this.showModal();
+    }
+
+    public editPatient(): void {
+        this.isEditing = true;
+        this.showModal();
+    }
+
+    public deletePatient(): void {
+        this._patientsService.deletePatient(this.patients[this.selectedItem].id).subscribe(
+            (response) => {
+                this._notification.showSuccessToast('elementDeleted');
+                this.refreshData(`&page=${this.currentPage}`);
+            },
+            ({ error }) => {
+                this._notification.showErrorToast(error.errorCode);
+            }
+        );
+    }
+
+    private showModalConfirm() {
+        const modalRef = this._modalService.open(ConfirmModalComponent);
+
+        modalRef.componentInstance.title = 'Eliminar Paciente';
+        modalRef.componentInstance.messageModal = '¿Estás seguro de borrar este paciente?';
+        modalRef.componentInstance.cancel.subscribe((event) => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.accept.subscribe((event) => {
+            this.deletePatient();
+            modalRef.close();
+        });
+    }
+
+    private showModal() {
+        const modalRef = this._modalService.open(EditorModalComponent, {
+            size: 'lg',
+        });
+        let options: any = {};
+        if (this.selectedItem != null && this.selectedPatient.hospital && this.selectedPatient.pathologies) {
+            // Se selecciona la patología del usuario logado, coincidente con la del paciente.
+            const isInArrayPatientPathology = this.selectedPatient.pathologies.findIndex((element) => element.id === this.selectedUser.rolSelected.pathology.id);
+            const isInArrayPathology = this.pathologies.findIndex((element2) => element2.id === this.selectedUser.rolSelected.pathology.id);
+            options = {
+                hospital: {
+                    options: this.hospitals,
+                    optionSelected: this.selectedPatient.hospital.id,
+                },
+                pathology: {
+                    options: this.pathologies,
+                    optionSelected: isInArrayPatientPathology >= 0 ? this.pathologies[isInArrayPathology].id : this.selectedPatient.pathologies[0].id,
+                },
+            };
+        } else {
+            options = {
+                hospital: { options: this.hospitals },
+                pathology: { options: this.pathologies },
+            };
+        }
+        modalRef.componentInstance.id = 'patientseditor';
+        modalRef.componentInstance.title = 'Paciente';
+        modalRef.componentInstance.form = this.modalForm;
+        modalRef.componentInstance.options = options;
+        modalRef.componentInstance.maxDate = new Date().toISOString().split('T')[0];
+        modalRef.componentInstance.close.subscribe(() => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.save.subscribe((event) => {
+            if (this.modalForm.valid) {
+                this.saveOrUpdate(event, modalRef);
+            }
+        });
+    }
+
+    private saveOrUpdate(event: any, modalRef: any): void {
+        const formValues: any = event.value;
+        const birthDate = new Date(formValues.birthDate).toISOString();
+        let id: string;
+        if (this.isEditing) {
+            id = this.patients[this.selectedItem].id;
+        }
+        let pathologies_aux: PathologyModel[] = [];
+        if (this.selectedPatient.pathologies !== undefined) {
+            if (formValues.pathology.length > 1) {
+                pathologies_aux = this.selectedPatient.pathologies;
+            } else {
+                for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
+                    if (parseInt(this.selectedPatient.pathologies[i].id) != parseInt(formValues.pathology[0].id) && parseInt(this.selectedPatient.pathologies[i].id) == parseInt(this.selectedUser.rolSelected.pathology.id)) {
+                        pathologies_aux.push(formValues.pathology[0]);
+                    } else {
+                        pathologies_aux.push(this.selectedPatient.pathologies[i]);
+                    }
+                }
+            }
+        } else {
             pathologies_aux.push(formValues.pathology[0]);
-          } else {
-            pathologies_aux.push(this.selectedPatient.pathologies[i]);
-          }
         }
-      }
-    } else {
-      pathologies_aux.push(formValues.pathology[0]);
+        const hospital = formValues.hospital ? (formValues.hospital[0] ? formValues.hospital[0] : formValues.hospital) : formValues.hospital;
+        const patient: PatientModel = new PatientModel(
+            id,
+            formValues.name,
+            formValues.firstSurname,
+            formValues.lastSurname,
+            formValues.nhc,
+            formValues.healthCard,
+            formValues.dni,
+            formValues.address,
+            formValues.phone,
+            formValues.email,
+            birthDate,
+            hospital,
+            formValues.genderCode,
+            pathologies_aux
+        );
+        this.selectedPatient = new PatientModel();
+        if (this.isEditing) {
+            this._patientsService.updatePatient(patient).subscribe(
+                (response) => {
+                    this.isEditing = false;
+                    modalRef.close();
+                    this.refreshData(`&page=${this.currentPage}`);
+                },
+                ({ error }) => {
+                    this._notification.showErrorToast(error.errorCode);
+                }
+            );
+        } else {
+            this._patientsService.createPatient(patient).subscribe(
+                (response) => {
+                    modalRef.close();
+                    this.refreshData(`&page=${this.currentPage}`);
+                },
+                ({ error }) => {
+                    this._notification.showErrorToast(error.errorCode);
+                }
+            );
+        }
     }
-    const hospital = formValues.hospital
-      ? formValues.hospital[0]
-        ? formValues.hospital[0]
-        : formValues.hospital
-      : formValues.hospital;
-    const patient: PatientModel = new PatientModel(
-      id,
-      formValues.name,
-      formValues.firstSurname,
-      formValues.lastSurname,
-      formValues.nhc,
-      formValues.healthCard,
-      formValues.dni,
-      formValues.address,
-      formValues.phone,
-      formValues.email,
-      birthDate,
-      hospital,
-      formValues.genderCode,
-      pathologies_aux
-    );
-    this.selectedPatient = new PatientModel();
-    if (this.isEditing) {
-      this._patientsService.updatePatient(patient).subscribe(
-        (response) => {
-          this.isEditing = false;
-          modalRef.close();
-          this.refreshData(`&page=${this.currentPage}`);
-        },
-        ({ error }) => {
-          this._notification.showErrorToast(error.errorCode);
-        }
-      );
-    } else {
-      this._patientsService.createPatient(patient).subscribe(
-        (response) => {
-          modalRef.close();
-          this.refreshData(`&page=${this.currentPage}`);
-        },
-        ({ error }) => {
-          this._notification.showErrorToast(error.errorCode);
-        }
-      );
-    }
-  }
 
-  public selectPage(page: number): void {
-    let query: string;
-    if (this.colOrder && this.typeOrder) {
-      query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
-    } else {
-      query = `&page=${page}`;
+    public selectPage(page: number): void {
+        let query: string;
+        if (this.colOrder && this.typeOrder) {
+            query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
+        } else {
+            query = `&page=${page}`;
+        }
+        this.currentPage = page;
+        if (this.itemsPerPage) {
+            query = `${query}&size=${this.itemsPerPage}`;
+        }
+        this.refreshData(query);
     }
-    this.currentPage = page;
-    if (this.itemsPerPage) {
-      query = `${query}&size=${this.itemsPerPage}`;
-    }
-    this.refreshData(query);
-  }
 
-  private refreshData(query: string): void {
-    this._patientsService
-      .getPatients(this.selectedUser.rolSelected.pathology.id, query)
-      .subscribe((data) => {
-        this.patients = data.content;
-        this.paginationData.totalElements = data.totalElements;
-        if (this.paginationData.totalPages !== data.totalPages) {
-          this.paginationData = data;
-        }
-        if (
-          this.patients.length === 0 &&
-          this.paginationData.totalElements > 0
-        ) {
-          this.currentPage = this.currentPage - 1;
-          this.selectPage(this.currentPage);
-        }
-      });
-  }
+    private refreshData(query: string): void {
+        this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, query).subscribe((data) => {
+            this.patients = data.content;
+            this.paginationData.totalElements = data.totalElements;
+            if (this.paginationData.totalPages !== data.totalPages) {
+                this.paginationData = data;
+            }
+            if (this.patients.length === 0 && this.paginationData.totalElements > 0) {
+                this.currentPage = this.currentPage - 1;
+                this.selectPage(this.currentPage);
+            }
+        });
+    }
 }

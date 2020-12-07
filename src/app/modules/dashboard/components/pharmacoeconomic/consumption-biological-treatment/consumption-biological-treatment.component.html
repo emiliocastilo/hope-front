@@ -1,15 +1,9 @@
 <div class="row m-0 p-0">
-  <section
-    class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center"
-  >
-    <div class="row pt-3">
-      <app-entry-menu-select
-        [selectLabel]="'consumption'"
-        [entries]="options"
-        [config]="config"
-      ></app-entry-menu-select>
-    </div>
-  </section>
+    <section class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center">
+        <div class="row pt-3">
+            <app-entry-menu-select [selectLabel]="'consumption'" [entries]="options" [config]="config"></app-entry-menu-select>
+        </div>
+    </section>
 </div>
 
 <router-outlet></router-outlet>

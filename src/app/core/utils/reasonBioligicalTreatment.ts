@@ -1,6 +1,6 @@
 const reasonBioligicalTreatment = {
-  change: 'Cambio',
-  stop: 'Suspensión',
+    change: 'Cambio',
+    stop: 'Suspensión',
 };
 
 export default reasonBioligicalTreatment;

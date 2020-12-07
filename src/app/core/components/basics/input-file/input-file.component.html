@@ -1,20 +1,12 @@
 <form class="form-group dynamic-group field" [formGroup]="formGroup">
-  <label
-    for="{{ id }}"
-    [ngClass]="{
-      'dynamic-label': true,
-      'required-label': required
-    }"
-  >
-    {{ label | translate }}
-  </label>
-  <input
-    (change)="handleFileInput($event.target.files)"
-    class="dynamic-field"
-    id="{{ id }}"
-    name="{{ name }}"
-    required="{{ required }}"
-    type="{{ type }}"
-    accept="{{ accept }}"
-  />
+    <label
+        for="{{ id }}"
+        [ngClass]="{
+            'dynamic-label': true,
+            'required-label': required
+        }"
+    >
+        {{ label | translate }}
+    </label>
+    <input (change)="handleFileInput($event.target.files)" class="dynamic-field" id="{{ id }}" name="{{ name }}" required="{{ required }}" type="{{ type }}" accept="{{ accept }}" />
 </form>

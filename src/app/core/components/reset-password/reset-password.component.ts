@@ -5,53 +5,41 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss'],
+    selector: 'app-reset-password',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent implements OnInit {
-  resetPasswordForm: FormGroup;
-  loading = false;
-  submitted = false;
+    resetPasswordForm: FormGroup;
+    loading = false;
+    submitted = false;
 
-  constructor(
-    private _loginService: LoginService,
-    private _formBuilder: FormBuilder,
-    private _router: Router,
-    private _notification: NotificationService
-  ) {}
-  ngOnInit() {
-    this.resetPasswordForm = this._formBuilder.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
-          Validators.email,
-        ],
-      ],
-    });
-  }
-
-  get formControl() {
-    return this.resetPasswordForm.controls;
-  }
-
-  onFormSubmit() {
-    this.submitted = true;
-    if (this.resetPasswordForm.invalid) {
-      return;
+    constructor(private _loginService: LoginService, private _formBuilder: FormBuilder, private _router: Router, private _notification: NotificationService) {}
+    ngOnInit() {
+        this.resetPasswordForm = this._formBuilder.group({
+            email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'), Validators.email]],
+        });
     }
 
-    this.loading = true;
-    this._loginService.resetPassword(this.formControl.email.value).subscribe(
-      (data) => {
-        this._router.navigate(['/']);
-      },
-      ({ error }) => {
-        this.loading = false;
-        this._notification.showErrorToast(error.errorCode);
-      }
-    );
-  }
+    get formControl() {
+        return this.resetPasswordForm.controls;
+    }
+
+    onFormSubmit() {
+        this.submitted = true;
+        if (this.resetPasswordForm.invalid) {
+            return;
+        }
+
+        this.loading = true;
+        this._loginService.resetPassword(this.formControl.email.value).subscribe(
+            (data) => {
+                this._router.navigate(['/']);
+            },
+            ({ error }) => {
+                this.loading = false;
+                this._notification.showErrorToast(error.errorCode);
+            }
+        );
+    }
 }

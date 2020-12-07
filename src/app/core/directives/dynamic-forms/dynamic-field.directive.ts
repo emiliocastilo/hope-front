@@ -1,12 +1,4 @@
-import {
-  Directive,
-  Input,
-  OnInit,
-  ComponentFactoryResolver,
-  ViewContainerRef,
-  ComponentRef,
-  HostBinding,
-} from '@angular/core';
+import { Directive, Input, OnInit, ComponentFactoryResolver, ViewContainerRef, ComponentRef, HostBinding } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormButtonComponent } from '../../components/basics/form-button/form-button.component';
@@ -27,59 +19,54 @@ import { FromSectionComponent } from '../../components/basics/from-section/from-
 import { FormSearchComponent } from '../../components/basics/form-search/form-search.component';
 
 const components = {
-  button: FormButtonComponent,
-  input: FormInputComponent,
-  select: FormSelectComponent,
-  checkbox: FormCheckboxComponent,
-  radio: FormRadioComponent,
-  switch: FormSwitchComponent,
-  datepicker: FormDatepickerComponent,
-  textarea: FormTextareaComponent,
-  title: FromTitleComponent,
-  section: FromSectionComponent,
-  divider: FromDividerComponent,
-  historic: FormHistoricComponent,
-  table: FormListComponent,
-  search: FormSearchComponent,
+    button: FormButtonComponent,
+    input: FormInputComponent,
+    select: FormSelectComponent,
+    checkbox: FormCheckboxComponent,
+    radio: FormRadioComponent,
+    switch: FormSwitchComponent,
+    datepicker: FormDatepickerComponent,
+    textarea: FormTextareaComponent,
+    title: FromTitleComponent,
+    section: FromSectionComponent,
+    divider: FromDividerComponent,
+    historic: FormHistoricComponent,
+    table: FormListComponent,
+    search: FormSearchComponent,
 };
 
 @Directive({
-  selector: '[dynamicField]',
+    selector: '[dynamicField]',
 })
 export class DynamicFieldDirective implements OnInit {
-  @Input() config: FieldConfig;
-  @Input() group: FormGroup;
+    @Input() config: FieldConfig;
+    @Input() group: FormGroup;
 
-  @HostBinding('class')
-  elementClass = 'col-12';
+    @HostBinding('class')
+    elementClass = 'col-12';
 
-  component: ComponentRef<Field>;
+    component: ComponentRef<Field>;
 
-  constructor(
-    private resolver: ComponentFactoryResolver,
-    private container: ViewContainerRef
-  ) {}
+    constructor(private resolver: ComponentFactoryResolver, private container: ViewContainerRef) {}
 
-  ngOnChanges() {
-    if (this.component) {
-      this.component.instance.config = this.config;
-      this.component.instance.group = this.group;
+    ngOnChanges() {
+        if (this.component) {
+            this.component.instance.config = this.config;
+            this.component.instance.group = this.group;
+        }
     }
-  }
 
-  ngOnInit() {
-    if (!components[this.config.type]) {
-      const supportedTypes = Object.keys(components).join(', ');
-      throw new Error(
-        `ERROR: Tipo de campo no soportado (${this.config.type}).
+    ngOnInit() {
+        if (!components[this.config.type]) {
+            const supportedTypes = Object.keys(components).join(', ');
+            throw new Error(
+                `ERROR: Tipo de campo no soportado (${this.config.type}).
         Supported types: ${supportedTypes}`
-      );
+            );
+        }
+        const component = this.resolver.resolveComponentFactory<Field>(components[this.config.type]);
+        this.component = this.container.createComponent(component);
+        this.component.instance.config = this.config;
+        this.component.instance.group = this.group;
     }
-    const component = this.resolver.resolveComponentFactory<Field>(
-      components[this.config.type]
-    );
-    this.component = this.container.createComponent(component);
-    this.component.instance.config = this.config;
-    this.component.instance.group = this.group;
-  }
 }

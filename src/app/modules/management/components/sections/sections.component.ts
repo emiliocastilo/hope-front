@@ -17,204 +17,197 @@ import { forkJoin } from 'rxjs';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 @Component({
-  selector: 'app-sections',
-  templateUrl: './sections.component.html',
-  styleUrls: ['./sections.component.scss'],
+    selector: 'app-sections',
+    templateUrl: './sections.component.html',
+    styleUrls: ['./sections.component.scss'],
 })
 export class SectionsComponent implements OnInit {
-  public sections: Array<SectionModel>;
-  public menu: MenuItemModel[] = [];
-  public menuSelected: MenuItemModel;
-  public tableHeaders: Array<ColumnHeaderModel> = SECTIONS_TABLE_HEADERS;
-  public tableData: Array<RowDataModel>;
-  public isEditing: boolean;
-  public selectedItem: number;
-  public homeSection: number;
-  public selectedSection: SectionModel = new SectionModel();
-  public modalForm: FormGroup;
-  public options: ITreeOptions;
-  public roles: Array<RolModel> = [];
-  public activeRoles: Array<RolModel> = [];
+    public sections: Array<SectionModel>;
+    public menu: MenuItemModel[] = [];
+    public menuSelected: MenuItemModel;
+    public tableHeaders: Array<ColumnHeaderModel> = SECTIONS_TABLE_HEADERS;
+    public tableData: Array<RowDataModel>;
+    public isEditing: boolean;
+    public selectedItem: number;
+    public homeSection: number;
+    public selectedSection: SectionModel = new SectionModel();
+    public modalForm: FormGroup;
+    public options: ITreeOptions;
+    public roles: Array<RolModel> = [];
+    public activeRoles: Array<RolModel> = [];
 
-  constructor(
-    private sectionsService: SectionsService,
-    private _sidebar: MenuService,
-    private rolService: RoleManagementService,
-    private modalService: NgbModal,
-    private toastr: ToastrService,
-    private formBuilder: FormBuilder
-  ) {
-    this.modalForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-      icon: [''],
-      order: ['', Validators.required],
-      active: [false],
-      principal: [false],
-      visible: [true],
-      url: ['', Validators.required],
-      fatherSection: [{ value: '', disabled: true }, Validators.required],
-      roles: [null],
-    });
-  }
+    constructor(private sectionsService: SectionsService, private _sidebar: MenuService, private rolService: RoleManagementService, private modalService: NgbModal, private toastr: ToastrService, private formBuilder: FormBuilder) {
+        this.modalForm = this.formBuilder.group({
+            title: ['', Validators.required],
+            description: ['', Validators.required],
+            icon: [''],
+            order: ['', Validators.required],
+            active: [false],
+            principal: [false],
+            visible: [true],
+            url: ['', Validators.required],
+            fatherSection: [{ value: '', disabled: true }, Validators.required],
+            roles: [null],
+        });
+    }
 
-  ngOnInit(): void {
-    this.options = {
-      actionMapping: {
-        mouse: {
-          contextMenu: (tree, node, $event) => {
-            $event.preventDefault();
-          },
-          dblClick: (tree, node, $event) => {
-            if (node.hasChildren) {
-              TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
-            }
-          },
-        },
-      },
-      displayField: 'title',
-    };
-    this.retrieveSections();
-  }
-
-  public saveSection(parentNode?: SectionModel): void {
-    this.isEditing = false;
-    this.selectedItem = null;
-    this.modalForm.reset();
-    this.makeRequests(parentNode ? parentNode.id : this.homeSection);
-  }
-
-  public editSection(node: SectionModel): void {
-    this.isEditing = true;
-    this.makeRequests(node.id);
-  }
-
-  private makeRequests(id: number): void {
-    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    const getRoles = this.rolService.getAllRoles(user_aux['rolSelected']['id']);
-    const getNodeData = this.sectionsService.getSectionById(id);
-
-    forkJoin([getRoles, getNodeData]).subscribe((responseData) => {
-      this.roles = responseData[0];
-      this.activeRoles = this.isEditing ? responseData[1].roles : [];
-      this.setFormValues(responseData[1]);
-      this.showModal(responseData[1]);
-    });
-  }
-
-  public showConfirmRemove(node?: SectionModel) {
-    const modalRef = this.modalService.open(ConfirmModalComponent);
-
-    modalRef.componentInstance.title = 'Eliminar Sección';
-    modalRef.componentInstance.messageModal = `¿Estas seguro de que quieres eliminar la sección '${node.title}'?`;
-    modalRef.componentInstance.cancel.subscribe((event) => {
-      modalRef.close();
-    });
-    modalRef.componentInstance.accept.subscribe((event) => {
-      this.deleteSection(node.id);
-      modalRef.close();
-    });
-  }
-
-  private deleteSection(id: number): void {
-    this.sectionsService.deleteSection(id).subscribe(
-      (response) => {
-        this.toastr.success('La sección se ha borrado correctamente');
+    ngOnInit(): void {
+        this.options = {
+            actionMapping: {
+                mouse: {
+                    contextMenu: (tree, node, $event) => {
+                        $event.preventDefault();
+                    },
+                    dblClick: (tree, node, $event) => {
+                        if (node.hasChildren) {
+                            TREE_ACTIONS.TOGGLE_EXPANDED(tree, node, $event);
+                        }
+                    },
+                },
+            },
+            displayField: 'title',
+        };
         this.retrieveSections();
-      },
-      (error) => {
-        this.toastr.error(error.message);
-      }
-    );
-  }
-
-  private setFormValues(node: SectionModel): void {
-    Object.keys(node).forEach((nodeKey) => {
-      if (this.modalForm.controls[nodeKey]) {
-        if (nodeKey === 'fatherSection') {
-          if (node[nodeKey] && this.isEditing) {
-            this.modalForm.controls[nodeKey].setValue(node[nodeKey].title);
-          } else {
-            this.modalForm.controls[nodeKey].setValue(node.title);
-          }
-        } else if (nodeKey !== 'roles' && this.isEditing === true) {
-          this.modalForm.controls[nodeKey].setValue(node[nodeKey]);
-        }
-      }
-    });
-  }
-
-  private showModal(node?: SectionModel) {
-    const modalRef = this.modalService.open(EditorModalComponent, {
-      size: 'lg',
-    });
-    modalRef.componentInstance.id = 'sectionsEditor';
-    modalRef.componentInstance.title = 'Sección';
-    modalRef.componentInstance.form = this.modalForm;
-    const options = {
-      roles: { options: this.roles },
-    };
-    modalRef.componentInstance.options = options;
-    modalRef.componentInstance.activeRoles = this.activeRoles;
-    modalRef.componentInstance.close.subscribe((event) => {
-      modalRef.close();
-    });
-    modalRef.componentInstance.save.subscribe((event) => {
-      if (this.modalForm.valid) {
-        this.saveOrUpdate(event, modalRef, node);
-      }
-    });
-  }
-
-  private saveOrUpdate(event: any, modalRef: any, node?: SectionModel): void {
-    const formValues: SectionModel = event.value;
-    let id;
-    let fatherSection = node;
-    if (this.isEditing && node) {
-      id = node.id;
-      fatherSection = node.fatherSection;
     }
-    const section: SectionModel = new SectionModel(
-      id,
-      formValues.description,
-      formValues.icon ? formValues.icon : '',
-      formValues.active ? formValues.active : false,
-      formValues.order,
-      formValues.principal ? formValues.principal : false,
-      formValues.visible ? formValues.visible : false,
-      formValues.title,
-      formValues.url,
-      modalRef.componentInstance.activeRoles,
-      fatherSection
-    );
-    if (this.isEditing) {
-      this.sectionsService.updateSection(section).subscribe(
-        (response) => {
-          this.isEditing = false;
-          modalRef.close();
-          this.retrieveSections();
-        },
-        (error) => {
-          this.toastr.error(error.message);
-        }
-      );
-    } else {
-      this.sectionsService.createSection(section).subscribe(
-        (response) => {
-          modalRef.close();
-          this.retrieveSections();
-        },
-        (error) => {
-          this.toastr.error(error.message);
-        }
-      );
-    }
-  }
 
-  private retrieveSections(): void {
-    this.sectionsService.getSections().subscribe((data) => {
-      this.homeSection = data.id;
-      this.sections = data.children;
-    });
-  }
+    public saveSection(parentNode?: SectionModel): void {
+        this.isEditing = false;
+        this.selectedItem = null;
+        this.modalForm.reset();
+        this.makeRequests(parentNode ? parentNode.id : this.homeSection);
+    }
+
+    public editSection(node: SectionModel): void {
+        this.isEditing = true;
+        this.makeRequests(node.id);
+    }
+
+    private makeRequests(id: number): void {
+        const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+        const getRoles = this.rolService.getAllRoles(user_aux['rolSelected']['id']);
+        const getNodeData = this.sectionsService.getSectionById(id);
+
+        forkJoin([getRoles, getNodeData]).subscribe((responseData) => {
+            this.roles = responseData[0];
+            this.activeRoles = this.isEditing ? responseData[1].roles : [];
+            this.setFormValues(responseData[1]);
+            this.showModal(responseData[1]);
+        });
+    }
+
+    public showConfirmRemove(node?: SectionModel) {
+        const modalRef = this.modalService.open(ConfirmModalComponent);
+
+        modalRef.componentInstance.title = 'Eliminar Sección';
+        modalRef.componentInstance.messageModal = `¿Estas seguro de que quieres eliminar la sección '${node.title}'?`;
+        modalRef.componentInstance.cancel.subscribe((event) => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.accept.subscribe((event) => {
+            this.deleteSection(node.id);
+            modalRef.close();
+        });
+    }
+
+    private deleteSection(id: number): void {
+        this.sectionsService.deleteSection(id).subscribe(
+            (response) => {
+                this.toastr.success('La sección se ha borrado correctamente');
+                this.retrieveSections();
+            },
+            (error) => {
+                this.toastr.error(error.message);
+            }
+        );
+    }
+
+    private setFormValues(node: SectionModel): void {
+        Object.keys(node).forEach((nodeKey) => {
+            if (this.modalForm.controls[nodeKey]) {
+                if (nodeKey === 'fatherSection') {
+                    if (node[nodeKey] && this.isEditing) {
+                        this.modalForm.controls[nodeKey].setValue(node[nodeKey].title);
+                    } else {
+                        this.modalForm.controls[nodeKey].setValue(node.title);
+                    }
+                } else if (nodeKey !== 'roles' && this.isEditing === true) {
+                    this.modalForm.controls[nodeKey].setValue(node[nodeKey]);
+                }
+            }
+        });
+    }
+
+    private showModal(node?: SectionModel) {
+        const modalRef = this.modalService.open(EditorModalComponent, {
+            size: 'lg',
+        });
+        modalRef.componentInstance.id = 'sectionsEditor';
+        modalRef.componentInstance.title = 'Sección';
+        modalRef.componentInstance.form = this.modalForm;
+        const options = {
+            roles: { options: this.roles },
+        };
+        modalRef.componentInstance.options = options;
+        modalRef.componentInstance.activeRoles = this.activeRoles;
+        modalRef.componentInstance.close.subscribe((event) => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.save.subscribe((event) => {
+            if (this.modalForm.valid) {
+                this.saveOrUpdate(event, modalRef, node);
+            }
+        });
+    }
+
+    private saveOrUpdate(event: any, modalRef: any, node?: SectionModel): void {
+        const formValues: SectionModel = event.value;
+        let id;
+        let fatherSection = node;
+        if (this.isEditing && node) {
+            id = node.id;
+            fatherSection = node.fatherSection;
+        }
+        const section: SectionModel = new SectionModel(
+            id,
+            formValues.description,
+            formValues.icon ? formValues.icon : '',
+            formValues.active ? formValues.active : false,
+            formValues.order,
+            formValues.principal ? formValues.principal : false,
+            formValues.visible ? formValues.visible : false,
+            formValues.title,
+            formValues.url,
+            modalRef.componentInstance.activeRoles,
+            fatherSection
+        );
+        if (this.isEditing) {
+            this.sectionsService.updateSection(section).subscribe(
+                (response) => {
+                    this.isEditing = false;
+                    modalRef.close();
+                    this.retrieveSections();
+                },
+                (error) => {
+                    this.toastr.error(error.message);
+                }
+            );
+        } else {
+            this.sectionsService.createSection(section).subscribe(
+                (response) => {
+                    modalRef.close();
+                    this.retrieveSections();
+                },
+                (error) => {
+                    this.toastr.error(error.message);
+                }
+            );
+        }
+    }
+
+    private retrieveSections(): void {
+        this.sectionsService.getSections().subscribe((data) => {
+            this.homeSection = data.id;
+            this.sections = data.children;
+        });
+    }
 }

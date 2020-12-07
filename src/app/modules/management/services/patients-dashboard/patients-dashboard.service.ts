@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class PatientsDashboardService {
-  constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) {}
 
-  public getPatientsDashboardById(id: string): Observable<any> {
-    return this._httpClient.get(`/patients-dashboards/${id}`);
-  }
+    public getPatientsDashboardById(id: string): Observable<any> {
+        return this._httpClient.get(`/patients-dashboards/${id}`);
+    }
 }

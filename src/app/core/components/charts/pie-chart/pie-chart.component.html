@@ -1,20 +1,20 @@
 <div class="chart-container">
-  {{ chartTitle | translate }}
-  <hr />
-  <ngx-charts-pie-chart
-    *ngIf="results && results.length > 0"
-    [view]="view"
-    [gradient]="gradient"
-    [doughnut]="doughnut"
-    [results]="results"
-    [legend]="showLegend"
-    [labels]="showLabels"
-    [legendPosition]="legendPosition"
-    [legendTitle]="legendTitle"
-    (select)="onChartItemSelected($event)"
-  >
-  </ngx-charts-pie-chart>
-  <div *ngIf="results && results.length === 0" class="no-data">
-    {{ 'noData' | translate }}
-  </div>
+    {{ chartTitle | translate }}
+    <hr />
+    <ngx-charts-pie-chart
+        *ngIf="results && results.length > 0"
+        [view]="view"
+        [gradient]="gradient"
+        [doughnut]="doughnut"
+        [results]="results"
+        [legend]="showLegend"
+        [labels]="showLabels"
+        [legendPosition]="legendPosition"
+        [legendTitle]="legendTitle"
+        (select)="onChartItemSelected($event)"
+    >
+    </ngx-charts-pie-chart>
+    <div *ngIf="results && results.length === 0" class="no-data">
+        {{ 'noData' | translate }}
+    </div>
 </div>
