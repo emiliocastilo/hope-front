@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { FormGroup, FormArray } from '@angular/forms';
 import moment from 'moment';
+import { FieldConfigModel } from 'src/app/core/models/forms/field-config.model';
 
 @Component({
   selector: 'app-form-historic',
@@ -9,7 +9,7 @@ import moment from 'moment';
   styleUrls: ['./form-historic.component.scss'],
 })
 export class FormHistoricComponent implements OnInit {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   oldValue: any;
   historicField: any;

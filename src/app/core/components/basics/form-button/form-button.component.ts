@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
 
@@ -14,7 +14,7 @@ export class FormButtonComponent {
   @Input() clasesBtn = 'btn-primary';
   @Input() texto: string;
   @Input() type = 'button';
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
 
   constructor(private _modalService: NgbModal) {}

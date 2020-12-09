@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel } from 'src/app/core/models/forms/field-config.model';
 
 @Component({
   selector: 'app-from-divider',
@@ -7,7 +7,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
   styleUrls: ['./from-divider.component.scss'],
 })
 export class FromDividerComponent implements OnInit {
-  @Input() config: FieldConfig[] = [];
+  @Input() config: FieldConfigModel[] = [];
 
   constructor() {}
 

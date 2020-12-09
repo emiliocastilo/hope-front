@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
@@ -13,7 +13,7 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
   styleUrls: ['./form-list.component.scss'],
 })
 export class FormListComponent implements OnInit {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   rows = [];
   detailArray: Array<any>;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
   styleUrls: ['./form-textarea.component.scss'],
 })
 export class FormTextareaComponent implements OnInit {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   rows: number = this.config?.rows | 1;
   required: boolean = false;

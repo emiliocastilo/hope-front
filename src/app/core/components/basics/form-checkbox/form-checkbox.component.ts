@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 
 @Component({
   selector: 'app-form-checkbox',
@@ -9,7 +9,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
   styleUrls: ['./form-checkbox.component.scss'],
 })
 export class FormCheckboxComponent implements OnInit {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   required: boolean;
   constructor() {

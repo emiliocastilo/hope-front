@@ -20,11 +20,11 @@ import { FormDatepickerComponent } from '../../components/basics/form-datepicker
 import { FormTextareaComponent } from '../../components/basics/form-textarea/form-textarea.component';
 import { FromTitleComponent } from 'src/app/core/components/basics/from-title/from-title.component';
 import { FromDividerComponent } from 'src/app/core/components/basics/from-divider/from-divider.component';
-import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import { FormListComponent } from '../../components/basics/form-list/form-list.component';
 import { FormHistoricComponent } from '../../components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from '../../components/basics/from-section/from-section.component';
 import { FormSearchComponent } from '../../components/basics/form-search/form-search.component';
+import { FieldConfigModel } from '../../models/forms/field-config.model';
 
 const components = {
   button: FormButtonComponent,
@@ -47,7 +47,7 @@ const components = {
   selector: '[dynamicField]',
 })
 export class DynamicFieldDirective implements OnInit {
-  @Input() config: FieldConfig;
+  @Input() config: FieldConfigModel;
   @Input() group: FormGroup;
 
   @HostBinding('class')

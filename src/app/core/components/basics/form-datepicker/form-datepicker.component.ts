@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 import moment from 'moment';
 
 @Component({
@@ -11,7 +11,7 @@ import moment from 'moment';
 })
 export class FormDatepickerComponent implements OnInit {
   @Input() type = 'date';
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   required = false;
   public minDate: string;

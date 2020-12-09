@@ -7,13 +7,14 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../../services/forms/forms.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
+
 
 @Component({
   exportAs: 'dynamicForm',
@@ -22,7 +23,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./dynamic-form.component.scss'],
 })
 export class DynamicFormComponent implements OnChanges, OnInit {
-  @Input() config: FieldConfig[] = [];
+  @Input() config: FieldConfigModel[] = [];
   @Input() buttons: string[] = [];
   @Input() key: string;
   @Input() isModal = false;
@@ -106,48 +107,83 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
   detectCalculatedBack() {
     this.changes.subscribe((change) => {
-      const params = [];
-      // Calculated back
-      const calculatedFields = this.config.filter(
-        (e) => e.calculated_back && e.event === 'change'
+//       const params = [];
+//       // Calculated back
+//       const calculatedFields = this.config.filter(
+//         (e) => e.calculated_back
+//       );
+//       if (calculatedFields && calculatedFields.length > 0) {
+//         calculatedFields.forEach((field) => {
+// // if(field.enableWhen!=undefined&&field.enableWhen.length>0)
+// //           if ( this.enabledWhen(field)) {
+// //             this.setDisabled(field.name, false);
+// //           } else {
+// //             this.setDisabled(field.name, true);
+// //             this.form.controls[field.name].setValue('', { emitEvent: false });
+// //           }
+//           field.params.forEach((e, i) => {
+//             params[i] = change[e];
+//           });
+//           const patient = JSON.parse(localStorage.getItem('selectedPatient'));
+//           let urlEndpoint = field.endpoint;
+//           urlEndpoint = urlEndpoint.replace('${patient}', patient.id);
+//           for (let f = 0; f < params.length; f++) {
+//             const configParams = this.config.filter(
+//               (e) => e.name === params[f]
+//             );
+//             if (configParams != null && configParams.length > 1) {
+//               urlEndpoint = urlEndpoint.replace(
+//                 '${' + f + '}',
+//                 configParams[0].value
+//               );
+//             }
+//           }
+//           const value = this._http.get(urlEndpoint).toPromise();
+//           this.form.controls[field.name].setValue(value ? value : '', {
+//             emitEvent: false,
+//           });
+//         });
+let calculated;
+Object.entries(this.form.controls).forEach(([a, i]) => {if ( i._pendingChange == true)calculated = i.pending})
+
+
+const calculatedFields = this.config.filter(
+  (e) => e.calculated_back
+);
+const params = [];
+let urlEndpoint;
+let configParams=[];
+
+debugger
+if (calculatedFields && calculatedFields.length > 0) {
+  calculatedFields.forEach((field) => {
+   
+    urlEndpoint = field.endpoint;
+    
+    field.params.forEach((e, i) => {
+      configParams[i] = e;
+    });
+    const patient = JSON.parse(localStorage.getItem('selectedPatient'));
+    urlEndpoint = urlEndpoint.replace('${patient}', patient.id);
+    for (let f = 0; f < configParams.length; f++) {
+      
+      const data= this.config.filter(e=>e.name==configParams[f]);
+      // const configParams = this.config.filter((e) => e.name === params[f]);
+      urlEndpoint = urlEndpoint.replace(
+        '${' + f + '}',
+        data[0].value==null? "":data[0].value
       );
-      if (calculatedFields && calculatedFields.length > 0) {
-        calculatedFields.forEach((field) => {
-          if (this.enabledWhen(field)) {
-            this.setDisabled(field.name, false);
-          } else {
-            this.setDisabled(field.name, true);
-            this.form.controls[field.name].setValue('', { emitEvent: false });
-          }
-          // field.params.forEach((e, i) => {
-          //   params[i] = change[e];
-          // });
-          // const patient = JSON.parse(localStorage.getItem('selectedPatient'));
-          // let urlEndpoint = field.endpoint;
-          // urlEndpoint = urlEndpoint.replace('${patient}', patient.id);
-          // for (let f = 0; f < params.length; f++) {
-          //   const configParams = this.config.filter(
-          //     (e) => e.name === params[f]
-          //   );
-          //   if (configParams != null && configParams.length > 1) {
-          //     urlEndpoint = urlEndpoint.replace(
-          //       '${' + f + '}',
-          //       configParams[0].value
-          //     );
-          //   }
-          // }
-          // const value = this._http.get(urlEndpoint).toPromise();
-          // this.form.controls[field.name].setValue(value ? value : '', {
-          //   emitEvent: false,
-          // });
-        });
+    }
+    debugger
+    field.value = this._http.get(urlEndpoint).toPromise();
+  });
       }
-      setTimeout(() => {
+      /*setTimeout(() => {
         this.displayElement(this.config);
-      }, 20);
+      }, 20);*/
     });
   }
-  enabledWhen(field: FieldConfig) {
+  enabledWhen(field: FieldConfigModel) {
     if (field.enableWhen[1] === 'not_empty') {
       return this.form.controls[field.enableWhen[0]].value !== '';
     } else {
@@ -176,7 +212,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
       });
     }
   }
-  hiddenWhen(field: FieldConfig) {
+  hiddenWhen(field: FieldConfigModel) {
     if (field.hiddenWhen[1] === 'not_empty') {
       return this.form.controls[field.hiddenWhen[0]].value !== '';
     } else {
@@ -212,7 +248,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           }
         });
       this.detectCalculatedBack();
-      this.detectCalculated();
+   //   this.detectCalculated();
     }
   }
 
@@ -224,7 +260,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return group;
   }
 
-  createControl(config: FieldConfig) {
+  createControl(config: FieldConfigModel) {
     if (config.calculated_front) {
       const params = [];
       config.params.forEach((e, i) => {
@@ -236,7 +272,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.fb.control({ disabled, value }, validation);
   }
 
-  createArray(config: FieldConfig) {
+  createArray(config: FieldConfigModel) {
     const group = this.fb.group({});
     config.fields.forEach((field) => {
       group.addControl(field.name, this.fb.control(''));
@@ -244,7 +280,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     return this.fb.array([group]);
   }
 
-  createHistoric(config: FieldConfig) {
+  createHistoric(config: FieldConfigModel) {
     const { validation } = config;
     const group = this.fb.group({});
     group.addControl('date', this.fb.control('', validation));

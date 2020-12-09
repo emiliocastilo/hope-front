@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,7 @@ import { FormGroup, AbstractControl } from '@angular/forms';
   styleUrls: ['./form-radio.component.scss'],
 })
 export class FormRadioComponent {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   required: boolean = false;
 

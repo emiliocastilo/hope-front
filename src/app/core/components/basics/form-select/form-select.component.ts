@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 
 @Component({
   selector: 'app-form-select',
@@ -9,7 +9,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
   styleUrls: ['./form-select.component.scss'],
 })
 export class FormSelectComponent implements OnInit {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   optionSelected: boolean;
   required = false;

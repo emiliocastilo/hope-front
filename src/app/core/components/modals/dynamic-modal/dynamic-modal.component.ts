@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 import FormUtils from 'src/app/core/utils/FormUtils';
 import StringUtils from 'src/app/core/utils/StringUtils';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
@@ -10,7 +10,7 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
   styleUrls: ['./dynamic-modal.component.scss'],
 })
 export class DynamicModalComponent implements OnInit {
-  public config: FieldConfig[] = [];
+  public config: FieldConfigModel[] = [];
   public buttons: string[] = [];
   public filled = [];
   private isEmpty = true;
@@ -39,7 +39,7 @@ export class DynamicModalComponent implements OnInit {
     const data: any = await this._formsService.get(this.key);
     if (data) {
       const emptyForm = this._parseStringToJSON(data.form);
-      this.config = FormUtils.createFieldConfig(emptyForm);
+      this.config = FormUtils.createFieldConfigModel(emptyForm);
       const buttons = this._parseStringToJSON(data.buttons);
       this.buttons = FormUtils.createButtons(buttons);
     }
@@ -47,7 +47,7 @@ export class DynamicModalComponent implements OnInit {
 
   getAndParseFromFields() {
     this.fillForm();
-    this.config = FormUtils.createFieldConfig(this.fields, this.filled);
+    this.config = FormUtils.createFieldConfigModel(this.fields, this.filled);
     this.buttons = FormUtils.createButtons(['save']);
   }
 

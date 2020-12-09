@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
-import { FieldConfig } from './field-config.interface';
+import { FieldConfigModel } from './field-config.interface';
 
 export interface Field {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
 }

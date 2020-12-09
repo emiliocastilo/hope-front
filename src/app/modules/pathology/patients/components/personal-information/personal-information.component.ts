@@ -3,9 +3,9 @@ import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import FormUtils from 'src/app/core/utils/FormUtils';
 import StringUtils from '../../../../../core/utils/StringUtils';
-import { FieldConfig } from '../../../../../core/interfaces/dynamic-forms/field-config.interface';
 import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
+import { FieldConfigModel } from 'src/app/core/models/forms/field-config.model';
 
 @Component({
   selector: 'app-personal-information',
@@ -53,7 +53,7 @@ export class PersonalInformationComponent implements OnInit {
   };
 
   public gender: string;
-  public config: FieldConfig[] = [];
+  public config: FieldConfigModel[] = [];
 
   constructor(
     private _patientService: PatientsService,
@@ -81,7 +81,7 @@ export class PersonalInformationComponent implements OnInit {
     });
     listFields = JSON.stringify(listFields);
     const form = this._parseStringToJSON(listFields);
-    this.config = FormUtils.createFieldConfig(form);
+    this.config = FormUtils.createFieldConfigModel(form);
 
     this._patientService
       .getPatientsById(this.selectedPatient.id)

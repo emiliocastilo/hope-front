@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 
 @Component({
   selector: 'app-form-input',
@@ -10,7 +10,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 })
 export class FormInputComponent implements OnInit {
   @Input() type = '';
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   required: boolean = false;
 

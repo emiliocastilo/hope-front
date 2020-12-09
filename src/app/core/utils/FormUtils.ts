@@ -1,21 +1,20 @@
-import { FieldConfig } from '../interfaces/dynamic-forms/field-config.interface';
-import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
 import { ValidatorFn, Validators } from '@angular/forms';
+import { FieldConfigModel } from '../models/forms/field-config.model';
 
 export default class FormUtils {
   static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
 
-  static createFieldConfig(form, filled?): FieldConfig[] {
-    const fieldConfig: FieldConfig[] = [];
+  static createFieldConfigModel(form, filled?): FieldConfigModel[] {
+    const fieldConfig: FieldConfigModel[] = [];
     let isFormFilled: boolean = filled && filled.length > 0;
     if (isFormFilled) {
       this.fillFormWithValues(form, filled);
     }
     for (const key in form) {
       fieldConfig.push(
-        FormUtils.convertJSONToFieldConfig(form[key], isFormFilled)
+        FormUtils.convertJSONToFieldConfigModel(form[key], isFormFilled)
       );
     }
     return fieldConfig;
@@ -29,8 +28,8 @@ export default class FormUtils {
     return buttonsArray;
   }
 
-  static convertJSONToFieldConfig(value, isFormFilled): FieldConfig {
-    const fieldConfig: FieldConfig = new FieldConfigModel();
+  static convertJSONToFieldConfigModel(value, isFormFilled): FieldConfigModel {
+    const fieldConfig: FieldConfigModel = new FieldConfigModel();
     fieldConfig.name = value.name;
     fieldConfig.type = value.type;
     fieldConfig.disabled = value.disabled;

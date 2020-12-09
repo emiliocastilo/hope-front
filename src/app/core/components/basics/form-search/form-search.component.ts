@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
@@ -11,7 +11,7 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
   styleUrls: ['./form-search.component.scss'],
 })
 export class FormSearchComponent implements OnInit {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
   modalForm: FormGroup;
   response: any;

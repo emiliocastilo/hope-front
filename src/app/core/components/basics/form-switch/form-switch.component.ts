@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FieldConfigModel} from '../../models/forms/field-config.model';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,6 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./form-switch.component.scss'],
 })
 export class FormSwitchComponent {
-  config: FieldConfig;
+  config: FieldConfigModel;
   group: FormGroup;
 }
