@@ -37,28 +37,9 @@ export class GuidelinesExpensesVihComponent implements OnInit {
   
   // Queries gráfica y tabla
   query: string;
-  tableQuery: string; 
+ 
 
-  //Tabla
-  showingDetail = false;
-  columHeaders: string[] = ['patientType', 'patients'];
-  dataTable: any[];
-  public detailsDataTable: any[];
-  private currentSelected: any;
-  public details: any[] = [];
-  public dataToExport: any[] = [];
-  public headersDetailsTable: string[] = [
-    'nhc',
-    'sip',
-    'patient',
-    'principalDiagnose',
-    'infoTreatment',
-    'CVP',
-    'CD4',
-    'adherence',
-  ];
-  public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
-
+  
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
   accumulated = false;
@@ -84,7 +65,7 @@ export class GuidelinesExpensesVihComponent implements OnInit {
       switchValue: [false],
       maxValue: []
     });    
-    this.getTableData();    
+ 
     this.loadValues(this.selectedOption);    
   }
 
@@ -206,119 +187,6 @@ export class GuidelinesExpensesVihComponent implements OnInit {
     this.mockData();
   }
   
-
-  private getTableData(){
-   /*  this._graphService.getPatientsByPatientType().subscribe(
-      (data) => {
-        this.dataTable = this.parseDataTable(data);        
-      },
-      (error) => {
-        console.error(error);
-      }
-    );     */
-    this.dataTable = this.parseDataTable(this._graphService.getMock());
-  }
-
-  private parseDataTable(data: any): any[] {     
-    const arrayData = Object.keys(data).map((key) => {      
-      const object = {
-        patientType: data[key],
-        patients: data[key].value,
-      };
-    return object;
-    });
-   
-    return arrayData;
-   
-  }
-
-
-  // DETALLE  
-  public onIconButtonClick(event: any): void {
-    if (event.type === 'detail') {
-      this.showingDetail = true;
-      this.currentSelected = this.dataTable[event.selectedItem];
-      const query = this.query + '&reason=' + this.currentSelected.patientType;
-
-      this.getDetails(query);
-      this.getDetailsToExport(query);
-    } else {
-      this.showingDetail = false;
-    }
-  }
-
-  private getDetails(query: string): void {
-    this._graphService.getDetailPatientsByTreatmentChange(query).subscribe(
-      (data: any) => {
-        this.details = data.content;
-        this.paginationData = data;
-        this.detailsDataTable = this.parseDataToTableDetails(data.content);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
-  private parseDataToTableDetails(data: any[]): any[] {
-    if (data) {
-      const arrayObject = data.map((value: any) => {
-        const object = {
-          nhc: value.nhc,
-          sip: value.healthCard,
-          patient: value.fullName,          
-          principalDiagnose: value.principalDiagnose,
-          infoTreatment: value.infoTreatment,
-          CVP: value.CVP,
-          CD4: value.CD4,
-          adherence: value.adherence
-        };
-        return object;
-      });
-      return arrayObject;
-    }
-  }
-
-  private getDetailsToExport(query: string) {
-    this._graphService
-      .getDetailPatientsByTreatmentChangeToExport(query)
-      .subscribe(
-        (data: any) => {
-          this.dataToExport = data;
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-  }
-
-  public onPatientClick(event: any) {
-    if (event.type === 'detail') {
-      const currentUser = this.details[event.selectedItem];
-      const selectedUser = JSON.stringify(currentUser || {});
-      localStorage.setItem('selectedPatient', selectedUser);
-      this._router.navigate(['pathology/patients/dashboard']);
-    }
-  }
-
-  public selectPage(page: number) {
-    if (this.currentPage !== page) {
-      this.currentPage = page;
-      const query =
-        this.query +
-        `&result=${this.currentSelected.patientType}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
-      this.getDetails(query);
-    }
-  }
-
-  public onSort(event: any) {
-    const query =
-      this.query +
-      `&result=${this.currentSelected.patientType}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
-    this.currentSort = event;
-    this.getDetails(query);
-  }
-
   //TODO - plopezc -borrar cuando esté back
   public mockData(){
     //const query = `code=${this.currenMedicine.codeAct}`;
@@ -344,10 +212,5 @@ export class GuidelinesExpensesVihComponent implements OnInit {
     
 }
 
-  filterMaxValue(maxValue: number) {
-    console.log("maxval", maxValue);
-    this.loadValues(this.selectedOption, maxValue);
-
-}
 
 }

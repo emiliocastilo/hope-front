@@ -119,6 +119,7 @@ input::-webkit-inner-spin-button {
 }
 
 .patients-chart-container {
+  min-height: 20rem;
   .export-buttons {
     text-align: right;
     padding-bottom: 1rem;
@@ -130,9 +131,7 @@ input::-webkit-inner-spin-button {
   }
 }
 
-.patients-chart-container {
-  min-height: 20rem;
-}
+
 
 .table-container_input-container {
   display: inline-block;
@@ -156,7 +155,7 @@ input::-webkit-inner-spin-button {
     bottom: 1rem;
   }
 
-  app-line-chart div.chart-container {
+  .app-line-chart div.chart-container {
     margin-bottom: 5rem;
   }
 }

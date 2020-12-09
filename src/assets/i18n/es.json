@@ -466,5 +466,6 @@
   "avgAccumulatedCostByPatientType":"Coste medio acumulado por paciente proyectado",
   "maxAnualValue":"Valor máximo anual",
   "alternativeGuidelines": "Pautas alternativas",
-  "initialGuidelines": "Pautas de inicio"
+  "initialGuidelines": "Pautas de inicio",
+  "guideLines": "Pautas"
 }
