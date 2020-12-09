@@ -4,10 +4,10 @@ import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
-import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TranslateService } from '@ngx-translate/core';
+import StringUtils from 'src/app/core/utils/StringUtils';
 
 @Component({
     selector: 'app-guidelines-expenses-vih',
@@ -24,7 +24,7 @@ export class GuidelinesExpensesVihComponent implements OnInit {
         },
     ];
 
-    selectLabel = this._translate.instant('costs');
+    selectLabel = this._translate.instant('guideLines');
     selectedOption = this.options[0].name;
     selectedChart: string;
 
@@ -49,15 +49,45 @@ export class GuidelinesExpensesVihComponent implements OnInit {
         direction: 'asc',
     };
 
-    constructor(private _graphService: GraphsService, private fb: FormBuilder, private _router: Router, private _translate: TranslateService) {}
+    // ChartTitles
+    public chartTitles = [];
+
+    constructor(private _graphService: GraphsService, private fb: FormBuilder, private _router: Router, private _translate: TranslateService, private _formsService: FormsService) {}
 
     ngOnInit(): void {
+        this.loadChartTitlesFromForm();
         this.fb.group({
             switchValue: [false],
             maxValue: [],
         });
 
         this.loadValues(this.selectedOption);
+    }
+
+    loadChartTitlesFromForm() {
+        let formValues: any;
+        this._formsService
+            .get('gynecology')
+            .then((r) => {
+                console.log(r);
+                formValues = Object.assign(r);
+                let treatments: any;
+                treatments = JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(formValues.form));
+                treatments[2].fields[5].options.forEach((option) => {
+                    this.chartTitles.push(option.name);
+                });
+                console.log(this.chartTitles);
+
+                return r;
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
+
+        /*  let result: any;        
+        
+        let titles = result.form[0].get('treatment');
+        console.log(titles); */
     }
 
     switchAccumulated() {

@@ -48,7 +48,7 @@ export class PatientsVihLevelsComponent implements OnInit {
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
     //Detalle
-    public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalDiagnose', 'infoTreatment', 'CVP', 'CD4', 'adherence'];
+    public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalDiagnose', 'treatment', 'CVP', 'CD4', 'adherence'];
     public detailsDataTable: any[];
     private currentSelected: any;
     public details: any[] = [];
@@ -174,7 +174,7 @@ export class PatientsVihLevelsComponent implements OnInit {
                     sip: value.healthCard,
                     patient: value.fullName,
                     principalDiagnose: value.principalDiagnose,
-                    infoTreatment: value.infoTreatment,
+                    treatment: value.treatment,
                     CVP: value.CVP,
                     CD4: value.CD4,
                     adherence: value.adherence,

@@ -45,7 +45,7 @@ export class PatientExpensesVihComponent implements OnInit {
     private currentSelected: any;
     public details: any[] = [];
     public dataToExport: any[] = [];
-    public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalDiagnose', 'infoTreatment', 'CVP', 'CD4', 'adherence'];
+    public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalDiagnose', 'treatment', 'CVP', 'CD4', 'adherence'];
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
     public dataChart: ChartObjectModel[];
@@ -235,7 +235,7 @@ export class PatientExpensesVihComponent implements OnInit {
                     sip: value.healthCard,
                     patient: value.fullName,
                     principalDiagnose: value.principalDiagnose,
-                    infoTreatment: value.infoTreatment,
+                    treatment: value.treatment,
                     CVP: value.CVP,
                     CD4: value.CD4,
                     adherence: value.adherence,
