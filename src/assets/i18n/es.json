@@ -443,5 +443,21 @@
   "dosisFormulaMagistral": "Dosis Fórmula Magistral",
   "currentRole": "Cambiar rol",
   "saveWarning":"Aviso de cambios",
-  "saveWarningMessage":"Hay cambios sin guardar, ¿Continuar?"
+  "saveWarningMessage":"Hay cambios sin guardar, ¿Continuar?",
+  "artritisPsoriasica": "Artritis psoriásica",
+  "dermatitisAtopica": "Dermatitis atópica",
+  "urticariaCronica": "Urticaria crónica",
+  "hidradenitisSupurativa": "Hidradenitis supurativa",
+  "carcinomaBasales": "Cáncer de piel carcinoma de células basales",
+  "carcinomaEscamosas": "Cáncer de piel carcinoma de células escamosas",
+  "melanoma": "Melanoma",
+  "otra": "Otra",
+  "patientsTreatmentArtritisPsoriasica": "Tratamiento biológico en pacientes con artritis psoriásica",
+  "patientsTreatmentDermatitisAtopica": "Tratamiento biológico en pacientes con dermatitis atópica",
+  "patientsTreatmentUrticariaCronica": "Tratamiento biológico en pacientes con urticaria crónica",
+  "patientsTreatmentHidradenitisSupurativa": "Tratamiento biológico en pacientes con hidradenitis supurativa",
+  "patientsTreatmentCarcinomaBasales": "Tratamiento biológico en pacientes con cáncer de piel carcinoma de células basales",
+  "patientsTreatmentCarcinomaEscamosas": "Tratamiento biológico en pacientes con cáncer de piel carcinoma de células escamosas",
+  "patientsTreatmentMelanoma": "Tratamiento biológico en pacientes con melanoma",
+  "patientsTreatmentOtra": "Tratamiento biológico en pacientes con otros diagnósticos"
 }

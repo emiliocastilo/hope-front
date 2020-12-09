@@ -155,7 +155,7 @@ const routes: Routes = [
     {
         path: 'treatments/treatments-patients',
         component: TreatmentsPatientsComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'diagnosis/reasons',

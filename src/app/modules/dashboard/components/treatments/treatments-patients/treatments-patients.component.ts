@@ -9,7 +9,7 @@ import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PatientsTreatmentsService } from 'src/app/modules/management/services/patients-treatments/patients-treatments.service';
 
 export interface Indication {
-    id: number;
+    code: string;
     name: string;
 }
 
@@ -27,10 +27,18 @@ export class TreatmentsPatientsComponent implements OnInit {
     public loadingData: boolean = true;
     public config = { defaultConfig: true };
     public entries: Array<Indication> = [
-        { id: 0, name: 'psoriasisPlacas' },
-        { id: 1, name: 'psoriasisPalmoplantar' },
-        { id: 2, name: 'eritrodermia' },
-        { id: 3, name: 'psoriasisPustulosa' }
+        { code: 'EN PLACAS', name: 'psoriasisPlacas' },
+        { code: 'PALMOPLANTAR', name: 'psoriasisPalmoplantar' },
+        { code: 'ERITRODERMIA', name: 'eritrodermia' },
+        { code: 'PUSTULOSA', name: 'psoriasisPustulosa' },
+        { code: 'ARTRITIS', name: 'artritisPsoriasica' },
+        { code: 'DERMATITIS', name: 'dermatitisAtopica' },
+        { code: 'URTICARIA', name: 'urticariaCronica' },
+        { code: 'HIDRADENITIS', name: 'hidradenitisSupurativa' },
+        { code: 'CARCINOMA BASALES', name: 'carcinomaBasales' },
+        { code: 'CARCINOMA ESCAMOSAS', name: 'carcinomaEscamosas' },
+        { code: 'MELANOMA', name: 'melanoma' },
+        { code: 'OTRA', name: 'otra' },
     ];
     public indication: Indication;
     public showingDetail = false;
@@ -45,63 +53,31 @@ export class TreatmentsPatientsComponent implements OnInit {
     public details: any[] = [];
     public dataToExport: any[] = [];
 
-    constructor(
-        public _activatedRoute: ActivatedRoute,
-        public _patientsTreatmentsService: PatientsTreatmentsService,
-        private _router: Router,
-        private _translate: TranslateService) { }
+    constructor(public _activatedRoute: ActivatedRoute, public _patientsTreatmentsService: PatientsTreatmentsService, private _router: Router, private _translate: TranslateService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.getData();
     }
 
-    private getData (): void {
+    private getData(): void {
         this.loadingData = true;
         const view = null;
         const scheme = { domain: ['#249cf1'] };
 
         if (!this.indication) this.indication = this.entries[0];
         const type = 'BIOLOGICO';
-        let chartTitle = '';
-        let indication = '';
+        const indication = this.indication.code;
+        const chartTitle = `patientsTreatment${this.indication.name.substr(0, 1).toUpperCase()}${this.indication.name.substr(1, this.indication.name.length)}`;
 
-        switch (this.indication.id) {
-            case 0:
-                // * psoriasisPlacas
-                chartTitle = 'patientsTreatmentPsoriasisPlacas';
-                indication = 'EN PLACAS';
-                break;
-            case 1:
-                // * psoriasisPalmoplantar
-                chartTitle = 'patientsTreatmentPsoriasisPalmoPlantar';
-                indication = 'PALMOPLANTAR';
-                break;
-            case 2:
-                // * eritrodermia
-                chartTitle = 'patientsTreatmentEritrodermia';
-                indication = 'ERITRODERMIA';
-                break;
-            case 3:
-                // * psoriasisPustulosa
-                chartTitle = 'patientsTreatmentPsoriasisPustulosa';
-                indication = 'PUSTULOSA';
-                break;
-            default:
-                break;
-        }
-
-        this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, indication).subscribe(
-            data => {
-                this.loadingData = false;
-                this.data = this.parseDataChart(data);
-                this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
-                this.dataTable = this.parseDataTable(data);
-            }
-        );
-
+        this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, indication).subscribe((data) => {
+            this.loadingData = false;
+            this.data = this.parseDataChart(data);
+            this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
+            this.dataTable = this.parseDataTable(data);
+        });
     }
 
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         const arrayData: ChartObjectModel[] = Object.keys(data).map((key) => {
             const object: ChartObjectModel = {
                 name: key,
@@ -118,7 +94,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataTable (data: any[]) {
+    private parseDataTable(data: any[]) {
         const arrayData = Object.keys(data).map((key: any) => {
             const object = {
                 typeTreatmentBiological: key,
@@ -129,7 +105,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataToTableDetails (data: any[]): any[] {
+    private parseDataToTableDetails(data: any[]): any[] {
         const arrayObject = data.map((value: any) => {
             const object = {
                 nhc: value.nhc,
@@ -148,12 +124,12 @@ export class TreatmentsPatientsComponent implements OnInit {
         return arrayObject;
     }
 
-    onIndicationChange (event): void {
-        this.indication = this.entries.filter(f => f.id == event.target.value)[0];
+    onIndicationChange(event): void {
+        this.indication = this.entries[event.target.value];
         this.getData();
     }
 
-    public onIconButtonClick (event: any) {
+    public onIconButtonClick(event: any) {
         if (event && event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.data[event.selectedItem];
@@ -166,7 +142,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         }
     }
 
-    private getDetails (query: string) {
+    private getDetails(query: string) {
         this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
             (data) => {
                 this.details = data.content;
@@ -179,7 +155,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         );
     }
 
-    private getDetailsToExport (query: string) {
+    private getDetailsToExport(query: string) {
         this._patientsTreatmentsService.getDetailPatientsUnderTreatmentExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
@@ -190,7 +166,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         );
     }
 
-    public onPatientClick (event: any) {
+    public onPatientClick(event: any) {
         if (event.type === 'detail') {
             const currentUser = this.details[event.selectedItem];
             const selectedUser = JSON.stringify(currentUser || {});
@@ -199,7 +175,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         }
     }
 
-    public selectPage (page: number) {
+    public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
             const query = `type=${this.type}&indication=${this.indication}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
@@ -207,7 +183,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         }
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         const query = `type=${this.type}&indication=${this.indication}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);
