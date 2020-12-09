@@ -9,10 +9,6 @@ import { PatientsTreatmentComponent } from './components/diagnosis/patients-trea
 import { PatientsTreatmentsResolverService } from '../management/services/patients-treatments/patients-treatments-resolver.service';
 import { BiologicalAgentsComponent } from './components/treatments/treatments-agents/biological-agents/biological-agents.component';
 import { ChemicalAgentsComponent } from './components/treatments/treatments-agents/chemical-agents/chemical-agents.component';
-import { PsoriasisPlacasComponent } from './components/treatments/treatments-patients/psoriasis-placas/psoriasis-placas.component';
-import { PsoriasisPalmoPlantarComponent } from './components/treatments/treatments-patients/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
-import { EritrodermiaComponent } from './components/treatments/treatments-patients/eritrodermia/eritrodermia.component';
-import { PsoriasisPustulosaComponent } from './components/treatments/treatments-patients/psoriasis-pustulosa/psoriasis-pustulosa.component';
 import { PatientsByPasiComponent } from './components/health-outcomes/patients-by-pasi/patients-by-pasi.component';
 import { PatientsByBsaComponent } from './components/health-outcomes/patients-by-bsa/patients-by-bsa.component';
 import { PatientsByPgaComponent } from './components/health-outcomes/patients-by-pga/patients-by-pga.component';
@@ -156,56 +152,6 @@ const routes: Routes = [
         path: 'treatments/treatments-patients',
         component: TreatmentsPatientsComponent,
         canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'psoriasis-placas',
-                component: PsoriasisPlacasComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: 'EN PLACAS',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-            {
-                path: 'psoriasis-palmo-plantar',
-                component: PsoriasisPalmoPlantarComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: 'PALMOPLANTAR',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-            {
-                path: 'eritrodermia',
-                component: EritrodermiaComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: 'ERITRODERMIA',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-            {
-                path: 'psoriasis-pustulosa',
-                component: PsoriasisPustulosaComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: 'PUSTULOSA',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-        ],
     },
     {
         path: 'diagnosis/reasons',

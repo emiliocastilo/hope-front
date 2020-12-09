@@ -426,5 +426,22 @@
   "dosisFormulaMagistral": "Dose Master Formula",
   "currentRole": "Change role",
   "saveWarning":"Unsaved changes detected",
-  "saveWarningMessage":"There are unsaved changes. Continue?"
+  "saveWarningMessage":"There are unsaved changes. Continue?",
+  "artritisPsoriasica": "Psoriasic arthritis",
+  "dermatitisAtopica": "Atopic dermatitis",
+  "urticariaCronica": "Chronic urticaria",
+  "hidradenitisSupurativa": "Hidradenitis suppurativa",
+  "carcinomaBasales": "Basal cell carcinoma skin cancer",
+  "carcinomaEscamosas": "Squamous cell carcinoma skin cancer",
+  "melanoma": "Melanoma",
+  "otra": "Other",
+  "patientsTreatmentArtritisPsoriasica": "Biological treatment in patients with psoriatic arthritis",
+  "patientsTreatmentDermatitisAtopica": "Biological treatment in patients with atopic dermatitis",
+  "patientsTreatmentUrticariaCronica": "Biological treatment in patients with chronic urticaria",
+  "patientsTreatmentHidradenitisSupurativa": "Biological treatment in patients with hidradenitis suppurativa",
+  "patientsTreatmentCarcinomaBasales": "Biological treatment in patients with basal cell carcinoma skin cancer",
+  "patientsTreatmentCarcinomaEscamosas": "Biological treatment in patients with squamous cell carcinoma skin cancer",
+  "patientsTreatmentMelanoma": "Biological treatment in patients with melanoma",
+  "patientsTreatmentOtra": "Biological treatment in patients with other diagnoses"
+  
 }
