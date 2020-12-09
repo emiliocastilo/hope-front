@@ -155,57 +155,7 @@ const routes: Routes = [
     {
         path: 'treatments/treatments-patients',
         component: TreatmentsPatientsComponent,
-        canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'psoriasis-placas',
-                component: PsoriasisPlacasComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: 'EN PLACAS',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-            {
-                path: 'psoriasis-palmo-plantar',
-                component: PsoriasisPalmoPlantarComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: 'PALMOPLANTAR',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-            {
-                path: 'eritrodermia',
-                component: EritrodermiaComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: 'ERITRODERMIA',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-            {
-                path: 'psoriasis-pustulosa',
-                component: PsoriasisPustulosaComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: 'PUSTULOSA',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-        ],
+        canActivate: [AuthGuard]
     },
     {
         path: 'diagnosis/reasons',

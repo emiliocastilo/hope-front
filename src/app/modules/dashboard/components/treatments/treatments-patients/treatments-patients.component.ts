@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/internal/Observable';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -24,27 +23,8 @@ export class TreatmentsPatientsComponent implements OnInit {
     private currentPage: number = 0;
     private currentSelected: any;
     private type: string;
-    // private indication: string;
 
-    // entries = [
-    //     {
-    //         name: 'psoriasisPlacas',
-    //         url: 'dashboard/treatments/treatments-patients/psoriasis-placas',
-    //     },
-    //     {
-    //         name: 'psoriasisPalmoplantar',
-    //         url: 'dashboard/treatments/treatments-patients/psoriasis-palmo-plantar',
-    //     },
-    //     {
-    //         name: '',
-    //         url: 'dashboard/treatments/treatments-patients/eritrodermia',
-    //     },
-    //     {
-    //         name: 'psoriasisPustulosa',
-    //         url: 'dashboard/treatments/treatments-patients/psoriasis-pustulosa',
-    //     },
-    // ];
-
+    public loadingData: boolean = true;
     public config = { defaultConfig: true };
     public entries: Array<Indication> = [
         { id: 0, name: 'psoriasisPlacas' },
@@ -76,6 +56,7 @@ export class TreatmentsPatientsComponent implements OnInit {
     }
 
     private getData (): void {
+        this.loadingData = true;
         const view = null;
         const scheme = { domain: ['#249cf1'] };
 
@@ -83,8 +64,6 @@ export class TreatmentsPatientsComponent implements OnInit {
         const type = 'BIOLOGICO';
         let chartTitle = '';
         let indication = '';
-
-        console.log(this.indication);
 
         switch (this.indication.id) {
             case 0:
@@ -113,7 +92,7 @@ export class TreatmentsPatientsComponent implements OnInit {
 
         this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, indication).subscribe(
             data => {
-                console.log(type, indication, data);
+                this.loadingData = false;
                 this.data = this.parseDataChart(data);
                 this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
                 this.dataTable = this.parseDataTable(data);
