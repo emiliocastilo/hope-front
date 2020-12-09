@@ -28,10 +28,6 @@ import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expe
 import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
 import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
 import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses/accumulated-expenses.component';
-import { PsoriasisPlacasComponent } from './components/treatments/treatments-patients/psoriasis-placas/psoriasis-placas.component';
-import { PsoriasisPalmoPlantarComponent } from './components/treatments/treatments-patients/psoriasis-palmo-plantar/psoriasis-palmo-plantar.component';
-import { EritrodermiaComponent } from './components/treatments/treatments-patients/eritrodermia/eritrodermia.component';
-import { PsoriasisPustulosaComponent } from './components/treatments/treatments-patients/psoriasis-pustulosa/psoriasis-pustulosa.component';
 import { CieComponent } from './components/diagnosis/cie/cie.component';
 import { ConsumptionBiologicalTreatmentComponent } from './components/pharmacoeconomic/consumption-biological-treatment/consumption-biological-treatment.component';
 import { TotalExpensesBiologicalTreatmentComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses-biological-treatment.component';
@@ -73,10 +69,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         AvgExpensesComponent,
         AvgAccumulatedExpensesComponent,
         AccumulatedExpensesComponent,
-        PsoriasisPlacasComponent,
-        PsoriasisPalmoPlantarComponent,
-        EritrodermiaComponent,
-        PsoriasisPustulosaComponent,
     ],
     imports: [
         NgbModule,
