@@ -117,3 +117,46 @@ input::-webkit-inner-spin-button {
 .maxWidth {
   width: 100%;
 }
+
+.patients-chart-container {
+  .export-buttons {
+    text-align: right;
+    padding-bottom: 1rem;
+  }
+
+  .table-container {
+    top: 2rem;
+    padding: 1rem;
+  }
+}
+
+.patients-chart-container {
+  min-height: 20rem;
+}
+
+.table-container_input-container {
+  display: inline-block;
+  width: 100%;
+  margin: 1rem 0;
+
+  .table-container_input-container_form {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    :first-child {
+      margin-right: 1rem;
+      padding-bottom: 0.4rem;
+      margin-left: 1rem;
+    }
+  }
+
+  .table-container-input-button-container {
+    bottom: 1rem;
+  }
+
+  app-line-chart div.chart-container {
+    margin-bottom: 5rem;
+  }
+}

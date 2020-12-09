@@ -51,7 +51,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     'infoTreatment',
     'CVP',
     'CD4',
-    'Adherence',
+    'adherence',
   ];
   public detailsDataTable: any[];
   private currentSelected: any;
@@ -178,10 +178,12 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
         const object = {
           nhc: value.nhc,
           sip: value.healthCard,
-          patient: value.fullName,
-          principalIndication: value.principalIndication,
+          patient: value.fullName,          
           principalDiagnose: value.principalDiagnose,
-          treatment: value.treatment,
+          infoTreatment: value.infoTreatment,
+          CVP: value.CVP,
+          CD4: value.CD4,
+          adherence: value.adherence
         };
         return object;
       });

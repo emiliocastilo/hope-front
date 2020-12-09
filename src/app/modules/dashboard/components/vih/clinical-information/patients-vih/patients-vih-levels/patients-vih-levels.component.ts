@@ -56,7 +56,7 @@ export class PatientsVihLevelsComponent implements OnInit {
     'infoTreatment',
     'CVP',
     'CD4',
-    'Adherence',
+    'adherence',
   ];
   public detailsDataTable: any[];
   private currentSelected: any;
@@ -136,11 +136,7 @@ export class PatientsVihLevelsComponent implements OnInit {
       return object;
     });
 
-    //return arrayData;
-    return [
-      { name: 'ffff', value: 9 },
-      { name: 'aaaaaff', value: 20 },
-    ];
+    return arrayData;   
   }
 
   private parseDataTable(data: any): any[] {
@@ -190,10 +186,12 @@ export class PatientsVihLevelsComponent implements OnInit {
         const object = {
           nhc: value.nhc,
           sip: value.healthCard,
-          patient: value.fullName,
-          principalIndication: value.principalIndication,
+          patient: value.fullName,          
           principalDiagnose: value.principalDiagnose,
-          treatment: value.treatment,
+          infoTreatment: value.infoTreatment,
+          CVP: value.CVP,
+          CD4: value.CD4,
+          adherence: value.adherence
         };
         return object;
       });

@@ -431,11 +431,12 @@
   "chartRISK": "Patients by risk group",
   "chartVIRAL": "Patients by viral infection",
   "chartVHC": "Patients by VHC",
-  "infoTreatment:": "Treatment information",
+  "infoTreatment": "Treatment information",
   "CVP": "CVP",
   "CD4":"CD4",
-  "Adherence": "Adherence",
+  "adherence": "Adherence",
   "saveWarning":"Unsaved changes detected",
   "saveWarningMessage":"There are unsaved changes. Continue?",
-  "patientType:": "Patient type"
+  "patientType": "Patient type",
+  "maxAnualValue":"Max anual value"
 }

@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TranslateService } from '@ngx-translate/core';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Component({
   selector: 'app-patient-expenses-vih',
@@ -19,18 +20,25 @@ export class PatientExpensesVihComponent implements OnInit {
 
   options = [
     {
-      name: this.translate.instant('total')
+      name: this._translate.instant('total')
     },
     {
-      name: this.translate.instant('average')
+      name: this._translate.instant('average')
     }
   ];
-  selectLabel = this.translate.instant('costs');
+ 
+  selectLabel = this._translate.instant('costs');
   selectedOption = this.options[0].name;
   selectedChart: string;
+
+  public form: FormGroup = new FormGroup({
+    switchValue: new FormControl(),
+    maxValue: new FormControl()
+  });
+  
+  // Queries gráfica y tabla
   query: string;
-  switchValue = false;
- 
+  tableQuery: string; 
 
   //Tabla
   showingDetail = false;
@@ -48,19 +56,15 @@ export class PatientExpensesVihComponent implements OnInit {
     'infoTreatment',
     'CVP',
     'CD4',
-    'Adherence',
+    'adherence',
   ];
-
-
   public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
+
   public dataChart: ChartObjectModel[];
   public configChart: ColumnChartModel;
-  public currenMedicine: any;
-  public medicines: any;
-  public form: FormGroup = new FormGroup({
-    selectMedicine: new FormControl(),
-  });
-
+  accumulated = false;
+  maxAvgAnualValue: number;
+  
    // Paginación
    public currentPage: number = 0;
    public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
@@ -71,23 +75,33 @@ export class PatientExpensesVihComponent implements OnInit {
 
   constructor(
     private _graphService: GraphsService,
-    private _medicinesService: MedicinesServices,
+    private fb: FormBuilder,
     private _router: Router,
-    public translate: TranslateService
+    private _translate: TranslateService
   ) { }
 
   ngOnInit(): void {
-    this.mockData();
+    this.fb.group({
+      switchValue: [false],
+      maxValue: []
+    });    
+    this.getTableData();    
+    this.loadValues(this.selectedOption);    
   }
 
-  private getTreatments(): void {
-    const query = `code=${this.currenMedicine.codeAct}`;
-    this._graphService.getTotalExpenses(query).subscribe(
+  switchAccumulated(){
+    this.accumulated = !this.accumulated;   
+    this.loadValues(this.selectedOption);  
+  }
+
+  private getExpenses(query: string): void {
+    
+    this._graphService.getCostsByPatientType(query).subscribe(
       (data) => {
         const dataToParse = this.sortByMonth(data);
         this.dataChart = this.parseDataChart(dataToParse);
 
-        const title = 'totalCost';
+        const title = this.selectedChart;
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
@@ -107,6 +121,7 @@ export class PatientExpensesVihComponent implements OnInit {
 
   private parseDataChart(data: any): ChartObjectModel[] {
     const arrayData = Object.keys(data.ene).map((keyYear: string) => {
+      // console.log(data.ene);
       const object = {
         name: keyYear,
         series: [],
@@ -128,13 +143,13 @@ export class PatientExpensesVihComponent implements OnInit {
     return arrayData;
   }
 
+  // TODO - plopezc - descomentar al quitar mock
   private sortByMonth(arr: any): any {
     var months = [
       'ene',
-      'feb',
-      /*
-      'mar',
-      'abr',
+      'feb',      
+      'mar'/* ,
+     'abr',
       'may',
       'jun',
       'jul',
@@ -142,7 +157,7 @@ export class PatientExpensesVihComponent implements OnInit {
       'sep',
       'oct',
       'nov',
-      'dic', */
+      'dic', */ 
     ];
     const object = {};
     months.forEach((month: string) => {
@@ -150,101 +165,81 @@ export class PatientExpensesVihComponent implements OnInit {
     });
 
     return object;
-  }
+  }  
 
-/*   private getMedicines(): void {
-    const query = 'size=1000';
-    this._medicinesService.getAll(query).subscribe(
-      (data) => {
-        if (!data.empty) {
-          this.medicines = data.content;
-          this.addNameToMedicine(this.medicines);
-          this.currenMedicine = this.medicines[0];
-          this.getTreatments();
-        }
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  } */
-
-  public onFormSubmit(): void {
-    this.dataChart = null;
-    this.getTreatments();
-  }
-
-  public onSelectMedicine(event: any): void {
-    this.dataChart = null;
-    this.currenMedicine = event;
-    this.getTreatments();
-  }
-
-  private addNameToMedicine(array: any[]): void {
-    array.forEach((value: any, key: number) => {
-      array[key].name = array[key].actIngredients;
-    });
-  }
 
   onSelect(event: any) {
     this.selectedOption = event.target.value;
     this.loadValues(this.selectedOption);
   }
-  loadValues(selectedOption: string) {
+
+  switchOptions(event:any){
+    this.accumulated = !this.accumulated;    
+    this.loadValues(this.selectedOption);
+  }
+
+  loadValues(selectedOption: string, maxValue?: number) {
     let query: string;
     switch (selectedOption) {
       case this.options[0].name:
-        query = 'type=cause';
-        this.selectedChart = 'changeCause';
+        if(!this.accumulated){
+        query = 'type=total';
+        this.selectedChart = 'totalCostByPatientType';
+        } else{
+          query='type=totalAccumulated';
+          this.selectedChart = 'totalAccumulatedCostByPatientType';
+        }
         break;
       case this.options[1].name:
-        query = 'type=failure';
-        this.selectedChart = 'chartFailure';
-        break;
-      case this.options[2].name:
-        query = 'type=RAMS';
-        this.selectedChart = 'chartRAMS';
-        break;
-      case this.options[3].name:
-        query = 'type=changequantity';
-        this.selectedChart = 'chartChangeQuantity';
-        break;
+        if(!this.accumulated){
+          query = 'type=avg';
+          this.selectedChart = 'avgCostByPatientType';
+          } else{
+            query='type=avgAccumulated';
+            this.selectedChart = 'avgAccumulatedCostByPatientType';
+          }
+          query += maxValue ? '&max=' + maxValue : '';
+          console.log("query", query);
+          break;
     }
-    this.query = query;
-    this.getData(query);
+    this.query = query;       
+    //this.getExpenses(query);   
+    this.mockData();
   }
-  private getData(query: string): void {
-    this._graphService.getPatientsByTreatmentChange(query).subscribe(
+  
+
+  private getTableData(){
+   /*  this._graphService.getPatientsByPatientType().subscribe(
       (data) => {
-        this.dataChart = this.parseDataChart(data);
-        this.dataTable = this.parseDataTable(data);
+        this.dataTable = this.parseDataTable(data);        
       },
       (error) => {
         console.error(error);
       }
-    );
+    );     */
+    this.dataTable = this.parseDataTable(this._graphService.getMock());
   }
 
-  private parseDataTable(data: any): any[] {    
-    const arrayData = Object.keys(data).map((key) => {
+  private parseDataTable(data: any): any[] {     
+    const arrayData = Object.keys(data).map((key) => {      
       const object = {
-        patientType: key,
-        patients: data[key],
+        patientType: data[key],
+        patients: data[key].value,
       };
-      return object;
+    return object;
     });
-
+   
     return arrayData;
+   
   }
 
 
-  // DETALLE
-  // Detalle
+  // DETALLE  
   public onIconButtonClick(event: any): void {
     if (event.type === 'detail') {
       this.showingDetail = true;
       this.currentSelected = this.dataTable[event.selectedItem];
-      const query = this.query + '&reason=' + this.currentSelected.changeCause;
+      const query = this.query + '&reason=' + this.currentSelected.patientType;
 
       this.getDetails(query);
       this.getDetailsToExport(query);
@@ -272,10 +267,12 @@ export class PatientExpensesVihComponent implements OnInit {
         const object = {
           nhc: value.nhc,
           sip: value.healthCard,
-          patient: value.fullName,
-          principalIndication: value.principalIndication,
+          patient: value.fullName,          
           principalDiagnose: value.principalDiagnose,
-          treatment: value.treatment,
+          infoTreatment: value.infoTreatment,
+          CVP: value.CVP,
+          CD4: value.CD4,
+          adherence: value.adherence
         };
         return object;
       });
@@ -310,7 +307,7 @@ export class PatientExpensesVihComponent implements OnInit {
       this.currentPage = page;
       const query =
         this.query +
-        `&result=${this.currentSelected.changeCause}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+        `&result=${this.currentSelected.patientType}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
       this.getDetails(query);
     }
   }
@@ -318,23 +315,23 @@ export class PatientExpensesVihComponent implements OnInit {
   public onSort(event: any) {
     const query =
       this.query +
-      `&result=${this.currentSelected.changeCause}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+      `&result=${this.currentSelected.patientType}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
     this.currentSort = event;
     this.getDetails(query);
   }
 
-  //plopezc -borrar cuando haya datos reales
+  //TODO - plopezc -borrar cuando esté back
   public mockData(){
     //const query = `code=${this.currenMedicine.codeAct}`;
     /* this._graphService.getTotalExpenses(query).subscribe(
       (data) => { */
-       const data = {ene:{"2019 - Pacientes Controlados":5,"2020 - Todos los pacientes":10,"2020 - Pacientes Controlados":20,"2019 - Todos los pacientes":25},
-       feb:{"2019 - Pacientes Controlados":12,"2020 - Todos los pacientes":19,"2020 - Pacientes Controlados":10,"2019 - Todos los pacientes":90}};
+       const data = {ene:{"En ensayo clínico":500,"Controlados y estables":100},
+       feb:{"En ensayo clínico":200,"Controlados y estables":190},
+       mar:{"En ensayo clínico":350,"Controlados y estables":400}};
         const dataToParse = this.sortByMonth(data);
-        this.dataChart = this.parseDataChart(dataToParse);
-        this.dataTable = this.parseDataTable(data);
+        this.dataChart = this.parseDataChart(dataToParse);     
 
-        const title = 'totalCost';
+        const title = this.selectedChart;
         const view = null;
         const scheme = {
           domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
@@ -344,13 +341,14 @@ export class PatientExpensesVihComponent implements OnInit {
           view,
           scheme,
           this.dataChart
-        );
-     
+        );   
     
-   //this.dataChart =[{"jul":{"2019 - Pacientes Controlados":0.00,"2020 - Todos los pacientes":0.00,"2020 - Pacientes Controlados":0.00,"2019 - Todos los pacientes":0.00}
-  /* 
-   this.dataChart = [ { name: 'Fallo Viral', value: 9 },
-      { name: "RAMs", value: 20 }, { name: 'Número de cambios por tratamiento', value: 9 }] */
+}
+
+  filterMaxValue(maxValue: number) {
+    console.log("maxval", maxValue);
+    this.loadValues(this.selectedOption, maxValue);
+
 }
 
 }

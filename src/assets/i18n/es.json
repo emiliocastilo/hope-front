@@ -197,6 +197,7 @@
   "typePsoriasis": "Tipo de psoriasis",
   "ageDiagnosis": "Edad en el diagnóstico",
   "observations": "Observaciones",
+  "patientType": "Tipo de paciente",
   "validations": {
     "pattern": "El patrón no coincide",
     "minLength": "Se requiere un minimo de caracteres",
@@ -453,11 +454,16 @@
   "chartFailure": " Fallo viral",
   "chartRAMS": "RAMs",
   "chartChangeQuantity": "Número de cambios por tratamiento",
-  "infoTreatment:": "Información del tratamiento",
+  "infoTreatment": "Información del tratamiento",
   "CVP": "CVP",
   "CD4":"CD4",
-  "Adherence": "Adherencia",
+  "adherence": "Adherencia",
   "saveWarning":"Aviso de cambios",
   "saveWarningMessage":"Hay cambios sin guardar, ¿Continuar?",
-  "patientType:": "Tipo de paciente"
+  "totalCostByPatientType":"Coste total del tratamiento por tipo de paciente",
+  "totalAccumulatedCostByPatientType":"Coste total acumulado del tratamiento por tipo de paciente",
+  "avgCostByPatientType":"Coste medio por paciente proyectado",
+  "avgAccumulatedCostByPatientType":"Coste medio acumulado por paciente proyectado",
+  "maxAnualValue":"Valor máximo anual"
+  
 }

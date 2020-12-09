@@ -226,8 +226,39 @@ export class GraphsService {
   public getDetailPatientsByTreatmentChange(query: string) {
     return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
   }
-
   public getDetailPatientsByTreatmentChangeToExport(query: string) {
     return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
   }
+
+  //Costes tipo paciente
+  public getPatientsByPatientType(): any{
+     return this._httpClient.get(`/patient-clinical-data/by-patientType`);
+   
+  }
+  public getCostsByPatientType(query: string) {
+    return this._httpClient.get(`/patient-clinical-data/by-costs?${query}`);
+  }
+
+  // TODO plopezc - ver si puedo pasárselo a back como parámetro opcional en getCostsByPatientType() - ver query en loadValues()
+  /* public getMaxValueCostsAvgAccumulated(query: string) {
+    return this._httpClient.get(
+      `/patient-clinical-data/find-monthly-consumes-accumulated-avg?${query}`
+    );
+  }
+
+  public getMaxValueCostsAvg(query: string) {
+    return this._httpClient.get(
+      `/patient-clinical-data/find-monthly-consumes-avg?${query}`
+    );
+  } */
+
+
+  // Mock para getPatientsByPatientType()
+  public getMock(): any {
+    const data = [ { name: 'En ensayo clínico', value: 9 },
+    { name: "Controlados y estables", value: 20 }]; 
+
+    return data;
+  }
+
 }
