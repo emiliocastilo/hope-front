@@ -6,12 +6,12 @@ import { ServicesService } from '../service/service.service';
 import { ServiceModel } from '../../models/service/service.model';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ServiceResolverService implements Resolve<Array<ServiceModel>> {
-  constructor(private servicesService: ServicesService) {}
+    constructor(private servicesService: ServicesService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Array<ServiceModel>> {
-    return this.servicesService.getAll();
-  }
+    resolve(route: ActivatedRouteSnapshot): Observable<Array<ServiceModel>> {
+        return this.servicesService.getAll();
+    }
 }

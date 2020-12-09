@@ -22,36 +22,36 @@ import { DlqiComponent } from './patients/components/evolution-clinical-indices/
 import { DynamicFormComponentComponent } from './patients/components/dynamic-form-component/dynamic-form-component.component';
 
 @NgModule({
-  declarations: [
-    DashboardPatientsComponent,
-    PatientsComponent,
-    GalleryComponent,
-    DiagnosisComponent,
-    EavPaseComponent,
-    EvolutionClinicalIndicesComponent,
-    NapsiComponent,
-    DlqiComponent,
-    PersonalInformationComponent,
-    ComorbiditiesComponent,
-    PhototherapyComponent,
-    PrincipalTreatmentComponent,
-    PasiBsaPgaComponent,
-    DynamicFormComponentComponent,
-  ],
-  imports: [
-    CommonModule,
-    CoreModule,
-    ReactiveFormsModule,
-    FormsModule,
-    PathologyRoutingModule,
-    GoogleChartsModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
-  ],
+    declarations: [
+        DashboardPatientsComponent,
+        PatientsComponent,
+        GalleryComponent,
+        DiagnosisComponent,
+        EavPaseComponent,
+        EvolutionClinicalIndicesComponent,
+        NapsiComponent,
+        DlqiComponent,
+        PersonalInformationComponent,
+        ComorbiditiesComponent,
+        PhototherapyComponent,
+        PrincipalTreatmentComponent,
+        PasiBsaPgaComponent,
+        DynamicFormComponentComponent,
+    ],
+    imports: [
+        CommonModule,
+        CoreModule,
+        ReactiveFormsModule,
+        FormsModule,
+        PathologyRoutingModule,
+        GoogleChartsModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient],
+            },
+        }),
+    ],
 })
 export class PathologyModule {}

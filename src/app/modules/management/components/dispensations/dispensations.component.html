@@ -1,71 +1,37 @@
 <div class="row m-0 p-0">
-  <section class="col-md-12 col-lg-12 p-0">
-    <div class="mt-4">
-      <app-button
-        *ngIf="!showDetails"
-        type="button"
-        icono="plus-circle"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="showModal()"
-        texto="btn.new"
-      >
-      </app-button>
-      <app-button
-        *ngIf="showDetails"
-        type="button"
-        icono="arrow-left"
-        clasesBtn="btn-primary btn-sm mx-2"
-        (click)="goBackToDispensations()"
-        texto="btn.back"
-      >
-      </app-button>
-    </div>
+    <section class="col-md-12 col-lg-12 p-0">
+        <div class="mt-4">
+            <app-button *ngIf="!showDetails" type="button" icono="plus-circle" clasesBtn="btn-primary btn-sm mx-2" (click)="showModal()" texto="btn.new"> </app-button>
+            <app-button *ngIf="showDetails" type="button" icono="arrow-left" clasesBtn="btn-primary btn-sm mx-2" (click)="goBackToDispensations()" texto="btn.back"> </app-button>
+        </div>
 
-    <div class="mt-4" *ngIf="!showDetails">
-      <app-results-per-page
-        (itemsPerPage)="selectItemsPerPage($event)"
-        [paginationData]="paginationData"
-      >
-      </app-results-per-page>
-    </div>
+        <div class="mt-4" *ngIf="!showDetails">
+            <app-results-per-page (itemsPerPage)="selectItemsPerPage($event)" [paginationData]="paginationData"> </app-results-per-page>
+        </div>
 
-    <section class="mt-4">
-      <div *ngIf="!showDetails">
-        <app-table
-          [columnsHeader]="columnHeaders"
-          [columnsData]="dispensations"
-          (selectedItem)="onSelectedItem($event)"
-          (sort)="onSort($event)"
-          [showActionButtons]="true"
-          (iconButtonClick)="onIconButtonClick($event)"
-          [actions]="dispensationsTableActions"
-          [sortable]="true"
-        >
-        </app-table>
-      </div>
+        <section class="mt-4">
+            <div *ngIf="!showDetails">
+                <app-table
+                    [columnsHeader]="columnHeaders"
+                    [columnsData]="dispensations"
+                    (selectedItem)="onSelectedItem($event)"
+                    (sort)="onSort($event)"
+                    [showActionButtons]="true"
+                    (iconButtonClick)="onIconButtonClick($event)"
+                    [actions]="dispensationsTableActions"
+                    [sortable]="true"
+                >
+                </app-table>
+            </div>
 
-      <div class="mt-4" *ngIf="showDetails">
-        <app-results-per-page
-          (itemsPerPage)="selectItemsPerPageDetail($event)"
-          [paginationData]="paginationData"
-        >
-        </app-results-per-page>
-      </div>
+            <div class="mt-4" *ngIf="showDetails">
+                <app-results-per-page (itemsPerPage)="selectItemsPerPageDetail($event)" [paginationData]="paginationData"> </app-results-per-page>
+            </div>
 
-      <div class="mt-4" *ngIf="showDetails">
-        <app-table
-          [columnsHeader]="dispensationDetailHeaders"
-          [columnsData]="detailDispensations"
-          (sort)="onSortDetail($event)"
-          [sortable]="true"
-        >
-        </app-table>
-      </div>
-      <app-pagination
-        (selectPage)="selectPage($event)"
-        [paginationData]="paginationData"
-      >
-      </app-pagination>
+            <div class="mt-4" *ngIf="showDetails">
+                <app-table [columnsHeader]="dispensationDetailHeaders" [columnsData]="detailDispensations" (sort)="onSortDetail($event)" [sortable]="true"> </app-table>
+            </div>
+            <app-pagination (selectPage)="selectPage($event)" [paginationData]="paginationData"> </app-pagination>
+        </section>
     </section>
-  </section>
 </div>

@@ -4,64 +4,51 @@ import { MenuService } from '../../services/menu/menu.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-breadcrumb',
-  templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss'],
+    selector: 'app-breadcrumb',
+    templateUrl: './breadcrumb.component.html',
+    styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit, OnDestroy {
-  private currentSectionSubscription: Subscription;
-  private fullMenu: MenuItemModel;
-  public homeUrl = '/hopes';
+    private currentSectionSubscription: Subscription;
+    private fullMenu: MenuItemModel;
+    public homeUrl = '/hopes';
 
-  selectedSection: MenuItemModel;
-  crumbs: MenuItemModel[];
-  menu: Array<MenuItemModel>;
+    selectedSection: MenuItemModel;
+    crumbs: MenuItemModel[];
+    menu: Array<MenuItemModel>;
 
-  constructor(private _sidebar: MenuService) {}
+    constructor(private _sidebar: MenuService) {}
 
-  ngOnInit() {
-    this.crumbs = [];
-    this.menu = JSON.parse(localStorage.getItem('menu'));
-    this.selectedSection = JSON.parse(localStorage.getItem('section'));
-    this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
+    ngOnInit() {
+        this.crumbs = [];
+        this.menu = JSON.parse(localStorage.getItem('menu'));
+        this.selectedSection = JSON.parse(localStorage.getItem('section'));
+        this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
 
-    if (this.selectedSection)
-      this.crumbs = this.buildBreadcrumb(this.selectedSection).reverse();
+        if (this.selectedSection) this.crumbs = this.buildBreadcrumb(this.selectedSection).reverse();
 
-    this.currentSectionSubscription = this._sidebar
-      .getCurrentSection()
-      .subscribe((currentSection: MenuItemModel) => {
-        this.selectedSection = currentSection;
-        this.crumbs = this.buildBreadcrumb(currentSection).reverse();
-      });
-  }
-
-  private buildBreadcrumb(
-    section: MenuItemModel,
-    breadcrumbs?: MenuItemModel[]
-  ): MenuItemModel[] {
-    if (!breadcrumbs) breadcrumbs = [];
-    if (
-      (section.visible === undefined || section.visible) &&
-      section.url !== '/hopes'
-    )
-      breadcrumbs.push(section);
-
-    if (section.parentId) {
-      if (!this._sidebar.allSections) this._sidebar.fillSections(this.fullMenu);
-      this.buildBreadcrumb(
-        this._sidebar.allSections.filter((f) => f.id === section.parentId)[0],
-        breadcrumbs
-      );
+        this.currentSectionSubscription = this._sidebar.getCurrentSection().subscribe((currentSection: MenuItemModel) => {
+            this.selectedSection = currentSection;
+            this.crumbs = this.buildBreadcrumb(currentSection).reverse();
+        });
     }
-    return breadcrumbs;
-  }
 
-  navigate(section?: MenuItemModel) {
-    this._sidebar.setCurrentSection(section);
-  }
+    private buildBreadcrumb(section: MenuItemModel, breadcrumbs?: MenuItemModel[]): MenuItemModel[] {
+        if (!breadcrumbs) breadcrumbs = [];
+        if ((section.visible === undefined || section.visible) && section.url !== '/hopes') breadcrumbs.push(section);
 
-  ngOnDestroy() {
-    this.currentSectionSubscription.unsubscribe();
-  }
+        if (section.parentId) {
+            if (!this._sidebar.allSections) this._sidebar.fillSections(this.fullMenu);
+            this.buildBreadcrumb(this._sidebar.allSections.filter((f) => f.id === section.parentId)[0], breadcrumbs);
+        }
+        return breadcrumbs;
+    }
+
+    navigate(section?: MenuItemModel) {
+        this._sidebar.setCurrentSection(section);
+    }
+
+    ngOnDestroy() {
+        this.currentSectionSubscription.unsubscribe();
+    }
 }

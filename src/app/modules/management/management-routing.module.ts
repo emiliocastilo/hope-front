@@ -16,61 +16,61 @@ import { RoleManagementComponent } from './components/role-management/role-manag
 import { MedicinesComponent } from './components/medicines/medicines.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ManagementComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'users',
-    component: UsersComponent,
-    resolve: {
-      hospitals: HospitalResolverService,
-      users: UsersResolverService,
-      services: ServiceResolverService,
+    {
+        path: '',
+        component: ManagementComponent,
+        canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'patients',
-    component: PatientsComponent,
-    resolve: {
-      hospitals: HospitalResolverService,
-      patients: PatientsResolverService,
+    {
+        path: 'users',
+        component: UsersComponent,
+        resolve: {
+            hospitals: HospitalResolverService,
+            users: UsersResolverService,
+            services: ServiceResolverService,
+        },
+        canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'roles',
-    component: RoleManagementComponent,
-    resolve: {
-      hospitals: HospitalResolverService,
-      roles: RoleManagementResolverService,
-      users: UsersResolverService,
-      services: ServiceResolverService,
+    {
+        path: 'patients',
+        component: PatientsComponent,
+        resolve: {
+            hospitals: HospitalResolverService,
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'dispensations',
-    component: DispensationsComponent,
-    resolve: {
-      dispensations: DispensationResolverService,
+    {
+        path: 'roles',
+        component: RoleManagementComponent,
+        resolve: {
+            hospitals: HospitalResolverService,
+            roles: RoleManagementResolverService,
+            users: UsersResolverService,
+            services: ServiceResolverService,
+        },
+        canActivate: [AuthGuard],
     },
-  },
-  {
-    path: 'medicines',
-    component: MedicinesComponent,
-  },
-  {
-    path: 'sections',
-    component: SectionsComponent,
-    canActivate: [AuthGuard],
-  },
+    {
+        path: 'dispensations',
+        component: DispensationsComponent,
+        resolve: {
+            dispensations: DispensationResolverService,
+        },
+    },
+    {
+        path: 'medicines',
+        component: MedicinesComponent,
+    },
+    {
+        path: 'sections',
+        component: SectionsComponent,
+        canActivate: [AuthGuard],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class ManagementRoutingModule {}

@@ -5,13 +5,13 @@ import { RoleManagementService } from './role-management.service';
 import { RolModel } from '../../models/rol.model';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class RoleManagementResolverService implements Resolve<Array<RolModel>> {
-  constructor(private roleService: RoleManagementService) {}
+    constructor(private roleService: RoleManagementService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Array<RolModel>> {
-    const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-    return this.roleService.getRoles(user_aux['rolSelected']['id'], '&page=0');
-  }
+    resolve(route: ActivatedRouteSnapshot): Observable<Array<RolModel>> {
+        const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+        return this.roleService.getRoles(user_aux['rolSelected']['id'], '&page=0');
+    }
 }

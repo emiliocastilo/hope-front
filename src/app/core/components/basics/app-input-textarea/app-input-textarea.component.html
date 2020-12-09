@@ -1,29 +1,29 @@
 <div class="form-group dynamic-group field">
-  <span class="ui-float-label">
-    <label
-      class="firefox-position"
-      for="{{ id }}"
-      [ngClass]="{
-        'date-label': type === 'date',
-        'dynamic-label': type !== 'date',
-        'required-label': required
-      }"
-      >{{ label | translate }}</label
-    >
-    <textarea
-      (input)="onInput($event.target.value)"
-      [disabled]="isDisabled"
-      [value]="value"
-      attr.maxlength="{{ maxlength }}"
-      attr.placeholder="{{ placeholder | translate }}"
-      [ngClass]="{ invalid: invalid, 'dynamic-field': true }"
-      [id]="id"
-      [name]="name"
-      attr.max="{{ type ? maxDate : null }}"
-    >
-    </textarea>
-  </span>
-  <span *ngIf="invalid && invalidLabel" class="invalid-value">
-    {{ invalidLabel | translate }}
-  </span>
+    <span class="ui-float-label">
+        <label
+            class="firefox-position"
+            for="{{ id }}"
+            [ngClass]="{
+                'date-label': type === 'date',
+                'dynamic-label': type !== 'date',
+                'required-label': required
+            }"
+            >{{ label | translate }}</label
+        >
+        <textarea
+            (input)="onInput($event.target.value)"
+            [disabled]="isDisabled"
+            [value]="value"
+            attr.maxlength="{{ maxlength }}"
+            attr.placeholder="{{ placeholder | translate }}"
+            [ngClass]="{ invalid: invalid, 'dynamic-field': true }"
+            [id]="id"
+            [name]="name"
+            attr.max="{{ type ? maxDate : null }}"
+        >
+        </textarea>
+    </span>
+    <span *ngIf="invalid && invalidLabel" class="invalid-value">
+        {{ invalidLabel | translate }}
+    </span>
 </div>

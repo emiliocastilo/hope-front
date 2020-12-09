@@ -8,20 +8,14 @@ import moment from 'moment';
 import { constants } from '../../../../../../../constants/constants';
 
 @Component({
-  selector: 'app-dlqi',
-  templateUrl: './dlqi.component.html',
-  styleUrls: ['./dlqi.component.scss'],
+    selector: 'app-dlqi',
+    templateUrl: './dlqi.component.html',
+    styleUrls: ['./dlqi.component.scss'],
 })
 export class DlqiComponent implements OnInit {
-  key = constants.keyDlqi;
+    key = constants.keyDlqi;
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _modalService: NgbModal,
-    private _formsService: FormsService,
-    private _notification: NotificationService,
-    public _translate: TranslateService
-  ) {}
+    constructor(private _formBuilder: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, public _translate: TranslateService) {}
 
-  ngOnInit(): void {}
+    ngOnInit(): void {}
 }

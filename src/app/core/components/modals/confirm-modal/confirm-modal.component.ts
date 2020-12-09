@@ -1,27 +1,27 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-confirm-modal',
-  templateUrl: './confirm-modal.component.html',
-  styleUrls: ['./confirm-modal.component.scss'],
+    selector: 'app-confirm-modal',
+    templateUrl: './confirm-modal.component.html',
+    styleUrls: ['./confirm-modal.component.scss'],
 })
 export class ConfirmModalComponent implements OnInit {
-  @Input() title: string;
-  @Input() messageModal: string;
-  @Input() cancelText: string;
-  @Input() acceptText: string;
-  @Output() cancel: EventEmitter<any> = new EventEmitter();
-  @Output() accept: EventEmitter<any> = new EventEmitter();
+    @Input() title: string;
+    @Input() messageModal: string;
+    @Input() cancelText: string;
+    @Input() acceptText: string;
+    @Output() cancel: EventEmitter<any> = new EventEmitter();
+    @Output() accept: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+    constructor() {}
 
-  ngOnInit(): void {}
+    ngOnInit(): void {}
 
-  public onCancel() {
-    this.cancel.emit(null);
-  }
+    public onCancel() {
+        this.cancel.emit(null);
+    }
 
-  public onAccept() {
-    this.accept.emit('on accept');
-  }
+    public onAccept() {
+        this.accept.emit('on accept');
+    }
 }

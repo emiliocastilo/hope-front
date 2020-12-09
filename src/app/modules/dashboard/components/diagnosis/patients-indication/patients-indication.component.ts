@@ -12,191 +12,160 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-patients-indication',
-  templateUrl: './patients-indication.component.html',
-  styleUrls: ['./patients-indication.component.scss'],
+    selector: 'app-patients-indication',
+    templateUrl: './patients-indication.component.html',
+    styleUrls: ['./patients-indication.component.scss'],
 })
 export class PatientsIndicationComponent implements OnInit {
-  public modules: Array<HomeDashboardModule>;
-  public menu: MenuItemModel[] = [];
-  public menuId = 2;
-  public currentSection = 1;
-  public data: ColumnChartModel;
-  public dataTable: any[];
-  private dataChart: ChartObjectModel[];
-  public columHeaders: string[] = [
-    'Tipo Psoriasis',
-    this._translate.instant('withoutArthritis'),
-    this._translate.instant('withArthritis'),
-    'TOTAL',
-  ];
-  public headersDetailsTable: string[] = [
-    'nhc',
-    'healthCard',
-    'fullName',
-    'principalIndication',
-    'principalDiagnose',
-    'treatment',
-    'pasi',
-    'pasiDate',
-    'dlqi',
-    'dlqiDate',
-  ];
-  public showingDetail = false;
-  private currentPage = 0;
-  public paginationData: PaginationModel = {
-    number: 0,
-    size: 0,
-    totalElements: 0,
-    totalPages: 0,
-  };
-  public detailsDataTable: any[];
-  private selectedDisease: string;
-
-  public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
-
-  public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
-
-  public dataToExport: any[] = [];
-
-  constructor(
-    public _activatedRoute: ActivatedRoute,
-    public _patientsIndicationService: PatientsIndicationService,
-    private _router: Router,
-    private _translate: TranslateService
-  ) {}
-
-  ngOnInit(): void {
-    this.getData();
-  }
-
-  getData() {
-    this._patientsIndicationService
-      .getPatiensDiagnosesByIndications()
-      .subscribe((response) => {
-        this.parseDataToChart(response);
-        this.parseDataToTable(response);
-      });
-  }
-
-  private parseDataToChart(patiensIndication: any) {
-    this.dataChart = [];
-
-    Object.keys(patiensIndication).forEach((key: string) => {
-      const objectData: ChartObjectModel = {
-        name: key,
-        series: [
-          {
-            name: this._translate.instant('withArthritis').toUpperCase(),
-            value: patiensIndication[key].true
-              ? patiensIndication[key].true
-              : 0,
-          },
-          {
-            name: this._translate.instant('withoutArthritis').toUpperCase(),
-            value: patiensIndication[key].false
-              ? patiensIndication[key].false
-              : 0,
-          },
-        ],
-      };
-      this.dataChart.push(objectData);
-    });
-
-    const chartTitle = 'patientsForIndications';
-    const view = null;
-    const scheme = {
-      domain: ['#000', '#249cf1'],
+    public modules: Array<HomeDashboardModule>;
+    public menu: MenuItemModel[] = [];
+    public menuId = 2;
+    public currentSection = 1;
+    public data: ColumnChartModel;
+    public dataTable: any[];
+    private dataChart: ChartObjectModel[];
+    public columHeaders: string[] = ['Tipo Psoriasis', this._translate.instant('withoutArthritis'), this._translate.instant('withArthritis'), 'TOTAL'];
+    public headersDetailsTable: string[] = ['nhc', 'healthCard', 'fullName', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
+    public showingDetail = false;
+    private currentPage = 0;
+    public paginationData: PaginationModel = {
+        number: 0,
+        size: 0,
+        totalElements: 0,
+        totalPages: 0,
     };
-    this.data = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
-  }
+    public detailsDataTable: any[];
+    private selectedDisease: string;
 
-  private parseDataToTable(list: any[]) {
-    const data = [];
-    let dataObject = {};
-    Object.keys(list).forEach((key: string) => {
-      dataObject = {
-        'Tipo Psoriasis': key,
-        TOTAL: this.sumAllCases(list[key]),
-      };
-      dataObject[this._translate.instant('withoutArthritis')] = list[key].false
-        ? list[key].false
-        : 0;
-      dataObject[this._translate.instant('withArthritis')] = list[key].true
-        ? list[key].true
-        : 0;
+    public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
 
-      data.push(dataObject);
-    });
-    this.dataTable = data;
-  }
+    public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
-  private sumAllCases(object: any): number {
-    let total = 0;
+    public dataToExport: any[] = [];
 
-    total += object.true ? object.true : 0;
-    total += object.false ? object.false : 0;
+    constructor(public _activatedRoute: ActivatedRoute, public _patientsIndicationService: PatientsIndicationService, private _router: Router, private _translate: TranslateService) {}
 
-    return total;
-  }
-
-  public onIconButtonClick(event: any) {
-    if (event && event.type === 'detail') {
-      this.showingDetail = true;
-      this.selectedDisease = this.dataChart[event.selectedItem].name;
-      const query = `&page=${this.currentPage}&indication=${this.selectedDisease}`;
-      this.getPatientsDetail(query);
-      this.getDetailsToExport(query);
-    } else {
-      this.showingDetail = false;
+    ngOnInit(): void {
+        this.getData();
     }
-  }
 
-  public onPatientClick(event: any) {
-    if (event.type === 'detail') {
-      const currentUser = this.detailsDataTable[event.selectedItem];
-      const selectedUser = JSON.stringify(currentUser || {});
-      localStorage.setItem('selectedPatient', selectedUser);
-      this._router.navigate(['pathology/patients/dashboard']);
+    getData() {
+        this._patientsIndicationService.getPatiensDiagnosesByIndications().subscribe((response) => {
+            this.parseDataToChart(response);
+            this.parseDataToTable(response);
+        });
     }
-  }
 
-  private getPatientsDetail(query: string) {
-    this._patientsIndicationService.getDetails(query).subscribe(
-      (data) => {
-        this.detailsDataTable = data.content;
-        if (this.paginationData.totalPages !== data.totalPages) {
-          this.paginationData = data;
+    private parseDataToChart(patiensIndication: any) {
+        this.dataChart = [];
+
+        Object.keys(patiensIndication).forEach((key: string) => {
+            const objectData: ChartObjectModel = {
+                name: key,
+                series: [
+                    {
+                        name: this._translate.instant('withArthritis').toUpperCase(),
+                        value: patiensIndication[key].true ? patiensIndication[key].true : 0,
+                    },
+                    {
+                        name: this._translate.instant('withoutArthritis').toUpperCase(),
+                        value: patiensIndication[key].false ? patiensIndication[key].false : 0,
+                    },
+                ],
+            };
+            this.dataChart.push(objectData);
+        });
+
+        const chartTitle = 'patientsForIndications';
+        const view = null;
+        const scheme = {
+            domain: ['#000', '#249cf1'],
+        };
+        this.data = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
+    }
+
+    private parseDataToTable(list: any[]) {
+        const data = [];
+        let dataObject = {};
+        Object.keys(list).forEach((key: string) => {
+            dataObject = {
+                'Tipo Psoriasis': key,
+                TOTAL: this.sumAllCases(list[key]),
+            };
+            dataObject[this._translate.instant('withoutArthritis')] = list[key].false ? list[key].false : 0;
+            dataObject[this._translate.instant('withArthritis')] = list[key].true ? list[key].true : 0;
+
+            data.push(dataObject);
+        });
+        this.dataTable = data;
+    }
+
+    private sumAllCases(object: any): number {
+        let total = 0;
+
+        total += object.true ? object.true : 0;
+        total += object.false ? object.false : 0;
+
+        return total;
+    }
+
+    public onIconButtonClick(event: any) {
+        if (event && event.type === 'detail') {
+            this.showingDetail = true;
+            this.selectedDisease = this.dataChart[event.selectedItem].name;
+            const query = `&page=${this.currentPage}&indication=${this.selectedDisease}`;
+            this.getPatientsDetail(query);
+            this.getDetailsToExport(query);
+        } else {
+            this.showingDetail = false;
         }
-      },
-      (error) => {
-        console.error('error: ', error);
-      }
-    );
-  }
-
-  public selectPage(page: number) {
-    if (this.currentPage !== page) {
-      this.currentPage = page;
-      const query = `&page=${this.currentPage}&indication=${this.selectedDisease}`;
-      this.getPatientsDetail(query);
     }
-  }
 
-  public onSortTableDetail(event: any) {
-    let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedDisease}`;
+    public onPatientClick(event: any) {
+        if (event.type === 'detail') {
+            const currentUser = this.detailsDataTable[event.selectedItem];
+            const selectedUser = JSON.stringify(currentUser || {});
+            localStorage.setItem('selectedPatient', selectedUser);
+            this._router.navigate(['pathology/patients/dashboard']);
+        }
+    }
 
-    this.getPatientsDetail(query);
-  }
+    private getPatientsDetail(query: string) {
+        this._patientsIndicationService.getDetails(query).subscribe(
+            (data) => {
+                this.detailsDataTable = data.content;
+                if (this.paginationData.totalPages !== data.totalPages) {
+                    this.paginationData = data;
+                }
+            },
+            (error) => {
+                console.error('error: ', error);
+            }
+        );
+    }
 
-  private getDetailsToExport(query: string) {
-    this._patientsIndicationService.getDetailsExport(query).subscribe(
-      (data: any) => {
-        this.dataToExport = data;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
+    public selectPage(page: number) {
+        if (this.currentPage !== page) {
+            this.currentPage = page;
+            const query = `&page=${this.currentPage}&indication=${this.selectedDisease}`;
+            this.getPatientsDetail(query);
+        }
+    }
+
+    public onSortTableDetail(event: any) {
+        let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&indication=${this.selectedDisease}`;
+
+        this.getPatientsDetail(query);
+    }
+
+    private getDetailsToExport(query: string) {
+        this._patientsIndicationService.getDetailsExport(query).subscribe(
+            (data: any) => {
+                this.dataToExport = data;
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
+    }
 }

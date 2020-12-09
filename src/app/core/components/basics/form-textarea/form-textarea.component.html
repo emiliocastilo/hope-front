@@ -1,17 +1,5 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
-  <label
-    [attr.for]="config.name"
-    class="dynamic-label"
-    [ngClass]="{ 'required-label': required }"
-    >{{ config.label | translate }}</label
-  >
-  <textarea
-    [attr.id]="config.name"
-    [attr.name]="config.name"
-    [attr.placeholder]="config.placeholder"
-    [formControlName]="config.name"
-    class="dynamic-field"
-    [attr.rows]="config.rows"
-  ></textarea>
-  {{ config.rows }}
+    <label [attr.for]="config.name" class="dynamic-label" [ngClass]="{ 'required-label': required }">{{ config.label | translate }}</label>
+    <textarea [attr.id]="config.name" [attr.name]="config.name" [attr.placeholder]="config.placeholder" [formControlName]="config.name" class="dynamic-field" [attr.rows]="config.rows"></textarea>
+    {{ config.rows }}
 </div>
