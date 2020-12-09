@@ -464,6 +464,7 @@
   "totalAccumulatedCostByPatientType":"Coste total acumulado del tratamiento por tipo de paciente",
   "avgCostByPatientType":"Coste medio por paciente proyectado",
   "avgAccumulatedCostByPatientType":"Coste medio acumulado por paciente proyectado",
-  "maxAnualValue":"Valor máximo anual"
-  
+  "maxAnualValue":"Valor máximo anual",
+  "alternativeGuidelines": "Pautas alternativas",
+  "initialGuidelines": "Pautas de inicio"
 }

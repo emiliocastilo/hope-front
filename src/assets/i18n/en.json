@@ -438,5 +438,7 @@
   "saveWarning":"Unsaved changes detected",
   "saveWarningMessage":"There are unsaved changes. Continue?",
   "patientType": "Patient type",
-  "maxAnualValue":"Max anual value"
+  "maxAnualValue":"Max anual value",
+  "alternativeGuidelines": "Alternative guidelines",
+  "initialGuidelines": "Initial guidelines"
 }

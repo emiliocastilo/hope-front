@@ -42,6 +42,7 @@ import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagno
 import { PatientsVihLevelsComponent } from './components/vih/clinical-information/patients-vih/patients-vih-levels/patients-vih-levels.component';
 import { PatientTreatmentsVihChangeComponent } from './components/vih/clinical-information/patient-treatments-vih/patient-treatments-vih-change/patient-treatments-vih-change.component';
 import { PatientExpensesVihComponent } from './components/vih/pharmaeconomic-vih/patient-expenses-vih/patient-expenses-vih.component';
+import { GuidelinesExpensesVihComponent } from './components/vih/pharmaeconomic-vih/guidelines-expenses-vih/guidelines-expenses-vih.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { PatientExpensesVihComponent } from './components/vih/pharmaeconomic-vih
     PatientsVihLevelsComponent,
     PatientTreatmentsVihChangeComponent,
     PatientExpensesVihComponent,
+    GuidelinesExpensesVihComponent,
   ],
   imports: [
     NgbModule,

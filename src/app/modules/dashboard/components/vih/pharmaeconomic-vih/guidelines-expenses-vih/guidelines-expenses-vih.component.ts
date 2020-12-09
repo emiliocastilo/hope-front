@@ -11,18 +11,18 @@ import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
-  selector: 'app-patient-expenses-vih',
-  templateUrl: './patient-expenses-vih.component.html',
-  styleUrls: ['./patient-expenses-vih.component.scss']
+  selector: 'app-guidelines-expenses-vih',
+  templateUrl: './guidelines-expenses-vih.component.html',
+  styleUrls: ['./guidelines-expenses-vih.component.scss']
 })
-export class PatientExpensesVihComponent implements OnInit {
+export class GuidelinesExpensesVihComponent implements OnInit {
 
   options = [
     {
-      name: this._translate.instant('total')
+      name: this._translate.instant('alternativeGuidelines')
     },
     {
-      name: this._translate.instant('average')
+      name: this._translate.instant('initialGuidelines')
     }
   ];
  
