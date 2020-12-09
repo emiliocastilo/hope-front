@@ -11,6 +11,7 @@ import { DispensationModel } from '../../models/dispensation/dispensation.model'
 export class PatientsTreatmentsResolverService implements Resolve<Array<DispensationModel>> {
     constructor(private patientsIndicationService: PatientsTreatmentsService) {}
     resolve(route: ActivatedRouteSnapshot): Observable<Array<DispensationModel>> {
+        console.log(route.data.type, route.data.indication);
         return this.patientsIndicationService.getPatientsTreatmentFindPatients(route.data.type, route.data.indication);
     }
 }

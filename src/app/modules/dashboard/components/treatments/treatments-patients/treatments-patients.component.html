@@ -1,9 +1,37 @@
 <div class="row m-0 p-0">
     <section class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center">
         <div class="row pt-3">
-            <app-entry-menu-select [selectLabel]="'indication'" [entries]="entries" [style]="'width: 15rem'" [config]="config"></app-entry-menu-select>
+            <div class="container">
+                <div class="dynamic-field">
+                    <label class="dynamic-label">
+                        {{ 'indication' | translate }}
+                    </label>
+                    <select class="form-control" (change)="onIndicationChange($event)">
+                        <option *ngFor="let entry of entries; index as i" [value]="i">
+                            {{ entry.name | translate }}
+                        </option>
+                    </select>
+                </div>
+            </div>
         </div>
     </section>
 </div>
 
-<router-outlet></router-outlet>
+<section class="col-md-12 col-lg-12 m-0 p-0">
+    <section class="patients-chart-container">
+        <app-column-chart [stacked]="true" [config]="dataChart"> </app-column-chart>
+
+        <div class="table-container" *ngIf="!showingDetail">
+            <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable" (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true"> </app-table>
+        </div>
+
+        <div *ngIf="showingDetail" class="table-container">
+            <div class="export-buttons">
+                <app-export-buttons [dataToExport]="dataToExport"></app-export-buttons>
+            </div>
+            <app-table [columnsHeader]="headersDetailsTable" [columnsData]="detailsDataTable" [showActionButtons]="true" [actions]="actions" (iconButtonClick)="onPatientClick($event)" (sort)="onSort($event)" [sortable]="true"> </app-table>
+            <app-pagination (selectPage)="selectPage($event)" [paginationData]="paginationData"> </app-pagination>
+            <app-button type="button" clasesBtn="btn-primary btn-sm mx-2" texto="btn.back" (click)="onIconButtonClick({ type: 'back' })" icono="arrow-left"></app-button>
+        </div>
+    </section>
+</section>

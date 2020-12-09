@@ -39,6 +39,7 @@ import { HeatlhOutcomesComponent } from './components/health-outcomes/health-out
 import { TreatmentsAgentsComponent } from './components/treatments/treatments-agents/treatments-agents.component';
 import { TreatmentsPatientsComponent } from './components/treatments/treatments-patients/treatments-patients.component';
 import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagnosis-reasons.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -80,6 +81,8 @@ import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagno
     imports: [
         NgbModule,
         CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
         CoreModule,
         DashboardRoutingModule,
         TranslateModule.forChild({
