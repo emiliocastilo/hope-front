@@ -156,29 +156,7 @@ const routes: Routes = [
     {
         path: 'diagnosis/reasons',
         component: DiagnosisReasonsComponent,
-        canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'reason-change-biological-treatment-five-years',
-                component: ReasonChangeBiologicalTreatmentFiveYearsComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'reason-stop-biological-treatment-five-years',
-                component: ReasonStopBiologicalTreatmentFiveYearsrsComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'reason-last-change-biological-treatment',
-                component: ReasonLastChangeBiologicalTreatmentComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'reason-stop-bioligical-treatment',
-                component: ReasonStopBiologicalTreatmentComponent,
-                canActivate: [AuthGuard],
-            },
-        ],
+        canActivate: [AuthGuard]
     },
     {
         path: 'diagnosis/patients-indication',
