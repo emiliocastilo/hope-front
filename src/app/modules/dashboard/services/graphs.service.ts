@@ -6,241 +6,188 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class GraphsService {
-  public selectedRole: any;
-  constructor(private _httpClient: HttpClient) {}
+    public selectedRole: any;
+    constructor(private _httpClient: HttpClient) {}
 
-  //TODO: delete if it isn't using it
-  // public getPatientsUnderTreatment(type: string): Observable<any> {
-  //   return this._httpClient.get(
-  //     `/graphs/patients-under-treatment?type=${type}`
-  //   );
-  // }
-  //TODO: delete if it isn't using it
-  // public getHealthOutcomesByType(type: string): Observable<any> {
-  //   return this._httpClient.get(
-  //     `/graphs/health-outcomes-by-types?type=${type}`
-  //   );
-  // }
+    //TODO: delete if it isn't using it
+    // public getPatientsUnderTreatment(type: string): Observable<any> {
+    //   return this._httpClient.get(
+    //     `/graphs/patients-under-treatment?type=${type}`
+    //   );
+    // }
+    //TODO: delete if it isn't using it
+    // public getHealthOutcomesByType(type: string): Observable<any> {
+    //   return this._httpClient.get(
+    //     `/graphs/health-outcomes-by-types?type=${type}`
+    //   );
+    // }
 
-  public getChartTableCIE(): Observable<any> {
-    this.selectedRole = JSON.parse(localStorage.getItem('user')).rolSelected;
-    const userHospital: any = this.selectedRole.hospital.id;
-    return this._httpClient.get(
-      '/patients-diagnoses/cie?hospitalId=' + userHospital
-    );
-  }
+    public getChartTableCIE(): Observable<any> {
+        this.selectedRole = JSON.parse(localStorage.getItem('user')).rolSelected;
+        const userHospital: any = this.selectedRole.hospital.id;
+        return this._httpClient.get('/patients-diagnoses/cie?hospitalId=' + userHospital);
+    }
 
-  public getPatientsDetailCIE(query: string): Observable<any> {
-    return this._httpClient.get(`/patients-diagnoses/cie/patients?${query}`);
-  }
+    public getPatientsDetailCIE(query: string): Observable<any> {
+        return this._httpClient.get(`/patients-diagnoses/cie/patients?${query}`);
+    }
 
-  public getPatientsDetailCIEExport(query: string): Observable<any> {
-    return this._httpClient.get(
-      `/patients-diagnoses/cie/patients-export?${query}`
-    );
-  }
+    public getPatientsDetailCIEExport(query: string): Observable<any> {
+        return this._httpClient.get(`/patients-diagnoses/cie/patients-export?${query}`);
+    }
 
-  public getFindResultsByType(query: string): Observable<any> {
-    return this._httpClient.get(
-      `/health-outcomes/find-results-by-types?${query}`
-    );
-  }
+    public getFindResultsByType(query: string): Observable<any> {
+        return this._httpClient.get(`/health-outcomes/find-results-by-types?${query}`);
+    }
 
-  public getDetailsResultByType(query: string): Observable<any> {
-    return this._httpClient.get(
-      `/health-outcomes/get-detail-results-by-type?${query}`
-    );
-  }
+    public getDetailsResultByType(query: string): Observable<any> {
+        return this._httpClient.get(`/health-outcomes/get-detail-results-by-type?${query}`);
+    }
 
-  public getDetailsResultByTypeExport(query: string): Observable<any> {
-    return this._httpClient.get(
-      `/health-outcomes/get-detail-results-by-type-export?${query}`
-    );
-  }
+    public getDetailsResultByTypeExport(query: string): Observable<any> {
+        return this._httpClient.get(`/health-outcomes/get-detail-results-by-type-export?${query}`);
+    }
 
-  public getTreatments() {
-    return this._httpClient.get('/patients-diagnoses/treatments');
-  }
+    public getTreatments() {
+        return this._httpClient.get('/patients-diagnoses/treatments');
+    }
 
-  public getTreatmentDetails(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/treatments/patients?${query}`
-    );
-  }
+    public getTreatmentDetails(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/treatments/patients?${query}`);
+    }
 
-  public getTreatmentDetailsExport(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/treatments/patients-export?${query}`
-    );
-  }
+    public getTreatmentDetailsExport(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/treatments/patients-export?${query}`);
+    }
 
-  public getCombinedTreatment() {
-    return this._httpClient.get(`/patients-diagnoses/combined-treatments`);
-  }
+    public getCombinedTreatment() {
+        return this._httpClient.get(`/patients-diagnoses/combined-treatments`);
+    }
 
-  public getCombinedTreatmentDetails(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/combined-treatments/patients?${query}`
-    );
-  }
+    public getCombinedTreatmentDetails(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/combined-treatments/patients?${query}`);
+    }
 
-  public getCombinedTreatmentDetailsExport(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/combined-treatments/patients-export?${query}`
-    );
-  }
+    public getCombinedTreatmentDetailsExport(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/combined-treatments/patients-export?${query}`);
+    }
 
-  public getReasonLastChangeBiological(query: string) {
-    return this._httpClient.get(`/patients-diagnoses/end-causes?${query}`);
-  }
+    public getReasonLastChangeBiological(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes?${query}`);
+    }
 
-  public getReasonLastChangeBiologicalDetails(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/end-causes/patients?${query}`
-    );
-  }
+    public getReasonLastChangeBiologicalDetails(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes/patients?${query}`);
+    }
 
-  public getReasonLastChangeBiologicalDetailsExport(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/end-causes/patients-export?${query}`
-    );
-  }
+    public getReasonLastChangeBiologicalDetailsExport(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes/patients-export?${query}`);
+    }
 
-  public getReasonLastChangeBiologicalFiveYears(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/end-causes-last-years?${query}`
-    );
-  }
+    public getReasonLastChangeBiologicalFiveYears(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes-last-years?${query}`);
+    }
 
-  public getReasonLastChangeBiologicalDetailsFiveYears(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/end-causes-last-years/patients?${query}`
-    );
-  }
+    public getReasonLastChangeBiologicalDetailsFiveYears(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes-last-years/patients?${query}`);
+    }
 
-  public getReasonLastChangeBiologicalDetailsExportFiveYears(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/end-causes-last-years/patients-export?${query}`
-    );
-  }
+    public getReasonLastChangeBiologicalDetailsExportFiveYears(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes-last-years/patients-export?${query}`);
+    }
 
-  public getNumberChangesBiologicalTreatment() {
-    return this._httpClient.get(`/patients-diagnoses/number-changes`);
-  }
+    public getNumberChangesBiologicalTreatment() {
+        return this._httpClient.get(`/patients-diagnoses/number-changes`);
+    }
 
-  public getNumberChangesBiologicalTreatmentDetails(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/number-changes/patients?${query}`
-    );
-  }
+    public getNumberChangesBiologicalTreatmentDetails(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/number-changes/patients?${query}`);
+    }
 
-  public getNumberChangesBiologicalTreatmentExport(query: string) {
-    return this._httpClient.get(
-      `/patients-diagnoses/number-changes/patients-export?${query}`
-    );
-  }
+    public getNumberChangesBiologicalTreatmentExport(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/number-changes/patients-export?${query}`);
+    }
 
-  public getBiologicalTreatmentfrequency() {
-    return this._httpClient.get(
-      `/patients-treatments/find-info-patients-doses`
-    );
-  }
+    public getBiologicalTreatmentfrequency() {
+        return this._httpClient.get(`/patients-treatments/find-info-patients-doses`);
+    }
 
-  public getBiologicalTreatmentfrequencyDetails(query: string) {
-    return this._httpClient.get(
-      `/patients-treatments/get-detail-patients-per-doses?${query}`
-    );
-  }
+    public getBiologicalTreatmentfrequencyDetails(query: string) {
+        return this._httpClient.get(`/patients-treatments/get-detail-patients-per-doses?${query}`);
+    }
 
-  public getBiologicalTreatmentfrequencyExport(query: string) {
-    return this._httpClient.get(
-      `/patients-treatments/get-detail-patients-per-doses-export?${query}`
-    );
-  }
+    public getBiologicalTreatmentfrequencyExport(query: string) {
+        return this._httpClient.get(`/patients-treatments/get-detail-patients-per-doses-export?${query}`);
+    }
 
-  public getMonthlyConsuptionEuros() {
-    return this._httpClient.get(`/dispensation-details/find-monthly-consumes`);
-  }
+    public getMonthlyConsuptionEuros() {
+        return this._httpClient.get(`/dispensation-details/find-monthly-consumes`);
+    }
 
-  public getMonthlyConsuptionEurosAccumulated() {
-    return this._httpClient.get(
-      `/dispensation-details/find-monthly-consumes-accumulated`
-    );
-  }
+    public getMonthlyConsuptionEurosAccumulated() {
+        return this._httpClient.get(`/dispensation-details/find-monthly-consumes-accumulated`);
+    }
 
-  public getMonthlyConsuptionEurosAvgAccumulated(query: string) {
-    return this._httpClient.get(
-      `/dispensation-details/find-monthly-consumes-accumulated-avg?${query}`
-    );
-  }
+    public getMonthlyConsuptionEurosAvgAccumulated(query: string) {
+        return this._httpClient.get(`/dispensation-details/find-monthly-consumes-accumulated-avg?${query}`);
+    }
 
-  public getMonthlyConsuptionEurosAvg(query: string) {
-    return this._httpClient.get(
-      `/dispensation-details/find-monthly-consumes-avg?${query}`
-    );
-  }
+    public getMonthlyConsuptionEurosAvg(query: string) {
+        return this._httpClient.get(`/dispensation-details/find-monthly-consumes-avg?${query}`);
+    }
 
-  public getTotalExpenses(query: string) {
-    return this._httpClient.get(
-      `/dispensation-details/find-total-cost-treatments?${query}`
-    );
-  }
+    public getTotalExpenses(query: string) {
+        return this._httpClient.get(`/dispensation-details/find-total-cost-treatments?${query}`);
+    }
 
-  public getTotalAccumulatedExpenses(query: string) {
-    return this._httpClient.get(
-      `/dispensation-details/find-total-cost-treatments-accumulated?${query}`
-    );
-  }
+    public getTotalAccumulatedExpenses(query: string) {
+        return this._httpClient.get(`/dispensation-details/find-total-cost-treatments-accumulated?${query}`);
+    }
 
-  public getTotalAvgExpenses(query: string) {
-    return this._httpClient.get(
-      `/dispensation-details/find-total-cost-treatments-avg?${query}`
-    );
-  }
+    public getTotalAvgExpenses(query: string) {
+        return this._httpClient.get(`/dispensation-details/find-total-cost-treatments-avg?${query}`);
+    }
 
-  public getTotalAvgAccumulatedExpenses(query: string) {
-    return this._httpClient.get(
-      `/dispensation-details/find-total-cost-treatments-accumulated-avg?${query}`
-    );
-  }
+    public getTotalAvgAccumulatedExpenses(query: string) {
+        return this._httpClient.get(`/dispensation-details/find-total-cost-treatments-accumulated-avg?${query}`);
+    }
 
-  /***** VIH *****/
-  // TODO plopezc - completar con back, ahora están puestas igual
-  //Parámetros clínicos
-  public getPatientsByClinicalParameter(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
-  }
+    /***** VIH *****/
+    // TODO plopezc - completar con back, ahora están puestas igual
+    //Parámetros clínicos
+    public getPatientsByClinicalParameter(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    }
 
-  public getDetailPatientsByClinicalParameter(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
-  }
+    public getDetailPatientsByClinicalParameter(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
+    }
 
-  public getDetailPatientsByClinicalParameterToExport(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
-  }
+    public getDetailPatientsByClinicalParameterToExport(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
+    }
 
-  //Cambio de tratamiento
-  public getPatientsByTreatmentChange(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-change?${query}`);
-  }
-  public getDetailPatientsByTreatmentChange(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
-  }
-  public getDetailPatientsByTreatmentChangeToExport(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
-  }
+    //Cambio de tratamiento
+    public getPatientsByTreatmentChange(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-change?${query}`);
+    }
+    public getDetailPatientsByTreatmentChange(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    }
+    public getDetailPatientsByTreatmentChangeToExport(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    }
 
-  //Costes tipo paciente
-  public getPatientsByPatientType(): any{
-     return this._httpClient.get(`/patient-clinical-data/by-patientType`);
-   
-  }
-  public getCostsByPatientType(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-costs?${query}`);
-  }
+    //Costes tipo paciente
+    public getPatientsByPatientType(): any {
+        return this._httpClient.get(`/patient-clinical-data/by-patientType`);
+    }
+    public getCostsByPatientType(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-costs?${query}`);
+    }
 
-  // TODO plopezc - ver si puedo pasárselo a back como parámetro opcional en getCostsByPatientType() - ver query en loadValues()
-  /* public getMaxValueCostsAvgAccumulated(query: string) {
+    // TODO plopezc - ver si puedo pasárselo a back como parámetro opcional en getCostsByPatientType() - ver query en loadValues()
+    /* public getMaxValueCostsAvgAccumulated(query: string) {
     return this._httpClient.get(
       `/patient-clinical-data/find-monthly-consumes-accumulated-avg?${query}`
     );
@@ -252,13 +199,13 @@ export class GraphsService {
     );
   } */
 
+    // Mock para getPatientsByPatientType()
+    public getMock(): any {
+        const data = [
+            { name: 'En ensayo clínico', value: 9 },
+            { name: 'Controlados y estables', value: 20 },
+        ];
 
-  // Mock para getPatientsByPatientType()
-  public getMock(): any {
-    const data = [ { name: 'En ensayo clínico', value: 9 },
-    { name: "Controlados y estables", value: 20 }]; 
-
-    return data;
-  }
-
+        return data;
+    }
 }
