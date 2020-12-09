@@ -1,4 +1,3 @@
-
 <div class="row m-0 p-0">
     <section class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center">
         <div class="row pt-5 m-0 p-0">
@@ -13,16 +12,14 @@
                 </select>
             </div>
             <div [formGroup]="form" class="select-switch">
-                <app-switch [label]="'accumulated' | translate" formControlName="switchValue" (click)="switchAccumulated()">
-                </app-switch>
+                <app-switch [label]="'accumulated' | translate" formControlName="switchValue" (click)="switchAccumulated()"> </app-switch>
             </div>
         </div>
-
     </section>
     <section class="col-md-12 col-lg-12 m-0 p-0">
         <section class="patients-chart-container">
-            <app-line-chart [config]="configChart" > </app-line-chart>
-           
+            <app-line-chart [config]="configChart"> </app-line-chart>
+
             <!-- <div *ngIf="this.selectedOption === options[1].name" class="table-container_input-container">
                 <form
                   [formGroup]="form"
@@ -56,9 +53,8 @@
                     (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true">
                 </app-table>
             </div> -->
-            
         </section>
-      <!--   <div *ngIf="showingDetail" class="table-container">
+        <!--   <div *ngIf="showingDetail" class="table-container">
             <div class="export-buttons">
                 <app-export-buttons [dataToExport]="dataToExport"></app-export-buttons>
             </div>

@@ -290,11 +290,10 @@ const routes: Routes = [
         component: GuidelinesExpensesVihComponent,
         canActivate: [AuthGuard],
     },
-    
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}
