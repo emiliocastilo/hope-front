@@ -1,28 +1,24 @@
 <section class="items-per-page_container">
-  <div class="items-per-page_container_input">
-    <label>
-      {{ 'results' | translate }}
-    </label>
-    <select (change)="handleChange($event)" [(ngModel)]="selectedOption">
-      <option
-        *ngFor="let option of optionsItemsPerPage"
-        [ngValue]="option"
-        [selected]="option == value"
-      >
-        {{ option }}
-      </option>
-    </select>
+    <div class="items-per-page_container_input">
+        <label>
+            {{ 'results' | translate }}
+        </label>
+        <select (change)="handleChange($event)" [(ngModel)]="selectedOption">
+            <option *ngFor="let option of optionsItemsPerPage" [ngValue]="option" [selected]="option == value">
+                {{ option }}
+            </option>
+        </select>
 
-    <i aria-hidden="true" class="fa fa-chevron-down"></i>
-  </div>
-  <div class="items-per-page_container_text">
-    <p
-      [translate]="'showRegisterParams'"
-      [translateParams]="{
-        start: calcFirstPagElement(),
-        end: calcLastPagElement(),
-        total: paginationData.totalElements
-      }"
-    ></p>
-  </div>
+        <i aria-hidden="true" class="fa fa-chevron-down"></i>
+    </div>
+    <div class="items-per-page_container_text">
+        <p
+            [translate]="'showRegisterParams'"
+            [translateParams]="{
+                start: calcFirstPagElement(),
+                end: calcLastPagElement(),
+                total: paginationData.totalElements
+            }"
+        ></p>
+    </div>
 </section>

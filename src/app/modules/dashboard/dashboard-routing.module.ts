@@ -40,236 +40,236 @@ import { TreatmentsAgentsComponent } from './components/treatments/treatments-ag
 import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagnosis-reasons.component';
 
 const routes: Routes = [
-  {
-    path: 'pharmacoeconomic/consumption-biological-treatment',
-    component: ConsumptionBiologicalTreatmentComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'accumulated-monthly-consuption-euros',
-        component: AccumulatedMonthlyConsuptionEurosComponent,
+    {
+        path: 'pharmacoeconomic/consumption-biological-treatment',
+        component: ConsumptionBiologicalTreatmentComponent,
         canActivate: [AuthGuard],
-      },
-      {
-        path: 'monthly-consuption-euros',
-        component: MonthlyConsuptionEurosComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'accumulated-avg-mon-con-eu',
-        component: AccumulatedAverageMonthlyConsuptionEurosComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'avg-mon-con-eu',
-        component: AverageMonthlyConsuptionEurosComponent,
-        canActivate: [AuthGuard],
-      },
-    ],
-  },
-  {
-    path: 'pharmacoeconomic/total-expenses-biological-treatment',
-    component: TotalExpensesBiologicalTreatmentComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'total-expenses',
-        component: TotalExpensesComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'accumulated-expenses',
-        component: AccumulatedExpensesComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'avg-expenses',
-        component: AvgExpensesComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'accumulated-avg-expenses',
-        component: AvgAccumulatedExpensesComponent,
-        canActivate: [AuthGuard],
-      },
-    ],
-  },
-  {
-    path: 'health-outcomes',
-    component: HeatlhOutcomesComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'patients-by-pasi',
-        component: PatientsByPasiComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'patients-by-bsa',
-        component: PatientsByBsaComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'patients-by-pga',
-        component: PatientsByPgaComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'patients-by-dlqi',
-        component: PatientsByDlqiComponent,
-        canActivate: [AuthGuard],
-      },
-    ],
-  },
-  {
-    path: 'treatments/treatments-agents',
-    component: TreatmentsAgentsComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'biological-agents',
-        component: BiologicalAgentsComponent,
-        canActivate: [AuthGuard],
-        data: {
-          type: 'BIOLOGICO',
-          indication: '',
-        },
-        resolve: {
-          patientsTreatments: PatientsTreatmentsResolverService,
-        },
-      },
-      {
-        path: 'chemical-agents',
-        component: ChemicalAgentsComponent,
-        canActivate: [AuthGuard],
-        data: {
-          type: 'QUIMICO',
-          indication: '',
-        },
-        resolve: {
-          patientsTreatments: PatientsTreatmentsResolverService,
-        },
-      },
-    ],
-  },
-  {
-    path: 'treatments/treatments-patients',
-    component: TreatmentsPatientsComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'psoriasis-placas',
-        component: PsoriasisPlacasComponent,
-        canActivate: [AuthGuard],
-        data: {
-          type: 'BIOLOGICO',
-          indication: 'EN PLACAS',
-        },
-        resolve: {
-          patientsTreatments: PatientsTreatmentsResolverService,
-        },
-      },
-      {
-        path: 'psoriasis-palmo-plantar',
-        component: PsoriasisPalmoPlantarComponent,
-        canActivate: [AuthGuard],
-        data: {
-          type: 'BIOLOGICO',
-          indication: 'PALMOPLANTAR',
-        },
-        resolve: {
-          patientsTreatments: PatientsTreatmentsResolverService,
-        },
-      },
-      {
-        path: 'eritrodermia',
-        component: EritrodermiaComponent,
-        canActivate: [AuthGuard],
-        data: {
-          type: 'BIOLOGICO',
-          indication: 'ERITRODERMIA',
-        },
-        resolve: {
-          patientsTreatments: PatientsTreatmentsResolverService,
-        },
-      },
-      {
-        path: 'psoriasis-pustulosa',
-        component: PsoriasisPustulosaComponent,
-        canActivate: [AuthGuard],
-        data: {
-          type: 'BIOLOGICO',
-          indication: 'PUSTULOSA',
-        },
-        resolve: {
-          patientsTreatments: PatientsTreatmentsResolverService,
-        },
-      },
-    ],
-  },
-  {
-    path: 'diagnosis/reasons',
-    component: DiagnosisReasonsComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'reason-change-biological-treatment-five-years',
-        component: ReasonChangeBiologicalTreatmentFiveYearsComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'reason-stop-biological-treatment-five-years',
-        component: ReasonStopBiologicalTreatmentFiveYearsrsComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'reason-last-change-biological-treatment',
-        component: ReasonLastChangeBiologicalTreatmentComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'reason-stop-bioligical-treatment',
-        component: ReasonStopBiologicalTreatmentComponent,
-        canActivate: [AuthGuard],
-      },
-    ],
-  },
-  {
-    path: 'diagnosis/patients-indication',
-    component: PatientsIndicationComponent,
-    resolve: {
-      patientsIndications: PatientsIndicationResolverService,
+        children: [
+            {
+                path: 'accumulated-monthly-consuption-euros',
+                component: AccumulatedMonthlyConsuptionEurosComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'monthly-consuption-euros',
+                component: MonthlyConsuptionEurosComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'accumulated-avg-mon-con-eu',
+                component: AccumulatedAverageMonthlyConsuptionEurosComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'avg-mon-con-eu',
+                component: AverageMonthlyConsuptionEurosComponent,
+                canActivate: [AuthGuard],
+            },
+        ],
     },
-  },
-  {
-    path: 'diagnosis/cie',
-    component: CieComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'diagnosis/patients-treatment',
-    component: PatientsTreatmentComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'diagnosis/patients-combined-treatments',
-    component: PatientsCombinedTreatmentsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'diagnosis/number-changes-biological-treatment',
-    component: NumberChangesBiologicalTreatmentComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'patient-dose/biological-treatment-frequency',
-    component: BiologicalTreatmentFrequencyComponent,
-    canActivate: [AuthGuard],
-  },
+    {
+        path: 'pharmacoeconomic/total-expenses-biological-treatment',
+        component: TotalExpensesBiologicalTreatmentComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'total-expenses',
+                component: TotalExpensesComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'accumulated-expenses',
+                component: AccumulatedExpensesComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'avg-expenses',
+                component: AvgExpensesComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'accumulated-avg-expenses',
+                component: AvgAccumulatedExpensesComponent,
+                canActivate: [AuthGuard],
+            },
+        ],
+    },
+    {
+        path: 'health-outcomes',
+        component: HeatlhOutcomesComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'patients-by-pasi',
+                component: PatientsByPasiComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'patients-by-bsa',
+                component: PatientsByBsaComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'patients-by-pga',
+                component: PatientsByPgaComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'patients-by-dlqi',
+                component: PatientsByDlqiComponent,
+                canActivate: [AuthGuard],
+            },
+        ],
+    },
+    {
+        path: 'treatments/treatments-agents',
+        component: TreatmentsAgentsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'biological-agents',
+                component: BiologicalAgentsComponent,
+                canActivate: [AuthGuard],
+                data: {
+                    type: 'BIOLOGICO',
+                    indication: '',
+                },
+                resolve: {
+                    patientsTreatments: PatientsTreatmentsResolverService,
+                },
+            },
+            {
+                path: 'chemical-agents',
+                component: ChemicalAgentsComponent,
+                canActivate: [AuthGuard],
+                data: {
+                    type: 'QUIMICO',
+                    indication: '',
+                },
+                resolve: {
+                    patientsTreatments: PatientsTreatmentsResolverService,
+                },
+            },
+        ],
+    },
+    {
+        path: 'treatments/treatments-patients',
+        component: TreatmentsPatientsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'psoriasis-placas',
+                component: PsoriasisPlacasComponent,
+                canActivate: [AuthGuard],
+                data: {
+                    type: 'BIOLOGICO',
+                    indication: 'EN PLACAS',
+                },
+                resolve: {
+                    patientsTreatments: PatientsTreatmentsResolverService,
+                },
+            },
+            {
+                path: 'psoriasis-palmo-plantar',
+                component: PsoriasisPalmoPlantarComponent,
+                canActivate: [AuthGuard],
+                data: {
+                    type: 'BIOLOGICO',
+                    indication: 'PALMOPLANTAR',
+                },
+                resolve: {
+                    patientsTreatments: PatientsTreatmentsResolverService,
+                },
+            },
+            {
+                path: 'eritrodermia',
+                component: EritrodermiaComponent,
+                canActivate: [AuthGuard],
+                data: {
+                    type: 'BIOLOGICO',
+                    indication: 'ERITRODERMIA',
+                },
+                resolve: {
+                    patientsTreatments: PatientsTreatmentsResolverService,
+                },
+            },
+            {
+                path: 'psoriasis-pustulosa',
+                component: PsoriasisPustulosaComponent,
+                canActivate: [AuthGuard],
+                data: {
+                    type: 'BIOLOGICO',
+                    indication: 'PUSTULOSA',
+                },
+                resolve: {
+                    patientsTreatments: PatientsTreatmentsResolverService,
+                },
+            },
+        ],
+    },
+    {
+        path: 'diagnosis/reasons',
+        component: DiagnosisReasonsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'reason-change-biological-treatment-five-years',
+                component: ReasonChangeBiologicalTreatmentFiveYearsComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'reason-stop-biological-treatment-five-years',
+                component: ReasonStopBiologicalTreatmentFiveYearsrsComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'reason-last-change-biological-treatment',
+                component: ReasonLastChangeBiologicalTreatmentComponent,
+                canActivate: [AuthGuard],
+            },
+            {
+                path: 'reason-stop-bioligical-treatment',
+                component: ReasonStopBiologicalTreatmentComponent,
+                canActivate: [AuthGuard],
+            },
+        ],
+    },
+    {
+        path: 'diagnosis/patients-indication',
+        component: PatientsIndicationComponent,
+        resolve: {
+            patientsIndications: PatientsIndicationResolverService,
+        },
+    },
+    {
+        path: 'diagnosis/cie',
+        component: CieComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'diagnosis/patients-treatment',
+        component: PatientsTreatmentComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'diagnosis/patients-combined-treatments',
+        component: PatientsCombinedTreatmentsComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'diagnosis/number-changes-biological-treatment',
+        component: NumberChangesBiologicalTreatmentComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'patient-dose/biological-treatment-frequency',
+        component: BiologicalTreatmentFrequencyComponent,
+        canActivate: [AuthGuard],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class DashboardRoutingModule {}

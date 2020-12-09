@@ -1,38 +1,29 @@
 <div class="app flex-row align-items-center app-select-role-background">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-8 col-lg-4">
-        <div class="card app-select-role-card">
-          <div class="card-body">
-            <div class="wrapper fadeInDown">
-              <div id="formContent">
-                <form [formGroup]="selectRoleForm">
-                  <div class="text-center mb-4">
-                    <img
-                      src="assets/img/hopes-launch.png"
-                      class="center goHome app-img-size"
-                      routerLink="/"
-                    />
-                  </div>
-                  <div class="text-center mb-4">
-                    <h4>{{ 'select.rol' | translate }}</h4>
-                  </div>
-                  <ul class="roles">
-                    <li
-                      *ngFor="let rol of roles"
-                      [class.selected]="rol === selectedRole"
-                      (click)="onFormSubmit(rol)"
-                      class="text-center"
-                    >
-                      {{ rol.name }}
-                    </li>
-                  </ul>
-                </form>
-              </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-4">
+                <div class="card app-select-role-card">
+                    <div class="card-body">
+                        <div class="wrapper fadeInDown">
+                            <div id="formContent">
+                                <form [formGroup]="selectRoleForm">
+                                    <div class="text-center mb-4">
+                                        <img src="assets/img/hopes-launch.png" class="center goHome app-img-size" routerLink="/" />
+                                    </div>
+                                    <div class="text-center mb-4">
+                                        <h4>{{ 'select.rol' | translate }}</h4>
+                                    </div>
+                                    <ul class="roles">
+                                        <li *ngFor="let rol of roles" [class.selected]="rol === selectedRole" (click)="onFormSubmit(rol)" class="text-center">
+                                            {{ rol.name }}
+                                        </li>
+                                    </ul>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

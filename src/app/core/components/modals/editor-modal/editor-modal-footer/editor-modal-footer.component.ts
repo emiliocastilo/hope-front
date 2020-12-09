@@ -1,26 +1,26 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-editor-modal-footer',
-  templateUrl: './editor-modal-footer.component.html',
-  styleUrls: ['./editor-modal-footer.component.scss'],
+    selector: 'app-editor-modal-footer',
+    templateUrl: './editor-modal-footer.component.html',
+    styleUrls: ['./editor-modal-footer.component.scss'],
 })
 export class EditorModalFooterComponent implements OnInit {
-  @Output() close: EventEmitter<any> = new EventEmitter();
-  @Output() save: EventEmitter<any> = new EventEmitter();
-  @Input() disableSave: boolean;
+    @Output() close: EventEmitter<any> = new EventEmitter();
+    @Output() save: EventEmitter<any> = new EventEmitter();
+    @Input() disableSave: boolean;
 
-  constructor() {}
+    constructor() {}
 
-  ngOnInit(): void {}
+    ngOnInit(): void {}
 
-  public onClose() {
-    this.close.emit(null);
-  }
-
-  public onSave(value: any) {
-    if (!this.disableSave) {
-      this.save.emit(null);
+    public onClose() {
+        this.close.emit(null);
     }
-  }
+
+    public onSave(value: any) {
+        if (!this.disableSave) {
+            this.save.emit(null);
+        }
+    }
 }

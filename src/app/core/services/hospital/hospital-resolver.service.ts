@@ -6,12 +6,12 @@ import { HospitalService } from './hospital.service';
 import { HospitalModel } from '../../models/hospital/hospital.model';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class HospitalResolverService implements Resolve<Array<HospitalModel>> {
-  constructor(private hospitalService: HospitalService) {}
+    constructor(private hospitalService: HospitalService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Array<HospitalModel>> {
-    return this.hospitalService.getAll();
-  }
+    resolve(route: ActivatedRouteSnapshot): Observable<Array<HospitalModel>> {
+        return this.hospitalService.getAll();
+    }
 }

@@ -1,34 +1,28 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class RoleService {
-  constructor() {}
+    constructor() {}
 
-  public get currentUserRole() {
-    return JSON.parse(localStorage.getItem('user')).rolSelected;
-  }
+    public get currentUserRole() {
+        return JSON.parse(localStorage.getItem('user')).rolSelected;
+    }
 
-  /* public get userRoles() {
+    /* public get userRoles() {
     const user = JSON.parse(localStorage.getItem('user'));
     const roles = JSON.stringify(JSON.parse(localStorage.getItem('user')).roles);
     return this.checkVarValue(roles)
       ? roles
       : '[]';
   } */
-  public get userRoles() {
-    return this.checkVarValue(localStorage.getItem('roles'))
-      ? localStorage.getItem('roles')
-      : '[]';
-  }
+    public get userRoles() {
+        return this.checkVarValue(localStorage.getItem('roles')) ? localStorage.getItem('roles') : '[]';
+    }
 
-  checkVarValue(value: any) {
-    const pass =
-      value !== 'undefined' &&
-      value !== '' &&
-      value !== null &&
-      value !== 'null';
-    return pass;
-  }
+    checkVarValue(value: any) {
+        const pass = value !== 'undefined' && value !== '' && value !== null && value !== 'null';
+        return pass;
+    }
 }

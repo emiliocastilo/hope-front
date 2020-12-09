@@ -6,92 +6,77 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { UserModel } from 'src/app/modules/management/models/user/user.model';
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss'],
+    selector: 'app-contact',
+    templateUrl: './contact.component.html',
+    styleUrls: ['./contact.component.scss'],
 })
 export class ContactComponent implements OnInit {
-  public currentUser: UserModel;
-  public form: FormGroup;
-  public formKeys: string[];
-  public showRequiredLegend: boolean = false;
+    public currentUser: UserModel;
+    public form: FormGroup;
+    public formKeys: string[];
+    public showRequiredLegend: boolean = false;
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _modalService: NgbModal,
-    private _formService: FormsService,
-    private _notification: NotificationService
-  ) {}
+    constructor(private _formBuilder: FormBuilder, private _modalService: NgbModal, private _formService: FormsService, private _notification: NotificationService) {}
 
-  ngOnInit(): void {
-    this.currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-    this.form = this._formBuilder.group({
-      email: [
-        this.currentUser.email,
-        [
-          Validators.required,
-          Validators.pattern(
-            '^(\\s?[^\\s,]+@[^\\s,]+\\.[^\\s,]+\\s?,)*(\\s?[^\\s,]+@[^\\s,]+\\.[^\\s,]+)$'
-          ),
-        ],
-      ],
-      subject: ['', Validators.required],
-      message: ['', Validators.required],
-    });
+    ngOnInit(): void {
+        this.currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+        this.form = this._formBuilder.group({
+            email: [this.currentUser.email, [Validators.required, Validators.pattern('^(\\s?[^\\s,]+@[^\\s,]+\\.[^\\s,]+\\s?,)*(\\s?[^\\s,]+@[^\\s,]+\\.[^\\s,]+)$')]],
+            subject: ['', Validators.required],
+            message: ['', Validators.required],
+        });
 
-    this.formKeys = Object.keys(this.form.controls);
-    this.checkAnyRequired(this.formKeys);
-  }
-
-  getInvalidLabel(formKey: string): string {
-    const errors = this.form ? this.form.get(formKey).errors : undefined;
-    const label = errors
-      ? Object.keys(errors).filter((key: string) => errors[key])
-      : undefined;
-    return label ? `form.validate.${label[0]}` : 'form.validate.required';
-  }
-
-  public checkIfRequired(key: string) {
-    let isRequired: boolean = false;
-
-    const field = this.form.get(key);
-
-    if (field.validator) {
-      if (field.validator({} as any)) {
-        isRequired = field.validator({} as any).required;
-      }
+        this.formKeys = Object.keys(this.form.controls);
+        this.checkAnyRequired(this.formKeys);
     }
 
-    return isRequired;
-  }
+    getInvalidLabel(formKey: string): string {
+        const errors = this.form ? this.form.get(formKey).errors : undefined;
+        const label = errors ? Object.keys(errors).filter((key: string) => errors[key]) : undefined;
+        return label ? `form.validate.${label[0]}` : 'form.validate.required';
+    }
 
-  public checkAnyRequired(keys: Array<string>) {
-    keys.forEach((key) => {
-      const field = this.form.get(key);
+    public checkIfRequired(key: string) {
+        let isRequired: boolean = false;
 
-      if (field.validator) {
-        if (field.validator({} as any)) {
-          if (field.validator({} as any).required) {
-            this.showRequiredLegend = true;
-          }
+        const field = this.form.get(key);
+
+        if (field.validator) {
+            if (field.validator({} as any)) {
+                isRequired = field.validator({} as any).required;
+            }
         }
-      }
-    });
-  }
 
-  public send(): void {
-    const form = {
-      email: this.form.controls.email.value,
-      subject: this.form.controls.subject.value,
-      body: this.form.controls.message.value,
-    };
-    this._formService.support(form).subscribe(
-      () => {
-        this._notification.showSuccessToast('sent');
-      },
-      ({ error }) => {
-        this._notification.showErrorToast(error.error);
-      }
-    );
-  }
+        return isRequired;
+    }
+
+    public checkAnyRequired(keys: Array<string>) {
+        keys.forEach((key) => {
+            const field = this.form.get(key);
+
+            if (field.validator) {
+                if (field.validator({} as any)) {
+                    if (field.validator({} as any).required) {
+                        this.showRequiredLegend = true;
+                    }
+                }
+            }
+        });
+    }
+
+    public send(): void {
+        const form = {
+            email: this.form.controls.email.value,
+            subject: this.form.controls.subject.value,
+            body: this.form.controls.message.value,
+        };
+        this._formService.support(form).subscribe(
+            () => {
+                this._notification.showSuccessToast('sent');
+            },
+            ({ error }) => {
+                this._notification.showErrorToast(error.error);
+            }
+        );
+    }
 }

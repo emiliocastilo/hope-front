@@ -1,21 +1,5 @@
 <div class="modal-content">
-  <app-generic-modal-header
-    [title]="title"
-    (close)="onClose()"
-  ></app-generic-modal-header>
-  <app-editor-modal-body
-    [id]="id"
-    [form]="form"
-    [activeRoles]="activeRoles"
-    [options]="options"
-    [maxDate]="maxDate"
-  >
-  </app-editor-modal-body>
-  <app-editor-modal-footer
-    (close)="onClose()"
-    (save)="onSave()"
-    [disableSave]="
-      !validForm || (this.activeRoles && this.activeRoles.length === 0)
-    "
-  ></app-editor-modal-footer>
+    <app-generic-modal-header [title]="title" (close)="onClose()"></app-generic-modal-header>
+    <app-editor-modal-body [id]="id" [form]="form" [activeRoles]="activeRoles" [options]="options" [maxDate]="maxDate"> </app-editor-modal-body>
+    <app-editor-modal-footer (close)="onClose()" (save)="onSave()" [disableSave]="!validForm || (this.activeRoles && this.activeRoles.length === 0)"></app-editor-modal-footer>
 </div>

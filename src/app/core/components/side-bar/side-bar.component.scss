@@ -1,7 +1,7 @@
-@import '~src/assets/styles/variables.scss';
+@import "~src/assets/styles/variables.scss";
 
 .side-bar {
-  font-family: 'Raleway-thin', sans-serif;
+  font-family: "Raleway-thin", sans-serif;
   display: flex;
   flex-direction: column;
   background-color: $app-menu-blue-principal;
@@ -135,4 +135,8 @@
 .scroller::-webkit-scrollbar-thumb {
   background: $app-color-blue-main;
   border-radius: 10px;
+}
+
+.current {
+  background-color: rgb(45, 131, 181);
 }

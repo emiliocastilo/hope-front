@@ -1,17 +1,7 @@
 <label for="formKey" class="dynamic-label switch-title"> {{ label }}</label>
 <br />
 <div (click)="switch()" class="switch" [ngClass]="{ checked: value }">
-  <input
-    type="checkbox"
-    class="switch-input"
-    [value]="value"
-    [attr.checked]="value"
-    [id]="id"
-  />
-  <span
-    class="switch-label"
-    [attr.data-on]="'switch.yes' | translate"
-    [attr.data-off]="'switch.no' | translate"
-  ></span>
-  <span class="switch-handle"></span>
+    <input type="checkbox" class="switch-input" [value]="value" [attr.checked]="value" [id]="id" />
+    <span class="switch-label" [attr.data-on]="'switch.yes' | translate" [attr.data-off]="'switch.no' | translate"></span>
+    <span class="switch-handle"></span>
 </div>
