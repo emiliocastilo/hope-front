@@ -212,11 +212,11 @@ export class GraphsService {
   }
 
   public getDetailPatientsByClinicalParameter(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
   }
 
   public getDetailPatientsByClinicalParameterToExport(query: string) {
-    return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
   }
 
   //Cambio de tratamiento
