@@ -32,7 +32,7 @@ export class DiagnosisReasonsComponent implements OnInit {
     public options: Array<SelectOption>;
     public dataConfig: DataLoadingConfig = {
         selectValue: undefined,
-        years: 0
+        years: 0,
     };
 
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
@@ -51,53 +51,52 @@ export class DiagnosisReasonsComponent implements OnInit {
     private cause: string;
     private treatments;
 
-    constructor(
-        private _graphService: GraphsService,
-        private _router: Router,
-        private _notification: NotificationService
-    ) { }
+    constructor(private _graphService: GraphsService, private _router: Router, private _notification: NotificationService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.options = [
             { code: 'change', name: 'change', literal: 'Cambio' },
-            { code: 'suspension', name: 'suspension', literal: 'Suspensión' }
+            { code: 'suspension', name: 'suspension', literal: 'Suspensión' },
         ];
         this.dataConfig = {
             selectValue: this.options[0],
-            years: 0
+            years: 0,
         };
         this.loadData();
     }
 
-    private getData (): Observable<any> {
-        return new Observable<any>(
-            observer => {
-                if (this.dataConfig.years == 0) {
-                    this.cause = `endCause=${this.dataConfig.selectValue.literal}`
-                    this._graphService.getReasonLastChangeBiological(this.cause).subscribe(
-                        data => observer.next(data), error => observer.error(error)
-                    );
-                } else {
-                    this.cause = `endCause=${this.dataConfig.selectValue.literal}&years=5`
-                    this._graphService.getReasonLastChangeBiologicalFiveYears(this.cause).subscribe(
-                        data => observer.next(data), error => observer.error(error)
-                    );
-                }
+    private getData(): Observable<any> {
+        return new Observable<any>((observer) => {
+            if (this.dataConfig.years == 0) {
+                this.cause = `endCause=${this.dataConfig.selectValue.literal}`;
+                this._graphService.getReasonLastChangeBiological(this.cause).subscribe(
+                    (data) => observer.next(data),
+                    (error) => observer.error(error)
+                );
+            } else {
+                this.cause = `endCause=${this.dataConfig.selectValue.literal}&years=5`;
+                this._graphService.getReasonLastChangeBiologicalFiveYears(this.cause).subscribe(
+                    (data) => observer.next(data),
+                    (error) => observer.error(error)
+                );
+            }
+        });
+    }
+
+    private loadData() {
+        this.getData().subscribe(
+            (data) => {
+                this.treatments = data;
+                this.dataChart = this.parseDataChart(data);
+                this.dataTable = this.parseDataTable(data);
+            },
+            (error) => {
+                this._notification.showErrorToast(error.errorCode);
             }
         );
     }
 
-    private loadData () {
-        this.getData().subscribe(data => {
-            this.treatments = data;
-            this.dataChart = this.parseDataChart(data);
-            this.dataTable = this.parseDataTable(data);
-        }, error => {
-            this._notification.showErrorToast(error.errorCode)
-        });
-    }
-
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
                 name: key.toUpperCase(),
@@ -109,7 +108,7 @@ export class DiagnosisReasonsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataTable (data: any): any[] {
+    private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
                 reasonLastChangeBiologicalTreatment: key,
@@ -121,7 +120,7 @@ export class DiagnosisReasonsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataToTableDetails (data: any[]): any[] {
+    private parseDataToTableDetails(data: any[]): any[] {
         const arrayObject = data.map((value: any) => {
             const object = {
                 nhc: value.nhc,
@@ -140,7 +139,7 @@ export class DiagnosisReasonsComponent implements OnInit {
         return arrayObject;
     }
 
-    private getDetails (query: string): void {
+    private getDetails(query: string): void {
         this._graphService.getReasonLastChangeBiologicalDetails(query).subscribe(
             (data: any) => {
                 this.details = data.content;
@@ -153,7 +152,7 @@ export class DiagnosisReasonsComponent implements OnInit {
         );
     }
 
-    private getDetailsToExport (query: string) {
+    private getDetailsToExport(query: string) {
         this._graphService.getReasonLastChangeBiologicalDetailsExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
@@ -164,18 +163,18 @@ export class DiagnosisReasonsComponent implements OnInit {
         );
     }
 
-    public onInputChange (years: number) {
+    public onInputChange(years: number) {
         this.dataConfig.years = years;
         console.log(this.dataConfig, years);
         this.loadData();
     }
 
-    public onSelectChange (index: number) {
+    public onSelectChange(index: number) {
         this.dataConfig.selectValue = this.options[index];
         this.loadData();
     }
 
-    public onPatientClick (event: any) {
+    public onPatientClick(event: any) {
         if (event.type === 'detail') {
             const currentUser = this.details[event.selectedItem];
             const selectedUser = JSON.stringify(currentUser || {});
@@ -184,7 +183,7 @@ export class DiagnosisReasonsComponent implements OnInit {
         }
     }
 
-    public selectPage (page: number) {
+    public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
             const query = `${this.cause}&reason=${this.currentTreatment.reasonLastChangeBiologicalTreatment}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
@@ -192,13 +191,13 @@ export class DiagnosisReasonsComponent implements OnInit {
         }
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         let query = `${this.cause}&reason=${this.currentTreatment.reasonLastChangeBiologicalTreatment}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
         this.currentSort = event;
         this.getDetails(query);
     }
 
-    public onIconButtonClick (event: any): void {
+    public onIconButtonClick(event: any): void {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];

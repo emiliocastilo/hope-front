@@ -18,22 +18,9 @@ export interface SelectOption {
 @Component({
     selector: 'app-consumption-biological-treatment',
     templateUrl: './consumption-biological-treatment.component.html',
-    styleUrls: [
-        './consumption-biological-treatment.component.scss',
-        '../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'
-    ],
+    styleUrls: ['./consumption-biological-treatment.component.scss', '../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'],
 })
 export class ConsumptionBiologicalTreatmentComponent implements OnInit {
-    // public options = [
-    //     {
-    //         name: 'annual',
-    //         url: 'dashboard/pharmacoeconomic/consumption-biological-treatment/monthly-consuption-euros',
-    //     },
-    //     {
-    //         name: 'average',
-    //         url: 'dashboard/pharmacoeconomic/consumption-biological-treatment/avg-mon-con-eu',
-    //     },
-    // ];
     private yearlyGoalValue: number = 2;
     private title: string;
 
@@ -70,13 +57,9 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         yearlyGoalValue: new FormControl(),
     });
 
-    constructor(
-        private _graphService: GraphsService,
-        private _notification: NotificationService,
-        private fb: FormBuilder,
-        private _translate: TranslateService) { }
+    constructor(private _graphService: GraphsService, private _notification: NotificationService, private fb: FormBuilder, private _translate: TranslateService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.form = this.fb.group({
             switchValue: [false],
         });
@@ -84,7 +67,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         this.loadData();
     }
 
-    private onChanges () {
+    private onChanges() {
         this.form.valueChanges.subscribe((val) => {
             this.accumulated = val.switchValue;
             this.selectedOption.accumulated = val.switchValue;
@@ -92,49 +75,50 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         });
     }
 
-    private getData (): Observable<any> {
+    private getData(): Observable<any> {
         const query: string = `lastYears=${this.yearlyGoalValue}`;
-        console.log(this.selectedOption);
-        return new Observable<any>(
-            observer => {
-                if (this.selectedOption.accumulated) {
-                    if (this.selectedOption.code === 'annual') {
-                        // * ANUAL NO ACUMULADO
-                        this.title = 'monthlyAccumulatedConsuptionEuros';
-                        this._graphService.getMonthlyConsuptionEurosAccumulated().subscribe(
-                            data => observer.next(data), error => observer.error(error)
-                        );
-                    } else {
-                        // * MEDIO NO ACUMULADO
-                        this.title = 'monthlyAccumulatedAvgConsuptionEuros';
-                        this._graphService.getMonthlyConsuptionEurosAvgAccumulated(query).subscribe(
-                            data => observer.next(data), error => observer.error(error)
-                        );
-                    }
+        return new Observable<any>((observer) => {
+            if (this.selectedOption.accumulated) {
+                if (this.selectedOption.code === 'annual') {
+                    // * ANUAL NO ACUMULADO
+                    this.title = 'monthlyAccumulatedConsuptionEuros';
+                    this._graphService.getMonthlyConsuptionEurosAccumulated().subscribe(
+                        (data) => observer.next(data),
+                        (error) => observer.error(error)
+                    );
                 } else {
-                    if (this.selectedOption.code === 'annual') {
-                        // * ANUAL ACUMULADO
-                        this.title = 'monthlyConsuptionEuros';
-                        this._graphService.getMonthlyConsuptionEuros().subscribe(
-                            data => observer.next(data), error => observer.error(error)
-                        );
-                    } else {
-                        // * MEDIO ACUMULADO
-                        this.title = 'monthlyConsuptionEurosAvg';
-                        this._graphService.getMonthlyConsuptionEurosAvg(query).subscribe(
-                            data => observer.next(data), error => observer.error(error)
-                        );
-                    }
+                    // * MEDIO NO ACUMULADO
+                    this.title = 'monthlyAccumulatedAvgConsuptionEuros';
+                    this._graphService.getMonthlyConsuptionEurosAvgAccumulated(query).subscribe(
+                        (data) => observer.next(data),
+                        (error) => observer.error(error)
+                    );
+                }
+            } else {
+                if (this.selectedOption.code === 'annual') {
+                    // * ANUAL ACUMULADO
+                    this.title = 'monthlyConsuptionEuros';
+                    this._graphService.getMonthlyConsuptionEuros().subscribe(
+                        (data) => observer.next(data),
+                        (error) => observer.error(error)
+                    );
+                } else {
+                    // * MEDIO ACUMULADO
+                    this.title = 'monthlyConsuptionEurosAvg';
+                    this._graphService.getMonthlyConsuptionEurosAvg(query).subscribe(
+                        (data) => observer.next(data),
+                        (error) => observer.error(error)
+                    );
                 }
             }
-        );
+        });
     }
 
-    private loadData (): void {
+    private loadData(): void {
         this.loadingData = true;
         if (!this.selectedOption) this.selectedOption = this.options[0];
         this.getData().subscribe(
-            data => {
+            (data) => {
                 this.loadingData = false;
                 const dataToParse = this.sortByMonth(data);
                 this.dataTable = this.parseDataTable(dataToParse);
@@ -145,11 +129,12 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
                     domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
                 };
                 this.configChart = new ColumnChartModel(this.title, view, scheme, this.dataChart);
-            }, error => this._notification.showErrorToast(error.errorCode)
-        )
+            },
+            (error) => this._notification.showErrorToast(error.errorCode)
+        );
     }
 
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         const arrayData = Object.keys(data.ene).map((keyYear: string) => {
             const object = {
                 name: keyYear,
@@ -169,7 +154,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataTable (data: any): any[] {
+    private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data.ene).map((key: string) => {
             const object = {
                 months: key,
@@ -183,7 +168,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         return arrayData;
     }
 
-    private sortByMonth (arr: any): any {
+    private sortByMonth(arr: any): any {
         var months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
         const object = {};
         months.forEach((month: string) => {
@@ -193,13 +178,13 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         return object;
     }
 
-    public onSelectChange (index: number) {
+    public onSelectChange(index: number) {
         this.selectedOption = this.options[index];
         this.selectedOption.accumulated = this.accumulated;
         this.loadData();
     }
 
-    public onFormSubmit (): void {
+    public onFormSubmit(): void {
         this.dataChart = null;
         this.yearlyGoalValue = this.formYearlyGoal.controls.yearlyGoalValue.value;
         this.loadData();

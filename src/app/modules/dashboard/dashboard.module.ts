@@ -10,10 +10,6 @@ import { PatientsTreatmentComponent } from './components/diagnosis/patients-trea
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
-import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses/total-expenses.component';
-import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
-import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
-import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses/accumulated-expenses.component';
 import { CieComponent } from './components/diagnosis/cie/cie.component';
 import { ConsumptionBiologicalTreatmentComponent } from './components/pharmacoeconomic/consumption-biological-treatment/consumption-biological-treatment.component';
 import { TotalExpensesBiologicalTreatmentComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses-biological-treatment.component';
@@ -37,10 +33,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         PatientsCombinedTreatmentsComponent,
         NumberChangesBiologicalTreatmentComponent,
         BiologicalTreatmentFrequencyComponent,
-        TotalExpensesComponent,
-        AvgExpensesComponent,
-        AvgAccumulatedExpensesComponent,
-        AccumulatedExpensesComponent,
     ],
     imports: [
         NgbModule,

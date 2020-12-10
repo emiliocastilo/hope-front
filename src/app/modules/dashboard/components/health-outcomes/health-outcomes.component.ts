@@ -26,7 +26,7 @@ export class HeatlhOutcomesComponent implements OnInit {
         { name: 'PASI', code: 'pasi' },
         { name: 'BSA', code: 'bsa' },
         { name: 'PGA', code: 'pga' },
-        { name: 'DLQI', code: 'dlqi' }
+        { name: 'DLQI', code: 'dlqi' },
     ];
     public config = { defaultConfig: true };
     public showingDetail: boolean = false;
@@ -42,26 +42,24 @@ export class HeatlhOutcomesComponent implements OnInit {
     public details: any[] = [];
     public dataToExport: any[] = [];
 
-    constructor(
-        private _graphService: GraphsService,
-        private _router: Router,
-        private _notification: NotificationService) { }
+    constructor(private _graphService: GraphsService, private _router: Router, private _notification: NotificationService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.getData();
     }
 
-    private getData (): void {
+    private getData(): void {
         if (!this.selectedOption) this.selectedOption = this.options[0];
         this._graphService.getFindResultsByType(`type=${this.selectedOption.name}`).subscribe(
-            data => {
+            (data) => {
                 this.dataChart = this.parseDataChart(data);
                 this.dataTable = this.parseDataTable(data);
-            }, error => this._notification.showErrorToast(error.errorCode)
+            },
+            (error) => this._notification.showErrorToast(error.errorCode)
         );
     }
 
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
                 name: key,
@@ -73,7 +71,7 @@ export class HeatlhOutcomesComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataTable (data: any): any[] {
+    private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
                 results: key,
@@ -85,7 +83,7 @@ export class HeatlhOutcomesComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataToTableDetails (data: any[]): any[] {
+    private parseDataToTableDetails(data: any[]): any[] {
         const arrayObject = data.map((value: any) => {
             const object = {
                 nhc: value.nhc,
@@ -104,30 +102,32 @@ export class HeatlhOutcomesComponent implements OnInit {
         return arrayObject;
     }
 
-    private getDetails (query: string): void {
+    private getDetails(query: string): void {
         this._graphService.getDetailsResultByType(query).subscribe(
             (data: any) => {
                 this.details = data.content;
                 this.paginationData = data;
                 this.detailsDataTable = this.parseDataToTableDetails(data.content);
-            }, error => this._notification.showErrorToast(error.errorCode)
+            },
+            (error) => this._notification.showErrorToast(error.errorCode)
         );
     }
 
-    private getDetailsToExport (query: string) {
+    private getDetailsToExport(query: string) {
         this._graphService.getDetailsResultByTypeExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
-            }, error => this._notification.showErrorToast(error.errorCode)
+            },
+            (error) => this._notification.showErrorToast(error.errorCode)
         );
     }
 
-    public onSelectChange (index: number) {
+    public onSelectChange(index: number) {
         this.selectedOption = this.options[index];
         this.getData();
     }
 
-    public onPatientClick (event: any) {
+    public onPatientClick(event: any) {
         if (event.type === 'detail') {
             const currentUser = this.details[event.selectedItem];
             const selectedUser = JSON.stringify(currentUser || {});
@@ -136,7 +136,7 @@ export class HeatlhOutcomesComponent implements OnInit {
         }
     }
 
-    public selectPage (page: number) {
+    public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
             const query = `indexType=${this.selectedOption.name}&result=${this.selectedItem.results}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
@@ -144,13 +144,13 @@ export class HeatlhOutcomesComponent implements OnInit {
         }
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         const query = `indexType=${this.selectedOption.name}&result=${this.selectedItem.results}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);
     }
 
-    public onIconButtonClick (event: any): void {
+    public onIconButtonClick(event: any): void {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.selectedItem = this.dataTable[event.selectedItem];

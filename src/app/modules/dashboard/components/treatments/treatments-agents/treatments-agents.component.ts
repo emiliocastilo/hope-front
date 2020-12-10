@@ -27,7 +27,7 @@ export class TreatmentsAgentsComponent implements OnInit {
     public selectedOption: SelectOption;
     public options: Array<SelectOption> = [
         { code: 'BIOLOGICO', name: 'biological' },
-        { code: 'QUIMICO', name: 'chemical' }
+        { code: 'QUIMICO', name: 'chemical' },
     ];
     public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
     public config = { defaultConfig: true };
@@ -46,13 +46,13 @@ export class TreatmentsAgentsComponent implements OnInit {
     public details: any[] = [];
     public dataToExport: any[] = [];
 
-    constructor(public _activatedRoute: ActivatedRoute, public _patientsTreatmentsService: PatientsTreatmentsService, private _router: Router, private _translate: TranslateService) { }
+    constructor(public _activatedRoute: ActivatedRoute, public _patientsTreatmentsService: PatientsTreatmentsService, private _router: Router, private _translate: TranslateService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.getData();
     }
 
-    private getData (): void {
+    private getData(): void {
         this.loadingData = true;
         const view = null;
         const scheme = { domain: ['#249cf1'] };
@@ -69,7 +69,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         });
     }
 
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         const arrayData: ChartObjectModel[] = Object.keys(data).map((key) => {
             const object: ChartObjectModel = {
                 name: key,
@@ -87,7 +87,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataTable (data: any[]) {
+    private parseDataTable(data: any[]) {
         const arrayData = Object.keys(data).map((key: any) => {
             const object = {
                 typeTreatmentBiological: key,
@@ -98,7 +98,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataToTableDetails (data: any[]): any[] {
+    private parseDataToTableDetails(data: any[]): any[] {
         const arrayObject = data.map((value: any) => {
             const object = {
                 nhc: value.nhc,
@@ -117,7 +117,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         return arrayObject;
     }
 
-    private getDetails (query: string) {
+    private getDetails(query: string) {
         this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
             (data) => {
                 this.details = data.content;
@@ -130,7 +130,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         );
     }
 
-    private getDetailsToExport (query: string) {
+    private getDetailsToExport(query: string) {
         this._patientsTreatmentsService.getDetailPatientsUnderTreatmentExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
@@ -146,7 +146,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         this.getData();
     }
 
-    public onIconButtonClick (event: any) {
+    public onIconButtonClick(event: any) {
         if (event && event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.data[event.selectedItem];
@@ -158,7 +158,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         }
     }
 
-    public onPatientClick (event: any) {
+    public onPatientClick(event: any) {
         if (event.type === 'detail') {
             const currentUser = this.details[event.selectedItem];
             const selectedUser = JSON.stringify(currentUser || {});
@@ -167,7 +167,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         }
     }
 
-    public selectPage (page: number) {
+    public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
             const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
@@ -175,7 +175,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         }
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);

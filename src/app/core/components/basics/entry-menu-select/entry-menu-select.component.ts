@@ -21,9 +21,9 @@ export class EntryMenuSelectComponent implements OnInit {
     @Input() config: any;
     @Output() onChange: EventEmitter<any> = new EventEmitter();
 
-    constructor(private router: Router, private fb: FormBuilder) { }
+    constructor(private router: Router, private fb: FormBuilder) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.router.navigate([this.entries[this.selectedValue].url]);
         this.form = this.fb.group({
             switchValue: [false],
@@ -31,26 +31,26 @@ export class EntryMenuSelectComponent implements OnInit {
         this.onChanges();
     }
 
-    onChanges () {
+    onChanges() {
         this.form.valueChanges.subscribe((val) => {
             this.accumulated = val.switchValue;
             this.navigate();
         });
     }
 
-    onSelect (event: any): void {
+    onSelect(event: any): void {
         this.selectedValue = parseInt(event.target.value);
         this.navigate();
     }
 
-    onInput (years) {
+    onInput(years) {
         if (years) {
             this.selectedYears = parseInt(years);
             this.navigate();
         }
     }
 
-    navigate () {
+    navigate() {
         if (this.config.showToggle) {
             if (this.accumulated) {
                 this.router.navigate([

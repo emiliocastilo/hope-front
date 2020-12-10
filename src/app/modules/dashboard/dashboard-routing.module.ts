@@ -9,10 +9,6 @@ import { PatientsTreatmentComponent } from './components/diagnosis/patients-trea
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
-import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses/total-expenses.component';
-import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
-import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
-import { AccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/accumulated-expenses/accumulated-expenses.component';
 import { ConsumptionBiologicalTreatmentComponent } from './components/pharmacoeconomic/consumption-biological-treatment/consumption-biological-treatment.component';
 import { TotalExpensesBiologicalTreatmentComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses-biological-treatment.component';
 import { HeatlhOutcomesComponent } from './components/health-outcomes/health-outcomes.component';
@@ -30,38 +26,16 @@ const routes: Routes = [
         path: 'pharmacoeconomic/total-expenses-biological-treatment',
         component: TotalExpensesBiologicalTreatmentComponent,
         canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'total-expenses',
-                component: TotalExpensesComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'accumulated-expenses',
-                component: AccumulatedExpensesComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'avg-expenses',
-                component: AvgExpensesComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'accumulated-avg-expenses',
-                component: AvgAccumulatedExpensesComponent,
-                canActivate: [AuthGuard],
-            },
-        ],
     },
     {
         path: 'health-outcomes',
         component: HeatlhOutcomesComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'treatments/treatments-agents',
         component: TreatmentsAgentsComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'treatments/treatments-patients',
@@ -71,7 +45,7 @@ const routes: Routes = [
     {
         path: 'diagnosis/reasons',
         component: DiagnosisReasonsComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'diagnosis/patients-indication',
