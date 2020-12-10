@@ -1,27 +1,21 @@
-<!-- <div class="row m-0 p-0">
-    <section class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center">
-        <div class="row pt-3">
-            <app-entry-menu-select [selectLabel]="'reason'" [entries]="entries" [config]="config"></app-entry-menu-select>
+<section class="col-md-12 col-lg-12">
+    <div class="row pt-3">
+        <div class="container">
+            <div class="dynamic-field">
+                <label class="dynamic-label"> {{ 'reasonChangeOrSuspension' | translate }} </label>
+                <select class="form-control" (change)="onSelectChange($event.target.value)">
+                    <option *ngFor="let entry of options; index as i" [value]="i"> {{ entry.name | translate }} </option>
+                </select>
+            </div>
+            <div class="dynamic-field">
+                <label class="dynamic-label">
+                    {{ 'years' | translate }}
+                </label>
+                <input placeholder="years" type="number" [value]="dataConfig.years" (input)="onInputChange($event.target.value)" />
+            </div>
         </div>
-    </section>
-</div> -->
-
-<div class="container">
-    <div class="dynamic-field">
-        <label class="dynamic-label">
-            {{ selectLabel | translate }}
-        </label>
-        <select class="form-control" [style]="style" (change)="onSelect($event)">
-            <option *ngFor="let entry of entries; index as i" [value]="i">
-                {{ entry.name | translate }}
-            </option>
-        </select>
     </div>
-
-    <div [formGroup]="form" *ngIf="config.showToggle || config.showToggleExpenses" class="select-switch">
-        <app-switch [label]="'accumulated' | translate" formControlName="switchValue"> </app-switch>
-    </div>
-</div>
+</section>
 
 <!-- <section class="col-md-12 col-lg-12 m-0 p-0">
     <section class="patients-chart-container">

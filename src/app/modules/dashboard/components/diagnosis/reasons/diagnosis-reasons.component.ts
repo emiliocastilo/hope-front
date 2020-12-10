@@ -12,6 +12,11 @@ export interface SelectOption {
     name: string;
 }
 
+export interface DataLoadingConfig {
+    selectValue: SelectOption;
+    years: number;
+}
+
 @Component({
     selector: 'app-diagnosis-reasons',
     templateUrl: './diagnosis-reasons.component.html',
@@ -28,13 +33,17 @@ export class DiagnosisReasonsComponent implements OnInit {
     //         url: 'dashboard/diagnosis/reasons/reason-stop-bioligical-treatment',
     //     },
     // ];
-    
+
     public config = { showYears: true };
     public showingDetail: boolean = false;
     public dataChart: ChartObjectModel[];
     public dataTable: any[];
     public selectedOption: SelectOption;
     public options: Array<SelectOption>;
+    public dataConfig: DataLoadingConfig = {
+        selectValue: undefined,
+        years: 0
+    };
 
     private treatments: any;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
@@ -56,9 +65,15 @@ export class DiagnosisReasonsComponent implements OnInit {
 
     ngOnInit (): void {
         this.options = [
-            { code: '', name: '' },
+            { code: 'change', name: 'change' },
+            { code: 'suppression', name: 'suppression' }
         ];
         this.getTreatments();
+    }
+
+    // TODO
+    private loadData () { 
+        console.log(this.dataConfig);
     }
 
     private getTreatments (): void {
@@ -141,9 +156,14 @@ export class DiagnosisReasonsComponent implements OnInit {
         );
     }
 
-    public selectChange() {
-        this.indication = this.entries[event.target.value];
-        this.getData();
+    onInputChange (years: number) {
+        this.dataConfig.years = years;
+        this.loadData();
+    }
+
+    onSelectChange (index: number) { 
+        this.dataConfig.selectValue = this.options[index];
+        this.loadData();
     }
 
     public onPatientClick (event: any) {
@@ -168,7 +188,7 @@ export class DiagnosisReasonsComponent implements OnInit {
         this.currentSort = event;
         this.getDetails(query);
     }
-   
+
     public onIconButtonClick (event: any): void {
         if (event.type === 'detail') {
             this.showingDetail = true;

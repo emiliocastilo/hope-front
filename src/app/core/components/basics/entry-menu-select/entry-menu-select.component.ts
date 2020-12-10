@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -8,20 +8,22 @@ import { Router } from '@angular/router';
     styleUrls: ['./entry-menu-select.component.scss'],
 })
 export class EntryMenuSelectComponent implements OnInit {
+    public accumulated: boolean;
+    public selectedValue = 0;
+    public selectedYears = 0;
+    public form: FormGroup;
+
     @Input() selectLabel: string;
     @Input() entries: Array<{ name: string; url: string }>;
     // @Input() showYears: boolean;
     // @Input() showToggle: boolean;
     @Input() style: string;
     @Input() config: any;
-    accumulated: boolean;
-    selectedValue = 0;
-    selectedYears = 0;
-    form: FormGroup;
+    @Output() onChange: EventEmitter<any> = new EventEmitter();
 
-    constructor(private router: Router, private fb: FormBuilder) {}
+    constructor(private router: Router, private fb: FormBuilder) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.router.navigate([this.entries[this.selectedValue].url]);
         this.form = this.fb.group({
             switchValue: [false],
@@ -29,26 +31,26 @@ export class EntryMenuSelectComponent implements OnInit {
         this.onChanges();
     }
 
-    onChanges() {
+    onChanges () {
         this.form.valueChanges.subscribe((val) => {
             this.accumulated = val.switchValue;
             this.navigate();
         });
     }
 
-    onSelect(event: any): void {
+    onSelect (event: any): void {
         this.selectedValue = parseInt(event.target.value);
         this.navigate();
     }
 
-    onInput(years) {
+    onInput (years) {
         if (years) {
             this.selectedYears = parseInt(years);
             this.navigate();
         }
     }
 
-    navigate() {
+    navigate () {
         if (this.config.showToggle) {
             if (this.accumulated) {
                 this.router.navigate([

@@ -1,21 +1,19 @@
-<div class="row m-0 p-0">
-    <section class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center">
-        <div class="row pt-3">
-            <div class="container">
-                <div class="dynamic-field">
-                    <label class="dynamic-label">
-                        {{ 'indication' | translate }}
-                    </label>
-                    <select class="form-control" (change)="onIndicationChange($event)">
-                        <option *ngFor="let entry of entries; index as i" [value]="i">
-                            {{ entry.name | translate }}
-                        </option>
-                    </select>
-                </div>
+<section class="col-md-12 col-lg-12">
+    <div class="row pt-3">
+        <div class="container">
+            <div class="dynamic-field">
+                <label class="dynamic-label">
+                    {{ 'indication' | translate }}
+                </label>
+                <select class="form-control" (change)="onIndicationChange($event)">
+                    <option *ngFor="let entry of entries; index as i" [value]="i">
+                        {{ entry.name | translate }}
+                    </option>
+                </select>
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
 
 <section class="col-md-12 col-lg-12 m-0 p-0" *ngIf="!loadingData">
     <section class="patients-chart-container">
