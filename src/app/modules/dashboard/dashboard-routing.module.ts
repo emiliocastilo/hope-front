@@ -6,9 +6,6 @@ import { PatientsIndicationComponent } from './components/diagnosis/patients-ind
 import { PatientsIndicationResolverService } from '../management/services/patients-indication/patients-indication-resolver.service';
 import { CieComponent } from './components/diagnosis/cie/cie.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
-import { PatientsTreatmentsResolverService } from '../management/services/patients-treatments/patients-treatments-resolver.service';
-import { BiologicalAgentsComponent } from './components/treatments/treatments-agents/biological-agents/biological-agents.component';
-import { ChemicalAgentsComponent } from './components/treatments/treatments-agents/chemical-agents/chemical-agents.component';
 import { PatientsByPasiComponent } from './components/health-outcomes/patients-by-pasi/patients-by-pasi.component';
 import { PatientsByBsaComponent } from './components/health-outcomes/patients-by-bsa/patients-by-bsa.component';
 import { PatientsByPgaComponent } from './components/health-outcomes/patients-by-pga/patients-by-pga.component';
@@ -116,33 +113,7 @@ const routes: Routes = [
     {
         path: 'treatments/treatments-agents',
         component: TreatmentsAgentsComponent,
-        canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'biological-agents',
-                component: BiologicalAgentsComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'BIOLOGICO',
-                    indication: '',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-            {
-                path: 'chemical-agents',
-                component: ChemicalAgentsComponent,
-                canActivate: [AuthGuard],
-                data: {
-                    type: 'QUIMICO',
-                    indication: '',
-                },
-                resolve: {
-                    patientsTreatments: PatientsTreatmentsResolverService,
-                },
-            },
-        ],
+        canActivate: [AuthGuard]
     },
     {
         path: 'treatments/treatments-patients',

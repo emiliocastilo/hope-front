@@ -11,8 +11,6 @@ import { PatientsByPasiComponent } from './components/health-outcomes/patients-b
 import { PatientsByBsaComponent } from './components/health-outcomes/patients-by-bsa/patients-by-bsa.component';
 import { PatientsByPgaComponent } from './components/health-outcomes/patients-by-pga/patients-by-pga.component';
 import { PatientsByDlqiComponent } from './components/health-outcomes/patients-by-dlqi/patients-by-dlqi.component';
-import { BiologicalAgentsComponent } from './components/treatments/treatments-agents/biological-agents/biological-agents.component';
-import { ChemicalAgentsComponent } from './components/treatments/treatments-agents/chemical-agents/chemical-agents.component';
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
@@ -48,8 +46,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         PatientsByBsaComponent,
         PatientsByPgaComponent,
         PatientsByDlqiComponent,
-        BiologicalAgentsComponent,
-        ChemicalAgentsComponent,
         PatientsCombinedTreatmentsComponent,
         NumberChangesBiologicalTreatmentComponent,
         BiologicalTreatmentFrequencyComponent,
