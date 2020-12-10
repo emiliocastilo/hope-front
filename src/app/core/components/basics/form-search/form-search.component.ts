@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
@@ -18,6 +18,7 @@ export class FormSearchComponent implements OnInit {
     patient: PatientModel;
     headersDetailsTable: string[];
     actions: Array<any>;
+    nestedModal: NgbModalRef;
 
     constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: FormsService) {}
 
@@ -32,12 +33,12 @@ export class FormSearchComponent implements OnInit {
 
     openModal(content: any) {
         event.preventDefault();
-        this.modalService.open(content, { size: 'lg', backdrop: false });
+        this.nestedModal = this.modalService.open(content, { size: 'lg', backdrop: false });
     }
 
     closeModal() {
-        this.modalService.dismissAll();
-        this.response = null;
+        //this.modalService.dismissAll();
+        this.nestedModal.close();
         this.modalForm.reset();
     }
 
@@ -62,6 +63,7 @@ export class FormSearchComponent implements OnInit {
         const element = this.response.content[e.selectedItem];
         this.group.controls[this.config.name].setValue(element.code);
         this.group.controls['cieDescription'].setValue(element.description);
-        this.closeModal();
+        //this.closeModal();
+        this.response = null;
     }
 }
