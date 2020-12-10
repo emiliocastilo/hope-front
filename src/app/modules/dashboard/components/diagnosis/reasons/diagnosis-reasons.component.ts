@@ -75,12 +75,12 @@ export class DiagnosisReasonsComponent implements OnInit {
                 if (this.dataConfig.years == 0) {
                     this.cause = `endCause=${this.dataConfig.selectValue.literal}`
                     this._graphService.getReasonLastChangeBiological(this.cause).subscribe(
-                        data => observer.next(data), error => observer.next(error)
+                        data => observer.next(data), error => observer.error(error)
                     );
                 } else {
                     this.cause = `endCause=${this.dataConfig.selectValue.literal}&years=5`
                     this._graphService.getReasonLastChangeBiologicalFiveYears(this.cause).subscribe(
-                        data => observer.next(data), error => observer.next(error)
+                        data => observer.next(data), error => observer.error(error)
                     );
                 }
             }

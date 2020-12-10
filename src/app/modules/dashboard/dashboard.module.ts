@@ -10,10 +10,6 @@ import { PatientsTreatmentComponent } from './components/diagnosis/patients-trea
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
-import { MonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/monthly-consuption-euros/monthly-consuption-euros.component';
-import { AccumulatedAverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/accumulated-average-monthly-consuption-euros/accumulated-average-monthly-consuption-euros.component';
-import { AverageMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/average-monthly-consuption-euros/average-monthly-consuption-euros.component';
-import { AccumulatedMonthlyConsuptionEurosComponent } from './components/pharmacoeconomic/consumption-biological-treatment/accumulated-monthly-consuption-euros/accumulated-monthly-consuption-euros.component';
 import { TotalExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/total-expenses/total-expenses.component';
 import { AvgExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-expenses/avg-expenses.component';
 import { AvgAccumulatedExpensesComponent } from './components/pharmacoeconomic/total-expenses-biological-treatment/avg-accumulated-expenses/avg-accumulated-expenses.component';
@@ -41,10 +37,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         PatientsCombinedTreatmentsComponent,
         NumberChangesBiologicalTreatmentComponent,
         BiologicalTreatmentFrequencyComponent,
-        MonthlyConsuptionEurosComponent,
-        AccumulatedAverageMonthlyConsuptionEurosComponent,
-        AverageMonthlyConsuptionEurosComponent,
-        AccumulatedMonthlyConsuptionEurosComponent,
         TotalExpensesComponent,
         AvgExpensesComponent,
         AvgAccumulatedExpensesComponent,
