@@ -7,10 +7,6 @@ import { DashboardRoutingModule } from 'src/app/modules/dashboard/dashboard-rout
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PatientsIndicationComponent } from './components/diagnosis/patients-indication/patients-indication.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
-import { PatientsByPasiComponent } from './components/health-outcomes/patients-by-pasi/patients-by-pasi.component';
-import { PatientsByBsaComponent } from './components/health-outcomes/patients-by-bsa/patients-by-bsa.component';
-import { PatientsByPgaComponent } from './components/health-outcomes/patients-by-pga/patients-by-pga.component';
-import { PatientsByDlqiComponent } from './components/health-outcomes/patients-by-dlqi/patients-by-dlqi.component';
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
@@ -42,10 +38,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         CieComponent,
         PatientsIndicationComponent,
         PatientsTreatmentComponent,
-        PatientsByPasiComponent,
-        PatientsByBsaComponent,
-        PatientsByPgaComponent,
-        PatientsByDlqiComponent,
         PatientsCombinedTreatmentsComponent,
         NumberChangesBiologicalTreatmentComponent,
         BiologicalTreatmentFrequencyComponent,

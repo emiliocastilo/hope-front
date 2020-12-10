@@ -6,10 +6,6 @@ import { PatientsIndicationComponent } from './components/diagnosis/patients-ind
 import { PatientsIndicationResolverService } from '../management/services/patients-indication/patients-indication-resolver.service';
 import { CieComponent } from './components/diagnosis/cie/cie.component';
 import { PatientsTreatmentComponent } from './components/diagnosis/patients-treatment/patients-treatment.component';
-import { PatientsByPasiComponent } from './components/health-outcomes/patients-by-pasi/patients-by-pasi.component';
-import { PatientsByBsaComponent } from './components/health-outcomes/patients-by-bsa/patients-by-bsa.component';
-import { PatientsByPgaComponent } from './components/health-outcomes/patients-by-pga/patients-by-pga.component';
-import { PatientsByDlqiComponent } from './components/health-outcomes/patients-by-dlqi/patients-by-dlqi.component';
 import { PatientsCombinedTreatmentsComponent } from './components/diagnosis/patients-combined-treatments/patients-combined-treatments.component';
 import { NumberChangesBiologicalTreatmentComponent } from './components/diagnosis/number-changes-biological-treatment/number-changes-biological-treatment.component';
 import { BiologicalTreatmentFrequencyComponent } from './components/patient-dose/biological-treatment-frequency/biological-treatment-frequency.component';
@@ -86,29 +82,7 @@ const routes: Routes = [
     {
         path: 'health-outcomes',
         component: HeatlhOutcomesComponent,
-        canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'patients-by-pasi',
-                component: PatientsByPasiComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'patients-by-bsa',
-                component: PatientsByBsaComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'patients-by-pga',
-                component: PatientsByPgaComponent,
-                canActivate: [AuthGuard],
-            },
-            {
-                path: 'patients-by-dlqi',
-                component: PatientsByDlqiComponent,
-                canActivate: [AuthGuard],
-            },
-        ],
+        canActivate: [AuthGuard]
     },
     {
         path: 'treatments/treatments-agents',
