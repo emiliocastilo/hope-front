@@ -441,6 +441,10 @@
   "maxAnualValue":"Max anual value",
   "alternativeGuidelines": "Alternative guidelines",
   "initialGuidelines": "Initial guidelines",
-  "guideLines": "Guidelines"
+  "guideLines": "Guidelines",
+  "costOf": "Expenses of ",
+  "accumulatedCostOf": "Accumulated expenses of ",
+  "avgCostOf": "Average expenses of ",
+  "avgAccumulatedCostOf": "Accumulated average expenses of "
 
 }

@@ -121,6 +121,10 @@ input::-webkit-inner-spin-button {
 .patients-chart-container {
   min-height: 20rem;
 
+  .dynamic-field {
+    padding-top: 7rem;
+  }
+
   .export-buttons {
     text-align: right;
     padding-bottom: 1rem;
@@ -129,6 +133,10 @@ input::-webkit-inner-spin-button {
   .table-container {
     top: 2rem;
     padding: 1rem;
+  }
+
+  .graph-option-label {
+    color: $app-color-blue-main;
   }
 }
 

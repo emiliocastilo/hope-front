@@ -160,11 +160,11 @@ export class GraphsService {
     }
 
     public getDetailPatientsByClinicalParameter(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
     }
 
     public getDetailPatientsByClinicalParameterToExport(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
     }
 
     //Cambio de tratamiento
@@ -186,18 +186,10 @@ export class GraphsService {
         return this._httpClient.get(`/patient-clinical-data/by-costs?${query}`);
     }
 
-    // TODO plopezc - ver si puedo pasárselo a back como parámetro opcional en getCostsByPatientType() - ver query en loadValues()
-    /* public getMaxValueCostsAvgAccumulated(query: string) {
-    return this._httpClient.get(
-      `/patient-clinical-data/find-monthly-consumes-accumulated-avg?${query}`
-    );
-  }
-
-  public getMaxValueCostsAvg(query: string) {
-    return this._httpClient.get(
-      `/patient-clinical-data/find-monthly-consumes-avg?${query}`
-    );
-  } */
+    // Pautas
+    public getCostsByGuideLine(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-guideline${query}`);
+    }
 
     // Mock para getPatientsByPatientType()
     public getMock(): any {

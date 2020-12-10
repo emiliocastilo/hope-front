@@ -155,6 +155,7 @@ export class PatientsVihLevelsComponent implements OnInit {
     private getDetails(query: string): void {
         this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
             (data: any) => {
+                console.log(data);
                 this.details = data.content;
                 this.paginationData = data;
                 this.detailsDataTable = this.parseDataToTableDetails(data.content);
@@ -166,7 +167,6 @@ export class PatientsVihLevelsComponent implements OnInit {
     }
 
     private parseDataToTableDetails(data: any[]): any[] {
-        let abc;
         if (data) {
             const arrayObject = data.map((value: any) => {
                 const object = {

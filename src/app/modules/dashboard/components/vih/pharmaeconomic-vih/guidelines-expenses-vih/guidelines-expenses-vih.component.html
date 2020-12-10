@@ -18,35 +18,20 @@
     </section>
     <section class="col-md-12 col-lg-12 m-0 p-0">
         <section class="patients-chart-container">
-            <app-line-chart [config]="configChart"> </app-line-chart>
+            <label class="graph-option-label">{{ this.selectedOption === this.options[0].name ? 'Coste de pautas alternativas' : 'Coste de otras pautas de inicio recomendadas' }}</label>
 
-            <!-- <div *ngIf="this.selectedOption === options[1].name" class="table-container_input-container">
-                <form
-                  [formGroup]="form"
-                  id="formMaxValue"
-                  class="table-container_input-container_form"
-                >
-                  <app-input
-                    id="maxValue"
-                    name="maxValue"
-                    maxlength="20"
-                    formControlName="maxValue"
-                    [isDisabled]="false"
-                    [label]="'maxAnualValue' | translate"
-                    type="number"
-                  >
-                  </app-input>
-                  <div class="table-container-input-button-container">
-                  <app-button                    
-                    (click)="filterMaxValue(form.controls.maxValue.value)"
-                    clasesBtn="btn-primary fadeIn fourth btn-block"
-                    texto="draw"
-                    type="submit"
-                  >
-                  </app-button>
-                  </div>
-                </form>
-              </div>
+            <app-line-chart shape.curveBasis [config]="configChart"> </app-line-chart>
+            <div class="dynamic-field">
+                <label class="dynamic-label">
+                    {{ this.selectedOption }}
+                </label>
+                <select class="form-control" (change)="onSelectGuideLine($event)">
+                    <option *ngFor="let guideLine of guideLines">
+                        {{ guideLine }}
+                    </option>
+                </select>
+            </div>
+            <!--
            
              <div class="table-container_input-container" *ngIf="!showingDetail">
                 <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable"

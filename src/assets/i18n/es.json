@@ -467,5 +467,9 @@
   "maxAnualValue":"Valor máximo anual",
   "alternativeGuidelines": "Pautas alternativas",
   "initialGuidelines": "Pautas de inicio",
-  "guideLines": "Pautas"
+  "guideLines": "Pautas",
+  "costOf": "Coste de ",
+  "accumulatedCostOf": "Coste acumulado de ",
+  "avgCostOf": "Coste medio de ",
+  "avgAccumulatedCostOf": "Coste medio acumulado de "
 }

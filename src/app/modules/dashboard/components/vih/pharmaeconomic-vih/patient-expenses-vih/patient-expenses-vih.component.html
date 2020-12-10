@@ -29,7 +29,7 @@
                 </form>
             </div>
 
-            <div class="table-container_input-container" *ngIf="!showingDetail">
+            <div class="table-container_input-container" *ngIf="!showingDetail && this.selectedOption === options[0].name">
                 <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable" (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true"> </app-table>
             </div>
         </section>
