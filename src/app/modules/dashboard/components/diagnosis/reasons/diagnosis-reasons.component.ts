@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
-import reasonBioligicalTreatment from 'src/app/core/utils/reasonBioligicalTreatment';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { GraphsService } from '../../../services/graphs.service';
 
 export interface SelectOption {
     code: string;
     name: string;
+    literal: string;
 }
-
 export interface DataLoadingConfig {
     selectValue: SelectOption;
     years: number;
@@ -23,17 +24,6 @@ export interface DataLoadingConfig {
     styleUrls: ['./diagnosis-reasons.component.scss'],
 })
 export class DiagnosisReasonsComponent implements OnInit {
-    // entries = [
-    //     {
-    //         name: 'change',
-    //         url: 'dashboard/diagnosis/reasons/reason-last-change-biological-treatment',
-    //     },
-    //     {
-    //         name: 'suspension',
-    //         url: 'dashboard/diagnosis/reasons/reason-stop-bioligical-treatment',
-    //     },
-    // ];
-
     public config = { showYears: true };
     public showingDetail: boolean = false;
     public dataChart: ChartObjectModel[];
@@ -45,7 +35,6 @@ export class DiagnosisReasonsComponent implements OnInit {
         years: 0
     };
 
-    private treatments: any;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
     public columHeaders: string[] = ['reasonLastChangeBiologicalTreatment', 'patients'];
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
@@ -59,34 +48,53 @@ export class DiagnosisReasonsComponent implements OnInit {
     };
     public details: any[] = [];
     public dataToExport: any[] = [];
-    private endCause: string = `endCause=${reasonBioligicalTreatment.change}`;
+    private cause: string;
+    private treatments;
 
-    constructor(private _graphService: GraphsService, private _router: Router) { }
+    constructor(
+        private _graphService: GraphsService,
+        private _router: Router,
+        private _notification: NotificationService
+    ) { }
 
     ngOnInit (): void {
         this.options = [
-            { code: 'change', name: 'change' },
-            { code: 'suppression', name: 'suppression' }
+            { code: 'change', name: 'change', literal: 'Cambio' },
+            { code: 'suspension', name: 'suspension', literal: 'Suspensión' }
         ];
-        this.getTreatments();
+        this.dataConfig = {
+            selectValue: this.options[0],
+            years: 0
+        };
+        this.loadData();
     }
 
-    // TODO
-    private loadData () { 
-        console.log(this.dataConfig);
-    }
-
-    private getTreatments (): void {
-        this._graphService.getReasonLastChangeBiological(this.endCause).subscribe(
-            (data) => {
-                this.treatments = data;
-                this.dataChart = this.parseDataChart(data);
-                this.dataTable = this.parseDataTable(data);
-            },
-            (error) => {
-                console.error(error);
+    private getData (): Observable<any> {
+        return new Observable<any>(
+            observer => {
+                if (this.dataConfig.years == 0) {
+                    this.cause = `endCause=${this.dataConfig.selectValue.literal}`
+                    this._graphService.getReasonLastChangeBiological(this.cause).subscribe(
+                        data => observer.next(data), error => observer.next(error)
+                    );
+                } else {
+                    this.cause = `endCause=${this.dataConfig.selectValue.literal}&years=5`
+                    this._graphService.getReasonLastChangeBiologicalFiveYears(this.cause).subscribe(
+                        data => observer.next(data), error => observer.next(error)
+                    );
+                }
             }
         );
+    }
+
+    private loadData () {
+        this.getData().subscribe(data => {
+            this.treatments = data;
+            this.dataChart = this.parseDataChart(data);
+            this.dataTable = this.parseDataTable(data);
+        }, error => {
+            this._notification.showErrorToast(error.errorCode)
+        });
     }
 
     private parseDataChart (data: any): ChartObjectModel[] {
@@ -156,12 +164,13 @@ export class DiagnosisReasonsComponent implements OnInit {
         );
     }
 
-    onInputChange (years: number) {
+    public onInputChange (years: number) {
         this.dataConfig.years = years;
+        console.log(this.dataConfig, years);
         this.loadData();
     }
 
-    onSelectChange (index: number) { 
+    public onSelectChange (index: number) {
         this.dataConfig.selectValue = this.options[index];
         this.loadData();
     }
@@ -178,13 +187,13 @@ export class DiagnosisReasonsComponent implements OnInit {
     public selectPage (page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
-            const query = `${this.endCause}&reason=${this.currentTreatment.reasonLastChangeBiologicalTreatment}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+            const query = `${this.cause}&reason=${this.currentTreatment.reasonLastChangeBiologicalTreatment}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
             this.getDetails(query);
         }
     }
 
     public onSort (event: any) {
-        let query = `${this.endCause}&reason=${this.currentTreatment.reasonLastChangeBiologicalTreatment}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
+        let query = `${this.cause}&reason=${this.currentTreatment.reasonLastChangeBiologicalTreatment}&sort=${event.column},${event.direction}&page=${this.currentPage}`;
         this.currentSort = event;
         this.getDetails(query);
     }
@@ -194,7 +203,7 @@ export class DiagnosisReasonsComponent implements OnInit {
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
 
-            const query = `${this.endCause}&reason=${this.currentTreatment.reasonLastChangeBiologicalTreatment}`;
+            const query = `${this.cause}&reason=${this.currentTreatment.reasonLastChangeBiologicalTreatment}`;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
