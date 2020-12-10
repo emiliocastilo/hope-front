@@ -144,7 +144,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
                 const scheme = {
                     domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
                 };
-                this.configChart = new ColumnChartModel(title, view, scheme, this.dataChart);
+                this.configChart = new ColumnChartModel(this.title, view, scheme, this.dataChart);
             }, error => this._notification.showErrorToast(error.errorCode)
         )
     }
