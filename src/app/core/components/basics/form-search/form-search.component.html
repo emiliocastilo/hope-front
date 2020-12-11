@@ -3,12 +3,12 @@
         {{ config.label | translate }}
     </label>
     <input [attr.id]="config.name" [attr.name]="config.name" [attr.placeholder]="config.placeholder" [formControlName]="config.name" [attr.disabled]="true" class="dynamic-field" />
-    <app-button (click)="openModal(content)" class="search-btn" icono="search" [disabledButton]="modalForm.invalid"> </app-button>
-    <ng-template #content let-modal>
+    <app-button (click)="openModal(nestedContent)" class="search-btn" icono="search" [disabledButton]="modalForm.invalid"> </app-button>
+    <ng-template #nestedContent let-modal>
         <div class="content">
             <div class="modal-header">
                 <h4 class="modal-title">Buscador</h4>
-                <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+                <button type="button" class="close" aria-label="Close" (click)="closeModal(nestedContent)">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
