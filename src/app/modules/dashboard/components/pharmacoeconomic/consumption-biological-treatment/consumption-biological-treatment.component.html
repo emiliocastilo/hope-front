@@ -1,9 +1,25 @@
-<div class="row m-0 p-0">
-    <section class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center">
-        <div class="row pt-3">
-            <app-entry-menu-select [selectLabel]="'consumption'" [entries]="options" [config]="config"></app-entry-menu-select>
+<section class="col-md-12 col-lg-12">
+    <div class="row pt-3">
+        <div class="container">
+            <div class="dynamic-field">
+                <label class="dynamic-label"> {{ 'consumption' | translate }} </label>
+                <select class="form-control" (change)="onSelectChange($event.target.value)">
+                    <option *ngFor="let entry of options; index as i" [value]="i">{{ entry.name | translate }}</option>
+                </select>
+            </div>
+            <div [formGroup]="form" class="select-switch">
+                <app-switch [label]="'accumulated' | translate" formControlName="switchValue"> </app-switch>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="col-md-12 col-lg-12 m-0 p-0" *ngIf="!loadingData">
+    <section class="patients-chart-container">
+        <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
+
+        <div class="table-container">
+            <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable"> </app-table>
         </div>
     </section>
-</div>
-
-<router-outlet></router-outlet>
+</section>
