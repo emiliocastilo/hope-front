@@ -169,7 +169,7 @@ export class GraphsService {
 
     //Cambio de tratamiento
     public getPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-change?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
     }
     public getDetailPatientsByTreatmentChange(query: string) {
         return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
