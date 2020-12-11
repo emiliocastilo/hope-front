@@ -18,6 +18,10 @@ import { TreatmentsAgentsComponent } from './components/treatments/treatments-ag
 import { TreatmentsPatientsComponent } from './components/treatments/treatments-patients/treatments-patients.component';
 import { DiagnosisReasonsComponent } from './components/diagnosis/reasons/diagnosis-reasons.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PatientsVihLevelsComponent } from './components/vih/clinical-information/patients-vih/patients-vih-levels/patients-vih-levels.component';
+import { PatientTreatmentsVihChangeComponent } from './components/vih/clinical-information/patient-treatments-vih/patient-treatments-vih-change/patient-treatments-vih-change.component';
+import { PatientExpensesVihComponent } from './components/vih/pharmaeconomic-vih/patient-expenses-vih/patient-expenses-vih.component';
+import { GuidelinesExpensesVihComponent } from './components/vih/pharmaeconomic-vih/guidelines-expenses-vih/guidelines-expenses-vih.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +37,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         PatientsCombinedTreatmentsComponent,
         NumberChangesBiologicalTreatmentComponent,
         BiologicalTreatmentFrequencyComponent,
+        PatientsVihLevelsComponent,
+        PatientTreatmentsVihChangeComponent,
+        PatientExpensesVihComponent,
+        GuidelinesExpensesVihComponent,
     ],
     imports: [
         NgbModule,

@@ -1,0 +1,168 @@
+@import '~src/assets/styles/variables.scss';
+
+.container {
+  margin-top: 2rem;
+  display: flex;
+}
+
+.select-switch {
+  position: relative;
+  top: -1.75rem;
+  left: 3rem;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.dynamic-field {
+  position: relative;
+  margin-right: 2rem;
+  top: -2.75rem;
+  width: 13rem;
+
+  .dynamic-label {
+    position: relative;
+    top: 1.3rem;
+    font-size: 0.8rem;
+    left: 0.5rem;
+    margin-left: 0.3rem;
+    color: $app-color-blue-main;
+    background-color: white;
+    padding: 0 0.4rem;
+  }
+
+  input {
+    border: 1px solid $app-color-border-blue;
+    border-radius: 0;
+    outline: 0;
+    width: 100%;
+    height: 2.85rem;
+    padding: 1rem;
+  }
+
+  select {
+    border: 1px solid $app-color-border-blue;
+    border-radius: 0;
+    outline: 0;
+    width: 100%;
+    height: 2.85rem;
+    padding-right: 3rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-image:
+      linear-gradient(
+        45deg,
+        transparent 50%,
+        $app-color-blue-main 50%
+      ),
+      linear-gradient(135deg, $app-color-blue-main 50%, transparent 50%),
+      linear-gradient(to right, $app-color-gray-medium, $app-color-gray-medium);
+    background-position:
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px),
+      calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    .tooltip {
+      visibility: hidden;
+    }
+
+    &:hover + .tooltip {
+      visibility: visible;
+      transition: opacity 0.5s ease;
+      opacity: 1;
+      box-shadow: 1px 7px 19px 3px $app-color-border-blue;
+      display: block;
+      position: absolute;
+      white-space: nowrap;
+      top: 87px;
+      border-radius: 0.3rem;
+      border: 1px solid $app-color-border-blue;
+      background-color: $app-color-white;
+      padding: 0 0.5rem;
+    }
+  }
+
+  .required-label::after {
+    content: ' *';
+    color: red;
+    font-size: 1.2rem;
+  }
+}
+
+@supports (-moz-appearance: none) {
+  .dynamic-field {
+    top: -2.75rem;
+    margin-bottom: 0;
+    width: 13rem;
+  }
+
+  .margin-firefox {
+    margin-top: 2.2rem;
+    margin-bottom: -2.4rem;
+  }
+}
+
+.maxWidth {
+  width: 100%;
+}
+
+.patients-chart-container {
+  min-height: 20rem;
+
+  .dynamic-field {
+    padding-top: 7rem;
+  }
+
+  .export-buttons {
+    text-align: right;
+    padding-bottom: 1rem;
+  }
+
+  .table-container {
+    top: 2rem;
+    padding: 1rem;
+  }
+
+  .graph-option-label {
+    color: $app-color-blue-main;
+  }
+}
+
+.table-container_input-container {
+  display: inline-block;
+  width: 100%;
+  margin: 1rem 0;
+
+  .table-container_input-container_form {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    :first-child {
+      margin-right: 1rem;
+      padding-bottom: 0.4rem;
+      margin-left: 1rem;
+    }
+  }
+
+  .table-container-input-button-container {
+    bottom: 1rem;
+  }
+
+  .app-line-chart div.chart-container {
+    margin-bottom: 5rem;
+  }
+}

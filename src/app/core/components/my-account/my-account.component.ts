@@ -19,11 +19,7 @@ export class MyAccountComponent implements OnInit {
     public userDataForm: FormGroup;
     public formKeys: string[];
 
-    constructor(
-        private _roleListener: CurrentRoleListenerService, 
-        private _formBuilder: FormBuilder, 
-        private _router: Router, 
-        private _modalService: NgbModal) {}
+    constructor(private _roleListener: CurrentRoleListenerService, private _formBuilder: FormBuilder, private _router: Router, private _modalService: NgbModal) {}
 
     ngOnInit(): void {
         this.getCurrentuser();

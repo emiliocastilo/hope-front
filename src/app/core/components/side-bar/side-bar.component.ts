@@ -28,17 +28,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
     public collapsed = false;
     public loaded: Boolean = false;
 
-    constructor(
-        private _router: Router,
-        private _modalService: NgbModal,
-        private loginService: LoginService,
-        private _roleListener: CurrentRoleListenerService,
-        private _sidebar: MenuService) { }
+    constructor(private _router: Router, private _modalService: NgbModal, private loginService: LoginService, private _roleListener: CurrentRoleListenerService, private _sidebar: MenuService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         const user = JSON.parse(localStorage.getItem('user'));
         this.menu = JSON.parse(localStorage.getItem('menu'));
-        this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((role: RolModel) => this.rol = role.name);
+        this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((role: RolModel) => (this.rol = role.name));
 
         if (!this.menu || this.menu.length === 0) {
             this._sidebar.getMenu().subscribe((response: MenuItemModel) => {
@@ -53,17 +48,17 @@ export class SideBarComponent implements OnInit, OnDestroy {
         }
     }
 
-    showSideBar (menuArray: MenuItemModel[]): MenuItemModel[] {
+    showSideBar(menuArray: MenuItemModel[]): MenuItemModel[] {
         const rootMenu = menuArray.filter((value: MenuItemModel) => value.id === this.currentMenuId);
         return rootMenu;
     }
 
-    toggleCollapse (): void {
+    toggleCollapse(): void {
         this.collapsed = !this.collapsed;
         this.collapse.emit(this.collapsed);
     }
 
-    logout (): void {
+    logout(): void {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = 'Salir';
@@ -78,7 +73,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         });
     }
 
-    public goToMyAccount (): void {
+    public goToMyAccount(): void {
         this._router.navigate(['my-account']);
     }
 

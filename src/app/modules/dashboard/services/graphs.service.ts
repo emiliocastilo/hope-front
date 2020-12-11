@@ -151,4 +151,53 @@ export class GraphsService {
     public getTotalAvgAccumulatedExpenses(query: string) {
         return this._httpClient.get(`/dispensation-details/find-total-cost-treatments-accumulated-avg?${query}`);
     }
+
+    /***** VIH *****/
+    // TODO plopezc - completar con back, ahora están puestas igual
+    //Parámetros clínicos
+    public getPatientsByClinicalParameter(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    }
+
+    public getDetailPatientsByClinicalParameter(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
+    }
+
+    public getDetailPatientsByClinicalParameterToExport(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
+    }
+
+    //Cambio de tratamiento
+    public getPatientsByTreatmentChange(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    }
+    public getDetailPatientsByTreatmentChange(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    }
+    public getDetailPatientsByTreatmentChangeToExport(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+    }
+
+    //Costes tipo paciente
+    public getPatientsByPatientType(): any {
+        return this._httpClient.get(`/patient-clinical-data/by-patientType`);
+    }
+    public getCostsByPatientType(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-costs?${query}`);
+    }
+
+    // Pautas
+    public getCostsByGuideLine(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-guideline${query}`);
+    }
+
+    // Mock para getPatientsByPatientType()
+    public getMock(): any {
+        const data = [
+            { name: 'En ensayo clínico', value: 9 },
+            { name: 'Controlados y estables', value: 20 },
+        ];
+
+        return data;
+    }
 }

@@ -425,6 +425,16 @@
   "descripcionFormulaMagistral": "Description Master Formula",
   "dosisFormulaMagistral": "Dose Master Formula",
   "currentRole": "Change role",
+  "byVIHParameters": "Patients by parameter",
+  "chartCVP": "Patients by CVP",
+  "chartCD4": "Patients by CD4",
+  "chartRISK": "Patients by risk group",
+  "chartVIRAL": "Patients by viral infection",
+  "chartVHC": "Patients by VHC",
+  "infoTreatment": "Treatment information",
+  "CVP": "CVP",
+  "CD4":"CD4",
+  "adherence": "Adherence",
   "saveWarning":"Unsaved changes detected",
   "saveWarningMessage":"There are unsaved changes. Continue?",
   "lastMenstruationDate":"Date of last period",
@@ -513,5 +523,15 @@
   "toxoplasmosisDate" : "Date Serology Toxoplasmosis",
   "toxoplasmosisQualification" : "Toxoplasmosis classification",
   "toxoplasmosisIgg" : "IgG (Toxoplasmosis)",
-  "toxoplasmosisIgm" : "IgM (Toxoplasmosis)"
+  "toxoplasmosisIgm" : "IgM (Toxoplasmosis)",
+  "patientType": "Patient type",
+  "maxAnualValue":"Max anual value",
+  "alternativeGuidelines": "Alternative guidelines",
+  "initialGuidelines": "Initial guidelines",
+  "guideLines": "Guidelines",
+  "costOf": "Expenses of ",
+  "accumulatedCostOf": "Accumulated expenses of ",
+  "avgCostOf": "Average expenses of ",
+  "avgAccumulatedCostOf": "Accumulated average expenses of "
+
 }
