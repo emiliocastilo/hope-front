@@ -25,7 +25,7 @@ export class MenuService {
     constructor(private _httpClient: HttpClient, private _formService: FormsService, private _modalService: NgbModal, private translate: TranslateService, private _router: Router) {
         this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
         this.thereIsPatientSelected = localStorage.getItem('thereIsPatientSelected') !== undefined && localStorage.getItem('thereIsPatientSelected') !== null;
-        this.getSideBar();
+        this.getMenu();
     }
 
     private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
@@ -98,12 +98,14 @@ export class MenuService {
         return this.currentSection.asObservable();
     }
 
-    public getSideBar(): Observable<MenuItemModel> {
+    public getMenu(): Observable<MenuItemModel> {
         return this._httpClient.get<MenuItemModel>('/menus').pipe(
             map((response) => {
                 this.allSections = [];
                 this.fillSections(response);
                 const menu = this.assignParentAndCollapseStatus(response);
+                localStorage.setItem('menu', JSON.stringify(response.children));
+                localStorage.setItem('completeMenu', JSON.stringify(response));
                 return menu;
             })
         );

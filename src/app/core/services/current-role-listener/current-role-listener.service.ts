@@ -12,7 +12,10 @@ import { NotificationService } from '../notification.service';
 export class CurrentRoleListenerService {
     private subject = new Subject<RolModel>();
 
-    constructor(private _loginService: LoginService, private _router: Router, public _notification: NotificationService) {}
+    constructor(
+        private _loginService: LoginService, 
+        private _router: Router, 
+        public _notification: NotificationService) {}
 
     private setRole(data: ProfileModel): void {
         localStorage.setItem('role', JSON.stringify(data.role));

@@ -5,13 +5,17 @@ import { ConfirmModalComponent } from '../modals/confirm-modal/confirm-modal.com
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { MenuService } from '../../services/menu/menu.service';
+import { Subscription } from 'rxjs';
+import { CurrentRoleListenerService } from '../../services/current-role-listener/current-role-listener.service';
+import { RolModel } from 'src/app/modules/management/models/rol.model';
 
 @Component({
     selector: 'side-bar',
     templateUrl: './side-bar.component.html',
     styleUrls: ['./side-bar.component.scss'],
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit, OnDestroy {
+    private currentRoleSubscription: Subscription;
     public menu: MenuItemModel[];
 
     @Input() currentMenuId: number;
@@ -24,18 +28,22 @@ export class SideBarComponent implements OnInit {
     public collapsed = false;
     public loaded: Boolean = false;
 
-    constructor(private _router: Router, private _modalService: NgbModal, private loginService: LoginService, private _sidebar: MenuService) {}
+    constructor(
+        private _router: Router,
+        private _modalService: NgbModal,
+        private loginService: LoginService,
+        private _roleListener: CurrentRoleListenerService,
+        private _sidebar: MenuService) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         const user = JSON.parse(localStorage.getItem('user'));
         this.menu = JSON.parse(localStorage.getItem('menu'));
+        this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((role: RolModel) => this.rol = role.name);
 
         if (!this.menu || this.menu.length === 0) {
-            this._sidebar.getSideBar().subscribe((response: MenuItemModel) => {
+            this._sidebar.getMenu().subscribe((response: MenuItemModel) => {
                 this.loaded = true;
                 this.menu = response.children;
-                localStorage.setItem('menu', JSON.stringify(response.children));
-                localStorage.setItem('completeMenu', JSON.stringify(response));
             });
         }
 
@@ -45,17 +53,17 @@ export class SideBarComponent implements OnInit {
         }
     }
 
-    showSideBar(menuArray: MenuItemModel[]): MenuItemModel[] {
+    showSideBar (menuArray: MenuItemModel[]): MenuItemModel[] {
         const rootMenu = menuArray.filter((value: MenuItemModel) => value.id === this.currentMenuId);
         return rootMenu;
     }
 
-    toggleCollapse(): void {
+    toggleCollapse (): void {
         this.collapsed = !this.collapsed;
         this.collapse.emit(this.collapsed);
     }
 
-    logout(): void {
+    logout (): void {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = 'Salir';
@@ -70,7 +78,11 @@ export class SideBarComponent implements OnInit {
         });
     }
 
-    public goToMyAccount(): void {
+    public goToMyAccount (): void {
         this._router.navigate(['my-account']);
+    }
+
+    ngOnDestroy() {
+        if (this.currentRoleSubscription) this.currentRoleSubscription.unsubscribe();
     }
 }

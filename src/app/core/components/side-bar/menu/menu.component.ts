@@ -2,6 +2,9 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { Subscription } from 'rxjs';
+import { CurrentRoleListenerService } from 'src/app/core/services/current-role-listener/current-role-listener.service';
+import { RolModel } from 'src/app/modules/management/models/rol.model';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     selector: 'inner-menu',
@@ -10,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class MenuComponent implements OnInit, OnDestroy {
     private currentSectionSubscription: Subscription;
+    private currentRoleSubscription: Subscription;
     private homeUrl = '/hopes';
 
     public icons: any;
@@ -29,10 +33,17 @@ export class MenuComponent implements OnInit, OnDestroy {
     @Input() level: number;
     @Input() collapsed: boolean;
 
-    constructor(private _menuService: MenuService) {}
+    constructor(
+        private _menuService: MenuService,
+        private _roleListener: CurrentRoleListenerService
+    ) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.currentSection = JSON.parse(localStorage.getItem('section'));
+
+        this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((role: RolModel) => {
+            this._menuService.getMenu().subscribe((menu: MenuItemModel) => this.menu = menu.children);
+        });
 
         this.currentSectionSubscription = this._menuService.getCurrentSection().subscribe((section: MenuItemModel) => {
             this.currentSection = section;
@@ -43,7 +54,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (!this.level) this.level = 1;
     }
 
-    collapseAll(menu?: Array<MenuItemModel>) {
+    collapseAll (menu?: Array<MenuItemModel>) {
         if (menu && menu.length > 0) {
             menu.forEach((element) => {
                 element.collapsed = true;
@@ -53,11 +64,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
     }
 
-    goUrl(section: MenuItemModel) {
+    goUrl (section: MenuItemModel) {
         this._menuService.setCurrentSection(section);
     }
 
-    updateCollapseState(menu: Array<MenuItemModel>) {
+    updateCollapseState (menu: Array<MenuItemModel>) {
         if (this.currentSection) {
             menu.forEach((item) => {
                 item.subsectionVisible = !item.url.includes('/pathology/patients') || (item.url.includes('/pathology/patients') && this._menuService.thereIsPatientSelected);
@@ -68,12 +79,13 @@ export class MenuComponent implements OnInit, OnDestroy {
         } else this.collapseAll();
     }
 
-    public toggleColapseMenu(menuItem: MenuItemModel): void {
+    public toggleColapseMenu (menuItem: MenuItemModel): void {
         if (menuItem.collapsed) this.collapseAll(this.menu);
         menuItem.collapsed = !menuItem.collapsed;
     }
 
-    ngOnDestroy() {
+    ngOnDestroy () {
         if (this.currentSectionSubscription) this.currentSectionSubscription.unsubscribe();
+        if (this.currentRoleSubscription) this.currentRoleSubscription.unsubscribe();
     }
 }
