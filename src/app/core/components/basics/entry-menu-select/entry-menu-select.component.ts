@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -8,16 +8,18 @@ import { Router } from '@angular/router';
     styleUrls: ['./entry-menu-select.component.scss'],
 })
 export class EntryMenuSelectComponent implements OnInit {
+    public accumulated: boolean;
+    public selectedValue = 0;
+    public selectedYears = 0;
+    public form: FormGroup;
+
     @Input() selectLabel: string;
     @Input() entries: Array<{ name: string; url: string }>;
     // @Input() showYears: boolean;
     // @Input() showToggle: boolean;
     @Input() style: string;
     @Input() config: any;
-    accumulated: boolean;
-    selectedValue = 0;
-    selectedYears = 0;
-    form: FormGroup;
+    @Output() onChange: EventEmitter<any> = new EventEmitter();
 
     constructor(private router: Router, private fb: FormBuilder) {}
 
