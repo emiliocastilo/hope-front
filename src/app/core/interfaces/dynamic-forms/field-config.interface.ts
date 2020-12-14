@@ -37,4 +37,5 @@ export interface FieldConfig {
     endpoint?: string;
     template?: string;
     css?: string;
+    readonly?: boolean;
 }

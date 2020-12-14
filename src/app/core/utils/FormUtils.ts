@@ -65,6 +65,7 @@ export default class FormUtils {
         fieldConfig.button = value.button;
         fieldConfig.template = value.template;
         fieldConfig.css = value.css;
+        fieldConfig.readonly = value.readonly;
 
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
@@ -357,5 +358,11 @@ export default class FormUtils {
     static furBirthDate(params: Array<any>): any {
         let date = moment(params[0]);
         return date.add(280, 'days').format('DD/MM/YYYY');
+    }
+
+    // Mutaciones
+
+    static mutationsAdd(params: Array<any>) {
+        return params;
     }
 }

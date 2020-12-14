@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
+import FormUtils from 'src/app/core/utils/FormUtils';
 
 @Component({
     selector: 'app-form-button',
@@ -33,6 +34,18 @@ export class FormButtonComponent {
                     this.setValues(event);
                     modalRef.close();
                 });
+                break;
+            case 'mutationsAdd':
+                let params = [this.group.value.detectedMutation, this.group.value.mutationText, this.group.value.mutatedGene, this.group.value.mutationType, this.group.value.otherMutationType];
+
+                if (this.group.controls.mutationsAdd.value) {
+                    params.push('  -  ');
+                    params.push(this.group.controls.mutationsAdd.value);
+                }
+                if (params[0]) {
+                    this.group.controls.mutationsAdd.setValue(params);
+                }
+
                 break;
         }
     }
