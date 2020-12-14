@@ -164,31 +164,55 @@ export class GraphsService {
     }
 
     public getDetailPatientsByClinicalParameterToExport(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-name-indication-toExport?${query}`);
     }
 
     //Cambio de tratamiento
     public getPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-treatment-change?${query}`);
     }
     public getDetailPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/detail-by-treatment-change?${query}`);
     }
     public getDetailPatientsByTreatmentChangeToExport(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/detail-by-treatment-change-toExport?${query}`);
     }
 
     //Costes tipo paciente
     public getPatientsByPatientType(): any {
         return this._httpClient.get(`/patient-clinical-data/by-patientType`);
     }
-    public getCostsByPatientType(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-costs?${query}`);
+    public getDetailPatientsByPatientType(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/detail-by-patientType?${query}`);
+    }
+    public getDetailPatientsByPatientTypeToExport(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/detail-by-patientType-toExport?${query}`);
+    }
+    public getCostsByPatientType() {
+        return this._httpClient.get(`/patient-clinical-data/by-costs`);
+    }
+    public getAvgCostsByPatientType() {
+        return this._httpClient.get(`/patient-clinical-data/by-costs-avg`);
+    }
+    public getCostsByPatientTypeAccumulated() {
+        return this._httpClient.get(`/patient-clinical-data/by-costs-accumulated`);
+    }
+    public getAvgCostsByPatientTypeAccumulated() {
+        return this._httpClient.get(`/patient-clinical-data/by-costs-avg-accumulated`);
     }
 
     // Pautas
-    public getCostsByGuideLine(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-guideline${query}`);
+    public getCostsByGuideLine(query: string): Observable<any> {
+        return this._httpClient.get(`/patient-clinical-data/by-guideline?${query}`);
+    }
+    public getCostsByGuideLineAccumulated(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-guideline-accumulated?${query}`);
+    }
+    public getAvgCostsByGuideLine(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-guideline-avg?${query}`);
+    }
+    public getAvgCostsByGuideLineAccumulated(query: string) {
+        return this._httpClient.get(`/patient-clinical-data/by-guideline-avg-acucumulated?${query}`);
     }
 
     // Mock para getPatientsByPatientType()

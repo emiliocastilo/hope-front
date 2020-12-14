@@ -18,7 +18,7 @@
     </section>
     <section class="col-md-12 col-lg-12 m-0 p-0">
         <section class="patients-chart-container">
-            <app-line-chart [config]="configChart"> </app-line-chart>
+            <app-line-chart *ngIf="configChart" [config]="configChart"> </app-line-chart>
 
             <div *ngIf="this.selectedOption === options[1].name" class="table-container_input-container">
                 <form [formGroup]="form" id="formMaxValue" class="table-container_input-container_form">
