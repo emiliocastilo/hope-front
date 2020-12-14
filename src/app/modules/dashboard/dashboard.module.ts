@@ -36,7 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         PatientsTreatmentComponent,
         PatientsCombinedTreatmentsComponent,
         NumberChangesBiologicalTreatmentComponent,
-        BiologicalTreatmentFrequencyComponent,   
+        BiologicalTreatmentFrequencyComponent,
         PatientsVihLevelsComponent,
         PatientTreatmentsVihChangeComponent,
         PatientExpensesVihComponent,
