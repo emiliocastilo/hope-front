@@ -143,6 +143,7 @@ export class RoleManagementComponent implements OnInit {
                 pathology: { options: this.pathologies },
             };
         }
+        this.modalForm.get('serviceDTO').setValue(this.services);
         modalRef.componentInstance.id = 'rolesEditor';
         modalRef.componentInstance.title = 'Rol';
         modalRef.componentInstance.form = this.modalForm;

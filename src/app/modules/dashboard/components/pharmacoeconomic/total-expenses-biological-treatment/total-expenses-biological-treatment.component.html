@@ -1,9 +1,49 @@
-<div class="row m-0 p-0">
-    <section class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center">
-        <div class="row pt-3">
-            <app-entry-menu-select [selectLabel]="'costs'" [entries]="options" [config]="config"></app-entry-menu-select>
+<section class="col-md-12 col-lg-12">
+    <div class="row pt-3">
+        <div class="container">
+            <div class="dynamic-field">
+                <label class="dynamic-label"> {{ 'costs' | translate }} </label>
+                <select class="form-control" (change)="onSelectChange($event.target.value)">
+                    <option *ngFor="let entry of options; index as i" [value]="i">{{ entry.name | translate }}</option>
+                </select>
+            </div>
+            <div [formGroup]="accumulatedForm" class="select-switch">
+                <app-switch [label]="'accumulated' | translate" formControlName="switchValue"> </app-switch>
+            </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
 
-<router-outlet></router-outlet>
+<section class="col-md-12 col-lg-12 m-0 p-0">
+    <section class="patients-chart-container" *ngIf="!loadingData">
+        <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
+    </section>
+
+    <div *ngIf="medicines; else noContent" [hidden]="loadingData">
+        <section class="table-container">
+            <div class="table-container_input-container">
+                <form [formGroup]="form" class="table-container_input-container_form">
+                    <app-input-select
+                        id="selectMedicine"
+                        name="selectMedicine"
+                        [isDisabled]="false"
+                        type="number"
+                        class="col-6"
+                        currentValue="currenMedicine"
+                        [options]="medicines"
+                        [form]="form"
+                        [optionSelected]="0"
+                        [labelValue]="'treatment' | translate"
+                        [selectMultiple]="false"
+                        [clearAfterSelect]="false"
+                        (selectTrigger)="onSelectMedicine($event)"
+                    >
+                    </app-input-select>
+                </form>
+            </div>
+        </section>
+    </div>
+    <ng-template #noContent>
+        {{ 'noData' | translate }}
+    </ng-template>
+</section>
