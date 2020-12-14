@@ -449,6 +449,7 @@
   "chartRISK": "Pacientes según grupo de riesgo",
   "chartVIRAL": "Pacientes según infección viral",
   "chartVHC": "Pacientes coinfectados con VHC",
+  "chartTreatmentLine": "Pacientes por línea de tratamiento",
   "changeCause": "Motivo de cambio de tratamiento",
   "treatmentChange": "Cambio de tratamiento",
   "chartFailure": " Fallo viral",

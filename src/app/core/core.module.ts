@@ -75,6 +75,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
 import { EntryMenuSelectComponent } from './components/basics/entry-menu-select/entry-menu-select.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { GroupedLinesChartComponent } from './components/charts/grouped-lines-chart/grouped-lines-chart.component';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -125,6 +126,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormsComponent,
         ColumnChartComponent,
         PieChartComponent,
+        GroupedLinesChartComponent,
         DatesBarComponent,
         ExportButtonsComponent,
         FormListComponent,
@@ -197,6 +199,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormsComponent,
         SwitchComponent,
         PieChartComponent,
+        GroupedLinesChartComponent,
         ExportButtonsComponent,
         ColumnChartComponent,
         DatesBarComponent,
