@@ -359,46 +359,40 @@ export default class FormUtils {
         return date.add(280, 'days').format('DD/MM/YYYY');
     }
 
-    static smaqAdherence(params: Array<any>): any{
-        let points:number = 0;
-        for(var i in params){
-            if(params[i] == true){
-                points = points+1;
+    static smaqAdherence(params: Array<any>): any {
+        let points: number = 0;
+        for (var i in params) {
+            if (params[i] == true) {
+                points = points + 1;
             }
         }
-        if(points > 3.5){ //umbral de adherencia se deja en 3,5.
+        if (points > 3.5) {
+            //umbral de adherencia se deja en 3,5.
             points = 3.5;
         }
         return points;
-    } 
+    }
 
-    static smaqAssessment(params: Array<any>): any{
-        if((params[0] == true)||
-        (params[1] == false || params[1] == null)||
-        (params[2] == true)||
-        (params[3] == true)||
-        (params[4] === "3-5")||
-        (params[5] > 2)){
-            return "No adherente"
-        }else {
-            return "Adherente"
+    static smaqAssessment(params: Array<any>): any {
+        if (params[0] == true || params[1] == false || params[1] == null || params[2] == true || params[3] == true || params[4] === '3-5' || params[5] > 2) {
+            return 'No adherente';
+        } else {
+            return 'Adherente';
         }
     }
 
-    static smaqAdherencePercentage(params: Array<any>): any{
-        console.log(params)
-        switch(params[4]){
+    static smaqAdherencePercentage(params: Array<any>): any {
+        switch (params[4]) {
             case null:
-                return "95-100 %";
-            case "1-2":
-                return "85-94 %";
-            case "3-5":
-                return "65-84 %";
-            case "6-10":
-                return "30-64 %";
-            case "Más de 10":
-                return "< 30 %";
+                return '95-100 %';
+            case '1-2':
+                return '85-94 %';
+            case '3-5':
+                return '65-84 %';
+            case '6-10':
+                return '30-64 %';
+            case 'Más de 10':
+                return '< 30 %';
         }
     }
-
 }
