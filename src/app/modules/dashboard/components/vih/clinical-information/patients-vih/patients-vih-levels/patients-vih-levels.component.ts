@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
+import { GroupedLineChartGroupData } from 'src/app/core/models/graphs/grouped-line-chart.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
@@ -107,15 +108,21 @@ export class PatientsVihLevelsComponent implements OnInit {
     }
 
     private parseDataChart (data: any): ChartObjectModel[] {
-        const arrayData = Object.keys(data).map((key) => {
-            const object = {
-                name: key,
-                value: data[key],
-            };
-            return object;
-        });
-
-        return arrayData;
+        if (this.selectedOption.chart.type === 'pie') {
+            const arrayData = Object.keys(data).map((key) => {
+                const object = {
+                    name: key,
+                    value: data[key],
+                };
+                return object;
+            });
+            return arrayData;
+        } else if (this.selectedOption.chart.type === 'grouped-vertical-line') {
+            // TODO : Mapear datos para gráfica de líneas agrupadas
+            const chartData: Array<GroupedLineChartGroupData> = [];
+            console.log(data);
+            return chartData;
+        } else return undefined;
     }
 
     private parseDataTable (data: any): any[] {

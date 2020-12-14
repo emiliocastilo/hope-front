@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { GroupedLineChartGroupData } from 'src/app/core/models/graphs/grouped-line-chart.model';
 
 @Component({
     selector: 'app-grouped-lines-chart',
@@ -6,8 +7,12 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./grouped-lines-chart.component.scss']
 })
 export class GroupedLinesChartComponent implements OnInit {
-    data: any[];
-    view: any[] = [700, 400];
+    @Input() data: Array<GroupedLineChartGroupData>;
+    @Input() xAxisLabel: string = 'Country';
+    @Input() yAxisLabel: string = 'Population';
+    @Input() legendTitle: string = 'Years';
+
+    view: any[] = [window.innerWidth - 320, 400];
 
     // options
     showXAxis: boolean = true;
@@ -15,14 +20,9 @@ export class GroupedLinesChartComponent implements OnInit {
     gradient: boolean = true;
     showLegend: boolean = true;
     showXAxisLabel: boolean = true;
-    xAxisLabel: string = 'Country';
     showYAxisLabel: boolean = true;
-    yAxisLabel: string = 'Population';
-    legendTitle: string = 'Years';
 
-    colorScheme = {
-        domain: ['#5AA454', '#C7B42C', '#AAAAAA']
-    };
+    colorScheme = { domain: ['#5AA454', '#C7B42C', '#AAAAAA'] };
 
     constructor() { }
 
@@ -73,15 +73,15 @@ export class GroupedLinesChartComponent implements OnInit {
     }
 
     onSelect (data): void {
-        console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+        // console.log('Item clicked', JSON.parse(JSON.stringify(data)));
     }
 
     onActivate (data): void {
-        console.log('Activate', JSON.parse(JSON.stringify(data)));
+        // console.log('Activate', JSON.parse(JSON.stringify(data)));
     }
 
     onDeactivate (data): void {
-        console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+        // console.log('Deactivate', JSON.parse(JSON.stringify(data)));
     }
 
 }
