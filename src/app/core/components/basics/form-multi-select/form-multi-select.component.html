@@ -1,0 +1,13 @@
+<div class="form-group dynamic-field" [formGroup]="group">
+    <label [attr.for]="config.name" class="dynamic-label" [ngClass]="{ 'required-label': required }"> {{ config.label | translate }}</label>
+    <ngx-bootstrap-multiselect 
+        *ngIf="loaded"
+        [attr.name]="config.name" 
+        [attr.id]="config.name" 
+        [options]="options" 
+        [texts]="multiSelectTexts" 
+        [settings]="multiSelectSettings"
+        [(ngModel)]="optionsModel" 
+        (ngModelChange)="onChange($event)">
+    </ngx-bootstrap-multiselect>
+</div>

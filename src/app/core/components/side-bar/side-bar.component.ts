@@ -48,7 +48,6 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe(
             response => {
                 this.rol = response.name;
-                console.log(response);
                 this.getMenu();
             });
     }
