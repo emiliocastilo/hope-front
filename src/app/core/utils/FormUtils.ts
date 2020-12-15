@@ -358,4 +358,35 @@ export default class FormUtils {
         let date = moment(params[0]);
         return date.add(280, 'days').format('DD/MM/YYYY');
     }
+    //TODO: los casos del switch, se dejan así porque están así en plantilla, cuando tengamos la patología casi cerrada convendría modificarlos por valores y no textos.
+    static stadiumClassification(params: Array<any>): any {
+        let categoria: string = '';
+        switch (params[1]) {
+            case 'Infección aguda asintomática o LPG':
+                categoria = 'A';
+                break;
+            case 'Infección sintomática no A no C':
+                categoria = 'B';
+                break;
+            case 'Procesos incluidos en la definición de SIDA':
+                categoria = 'C';
+                break;
+        }
+        switch (params[0]) {
+            case 'Linfocitos CD4 mayor o igual a 500/mm3 o mayor que 29%':
+                categoria = categoria + '1';
+                break;
+            case 'Linfocitos CD4 entre 200 y 499/mm3 o entre 14-28%':
+                categoria = categoria + '2';
+                break;
+            case 'Linfocitos CD4 menor de 200/mm3 o menor de 14%':
+                categoria = categoria + '3';
+                break;
+        }
+        if (categoria.length < 2) {
+            return ' ';
+        } else {
+            return categoria;
+        }
+    }
 }
