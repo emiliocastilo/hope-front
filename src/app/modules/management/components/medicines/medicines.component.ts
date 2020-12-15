@@ -40,14 +40,20 @@ export class MedicinesComponent implements OnInit {
     public selectedMedicine: MedicineModel;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDelete();
 
+    public selectedOptions = [
+        { id: '2', name: 'nii' },
+        { id: '5', name: 'go' },
+        { id: '7', name: 'nana' }
+    ];
+
     public testingSelect = [
-        {id: '1', name: 'ich'},
-        {id: '2', name: 'nii'},
-        {id: '3', name: 'san'},
-        {id: '4', name: 'yon'},
-        {id: '5', name: 'go'},
-        {id: '6', name: 'roku'},
-        {id: '7', name: 'nana'},
+        { id: '1', name: 'ich' },
+        { id: '2', name: 'nii' },
+        { id: '3', name: 'san' },
+        { id: '4', name: 'yon' },
+        { id: '5', name: 'go' },
+        { id: '6', name: 'roku' },
+        { id: '7', name: 'nana' },
     ];
 
     constructor(private _modalService: NgbModal, private _notification: NotificationService, private _medicinesService: MedicinesService, private _formBuilder: FormBuilder) {
@@ -62,6 +68,12 @@ export class MedicinesComponent implements OnInit {
         this.modalForm = this._formBuilder.group({
             fileMedicine: [null, Validators.required],
         });
+
+
+    }
+
+    public onChangeSelect (event) {
+        console.log(event);
     }
 
     private loadData () {
@@ -218,10 +230,6 @@ export class MedicinesComponent implements OnInit {
         if (event && event.type === 'delete') {
             this.showModalConfirm();
         }
-    }
-
-    public onChangeSelect(event) {
-        console.log(event);
     }
 }
 

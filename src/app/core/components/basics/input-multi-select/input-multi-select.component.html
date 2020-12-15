@@ -1,36 +1,14 @@
 <div class="dynamic-field">
     <span class="ui-float-label">
-        <label for="{{ id }}" [ngClass]="{ 'dynamic-label': true, 'required-label': required }">
-            {{ labelValue | translate }}
-        </label>
-        <!-- <select 
-                class="form-control" 
-                name="{{ name }}" 
-                id="{{ id }}" 
-                [ngClass]="{ 'option-selected': optionChangeSelected }" 
-                (input)="onInput($event.target.value)" 
-                [value]="currentValue">
-            <option 
-                    *ngFor="let option of options" 
-                    [ngValue]="option" 
-                    [selected]="isSelected(option, value)">
-                <span>
-                    <input type="checkbox" class="form-check-input"> 
-                    {{ option.name | translate }}
-                </span>
-            </option>
-        </select> -->
 
-        <ngx-bootstrap-multiselect  class="multiselect"
+        <ngx-bootstrap-multiselect 
+            *ngIf="loaded"
             [options]="options" 
-            [texts]="myTexts" 
-            [settings]="mySettings"
+            [texts]="multiSelectTexts" 
+            [settings]="multiSelectSettings"
             [(ngModel)]="optionsModel" 
             (ngModelChange)="onChange($event)">
         </ngx-bootstrap-multiselect>
 
-        <span *ngIf="currentValue && value !== null && value !== ''" class="tooltip">
-            <i>{{ value }}</i>
-        </span>
     </span>
 </div>

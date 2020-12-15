@@ -4,8 +4,13 @@
             <section class="mt-4">
                 <div class="row">
                     <div class="col-lg-6 col-sm-12">
-                        <app-input-multi-select 
-                            [options]="testingSelect" 
+                        <app-input-multi-select
+                            id="suuji"
+                            [options]="testingSelect"
+                            [selectedOptions] = "selectedOptions"
+                            [showCheckAll] = "true"
+                            [showUncheckAll] = "true"
+                            labelValue = "label select"
                             (change)="onChangeSelect($event)"
                         ></app-input-multi-select>
                         <br/>
