@@ -32,7 +32,7 @@ const components = {
     divider: FromDividerComponent,
     historic: FormHistoricComponent,
     table: FormListComponent,
-    search: FormSearchComponent,
+    search: FormSearchComponent
 };
 
 @Directive({

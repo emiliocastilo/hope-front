@@ -104,6 +104,8 @@ export class MenuService {
                 this.allSections = [];
                 this.fillSections(response);
                 const menu = this.assignParentAndCollapseStatus(response);
+                localStorage.setItem('menu', JSON.stringify(response.children));
+                localStorage.setItem('completeMenu', JSON.stringify(response));
                 return menu;
             })
         );
