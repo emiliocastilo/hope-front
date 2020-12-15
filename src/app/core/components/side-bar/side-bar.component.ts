@@ -31,7 +31,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _modalService: NgbModal,
         private loginService: LoginService,
-        private _sidebar: MenuService,
+        private _menuService: MenuService,
         private _roleListener: CurrentRoleListenerService) { }
 
     ngOnInit (): void {
@@ -54,9 +54,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
     }
 
     private getMenu () {
-        this._sidebar.getSideBar().subscribe((response: MenuItemModel) => {
+        this._menuService.getSideBar().subscribe((response: MenuItemModel) => {
             this.loaded = true;
             this.menu = response.children;
+            this._menuService.setCurrentSection(undefined);
         });
     }
 
