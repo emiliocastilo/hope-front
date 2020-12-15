@@ -24,7 +24,7 @@ export class InputMultiSelectComponent implements OnInit, ControlValueAccessor, 
     @Input() required = false;
     @Input() changes = false;
 
-    @Output() selectTrigger: EventEmitter<any> = new EventEmitter<any>();
+    @Output() change: EventEmitter<any> = new EventEmitter<any>();
 
     optionsModel: number[];
     myOptions: IMultiSelectOption[];
@@ -57,12 +57,7 @@ export class InputMultiSelectComponent implements OnInit, ControlValueAccessor, 
     };
 
     ngOnInit (): void {
-        this.myOptions = [
-            { id: 1, name: 'Option 1' },
-            { id: 2, name: 'Option 2' },
-        ];
-
-        if (this.optionSelected) {
+       if (this.optionSelected) {
             const valueSelected = this.options.find((option) => option.id === this.optionSelected);
             if (valueSelected) {
                 this.value = valueSelected.name;
@@ -85,16 +80,7 @@ export class InputMultiSelectComponent implements OnInit, ControlValueAccessor, 
     }
 
     onChange (value: any): void {
-        console.log(this.optionsModel);
-        // if (this.currentValue) {
-        //     this.optionChangeSelected = true;
-        // } else {
-        //     this.optionChangeSelected = false;
-        // }
-        // this.selectTrigger.emit(this.currentValue);
-        // if (this.clearAfterSelect && this.value) {
-        //     this.writeValue('');
-        // }
+        this.change.emit(this.optionsModel);
     }
 
     isSelected (option, value) {

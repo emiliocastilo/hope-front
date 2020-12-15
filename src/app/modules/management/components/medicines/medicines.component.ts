@@ -219,5 +219,9 @@ export class MedicinesComponent implements OnInit {
             this.showModalConfirm();
         }
     }
+
+    public onChangeSelect(event) {
+        console.log(event);
+    }
 }
 
