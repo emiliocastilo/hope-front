@@ -1,0 +1,46 @@
+<div class="row m-0 p-0">
+    <section class="col-md-12 col-lg-12 m-0 p-0 management-fluid justify-content-center">
+        <div class="row pt-5 m-0 p-0">
+            <div class="dynamic-field">
+                <label class="dynamic-label">
+                    {{ selectLabel | translate }}
+                </label>
+                <select class="form-control" (change)="onSelect($event)">
+                    <option *ngFor="let option of options">
+                        {{ option.name | translate }}
+                    </option>
+                </select>
+            </div>
+            <div class="dynamic-field">
+                <label class="dynamic-label">
+                    {{ 'costs' | translate }}
+                </label>
+                <select class="form-control" (change)="onSelectAvg($event)">
+                    <option *ngFor="let avgOption of avgOptions">
+                        {{ avgOption.name }}
+                    </option>
+                </select>
+            </div>
+            <div [formGroup]="form" class="select-switch">
+                <app-switch [label]="'accumulated' | translate" formControlName="switchValue" (click)="switchAccumulated()"> </app-switch>
+            </div>
+        </div>
+    </section>
+    <section class="col-md-12 col-lg-12 m-0 p-0">
+        <section class="patients-chart-container">
+            <label class="graph-option-label">{{ selectedOption === options[0].name ? 'Coste de pautas alternativas' : 'Coste de otras pautas de inicio recomendadas' }}</label>
+
+            <app-line-chart *ngIf="configChart" [config]="configChart"> </app-line-chart>
+            <div *ngIf="guideLines && guideLines.length > 0" class="dynamic-field guideline-select">
+                <label class="dynamic-label">
+                    {{ selectedOption }}
+                </label>
+                <select class="form-control" (change)="onSelectGuideLine($event)">
+                    <option *ngFor="let guideLine of guideLines">
+                        {{ guideLine }}
+                    </option>
+                </select>
+            </div>
+        </section>
+    </section>
+</div>
