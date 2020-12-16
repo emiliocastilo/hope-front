@@ -9,14 +9,14 @@
 
     .dynamic-label {
         position: relative;
-        top: 1.3rem;
+        top: 7px;
         font-size: 0.8rem;
-        left: 0.5rem;
+        left: -12px;
         margin-left: 0.3rem;
         color: $app-color-blue-main;
         background-color: white;
         padding: 0 0.4rem;
-    }
+      }
 
     .select {
         border: 1px solid $app-color-border-blue;
