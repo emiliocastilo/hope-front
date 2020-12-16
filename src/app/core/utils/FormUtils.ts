@@ -361,23 +361,51 @@ export default class FormUtils {
 
     static smaqAdherence(params: Array<any>): any {
         let points: number = 0;
-        for (var i in params) {
-            if (params[i] == true) {
-                points = points + 1;
-            }
+        if(params[0] == false || params[0] == null){
+            points = points + 1;
         }
-        if (points > 3.5) {
-            //umbral de adherencia se deja en 3,5.
-            points = 3.5;
+        if(params[1] == true){
+            points = points + 1;
+        }
+        if(params[2] == false || params[2] == null){
+            points = points + 1;
+        }
+        if(params[3] == false || params[2] == null){
+            points = points + 1;
+        }
+        if(params[4] === 'Ninguna' || params[4] === '1-2'){
+            points = points + 1;
+        }
+        if(params[5] < 2){
+            points = points + 1;
         }
         return points;
     }
 
     static smaqAssessment(params: Array<any>): any {
-        if (params[0] == true || params[1] == false || params[1] == null || params[2] == true || params[3] == true || params[4] === '3-5' || params[5] > 2) {
-            return 'No adherente';
-        } else {
+        let points: number = 0;
+        if(params[0] == false || params[0] == null){
+            points = points + 1;
+        }
+        if(params[1] == true){
+            points = points + 1;
+        }
+        if(params[2] == false || params[2] == null){
+            points = points + 1;
+        }
+        if(params[3] == false || params[2] == null){
+            points = points + 1;
+        }
+        if(params[4] === 'Ninguna' || params[4] === '1-2'){
+            points = points + 1;
+        }
+        if(params[5] < 2){
+            points = points + 1;
+        }
+        if (points >= 3.5) {
             return 'Adherente';
+        } else {
+            return 'No adherente';
         }
     }
 
