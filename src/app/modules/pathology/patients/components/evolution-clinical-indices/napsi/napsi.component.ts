@@ -91,7 +91,7 @@ export class NapsiComponent implements OnInit {
                 this.fillForm(form);
             }
             this._napsiService.saveScore({
-                patient: this.patient.id,
+                patientId: this.patient.id,
                 date: new Date(this.form.value.evaluationDate).toISOString(),
                 indexType: 'napsi',
                 value: this.napsiScore.toString(),

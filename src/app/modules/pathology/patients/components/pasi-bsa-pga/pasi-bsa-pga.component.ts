@@ -127,44 +127,50 @@ export class PasiBsaPgaComponent implements OnInit {
             } else {
                 this.fillForm(form);
             }
-            for (let i = 0; i < 3; i++) {
-                this.saveHealthOutcome(i);
-            }
+            this.saveHealthOutcome();
         }
     }
 
-    saveHealthOutcome(index: number) {
+    saveHealthOutcome() {
+        let healthOutcomeArray : HealthOutcomeModel[] = [];
         let ho: HealthOutcomeModel = {
-            patient: this.patient.id,
+            patientId : this.patient.id,
             date: new Date(this.pasiForm.value.evaluationDate).toISOString(),
         };
-        switch (index) {
-            case 0:
-                ho = {
-                    ...ho,
-                    indexType: 'pasi',
-                    value: this.pasiScore,
-                    result: this.pasiCalification,
-                };
-                break;
-            case 1:
-                ho = {
-                    ...ho,
-                    indexType: 'bsa',
-                    value: this.bsaScore,
-                    result: this.bsaCalification,
-                };
-                break;
-            case 2:
-                ho = {
-                    ...ho,
-                    indexType: 'pga',
-                    value: this.pasiForm.value.pga,
-                    result: this.pgaCalification,
-                };
-                break;
+        for (let index = 0; index < 3; index++) {
+            switch(index){
+                case 0:
+                    healthOutcomeArray.push({
+                        ...ho,
+                        indexType: 'PASI',
+                        value: this.filledForm.pasi,
+                        result: this.pasiCalification,
+                    });
+                    break;
+                case 1:
+                    healthOutcomeArray.push({
+                        ...ho,
+                        indexType: 'BSA',
+                        value: this.filledForm.bsa,
+                        result: this.bsaCalification,
+                    });
+                    break;
+                case 2:
+                    healthOutcomeArray.push({
+                        ...ho,
+                        indexType: 'PGA',
+                        value: this.filledForm.pga,
+                        result: this.pgaCalification,
+                    });
+                    break;
+            }
         }
-        this.hoService.saveScore(ho);
+        this.hoService.saveScore(healthOutcomeArray).subscribe(
+            () => {},
+            ({ error }) => {
+                this._notification.showErrorToast(error.errorCode);
+            }
+        );
     }
 
     async showGraph() {

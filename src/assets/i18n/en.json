@@ -539,5 +539,6 @@
   "OtherInfectionsObservations" : "Observations",
   "exitoPercentage" : "Success (%)",
   "iqrMedPercentage" : "IQR/MED (%)",
-  "intubation" : "Probe"
+  "intubation" : "Probe",
+  "labelAllNothing" : "Nothing"
 }
