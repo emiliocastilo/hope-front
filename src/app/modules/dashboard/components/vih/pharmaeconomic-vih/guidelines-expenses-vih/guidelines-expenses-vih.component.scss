@@ -25,7 +25,10 @@ input::-webkit-inner-spin-button {
   position: relative;
   margin-right: 2rem;
   top: -2.75rem;
-  width: 13rem;
+
+  &.guideline-select {
+    width: 15rem;
+  }
 
   .dynamic-label {
     position: relative;
@@ -105,7 +108,10 @@ input::-webkit-inner-spin-button {
   .dynamic-field {
     top: -2.75rem;
     margin-bottom: 0;
-    width: 13rem;
+
+    &.guideline-select {
+      width: 15rem;
+    }
   }
 
   .margin-firefox {

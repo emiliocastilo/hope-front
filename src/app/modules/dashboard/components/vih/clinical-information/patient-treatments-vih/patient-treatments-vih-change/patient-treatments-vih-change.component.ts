@@ -74,9 +74,6 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
                 console.error(error);
             }
         );
-        // TODO: plopezc Eliminar comentario cuando acabe cuadros de mando - Datos de ejemplo
-        /* this.dataChart =  [ { name: 'Fallo Viral', value: 9 },
-      { name: "RAMs", value: 20 }, { name: 'Número de cambios por tratamiento', value: 9 }]; */
     }
 
     onSelect(event: any) {

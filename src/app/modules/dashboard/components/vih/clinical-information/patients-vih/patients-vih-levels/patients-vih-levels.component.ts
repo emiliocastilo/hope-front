@@ -9,12 +9,12 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 
 export interface SelectOption {
-    name: string,
-    param: string,
+    name: string;
+    param: string;
     chart: {
-        name: string,
-        type: 'pie' | 'grouped-vertical-line'
-    }
+        name: string;
+        type: 'pie' | 'grouped-vertical-line';
+    };
 }
 
 @Component({
@@ -30,31 +30,35 @@ export class PatientsVihLevelsComponent implements OnInit {
         {
             name: 'CVP',
             param: 'CVP',
-            chart: { name: 'chartCVP', type: 'pie' }
-        }, {
+            chart: { name: 'chartCVP', type: 'pie' },
+        },
+        {
             name: 'CD4',
             param: 'CD4',
-            chart: { name: 'chartCD4', type: 'pie' }
-        }, {
+            chart: { name: 'chartCD4', type: 'pie' },
+        },
+        {
             name: 'Grupo de riesgo',
             param: 'RISK',
-            chart: { name: 'chartRISK', type: 'pie' }
-        }, {
+            chart: { name: 'chartRISK', type: 'pie' },
+        },
+        {
             name: 'Infección viral',
             param: 'VIRAL',
-            chart: { name: 'chartVIRAL', type: 'pie' }
-        }, {
+            chart: { name: 'chartVIRAL', type: 'pie' },
+        },
+        {
             name: 'VHC',
             param: 'VHC',
-            chart: { name: 'chartVHC', type: 'pie' }
-        }, {
+            chart: { name: 'chartVHC', type: 'pie' },
+        },
+        {
             name: 'Línea de tratamiento',
             param: 'treatment-line',
-            chart: { name: 'chartTreatmentLine', type: 'grouped-vertical-line' }
+            chart: { name: 'chartTreatmentLine', type: 'grouped-vertical-line' },
         },
     ];
     public selectedOption: SelectOption = this.options[0];
-
 
     //Gráfica
     private data: ChartObjectModel[];
@@ -81,16 +85,13 @@ export class PatientsVihLevelsComponent implements OnInit {
         direction: 'asc',
     };
 
-    constructor(
-        private _graphService: GraphsService,
-        public translate: TranslateService,
-        private _router: Router) { }
+    constructor(private _graphService: GraphsService, public translate: TranslateService, private _router: Router) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.getData(`type=${this.selectedOption.param}`);
     }
 
-    private getData (query: string): void {
+    private getData(query: string): void {
         this._graphService.getPatientsByClinicalParameter(query).subscribe(
             (data) => {
                 this.dataChart = this.parseDataChart(data);
@@ -102,12 +103,12 @@ export class PatientsVihLevelsComponent implements OnInit {
         );
     }
 
-    onSelect (event: any) {
-        this.selectedOption = this.options.filter(f => f.name === event.target.value)[0];
+    onSelect(event: any) {
+        this.selectedOption = this.options.filter((f) => f.name === event.target.value)[0];
         this.getData(`type=${this.selectedOption.param}`);
     }
 
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         if (this.selectedOption.chart.type === 'pie') {
             const arrayData = Object.keys(data).map((key) => {
                 const object = {
@@ -125,7 +126,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         } else return undefined;
     }
 
-    private parseDataTable (data: any): any[] {
+    private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
                 indication: key,
@@ -138,7 +139,7 @@ export class PatientsVihLevelsComponent implements OnInit {
     }
 
     // Detalle
-    public onIconButtonClick (event: any): void {
+    public onIconButtonClick(event: any): void {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.dataTable[event.selectedItem];
@@ -151,7 +152,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         }
     }
 
-    private getDetails (query: string): void {
+    private getDetails(query: string): void {
         this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
             (data: any) => {
                 console.log(data);
@@ -165,7 +166,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         );
     }
 
-    private parseDataToTableDetails (data: any[]): any[] {
+    private parseDataToTableDetails(data: any[]): any[] {
         if (data) {
             const arrayObject = data.map((value: any) => {
                 const object = {
@@ -184,7 +185,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         }
     }
 
-    private getDetailsToExport (query: string) {
+    private getDetailsToExport(query: string) {
         this._graphService.getDetailPatientsByClinicalParameterToExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
@@ -195,7 +196,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         );
     }
 
-    public onPatientClick (event: any) {
+    public onPatientClick(event: any) {
         if (event.type === 'detail') {
             const currentUser = this.details[event.selectedItem];
             const selectedUser = JSON.stringify(currentUser || {});
@@ -204,7 +205,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         }
     }
 
-    public selectPage (page: number) {
+    public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
             const query = this.query + `&result=${this.currentSelected.indication}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
@@ -212,7 +213,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         }
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         const query = this.query + `&result=${this.currentSelected.indication}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);

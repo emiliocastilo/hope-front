@@ -9,6 +9,7 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TranslateService } from '@ngx-translate/core';
 import { curveBasis } from 'd3-shape';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
     selector: 'app-patient-expenses-vih',
@@ -71,16 +72,21 @@ export class PatientExpensesVihComponent implements OnInit {
             maxValue: [],
         });
         this.getTableData();
-        this.loadValues(this.selectedOption);
+        this.getExpenses();
+    }
+
+    onSelect(event: any) {
+        this.selectedOption = event.target.value;
+        this.getExpenses();
     }
 
     switchAccumulated() {
         this.accumulated = !this.accumulated;
-        this.loadValues(this.selectedOption);
+        this.getExpenses();
     }
 
-    private getExpenses(query: string): void {
-        this._graphService.getCostsByPatientType(query).subscribe(
+    private getExpenses(): void {
+        this.loadValues().subscribe(
             (data) => {
                 const dataToParse = this.sortByMonth(data);
                 this.dataChart = this.parseDataChart(dataToParse);
@@ -100,53 +106,29 @@ export class PatientExpensesVihComponent implements OnInit {
 
     private parseDataChart(data: any): ChartObjectModel[] {
         console.log('parsedataChart', data);
-        const arrayData = Object.keys(data.ene).map((keyYear: string) => {
-            // console.log(data.ene);
-            const object = {
-                name: keyYear,
-                series: [],
-            };
-            /*    if(this.maxAvgAnualValue && this.maxAvgAnualValue != 0){
-                const objectToAdd: ChartObjectModel = {
-                    name: this._translate.instant('maxAnualValue'),
+        if (data.ene) {
+            const arrayData = Object.keys(data.ene).map((keyYear: string) => {
+                const object = {
+                    name: keyYear,
                     series: [],
                 };
-            } */
 
-            Object.keys(data).forEach((keyMonth: string) => {
-                const objectSerie = {
-                    value: data[keyMonth][keyYear] && data[keyMonth][keyYear] !== '-' ? data[keyMonth][keyYear] : 0,
-                    name: keyMonth,
-                };
+                Object.keys(data).forEach((keyMonth: string) => {
+                    const objectSerie = {
+                        value: data[keyMonth][keyYear] && data[keyMonth][keyYear] !== '-' ? data[keyMonth][keyYear] : 0,
+                        name: keyMonth,
+                    };
+                    object.series.push(objectSerie);
+                });
 
-                object.series.push(objectSerie);
-
-                /*   if(this.maxAvgAnualValue != undefined && this.maxAvgAnualValue != 0){
-                    const objectToAdd = {
-                        value: this.maxAvgAnualValue,
-                        name: keyMonth
-                    }
-                    object.series.push(objectToAdd);
-                }              */
+                return object;
             });
-
-            return object;
-        });
-        return arrayData;
+            return arrayData;
+        }
     }
 
-    // TODO - plopezc - descomentar al quitar mock
     private sortByMonth(arr: any): any {
-        var months = ['ene', 'feb', 'mar' /* ,
-     'abr',
-      'may',
-      'jun',
-      'jul',
-      'ago',
-      'sep',
-      'oct',
-      'nov',
-      'dic', */];
+        var months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
         const object = {};
         months.forEach((month: string) => {
             object[month] = arr[month];
@@ -155,54 +137,62 @@ export class PatientExpensesVihComponent implements OnInit {
         return object;
     }
 
-    onSelect(event: any) {
-        this.selectedOption = event.target.value;
-        this.loadValues(this.selectedOption);
-    }
-
     switchOptions(event: any) {
         this.accumulated = !this.accumulated;
-        this.loadValues(this.selectedOption);
+        this.loadValues();
     }
 
-    loadValues(selectedOption: string) {
-        let query: string;
-        switch (selectedOption) {
-            case this.options[0].name:
-                if (!this.accumulated) {
-                    query = 'type=total';
-                    this.selectedChart = 'totalCostByPatientType';
-                } else {
-                    query = 'type=totalAccumulated';
-                    this.selectedChart = 'totalAccumulatedCostByPatientType';
-                }
-                break;
-            case this.options[1].name:
-                if (!this.accumulated) {
-                    query = 'type=avg';
-                    this.selectedChart = 'avgCostByPatientType';
-                } else {
-                    query = 'type=avgAccumulated';
-                    this.selectedChart = 'avgAccumulatedCostByPatientType';
-                }
-        }
-        this.query = query;
-        //this.getExpenses(query);
-        this.form.controls.maxValue.setValue('');
-        this.mockData();
+    loadValues(): Observable<any> {
+        return new Observable<any>((observer) => {
+            switch (this.selectedOption) {
+                case this.options[0].name:
+                    // Total
+                    if (!this.accumulated) {
+                        this.selectedChart = 'totalCostByPatientType';
+                        this._graphService.getCostsByPatientType().subscribe(
+                            (data) => observer.next(data),
+                            (error) => observer.next(error)
+                        );
+                        // Total acumulado
+                    } else {
+                        this.selectedChart = 'totalAccumulatedCostByPatientType';
+                        this._graphService.getCostsByPatientTypeAccumulated().subscribe(
+                            (data) => observer.next(data),
+                            (error) => observer.next(error)
+                        );
+                    }
+                    break;
+                case this.options[1].name:
+                    // Medio
+                    if (!this.accumulated) {
+                        this.selectedChart = 'avgCostByPatientType';
+                        this._graphService.getAvgCostsByPatientType().subscribe(
+                            (data) => observer.next(data),
+                            (error) => observer.next(error)
+                        );
+                        // Medio acumulado
+                    } else {
+                        this.selectedChart = 'avgAccumulatedCostByPatientType';
+                        this._graphService.getAvgCostsByPatientTypeAccumulated().subscribe(
+                            (data) => observer.next(data),
+                            (error) => observer.next(error)
+                        );
+                    }
+                    break;
+            }
+            this.form.controls.maxValue.setValue('');
+        });
     }
 
-    // TODO: plopezc quitar mock de la tabla cuando esté back
     private getTableData() {
-        /*  this._graphService.getPatientsByPatientType().subscribe(
-      (data) => {
-        this.dataTable = this.parseDataTable(data);        
-      },
-      (error) => {
-        console.error(error);
-      }
-    );     */
-        this.dataTable = this.parseDataTable(this._graphService.getMock());
+        this._graphService.getPatientsByPatientType().subscribe(
+            (data) => {
+                this.dataTable = this.parseDataTable(data);
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
     }
 
     private parseDataTable(data: any): any[] {
@@ -222,7 +212,8 @@ export class PatientExpensesVihComponent implements OnInit {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.dataTable[event.selectedItem];
-            const query = this.query + '&patientType=' + this.currentSelected.patientType.name;
+            const query = 'patientType=' + this.currentSelected.patientType.name;
+            this.query = query;
             this.getDetails(query);
             this.getDetailsToExport(query);
         } else {
@@ -231,7 +222,7 @@ export class PatientExpensesVihComponent implements OnInit {
     }
 
     private getDetails(query: string): void {
-        this._graphService.getDetailPatientsByTreatmentChange(query).subscribe(
+        this._graphService.getDetailPatientsByPatientType(query).subscribe(
             (data: any) => {
                 this.details = data.content;
                 this.paginationData = data;
@@ -263,7 +254,7 @@ export class PatientExpensesVihComponent implements OnInit {
     }
 
     private getDetailsToExport(query: string) {
-        this._graphService.getDetailPatientsByTreatmentChangeToExport(query).subscribe(
+        this._graphService.getDetailPatientsByPatientTypeToExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
             },
@@ -296,91 +287,45 @@ export class PatientExpensesVihComponent implements OnInit {
         this.getDetails(query);
     }
 
-    //TODO - plopezc -borrar cuando esté back
-    public mockData() {
-        //const query = `code=${this.currenMedicine.codeAct}`;
-        /* this._graphService.getTotalExpenses(query).subscribe(
-      (data) => { */
-
-        const data = { ene: { 'En ensayo clínico': 500, 'Controlados y estables': 100 }, feb: { 'En ensayo clínico': 200, 'Controlados y estables': 190 }, mar: { 'En ensayo clínico': 350, 'Controlados y estables': 400 } };
-
-        const dataToParse = this.sortByMonth(data);
-        this.dataChart = this.parseDataChart(dataToParse);
-
-        console.log(this.dataChart);
-        const gradient = false;
-        const xAxis = true;
-        const yAxis = true;
-        const legend = true;
-        const legendTitle = '';
-        const legendPosition = 'right';
-        const showXAxisLabel = false;
-        const showYAxisLabel = false;
-        const curve: any = curveBasis;
-        const title = this.selectedChart;
-        const view = null;
-        const scheme = {
-            domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
-        };
-        this.configChart = new ColumnChartModel(title, view, scheme, this.dataChart, legend, gradient, xAxis, yAxis, showXAxisLabel, showYAxisLabel, null, null, legendPosition, legendTitle, null, curve);
-        //this.configChart = new ColumnChartModel(title, view, scheme, this.dataChart);
-    }
-
     filterMaxValue(maxValue: number) {
         this.maxAvgAnualValue = maxValue;
 
-        console.log('maxval', maxValue);
-        //this.loadValues(this.selectedOption, maxValue);
-        const data = [...this.dataChart];
-        debugger;
-        this.dataChart = null;
-        const currentValue = maxValue;
+        if (this.dataChart) {
+            const data = [...this.dataChart];
+            this.dataChart = null;
+            const currentValue = maxValue;
 
-        const objectToAdd: ChartObjectModel = {
-            name: this._translate.instant('maxAnualValue'),
-            series: [],
-        };
-
-        objectToAdd.series = this.months.map((month: string) => {
-            const point = {
-                name: month,
-                value: currentValue,
+            const objectToAdd: ChartObjectModel = {
+                name: this._translate.instant('maxAnualValue'),
+                series: [],
             };
-            console.log('series', objectToAdd.series);
-            return point;
-        });
 
-        const lastPosition = data.length - 1;
+            objectToAdd.series = this.months.map((month: string) => {
+                const point = {
+                    name: month,
+                    value: currentValue,
+                };
+                return point;
+            });
 
-        if (data[lastPosition].name === this._translate.instant('maxAnualValue')) {
-            data.splice(-1, 1);
-            data.push(objectToAdd);
-        } else {
-            data.push(objectToAdd);
+            const lastPosition = data.length - 1;
+
+            if (data[lastPosition].name === this._translate.instant('maxAnualValue')) {
+                data.splice(-1, 1);
+                data.push(objectToAdd);
+            } else {
+                data.push(objectToAdd);
+            }
+            this.dataChart = data;
+
+            setTimeout(() => {
+                const title = this.selectedChart;
+                const view = null;
+                const scheme = {
+                    domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
+                };
+                this.configChart = new ColumnChartModel(title, view, scheme, this.dataChart);
+            }, 100);
         }
-        this.dataChart = data;
-        console.log('data', data);
-        setTimeout(() => {
-            /* const dataToParse = this.sortByMonth(data);
-            this.dataChart = this.parseDataChart(dataToParse) */
-
-            console.log(this.dataChart);
-            const gradient = false;
-            const xAxis = true;
-            const yAxis = true;
-            const legend = true;
-            const legendTitle = '';
-            const legendPosition = 'right';
-            const showXAxisLabel = false;
-            const showYAxisLabel = false;
-            const curve: any = curveBasis;
-            const title = this.selectedChart;
-            const view = null;
-            const scheme = {
-                domain: ['#ffc107', '#2196f3', '#4caf50', '#cc0606'],
-            };
-            this.configChart = new ColumnChartModel(title, view, scheme, this.dataChart, legend, gradient, xAxis, yAxis, showXAxisLabel, showYAxisLabel, null, null, legendPosition, legendTitle, null, curve);
-        }, 100);
-        // this.mockData();
     }
 }

@@ -15,17 +15,8 @@
     </section>
     <section class="col-md-12 col-lg-12 m-0 p-0">
         <section class="patients-chart-container">
-            <app-pie-chart *ngIf="selectedOption.chart.type === 'pie'" 
-                [chartTitle]="selectedOption.chart.name" 
-                [results]="dataChart" 
-                [showLabels]="true"
-            ></app-pie-chart>
-            <app-grouped-lines-chart *ngIf="selectedOption.chart.type === 'grouped-vertical-line'"
-                [data]="dataChart"
-                [xAxisLabel]=""
-                [yAxisLabel]=""
-                [legendTitle]=""
-            ></app-grouped-lines-chart>
+            <app-pie-chart *ngIf="selectedOption.chart.type === 'pie'" [chartTitle]="selectedOption.chart.name" [results]="dataChart" [showLabels]="true"></app-pie-chart>
+            <app-grouped-lines-chart *ngIf="selectedOption.chart.type === 'grouped-vertical-line'" [data]="dataChart" [xAxisLabel]="" [yAxisLabel]="" [legendTitle]=""></app-grouped-lines-chart>
 
             <!-- <app-grouped-lines-chart *ngIf="selectedOption.chart.type === 'grouped-vertical-line'"></app-grouped-lines-chart> -->
 

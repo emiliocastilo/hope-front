@@ -11,6 +11,16 @@
                     </option>
                 </select>
             </div>
+            <div class="dynamic-field">
+                <label class="dynamic-label">
+                    {{ 'costs' | translate }}
+                </label>
+                <select class="form-control" (change)="onSelectAvg($event)">
+                    <option *ngFor="let avgOption of avgOptions">
+                        {{ avgOption.name }}
+                    </option>
+                </select>
+            </div>
             <div [formGroup]="form" class="select-switch">
                 <app-switch [label]="'accumulated' | translate" formControlName="switchValue" (click)="switchAccumulated()"> </app-switch>
             </div>
@@ -18,12 +28,12 @@
     </section>
     <section class="col-md-12 col-lg-12 m-0 p-0">
         <section class="patients-chart-container">
-            <label class="graph-option-label">{{ this.selectedOption === this.options[0].name ? 'Coste de pautas alternativas' : 'Coste de otras pautas de inicio recomendadas' }}</label>
+            <label class="graph-option-label">{{ selectedOption === options[0].name ? 'Coste de pautas alternativas' : 'Coste de otras pautas de inicio recomendadas' }}</label>
 
-            <app-line-chart shape.curveBasis [config]="configChart"> </app-line-chart>
-            <div class="dynamic-field">
+            <app-line-chart *ngIf="configChart" [config]="configChart"> </app-line-chart>
+            <div *ngIf="guideLines && guideLines.length > 0" class="dynamic-field guideline-select">
                 <label class="dynamic-label">
-                    {{ this.selectedOption }}
+                    {{ selectedOption }}
                 </label>
                 <select class="form-control" (change)="onSelectGuideLine($event)">
                     <option *ngFor="let guideLine of guideLines">
@@ -31,27 +41,6 @@
                     </option>
                 </select>
             </div>
-            <!--
-           
-             <div class="table-container_input-container" *ngIf="!showingDetail">
-                <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable"
-                    (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true">
-                </app-table>
-            </div> -->
         </section>
-        <!--   <div *ngIf="showingDetail" class="table-container">
-            <div class="export-buttons">
-                <app-export-buttons [dataToExport]="dataToExport"></app-export-buttons>
-            </div>
-
-            <app-table [columnsHeader]="headersDetailsTable" [columnsData]="detailsDataTable"
-                [showActionButtons]="true" [actions]="actions" (iconButtonClick)="onPatientClick($event)"
-                (sort)="onSort($event)" [sortable]="true">
-            </app-table>
-            <app-pagination (selectPage)="selectPage($event)" [paginationData]="paginationData">
-            </app-pagination>
-            <app-button type="button" clasesBtn="btn-primary btn-sm mx-2" texto="btn.back"
-                (click)="onIconButtonClick({ type: 'back' })" icono="arrow-left"></app-button>
-        </div>  -->
     </section>
 </div>

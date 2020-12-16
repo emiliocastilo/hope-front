@@ -4,6 +4,6 @@ export interface GroupedLineChartGroupSerieData {
 }
 
 export interface GroupedLineChartGroupData {
-    name: string,
-    series: Array<GroupedLineChartGroupSerieData>
+    name: string;
+    series: Array<GroupedLineChartGroupSerieData>;
 }
