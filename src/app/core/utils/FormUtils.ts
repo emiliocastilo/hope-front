@@ -66,6 +66,8 @@ export default class FormUtils {
         fieldConfig.template = value.template;
         fieldConfig.css = value.css;
 
+        fieldConfig.multiselect = value.multiselect;
+
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
             fieldConfig.validation = this.parseValidations(validations);

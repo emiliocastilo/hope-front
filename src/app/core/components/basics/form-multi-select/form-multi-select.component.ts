@@ -23,24 +23,24 @@ export class FormMultiSelectComponent implements OnInit {
     loaded: boolean;
 
     ngOnInit () {
-        console.log(this.config);
+        this.loaded = false;
         this.hasRequiredField(this.group.controls[this.config.name]);
-        const msConfig = this.config.multiselect;
         this.options = this.config.options;
-        console.log(this.options);
-        this.selectedOptions = msConfig.selectedOptions;
+
+        this.selectedOptions = this.config.multiselect.selectedOptions ? this.config.multiselect.selectedOptions : undefined;
+
         this.multiSelectSettings = {
-            enableSearch: true,
-            checkedStyle: msConfig.checkedStyle ? msConfig.checkedStyle : 'fontawesome',
-            buttonClasses: `btn btn-primary multiselect-button ${msConfig.buttonClasses}`,
-            itemClasses: msConfig.itemClasses,
-            containerClasses: msConfig.containerClasses,
-            dynamicTitleMaxItems: msConfig.dynamicTitleMaxItems ? msConfig.dynamicTitleMaxItems : 5,
-            displayAllSelectedText: msConfig.displayAllSelectedText,
-            selectionLimit: msConfig.selectionLimit ? msConfig.selectionLimit : 0,
-            minSelectionLimit: msConfig.minSelectionLimit ? msConfig.minSelectionLimit : 0,
-            showCheckAll: msConfig.showCheckAll,
-            showUncheckAll: msConfig.showUncheckAll
+            enableSearch: false,
+            checkedStyle: this.config.multiselect.checkedStyle ? this.config.multiselect.checkedStyle : 'fontawesome',
+            buttonClasses: `btn btn-primary multiselect-button ${this.config.multiselect.buttonClasses ? this.config.multiselect.buttonClasses : ''}`,
+            itemClasses: this.config.multiselect.itemClasses ? this.config.multiselect.itemClasses : '',
+            containerClasses: this.config.multiselect.containerClasses ? this.config.multiselect.containerClasses : '',
+            dynamicTitleMaxItems: this.config.multiselect.dynamicTitleMaxItems ? this.config.multiselect.dynamicTitleMaxItems : 5,
+            displayAllSelectedText: this.config.multiselect.displayAllSelectedText,
+            selectionLimit: this.config.multiselect.selectionLimit ? this.config.multiselect.selectionLimit : 0,
+            minSelectionLimit: this.config.multiselect.minSelectionLimit ? this.config.multiselect.minSelectionLimit : 0,
+            showCheckAll: this.config.multiselect.showCheckAll,
+            showUncheckAll: this.config.multiselect.showUncheckAll
         };
         this.multiSelectTexts = {
             checkAll: 'Seleccionar todo',
@@ -50,7 +50,7 @@ export class FormMultiSelectComponent implements OnInit {
             searchPlaceholder: 'Buscar',
             searchEmptyResult: 'No se han encontrado elementos',
             searchNoRenderText: 'Escribir búsqueda...',
-            defaultTitle: msConfig.defaultTitle,
+            defaultTitle: this.config.multiselect.placeholder,
             allSelected: 'Todo seleccionado',
         };
 
@@ -68,7 +68,8 @@ export class FormMultiSelectComponent implements OnInit {
     }
 
     onChange (value: any): void {
-        // const selected = [];
-        // value.forEach(element => selected.push(this.options.filter(f => f.id === element)[0]));
+        const selected = [];
+        value.forEach(element => selected.push(this.options.filter(f => f.id === element)[0]));
+        this.group.controls[this.config.name].setValue(selected);
     }
 }

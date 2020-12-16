@@ -48,7 +48,7 @@ export class InputMultiSelectComponent implements OnInit, ControlValueAccessor, 
 
     ngOnInit (): void {
         this.multiSelectSettings = {
-            enableSearch: true,
+            enableSearch: false,
             checkedStyle: this.checkClasses ? this.checkClasses : 'fontawesome',
             buttonClasses: `btn btn-primary multiselect-button ${this.buttonClasses}`,
             itemClasses: this.itemClasses,

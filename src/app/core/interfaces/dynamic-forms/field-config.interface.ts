@@ -49,7 +49,7 @@ export interface FieldConfig {
         minSelectionLimit?: number,
         showCheckAll?: boolean,
         showUncheckAll?: boolean,
-        defaultTitle?: string,
+        placeholder?: string,
         selectedOptions?: Array<any>
     };
 }
