@@ -370,7 +370,7 @@ export default class FormUtils {
         if(params[2] == false || params[2] == null){
             points = points + 1;
         }
-        if(params[3] == false || params[2] == null){
+        if(params[3] == false || params[3] == null){
             points = points + 1;
         }
         if(params[4] === 'Ninguna' || params[4] === '1-2'){
@@ -393,7 +393,7 @@ export default class FormUtils {
         if(params[2] == false || params[2] == null){
             points = points + 1;
         }
-        if(params[3] == false || params[2] == null){
+        if(params[3] == false || params[3] == null){
             points = points + 1;
         }
         if(params[4] === 'Ninguna' || params[4] === '1-2'){
