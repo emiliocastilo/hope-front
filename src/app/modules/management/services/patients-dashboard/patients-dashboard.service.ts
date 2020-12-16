@@ -11,4 +11,8 @@ export class PatientsDashboardService {
     public getPatientsDashboardById(id: string): Observable<any> {
         return this._httpClient.get(`/patients-dashboards/${id}`);
     }
+
+    public getVIHPatientsDashboardById(id: string): Observable<any> {
+        return this._httpClient.get(`/patients-dashboards-vih/${id}`);
+    }
 }

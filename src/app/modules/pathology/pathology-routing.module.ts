@@ -17,6 +17,7 @@ import { PrincipalTreatmentComponent } from './patients/components/principal-tre
 import { PasiBsaPgaComponent } from './patients/components/pasi-bsa-pga/pasi-bsa-pga.component';
 import { DlqiComponent } from './patients/components/evolution-clinical-indices/dlqi/dlqi.component';
 import { DynamicFormComponentComponent } from './patients/components/dynamic-form-component/dynamic-form-component.component';
+import { VihDashboardPatientsComponent } from './vih/vih-dashboard-patients/vih-dashboard-patients.component';
 
 const routes: Routes = [
     {
@@ -443,6 +444,11 @@ const routes: Routes = [
     {
         path: 'patients/principal-treatment',
         component: PrincipalTreatmentComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'patients/dashboard-patient-vih',
+        component: VihDashboardPatientsComponent,
         canActivate: [AuthGuard],
     },
 ];

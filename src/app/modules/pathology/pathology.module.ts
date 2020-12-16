@@ -20,6 +20,7 @@ import { PhototherapyComponent } from './patients/components/phototherapy/photot
 import { PrincipalTreatmentComponent } from './patients/components/principal-treatment/principal-treatment.component';
 import { DlqiComponent } from './patients/components/evolution-clinical-indices/dlqi/dlqi.component';
 import { DynamicFormComponentComponent } from './patients/components/dynamic-form-component/dynamic-form-component.component';
+import { VihDashboardPatientsComponent } from './vih/vih-dashboard-patients/vih-dashboard-patients.component';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import { DynamicFormComponentComponent } from './patients/components/dynamic-for
         PrincipalTreatmentComponent,
         PasiBsaPgaComponent,
         DynamicFormComponentComponent,
+        VihDashboardPatientsComponent,
     ],
     imports: [
         CommonModule,
