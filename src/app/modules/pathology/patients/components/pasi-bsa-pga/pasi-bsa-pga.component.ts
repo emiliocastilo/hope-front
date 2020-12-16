@@ -132,13 +132,13 @@ export class PasiBsaPgaComponent implements OnInit {
     }
 
     saveHealthOutcome() {
-        let healthOutcomeArray : HealthOutcomeModel[] = [];
+        let healthOutcomeArray: HealthOutcomeModel[] = [];
         let ho: HealthOutcomeModel = {
-            patientId : this.patient.id,
+            patientId: this.patient.id,
             date: new Date(this.pasiForm.value.evaluationDate).toISOString(),
         };
         for (let index = 0; index < 3; index++) {
-            switch(index){
+            switch (index) {
                 case 0:
                     healthOutcomeArray.push({
                         ...ho,

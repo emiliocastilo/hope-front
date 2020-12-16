@@ -13,6 +13,7 @@ import { NotificationService } from '../../../../../../core/services/notificatio
 // import { HealthOutcomeModel } from '../../../models/health-outcome.model';
 import { ButtonNailsComponent } from '../../../../../../core/components/button-nails/button-nails.component';
 import { NapsiService } from '../../../services/napsi.service';
+import { HealthOutcomeModel } from '../../../models/health-outcome.model';
 
 @Component({
     selector: 'app-napsi',
@@ -79,6 +80,7 @@ export class NapsiComponent implements OnInit {
     }
 
     save() {
+        let healthOutcomeArray: HealthOutcomeModel[] = [];
         const form = {
             template: this.key,
             data: PasiUtils.parseNailsForm(this.form.value),
@@ -90,13 +92,19 @@ export class NapsiComponent implements OnInit {
             } else {
                 this.fillForm(form);
             }
-            this._napsiService.saveScore({
+            healthOutcomeArray.push({
                 patientId: this.patient.id,
                 date: new Date(this.form.value.evaluationDate).toISOString(),
-                indexType: 'napsi',
-                value: this.napsiScore.toString(),
+                indexType: 'NAPSI',
+                value: this.form.value.napsiScore,
                 result: this.napsiCalification,
             });
+            this._napsiService.saveScore(healthOutcomeArray).subscribe(
+                () => {},
+                ({ error }) => {
+                    this._notification.showErrorToast(error.errorCode);
+                }
+            );
         }
     }
 

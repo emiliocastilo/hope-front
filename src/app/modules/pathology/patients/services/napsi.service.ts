@@ -9,7 +9,7 @@ import { HealthOutcomeModel } from '../models/health-outcome.model';
 export class NapsiService {
     constructor(private _httpClient: HttpClient) {}
 
-    public saveScore(healthOutcome: HealthOutcomeModel): Observable<any> {
+    public saveScore(healthOutcome: HealthOutcomeModel[]): Observable<any> {
         return this._httpClient.post('/health-outcomes/save-score-data-by-index-type', healthOutcome);
     }
 }
