@@ -37,4 +37,19 @@ export interface FieldConfig {
     endpoint?: string;
     template?: string;
     css?: string;
+    multiselect?: {
+        enableSearch?: boolean;
+        checkedStyle?: 'fontawesome' | 'checkboxes' | 'glyphicon' | 'visual';
+        buttonClasses?: string;
+        itemClasses?: string;
+        containerClasses?: string;
+        dynamicTitleMaxItems?: number;
+        displayAllSelectedText?: boolean;
+        selectionLimit?: number;
+        minSelectionLimit?: number;
+        showCheckAll?: boolean;
+        showUncheckAll?: boolean;
+        placeholder?: string;
+        selectedOptions?: Array<any>;
+    };
 }

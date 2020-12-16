@@ -54,6 +54,10 @@ export class MedicinesComponent implements OnInit {
         });
     }
 
+    public onChangeSelect(event) {
+        console.log(event);
+    }
+
     private loadData() {
         this._medicinesService.get().subscribe(
             (response: QueryResult<MedicineModel>) => {

@@ -5,14 +5,17 @@ import { ConfirmModalComponent } from '../modals/confirm-modal/confirm-modal.com
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { MenuService } from '../../services/menu/menu.service';
+import { Subscription } from 'rxjs';
+import { CurrentRoleListenerService } from '../../services/current-role-listener/current-role-listener.service';
 
 @Component({
     selector: 'side-bar',
     templateUrl: './side-bar.component.html',
     styleUrls: ['./side-bar.component.scss'],
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit, OnDestroy {
     public menu: MenuItemModel[];
+    private currentRoleSubscription: Subscription;
 
     @Input() currentMenuId: number;
     @Input() level: number;
@@ -24,25 +27,31 @@ export class SideBarComponent implements OnInit {
     public collapsed = false;
     public loaded: Boolean = false;
 
-    constructor(private _router: Router, private _modalService: NgbModal, private loginService: LoginService, private _sidebar: MenuService) {}
+    constructor(private _router: Router, private _modalService: NgbModal, private loginService: LoginService, private _menuService: MenuService, private _roleListener: CurrentRoleListenerService) {}
 
     ngOnInit(): void {
         const user = JSON.parse(localStorage.getItem('user'));
         this.menu = JSON.parse(localStorage.getItem('menu'));
 
-        if (!this.menu || this.menu.length === 0) {
-            this._sidebar.getSideBar().subscribe((response: MenuItemModel) => {
-                this.loaded = true;
-                this.menu = response.children;
-                localStorage.setItem('menu', JSON.stringify(response.children));
-                localStorage.setItem('completeMenu', JSON.stringify(response));
-            });
-        }
+        if (!this.menu || this.menu.length === 0) this.getMenu();
 
         if (user) {
             this.rol = user.rolSelected && user.rolSelected.name ? user.rolSelected.name : '';
             this.name = user.username;
         }
+
+        this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((response) => {
+            this.rol = response.name;
+            this.getMenu();
+        });
+    }
+
+    private getMenu() {
+        this._menuService.getSideBar().subscribe((response: MenuItemModel) => {
+            this.loaded = true;
+            this.menu = response.children;
+            this._menuService.setCurrentSection(undefined);
+        });
     }
 
     showSideBar(menuArray: MenuItemModel[]): MenuItemModel[] {
@@ -72,5 +81,9 @@ export class SideBarComponent implements OnInit {
 
     public goToMyAccount(): void {
         this._router.navigate(['my-account']);
+    }
+
+    ngOnDestroy() {
+        if (this.currentRoleSubscription) this.currentRoleSubscription.unsubscribe();
     }
 }
