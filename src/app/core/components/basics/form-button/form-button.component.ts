@@ -36,16 +36,38 @@ export class FormButtonComponent {
                 });
                 break;
             case 'mutationsAdd':
-                let params = [this.group.value.detectedMutation, this.group.value.mutationText, this.group.value.mutatedGene, this.group.value.mutationType, this.group.value.otherMutationType];
-
-                if (this.group.controls.mutationsAdd.value) {
-                    params.push('  -  ');
-                    params.push(this.group.controls.mutationsAdd.value);
+                let found = false;
+                let mutations = this.group.controls.mutationsAdd.value ? this.group.controls.mutationsAdd.value : [];
+                if (this.group.value.mutationType) {
+                    let newMutation = {
+                        detectedMutation: this.group.value.detectedMutation,
+                        mutationText: this.group.value.mutationText,
+                        mutatedGene: this.group.value.mutatedGeneT ? this.group.value.mutatedGeneT : this.group.value.mutatedGenePr ? this.group.value.mutatedGenePr : this.group.value.mutatedGeneIn,
+                        mutationType: this.group.value.mutationType,
+                        otherMutationType: this.group.value.otherMutationType ? this.group.value.otherMutationType : '',
+                    };
+                    if (this.group.controls.mutationsAdd.value) {
+                        this.group.controls.mutationsAdd.value.forEach((existingMutation, i) => {
+                            if (newMutation.detectedMutation === existingMutation.detectedMutation && newMutation.mutatedGene === existingMutation.mutatedGene && newMutation.mutationType === existingMutation.mutationType) {
+                                found = true;
+                                if (!existingMutation.otherMutationType.includes(newMutation.otherMutationType)) {
+                                    existingMutation.otherMutationType += '/' + newMutation.otherMutationType;
+                                }
+                            }
+                        });
+                        if (!found) {
+                            mutations.push(newMutation);
+                        }
+                    } else {
+                        mutations.push(newMutation);
+                    }
+                    if (mutations[0]) {
+                        // Ordenación
+                        mutations = mutations.sort((a, b) => (a.detectedMutation >= b.detectedMutation ? 1 : -1));
+                        this.group.controls.mutationsAdd.setValue(mutations);
+                    }
                 }
-                if (params[0]) {
-                    this.group.controls.mutationsAdd.setValue(params);
-                }
-
+                this.group.controls.mutationsAdd.setValue(mutations);
                 break;
         }
     }

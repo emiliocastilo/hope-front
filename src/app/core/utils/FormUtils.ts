@@ -360,9 +360,7 @@ export default class FormUtils {
         return date.add(280, 'days').format('DD/MM/YYYY');
     }
 
-    // Mutaciones
-
-    static mutationsAdd(params: Array<any>) {
+    static mutationsAdd(params: Array<any>): any {
         return params;
     }
 }
