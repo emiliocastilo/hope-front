@@ -746,6 +746,19 @@ export class PrincipalTreatmentComponent implements OnInit {
             }
         }
         if (!repeated) {
+            if (type === 'create') {
+                this.tableData.push(newRow);
+            }
+            if (type === 'edit') {
+                Object.keys(editedRow).forEach((key: string) => {
+                    this.tableData[Number(index)][key] = editedRow[key];
+                });
+            }
+            if (type === 'delete') {
+                this.tableData.splice(Number(index), 1);
+                this.paginationData.totalElements = this.tableData.length;
+            }
+
             const form = {
                 template: this.key,
                 data: [
@@ -762,20 +775,13 @@ export class PrincipalTreatmentComponent implements OnInit {
             this._formsService.fillForm(form).subscribe(
                 () => {
                     if (type === 'create') {
-                        this.tableData.push(newRow);
                         this.paginationData.totalElements = this.tableData.length;
                         this._notification.showSuccessToast('elementCreated');
                     } else if (type === 'edit') {
-                        Object.keys(editedRow).forEach((key: string) => {
-                            this.tableData[Number(index)][key] = editedRow[key];
-                        });
                         this._notification.showSuccessToast('elementUpdated');
                     } else if (type === 'delete') {
-                        this.tableData.splice(Number(index), 1);
-                        this.paginationData.totalElements = this.tableData.length;
                         this._notification.showSuccessToast('elementDeleted');
                     }
-
                     modalRef.close();
                     this.refreshTable();
                 },
