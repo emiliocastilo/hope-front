@@ -35,7 +35,7 @@ const components = {
     historic: FormHistoricComponent,
     table: FormListComponent,
     search: FormSearchComponent,
-    multiselect: FormMultiSelectComponent
+    multiselect: FormMultiSelectComponent,
 };
 
 @Directive({

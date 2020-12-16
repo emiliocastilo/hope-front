@@ -1,14 +1,5 @@
 <div class="dynamic-field">
     <span class="ui-float-label">
-
-        <ngx-bootstrap-multiselect 
-            *ngIf="loaded"
-            [options]="options" 
-            [texts]="multiSelectTexts" 
-            [settings]="multiSelectSettings"
-            [(ngModel)]="optionsModel" 
-            (ngModelChange)="onChange($event)">
-        </ngx-bootstrap-multiselect>
-
+        <ngx-bootstrap-multiselect *ngIf="loaded" [options]="options" [texts]="multiSelectTexts" [settings]="multiSelectSettings" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"> </ngx-bootstrap-multiselect>
     </span>
 </div>

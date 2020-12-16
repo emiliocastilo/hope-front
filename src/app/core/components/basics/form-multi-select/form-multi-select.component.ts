@@ -22,7 +22,7 @@ export class FormMultiSelectComponent implements OnInit {
     multiSelectTexts: IMultiSelectTexts;
     loaded: boolean;
 
-    ngOnInit () {
+    ngOnInit() {
         this.loaded = false;
         this.hasRequiredField(this.group.controls[this.config.name]);
         this.options = this.config.options;
@@ -40,7 +40,7 @@ export class FormMultiSelectComponent implements OnInit {
             selectionLimit: this.config.multiselect.selectionLimit ? this.config.multiselect.selectionLimit : 0,
             minSelectionLimit: this.config.multiselect.minSelectionLimit ? this.config.multiselect.minSelectionLimit : 0,
             showCheckAll: this.config.multiselect.showCheckAll,
-            showUncheckAll: this.config.multiselect.showUncheckAll
+            showUncheckAll: this.config.multiselect.showUncheckAll,
         };
         this.multiSelectTexts = {
             checkAll: 'Seleccionar todo',
@@ -54,11 +54,11 @@ export class FormMultiSelectComponent implements OnInit {
             allSelected: 'Todo seleccionado',
         };
 
-        if (this.selectedOptions && this.selectedOptions.length > 0) this.selectedOptions.forEach(element => this.optionsModel.push(element.id));
+        if (this.selectedOptions && this.selectedOptions.length > 0) this.selectedOptions.forEach((element) => this.optionsModel.push(element.id));
         this.loaded = true;
     }
 
-    hasRequiredField (abstractControl: AbstractControl) {
+    hasRequiredField(abstractControl: AbstractControl) {
         if (abstractControl.validator) {
             const validator = abstractControl.validator({} as AbstractControl);
             if (validator && validator.required) {
@@ -67,9 +67,9 @@ export class FormMultiSelectComponent implements OnInit {
         }
     }
 
-    onChange (value: any): void {
+    onChange(value: any): void {
         const selected = [];
-        value.forEach(element => selected.push(this.options.filter(f => f.id === element)[0]));
+        value.forEach((element) => selected.push(this.options.filter((f) => f.id === element)[0]));
         this.group.controls[this.config.name].setValue(selected);
     }
 }

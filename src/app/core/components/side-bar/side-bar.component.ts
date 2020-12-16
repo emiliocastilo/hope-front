@@ -27,14 +27,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
     public collapsed = false;
     public loaded: Boolean = false;
 
-    constructor(
-        private _router: Router,
-        private _modalService: NgbModal,
-        private loginService: LoginService,
-        private _menuService: MenuService,
-        private _roleListener: CurrentRoleListenerService) { }
+    constructor(private _router: Router, private _modalService: NgbModal, private loginService: LoginService, private _menuService: MenuService, private _roleListener: CurrentRoleListenerService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         const user = JSON.parse(localStorage.getItem('user'));
         this.menu = JSON.parse(localStorage.getItem('menu'));
 
@@ -45,14 +40,13 @@ export class SideBarComponent implements OnInit, OnDestroy {
             this.name = user.username;
         }
 
-        this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe(
-            response => {
-                this.rol = response.name;
-                this.getMenu();
-            });
+        this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((response) => {
+            this.rol = response.name;
+            this.getMenu();
+        });
     }
 
-    private getMenu () {
+    private getMenu() {
         this._menuService.getSideBar().subscribe((response: MenuItemModel) => {
             this.loaded = true;
             this.menu = response.children;
@@ -60,17 +54,17 @@ export class SideBarComponent implements OnInit, OnDestroy {
         });
     }
 
-    showSideBar (menuArray: MenuItemModel[]): MenuItemModel[] {
+    showSideBar(menuArray: MenuItemModel[]): MenuItemModel[] {
         const rootMenu = menuArray.filter((value: MenuItemModel) => value.id === this.currentMenuId);
         return rootMenu;
     }
 
-    toggleCollapse (): void {
+    toggleCollapse(): void {
         this.collapsed = !this.collapsed;
         this.collapse.emit(this.collapsed);
     }
 
-    logout (): void {
+    logout(): void {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = 'Salir';
@@ -85,11 +79,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
         });
     }
 
-    public goToMyAccount (): void {
+    public goToMyAccount(): void {
         this._router.navigate(['my-account']);
     }
 
-    ngOnDestroy () {
+    ngOnDestroy() {
         if (this.currentRoleSubscription) this.currentRoleSubscription.unsubscribe();
     }
 }
