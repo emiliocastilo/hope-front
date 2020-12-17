@@ -20,9 +20,9 @@ export class FormSearchComponent implements OnInit {
     actions: Array<any>;
     nestedModal: NgbModalRef;
 
-    constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: FormsService) {}
+    constructor(private modalService: NgbModal, private fb: FormBuilder, private formService: FormsService) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.modalForm = this.fb.group({
             search: [''],
         });
@@ -31,18 +31,18 @@ export class FormSearchComponent implements OnInit {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
-    openModal(content: any) {
+    openModal (content: any) {
         event.preventDefault();
         this.nestedModal = this.modalService.open(content, { size: 'lg', backdrop: false });
     }
 
-    closeModal() {
+    closeModal () {
         //this.modalService.dismissAll();
         this.nestedModal.close();
         this.modalForm.reset();
     }
 
-    onSearch(event: any) {
+    onSearch (event: any) {
         let url = this.config.endpoint;
         if (event.target.value.length >= 2) {
             this.config.params.forEach((element: any, index: number) => {
@@ -52,14 +52,11 @@ export class FormSearchComponent implements OnInit {
         }
     }
 
-    async makeRequest(url: string) {
-        const res: any = await this.formService.callEndpoint(url);
-        if (res) {
-            this.response = res;
-        }
+    async makeRequest (url: string) {
+        this.formService.callEndpoint(url).subscribe(response => this.response = response);
     }
 
-    selectResult(e: any) {
+    selectResult (e: any) {
         const element = this.response.content[e.selectedItem];
         this.group.controls[this.config.name].setValue(element.code);
         this.group.controls['cieDescription'].setValue(element.description);
