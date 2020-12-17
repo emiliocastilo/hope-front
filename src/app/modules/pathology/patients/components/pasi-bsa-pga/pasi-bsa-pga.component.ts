@@ -21,6 +21,7 @@ export class PasiBsaPgaComponent implements OnInit {
     pasiForm: FormGroup;
     pasiScore: string;
     bsaScore: string;
+    pgaScore: string;
     bsaCalification: string;
     pasiCalification: string;
     pgaCalification: string;
@@ -143,7 +144,7 @@ export class PasiBsaPgaComponent implements OnInit {
                     healthOutcomeArray.push({
                         ...ho,
                         indexType: 'PASI',
-                        value: this.filledForm.pasi,
+                        value: this.pasiScore,
                         result: this.pasiCalification,
                     });
                     break;
@@ -151,7 +152,7 @@ export class PasiBsaPgaComponent implements OnInit {
                     healthOutcomeArray.push({
                         ...ho,
                         indexType: 'BSA',
-                        value: this.filledForm.bsa,
+                        value: this.bsaScore,
                         result: this.bsaCalification,
                     });
                     break;
@@ -159,7 +160,7 @@ export class PasiBsaPgaComponent implements OnInit {
                     healthOutcomeArray.push({
                         ...ho,
                         indexType: 'PGA',
-                        value: this.filledForm.pga,
+                        value: this.pgaScore,
                         result: this.pgaCalification,
                     });
                     break;
@@ -212,6 +213,7 @@ export class PasiBsaPgaComponent implements OnInit {
     onSelectPGA(event: any) {
         const option = event.target.value.split(':')[1].trim();
         this.pgaCalification = PasiUtils.selectPGA(option);
+        this.pgaScore = option;
     }
 
     fillForm(form: any) {
