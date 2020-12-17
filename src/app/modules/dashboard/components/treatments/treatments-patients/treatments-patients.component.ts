@@ -31,14 +31,14 @@ export class TreatmentsPatientsComponent implements OnInit {
         { code: 'PALMOPLANTAR', name: 'psoriasisPalmoplantar' },
         { code: 'ERITRODERMIA', name: 'eritrodermia' },
         { code: 'PUSTULOSA', name: 'psoriasisPustulosa' },
-        { code: 'ARTRITIS', name: 'artritisPsoriasica' },
-        { code: 'DERMATITIS', name: 'dermatitisAtopica' },
-        { code: 'URTICARIA', name: 'urticariaCronica' },
-        { code: 'HIDRADENITIS', name: 'hidradenitisSupurativa' },
-        { code: 'CARCINOMA BASALES', name: 'carcinomaBasales' },
-        { code: 'CARCINOMA ESCAMOSAS', name: 'carcinomaEscamosas' },
+        { code: 'ARTRITIS', name: 'psoriasicArthritis' },
+        { code: 'DERMATITIS', name: 'atopicDermatitis' },
+        { code: 'URTICARIA', name: 'chronicUrticaria' },
+        { code: 'HIDRADENITIS', name: 'hidradenitisSuppurativa' },
+        { code: 'CARCINOMA BASALES', name: 'basalCarcinoma' },
+        { code: 'CARCINOMA ESCAMOSAS', name: 'squamousCarcinoma' },
         { code: 'MELANOMA', name: 'melanoma' },
-        { code: 'OTRA', name: 'otra' },
+        { code: 'OTRA', name: 'other' },
     ];
     public indication: Indication;
     public showingDetail = false;
