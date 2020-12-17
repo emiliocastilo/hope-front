@@ -558,5 +558,12 @@
   "OtherInfectionsObservations" : "Observations",
   "exitoPercentage" : "Success (%)",
   "iqrMedPercentage" : "IQR/MED (%)",
-  "intubation" : "Probe"
+  "intubation" : "Probe",
+  "psoriasicArthritis": "Psoriasic arthritis",
+  "atopicDermatitis": "Atopic dermatitis",
+  "chronicUrticaria": "Chronic urticaria",
+  "hidradenitisSuppurativa": "Hidradenitis suppurativa",
+  "basalCarcinoma":"Basal cell carcinoma skin cancer",
+  "squamousCarcinoma": "Squamous cell carcinoma skin cancer",
+  "melanoma" : "Melanoma cancer"
 }
