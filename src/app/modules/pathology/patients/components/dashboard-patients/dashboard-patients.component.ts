@@ -41,6 +41,7 @@ export class DashboardPatientsComponent implements OnInit {
                 avoidOverlappingGridLines: true,
                 backgroundColor: '#FFFF',
                 fontName: 'Raleway, sans-serif',
+
                 timeline: {
                     barLabelStyle: {
                         fontName: 'Raleway, sans-serif',
@@ -221,7 +222,7 @@ export class DashboardPatientsComponent implements OnInit {
                         label.setAttribute('display', 'none');
                     }
                 });
-            } else this.noData = true;
+            } else; //this.noData = true;
         }, 1);
     }
 
@@ -242,6 +243,7 @@ export class DashboardPatientsComponent implements OnInit {
 
             return object;
         });
+
         return arrayData;
     }
 
