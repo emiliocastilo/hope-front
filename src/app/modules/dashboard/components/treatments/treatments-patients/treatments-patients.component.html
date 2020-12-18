@@ -7,7 +7,7 @@
                 </label>
                 <select class="form-control" (change)="onIndicationChange($event)">
                     <option *ngFor="let entry of entries; index as i" [value]="i">
-                        {{ entry.name | translate }}
+                        {{ entry.description | translate }}
                     </option>
                 </select>
             </div>

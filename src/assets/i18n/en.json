@@ -565,5 +565,12 @@
   "hidradenitisSuppurativa": "Hidradenitis suppurativa",
   "basalCarcinoma":"Basal cell carcinoma skin cancer",
   "squamousCarcinoma": "Squamous cell carcinoma skin cancer",
-  "melanoma" : "Melanoma cancer"
+  "melanoma" : "Melanoma cancer",
+  "patientsTreatmentPsoriasicArthritis": "Biological treatment in patients with psoriatic arthritis",
+  "patientsTreatmentAtopicDermatitis": "Biological treatment in patients with atopic dermatitis",
+  "patientsTreatmentChronicUrticaria": "Biological treatment in patients with chronic urticaria",
+  "patientsTreatmentHidradenitisSuppurativa": "Biological treatment in patients with hidradenitis suppurativa",
+  "patientsTreatmentBasalCarcinoma": "Biological treatment in patients with basal cell carcinoma skin cancer",
+  "patientsTreatmentSquamousCarcinoma": "Biological treatment in patients with squamous cell carcinoma skin cancer",
+  "patientsTreatmentMelanoma": "Biological treatment in patients with melanoma cancer"
 }
