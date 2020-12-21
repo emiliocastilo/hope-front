@@ -584,5 +584,6 @@
   "OtherInfectionsObservations" : "Observaciones",
   "exitoPercentage" : "Éxito (%)",
   "iqrMedPercentage" : "IQR/MED (%)",
-  "intubation" : "Sonda"
+  "intubation" : "Sonda",
+  "labelAllNothing" : "Ninguna"
 }

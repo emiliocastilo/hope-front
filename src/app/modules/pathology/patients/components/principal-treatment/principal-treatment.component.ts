@@ -94,46 +94,34 @@ export class PrincipalTreatmentComponent implements OnInit {
 
     formatter = (state) => state.name;
 
-    filterMeds(meds: any): any {
-        let auxmeds = [];
-        meds.forEach((med) => {
-            if (Array.isArray(this.modalForm.controls.treatmentType.value)) {
-                if (!med.family || med.family === this.modalForm.controls.treatmentType.value[0].id || this.modalForm.controls.treatmentType.value[0].id === 'TOPICO') {
-                    //&& this.modalForm.controls.treatmentType.value[0].id
-                    auxmeds.push(med);
-                }
-            } else {
-                if (
-                    !med.family ||
-                    med.family === this.modalForm.controls.treatmentType.value.id ||
-                    this.modalForm.controls.treatmentType.value.id === 'TOPICO' ||
-                    med.family === this.modalForm.controls.treatmentType.value ||
-                    this.modalForm.controls.treatmentType.value.id === 'TOPICO'
-                ) {
-                    auxmeds.push(med);
-                }
-            }
-        });
-        return auxmeds;
-    }
     search = (text$: Observable<string>) => {
         return text$.pipe(
             debounceTime(200),
             distinctUntilChanged(),
             switchMap((term) =>
-                this._medicinesService.getByText(`search=${term}`).pipe(
-                    map((response: any) => {
-                        return this.filterMeds(response.content);
-                    }),
-                    tap((data) => {
-                        data.forEach((element) => {
-                            element.name = element.description;
-                        });
-                    }),
-                    catchError(() => {
-                        return of([]);
-                    })
-                )
+                this._medicinesService
+                    .getByText(
+                        `search=${term}&family=${
+                            this.modalForm.controls.treatmentType.value.id
+                                ? this.modalForm.controls.treatmentType.value.id
+                                : this.modalForm.controls.treatmentType.value[0]?.id
+                                ? this.modalForm.controls.treatmentType.value[0].id
+                                : this.modalForm.controls.treatmentType.value
+                        }`
+                    )
+                    .pipe(
+                        map((response: any) => {
+                            return response.content;
+                        }),
+                        tap((data) => {
+                            data.forEach((element) => {
+                                element.name = element.description;
+                            });
+                        }),
+                        catchError(() => {
+                            return of([]);
+                        })
+                    )
             )
         );
     };
