@@ -67,6 +67,8 @@ export default class FormUtils {
         fieldConfig.css = value.css;
         fieldConfig.readonly = value.readonly;
 
+        fieldConfig.multiselect = value.multiselect;
+
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
             fieldConfig.validation = this.parseValidations(validations);
@@ -363,7 +365,7 @@ export default class FormUtils {
     static mutationsAdd(params: Array<any>): any {
         return params;
     }
-    
+
     //TODO: los casos del switch, se dejan así porque están así en plantilla, cuando tengamos la patología casi cerrada convendría modificarlos por valores y no textos.
     static stadiumClassification(params: Array<any>): any {
         let categoria: string = '';
