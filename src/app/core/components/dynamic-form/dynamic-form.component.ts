@@ -40,7 +40,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) {}
 
     ngOnInit() {
-        console.log(this.config);
         this.form = this.createGroup();
     }
 
