@@ -156,29 +156,29 @@ export class GraphsService {
     // TODO plopezc - completar con back, ahora están puestas igual
     //Parámetros clínicos
     public getPatientsByClinicalParameter(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type?${query}`);
     }
 
     public getDetailPatientsByClinicalParameter(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type-indication?${query}`);
     }
 
     public getDetailPatientsByClinicalParameterToExport(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name-indication-toExport?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type-indication-toExport?${query}`);
     }
 
     //Cambio de tratamiento
     public getPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-treatment-change?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type?${query}`);
     }
     public getDetailPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/detail-by-treatment-change?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type-indication?${query}`);
     }
     public getDetailPatientsByTreatmentChangeToExport(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/detail-by-treatment-change-toExport?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type-indication-toExport?${query}`);
     }
 
-    //Costes tipo paciente
+    // Costes tipo paciente
     public getPatientsByPatientType(): any {
         return this._httpClient.get(`/patient-clinical-data/by-patientType`);
     }

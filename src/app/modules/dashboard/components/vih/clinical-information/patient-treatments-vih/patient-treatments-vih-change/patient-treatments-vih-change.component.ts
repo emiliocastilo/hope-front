@@ -134,7 +134,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.dataTable[event.selectedItem];
-            const query = this.query + '&reason=' + this.currentSelected.changeCause;
+            const query = this.query + '&indication=' + this.currentSelected.changeCause;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
