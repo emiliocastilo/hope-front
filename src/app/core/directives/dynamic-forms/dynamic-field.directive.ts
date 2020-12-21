@@ -19,6 +19,7 @@ import { FromSectionComponent } from '../../components/basics/from-section/from-
 import { FormSearchComponent } from '../../components/basics/form-search/form-search.component';
 import { InputMultiSelectComponent } from '../../components/basics/input-multi-select/input-multi-select.component';
 import { FormMultiSelectComponent } from '../../components/basics/form-multi-select/form-multi-select.component';
+import { FormSpaceComponent } from '../../components/basics/form-space/form-space.component';
 
 const components = {
     button: FormButtonComponent,
@@ -36,6 +37,7 @@ const components = {
     table: FormListComponent,
     search: FormSearchComponent,
     multiselect: FormMultiSelectComponent,
+    space: FormSpaceComponent
 };
 
 @Directive({
