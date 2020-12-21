@@ -65,6 +65,7 @@ export default class FormUtils {
         fieldConfig.button = value.button;
         fieldConfig.template = value.template;
         fieldConfig.css = value.css;
+        fieldConfig.readonly = value.readonly;
 
         fieldConfig.multiselect = value.multiselect;
 
@@ -360,6 +361,11 @@ export default class FormUtils {
         let date = moment(params[0]);
         return date.add(280, 'days').format('DD/MM/YYYY');
     }
+
+    static mutationsAdd(params: Array<any>): any {
+        return params;
+    }
+
     //TODO: los casos del switch, se dejan así porque están así en plantilla, cuando tengamos la patología casi cerrada convendría modificarlos por valores y no textos.
     static stadiumClassification(params: Array<any>): any {
         let categoria: string = '';

@@ -1,5 +1,15 @@
 <div class="form-group dynamic-group field" [formGroup]="group">
     <label [attr.for]="config.name" class="dynamic-label" [ngClass]="{ 'required-label': required }">{{ config.label | translate }}</label>
-    <textarea [attr.id]="config.name" [attr.name]="config.name" [attr.placeholder]="config.placeholder" [formControlName]="config.name" class="dynamic-field" [attr.rows]="config.rows"></textarea>
+    <textarea [attr.id]="config.name" [attr.name]="config.name" [attr.placeholder]="config.placeholder" [hidden]="config.inputType === 'pill'" [formControlName]="config.name" class="dynamic-field" [attr.rows]="config.rows"></textarea>
     {{ config.rows }}
+</div>
+
+<div *ngIf="config.inputType === 'pill'" class="container-flex">
+    <div *ngFor="let mutation of group.controls.mutationsAdd.value; index as i" class="chip">
+        <span
+            >{{ mutation.detectedMutation }} {{ mutation.mutationText ? '-' : '' }} {{ mutation.mutationText }} {{ mutation.mutationGene ? '-' : '' }} {{ mutation.mutatedGene }} {{ mutation.mutationType ? '-' : '' }} {{ mutation.mutationType }}
+            {{ mutation.otherMutationType ? '-' : '' }} {{ mutation.otherMutationType }}
+        </span>
+        <i-feather (click)="removeMutation(i)" name="x"></i-feather>
+    </div>
 </div>

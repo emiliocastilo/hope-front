@@ -37,6 +37,7 @@ export interface FieldConfig {
     endpoint?: string;
     template?: string;
     css?: string;
+    readonly?: boolean;
     multiselect?: {
         enableSearch?: boolean;
         checkedStyle?: 'fontawesome' | 'checkboxes' | 'glyphicon' | 'visual';
