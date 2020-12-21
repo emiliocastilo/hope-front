@@ -10,12 +10,14 @@ import { map } from 'rxjs/operators';
 export class IndicationService {
     public indications: Array<IndicationModel>;
 
-    constructor(private _http: HttpClient) { }
+    constructor(private _http: HttpClient) {}
 
-    getList (): Observable<Array<IndicationModel>> {
-        return this._http.get<Array<IndicationModel>>('/indications').pipe(map((response) => {
-            this.indications = response;
-            return response;
-        }));
+    getList(): Observable<Array<IndicationModel>> {
+        return this._http.get<Array<IndicationModel>>('/indications').pipe(
+            map((response) => {
+                this.indications = response;
+                return response;
+            })
+        );
     }
 }

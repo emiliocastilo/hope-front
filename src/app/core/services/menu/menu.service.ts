@@ -24,15 +24,13 @@ export class MenuService {
     public allSections: MenuItemModel[];
     public thereIsPatientSelected: boolean = false;
 
-
-
     constructor(private _httpClient: HttpClient, private _formService: FormsService, private _modalService: NgbModal, private translate: TranslateService, private _router: Router) {
         this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
         this.thereIsPatientSelected = localStorage.getItem('thereIsPatientSelected') !== undefined && localStorage.getItem('thereIsPatientSelected') !== null;
         this.getSideBar();
     }
 
-    private assignParentAndCollapseStatus (menu: MenuItemModel, root?: string) {
+    private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
         menu.collapsed = true;
         menu.path = `${root ? root : ''}/${menu.id}`;
         if (menu.url === '/hopes/pathology/patients') this.patientPath = menu.path;
@@ -48,7 +46,7 @@ export class MenuService {
         return menu;
     }
 
-    private findSectionByUrl (menu: Array<MenuItemModel>, url: string): MenuItemModel {
+    private findSectionByUrl(menu: Array<MenuItemModel>, url: string): MenuItemModel {
         menu.forEach((item) => {
             if (url.indexOf('hopes') < 0) {
                 if (!url.startsWith('/')) url = '/hopes/' + url;
@@ -61,7 +59,7 @@ export class MenuService {
         return this.current;
     }
 
-    public fillSections (section: MenuItemModel) {
+    public fillSections(section: MenuItemModel) {
         if (!this.allSections) this.allSections = [];
         section.visible = true;
         this.allSections.push(section);
@@ -72,7 +70,7 @@ export class MenuService {
             });
     }
 
-    public setCurrentSection (section?: MenuItemModel) {
+    public setCurrentSection(section?: MenuItemModel) {
         if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
             if (!section) {
@@ -81,7 +79,7 @@ export class MenuService {
             }
             const url = section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
 
-            if (!section.path.includes(this.patientPath) && this.thereIsPatientSelected) { 
+            if (!section.path.includes(this.patientPath) && this.thereIsPatientSelected) {
                 this.thereIsPatientSelected = false;
                 localStorage.removeItem('selectedPatient');
                 this.assignParentAndCollapseStatus(this.fullMenu);
@@ -98,16 +96,16 @@ export class MenuService {
         }
     }
 
-    public setCurrentSectionByUrl (url: string) {
+    public setCurrentSectionByUrl(url: string) {
         const menu: MenuItemModel = JSON.parse(localStorage.getItem('completeMenu'));
         if (menu) this.setCurrentSection(this.findSectionByUrl(menu.children, url));
     }
 
-    public getCurrentSection (): Observable<MenuItemModel> {
+    public getCurrentSection(): Observable<MenuItemModel> {
         return this.currentSection.asObservable();
     }
 
-    public getSideBar (): Observable<MenuItemModel> {
+    public getSideBar(): Observable<MenuItemModel> {
         return this._httpClient.get<MenuItemModel>('/menus').pipe(
             map((response) => {
                 this.allSections = [];
@@ -119,7 +117,7 @@ export class MenuService {
             })
         );
     }
-    private showModalConfirm (section?: MenuItemModel) {
+    private showModalConfirm(section?: MenuItemModel) {
         const modalRef = this._modalService.open(ConfirmModalComponent);
         modalRef.componentInstance.title = this.translate.instant('saveWarning');
         modalRef.componentInstance.messageModal = this.translate.instant('saveWarningMessage');

@@ -21,14 +21,9 @@ export class FormListComponent implements OnInit {
     detailArray: Array<any>;
     today: string;
 
-    constructor(
-        private modalService: NgbModal,
-        private datePipe: DatePipe,
-        private translate: TranslateService,
-        private _formsService: FormsService,
-        private _indicationService: IndicationService) { }
+    constructor(private modalService: NgbModal, private datePipe: DatePipe, private translate: TranslateService, private _formsService: FormsService, private _indicationService: IndicationService) {}
 
-    ngOnInit () {
+    ngOnInit() {
         this.today = moment(new Date()).format('YYYY-MM-DD');
         if (this.config.value && this.config.value.length > 0) {
             this.rows = this.config.value;
@@ -36,7 +31,7 @@ export class FormListComponent implements OnInit {
         }
     }
 
-    openModalCreate () {
+    openModalCreate() {
         const modalRef = this.modalService.open(DynamicModalComponent, {
             size: 'lg',
         });
@@ -53,7 +48,7 @@ export class FormListComponent implements OnInit {
         });
     }
 
-    setInvalidForm (error: boolean) {
+    setInvalidForm(error: boolean) {
         setTimeout(() => {
             if (error) {
                 this.group.controls[this.config.name].setErrors({
@@ -65,14 +60,14 @@ export class FormListComponent implements OnInit {
         }, 100);
     }
 
-    onDeleteRow (index) {
+    onDeleteRow(index) {
         event.preventDefault();
         this.rows.splice(index, 1);
         this._formsService.setSavedForm(false);
         this.deleteToForm(index);
     }
 
-    bindToForm () {
+    bindToForm() {
         setTimeout(() => {
             this.rows.forEach((r) => {
                 this.group.controls[this.config.name].value.push(r);
@@ -80,11 +75,11 @@ export class FormListComponent implements OnInit {
         }, 500);
     }
 
-    deleteToForm (index) {
+    deleteToForm(index) {
         this.group.controls[this.config.name].value.splice(index, 1);
     }
 
-    openModalDetail (i: number, content: any) {
+    openModalDetail(i: number, content: any) {
         this.detailArray = [];
         Object.entries(this.rows[i]).forEach((e) => {
             const entry = {
@@ -94,12 +89,12 @@ export class FormListComponent implements OnInit {
             this.detailArray.push(entry);
         });
         this.modalService.open(content).result.then(
-            (result) => { },
-            (reason) => { }
+            (result) => {},
+            (reason) => {}
         );
     }
 
-    emitIconButtonClick (action, i, content) {
+    emitIconButtonClick(action, i, content) {
         event.preventDefault();
         switch (action) {
             case 'edit':
@@ -116,7 +111,7 @@ export class FormListComponent implements OnInit {
         }
     }
 
-    openModalEdit (index: number) {
+    openModalEdit(index: number) {
         const modalRef = this.modalService.open(DynamicModalComponent, {
             size: 'lg',
         });
@@ -134,25 +129,23 @@ export class FormListComponent implements OnInit {
         });
     }
 
-    formatDate (date) {
+    formatDate(date) {
         return moment(date).format('YYYY-MM-DD');
     }
 
-    showDataTable (row: any, header: string) {
+    showDataTable(row: any, header: string) {
         let data = row;
         const conditionDate = header.toLowerCase().includes('date') || header.toLowerCase().includes('period');
 
         if (header === 'typePsoriasis') {
             let indications = this._indicationService.indications;
             if (indications && indications.length > 0) {
-                data = this.translate.instant(indications.filter(f => f.id === row)[0].description);
+                data = this.translate.instant(indications.filter((f) => f.id === row)[0].description);
             } else {
-                this._indicationService.getList().subscribe(
-                    response => {
-                        indications = response;
-                        data = this.translate.instant(indications.filter(f => f.id === row)[0].description);
-                    }
-                );
+                this._indicationService.getList().subscribe((response) => {
+                    indications = response;
+                    data = this.translate.instant(indications.filter((f) => f.id === row)[0].description);
+                });
             }
         }
 

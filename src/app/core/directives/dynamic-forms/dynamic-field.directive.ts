@@ -37,7 +37,7 @@ const components = {
     table: FormListComponent,
     search: FormSearchComponent,
     multiselect: FormMultiSelectComponent,
-    space: FormSpaceComponent
+    space: FormSpaceComponent,
 };
 
 @Directive({
