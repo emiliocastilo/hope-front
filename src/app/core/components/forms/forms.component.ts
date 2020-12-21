@@ -71,13 +71,18 @@ export class FormsComponent implements OnInit, OnDestroy {
             this._formsService.setSavedForm(true);
             if (this.key === 'dlqi') {
                 const ho = {
-                    patient: this.patient.id,
+                    patientId: this.patient.id,
                     date: new Date(value.evaluationDate).toISOString(),
                     indexType: 'DLQI',
                     value: value.dlqiScore,
                     result: value.clasificationScore,
                 };
-                this.hoService.saveScore(ho);
+                this.hoService.saveScore([ho]).subscribe(
+                    () => {},
+                    ({ error }) => {
+                        this._notification.showErrorToast(error.errorCode);
+                    }
+                );
             }
         } else {
             this._notification.showErrorToast('errorForm');
