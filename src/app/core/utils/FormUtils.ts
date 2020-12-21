@@ -361,22 +361,22 @@ export default class FormUtils {
 
     static smaqAdherence(params: Array<any>): any {
         let points: number = 0;
-        if(params[0] == false || params[0] == null){
+        if (params[0] == false || params[0] == null) {
             points = points + 1;
         }
-        if(params[1] == true){
+        if (params[1] == true) {
             points = points + 1;
         }
-        if(params[2] == false || params[2] == null){
+        if (params[2] == false || params[2] == null) {
             points = points + 1;
         }
-        if(params[3] == false || params[3] == null){
+        if (params[3] == false || params[3] == null) {
             points = points + 1;
         }
-        if(params[4] === 'Ninguna' || params[4] === '1-2'){
+        if (params[4] === 'Ninguna' || params[4] === '1-2') {
             points = points + 1;
         }
-        if(params[5] < 2){
+        if (params[5] < 2) {
             points = points + 1;
         }
         return points;
@@ -384,22 +384,22 @@ export default class FormUtils {
 
     static smaqAssessment(params: Array<any>): any {
         let points: number = 0;
-        if(params[0] == false || params[0] == null){
+        if (params[0] == false || params[0] == null) {
             points = points + 1;
         }
-        if(params[1] == true){
+        if (params[1] == true) {
             points = points + 1;
         }
-        if(params[2] == false || params[2] == null){
+        if (params[2] == false || params[2] == null) {
             points = points + 1;
         }
-        if(params[3] == false || params[3] == null){
+        if (params[3] == false || params[3] == null) {
             points = points + 1;
         }
-        if(params[4] === 'Ninguna' || params[4] === '1-2'){
+        if (params[4] === 'Ninguna' || params[4] === '1-2') {
             points = points + 1;
         }
-        if(params[5] < 2){
+        if (params[5] < 2) {
             points = points + 1;
         }
         if (points >= 3.5) {
@@ -411,6 +411,7 @@ export default class FormUtils {
 
     static smaqAdherencePercentage(params: Array<any>): any {
         switch (params[4]) {
+            case 'Ninguna':
             case null:
                 return '95-100 %';
             case '1-2':
