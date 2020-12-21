@@ -17,4 +17,6 @@ export class FieldConfigModel implements FieldConfig {
     rows?: number;
     inputType?: string;
     css?: string;
+    formula?: any;
+    readonly?: boolean;
 }

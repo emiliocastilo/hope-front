@@ -42,7 +42,7 @@ export class FormSearchComponent implements OnInit {
 
     openModal(content: any) {
         event.preventDefault();
-        this.nestedModal = this.modalService.open(content, { size: 'lg', backdrop: false });
+        this.nestedModal = this.modalService.open(content, { size: 'lg', backdrop: 'static' });
     }
 
     closeModal() {

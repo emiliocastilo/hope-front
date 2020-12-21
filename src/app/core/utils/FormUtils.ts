@@ -65,6 +65,7 @@ export default class FormUtils {
         fieldConfig.button = value.button;
         fieldConfig.template = value.template;
         fieldConfig.css = value.css;
+        fieldConfig.readonly = value.readonly;
 
         fieldConfig.multiselect = value.multiselect;
 
@@ -426,6 +427,10 @@ export default class FormUtils {
                 return '< 30 %';
         }
     }
+    static mutationsAdd(params: Array<any>): any {
+        return params;
+    }
+
     //TODO: los casos del switch, se dejan así porque están así en plantilla, cuando tengamos la patología casi cerrada convendría modificarlos por valores y no textos.
     static stadiumClassification(params: Array<any>): any {
         let categoria: string = '';
