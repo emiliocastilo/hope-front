@@ -8,7 +8,7 @@
             </div>
             <div class="custom-select">
                 <label class="label"> {{ 'evaluationDate' | translate }}</label>
-                <input type="date" class="custom-date" [max]="today" formControlName="evaluationDate" />
+                <input type="date" class="custom-date" [max]="today" formControlName="evaluationDate" (change)="getAndParseForm($event)" />
             </div>
         </div>
 

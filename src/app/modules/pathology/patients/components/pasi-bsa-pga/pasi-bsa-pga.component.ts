@@ -21,7 +21,7 @@ export class PasiBsaPgaComponent implements OnInit {
     pasiForm: FormGroup;
     pasiScore: string;
     bsaScore: string;
-    pgaScore: string;
+    pgaScore: any;
     bsaCalification: string;
     pasiCalification: string;
     pgaCalification: string;
@@ -63,7 +63,13 @@ export class PasiBsaPgaComponent implements OnInit {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
-    async getAndParseForm() {
+    async getAndParseForm(event?: any) {
+        let dateSelected: any;
+        if (event) {
+            dateSelected = event.target.value;
+            this.onClear();
+        }
+
         this.pasiForm = this.fb.group({
             cabeza: this.fb.group({
                 area: new FormControl({ value: '', disabled: true }),
@@ -93,16 +99,18 @@ export class PasiBsaPgaComponent implements OnInit {
                 escamas: new FormControl({ value: '', disabled: true }),
                 total: '',
             }),
-            evaluationDate: [this.today, Validators.required],
+            evaluationDate: [!event ? this.today : dateSelected, Validators.required],
             pga: ['', Validators.required],
             bsa: ['', Validators.required],
             pasi: ['', Validators.required],
         });
-        const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
-        if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
-            this.filledForm = JSON.parse(retrievedForm.data.find((e) => e.type === 'form').value);
-            this.pasiForm.setValue(this.filledForm);
-            this.printFormValues(this.filledForm);
+        if (!event) {
+            const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
+            if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
+                this.filledForm = JSON.parse(retrievedForm.data.find((e) => e.type === 'form').value);
+                this.pasiForm.setValue(this.filledForm);
+                this.printFormValues(this.filledForm);
+            }
         }
     }
 
@@ -110,7 +118,10 @@ export class PasiBsaPgaComponent implements OnInit {
         if (event) {
             this.pasiForm.controls[field].enable();
         } else {
+            this.pasiForm.controls[field].reset('');
             this.pasiForm.controls[field].disable();
+            this.pasiForm.controls[field].get('total').setValue('');
+            this.pasiForm.controls[field].get('total').enable();
         }
         this[field] = event;
     }
@@ -144,7 +155,7 @@ export class PasiBsaPgaComponent implements OnInit {
                     healthOutcomeArray.push({
                         ...ho,
                         indexType: 'PASI',
-                        value: this.pasiScore,
+                        value: this.pasiScore ? this.pasiScore : this.pasiForm.value.pasi,
                         result: this.pasiCalification,
                     });
                     break;
@@ -152,7 +163,7 @@ export class PasiBsaPgaComponent implements OnInit {
                     healthOutcomeArray.push({
                         ...ho,
                         indexType: 'BSA',
-                        value: this.bsaScore,
+                        value: this.bsaScore ? this.bsaScore : this.pasiForm.value.bsa,
                         result: this.bsaCalification,
                     });
                     break;
@@ -160,7 +171,7 @@ export class PasiBsaPgaComponent implements OnInit {
                     healthOutcomeArray.push({
                         ...ho,
                         indexType: 'PGA',
-                        value: this.pgaScore,
+                        value: this.pgaScore ? this.pgaScore : this.pasiForm.value.pga,
                         result: this.pgaCalification,
                     });
                     break;
