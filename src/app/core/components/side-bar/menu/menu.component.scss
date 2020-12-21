@@ -40,6 +40,18 @@
   }
 }
 
+.sub-side-bar-menu-level-3 .item {
+  transition: 0.5s;
+  background-color: $app-menu-blue-third;
+  padding-left: 15px;
+
+  .nav-link {
+    padding-left: 1rem;
+    font-family: "Raleway-light", sans-serif;
+    font-size: 0.8rem;
+  }
+}
+
 .sub-side-bar-menu-level-2 .item {
   transition: 0.5s;
 
