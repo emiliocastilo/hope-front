@@ -14,7 +14,7 @@
         (select)="onChartItemSelected($event)"
     >
     </ngx-charts-pie-chart>
-    <div *ngIf="results && results.length === 0" class="no-data">
+    <div *ngIf="!results || results.length === 0" class="no-data">
         {{ 'noData' | translate }}
     </div>
 </div>

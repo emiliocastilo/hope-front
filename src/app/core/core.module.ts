@@ -75,6 +75,9 @@ import { ContactComponent } from './components/contact/contact.component';
 import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
 import { EntryMenuSelectComponent } from './components/basics/entry-menu-select/entry-menu-select.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { InputMultiSelectComponent } from './components/basics/input-multi-select/input-multi-select.component';
+import { NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
+import { FormMultiSelectComponent } from './components/basics/form-multi-select/form-multi-select.component';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -92,6 +95,7 @@ export function createTranslateLoader(http: HttpClient) {
         ButtonComponent,
         InputComponent,
         InputSelectComponent,
+        InputMultiSelectComponent,
         ResetPasswordComponent,
         SelectRoleComponent,
         SearchComponent,
@@ -101,6 +105,7 @@ export function createTranslateLoader(http: HttpClient) {
         DynamicFormComponent,
         FormInputComponent,
         FormSelectComponent,
+        FormMultiSelectComponent,
         FormButtonComponent,
         DynamicFieldDirective,
         NumericInput,
@@ -153,6 +158,7 @@ export function createTranslateLoader(http: HttpClient) {
         ReactiveFormsModule,
         FormsModule,
         NgbModule,
+        NgxBootstrapMultiselectModule,
         IconsModule,
         NgxChartsModule,
         Ng5SliderModule,
@@ -179,6 +185,7 @@ export function createTranslateLoader(http: HttpClient) {
         ButtonComponent,
         InputComponent,
         InputSelectComponent,
+        InputMultiSelectComponent,
         PasiSelectComponent,
         PasiCheckboxComponent,
         ButtonNailsComponent,
@@ -212,6 +219,6 @@ export function createTranslateLoader(http: HttpClient) {
         EntryMenuSelectComponent,
     ],
     providers: [GenderFormatter],
-    entryComponents: [FormButtonComponent, FormInputComponent, FormSelectComponent],
+    entryComponents: [FormButtonComponent, FormInputComponent, FormSelectComponent, FormMultiSelectComponent],
 })
 export class CoreModule {}
