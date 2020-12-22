@@ -362,6 +362,71 @@ export default class FormUtils {
         return date.add(280, 'days').format('DD/MM/YYYY');
     }
 
+    static smaqAdherence(params: Array<any>): any {
+        let points: number = 0;
+        if (params[0] == false || params[0] == null) {
+            points = points + 1;
+        }
+        if (params[1] == true) {
+            points = points + 1;
+        }
+        if (params[2] == false || params[2] == null) {
+            points = points + 1;
+        }
+        if (params[3] == false || params[3] == null) {
+            points = points + 1;
+        }
+        if (params[4] === 'Ninguna' || params[4] === '1-2') {
+            points = points + 1;
+        }
+        if (params[5] < 2) {
+            points = points + 1;
+        }
+        return points;
+    }
+
+    static smaqAssessment(params: Array<any>): any {
+        let points: number = 0;
+        if (params[0] == false || params[0] == null) {
+            points = points + 1;
+        }
+        if (params[1] == true) {
+            points = points + 1;
+        }
+        if (params[2] == false || params[2] == null) {
+            points = points + 1;
+        }
+        if (params[3] == false || params[3] == null) {
+            points = points + 1;
+        }
+        if (params[4] === 'Ninguna' || params[4] === '1-2') {
+            points = points + 1;
+        }
+        if (params[5] < 2) {
+            points = points + 1;
+        }
+        if (points >= 3.5) {
+            return 'Adherente';
+        } else {
+            return 'No adherente';
+        }
+    }
+
+    static smaqAdherencePercentage(params: Array<any>): any {
+        switch (params[4]) {
+            case 'Ninguna':
+            case null:
+                return '95-100 %';
+            case '1-2':
+                return '85-94 %';
+            case '3-5':
+                return '65-84 %';
+            case '6-10':
+                return '30-64 %';
+            case 'Más de 10':
+                return '< 30 %';
+        }
+    }
     static mutationsAdd(params: Array<any>): any {
         return params;
     }

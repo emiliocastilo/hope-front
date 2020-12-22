@@ -585,5 +585,7 @@
   "exitoPercentage" : "Éxito (%)",
   "iqrMedPercentage" : "IQR/MED (%)",
   "intubation" : "Sonda",
+  "medicationDate": "Fecha de medicación",
+  "codeAct": "Código",
   "labelAllNothing" : "Ninguna"
 }
