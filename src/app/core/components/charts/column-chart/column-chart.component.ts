@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 
 @Component({
@@ -22,15 +23,16 @@ export class ColumnChartComponent implements OnInit {
         showYAxisLabel: false,
     };
 
-    constructor() {}
+    constructor(private _translate: TranslateService) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
+        this.config.results.forEach(element => element.name = this._translate.instant(element.name));
         Object.keys(this.defaultValues).forEach((key: string) => {
             this.config[key] = this.config[key] ? this.config[key] : this.defaultValues[key];
         });
     }
 
-    public onSelect(value: any) {
+    public onSelect (value: any) {
         this.select.emit(value);
     }
 }
