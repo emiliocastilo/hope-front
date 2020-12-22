@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -30,8 +31,8 @@ export class FormsService {
         return this._http.get(`/forms/graphs?template=${template}&patientId=${patientId}`).toPromise();
     }
 
-    public async callEndpoint(endpoint: string) {
-        return this._http.get(endpoint).toPromise();
+    public callEndpoint(endpoint: string): Observable<any> {
+        return this._http.get(endpoint);
     }
 
     public getFormsDatas(query: string) {
