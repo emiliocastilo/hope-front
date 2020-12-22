@@ -35,6 +35,7 @@ export class HeatlhOutcomesComponent implements OnInit {
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
     public columHeaders: string[] = ['results', 'patients'];
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
+    public hiddenColumns: string[] = ['sip'];
     public currentPage: number = 0;
     public detailsDataTable: any[];
     public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
