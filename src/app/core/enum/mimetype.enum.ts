@@ -55,6 +55,6 @@ export enum MimeType {
     'xls' = 'application/vnd.ms-excel',
     'xml' = 'application/xml',
     'xul' = 'application/vnd.mozilla.xul+xml',
-    'zip' = 'application/zip',º
+    'zip' = 'application/zip',
     '7z' = 'application/x-7z-compressed'
 };
