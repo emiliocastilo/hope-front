@@ -139,7 +139,6 @@ export class PasiBsaPgaComponent implements OnInit {
             } else {
                 this.fillForm(form);
             }
-            this.saveHealthOutcome();
         }
     }
 
@@ -230,23 +229,18 @@ export class PasiBsaPgaComponent implements OnInit {
     fillForm(form: any) {
         this._formsService.fillForm(form).subscribe(
             () => {
+                this.saveHealthOutcome();
                 this._notification.showSuccessToast('elementCreated');
             },
-            ({ error }) => {
-                this._notification.showErrorToast(error.errorCode);
-            }
+            ({ error }) => {}
         );
     }
 
     updateForm(form: any) {
-        this._formsService.updateForm(form).subscribe(
-            () => {
-                this._notification.showSuccessToast('elementUpdated');
-            },
-            ({ error }) => {
-                this._notification.showErrorToast(error.errorCode);
-            }
-        );
+        this._formsService.updateForm(form).subscribe(() => {
+            this.saveHealthOutcome();
+            this._notification.showSuccessToast('elementUpdated');
+        });
     }
 
     onClear() {
