@@ -67,7 +67,8 @@ export class TreatmentsPatientsComponent implements OnInit {
         const view = null;
         const scheme = { domain: ['#249cf1'] };
         const type = 'BIOLOGICO';
-
+        this.showingDetail = false;
+        
         if (!this.entries || this.entries.length === 0) {
             this._indicationsService.getList().subscribe((indications: Array<IndicationModel>) => {
                 this.entries = indications;
