@@ -62,10 +62,7 @@ export class FormSearchComponent implements OnInit {
     }
 
     async makeRequest(url: string) {
-        const res: any = await this.formService.callEndpoint(url);
-        if (res) {
-            this.response = res;
-        }
+        this.formService.callEndpoint(url).subscribe((response) => (this.response = response));
     }
 
     selectResult(e: any) {

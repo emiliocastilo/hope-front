@@ -6,6 +6,8 @@ import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
+import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-form-list',
@@ -19,7 +21,7 @@ export class FormListComponent implements OnInit {
     detailArray: Array<any>;
     today: string;
 
-    constructor(private modalService: NgbModal, private datePipe: DatePipe, private _formsService: FormsService) {}
+    constructor(private modalService: NgbModal, private datePipe: DatePipe, private translate: TranslateService, private _formsService: FormsService, private _indicationService: IndicationService) {}
 
     ngOnInit() {
         this.today = moment(new Date()).format('YYYY-MM-DD');
@@ -133,8 +135,19 @@ export class FormListComponent implements OnInit {
 
     showDataTable(row: any, header: string) {
         let data = row;
-
         const conditionDate = header.toLowerCase().includes('date') || header.toLowerCase().includes('period');
+
+        if (header === 'typePsoriasis') {
+            let indications = this._indicationService.indications;
+            if (indications && indications.length > 0) {
+                data = this.translate.instant(indications.filter((f) => f.id === row)[0].description);
+            } else {
+                this._indicationService.getList().subscribe((response) => {
+                    indications = response;
+                    data = this.translate.instant(indications.filter((f) => f.id === row)[0].description);
+                });
+            }
+        }
 
         if (conditionDate) {
             data = this.datePipe.transform(row, 'dd/MM/yy');

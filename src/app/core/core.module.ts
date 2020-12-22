@@ -78,6 +78,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { InputMultiSelectComponent } from './components/basics/input-multi-select/input-multi-select.component';
 import { NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
 import { FormMultiSelectComponent } from './components/basics/form-multi-select/form-multi-select.component';
+import { FormSpaceComponent } from './components/basics/form-space/form-space.component';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -107,6 +108,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormSelectComponent,
         FormMultiSelectComponent,
         FormButtonComponent,
+        FormSpaceComponent,
         DynamicFieldDirective,
         NumericInput,
         FormCheckboxComponent,
