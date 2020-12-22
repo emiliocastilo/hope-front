@@ -14,6 +14,7 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { constants } from '../../../../../../constants/constants';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import moment from 'moment';
+import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 
 @Component({
     selector: 'app-principal-treatment',
@@ -261,6 +262,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _notification: NotificationService,
         private _translate: TranslateService,
+        private _indicationService: IndicationService,
         private _medicinesService: MedicinesServices
     ) {}
 
@@ -297,9 +299,14 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     getFormDatas() {
-        this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=psoriasisType`).subscribe(
+        this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
-                this.indication = data;
+                let indications = this._indicationService.indications;
+                if (!indications) this.indication = data;
+
+                if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
+                    this._indicationService.getList().subscribe((response) => (this.indication = this._translate.instant(response.filter((f) => f.id.toString() === data)[0].description)));
+                } else this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.id.toString() === data)[0].description);
             },
             ({ error }) => {
                 // this._notification.showErrorToast(error.errorCode);

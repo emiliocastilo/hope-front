@@ -53,6 +53,7 @@ export class TreatmentsAgentsComponent implements OnInit {
     }
 
     private getData(): void {
+        this.showingDetail = false;
         this.loadingData = true;
         const view = null;
         const scheme = { domain: ['#249cf1'] };
