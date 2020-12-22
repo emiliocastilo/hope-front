@@ -467,7 +467,7 @@
     },
     "reason": "Motivo",
     "reasonChangeBiologicalTreatmentFiveYears": "Motivo del cambio de tratamiento biológico de los últimos 5 años",
-    "reasonChangeOrSuspension": "Motivo",
+    "reasonChangeOrSuspension": "Causa de finalización",
     "reasonChangeOrSuspensionList": {
         "motive1": "Ineficacia",
         "motive2": "Fallo primario (no se alcanzó nunca PASI 75)",
@@ -480,7 +480,7 @@
         "motive9": "Embarazo",
         "motive10": "Otros"
     },
-    "reasonLastChangeBiologicalTreatment": "Motivo del último cambio de tratamiento biológico",
+    "reasonLastChangeBiologicalTreatment": "Motivo del último {{reason}} de tratamiento biológico",
     "reasonStopBiologicalTreatment": "Motivo de la suspensión de tratamiento biológico",
     "reasonStopBiologicalTreatmentFiveYears": "Motivo de la suspensión de tratamiento biológicos de los últimos 5 años",
     "recuperarcontraseña": "Recuperar contraseña",
