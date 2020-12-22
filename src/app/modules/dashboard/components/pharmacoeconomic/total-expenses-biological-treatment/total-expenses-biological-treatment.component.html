@@ -7,6 +7,32 @@
                     <option *ngFor="let entry of options; index as i" [value]="i">{{ entry.name | translate }}</option>
                 </select>
             </div>
+
+            <div>
+                <section class="table-container">
+                    <div class="table-container_input-container">
+                        <form [formGroup]="form" class="table-container_input-container_form">
+                            <app-input-select
+                                id="selectMedicine"
+                                name="selectMedicine"
+                                [isDisabled]="false"
+                                type="number"
+                                class="col-6 treatment-select-position"
+                                currentValue="currenMedicine"
+                                [options]="medicines"
+                                [form]="form"
+                                [optionSelected]="0"
+                                [labelValue]="'treatment' | translate"
+                                [selectMultiple]="false"
+                                [clearAfterSelect]="false"
+                                (selectTrigger)="onSelectMedicine($event)"
+                            >
+                            </app-input-select>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
             <div [formGroup]="accumulatedForm" class="select-switch">
                 <app-switch [label]="'accumulated' | translate" formControlName="switchValue"> </app-switch>
             </div>
@@ -14,36 +40,11 @@
     </div>
 </section>
 
-<section class="col-md-12 col-lg-12 m-0 p-0">
-    <section class="patients-chart-container" *ngIf="!loadingData">
+<section class="col-md-12 col-lg-12 m-0 p-0" *ngIf="!loadingData">
+    <section class="patients-chart-container">
         <app-line-chart [config]="configChart" *ngIf="dataChart"> </app-line-chart>
     </section>
-
-    <div *ngIf="medicines; else noContent" [hidden]="loadingData">
-        <section class="table-container">
-            <div class="table-container_input-container">
-                <form [formGroup]="form" class="table-container_input-container_form">
-                    <app-input-select
-                        id="selectMedicine"
-                        name="selectMedicine"
-                        [isDisabled]="false"
-                        type="number"
-                        class="col-6"
-                        currentValue="currenMedicine"
-                        [options]="medicines"
-                        [form]="form"
-                        [optionSelected]="0"
-                        [labelValue]="'treatment' | translate"
-                        [selectMultiple]="false"
-                        [clearAfterSelect]="false"
-                        (selectTrigger)="onSelectMedicine($event)"
-                    >
-                    </app-input-select>
-                </form>
-            </div>
-        </section>
-    </div>
-    <ng-template #noContent>
+    <!-- <ng-template #noContent>
         {{ 'noData' | translate }}
-    </ng-template>
+    </ng-template> -->
 </section>

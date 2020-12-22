@@ -36,7 +36,7 @@ export class TreatmentsAgentsComponent implements OnInit {
     public dataChart: ColumnChartModel;
     public dataTable: any[];
     public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
-    public columHeaders: string[] = ['typeTreatmentBiological', 'patients'];
+    public columHeaders: string[] = ['treatmentType', 'patients'];
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
     public detailsDataTable: any[];
     public currentSort: any = {
