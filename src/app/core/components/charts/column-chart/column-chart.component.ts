@@ -23,16 +23,16 @@ export class ColumnChartComponent implements OnInit {
         showYAxisLabel: false,
     };
 
-    constructor(private _translate: TranslateService) { }
+    constructor(private _translate: TranslateService) {}
 
-    ngOnInit (): void {
-        this.config.results.forEach(element => element.name = this._translate.instant(element.name));
+    ngOnInit(): void {
+        this.config.results.forEach((element) => (element.name = this._translate.instant(element.name)));
         Object.keys(this.defaultValues).forEach((key: string) => {
             this.config[key] = this.config[key] ? this.config[key] : this.defaultValues[key];
         });
     }
 
-    public onSelect (value: any) {
+    public onSelect(value: any) {
         this.select.emit(value);
     }
 }

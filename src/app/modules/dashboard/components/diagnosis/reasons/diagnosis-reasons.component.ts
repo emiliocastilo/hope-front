@@ -88,7 +88,8 @@ export class DiagnosisReasonsComponent implements OnInit {
 
     private loadData() {
         this.getData().subscribe(
-            (data) => {this.showingDetail = false;
+            (data) => {
+                this.showingDetail = false;
                 this._translate.get('reasonLastChangeBiologicalTreatment', { reason: this.dataConfig.selectValue.literal.toLowerCase() }).subscribe((text: string) => (this.chartTitle = text));
                 this.treatments = data;
                 this.showingDetail = false;
