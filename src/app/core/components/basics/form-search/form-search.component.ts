@@ -26,14 +26,23 @@ export class FormSearchComponent implements OnInit {
         this.modalForm = this.fb.group({
             search: [''],
         });
-        this.headersDetailsTable = ['code', 'description'];
+        this.setHeadersDetailsTable();
         this.actions = [{ name: 'select', icon: 'chevrons-right' }];
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
+    setHeadersDetailsTable() {
+        if (this.group.controls.cieDescription) {
+            this.headersDetailsTable = ['code', 'description'];
+        }
+        if (this.group.controls.medicine) {
+            this.headersDetailsTable = ['codeAct', 'description'];
+        }
+    }
+
     openModal(content: any) {
         event.preventDefault();
-        this.nestedModal = this.modalService.open(content, { size: 'lg', backdrop: false });
+        this.nestedModal = this.modalService.open(content, { size: 'lg', backdrop: 'static' });
     }
 
     closeModal() {
@@ -58,8 +67,16 @@ export class FormSearchComponent implements OnInit {
 
     selectResult(e: any) {
         const element = this.response.content[e.selectedItem];
-        this.group.controls[this.config.name].setValue(element.code);
-        this.group.controls['cieDescription'].setValue(element.description);
+        // Search CIE
+        if (this.group.controls.cieDescription) {
+            this.group.controls[this.config.name].setValue(element.code);
+            this.group.controls['cieDescription'].setValue(element.description);
+        }
+        // Search medicines
+        else if (this.group.controls.medicine) {
+            this.group.controls.medicine.setValue(element.description);
+        }
+
         //this.closeModal();
         this.response = null;
     }

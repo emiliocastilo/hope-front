@@ -67,3 +67,24 @@
     top: 1.3rem;
   }
 }
+
+.container-flex {
+  display: flex;
+  flex-wrap: wrap;
+
+  .chip {
+    border: 1px solid $app-color-blue-medium;
+    color: $app-color-blue-medium;
+    border-radius: 14px;
+    transition: 0.25s ease-in-out;
+    padding: 2px 10px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+      background-color: $app-color-blue-medium;
+    }
+  }
+}

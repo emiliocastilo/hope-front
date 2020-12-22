@@ -19,7 +19,7 @@ export interface SelectOption {
     styleUrls: ['./health-outcomes.component.scss'],
 })
 export class HeatlhOutcomesComponent implements OnInit {
-    private selectedOption: SelectOption;
+    public selectedOption: SelectOption;
     private selectedItem: any;
 
     public options: Array<SelectOption> = [
