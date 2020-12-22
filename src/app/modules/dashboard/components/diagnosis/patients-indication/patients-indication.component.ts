@@ -24,7 +24,7 @@ export class PatientsIndicationComponent implements OnInit {
     public data: ColumnChartModel;
     public dataTable: any[];
     private dataChart: ChartObjectModel[];
-    public columHeaders: string[] = ['Tipo Psoriasis', this._translate.instant('withoutArthritis'), this._translate.instant('withArthritis'), 'TOTAL'];
+    public columHeaders: string[] = ['Indicación', this._translate.instant('withoutArthritis'), this._translate.instant('withArthritis'), 'TOTAL'];
     public headersDetailsTable: string[] = ['nhc', 'healthCard', 'fullName', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
     public showingDetail = false;
     private currentPage = 0;
