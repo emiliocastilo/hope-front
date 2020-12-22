@@ -53,6 +53,7 @@ export class HeatlhOutcomesComponent implements OnInit {
         if (!this.selectedOption) this.selectedOption = this.options[0];
         this._graphService.getFindResultsByType(`type=${this.selectedOption.name}`).subscribe(
             (data) => {
+                this.showingDetail = false;
                 this.dataChart = this.parseDataChart(data);
                 this.dataTable = this.parseDataTable(data);
             },
