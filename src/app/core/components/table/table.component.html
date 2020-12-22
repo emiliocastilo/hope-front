@@ -31,7 +31,7 @@
         <tbody *ngIf="columnsData && columnsData.length > 0">
             <tr *ngFor="let row of columnsData; index as i" [ngClass]="checkRowColor(row) ? 'redRow' : ''">
                 <td *ngFor="let header of columnsHeader" class="dataTable" [hidden]="checkHiddenColumn(header)">
-                    {{ showDataTable(row[header], header) }}
+                    {{ showDataTable(row[header], header) | translate }}
                 </td>
                 <td *ngIf="showActionButtons">
                     <div class="table-body_row_actions">
