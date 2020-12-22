@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -35,8 +36,9 @@ export class DiagnosisReasonsComponent implements OnInit {
         years: 0,
     };
 
+    public chartTitle: string;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
-    public columHeaders: string[] = ['reasonLastChangeBiologicalTreatment', 'patients'];
+    public columHeaders: string[] = ['reason', 'patients'];
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
     public currentPage: number = 0;
     public detailsDataTable: any[];
@@ -51,7 +53,7 @@ export class DiagnosisReasonsComponent implements OnInit {
     private cause: string;
     private treatments;
 
-    constructor(private _graphService: GraphsService, private _router: Router, private _notification: NotificationService) {}
+    constructor(private _graphService: GraphsService, private _translate: TranslateService, private _router: Router, private _notification: NotificationService) {}
 
     ngOnInit(): void {
         this.options = [
@@ -62,6 +64,7 @@ export class DiagnosisReasonsComponent implements OnInit {
             selectValue: this.options[0],
             years: 0,
         };
+
         this.loadData();
     }
 
@@ -86,6 +89,7 @@ export class DiagnosisReasonsComponent implements OnInit {
     private loadData() {
         this.getData().subscribe(
             (data) => {
+                this._translate.get('reasonLastChangeBiologicalTreatment', { reason: this.dataConfig.selectValue.literal.toLowerCase() }).subscribe((text: string) => (this.chartTitle = text));
                 this.treatments = data;
                 this.dataChart = this.parseDataChart(data);
                 this.dataTable = this.parseDataTable(data);

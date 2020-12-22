@@ -446,7 +446,7 @@
     },
     "reason": "Reason",
     "reasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
-    "reasonChangeOrSuspension": "Reason",
+    "reasonChangeOrSuspension": "Cause of termination",
     "reasonChangeOrSuspensionList": {
         "motive1": "Ineficacia",
         "motive2": "Fallo primario (no se alcanzó nunca PASI 75)",
