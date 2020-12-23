@@ -89,12 +89,12 @@ export class PatientsIndicationComponent implements OnInit {
         let dataObject = {};
         Object.keys(list).forEach((key: string) => {
             dataObject = {
-                'Tipo Psoriasis': key,
+                Indicación: key,
                 TOTAL: this.sumAllCases(list[key]),
             };
             dataObject[this._translate.instant('withoutArthritis')] = list[key].false ? list[key].false : 0;
             dataObject[this._translate.instant('withArthritis')] = list[key].true ? list[key].true : 0;
-
+            console.log(dataObject);
             data.push(dataObject);
         });
         this.dataTable = data;
@@ -112,7 +112,8 @@ export class PatientsIndicationComponent implements OnInit {
     public onIconButtonClick(event: any) {
         if (event && event.type === 'detail') {
             this.showingDetail = true;
-            this.selectedDisease = this.dataChart[event.selectedItem].name;
+            //this.selectedDisease = this.dataChart[event.selectedItem].name;
+            this.selectedDisease = this.dataTable[event.selectedItem].Indicación;
             const query = `&page=${this.currentPage}&indication=${this.selectedDisease}`;
             this.getPatientsDetail(query);
             this.getDetailsToExport(query);
