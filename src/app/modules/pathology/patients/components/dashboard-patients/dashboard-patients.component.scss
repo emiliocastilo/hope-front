@@ -35,4 +35,8 @@ $line-chart-width: calc(100vw - 347px);
 .no-data {
   margin-top: 5.5rem !important;
   text-align: center !important;
+
+  &.no-treatments {
+    margin-top: 2rem !important;
+  }
 }

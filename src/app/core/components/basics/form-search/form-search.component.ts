@@ -77,7 +77,7 @@ export class FormSearchComponent implements OnInit {
             this.group.controls.medicine.setValue(element.description);
         }
 
-        //this.closeModal();
+        this.nestedModal.close();
         this.response = null;
     }
 }

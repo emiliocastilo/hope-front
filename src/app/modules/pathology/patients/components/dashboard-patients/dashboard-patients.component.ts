@@ -25,6 +25,7 @@ export class DashboardPatientsComponent implements OnInit {
     public configChart: ColumnChartModel;
     public configGantt: any;
     public noData: boolean;
+    public noTreatmentData: boolean;
 
     private firstDate: string = '';
     private lastDate: string = '';
@@ -98,11 +99,15 @@ export class DashboardPatientsComponent implements OnInit {
 
             this.firstDate = this.globalDates[0];
             this.lastDate = this.globalDates[this.globalDates.length - 1];
-
             this.setConfigGannt();
             this.dataChart = this.parseDataChart(this.data);
+            this.noData = true;
+            this.dataChart.forEach((evolutionIndex) => {
+                if (evolutionIndex.series.length > 0) {
+                    this.noData = false;
+                }
+            });
             this.loadChart(this.data);
-
             this.loadLines();
         });
     }
@@ -147,6 +152,11 @@ export class DashboardPatientsComponent implements OnInit {
             });
         });
         this.dataChart = this.parseDataChart(newData);
+        if (this.dataChart[0].series.length === 0 && this.dataChart[1].series.length === 0) {
+            this.noData = true;
+        } else {
+            this.noData = false;
+        }
         this.loadChart(newData);
         this.configChart = { ...this.configChart, results: this.dataChart };
     }
@@ -183,7 +193,7 @@ export class DashboardPatientsComponent implements OnInit {
     drawChart(data: any): any {
         setTimeout(() => {
             if (data && data.data && data.data.length > 0) {
-                this.noData = false;
+                this.noTreatmentData = false;
                 const container = document.getElementById('google-timeline-chart');
                 const chart = new google.visualization.Timeline(container);
                 const dataTable = new google.visualization.DataTable();
@@ -222,7 +232,7 @@ export class DashboardPatientsComponent implements OnInit {
                         label.setAttribute('display', 'none');
                     }
                 });
-            } else; //this.noData = true;
+            } else this.noTreatmentData = true;
         }, 1);
     }
 
