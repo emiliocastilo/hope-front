@@ -313,7 +313,6 @@ export class PrincipalTreatmentComponent implements OnInit {
                 } else {
                     this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
                     this.currentIndication = this._indicationService.indications.filter((f) => f.code === data)[0].code;
-                    º;
                 }
             },
             ({ error }) => {
