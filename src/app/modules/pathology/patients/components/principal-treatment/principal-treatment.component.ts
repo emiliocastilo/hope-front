@@ -22,6 +22,7 @@ import { IndicationService } from 'src/app/modules/management/services/indicatio
     styleUrls: ['./principal-treatment.component.scss'],
 })
 export class PrincipalTreatmentComponent implements OnInit {
+    private currentIndication: string;
     key = constants.farmacologiesTreatments;
     public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension', 'treatmentType'];
     public actions: TableActionsModel[] = [new TableActionsModel('changeSuspend', 'edit-3'), new TableActionsModel('edit', 'edit-2'), new TableActionsModel('delete', 'trash')];
@@ -305,8 +306,15 @@ export class PrincipalTreatmentComponent implements OnInit {
                 if (!indications) this.indication = data;
 
                 if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
-                    this._indicationService.getList().subscribe((response) => (this.indication = this._translate.instant(response.filter((f) => f.code === data)[0].description)));
-                } else this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
+                    this._indicationService.getList().subscribe((response) => {
+                        this.indication = this._translate.instant(response.filter((f) => f.code === data)[0].description);
+                        this.currentIndication = response.filter((f) => f.code === data)[0].code;
+                    });
+                } else {
+                    this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
+                    this.currentIndication = this._indicationService.indications.filter((f) => f.code === data)[0].code;
+                    º;
+                }
             },
             ({ error }) => {
                 // this._notification.showErrorToast(error.errorCode);
@@ -408,6 +416,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
 
         modalRef.componentInstance.save.subscribe((event: any) => {
+            event.value.indication = this.currentIndication;
             event.value.dose = event.value.dose[0];
 
             if (Array.isArray(event.value.regimenTreatment)) {
@@ -423,6 +432,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             event.value.principle = event.value.medicine.actIngredients;
             event.value.brand = event.value.medicine.brand;
             event.value.type = event.value.medicine.family;
+
             if (Array.isArray(event.value.treatmentType)) {
                 event.value.treatmentType = event.value.treatmentType[0].id;
             } else if (event.value.treatmentType.id) {
