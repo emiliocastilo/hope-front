@@ -89,7 +89,7 @@ export class PatientsIndicationComponent implements OnInit {
         let dataObject = {};
         Object.keys(list).forEach((key: string) => {
             dataObject = {
-                'Tipo Psoriasis': key,
+                Indicación: key,
                 TOTAL: this.sumAllCases(list[key]),
             };
             dataObject[this._translate.instant('withoutArthritis')] = list[key].false ? list[key].false : 0;

@@ -99,10 +99,14 @@ export class DashboardPatientsComponent implements OnInit {
 
             this.firstDate = this.globalDates[0];
             this.lastDate = this.globalDates[this.globalDates.length - 1];
-
             this.setConfigGannt();
             this.dataChart = this.parseDataChart(this.data);
-
+            this.noData = true;
+            this.dataChart.forEach((evolutionIndex) => {
+                if (evolutionIndex.series.length > 0) {
+                    this.noData = false;
+                }
+            });
             this.loadChart(this.data);
             this.loadLines();
         });
