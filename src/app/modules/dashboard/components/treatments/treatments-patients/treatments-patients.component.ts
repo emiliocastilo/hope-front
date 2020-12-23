@@ -24,7 +24,7 @@ export class TreatmentsPatientsComponent implements OnInit {
     private data: ChartObjectModel[];
     private currentPage: number = 0;
     private currentSelected: any;
-    private type: string;
+    private type: string = 'BIOLOGICO';
 
     public loadingData: boolean = true;
     public config = { defaultConfig: true };
@@ -142,6 +142,7 @@ export class TreatmentsPatientsComponent implements OnInit {
 
     onIndicationChange(event): void {
         this.indication = this.entries[event.target.value];
+        console.log(this.indication);
         this.getData();
     }
 
