@@ -259,7 +259,7 @@ export class DashboardPatientsComponent implements OnInit {
         this.configGantt.columns.forEach((value: string, key: number) => {
             if (data[value] && value !== 'ADHERENCIA') {
                 data[value].forEach((element: any, keyT: number) => {
-                    const objectRow = [value, element.medicine.actIngredients, element.medicine.actIngredients, new Date(element.initDate), new Date(this.globalDates[this.globalDates.length - 1])];
+                    const objectRow = [value, element.medicine?.actIngredients, element.medicine?.actIngredients, new Date(element.initDate), new Date(this.globalDates[this.globalDates.length - 1])];
 
                     if (element.finalDate) {
                         const endDate = new Date(element.finalDate);
