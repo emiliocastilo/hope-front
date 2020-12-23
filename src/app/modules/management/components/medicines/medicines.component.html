@@ -1,6 +1,17 @@
+<!-- ! =================== SANDBOX =================== ! -->
+<section class="mt-4">
+    <app-input-file 
+        [formGroup]="modalForm" 
+        id="testingFile" 
+        label="prueba" 
+        validExtension="validExtensions">
+    </app-input-file>
+</section>
+<!-- ! =================== SANDBOX =================== ! -->
 <div class="row m-0 p-0">
     <section class="col-md-12 p-0 col-lg-12">
         <section class="patients-container">
+
             <section class="mt-4">
                 <app-button type="button" icono="plus-circle" clasesBtn="btn-primary btn-sm mx-2" texto="btn.new" (click)="showModal()"></app-button>
             </section>
@@ -10,16 +21,7 @@
             </div>
 
             <section class="mt-4">
-                <app-table
-                    [columnsHeader]="columnsHeader"
-                    [columnsData]="medicines"
-                    (selectedItem)="onSelectedItem($event)"
-                    (sort)="onSort($event)"
-                    [showActionButtons]="true"
-                    [actions]="actions"
-                    (iconButtonClick)="onIconButtonClick($event)"
-                    [sortable]="true"
-                ></app-table>
+                <app-table [columnsHeader]="columnsHeader" [columnsData]="medicines" (selectedItem)="onSelectedItem($event)" (sort)="onSort($event)" [showActionButtons]="true" [actions]="actions" (iconButtonClick)="onIconButtonClick($event)" [sortable]="true"></app-table>
 
                 <app-pagination *ngIf="!loading" (selectPage)="selectPage($event)" [paginationData]="paginationData"> </app-pagination>
             </section>

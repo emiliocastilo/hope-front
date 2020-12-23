@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { FileModel } from '../../models/file/file.model';
 
 @Injectable({
     providedIn: 'root',
@@ -12,11 +11,11 @@ export class FileManagementService {
 
     constructor(private _http: HttpClient) { }
 
-    getFile (): Observable<Array<FileModel>> {
-        return this._http.get<Array<FileModel>>(`${this.endpoint}`);
+    getFile (): Observable<Array<File>> {
+        return this._http.get<Array<File>>(`${this.endpoint}`);
     }
 
-    uploadFile (file: FileModel) {
+    uploadFile (file: File) {
         return this._http.post(`${this.endpoint}`, file);
     }
 }

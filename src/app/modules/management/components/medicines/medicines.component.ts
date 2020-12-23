@@ -40,11 +40,30 @@ export class MedicinesComponent implements OnInit {
     public selectedMedicine: MedicineModel;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDelete();
 
-    constructor(private _modalService: NgbModal, private _notification: NotificationService, private _medicinesService: MedicinesService, private _formBuilder: FormBuilder) {
+    constructor(
+        private _modalService: NgbModal,
+        private _notification: NotificationService,
+        private _medicinesService: MedicinesService,
+        private _formBuilder: FormBuilder
+    ) {
         this.columnsHeader = ['nationalCode', 'actIngredients', 'codeAct', 'authorized', 'commercialization', 'viaAdministration'];
     }
 
-    ngOnInit(): void {
+    // ! =================================================================================
+    // ! =========================== SANDBOX ===========================
+
+    public validExtensions: Array<string> = ['pdf', 'txt'];
+
+    afterInit () {
+
+    }
+
+
+
+    // ! =========================== SANDBOX ===========================
+    // ! =================================================================================
+
+    ngOnInit (): void {
         this.loading = true;
         this.selectedUser = JSON.parse(localStorage.getItem('user'));
         this.loadData();
@@ -52,13 +71,14 @@ export class MedicinesComponent implements OnInit {
         this.modalForm = this._formBuilder.group({
             fileMedicine: [null, Validators.required],
         });
+        this.afterInit();
     }
 
-    public onChangeSelect(event) {
+    public onChangeSelect (event) {
         console.log(event);
     }
 
-    private loadData() {
+    private loadData () {
         this._medicinesService.get().subscribe(
             (response: QueryResult<MedicineModel>) => {
                 this.medicines = response.content;
@@ -70,19 +90,19 @@ export class MedicinesComponent implements OnInit {
         );
     }
 
-    private dataMap() {
+    private dataMap () {
         this.medicines.forEach((item) => {
             item.authorized = item.authorized ? 'Sí' : 'No';
             item.commercialization = item.commercialization ? 'Sí' : 'No';
         });
     }
 
-    private cleanModal(): void {
+    private cleanModal (): void {
         this.modalForm.reset();
         this.selectedItem = undefined;
     }
 
-    private saveMedicine(data: FormGroup, modal: any) {
+    private saveMedicine (data: FormGroup, modal: any) {
         const value = data.value;
         this._medicinesService
             .saveFromFile(value)
@@ -96,7 +116,7 @@ export class MedicinesComponent implements OnInit {
             });
     }
 
-    private refreshData(query: string): void {
+    private refreshData (query: string): void {
         const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
         this._medicinesService.get(query).subscribe((data: QueryResult<MedicineModel>) => {
             this.medicines = data.content;
@@ -120,7 +140,7 @@ export class MedicinesComponent implements OnInit {
         });
     }
 
-    private delete(id: number) {
+    private delete (id: number) {
         this._medicinesService.delete(id).subscribe(
             (success) => {
                 this._notification.showSuccessToast('elementDeleted');
@@ -130,7 +150,7 @@ export class MedicinesComponent implements OnInit {
         );
     }
 
-    private showModalConfirm() {
+    private showModalConfirm () {
         const modalRef = this._modalService.open(ConfirmModalComponent);
         const current = this.medicines[this.selectedItem];
         modalRef.componentInstance.title = 'Eliminar medicamento';
@@ -144,7 +164,7 @@ export class MedicinesComponent implements OnInit {
         });
     }
 
-    public selectPage(page: number): void {
+    public selectPage (page: number): void {
         this.paginationData.number = page + 1;
         let query: string;
         if (this.colOrder && this.typeOrder) {
@@ -159,7 +179,7 @@ export class MedicinesComponent implements OnInit {
         this.refreshData(query);
     }
 
-    public showModal() {
+    public showModal () {
         this.cleanModal();
         let modalRef = this._modalService.open(EditorModalComponent, {
             size: 'lg',
@@ -175,12 +195,12 @@ export class MedicinesComponent implements OnInit {
         });
     }
 
-    public selectItemsPerPage(number: number) {
+    public selectItemsPerPage (number: number) {
         this.itemsPerPage = number;
         this.selectPage(0);
     }
 
-    public onSelectedItem(event: any): void {
+    public onSelectedItem (event: any): void {
         this.selectedItem = event;
         this.selectedMedicine = this.medicines[event];
         Object.keys(this.medicines[event]).forEach((key: string) => {
@@ -190,7 +210,7 @@ export class MedicinesComponent implements OnInit {
         });
     }
 
-    public onSearch(event: string): void {
+    public onSearch (event: string): void {
         this._medicinesService.getSearch(event).subscribe((data: QueryResult<MedicineModel>) => {
             this.medicines = data.content;
             this.dataMap();
@@ -200,7 +220,7 @@ export class MedicinesComponent implements OnInit {
         });
     }
 
-    public onSort(event: any) {
+    public onSort (event: any) {
         this.colOrder = event.column;
         this.typeOrder = event.direction;
         let query = `?sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
@@ -208,9 +228,10 @@ export class MedicinesComponent implements OnInit {
         this.refreshData(query);
     }
 
-    public onIconButtonClick(event: any) {
+    public onIconButtonClick (event: any) {
         if (event && event.type === 'delete') {
             this.showModalConfirm();
         }
     }
 }
+

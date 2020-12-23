@@ -604,5 +604,6 @@
     "withoutArthritis": "Sin artritis psoriásica",
     "yearlyGoalValue": "Valor objetivo anual",
     "years": "Años",
-    "labelAllNothing": "Ninguna"
+    "labelAllNothing": "Ninguna",
+    "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{validTypes}}"
 }
