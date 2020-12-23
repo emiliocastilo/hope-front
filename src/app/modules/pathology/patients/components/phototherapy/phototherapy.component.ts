@@ -157,8 +157,8 @@ export class PhototherapyComponent implements OnInit {
             (data: string) => {
                 this.indication = data;
                 if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
-                    this._indicationService.getList().subscribe((response) => (this.indication = this._translate.instant(response.filter((f) => f.id.toString() === data)[0].description)));
-                } else this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.id.toString() === data)[0].description);
+                    this._indicationService.getList().subscribe((response) => (this.indication = this._translate.instant(response.filter((f) => f.code === data)[0].description)));
+                } else this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
             },
             ({ error }) => {
                 // this._notification.showErrorToast(error.errorCode);
