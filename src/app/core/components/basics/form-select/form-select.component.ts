@@ -17,9 +17,9 @@ export class FormSelectComponent implements OnInit {
 
     public options: Array<any>;
 
-    constructor(private _formService: FormsService) { }
+    constructor(private _formService: FormsService) {}
 
-    ngOnInit () {
+    ngOnInit() {
         this.options = [];
         this.hasRequiredField(this.group.controls[this.config.name]);
         if (this.config.options && this.config.options.length > 0) this.options = this.config.options;
@@ -30,7 +30,7 @@ export class FormSelectComponent implements OnInit {
         else this.options = [];
     }
 
-    hasRequiredField (abstractControl: AbstractControl) {
+    hasRequiredField(abstractControl: AbstractControl) {
         if (abstractControl.validator) {
             const validator = abstractControl.validator({} as AbstractControl);
             if (validator && validator.required) {
@@ -42,7 +42,7 @@ export class FormSelectComponent implements OnInit {
     /* TODO: Hay que revisar el value que recibimos del select para evitar una comprobación por string
      * y usar una comprobación por null o vacío.
      */
-    onSelect (event): void {
+    onSelect(event): void {
         this.optionSelected = !event.target.value.startsWith('0: ');
     }
 }
