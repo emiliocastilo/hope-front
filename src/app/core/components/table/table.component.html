@@ -2,7 +2,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th *ngFor="let header of columnsHeader" scope="col" sortable="{{ header }}" (sort)="emitOnSort($event)" [ngClass]="{ pointer: sortable === true }">
+                <th *ngFor="let header of columnsHeader" [hidden]="checkHiddenColumn(header)" scope="col" sortable="{{ header }}" (sort)="emitOnSort($event)" [ngClass]="{ pointer: sortable === true }">
                     <div class="headerTable">
                         {{ header | translate }}
                         <span *ngIf="sortable === true" class="table-head_icon-box">
@@ -30,8 +30,8 @@
         </thead>
         <tbody *ngIf="columnsData && columnsData.length > 0">
             <tr *ngFor="let row of columnsData; index as i" [ngClass]="checkRowColor(row) ? 'redRow' : ''">
-                <td *ngFor="let header of columnsHeader" class="dataTable">
-                    {{ showDataTable(row[header], header) }}
+                <td *ngFor="let header of columnsHeader" class="dataTable" [hidden]="checkHiddenColumn(header)">
+                    {{ showDataTable(row[header], header) | translate }}
                 </td>
                 <td *ngIf="showActionButtons">
                     <div class="table-body_row_actions">

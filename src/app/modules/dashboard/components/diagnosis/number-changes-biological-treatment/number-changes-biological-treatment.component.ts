@@ -41,6 +41,7 @@ export class NumberChangesBiologicalTreatmentComponent implements OnInit {
     private getTreatments(): void {
         this._graphService.getNumberChangesBiologicalTreatment().subscribe(
             (data) => {
+                this.showingDetail = false;
                 this.treatments = data;
                 this.dataChart = this.parseDataChart(data);
                 this.dataTable = this.parseDataTable(data);

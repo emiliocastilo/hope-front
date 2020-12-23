@@ -15,6 +15,7 @@ import { constants } from '../../../../../../constants/constants';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 
 @Component({
     selector: 'app-phototherapy',
@@ -111,6 +112,7 @@ export class PhototherapyComponent implements OnInit {
         private _modalService: NgbModal,
         private _formBuilder: FormBuilder,
         private _notification: NotificationService,
+        private _indicationService: IndicationService,
         private _translate: TranslateService,
         private _formsService: FormsService
     ) {}
@@ -151,9 +153,12 @@ export class PhototherapyComponent implements OnInit {
     }
 
     getFormDatas() {
-        this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=psoriasisType`).subscribe(
+        this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
                 this.indication = data;
+                if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
+                    this._indicationService.getList().subscribe((response) => (this.indication = this._translate.instant(response.filter((f) => f.id.toString() === data)[0].description)));
+                } else this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.id.toString() === data)[0].description);
             },
             ({ error }) => {
                 // this._notification.showErrorToast(error.errorCode);
