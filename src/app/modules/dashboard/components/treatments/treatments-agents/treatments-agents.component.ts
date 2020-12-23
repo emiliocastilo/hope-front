@@ -94,7 +94,6 @@ export class TreatmentsAgentsComponent implements OnInit {
                 typeTreatmentBiological: key,
                 patients: data[key],
             };
-            console.log(object);
             return object;
         });
         return arrayData;
