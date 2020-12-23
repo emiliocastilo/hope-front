@@ -7,7 +7,7 @@
         </div>
 
         <div *ngFor="let chart of dataParsed" class="modal-content_checkbox-container_container">
-            <label [for]="chart.chartTitle">{{ chart.chartConfig.chartTitle | translate }}</label>
+            <label [title]="chart.chartConfig.chartTitle | translate" [for]="chart.chartTitle">{{ chart.chartConfig.chartTitle | translate }}</label>
             <input [name]="chart.chartConfig.chartTitle" type="checkbox" [id]="chart.chartConfig.chartTitle" [(ngModel)]="chart.show" />
         </div>
     </section>
