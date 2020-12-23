@@ -7,6 +7,7 @@ import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
 import { ScriptLoaderService } from 'angular-google-charts';
 import _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-dashboard-patients',
@@ -30,7 +31,7 @@ export class DashboardPatientsComponent implements OnInit {
     private firstDate: string = '';
     private lastDate: string = '';
 
-    constructor(private patientService: PatientsService, private patientDashboardService: PatientsDashboardService, private loaderService: ScriptLoaderService) {}
+    constructor(private patientService: PatientsService, private patientDashboardService: PatientsDashboardService, private loaderService: ScriptLoaderService, private _translate: TranslateService) {}
 
     setConfigGannt(): void {
         this.configGantt = {
@@ -263,19 +264,25 @@ export class DashboardPatientsComponent implements OnInit {
         this.configGantt.columns.forEach((value: string, key: number) => {
             if (data[value] && value !== 'ADHERENCIA') {
                 data[value].forEach((element: any, keyT: number) => {
-                    const objectRow = [value, element.medicine?.actIngredients, element.medicine?.actIngredients, new Date(element.initDate), new Date(this.globalDates[this.globalDates.length - 1])];
+                    const objectRow = [
+                        value,
+                        element.medicine ? element.medicine.actIngredients : this._translate.instant('phototerapy'),
+                        element.medicine ? element.medicine.actIngredients : this._translate.instant('phototerapy'),
+                        new Date(element.initDate),
+                        new Date(this.globalDates[this.globalDates.length - 1]),
+                    ];
 
                     if (element.finalDate) {
                         const endDate = new Date(element.finalDate);
                         objectRow[objectRow.length - 1] = endDate;
                     }
+
                     objectChart.push(objectRow);
                 });
             } else if (data[value] && value === 'ADHERENCIA') {
                 data[value].forEach((element: any, keyTwo: number) => {
                     const dateStart = new Date(element.date);
                     const objectRow = [value, '', element.description, dateStart, dateStart];
-
                     objectChart.push(objectRow);
                 });
             }
