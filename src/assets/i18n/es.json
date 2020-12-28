@@ -296,6 +296,7 @@
     "modal.editor.field.icon": "Icono",
     "modal.editor.field.lastsurname": "Segundo apellido",
     "modal.editor.field.message": "Mensaje",
+    "modal.editor.field.filemedicine": "Fichero medicinas",
     "modal.editor.field.name": "Nombre",
     "modal.editor.field.newPassword": "Nueva contraseña",
     "modal.editor.field.nhc": "Nhc",
@@ -372,7 +373,8 @@
         "missDate": "Faltan fechas por rellenar",
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
-        "sent": "Enviado"
+        "sent": "Enviado",
+        "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{ validTypes }}"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",
@@ -605,6 +607,9 @@
     "yearlyGoalValue": "Valor objetivo anual",
     "years": "Años",
     "labelAllNothing": "Ninguna",
-    "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{validTypes}}",
-    "phototerapy": "Fototerapia"
+    "phototerapy": "Fototerapia",
+    "authorized": "Autorizado",
+    "actIngredients": "Principio activo",
+    "commercialization": "Comercialización",
+    "viaAdministration": "Vía de administración"
 }

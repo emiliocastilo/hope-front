@@ -13,7 +13,7 @@ export class NotificationService {
     }
 
     showWarningToast(key: string) {
-        this._translate.get(`notifications.${key}`).subscribe((value) => this._toastr.warning(value));
+        this._translate.get(`${key}`).subscribe((value) => this._toastr.warning(value));
     }
 
     showSuccessToast(key: string) {

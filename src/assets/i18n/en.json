@@ -288,6 +288,7 @@
     "modal.editor.field.icon": "Icono",
     "modal.editor.field.lastSurname": "Last surname",
     "modal.editor.field.message": "Message",
+    "modal.editor.field.filemedicine": "Medicine file",
     "modal.editor.field.name": "Name",
     "modal.editor.field.newPassword": "New password",
     "modal.editor.field.nhc": "Nhc",
@@ -352,7 +353,8 @@
         "missDate": "There are dates missing",
         "passwordChangedSuccessfully": "Password succesfully updated",
         "passwordChangeFailed": "Wrong password",
-        "sent": "Sent"
+        "sent": "Sent",
+        "invalidFileType": "File type not allowed. Valid types: {{validTypes}}"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Number of changes by biological treatment",
@@ -579,6 +581,9 @@
     "yearlyGoalValue": "Yearly goal value",
     "years": "Years",
     "labelAllNothing": "None",
-    "invalidFileType": "File type not allowed. Valid types: {{validTypes}}",
-    "phototerapy": "Phototerapy"
+    "phototerapy": "Phototerapy",
+    "authorized": "Authorized",
+    "actIngredients": "Act ingredients",
+    "commercialization": "Commercialization",
+    "viaAdministration": "Via administration"
 }
