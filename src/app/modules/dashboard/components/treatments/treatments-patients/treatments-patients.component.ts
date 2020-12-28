@@ -24,7 +24,7 @@ export class TreatmentsPatientsComponent implements OnInit {
     private data: ChartObjectModel[];
     private currentPage: number = 0;
     private currentSelected: any;
-    private type: string;
+    private type: string = 'BIOLOGICO';
 
     public loadingData: boolean = true;
     public config = { defaultConfig: true };
@@ -73,9 +73,9 @@ export class TreatmentsPatientsComponent implements OnInit {
             this._indicationsService.getList().subscribe((indications: Array<IndicationModel>) => {
                 this.entries = indications;
                 if (!this.indication) this.indication = this.entries[0];
-                const chartTitle = `patientsTreatment${this.indication.description.substr(0, 1).toUpperCase()}${this.indication.description.substr(1, this.indication.description.length)}`;
+                const chartTitle = `patientsTreatment${this.indication.code.substr(0, 1).toUpperCase()}${this.indication.code.substr(1, this.indication.code.length)}`;
 
-                this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, this.indication.id.toString()).subscribe((data) => {
+                this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, this.indication.code).subscribe((data) => {
                     this.loadingData = false;
                     this.data = this.parseDataChart(data);
                     this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
@@ -83,8 +83,8 @@ export class TreatmentsPatientsComponent implements OnInit {
                 });
             });
         } else {
-            const chartTitle = `patientsTreatment${this.indication.description.substr(0, 1).toUpperCase()}${this.indication.description.substr(1, this.indication.description.length)}`;
-            this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, this.indication.id.toString()).subscribe((data) => {
+            const chartTitle = `patientsTreatment${this.indication.code.substr(0, 1).toUpperCase()}${this.indication.code.substr(1, this.indication.code.length)}`;
+            this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, this.indication.code).subscribe((data) => {
                 this.loadingData = false;
                 this.data = this.parseDataChart(data);
                 this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
@@ -142,6 +142,7 @@ export class TreatmentsPatientsComponent implements OnInit {
 
     onIndicationChange(event): void {
         this.indication = this.entries[event.target.value];
+        console.log(this.indication);
         this.getData();
     }
 
@@ -149,7 +150,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         if (event && event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.data[event.selectedItem];
-            const query = 'type=' + this.type + '&indication=' + this.indication + '&medicine=' + this.currentSelected.name;
+            const query = 'type=' + this.type + '&indication=' + this.indication.code + '&medicine=' + this.currentSelected.name;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
@@ -194,13 +195,13 @@ export class TreatmentsPatientsComponent implements OnInit {
     public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
-            const query = `type=${this.type}&indication=${this.indication}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+            const query = `type=${this.type}&indication=${this.indication.code}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
             this.getDetails(query);
         }
     }
 
     public onSort(event: any) {
-        const query = `type=${this.type}&indication=${this.indication}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+        const query = `type=${this.type}&indication=${this.indication.code}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);
     }

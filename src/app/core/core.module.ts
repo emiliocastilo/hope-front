@@ -81,7 +81,7 @@ import { FormMultiSelectComponent } from './components/basics/form-multi-select/
 import { FormSpaceComponent } from './components/basics/form-space/form-space.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-export function createTranslateLoader (http: HttpClient) {
+export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 @NgModule({
@@ -221,15 +221,9 @@ export function createTranslateLoader (http: HttpClient) {
         InputTypeaheadComponent,
         EntryMenuSelectComponent,
         InputFileComponent,
-    ], schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [GenderFormatter],
-    entryComponents: [
-        FormButtonComponent,
-        FormInputComponent,
-        FormSelectComponent,
-        FormMultiSelectComponent
-    ],
+    entryComponents: [FormButtonComponent, FormInputComponent, FormSelectComponent, FormMultiSelectComponent],
 })
-export class CoreModule { }
+export class CoreModule {}

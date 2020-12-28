@@ -28,18 +28,15 @@ export class InputFileComponent implements OnInit {
     @Input() formGroup: FormGroup;
     @Input() validExtensions: Array<string> = [];
 
-    constructor(
-        private _notification: NotificationService,
-        private _translate: TranslateService,
-    ) { }
+    constructor(private _notification: NotificationService, private _translate: TranslateService) {}
 
-    ngOnInit (): void { }
+    ngOnInit(): void {}
 
-    private validateFile (file: File): boolean {
+    private validateFile(file: File): boolean {
         if (this.validExtensions.length > 0) {
-            const possibleExtensions = MimeTypes.filter(f => f.type === file.type);
+            const possibleExtensions = MimeTypes.filter((f) => f.type === file.type);
 
-            possibleExtensions.forEach(ext => {
+            possibleExtensions.forEach((ext) => {
                 console.log(ext, this.validExtensions);
                 if (this.validExtensions.includes(ext.extension)) {
                     this.invalidExtension = false;
@@ -53,10 +50,12 @@ export class InputFileComponent implements OnInit {
         } else return true;
     }
 
-    public handleFileInput (files: FileList): void {
+    public handleFileInput(files: FileList): void {
         const file: File = files[0];
         console.log(files, file);
-        if (this.validateFile(file)) { console.log('valido') };
+        if (this.validateFile(file)) {
+            console.log('valido');
+        }
 
         // const fileToUpload = files.item(0);
         // const fileExtension = fileToUpload.name.split('.').pop();
@@ -65,6 +64,4 @@ export class InputFileComponent implements OnInit {
         //     this.formGroup.get(this.name).setValue(fileToUpload);
         // }
     }
-
-
 }

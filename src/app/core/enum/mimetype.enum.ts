@@ -61,5 +61,5 @@ export const MimeTypes: Array<MimeType> = [
     { extension: 'xml', type: 'application/xml' },
     { extension: 'xul', type: 'application/vnd.mozilla.xul+xml' },
     { extension: 'zip', type: 'application/zip' },
-    { extension: '7z', type: 'application/x-7z-compressed' }
+    { extension: '7z', type: 'application/x-7z-compressed' },
 ];

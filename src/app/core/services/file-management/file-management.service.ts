@@ -9,13 +9,13 @@ export class FileManagementService {
     private endpoint: string = '/';
     private allowedExtensions: Array<string> = ['pdf'];
 
-    constructor(private _http: HttpClient) { }
+    constructor(private _http: HttpClient) {}
 
-    getFile (): Observable<Array<File>> {
+    getFile(): Observable<Array<File>> {
         return this._http.get<Array<File>>(`${this.endpoint}`);
     }
 
-    uploadFile (file: File) {
+    uploadFile(file: File) {
         return this._http.post(`${this.endpoint}`, file);
     }
 }
