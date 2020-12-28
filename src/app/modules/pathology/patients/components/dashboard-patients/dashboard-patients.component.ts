@@ -89,9 +89,11 @@ export class DashboardPatientsComponent implements OnInit {
                     _.flattenDeep(
                         Object.values(this.data).map((array) => {
                             return Object.values(array).map((element) => {
-                                return element.map((d) => {
-                                    return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0];
-                                });
+                                return element && element.date
+                                    ? element.date.split('T')[0]
+                                    : element.map((d) => {
+                                          return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0];
+                                      });
                             });
                         })
                     )
@@ -138,18 +140,30 @@ export class DashboardPatientsComponent implements OnInit {
 
         Object.values(this.data).forEach((element: any) => {
             Object.values(element).forEach((v: any) => {
-                v.map((i) => {
-                    const d = Date.parse(new Date(i.date ? i.date : i.initDate).toISOString().split('T')[0]);
-                    if (d >= start && d <= end) {
-                        if (i.date) {
-                            newData.indicesEvolution[i.indexType].push(i);
+                if (Array.isArray(v)) {
+                    v.map((i) => {
+                        const d = Date.parse(new Date(i.date ? i.date : i.initDate).toISOString().split('T')[0]);
+                        if (d >= start && d <= end) {
+                            if (i.date) {
+                                newData.indicesEvolution[i.indexType].push(i);
+                            }
+                            if (i.initDate) {
+                                const type = i.type === 'BIOLOGICO' ? i.type : 'FAME';
+                                newData.treatments[type].push(i);
+                            }
                         }
-                        if (i.initDate) {
-                            const type = i.type === 'BIOLOGICO' ? i.type : 'FAME';
-                            newData.treatments[type].push(i);
+                    });
+                } else {
+                    const d = Date.parse(new Date(v.date ? v.date : v.initDate).toISOString().split('T')[0]);
+                    if (d >= start && d <= end) {
+                        if (v.date) {
+                            newData.adherence.push(v);
+                        }
+                        if (v.initDate) {
+                            newData.adherence.push(v);
                         }
                     }
-                });
+                }
             });
         });
         this.dataChart = this.parseDataChart(newData);
