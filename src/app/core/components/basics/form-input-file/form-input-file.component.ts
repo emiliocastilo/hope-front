@@ -61,7 +61,6 @@ export class FormInputFileComponent implements OnInit {
 
     public handleFileInput (files: FileList): void {
         const file: File = files[0];
-        console.log('check file');
         if (!FileUtils.checkValidExtension(file, this.fileConfig.validExtensions)) {
             let validExtensionsString = '';
             this.fileConfig.validExtensions.forEach(element => {
