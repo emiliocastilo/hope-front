@@ -33,6 +33,8 @@ export class PhototherapyComponent implements OnInit {
     totalElements: 0,
   };
   private currentPage: number = 0;*/
+    private currentIndication: string;
+
     private currentUser: PatientModel = JSON.parse(localStorage.getItem('selectedPatient' || '{}'));
     private currentTreatment: string = 'phototherapy';
     public tableData: any[] = [];
@@ -156,9 +158,16 @@ export class PhototherapyComponent implements OnInit {
         this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
                 this.indication = data;
+
                 if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
-                    this._indicationService.getList().subscribe((response) => (this.indication = this._translate.instant(response.filter((f) => f.id.toString() === data)[0].description)));
-                } else this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.id.toString() === data)[0].description);
+                    this._indicationService.getList().subscribe((response) => {
+                        this.indication = this._translate.instant(response.filter((f) => f.code === data)[0].description);
+                        this.currentIndication = response.filter((f) => f.code === data)[0].code;
+                    });
+                } else {
+                    this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
+                    this.currentIndication = this._indicationService.indications.filter((f) => f.code === data)[0].code;
+                }
             },
             ({ error }) => {
                 // this._notification.showErrorToast(error.errorCode);
@@ -208,6 +217,7 @@ export class PhototherapyComponent implements OnInit {
         modalRef.componentInstance.save.subscribe((event: any) => {
             event.value.reasonChangeOrSuspension = null;
             event.value.dateSuspension = null;
+            event.value.indication = this.currentIndication;
 
             Object.keys(event.value).forEach((key: string) => {
                 if (key.toLowerCase().includes('date') && event.value[key]) {

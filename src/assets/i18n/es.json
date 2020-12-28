@@ -422,7 +422,7 @@
     "patientsTreatmentHidradenitisSuppurativa": "Tratamiento biológico en pacientes con hidradenitis supurativa",
     "patientsTreatmentMelanoma": "Tratamiento biológico en pacientes con cáncer melanoma",
     "patientsTreatmentPsoriasicArthritis": "Tratamiento biológico en pacientes con artritis psoriásica",
-    "patientsTreatmentPsoriasisPalmoPlantar": "Tratamiento biológico en pacientes con psoriasis palmo plantar",
+    "patientsTreatmentPsoriasisPalmoplantar": "Tratamiento biológico en pacientes con psoriasis palmo plantar",
     "patientsTreatmentPsoriasisPlacas": "Tratamiento biológico en pacientes con psoriasis en placas",
     "patientsTreatmentPsoriasisPustulosa": "Tratamiento biológico en pacientes con psoriasis pustulosa",
     "patientsTreatmentSquamousCarcinoma": "Tratamiento biológico en pacientes con cáncer de piel carcinoma de células escamosas",
@@ -604,5 +604,6 @@
     "withoutArthritis": "Sin artritis psoriásica",
     "yearlyGoalValue": "Valor objetivo anual",
     "years": "Años",
-    "labelAllNothing": "Ninguna"
+    "labelAllNothing": "Ninguna",
+    "phototerapy": "Fototerapia"
 }

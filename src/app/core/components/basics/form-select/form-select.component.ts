@@ -25,9 +25,7 @@ export class FormSelectComponent implements OnInit {
         if (this.config.options && this.config.options.length > 0) this.options = this.config.options;
         else if (this.config.endpoint)
             this._formService.callEndpoint(this.config.endpoint).subscribe((response) => {
-                response.forEach((element) => {
-                    this.options.push({ value: element.id, name: element.description });
-                });
+                response.forEach((element) => this.options.push({ value: element.code, name: element.description }));
             });
         else this.options = [];
     }
