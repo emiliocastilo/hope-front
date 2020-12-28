@@ -354,6 +354,7 @@
         "passwordChangedSuccessfully": "Password succesfully updated",
         "passwordChangeFailed": "Wrong password",
         "sent": "Sent",
+        "fileUploadError":"An error happened trying to upload the file.",
         "invalidFileType": "File type not allowed. Valid types: {{validTypes}}"
     },
     "nov": "Nov",

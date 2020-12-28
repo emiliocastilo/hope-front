@@ -44,16 +44,6 @@ export class MedicinesComponent implements OnInit {
         this.columnsHeader = ['nationalCode', 'actIngredients', 'codeAct', 'authorized', 'commercialization', 'viaAdministration'];
     }
 
-    // ! =================================================================================
-    // ! =========================== SANDBOX ===========================
-
-    public validExtensions: Array<string> = ['pdf', 'txt'];
-
-    afterInit() {}
-
-    // ! =========================== SANDBOX ===========================
-    // ! =================================================================================
-
     ngOnInit(): void {
         this.loading = true;
         this.selectedUser = JSON.parse(localStorage.getItem('user'));
@@ -62,7 +52,6 @@ export class MedicinesComponent implements OnInit {
         this.modalForm = this._formBuilder.group({
             fileMedicine: [null, Validators.required],
         });
-        this.afterInit();
     }
 
     public onChangeSelect(event) {

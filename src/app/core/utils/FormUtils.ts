@@ -68,6 +68,7 @@ export default class FormUtils {
         fieldConfig.readonly = value.readonly;
 
         fieldConfig.multiselect = value.multiselect;
+        fieldConfig.file = value.file;
 
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);

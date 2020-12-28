@@ -35,6 +35,11 @@ export class FormsService {
         return this._http.get(endpoint);
     }
 
+    public postEndpoint(endpoint: string, data: any): Observable<any> {
+        return this._http.post(endpoint, data);
+    }
+
+
     public getFormsDatas(query: string) {
         return this._http.get(`/forms/datas?${query}`, {
             responseType: 'text',

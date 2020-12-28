@@ -53,4 +53,8 @@ export interface FieldConfig {
         placeholder?: string;
         selectedOptions?: Array<any>;
     };
+    file?: {
+        endpoint: string;
+        validExtensions?: Array<string>;
+    };
 }

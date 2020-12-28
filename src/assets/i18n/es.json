@@ -374,6 +374,7 @@
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
         "sent": "Enviado",
+        "fileUploadError":"Ha ocurrido un error subiendo el fichero.",
         "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{ validTypes }}"
     },
     "nov": "Nov",
