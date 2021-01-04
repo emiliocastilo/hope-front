@@ -246,6 +246,7 @@
     "intensify": "Intensificada",
     "intubation": "Sonda",
     "iqrMedPercentage": "IQR/MED (%)",
+    "iqr" : "IQR Kpa",
     "jan": "Ene",
     "jul": "Jul",
     "jun": "Jun",
@@ -606,5 +607,11 @@
     "years": "Años",
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
-    "amount": "Precio"
+    "amount": "Precio",
+    "inclusionDate" : "Fecha de inclusión",
+    "departureDate" : "Fecha de salida",
+    "nameClinicalTrial" : "Nombre del ensayo",
+    "CICollected" : "CI recogido",
+    "center" : "Centro",
+    "entryDate" : "Fecha de entrada"
 }
