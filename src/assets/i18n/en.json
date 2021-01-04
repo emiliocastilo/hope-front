@@ -580,5 +580,11 @@
     "years": "Years",
     "labelAllNothing": "None",
     "phototerapy": "Phototerapy",
-    "amount": "Price"
+    "amount": "Price",
+    "inclusionDate" : "Date of inclusion",
+    "departureDate" : "Departure date",
+    "nameClinicalTrial" : "Trial name",
+    "CICollected" : "Collected IQ",
+    "center" : "Center",
+    "entryDate" : "Entry date"
 }
