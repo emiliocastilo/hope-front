@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { QueryResult } from '../../interfaces/query-result.interface';
+import { QueryResult } from '../../../management/interfaces/query-result.interface';
 import { PharmacyModel } from '../../models/pharmacy/pharmacy.model';
 
 @Injectable({

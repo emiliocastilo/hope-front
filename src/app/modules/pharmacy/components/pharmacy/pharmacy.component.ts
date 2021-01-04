@@ -1,23 +1,19 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PatientModel } from '../../models/patients/patient.model';
-import { PathologyModel } from '../../models/patients/pathology.model';
-import { PatientsService } from '../../services/patients/patients.service';
+import { PatientModel } from '../../../management/models/patients/patient.model';
+import { PathologyModel } from '../../../management/models/patients/pathology.model';
 import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { HospitalModel } from 'src/app/core/models/hospital/hospital.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { PATIENT_TABLE_KEYS } from '../../constants/patients.constants';
+import { PATIENT_TABLE_KEYS } from '../../../management/constants/patients.constants';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { DynamicFormComponent } from '../../../../core/components/dynamic-form/dynamic-form.component';
 import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
-import { QueryResult } from '../../interfaces/query-result.interface';
+import { QueryResult } from '../../../management/interfaces/query-result.interface';
 import { PharmacyModel } from '../../models/pharmacy/pharmacy.model';
-import { UserModel } from '../../models/user/user.model';
+import { UserModel } from '../../../management/models/user/user.model';
 
 @Component({
     selector: 'app-pharmacy',
