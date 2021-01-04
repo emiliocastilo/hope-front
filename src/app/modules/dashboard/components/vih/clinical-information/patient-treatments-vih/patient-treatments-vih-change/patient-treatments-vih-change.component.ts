@@ -22,7 +22,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
             name: 'Motivo de cambio',
         },
         {
-            name: 'Fallo Viral',
+            name: 'Fallo viral',
         },
         {
             name: 'RAMs', // (Reacciones adversas a medicamentos)
@@ -65,7 +65,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     }
 
     private getData(query: string): void {
-        this._graphService.getPatientsByTreatmentChange(query).subscribe(
+        this._graphService.getPatientsByClinicalParameter(query).subscribe(
             (data) => {
                 this.dataChart = this.parseDataChart(data);
                 this.dataTable = this.parseDataTable(data);
@@ -134,7 +134,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.dataTable[event.selectedItem];
-            const query = this.query + '&reason=' + this.currentSelected.changeCause;
+            const query = this.query + '&indication=' + this.currentSelected.changeCause;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
@@ -144,7 +144,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     }
 
     private getDetails(query: string): void {
-        this._graphService.getDetailPatientsByTreatmentChange(query).subscribe(
+        this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
             (data: any) => {
                 this.details = data.content;
                 this.paginationData = data;
@@ -165,8 +165,8 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
                     patient: value.fullName,
                     principalDiagnose: value.principalDiagnose,
                     treatment: value.treatment,
-                    CVP: value.CVP,
-                    CD4: value.CD4,
+                    CVP: value.cvp,
+                    CD4: value.cd4,
                     adherence: value.adherence,
                 };
                 return object;
@@ -176,7 +176,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     }
 
     private getDetailsToExport(query: string) {
-        this._graphService.getDetailPatientsByTreatmentChangeToExport(query).subscribe(
+        this._graphService.getDetailPatientsByClinicalParameterToExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
             },

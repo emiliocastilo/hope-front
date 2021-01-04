@@ -22,6 +22,7 @@ import { PatientTreatmentsVihChangeComponent } from './components/vih/clinical-i
 import { PatientExpensesVihComponent } from './components/vih/pharmaeconomic-vih/patient-expenses-vih/patient-expenses-vih.component';
 import { GuidelinesExpensesVihComponent } from './components/vih/pharmaeconomic-vih/guidelines-expenses-vih/guidelines-expenses-vih.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TreatmentInfoVihComponent } from './components/vih/treatment-info-vih/treatment-info-vih.component';
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         PatientTreatmentsVihChangeComponent,
         PatientExpensesVihComponent,
         GuidelinesExpensesVihComponent,
+        TreatmentInfoVihComponent,
     ],
     imports: [
         NgbModule,
