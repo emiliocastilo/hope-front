@@ -14,6 +14,7 @@ import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
 import { QueryResult } from '../../../management/interfaces/query-result.interface';
 import { PharmacyModel } from '../../models/pharmacy/pharmacy.model';
 import { UserModel } from '../../../management/models/user/user.model';
+import { PHARMACY_TABLE_KEYS } from '../../constants/pharmacy.constants';
 
 @Component({
     selector: 'app-pharmacy',
@@ -25,19 +26,14 @@ export class PharmacyComponent implements OnInit {
     public menu: MenuItemModel[] = [];
     public menuSelected: MenuItemModel;
     public patients: PatientModel[] = [];
-    public patientKeysToShow: string[] = PATIENT_TABLE_KEYS;
+    public pharmacyKeysToShow: string[] = PHARMACY_TABLE_KEYS;
     public selectedItem: number;
-    public selectedPatient: PatientModel = new PatientModel();
-    public isEditing = false;
     public modalForm: FormGroup;
-    private hospitals: HospitalModel[] = [];
-    private pathologies: PathologyModel[] = [];
-    private pathologiesIds: string[] = [];
     private currentPage = 0;
     private colOrder: any;
     private typeOrder: any;
     public paginationData: PaginationModel;
-    public actions: TableActionsModel[] = new TableActionsBuilder().getEditAndDelete();
+    public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
     private itemsPerPage: number;
     private selectedUser: UserModel;
 
@@ -50,12 +46,21 @@ export class PharmacyComponent implements OnInit {
     ) { }
 
     ngOnInit (): void {
+        this.paginationData = {
+            number: 0,
+            size: 0,
+            totalElements: 0,
+            totalPages: 0
+        };
         this.getData();
     }
 
     public getData () {
         this._pharmacyService.get().subscribe(
-            (data: QueryResult<PharmacyModel>) => this.pharmacyRows = data.content,
+            (data: QueryResult<PharmacyModel>) => {
+                this.pharmacyRows = data.content;
+                this.paginationData = data;
+            },
             error => this._notificationService.showErrorToast('pharmacyListError'),
             () => this.loading = false
         );
@@ -75,9 +80,7 @@ export class PharmacyComponent implements OnInit {
         this.typeOrder = event.direction;
         let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
 
-        if (this.itemsPerPage) {
-            query = `${query}&size=${this.itemsPerPage}`;
-        }
+        if (this.itemsPerPage) query = `${query}&size=${this.itemsPerPage}`;
 
         this.refreshData(query);
     }
