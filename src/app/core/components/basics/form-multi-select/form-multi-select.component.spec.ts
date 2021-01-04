@@ -1,0 +1,24 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { FormMultiSelectComponent } from './form-multi-select.component';
+
+describe('FormSelectComponent', () => {
+    let component: FormMultiSelectComponent;
+    let fixture: ComponentFixture<FormMultiSelectComponent>;
+
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [FormMultiSelectComponent],
+        }).compileComponents();
+    }));
+
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FormMultiSelectComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+});

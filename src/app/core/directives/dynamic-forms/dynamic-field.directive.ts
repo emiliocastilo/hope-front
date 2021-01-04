@@ -17,6 +17,9 @@ import { FormListComponent } from '../../components/basics/form-list/form-list.c
 import { FormHistoricComponent } from '../../components/basics/form-historic/form-historic.component';
 import { FromSectionComponent } from '../../components/basics/from-section/from-section.component';
 import { FormSearchComponent } from '../../components/basics/form-search/form-search.component';
+import { InputMultiSelectComponent } from '../../components/basics/input-multi-select/input-multi-select.component';
+import { FormMultiSelectComponent } from '../../components/basics/form-multi-select/form-multi-select.component';
+import { FormSpaceComponent } from '../../components/basics/form-space/form-space.component';
 
 const components = {
     button: FormButtonComponent,
@@ -33,6 +36,8 @@ const components = {
     historic: FormHistoricComponent,
     table: FormListComponent,
     search: FormSearchComponent,
+    multiselect: FormMultiSelectComponent,
+    space: FormSpaceComponent,
 };
 
 @Directive({

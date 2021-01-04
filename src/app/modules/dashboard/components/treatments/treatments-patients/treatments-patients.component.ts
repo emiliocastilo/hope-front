@@ -6,6 +6,8 @@ import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model'
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
+import { IndicationModel } from 'src/app/modules/management/models/indication/indication.model';
+import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 import { PatientsTreatmentsService } from 'src/app/modules/management/services/patients-treatments/patients-treatments.service';
 
 export interface Indication {
@@ -22,25 +24,26 @@ export class TreatmentsPatientsComponent implements OnInit {
     private data: ChartObjectModel[];
     private currentPage: number = 0;
     private currentSelected: any;
-    private type: string;
+    private type: string = 'BIOLOGICO';
 
     public loadingData: boolean = true;
     public config = { defaultConfig: true };
-    public entries: Array<Indication> = [
-        { code: 'EN PLACAS', name: 'psoriasisPlacas' },
-        { code: 'PALMOPLANTAR', name: 'psoriasisPalmoplantar' },
-        { code: 'ERITRODERMIA', name: 'eritrodermia' },
-        { code: 'PUSTULOSA', name: 'psoriasisPustulosa' },
-        { code: 'ARTRITIS', name: 'artritisPsoriasica' },
-        { code: 'DERMATITIS', name: 'dermatitisAtopica' },
-        { code: 'URTICARIA', name: 'urticariaCronica' },
-        { code: 'HIDRADENITIS', name: 'hidradenitisSupurativa' },
-        { code: 'CARCINOMA BASALES', name: 'carcinomaBasales' },
-        { code: 'CARCINOMA ESCAMOSAS', name: 'carcinomaEscamosas' },
-        { code: 'MELANOMA', name: 'melanoma' },
-        { code: 'OTRA', name: 'otra' },
-    ];
-    public indication: Indication;
+    public entries: Array<IndicationModel>;
+    //  = [
+    //     { code: 'EN PLACAS', name: 'psoriasisPlacas' },
+    //     { code: 'PALMOPLANTAR', name: 'psoriasisPalmoplantar' },
+    //     { code: 'ERITRODERMIA', name: 'eritrodermia' },
+    //     { code: 'PUSTULOSA', name: 'psoriasisPustulosa' },
+    //     { code: 'ARTRITIS', name: 'psoriasicArthritis' },
+    //     { code: 'DERMATITIS', name: 'atopicDermatitis' },
+    //     { code: 'URTICARIA', name: 'chronicUrticaria' },
+    //     { code: 'HIDRADENITIS', name: 'hidradenitisSuppurativa' },
+    //     { code: 'CARCINOMA BASALES', name: 'basalCarcinoma' },
+    //     { code: 'CARCINOMA ESCAMOSAS', name: 'squamousCarcinoma' },
+    //     { code: 'MELANOMA', name: 'melanoma' },
+    //     { code: 'OTRA', name: 'other' },
+    // ];
+    public indication: IndicationModel;
     public showingDetail = false;
     public dataChart: ColumnChartModel;
     public dataTable: any[];
@@ -53,7 +56,7 @@ export class TreatmentsPatientsComponent implements OnInit {
     public details: any[] = [];
     public dataToExport: any[] = [];
 
-    constructor(public _activatedRoute: ActivatedRoute, public _patientsTreatmentsService: PatientsTreatmentsService, private _router: Router, private _translate: TranslateService) {}
+    constructor(public _activatedRoute: ActivatedRoute, private _patientsTreatmentsService: PatientsTreatmentsService, private _indicationsService: IndicationService, private _router: Router, private _translate: TranslateService) {}
 
     ngOnInit(): void {
         this.getData();
@@ -63,18 +66,31 @@ export class TreatmentsPatientsComponent implements OnInit {
         this.loadingData = true;
         const view = null;
         const scheme = { domain: ['#249cf1'] };
-
-        if (!this.indication) this.indication = this.entries[0];
         const type = 'BIOLOGICO';
-        const indication = this.indication.code;
-        const chartTitle = `patientsTreatment${this.indication.name.substr(0, 1).toUpperCase()}${this.indication.name.substr(1, this.indication.name.length)}`;
+        this.showingDetail = false;
 
-        this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, indication).subscribe((data) => {
-            this.loadingData = false;
-            this.data = this.parseDataChart(data);
-            this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
-            this.dataTable = this.parseDataTable(data);
-        });
+        if (!this.entries || this.entries.length === 0) {
+            this._indicationsService.getList().subscribe((indications: Array<IndicationModel>) => {
+                this.entries = indications;
+                if (!this.indication) this.indication = this.entries[0];
+                const chartTitle = `patientsTreatment${this.indication.code.substr(0, 1).toUpperCase()}${this.indication.code.substr(1, this.indication.code.length)}`;
+
+                this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, this.indication.code).subscribe((data) => {
+                    this.loadingData = false;
+                    this.data = this.parseDataChart(data);
+                    this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
+                    this.dataTable = this.parseDataTable(data);
+                });
+            });
+        } else {
+            const chartTitle = `patientsTreatment${this.indication.code.substr(0, 1).toUpperCase()}${this.indication.code.substr(1, this.indication.code.length)}`;
+            this._patientsTreatmentsService.getPatientsTreatmentFindPatients(type, this.indication.code).subscribe((data) => {
+                this.loadingData = false;
+                this.data = this.parseDataChart(data);
+                this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
+                this.dataTable = this.parseDataTable(data);
+            });
+        }
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
@@ -126,6 +142,7 @@ export class TreatmentsPatientsComponent implements OnInit {
 
     onIndicationChange(event): void {
         this.indication = this.entries[event.target.value];
+        console.log(this.indication);
         this.getData();
     }
 
@@ -133,7 +150,7 @@ export class TreatmentsPatientsComponent implements OnInit {
         if (event && event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.data[event.selectedItem];
-            const query = 'type=' + this.type + '&indication=' + this.indication + '&medicine=' + this.currentSelected.name;
+            const query = 'type=' + this.type + '&indication=' + this.indication.code + '&medicine=' + this.currentSelected.name;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
@@ -178,13 +195,13 @@ export class TreatmentsPatientsComponent implements OnInit {
     public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
-            const query = `type=${this.type}&indication=${this.indication}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+            const query = `type=${this.type}&indication=${this.indication.code}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
             this.getDetails(query);
         }
     }
 
     public onSort(event: any) {
-        const query = `type=${this.type}&indication=${this.indication}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+        const query = `type=${this.type}&indication=${this.indication.code}&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);
     }

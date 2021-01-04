@@ -21,6 +21,7 @@ export class PasiBsaPgaComponent implements OnInit {
     pasiForm: FormGroup;
     pasiScore: string;
     bsaScore: string;
+    pgaScore: any;
     bsaCalification: string;
     pasiCalification: string;
     pgaCalification: string;
@@ -62,7 +63,13 @@ export class PasiBsaPgaComponent implements OnInit {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
-    async getAndParseForm() {
+    async getAndParseForm(event?: any) {
+        let dateSelected: any;
+        if (event) {
+            dateSelected = event.target.value;
+            this.onClear();
+        }
+
         this.pasiForm = this.fb.group({
             cabeza: this.fb.group({
                 area: new FormControl({ value: '', disabled: true }),
@@ -92,16 +99,18 @@ export class PasiBsaPgaComponent implements OnInit {
                 escamas: new FormControl({ value: '', disabled: true }),
                 total: '',
             }),
-            evaluationDate: [this.today, Validators.required],
+            evaluationDate: [!event ? this.today : dateSelected, Validators.required],
             pga: ['', Validators.required],
             bsa: ['', Validators.required],
             pasi: ['', Validators.required],
         });
-        const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
-        if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
-            this.filledForm = JSON.parse(retrievedForm.data.find((e) => e.type === 'form').value);
-            this.pasiForm.setValue(this.filledForm);
-            this.printFormValues(this.filledForm);
+        if (!event) {
+            const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
+            if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
+                this.filledForm = JSON.parse(retrievedForm.data.find((e) => e.type === 'form').value);
+                this.pasiForm.setValue(this.filledForm);
+                this.printFormValues(this.filledForm);
+            }
         }
     }
 
@@ -109,7 +118,10 @@ export class PasiBsaPgaComponent implements OnInit {
         if (event) {
             this.pasiForm.controls[field].enable();
         } else {
+            this.pasiForm.controls[field].reset('');
             this.pasiForm.controls[field].disable();
+            this.pasiForm.controls[field].get('total').setValue('');
+            this.pasiForm.controls[field].get('total').enable();
         }
         this[field] = event;
     }
@@ -127,44 +139,49 @@ export class PasiBsaPgaComponent implements OnInit {
             } else {
                 this.fillForm(form);
             }
-            for (let i = 0; i < 3; i++) {
-                this.saveHealthOutcome(i);
-            }
         }
     }
 
-    saveHealthOutcome(index: number) {
+    saveHealthOutcome() {
+        let healthOutcomeArray: HealthOutcomeModel[] = [];
         let ho: HealthOutcomeModel = {
-            patient: this.patient.id,
+            patientId: this.patient.id,
             date: new Date(this.pasiForm.value.evaluationDate).toISOString(),
         };
-        switch (index) {
-            case 0:
-                ho = {
-                    ...ho,
-                    indexType: 'pasi',
-                    value: this.pasiScore,
-                    result: this.pasiCalification,
-                };
-                break;
-            case 1:
-                ho = {
-                    ...ho,
-                    indexType: 'bsa',
-                    value: this.bsaScore,
-                    result: this.bsaCalification,
-                };
-                break;
-            case 2:
-                ho = {
-                    ...ho,
-                    indexType: 'pga',
-                    value: this.pasiForm.value.pga,
-                    result: this.pgaCalification,
-                };
-                break;
+        for (let index = 0; index < 3; index++) {
+            switch (index) {
+                case 0:
+                    healthOutcomeArray.push({
+                        ...ho,
+                        indexType: 'PASI',
+                        value: this.pasiScore ? this.pasiScore : this.pasiForm.value.pasi,
+                        result: this.pasiCalification,
+                    });
+                    break;
+                case 1:
+                    healthOutcomeArray.push({
+                        ...ho,
+                        indexType: 'BSA',
+                        value: this.bsaScore ? this.bsaScore : this.pasiForm.value.bsa,
+                        result: this.bsaCalification,
+                    });
+                    break;
+                case 2:
+                    healthOutcomeArray.push({
+                        ...ho,
+                        indexType: 'PGA',
+                        value: this.pgaScore ? this.pgaScore : this.pasiForm.value.pga,
+                        result: this.pgaCalification,
+                    });
+                    break;
+            }
         }
-        this.hoService.saveScore(ho);
+        this.hoService.saveScore(healthOutcomeArray).subscribe(
+            () => {},
+            ({ error }) => {
+                this._notification.showErrorToast(error.errorCode);
+            }
+        );
     }
 
     async showGraph() {
@@ -206,28 +223,24 @@ export class PasiBsaPgaComponent implements OnInit {
     onSelectPGA(event: any) {
         const option = event.target.value.split(':')[1].trim();
         this.pgaCalification = PasiUtils.selectPGA(option);
+        this.pgaScore = option;
     }
 
     fillForm(form: any) {
         this._formsService.fillForm(form).subscribe(
             () => {
+                this.saveHealthOutcome();
                 this._notification.showSuccessToast('elementCreated');
             },
-            ({ error }) => {
-                this._notification.showErrorToast(error.errorCode);
-            }
+            ({ error }) => {}
         );
     }
 
     updateForm(form: any) {
-        this._formsService.updateForm(form).subscribe(
-            () => {
-                this._notification.showSuccessToast('elementUpdated');
-            },
-            ({ error }) => {
-                this._notification.showErrorToast(error.errorCode);
-            }
-        );
+        this._formsService.updateForm(form).subscribe(() => {
+            this.saveHealthOutcome();
+            this._notification.showSuccessToast('elementUpdated');
+        });
     }
 
     onClear() {

@@ -36,7 +36,7 @@ export class TreatmentsAgentsComponent implements OnInit {
     public dataChart: ColumnChartModel;
     public dataTable: any[];
     public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
-    public columHeaders: string[] = ['typeTreatmentBiological', 'patients'];
+    public columHeaders: string[] = ['treatmentType', 'patients'];
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
     public detailsDataTable: any[];
     public currentSort: any = {
@@ -53,6 +53,7 @@ export class TreatmentsAgentsComponent implements OnInit {
     }
 
     private getData(): void {
+        this.showingDetail = false;
         this.loadingData = true;
         const view = null;
         const scheme = { domain: ['#249cf1'] };
@@ -90,7 +91,7 @@ export class TreatmentsAgentsComponent implements OnInit {
     private parseDataTable(data: any[]) {
         const arrayData = Object.keys(data).map((key: any) => {
             const object = {
-                typeTreatmentBiological: key,
+                treatmentType: key,
                 patients: data[key],
             };
             return object;

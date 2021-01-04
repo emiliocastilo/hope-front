@@ -16,6 +16,7 @@ import { TableActionsModel } from '../../models/table/table-actions-model';
 export class TableComponent implements OnInit {
     @Input() showActionButtons: boolean;
     @Input() columnsHeader: Array<ColumnHeaderModel>;
+    @Input() columnsHidden: Array<string> = [];
     @Input() columnsData: Array<RowDataModel>;
     @Input() sortable: boolean;
     @Output() selectedItem: EventEmitter<number> = new EventEmitter();
@@ -51,6 +52,10 @@ export class TableComponent implements OnInit {
             selectedItem: selectedItem,
             type: type,
         });
+    }
+
+    checkHiddenColumn(element: any): boolean {
+        return this.columnsHidden.filter((f) => f === element).length > 0;
     }
 
     isValidDate(date: string): boolean {

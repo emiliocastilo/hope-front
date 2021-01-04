@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ifError } from 'assert';
+import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Injectable({
     providedIn: 'root',
@@ -17,6 +18,7 @@ export class MenuService {
     private current: MenuItemModel;
     private fullMenu: MenuItemModel;
     private homeUrl = '/hopes';
+    private patientPath: string;
 
     public currentSection = new Subject<MenuItemModel>();
     public allSections: MenuItemModel[];
@@ -31,6 +33,7 @@ export class MenuService {
     private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
         menu.collapsed = true;
         menu.path = `${root ? root : ''}/${menu.id}`;
+        if (menu.url === '/hopes/pathology/patients') this.patientPath = menu.path;
         if (menu.children && menu.children.length > 0) {
             menu.children.forEach((submenu) => {
                 submenu.parentId = menu.id;
@@ -69,23 +72,27 @@ export class MenuService {
 
     public setCurrentSection(section?: MenuItemModel) {
         if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
+            // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
             if (!section) {
                 if (!this.allSections) this.fillSections(this.fullMenu);
                 section = this.allSections.filter((f) => f.url === '/hopes')[0];
             }
-
             const url = section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
+
+            if (!section.path.includes(this.patientPath) && this.thereIsPatientSelected) {
+                this.thereIsPatientSelected = false;
+                localStorage.removeItem('selectedPatient');
+                this.assignParentAndCollapseStatus(this.fullMenu);
+            }
 
             this.current = section;
             localStorage.setItem('section', JSON.stringify(section));
             if (url) this._router.navigate([url]);
             this.currentSection.next(section);
         } else {
-            if (section && section.url != '#' && section.url != this.current.url) {
-                this.showModalConfirm(section);
-            } else if (!section) {
-                this.showModalConfirm();
-            }
+            // * SE EVITA EL CAMBIO DE SECCIÓN * //
+            if (section && section.url != '#' && section.url != this.current.url) this.showModalConfirm(section);
+            else if (!section) this.showModalConfirm();
         }
     }
 

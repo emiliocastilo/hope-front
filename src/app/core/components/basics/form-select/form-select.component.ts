@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
+import { FormsService } from 'src/app/core/services/forms/forms.service';
 
 @Component({
     selector: 'app-form-select',
@@ -14,8 +15,19 @@ export class FormSelectComponent implements OnInit {
     optionSelected: boolean;
     required = false;
 
+    public options: Array<any>;
+
+    constructor(private _formService: FormsService) {}
+
     ngOnInit() {
+        this.options = [];
         this.hasRequiredField(this.group.controls[this.config.name]);
+        if (this.config.options && this.config.options.length > 0) this.options = this.config.options;
+        else if (this.config.endpoint)
+            this._formService.callEndpoint(this.config.endpoint).subscribe((response) => {
+                response.forEach((element) => this.options.push({ value: element.code, name: element.description }));
+            });
+        else this.options = [];
     }
 
     hasRequiredField(abstractControl: AbstractControl) {

@@ -13,7 +13,7 @@
 
 <section class="col-md-12 col-lg-12 m-0 p-0">
     <section class="patients-chart-container">
-        <app-pie-chart [chartTitle]="'patientsBSA'" [results]="dataChart" [showLabels]="false"></app-pie-chart>
+        <app-pie-chart [chartTitle]="'patients' + selectedOption.name" [results]="dataChart" [showLabels]="false"></app-pie-chart>
 
         <div class="table-container" *ngIf="!showingDetail">
             <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable" (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true"> </app-table>
@@ -24,7 +24,17 @@
                 <app-export-buttons [dataToExport]="dataToExport"></app-export-buttons>
             </div>
 
-            <app-table [columnsHeader]="headersDetailsTable" [columnsData]="detailsDataTable" [showActionButtons]="true" [actions]="actions" (iconButtonClick)="onPatientClick($event)" (sort)="onSort($event)" [sortable]="true"> </app-table>
+            <app-table
+                [columnsHeader]="headersDetailsTable"
+                [columnsHidden]="hiddenColumns"
+                [columnsData]="detailsDataTable"
+                [showActionButtons]="true"
+                [actions]="actions"
+                (iconButtonClick)="onPatientClick($event)"
+                (sort)="onSort($event)"
+                [sortable]="true"
+            >
+            </app-table>
             <app-pagination (selectPage)="selectPage($event)" [paginationData]="paginationData"> </app-pagination>
             <app-button type="button" clasesBtn="btn-primary btn-sm mx-2" texto="btn.back" (click)="onIconButtonClick({ type: 'back' })" icono="arrow-left"></app-button>
         </div>

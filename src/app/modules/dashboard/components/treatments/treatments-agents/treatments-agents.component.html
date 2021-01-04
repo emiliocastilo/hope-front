@@ -3,7 +3,7 @@
         <div class="container">
             <div class="dynamic-field">
                 <label class="dynamic-label">
-                    {{ 'indication' | translate }}
+                    {{ 'treatmentType' | translate }}
                 </label>
                 <select class="form-control" (change)="onSelectChange($event.target.value)">
                     <option *ngFor="let entry of options; index as i" [value]="i">
@@ -22,7 +22,6 @@
         <div class="table-container" *ngIf="!showingDetail">
             <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable" (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true"> </app-table>
         </div>
-        º
 
         <div *ngIf="showingDetail" class="table-container">
             <div class="export-buttons">

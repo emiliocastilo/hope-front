@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { RolModel } from 'src/app/modules/management/models/rol.model';
+import { UserModel } from 'src/app/modules/management/models/user/user.model';
 import { ProfileModel } from '../../models/login/profile.model';
 import { LoginService } from '../login/login.service';
 import { NotificationService } from '../notification.service';

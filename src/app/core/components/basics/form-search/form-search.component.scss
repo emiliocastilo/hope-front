@@ -8,7 +8,6 @@
   pointer-events: auto;
   background-color: $app-color-white;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
   outline: 0;
 }
@@ -65,6 +64,11 @@
   }
 }
 
-.modal-body {
-  margin: 1rem;
+::ng-deep .modal-content {
+  border-top: 0 !important;
+  margin-left: 1rem;
+}
+
+::ng-deep .modal-backdrop {
+  opacity: 0.3 !important;
 }

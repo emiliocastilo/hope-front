@@ -7,6 +7,7 @@ import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
 import { ScriptLoaderService } from 'angular-google-charts';
 import _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-dashboard-patients',
@@ -25,11 +26,12 @@ export class DashboardPatientsComponent implements OnInit {
     public configChart: ColumnChartModel;
     public configGantt: any;
     public noData: boolean;
+    public noTreatmentData: boolean;
 
     private firstDate: string = '';
     private lastDate: string = '';
 
-    constructor(private patientService: PatientsService, private patientDashboardService: PatientsDashboardService, private loaderService: ScriptLoaderService) {}
+    constructor(private patientService: PatientsService, private patientDashboardService: PatientsDashboardService, private loaderService: ScriptLoaderService, private _translate: TranslateService) {}
 
     setConfigGannt(): void {
         this.configGantt = {
@@ -41,6 +43,7 @@ export class DashboardPatientsComponent implements OnInit {
                 avoidOverlappingGridLines: true,
                 backgroundColor: '#FFFF',
                 fontName: 'Raleway, sans-serif',
+
                 timeline: {
                     barLabelStyle: {
                         fontName: 'Raleway, sans-serif',
@@ -97,11 +100,15 @@ export class DashboardPatientsComponent implements OnInit {
 
             this.firstDate = this.globalDates[0];
             this.lastDate = this.globalDates[this.globalDates.length - 1];
-
             this.setConfigGannt();
             this.dataChart = this.parseDataChart(this.data);
+            this.noData = true;
+            this.dataChart.forEach((evolutionIndex) => {
+                if (evolutionIndex.series.length > 0) {
+                    this.noData = false;
+                }
+            });
             this.loadChart(this.data);
-
             this.loadLines();
         });
     }
@@ -146,6 +153,11 @@ export class DashboardPatientsComponent implements OnInit {
             });
         });
         this.dataChart = this.parseDataChart(newData);
+        if (this.dataChart[0].series.length === 0 && this.dataChart[1].series.length === 0) {
+            this.noData = true;
+        } else {
+            this.noData = false;
+        }
         this.loadChart(newData);
         this.configChart = { ...this.configChart, results: this.dataChart };
     }
@@ -182,7 +194,7 @@ export class DashboardPatientsComponent implements OnInit {
     drawChart(data: any): any {
         setTimeout(() => {
             if (data && data.data && data.data.length > 0) {
-                this.noData = false;
+                this.noTreatmentData = false;
                 const container = document.getElementById('google-timeline-chart');
                 const chart = new google.visualization.Timeline(container);
                 const dataTable = new google.visualization.DataTable();
@@ -221,7 +233,7 @@ export class DashboardPatientsComponent implements OnInit {
                         label.setAttribute('display', 'none');
                     }
                 });
-            } else this.noData = true;
+            } else this.noTreatmentData = true;
         }, 1);
     }
 
@@ -242,6 +254,7 @@ export class DashboardPatientsComponent implements OnInit {
 
             return object;
         });
+
         return arrayData;
     }
 
@@ -251,19 +264,25 @@ export class DashboardPatientsComponent implements OnInit {
         this.configGantt.columns.forEach((value: string, key: number) => {
             if (data[value] && value !== 'ADHERENCIA') {
                 data[value].forEach((element: any, keyT: number) => {
-                    const objectRow = [value, element.medicine.actIngredients, element.medicine.actIngredients, new Date(element.initDate), new Date(this.globalDates[this.globalDates.length - 1])];
+                    const objectRow = [
+                        value,
+                        element.medicine ? element.medicine.actIngredients : this._translate.instant('phototerapy'),
+                        element.medicine ? element.medicine.actIngredients : this._translate.instant('phototerapy'),
+                        new Date(element.initDate),
+                        new Date(this.globalDates[this.globalDates.length - 1]),
+                    ];
 
                     if (element.finalDate) {
                         const endDate = new Date(element.finalDate);
                         objectRow[objectRow.length - 1] = endDate;
                     }
+
                     objectChart.push(objectRow);
                 });
             } else if (data[value] && value === 'ADHERENCIA') {
                 data[value].forEach((element: any, keyTwo: number) => {
                     const dateStart = new Date(element.date);
                     const objectRow = [value, '', element.description, dateStart, dateStart];
-
                     objectChart.push(objectRow);
                 });
             }
