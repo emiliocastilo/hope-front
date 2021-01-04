@@ -109,9 +109,6 @@ const routes: Routes = [
         component: TreatmentInfoVihComponent,
         canActivate: [AuthGuard],
     },
-
-
-    
 ];
 
 @NgModule({
