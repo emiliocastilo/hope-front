@@ -372,7 +372,8 @@
         "missDate": "Faltan fechas por rellenar",
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
-        "sent": "Enviado"
+        "sent": "Enviado",
+        "pharmacyListError": "Ha ocurrido un error obteniendo información de farmacia."
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",

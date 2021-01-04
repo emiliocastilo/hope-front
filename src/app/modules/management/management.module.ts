@@ -13,8 +13,18 @@ import { UsersComponent } from './components/users/users.component';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { MedicinesComponent } from './components/medicines/medicines.component';
+import { PharmacyComponent } from './components/pharmacy/pharmacy.component';
 @NgModule({
-    declarations: [ManagementComponent, RoleManagementComponent, UsersComponent, PatientsComponent, DispensationsComponent, SectionsComponent, MedicinesComponent],
+    declarations: [
+        ManagementComponent, 
+        RoleManagementComponent, 
+        UsersComponent, 
+        PatientsComponent, 
+        DispensationsComponent, 
+        SectionsComponent, 
+        MedicinesComponent,
+        PharmacyComponent
+    ],
     imports: [
         CommonModule,
         CoreModule,

@@ -352,7 +352,8 @@
         "missDate": "There are dates missing",
         "passwordChangedSuccessfully": "Password succesfully updated",
         "passwordChangeFailed": "Wrong password",
-        "sent": "Sent"
+        "sent": "Sent",
+        "pharmacyListError": "An error occurred obtaining pharmacy information."
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Number of changes by biological treatment",
