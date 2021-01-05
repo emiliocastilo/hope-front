@@ -142,7 +142,6 @@ export class TreatmentsPatientsComponent implements OnInit {
 
     onIndicationChange(event): void {
         this.indication = this.entries[event.target.value];
-        console.log(this.indication);
         this.getData();
     }
 

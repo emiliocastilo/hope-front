@@ -582,10 +582,16 @@
     "labelAllNothing": "None",
     "phototerapy": "Phototerapy",
     "amount": "Price",
+    "prefInitGuidelines":"Preferential initial guidelines",
+    "recommendedInitGuidelines":"Recommended initial guidelines",
+    "recommendedChangeGuidelines":"Recommended change guidelines",
+    "otherTreatments":"Other treatments",
+    "allTreatments":"All treatments",
     "inclusionDate" : "Date of inclusion",
     "departureDate" : "Departure date",
     "nameClinicalTrial" : "Trial name",
     "CICollected" : "Collected IQ",
     "center" : "Center",
     "entryDate" : "Entry date"
+
 }
