@@ -246,6 +246,7 @@
     "intensify": "Intensificada",
     "intubation": "Sonda",
     "iqrMedPercentage": "IQR/MED (%)",
+    "iqr" : "IQR Kpa",
     "jan": "Ene",
     "jul": "Jul",
     "jun": "Jun",
@@ -611,6 +612,11 @@
     "recommendedInitGuidelines":"Pautas de inicio recomendadas",
     "recommendedChangeGuidelines":"Pautas de cambio recomendadas",
     "otherTreatments":"Otros tratamientos",
-    "allTreatments":"Todos los tratamientos"
-
+    "allTreatments":"Todos los tratamientos",
+    "inclusionDate" : "Fecha de inclusión",
+    "departureDate" : "Fecha de salida",
+    "nameClinicalTrial" : "Nombre del ensayo",
+    "CICollected" : "CI recogido",
+    "center" : "Centro",
+    "entryDate" : "Fecha de entrada"
 }
