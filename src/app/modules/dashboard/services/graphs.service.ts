@@ -167,17 +167,6 @@ export class GraphsService {
         return this._httpClient.get(`/patient-clinical-data/by-type-indication-toExport?${query}`);
     }
 
-    //Cambio de tratamiento
-    public getPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-treatment-change?${query}`);
-    }
-    public getDetailPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/detail-by-treatment-change?${query}`);
-    }
-    public getDetailPatientsByTreatmentChangeToExport(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/detail-by-treatment-change-toExport?${query}`);
-    }
-
     //Costes tipo paciente
     public getPatientsByPatientType(): any {
         return this._httpClient.get(`/patient-clinical-data/by-patientType`);

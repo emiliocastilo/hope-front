@@ -25,7 +25,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
             name: 'Fallo viral',
         },
         {
-            name: 'RAMs', // (Reacciones adversas a medicamentos)
+            name: 'RAMS', // (Reacciones adversas a medicamentos)
         },
         {
             name: 'Número de cambios por tratamiento',

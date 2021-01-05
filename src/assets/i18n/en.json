@@ -580,5 +580,9 @@
     "years": "Years",
     "labelAllNothing": "None",
     "phototerapy": "Phototerapy",
-    "amount": "Price"
+    "amount": "Price",
+    "prefInitGuidelines":"Preferential initial guidelines",
+    "recommendedInitGuidelines":"Recommended initial guidelines",
+    "recommendedChangeGuidelines":"Recommended change guidelines",
+    "otherTreatments":"Other treatments"
 }

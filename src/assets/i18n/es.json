@@ -606,5 +606,10 @@
     "years": "Años",
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
-    "amount": "Precio"
+    "amount": "Precio",
+    "prefInitGuidelines":"Pautas de inicio preferente",
+    "recommendedInitGuidelines":"Pautas de inicio recomendadas",
+    "recommendedChangeGuidelines":"Pautas de cambio recomendadas",
+    "otherTreatments":"Otros tratamientos"
+
 }
