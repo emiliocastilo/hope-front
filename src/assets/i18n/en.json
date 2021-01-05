@@ -352,7 +352,8 @@
         "missDate": "There are dates missing",
         "passwordChangedSuccessfully": "Password succesfully updated",
         "passwordChangeFailed": "Wrong password",
-        "sent": "Sent"
+        "sent": "Sent",
+        "errorRetrievingData": "Error Retrieving Data"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Number of changes by biological treatment",
@@ -580,5 +581,6 @@
     "years": "Years",
     "labelAllNothing": "None",
     "phototerapy": "Phototerapy",
-    "amount": "Price"
+    "amount": "Price",
+    "treatmentLine": "Treatment line"
 }

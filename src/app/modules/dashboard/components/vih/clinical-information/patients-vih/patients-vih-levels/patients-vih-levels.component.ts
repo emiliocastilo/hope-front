@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { GroupedLinesChartComponent } from 'src/app/core/components/charts/grouped-lines-chart/grouped-lines-chart.component';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { GroupedLineChartGroupData } from 'src/app/core/models/graphs/grouped-line-chart.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 
@@ -15,6 +17,12 @@ export interface SelectOption {
         name: string;
         type: 'pie' | 'grouped-vertical-line';
     };
+}
+
+export interface GroupedBarChartItem {
+    treatmentLine: string;
+    activeActs: number;
+    patients: number;
 }
 
 @Component({
@@ -85,7 +93,12 @@ export class PatientsVihLevelsComponent implements OnInit {
         direction: 'asc',
     };
 
-    constructor(private _graphService: GraphsService, public translate: TranslateService, private _router: Router) { }
+    constructor(
+        private _graphService: GraphsService,
+        public translate: TranslateService,
+        private _router: Router,
+        private _notificationService: NotificationService
+    ) { }
 
     ngOnInit (): void {
         this.getData(`type=${this.selectedOption.param}`);
@@ -99,42 +112,25 @@ export class PatientsVihLevelsComponent implements OnInit {
             },
             (error) => {
                 console.error(error);
+                this._notificationService.showErrorToast('errorRetrievingData');
                 // ! MOCKED DATA TEST ! //
-                if (this.selectedOption.chart.type === 'grouped-vertical-line') {
-                    this.dataChart = [
-                        {
-                            name: "Monoterapia",
-                            series: [
-                                { name: "Monoterapia", value: 16 },
-                            ]
-                        }, {
-                            name: "Biterapia",
-                            series: [
-                                { name: "Combo(2)", value: 5 },
-                                { name: "Individual (1+1)", value: 45 },
-                            ]
-                        }, {
-                            name: "Terapia triple",
-                            series: [
-                                { name: "Combo triple (3)", value: 165 },
-                                { name: "Individual (1+1+1)", value: 24 },
-                                { name: "Combo doble (2+1)", value: 178 },
-                            ]
-                        }, {
-                            name: "Terapia cuádruple",
-                            series: [
-                                { name: "Individual (1+1+1+1)", value: 4 },
-                                { name: "Combo doble (2+1+1)", value: 9 },
-                                { name: "Combo triple (3+1)", value: 5 },
-                            ]
-                        }, {
-                            name: "5+ principios activos",
-                            series: [
-                                { name: "5+ principios activos", value: 10 },
-                            ]
-                        }
-                    ];
-                }
+                const data = [
+                    { treatmentLine: "Monoterapia", activeActs: 1, patients: 16 },
+                    { treatmentLine: "Combo (2)", activeActs: 2, patients: 1 },
+                    { treatmentLine: "Combo triple (3)", activeActs: 3, patients: 165 },
+                    { treatmentLine: "Combo cuádruple (4)", activeActs: 4, patients: 7 },
+                    { treatmentLine: "Individual (1+1)", activeActs: 2, patients: 50 },
+                    { treatmentLine: "Individual (1+1+1)", activeActs: 3, patients: 23 },
+                    { treatmentLine: "Combo doble (2+1)", activeActs: 3, patients: 178 },
+                    { treatmentLine: "Individual (1+1+1+1)", activeActs: 4, patients: 4 },
+                    { treatmentLine: "Combo doble (2+1+1)", activeActs: 4, patients: 9 },
+                    { treatmentLine: "2 combos dobles (2+2)", activeActs: 4, patients: 0 },
+                    { treatmentLine: "Combo triple (3+1)", activeActs: 4, patients: 5 },
+                    { treatmentLine: "5+ principios activos", activeActs: 5, patients: 16 }
+                ];
+                this.dataChart = this.parseDataChart(data);
+                this.dataTable = this.parseDataTable(data);
+                // ! MOCKED DATA TEST ! //
             }
         );
     }
@@ -155,21 +151,60 @@ export class PatientsVihLevelsComponent implements OnInit {
             });
             return arrayData;
         } else if (this.selectedOption.chart.type === 'grouped-vertical-line') {
-            // TODO : Mapear datos para gráfica de líneas agrupadas
-            const chartData: Array<GroupedLineChartGroupData> = [];
-            console.log(data);
+            const chartData: ChartObjectModel[] = this.parseGroupedChartData(data);
             return chartData;
         } else return undefined;
     }
 
-    private parseDataTable (data: any): any[] {
-        const arrayData = Object.keys(data).map((key) => {
-            const object = {
-                indication: key,
-                patients: data[key],
-            };
-            return object;
+    private parseGroupedChartData (data: Array<GroupedBarChartItem>): ChartObjectModel[] {
+        const chartData = [
+            { name: 'Monoterapia', series: [] },
+            { name: 'Biterapia', series: [] },
+            { name: 'Terapia triple', series: [] },
+            { name: 'Terapia cuádruple', series: [] },
+            { name: '5+ principios activos', series: [] },
+        ];
+
+        data.forEach(item => {
+            if (item.patients > 0)
+                switch (item.activeActs) {
+                    case 1:
+                        chartData.filter(f => f.name === 'Monoterapia')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                    case 2:
+                        chartData.filter(f => f.name === 'Biterapia')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                    case 3:
+                        chartData.filter(f => f.name === 'Terapia triple')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                    case 4:
+                        chartData.filter(f => f.name === 'Terapia cuádruple')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                    default:
+                        chartData.filter(f => f.name === '5+ principios activos')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                }
         });
+
+        return chartData;
+    }
+
+    private parseDataTable (data: any): any[] {
+        let arrayData = [];
+        if (this.selectedOption.chart.type === 'grouped-vertical-line') {
+            this.columHeaders = ['treatmentLine', 'patients'];
+            data.forEach((item: GroupedBarChartItem) => {
+                arrayData.push({ treatmentLine: item.treatmentLine, patients: item.patients });
+            });
+        } else {
+            arrayData = Object.keys(data).map((key) => {
+                const object = {
+                    indication: key,
+                    patients: data[key],
+                };
+                return object;
+            });
+        }
 
         return arrayData;
     }
@@ -191,12 +226,12 @@ export class PatientsVihLevelsComponent implements OnInit {
     private getDetails (query: string): void {
         this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
             (data: any) => {
-                console.log(data);
                 this.details = data.content;
                 this.paginationData = data;
                 this.detailsDataTable = this.parseDataToTableDetails(data.content);
             },
             (error) => {
+                this._notificationService.showErrorToast('errorRetrievingData');
                 console.error(error);
             }
         );

@@ -372,7 +372,8 @@
         "missDate": "Faltan fechas por rellenar",
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
-        "sent": "Enviado"
+        "sent": "Enviado",
+        "errorRetrievingData": "Error obteniendo información"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",
@@ -606,5 +607,6 @@
     "years": "Años",
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
-    "amount": "Precio"
+    "amount": "Precio",
+    "treatmentLine": "Línea de tratamiento"
 }
