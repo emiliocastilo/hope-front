@@ -29,7 +29,7 @@ export class DispensationsComponent implements OnInit {
     public paginationData: PaginationModel;
 
     public columnHeaders = ['date', 'startPeriod', 'endPeriod', 'numRecords'];
-    private dispensationDetailHeaders = ['date', 'nhc', 'code', 'nationalCode', 'description', 'quantity', 'price', 'daysDispensation'];
+    private dispensationDetailHeaders = ['date', 'nhc', 'code', 'nationalCode', 'description', 'quantity', 'amount', 'daysDispensation'];
 
     public selectedItem: DispensationModel;
     private modalForm: FormGroup;
