@@ -9,6 +9,10 @@
   align-items: flex-end;
 }
 
+.container {
+  margin-left: 0;
+}
+
 .select-label {
   padding-right: 1rem;
   font-size: 1.3rem;
@@ -23,6 +27,15 @@
 
 .select-switch {
   flex-grow: 2;
+  position: absolute !important;
+  top: 21px !important;
+  left: 492px !important;
+}
+
+.treatment-select-position {
+  width: 400px;
+  position: relative;
+  top: -60px;
 }
 
 select {

@@ -21,6 +21,11 @@ input[type='number'] {
   background: transparent;
   transition: border-color 0.2s;
 
+  &:read-only {
+    cursor: default;
+    background: #ebebeb;
+  }
+
   &::placeholder {
     color: transparent;
   }

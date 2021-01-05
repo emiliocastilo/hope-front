@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
@@ -24,5 +24,9 @@ export class FormTextareaComponent implements OnInit {
                 this.required = true;
             }
         }
+    }
+
+    removeMutation(index: number) {
+        this.group.controls.mutationsAdd.value.splice(index, 1);
     }
 }

@@ -28,12 +28,15 @@ export class CieComponent implements OnInit {
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
     public actionsPatient: TableActionsModel[] = new TableActionsBuilder().getDetail();
     public dataToExport: any[] = [];
+    public hospitalId: any;
 
     constructor(private charts: GraphsService, private _router: Router) {}
 
     ngOnInit(): void {
         this.getData();
         this.paginationData = { size: 10 };
+        let selectedRole = JSON.parse(localStorage.getItem('user')).rolSelected;
+        this.hospitalId = selectedRole.hospital.id;
     }
 
     getData() {
@@ -66,7 +69,7 @@ export class CieComponent implements OnInit {
     public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
-            const query = `page=${this.currentPage}&cie=${this.selectedCie}`;
+            const query = `page=${this.currentPage}&cieDescription=${this.selectedCie}&hospitalId=${this.hospitalId}`;
             this.getPatientsDetail(query);
         }
     }
@@ -87,7 +90,7 @@ export class CieComponent implements OnInit {
         if (event && event.type === 'detail') {
             this.showingDetail = true;
             this.selectedCie = this.dataChart[event.selectedItem].name;
-            const query = `page=${this.currentPage}&cie=${this.selectedCie}`;
+            const query = `page=${this.currentPage}&cieDescription=${this.selectedCie}&hospitalId=${this.hospitalId}`;
             this.getPatientsDetail(query);
             this.getDetailsToExport(query);
         } else {
@@ -105,7 +108,7 @@ export class CieComponent implements OnInit {
     }
 
     public onSortTableDetail(event: any) {
-        const query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&cie=${this.selectedCie}`;
+        const query = `&sort=${event.column},${event.direction}&page=${this.currentPage}&cieDescription=${this.selectedCie}&hospitalId=${this.hospitalId}`;
         this.getPatientsDetail(query);
     }
 }

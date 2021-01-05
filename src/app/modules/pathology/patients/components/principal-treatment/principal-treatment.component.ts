@@ -14,6 +14,7 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { constants } from '../../../../../../constants/constants';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import moment from 'moment';
+import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 
 @Component({
     selector: 'app-principal-treatment',
@@ -21,6 +22,7 @@ import moment from 'moment';
     styleUrls: ['./principal-treatment.component.scss'],
 })
 export class PrincipalTreatmentComponent implements OnInit {
+    private currentIndication: string;
     key = constants.farmacologiesTreatments;
     public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension', 'treatmentType'];
     public actions: TableActionsModel[] = [new TableActionsModel('changeSuspend', 'edit-3'), new TableActionsModel('edit', 'edit-2'), new TableActionsModel('delete', 'trash')];
@@ -94,46 +96,34 @@ export class PrincipalTreatmentComponent implements OnInit {
 
     formatter = (state) => state.name;
 
-    filterMeds(meds: any): any {
-        let auxmeds = [];
-        meds.forEach((med) => {
-            if (Array.isArray(this.modalForm.controls.treatmentType.value)) {
-                if (!med.family || med.family === this.modalForm.controls.treatmentType.value[0].id || this.modalForm.controls.treatmentType.value[0].id === 'TOPICO') {
-                    //&& this.modalForm.controls.treatmentType.value[0].id
-                    auxmeds.push(med);
-                }
-            } else {
-                if (
-                    !med.family ||
-                    med.family === this.modalForm.controls.treatmentType.value.id ||
-                    this.modalForm.controls.treatmentType.value.id === 'TOPICO' ||
-                    med.family === this.modalForm.controls.treatmentType.value ||
-                    this.modalForm.controls.treatmentType.value.id === 'TOPICO'
-                ) {
-                    auxmeds.push(med);
-                }
-            }
-        });
-        return auxmeds;
-    }
     search = (text$: Observable<string>) => {
         return text$.pipe(
             debounceTime(200),
             distinctUntilChanged(),
             switchMap((term) =>
-                this._medicinesService.getByText(`search=${term}`).pipe(
-                    map((response: any) => {
-                        return this.filterMeds(response.content);
-                    }),
-                    tap((data) => {
-                        data.forEach((element) => {
-                            element.name = element.description;
-                        });
-                    }),
-                    catchError(() => {
-                        return of([]);
-                    })
-                )
+                this._medicinesService
+                    .getByText(
+                        `search=${term}&family=${
+                            this.modalForm.controls.treatmentType.value.id
+                                ? this.modalForm.controls.treatmentType.value.id
+                                : this.modalForm.controls.treatmentType.value[0]?.id
+                                ? this.modalForm.controls.treatmentType.value[0].id
+                                : this.modalForm.controls.treatmentType.value
+                        }`
+                    )
+                    .pipe(
+                        map((response: any) => {
+                            return response.content;
+                        }),
+                        tap((data) => {
+                            data.forEach((element) => {
+                                element.name = element.description;
+                            });
+                        }),
+                        catchError(() => {
+                            return of([]);
+                        })
+                    )
             )
         );
     };
@@ -273,6 +263,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _notification: NotificationService,
         private _translate: TranslateService,
+        private _indicationService: IndicationService,
         private _medicinesService: MedicinesServices
     ) {}
 
@@ -309,9 +300,20 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     getFormDatas() {
-        this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=psoriasisType`).subscribe(
+        this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
-                this.indication = data;
+                let indications = this._indicationService.indications;
+                if (!indications) this.indication = data;
+
+                if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
+                    this._indicationService.getList().subscribe((response) => {
+                        this.indication = this._translate.instant(response.filter((f) => f.code === data)[0].description);
+                        this.currentIndication = response.filter((f) => f.code === data)[0].code;
+                    });
+                } else {
+                    this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
+                    this.currentIndication = this._indicationService.indications.filter((f) => f.code === data)[0].code;
+                }
             },
             ({ error }) => {
                 // this._notification.showErrorToast(error.errorCode);
@@ -413,6 +415,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
 
         modalRef.componentInstance.save.subscribe((event: any) => {
+            event.value.indication = this.currentIndication;
             event.value.dose = event.value.dose[0];
 
             if (Array.isArray(event.value.regimenTreatment)) {
@@ -428,6 +431,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             event.value.principle = event.value.medicine.actIngredients;
             event.value.brand = event.value.medicine.brand;
             event.value.type = event.value.medicine.family;
+
             if (Array.isArray(event.value.treatmentType)) {
                 event.value.treatmentType = event.value.treatmentType[0].id;
             } else if (event.value.treatmentType.id) {

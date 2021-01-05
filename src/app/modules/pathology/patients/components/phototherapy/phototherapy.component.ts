@@ -15,6 +15,7 @@ import { constants } from '../../../../../../constants/constants';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 
 @Component({
     selector: 'app-phototherapy',
@@ -32,6 +33,8 @@ export class PhototherapyComponent implements OnInit {
     totalElements: 0,
   };
   private currentPage: number = 0;*/
+    private currentIndication: string;
+
     private currentUser: PatientModel = JSON.parse(localStorage.getItem('selectedPatient' || '{}'));
     private currentTreatment: string = 'phototherapy';
     public tableData: any[] = [];
@@ -111,6 +114,7 @@ export class PhototherapyComponent implements OnInit {
         private _modalService: NgbModal,
         private _formBuilder: FormBuilder,
         private _notification: NotificationService,
+        private _indicationService: IndicationService,
         private _translate: TranslateService,
         private _formsService: FormsService
     ) {}
@@ -151,9 +155,19 @@ export class PhototherapyComponent implements OnInit {
     }
 
     getFormDatas() {
-        this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=psoriasisType`).subscribe(
+        this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
                 this.indication = data;
+
+                if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
+                    this._indicationService.getList().subscribe((response) => {
+                        this.indication = this._translate.instant(response.filter((f) => f.code === data)[0].description);
+                        this.currentIndication = response.filter((f) => f.code === data)[0].code;
+                    });
+                } else {
+                    this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
+                    this.currentIndication = this._indicationService.indications.filter((f) => f.code === data)[0].code;
+                }
             },
             ({ error }) => {
                 // this._notification.showErrorToast(error.errorCode);
@@ -203,6 +217,7 @@ export class PhototherapyComponent implements OnInit {
         modalRef.componentInstance.save.subscribe((event: any) => {
             event.value.reasonChangeOrSuspension = null;
             event.value.dateSuspension = null;
+            event.value.indication = this.currentIndication;
 
             Object.keys(event.value).forEach((key: string) => {
                 if (key.toLowerCase().includes('date') && event.value[key]) {
