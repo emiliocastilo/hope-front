@@ -1,12 +1,13 @@
 export const PHARMACY_TABLE_KEYS = [
-    'patientId',
-    'dispensationPickDate',
+    'nhc',
+    'date',
     'nationalCode',
-    'botCode',
-    'presentationDesc',
+    'presentation',
     'quantity',
-    'dispensedMg',
-    'unitaryCost',
+    'mgDispensed',
+    'unitCost',
     'totalCost',
-    'clinicalTrial',
+    'testClinical',
+    'unitDose',
+    'botCode'
 ];

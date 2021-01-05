@@ -11,8 +11,8 @@ export class PharmacyService {
     private endpoint = '/pharmacy';
     constructor(private _http: HttpClient) { }
 
-    get (queryParams?: string): Observable<QueryResult<PharmacyModel>> {
-        return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}${queryParams ? queryParams : ''}`);
+    getData (queryParams?: string): Observable<QueryResult<PharmacyModel>> {
+        return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}/${queryParams ? queryParams : ''}`);
     }
 
     getById (id: number): Observable<PharmacyModel> {

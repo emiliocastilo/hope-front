@@ -607,5 +607,11 @@
     "years": "Años",
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
-    "amount": "Precio"
+    "amount": "Precio",
+    "presentation": "Presentación",
+    "mgDispensed": "Mg dispensados",
+    "unitCost": "Coste unitario",
+    "testClinical": "Ensayo clínico",
+    "unitDose": "Dosis unitaria",
+    "botCode": "Código BOT"
 }

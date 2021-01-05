@@ -16,13 +16,12 @@
             </div>
             <section class="mt-4">
                 <app-table
-                    *ngIf="!loading"
+                    *ngIf="pharmacyRows.length > 0"
                     [columnsHeader]="pharmacyKeysToShow"
                     [columnsData]="pharmacyRows"
                     (selectedItem)="onSelectedItem($event)"
                     (sort)="onSort($event)"
-                    [showActionButtons]="true"
-                    [actions]="actions"
+                    [showActionButtons]="false"
                     (iconButtonClick)="onIconButtonClick($event)"
                     [sortable]="true"
                 ></app-table>

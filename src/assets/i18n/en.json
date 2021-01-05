@@ -581,5 +581,11 @@
     "years": "Years",
     "labelAllNothing": "None",
     "phototerapy": "Phototerapy",
-    "amount": "Price"
+    "amount": "Price",
+    "presentation": "Presentation",
+    "mgDispensed": "Dispensed mg",
+    "unitCost": "Unit cost",
+    "testClinical": "Clinical trial",
+    "unitDose": "Unit dose",
+    "botCode": "BOT code"
 }
