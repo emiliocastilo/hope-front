@@ -12,6 +12,7 @@
         [legendPosition]="legendPosition"
         [legendTitle]="legendTitle"
         (select)="onChartItemSelected($event)"
+        [trimLabels]="trimLabels"
     >
     </ngx-charts-pie-chart>
     <div *ngIf="!results || results.length === 0" class="no-data">
