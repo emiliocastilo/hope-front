@@ -5,7 +5,7 @@
                 <label class="dynamic-label">
                     {{ 'treatmentType' | translate }}
                 </label>
-                <select class="form-control" (change)="onSelectChange($event.target.value)">
+                <select id="chartSelector" class="form-control" (change)="onSelectChange($event.target.value)">
                     <option *ngFor="let option of options; index as i" [value]="i">
                         {{ option.name | translate }}
                     </option>
@@ -17,8 +17,8 @@
 
 <section class="col-md-12 col-lg-12 m-0 p-0" *ngIf="!loadingData">
     <section class="patients-chart-container">
-        <app-column-chart [stacked]="true" [config]="dataChart"> </app-column-chart>
-
+        <app-pie-chart [trimLabels]="false" *ngIf="selectedOption == options[0]" [chartTitle]="selectedOption.name" [results]="dataPie" (chartItemSelected)="handleChartItemSelect($event)" [showLabels]="true"> </app-pie-chart>
+        <app-column-chart *ngIf="selectedOption != options[0]" [stacked]="true" [config]="dataChart"> </app-column-chart>
         <div class="table-container" *ngIf="!showingDetail">
             <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable" (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true"> </app-table>
         </div>

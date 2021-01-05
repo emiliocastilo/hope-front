@@ -19,17 +19,12 @@ export class TreatmentInfoVihComponent implements OnInit {
     private currentPage: number = 0;
     private currentSelected: any;
     private type: string;
-    private selectedOption: any;
+    public selectedOption: any;
 
     options = [
-        {
-            code: 'pref',
-            name: this._translate.instant('prefInitGuidelines'),
-        },
-        {
-            code: 'alt',
-            name: this._translate.instant('alternativeGuidelines'),
-        },
+        { code: 'type', name: this._translate.instant('allTreatments') },
+        { code: 'pref', name: this._translate.instant('prefInitGuidelines') },
+        { code: 'alt', name: this._translate.instant('alternativeGuidelines') },
         { code: 'recInit', name: this._translate.instant('recommendedInitGuidelines') },
         { code: 'recChange', name: this._translate.instant('recommendedChangeGuidelines') },
         { code: 'otherTreatments', name: this._translate.instant('otherTreatments') },
@@ -39,6 +34,7 @@ export class TreatmentInfoVihComponent implements OnInit {
     public loadingData: boolean = true;
     public showingDetail = false;
     public dataChart: ColumnChartModel;
+    public dataPie: ChartObjectModel[];
     public dataTable: any[];
     public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
     public columHeaders: string[] = ['treatmentType', 'patients'];
@@ -69,27 +65,43 @@ export class TreatmentInfoVihComponent implements OnInit {
         this.graphService.getPatientsByClinicalParameter('type=' + this.type).subscribe((data) => {
             this.loadingData = false;
             this.data = this.parseDataChart(data);
-            this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
+            if (this.selectedOption == this.options[0]) {
+                this.dataPie = this.parseDataChart(data);
+            } else {
+                this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
+            }
             this.dataTable = this.parseDataTable(data);
         });
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
-        const arrayData: ChartObjectModel[] = Object.keys(data).map((key) => {
-            const object: ChartObjectModel = {
-                name: key,
-                series: [
-                    {
-                        name: this._translate.instant('patients').toUpperCase(),
-                        value: data[key],
-                    },
-                ],
-            };
+        if (this.selectedOption != this.options[0]) {
+            const arrayData: ChartObjectModel[] = Object.keys(data).map((key) => {
+                const object: ChartObjectModel = {
+                    name: key,
+                    series: [
+                        {
+                            name: this._translate.instant('patients').toUpperCase(),
+                            value: data[key],
+                        },
+                    ],
+                };
 
-            return object;
-        });
+                return object;
+            });
 
-        return arrayData;
+            return arrayData;
+        } else {
+            const arrayData = Object.keys(data).map((key) => {
+                const object = {
+                    name: key,
+                    value: data[key],
+                };
+                return object;
+            });
+
+            return arrayData;
+        }
     }
 
     private parseDataTable(data: any): any[] {
@@ -183,5 +195,21 @@ export class TreatmentInfoVihComponent implements OnInit {
         const query = `type=${this.type}&indication=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);
+    }
+
+    public handleChartItemSelect(chartItemSelected: any) {
+        // Solo cuando estamos sobre la primera opción del select
+        if (this.selectedOption == this.options[0]) {
+            // Control de selección de leyenda/quesito
+            chartItemSelected = typeof chartItemSelected == 'string' ? chartItemSelected : chartItemSelected.name;
+            let charts = document.getElementById('chartSelector');
+            this.options.forEach((option, i) => {
+                if (chartItemSelected === option.name) {
+                    charts[i].selected = true;
+                    this.selectedOption = option;
+                    this.getData();
+                }
+            });
+        }
     }
 }

@@ -584,5 +584,6 @@
     "prefInitGuidelines":"Preferential initial guidelines",
     "recommendedInitGuidelines":"Recommended initial guidelines",
     "recommendedChangeGuidelines":"Recommended change guidelines",
-    "otherTreatments":"Other treatments"
+    "otherTreatments":"Other treatments",
+    "allTreatments":"All treatments"
 }
