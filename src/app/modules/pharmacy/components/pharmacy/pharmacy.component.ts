@@ -5,8 +5,6 @@ import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { FormGroup } from '@angular/forms';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
-import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { DynamicFormComponent } from '../../../../core/components/dynamic-form/dynamic-form.component';
 import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
 import { QueryResult } from '../../../management/interfaces/query-result.interface';
@@ -31,7 +29,6 @@ export class PharmacyComponent implements OnInit {
     private colOrder: any;
     private typeOrder: any;
     public paginationData: PaginationModel;
-    // public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
     private itemsPerPage: number;
     private selectedUser: UserModel;
 
