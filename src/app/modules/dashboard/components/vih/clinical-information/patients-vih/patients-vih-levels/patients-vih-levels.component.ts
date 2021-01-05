@@ -158,7 +158,6 @@ export class PatientsVihLevelsComponent implements OnInit {
         query = query.replace('+', '%2B');
         this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
             (data: any) => {
-                console.log(data);
                 this.details = data.content;
                 this.paginationData = data;
                 this.detailsDataTable = this.parseDataToTableDetails(data.content);

@@ -105,7 +105,6 @@ export class PatientExpensesVihComponent implements OnInit {
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
-        console.log('parsedataChart', data);
         if (data.ene) {
             const arrayData = Object.keys(data.ene).map((keyYear: string) => {
                 const object = {
