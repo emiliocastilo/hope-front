@@ -606,5 +606,7 @@
     "years": "Años",
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
-    "amount": "Precio"
+    "amount": "Precio",
+    "charts.noData": "No hay datos",
+    "charts.noTreatmentData": "No hay datos de tratamientos"
 }

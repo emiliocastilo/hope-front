@@ -580,5 +580,7 @@
     "years": "Years",
     "labelAllNothing": "None",
     "phototerapy": "Phototerapy",
-    "amount": "Price"
+    "amount": "Price",
+    "charts.noData": "No data",
+    "charts.noTreatmentData": "No treatment data"
 }

@@ -447,7 +447,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'patients/dashboard-patient-vih',
+        path: 'patients/dashboard-vih',
         component: VihDashboardPatientsComponent,
         canActivate: [AuthGuard],
     },

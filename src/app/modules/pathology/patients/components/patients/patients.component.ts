@@ -53,8 +53,23 @@ export class PatientsComponent implements OnInit {
         this.selectedItem = event;
         this._menuService.thereIsPatientSelected = true;
         localStorage.setItem('thereIsPatientSelected', 'true');
-        this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard');
-        this._router.navigate(['pathology/patients/dashboard']);
+        // Cuadros por patología
+        const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
+        let pathology_id: any;
+        if (user_aux['rolSelected']['pathology'] != null) {
+            pathology_id = user_aux['rolSelected']['pathology']['id'];
+        }
+        switch (pathology_id) {
+            case 1:
+            default:
+                this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard');
+                this._router.navigate(['pathology/patients/dashboard']);
+                break;
+            case 3:
+                this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard-vih');
+                this._router.navigate(['pathology/patients/dashboard-vih']);
+                break;
+        }
     }
 
     public onSearch(event: string): void {
