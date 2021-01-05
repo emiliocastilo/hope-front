@@ -8,13 +8,12 @@ import { GroupedLineChartGroupData } from 'src/app/core/models/graphs/grouped-li
 })
 export class GroupedLinesChartComponent implements OnInit {
     @Input() data: Array<GroupedLineChartGroupData>;
-    @Input() xAxisLabel: string = 'Country';
-    @Input() yAxisLabel: string = 'Population';
-    @Input() legendTitle: string = 'Years';
+    @Input() xAxisLabel: string = '';
+    @Input() yAxisLabel: string = '';
+    @Input() legendTitle: string = '';
 
     view: any[] = [window.innerWidth - 320, 400];
 
-    // options
     showXAxis: boolean = true;
     showYAxis: boolean = true;
     gradient: boolean = true;
@@ -22,65 +21,36 @@ export class GroupedLinesChartComponent implements OnInit {
     showXAxisLabel: boolean = true;
     showYAxisLabel: boolean = true;
 
-    colorScheme = { domain: ['#5AA454', '#C7B42C', '#AAAAAA'] };
+    colorScheme = {
+        domain: [
+            '#4185f4',
+            '#df5a4f',
+            '#f3af00',
+            '#00964b',
+            '#ab47bc',
+            '#00abc0',
+            '#ff6939',
+            '#9e9d23',
+            '#5666be',
+            '#ef588b',
+            '#00786a',
+            '#c2185b',
+        ]
+    };
 
-    constructor() {}
+    constructor() { }
 
-    ngOnInit() {
-        this.data = [
-            {
-                name: 'Germany',
-                series: [
-                    {
-                        name: '2010',
-                        value: 7300000,
-                    },
-                    {
-                        name: '2011',
-                        value: 8940000,
-                    },
-                ],
-            },
+    ngOnInit () { }
 
-            {
-                name: 'USA',
-                series: [
-                    {
-                        name: '2010',
-                        value: 7870000,
-                    },
-                    {
-                        name: '2011',
-                        value: 8270000,
-                    },
-                ],
-            },
-
-            {
-                name: 'France',
-                series: [
-                    {
-                        name: '2010',
-                        value: 5000002,
-                    },
-                    {
-                        name: '2011',
-                        value: 5800000,
-                    },
-                ],
-            },
-        ];
-    }
-
-    onSelect(data): void {
+    onSelect (data): void {
         // console.log('Item clicked', JSON.parse(JSON.stringify(data)));
     }
 
-    onActivate(data): void {
+    onActivate (data): void {
         // console.log('Activate', JSON.parse(JSON.stringify(data)));
     }
 
-    onDeactivate(data): void {
+    onDeactivate (data): void {
         // console.log('Deactivate', JSON.parse(JSON.stringify(data)));
     }
 }
