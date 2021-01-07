@@ -444,6 +444,11 @@ const routes: Routes = [
         path: 'patients/principal-treatment',
         component: PrincipalTreatmentComponent,
         canActivate: [AuthGuard],
+    }, 
+    {
+        path: 'vih',
+        loadChildren: () => import('./modules/vih/vih.module').then((m) => m.VIHModule),
+        canActivate: [AuthGuard],
     },
 ];
 
@@ -451,4 +456,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class PathologyRoutingModule {}
+export class PathologyRoutingModule { }
