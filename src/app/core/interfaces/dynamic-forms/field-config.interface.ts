@@ -56,5 +56,6 @@ export interface FieldConfig {
     file?: {
         endpoint: string;
         validExtensions?: Array<string>;
+        maxSize: number;
     };
 }

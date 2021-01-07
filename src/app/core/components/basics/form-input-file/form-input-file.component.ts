@@ -61,7 +61,7 @@ export class FormInputFileComponent implements OnInit {
 
     public handleFileInput (files: FileList): void {
         const file: File = files[0];
-        if (!FileUtils.checkValidExtension(file, this.fileConfig.validExtensions)) {
+        if (!FileUtils.checkValidExtension(file, this._translate, this._notification, this.fileConfig.validExtensions)) {
             let validExtensionsString = '';
             this.fileConfig.validExtensions.forEach(element => {
                 if (validExtensionsString.length > 0) validExtensionsString += ', ';
@@ -71,13 +71,17 @@ export class FormInputFileComponent implements OnInit {
             this.currentFile = undefined;
         } else {
             // TODO : PROBAR CON ENDPOINT FUNCIONAL
-            this._formsService.postEndpoint(this.fileConfig.endpoint, file).subscribe(
-                response => this.group.controls[this.config.name].setValue(response.id),
-                error => { 
-                    this._notification.showErrorToast('fileUploadError');
-                    this.currentFile = undefined;
-                }
-            );
+            // * SUBE FICHERO DIRECTAMENTE AL ADJUNTARLO * //
+            // this._formsService.postEndpoint(this.fileConfig.endpoint, file).subscribe(
+            //     response => this.group.controls[this.config.name].setValue(response.id),
+            //     error => { 
+            //         this._notification.showErrorToast('fileUploadError');
+            //         this.currentFile = undefined;
+            //     }
+            // );
+
+            // * ASIGNA VALOR CON FICHERO AL CONTROL DEL FORMULARIO * //
+            this.group.controls[this.config.name].setValue(file);
         }
     }
 }
