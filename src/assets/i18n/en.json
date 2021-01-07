@@ -154,6 +154,7 @@
     "diganosisPrincipal": "primary diagnosis",
     "dlqi": "DLQI",
     "dlqiDate": "Date DLQI",
+    "dlqiScore": "DLQI Score",
     "dnaVhb": "DNA-VHB",
     "dni": "Dni",
     "doppler": "Doppler",
@@ -290,6 +291,7 @@
     "modal.editor.field.endperiod": "End period",
     "modal.editor.field.fathersection": "Sección padre",
     "modal.editor.field.filedispensation": "Csv file",
+    "modal.editor.field.filemedicine": "Medicine file",
     "modal.editor.field.firstSurname": "First surname",
     "modal.editor.field.genderCode": "Gender",
     "modal.editor.field.healthCard": "Health card",
@@ -339,6 +341,7 @@
     "napsi.subtitleOne": "Nail Matrix",
     "napsi.subtitleTwo": "Nail bed",
     "napsi.title": "Other indexes: NAPSI",
+    "napsiScore" : "Puntuación Napsi",
     "nationalCode": "National code",
     "neonatalComorbidities": "Neonatal Comorbidities",
     "newbornProphylaxis": "Newborn prophylaxis",
@@ -427,6 +430,7 @@
     "patientsTreatmentPsoriasisPlacas": "Tratamiento biológico en pacientes con psoriasis en placas",
     "patientsTreatmentPsoriasisPustulosa": "Tratamiento biológico en pacientes con psoriasis pustulosa",
     "patientsTreatmentSquamousCarcinoma": "Biological treatment in patients with squamous cell carcinoma skin cancer",
+    "patientsTreatmentBiological": "Pacientes en tratamiento según agentes biológico",
     "patientType": "Patient type",
     "personalData": "Personal data",
     "phone": "Phone",
@@ -613,5 +617,9 @@
     "nameClinicalTrial" : "Trial name",
     "CICollected" : "Collected IQ",
     "center" : "Center",
-    "entryDate" : "Entry date"
+    "entryDate" : "Entry date",
+    "actIngredients" : "Active Ingredients",
+    "authorized" : "Authorized",
+    "commercialization" : "Commercialization",
+    "viaAdministration" : "Way of administration"
 }
