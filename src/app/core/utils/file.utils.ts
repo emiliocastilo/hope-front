@@ -5,9 +5,9 @@ import { NotificationService } from '../services/notification.service';
 export class FileUtils {
     static checkValidExtension (
         file: File,
+        validExtensions: Array<string>,
         _translate: TranslateService,
-        _notification: NotificationService,
-        validExtensions?: Array<string>
+        _notification: NotificationService
     ): boolean {
         let invalidExtension = true;
         if (validExtensions.length > 0) {
@@ -15,17 +15,17 @@ export class FileUtils {
             possibleExtensions.forEach((ext) => {
                 if (validExtensions.includes(ext.extension)) invalidExtension = false;
             });
-        } else {
+        } else invalidExtension = false;
+
+        if (invalidExtension) {
             let validExtensionsString = '';
             validExtensions.forEach(element => {
                 if (validExtensionsString.length > 0) validExtensionsString += ', ';
                 validExtensionsString += element;
             });
             _notification.showWarningToast(_translate.instant('notifications.invalidFileType', { validTypes: validExtensionsString }));
-            invalidExtension = false
-        };
-
-        if (invalidExtension) return false;
+            return false;
+        }
         else return true;
     }
 
@@ -36,6 +36,11 @@ export class FileUtils {
         _notification: NotificationService
     ): boolean {
         let isValid = false;
+
+        if (fileSize && file.size > fileSize) {
+            isValid = false;
+            _notification.showWarningToast(_translate.instant('notifications.fileMaxSize', { maxSize: `${Math.round(((fileSize / 1024) + Number.EPSILON) * 100) / 100}Mb` }));
+        } else isValid = true;
 
         return isValid;
     }

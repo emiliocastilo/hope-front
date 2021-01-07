@@ -27,6 +27,7 @@ export class InputFileComponent implements OnInit {
     @Input() currentValue: File;
     @Input() formGroup: FormGroup;
     @Input() validExtensions: Array<string>;
+    @Input() maxSize: number;
 
     constructor(
         private _notification: NotificationService,
@@ -39,22 +40,16 @@ export class InputFileComponent implements OnInit {
 
     public handleFileInput (files: FileList): void {
         const file: File = files[0];
-
-        if (!FileUtils.checkValidExtension(file, this.validExtensions)) {
-            let validExtensionsString = '';
-            this.validExtensions.forEach(element => {
-                if (validExtensionsString.length > 0) validExtensionsString += ', ';
-                validExtensionsString += element;
-            });
-            this._notification.showWarningToast(this._translate.instant('notifications.invalidFileType', { validTypes: validExtensionsString }));
-            this.currentFile = undefined;
-        } else {
+        if (
+            FileUtils.checkValidExtension(file, this.validExtensions, this._translate, this._notification) &&
+            FileUtils.checkFileSize(file, this.maxSize, this._translate, this._notification)
+        ) {
             this.formGroup.get(this.name).setValue(file);
             // const fileToUpload = files.item(0);
             // const fileExtension = fileToUpload.name.split('.').pop();
             // if (`.${fileExtension}` === this.accept) {
             //     this.formGroup.get(this.name).setValue(fileToUpload);
             // }
-        }
+        } else this.currentFile = undefined;
     }
 }

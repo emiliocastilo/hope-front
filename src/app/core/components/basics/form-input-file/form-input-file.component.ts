@@ -9,6 +9,15 @@ import { FileUtils } from 'src/app/core/utils/file.utils';
 export interface FileConfig {
     endpoint: string;
     validExtensions?: Array<string>;
+    maxSize: number;
+}
+
+export interface File2Save {
+    name: string;
+    type: string;
+    extension: string;
+    size: number;
+    base64: string;
 }
 
 @Component({
@@ -35,8 +44,7 @@ export class FormInputFileComponent implements OnInit {
 
     constructor(
         private _notification: NotificationService,
-        private _translate: TranslateService,
-        private _formsService: FormsService
+        private _translate: TranslateService
     ) { }
 
     ngOnInit () {
@@ -44,6 +52,7 @@ export class FormInputFileComponent implements OnInit {
         console.log(this.config);
         this.id = `${this.config.name.toLowerCase()}-id`;
         this.fileConfig = this.config.file;
+        this.fileConfig.maxSize = this.fileConfig.maxSize * 1024;
         this.name = this.config.name;
         this.label = this.config.label;
         this.styles = `${this.config.css} dynamic-field`;
@@ -61,15 +70,10 @@ export class FormInputFileComponent implements OnInit {
 
     public handleFileInput (files: FileList): void {
         const file: File = files[0];
-        if (!FileUtils.checkValidExtension(file, this._translate, this._notification, this.fileConfig.validExtensions)) {
-            let validExtensionsString = '';
-            this.fileConfig.validExtensions.forEach(element => {
-                if (validExtensionsString.length > 0) validExtensionsString += ', ';
-                validExtensionsString += element;
-            });
-            this._notification.showWarningToast(this._translate.instant('notifications.invalidFileType', { validTypes: validExtensionsString }));
-            this.currentFile = undefined;
-        } else {
+        if (
+            FileUtils.checkValidExtension(file, this.fileConfig.validExtensions, this._translate, this._notification) &&
+            FileUtils.checkFileSize(file, this.fileConfig.maxSize, this._translate, this._notification)
+        ) {
             // TODO : PROBAR CON ENDPOINT FUNCIONAL
             // * SUBE FICHERO DIRECTAMENTE AL ADJUNTARLO * //
             // this._formsService.postEndpoint(this.fileConfig.endpoint, file).subscribe(
@@ -81,7 +85,17 @@ export class FormInputFileComponent implements OnInit {
             // );
 
             // * ASIGNA VALOR CON FICHERO AL CONTROL DEL FORMULARIO * //
-            this.group.controls[this.config.name].setValue(file);
-        }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const file2save: File2Save = {
+                    name: file.name,
+                    extension: file.name.substring(file.name.lastIndexOf('.') + 1, file.name.length),
+                    size: file.size,
+                    type: file.type,
+                    base64: reader.result.toString().replace(/^data:.+;base64,/, '')
+                };
+                this.group.controls[this.config.name].setValue(file2save);
+            };
+        } else this.currentFile = undefined;
     }
 }
