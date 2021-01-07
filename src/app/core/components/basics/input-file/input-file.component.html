@@ -2,9 +2,5 @@
     <label for="{{ id }}" [ngClass]="{ 'dynamic-label': true, 'required-label': required }">
         {{ label | translate }}
     </label>
-    <input 
-        (change)="handleFileInput($event.target.files)" 
-        [(ngModel)]="currentFile" [ngModelOptions]="{ standalone: true }"
-        class="dynamic-field" id="{{ id }}" name="{{ name }}" 
-        required="{{ required }}" type="{{ type }}" accept="{{ accept }}" />
+    <input (change)="handleFileInput($event.target.files)" [(ngModel)]="currentFile" [ngModelOptions]="{ standalone: true }" class="dynamic-field" id="{{ id }}" name="{{ name }}" required="{{ required }}" type="{{ type }}" accept="{{ accept }}" />
 </form>

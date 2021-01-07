@@ -223,7 +223,7 @@ export function createTranslateLoader(http: HttpClient) {
         InputTypeaheadComponent,
         EntryMenuSelectComponent,
         InputFileComponent,
-        FormInputFileComponent
+        FormInputFileComponent,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [GenderFormatter],

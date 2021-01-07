@@ -29,21 +29,15 @@ export class InputFileComponent implements OnInit {
     @Input() validExtensions: Array<string>;
     @Input() maxSize: number;
 
-    constructor(
-        private _notification: NotificationService,
-        private _translate: TranslateService
-    ) { }
+    constructor(private _notification: NotificationService, private _translate: TranslateService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         if (!this.validExtensions) this.validExtensions = [];
     }
 
-    public handleFileInput (files: FileList): void {
+    public handleFileInput(files: FileList): void {
         const file: File = files[0];
-        if (
-            FileUtils.checkValidExtension(file, this.validExtensions, this._translate, this._notification) &&
-            FileUtils.checkFileSize(file, this.maxSize, this._translate, this._notification)
-        ) {
+        if (FileUtils.checkValidExtension(file, this.validExtensions, this._translate, this._notification) && FileUtils.checkFileSize(file, this.maxSize, this._translate, this._notification)) {
             this.formGroup.get(this.name).setValue(file);
             // const fileToUpload = files.item(0);
             // const fileExtension = fileToUpload.name.split('.').pop();

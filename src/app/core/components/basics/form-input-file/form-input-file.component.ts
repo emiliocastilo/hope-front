@@ -41,13 +41,9 @@ export class FormInputFileComponent implements OnInit {
     public styles: string;
     public required = false;
 
+    constructor(private _notification: NotificationService, private _translate: TranslateService) {}
 
-    constructor(
-        private _notification: NotificationService,
-        private _translate: TranslateService
-    ) { }
-
-    ngOnInit () {
+    ngOnInit() {
         this.hasRequiredField(this.group.controls[this.config.name]);
         console.log(this.config);
         this.id = `${this.config.name.toLowerCase()}-id`;
@@ -59,7 +55,7 @@ export class FormInputFileComponent implements OnInit {
         this.loaded = true;
     }
 
-    private hasRequiredField (abstractControl: AbstractControl) {
+    private hasRequiredField(abstractControl: AbstractControl) {
         if (abstractControl.validator) {
             const validator = abstractControl.validator({} as AbstractControl);
             if (validator && validator.required) {
@@ -68,17 +64,14 @@ export class FormInputFileComponent implements OnInit {
         }
     }
 
-    public handleFileInput (files: FileList): void {
+    public handleFileInput(files: FileList): void {
         const file: File = files[0];
-        if (
-            FileUtils.checkValidExtension(file, this.fileConfig.validExtensions, this._translate, this._notification) &&
-            FileUtils.checkFileSize(file, this.fileConfig.maxSize, this._translate, this._notification)
-        ) {
+        if (FileUtils.checkValidExtension(file, this.fileConfig.validExtensions, this._translate, this._notification) && FileUtils.checkFileSize(file, this.fileConfig.maxSize, this._translate, this._notification)) {
             // TODO : PROBAR CON ENDPOINT FUNCIONAL
             // * SUBE FICHERO DIRECTAMENTE AL ADJUNTARLO * //
             // this._formsService.postEndpoint(this.fileConfig.endpoint, file).subscribe(
             //     response => this.group.controls[this.config.name].setValue(response.id),
-            //     error => { 
+            //     error => {
             //         this._notification.showErrorToast('fileUploadError');
             //         this.currentFile = undefined;
             //     }
@@ -92,7 +85,7 @@ export class FormInputFileComponent implements OnInit {
                     extension: file.name.substring(file.name.lastIndexOf('.') + 1, file.name.length),
                     size: file.size,
                     type: file.type,
-                    base64: reader.result.toString().replace(/^data:.+;base64,/, '')
+                    base64: reader.result.toString().replace(/^data:.+;base64,/, ''),
                 };
                 this.group.controls[this.config.name].setValue(file2save);
             };

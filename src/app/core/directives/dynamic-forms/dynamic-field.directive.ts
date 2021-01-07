@@ -38,7 +38,7 @@ const components = {
     search: FormSearchComponent,
     multiselect: FormMultiSelectComponent,
     space: FormSpaceComponent,
-    file: FormInputFileComponent
+    file: FormInputFileComponent,
 };
 
 @Directive({
