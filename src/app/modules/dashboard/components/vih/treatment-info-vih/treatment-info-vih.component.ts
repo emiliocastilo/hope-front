@@ -7,37 +7,38 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { PatientsTreatmentsService } from 'src/app/modules/management/services/patients-treatments/patients-treatments.service';
 import TableActionBuilder from 'src/app/core/utils/TableActionsBuilder';
-
-export interface SelectOption {
-    code: string;
-    name: string;
-}
+import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 
 @Component({
-    selector: 'app-treatments-agents',
-    templateUrl: './treatments-agents.component.html',
-    styleUrls: ['./treatments-agents.component.scss'],
+    selector: 'app-treatment-info-vih',
+    templateUrl: './treatment-info-vih.component.html',
+    styleUrls: ['./treatment-info-vih.component.scss'],
 })
-export class TreatmentsAgentsComponent implements OnInit {
+export class TreatmentInfoVihComponent implements OnInit {
     private data: ChartObjectModel[];
     private currentPage: number = 0;
     private currentSelected: any;
     private type: string;
+    public selectedOption: any;
 
-    public selectedOption: SelectOption;
-    public options: Array<SelectOption> = [
-        { code: 'BIOLOGICO', name: 'biological' },
-        { code: 'QUIMICO', name: 'chemical' },
+    options = [
+        { code: 'type', name: this._translate.instant('allTreatments') },
+        { code: 'pref', name: this._translate.instant('prefInitGuidelines') },
+        { code: 'alt', name: this._translate.instant('alternativeGuidelines') },
+        { code: 'recInit', name: this._translate.instant('recommendedInitGuidelines') },
+        { code: 'recChange', name: this._translate.instant('recommendedChangeGuidelines') },
+        { code: 'otherTreatments', name: this._translate.instant('otherTreatments') },
     ];
     public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
     public config = { defaultConfig: true };
     public loadingData: boolean = true;
     public showingDetail = false;
     public dataChart: ColumnChartModel;
+    public dataPie: ChartObjectModel[];
     public dataTable: any[];
     public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
     public columHeaders: string[] = ['treatmentType', 'patients'];
-    public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
+    public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalDiagnose', 'treatment', 'CVP', 'CD4', 'adherence'];
     public detailsDataTable: any[];
     public currentSort: any = {
         column: 'nhc',
@@ -46,7 +47,7 @@ export class TreatmentsAgentsComponent implements OnInit {
     public details: any[] = [];
     public dataToExport: any[] = [];
 
-    constructor(public _activatedRoute: ActivatedRoute, public _patientsTreatmentsService: PatientsTreatmentsService, private _router: Router, private _translate: TranslateService) {}
+    constructor(public _activatedRoute: ActivatedRoute, public _patientsTreatmentsService: PatientsTreatmentsService, public graphService: GraphsService, private _router: Router, private _translate: TranslateService) {}
 
     ngOnInit(): void {
         this.getData();
@@ -59,36 +60,51 @@ export class TreatmentsAgentsComponent implements OnInit {
         const scheme = { domain: ['#249cf1'] };
 
         if (!this.selectedOption) this.selectedOption = this.options[0];
+        const chartTitle = this.selectedOption.name;
         this.type = this.selectedOption.code;
-        const chartTitle = `patientsTreatment${this.selectedOption.name.substr(0, 1).toUpperCase()}${this.selectedOption.name.substr(1, this.selectedOption.name.length)}`;
-
-        this._patientsTreatmentsService.getPatientsTreatmentFindPatients(this.type, '').subscribe((data) => {
+        this.graphService.getPatientsByClinicalParameter('type=' + this.type).subscribe((data) => {
             this.loadingData = false;
             this.data = this.parseDataChart(data);
-            this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
+            if (this.selectedOption == this.options[0]) {
+                this.dataPie = this.parseDataChart(data);
+            } else {
+                this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
+            }
             this.dataTable = this.parseDataTable(data);
         });
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
-        const arrayData: ChartObjectModel[] = Object.keys(data).map((key) => {
-            const object: ChartObjectModel = {
-                name: key,
-                series: [
-                    {
-                        name: this._translate.instant('patients').toUpperCase(),
-                        value: data[key],
-                    },
-                ],
-            };
+        if (this.selectedOption != this.options[0]) {
+            const arrayData: ChartObjectModel[] = Object.keys(data).map((key) => {
+                const object: ChartObjectModel = {
+                    name: key,
+                    series: [
+                        {
+                            name: this._translate.instant('patients').toUpperCase(),
+                            value: data[key],
+                        },
+                    ],
+                };
 
-            return object;
-        });
+                return object;
+            });
 
-        return arrayData;
+            return arrayData;
+        } else {
+            const arrayData = Object.keys(data).map((key) => {
+                const object = {
+                    name: key,
+                    value: data[key],
+                };
+                return object;
+            });
+
+            return arrayData;
+        }
     }
 
-    private parseDataTable(data: any[]) {
+    private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data).map((key: any) => {
             const object = {
                 treatmentType: key,
@@ -99,19 +115,17 @@ export class TreatmentsAgentsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataToTableDetails(data: any[]): any[] {
+    private parseDataToTableDetails(data: any): any[] {
         const arrayObject = data.map((value: any) => {
             const object = {
                 nhc: value.nhc,
                 sip: value.healthCard,
                 patient: value.fullName,
-                principalIndication: value.principalIndication,
                 principalDiagnose: value.principalDiagnose,
                 treatment: value.treatment,
-                pasi: value.pasi,
-                pasiDate: value.pasiDate,
-                dlqi: value.dlqi,
-                dlqiDate: value.dlqiDate,
+                CVP: value.cvp,
+                CD4: value.cd4,
+                adherence: value.adherence,
             };
             return object;
         });
@@ -119,8 +133,9 @@ export class TreatmentsAgentsComponent implements OnInit {
     }
 
     private getDetails(query: string) {
-        this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
-            (data) => {
+        query = query.replace('+', '%2B');
+        this.graphService.getDetailPatientsByClinicalParameter(query).subscribe(
+            (data: any) => {
                 this.details = data.content;
                 this.paginationData = data;
                 this.detailsDataTable = this.parseDataToTableDetails(data.content);
@@ -132,7 +147,7 @@ export class TreatmentsAgentsComponent implements OnInit {
     }
 
     private getDetailsToExport(query: string) {
-        this._patientsTreatmentsService.getDetailPatientsUnderTreatmentExport(query).subscribe(
+        this.graphService.getDetailPatientsByClinicalParameterToExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
             },
@@ -151,7 +166,7 @@ export class TreatmentsAgentsComponent implements OnInit {
         if (event && event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.data[event.selectedItem];
-            const query = 'type=' + this.type + '&medicine=' + this.currentSelected.name;
+            const query = 'type=' + this.type + '&indication=' + this.currentSelected.name;
             this.getDetails(query);
             this.getDetailsToExport(query);
         } else {
@@ -171,14 +186,30 @@ export class TreatmentsAgentsComponent implements OnInit {
     public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
-            const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+            const query = `type=${this.type}&indication=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
             this.getDetails(query);
         }
     }
 
     public onSort(event: any) {
-        const query = `type=${this.type}&indication=&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+        const query = `type=${this.type}&indication=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);
+    }
+
+    public handleChartItemSelect(chartItemSelected: any) {
+        // Solo cuando estamos sobre la primera opción del select
+        if (this.selectedOption == this.options[0]) {
+            // Control de selección de leyenda/quesito
+            chartItemSelected = typeof chartItemSelected == 'string' ? chartItemSelected : chartItemSelected.name;
+            let charts = document.getElementById('chartSelector');
+            this.options.forEach((option, i) => {
+                if (chartItemSelected === option.name) {
+                    charts[i].selected = true;
+                    this.selectedOption = option;
+                    this.getData();
+                }
+            });
+        }
     }
 }
