@@ -1,4 +1,3 @@
-@import '~src/assets/styles/variables.scss';
 @import '~src/app/core/components/basics/entry-menu-select/entry-menu-select.component.scss';
 
 .container {
@@ -22,5 +21,20 @@
     color: $app-color-blue-main;
     background-color: white;
     padding: 0 0.4rem;
+  }
+}
+
+.patients-chart-container {
+  min-height: 20rem;
+
+  .export-buttons {
+    text-align: right;
+    padding-bottom: 1rem;
+  }
+
+  .table-container {
+    top: 2rem;
+    padding: 1rem;
+    padding-top: 7rem;
   }
 }
