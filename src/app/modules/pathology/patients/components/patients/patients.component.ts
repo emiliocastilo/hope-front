@@ -53,7 +53,8 @@ export class PatientsComponent implements OnInit {
         this.selectedItem = event;
         this._menuService.thereIsPatientSelected = true;
         localStorage.setItem('thereIsPatientSelected', 'true');
-        // Cuadros por patología
+        // Cuadros diferenciados por patología
+        // TODO plopezc Preguntar si ya hay alguna otra forma de diferenciarlo
         const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
         let pathology_id: any;
         if (user_aux['rolSelected']['pathology'] != null) {

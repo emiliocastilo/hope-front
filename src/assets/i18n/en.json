@@ -594,6 +594,9 @@
     "nameClinicalTrial" : "Trial name",
     "CICollected" : "Collected IQ",
     "center" : "Center",
-    "entryDate" : "Entry date"
+    "entryDate" : "Entry date",
+    "charts.noGlomerularData" : "No Glomerular filtering",
+    "charts.noCD4Data": "No CD4 data",
+    "charts.noCVPData": "Sin datos de CVP"
 
 }

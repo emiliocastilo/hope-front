@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,10 +9,12 @@ export class PatientsDashboardService {
     constructor(private _httpClient: HttpClient) {}
 
     public getPatientsDashboardById(id: string): Observable<any> {
+        console.log(`/patients-dashboards/${id}`);
         return this._httpClient.get(`/patients-dashboards/${id}`);
     }
 
-    public getVIHPatientsDashboardById(id: string): Observable<any> {
-        return this._httpClient.get(`/patients-dashboards-vih/${id}`);
+    public findEvolutionClinicalIndicesByIndexTypeAndPatient(indexType: string, patientId: string): Observable<any> {
+        return this._httpClient.get(`/patients-dashboards/evolution-indices-clinical?indicesTypes=${indexType}&patId=${patientId}`);
+        '';
     }
 }

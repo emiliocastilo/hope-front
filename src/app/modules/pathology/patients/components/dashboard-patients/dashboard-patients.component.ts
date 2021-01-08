@@ -3,6 +3,8 @@ import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { Router } from '@angular/router';
 import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
 import { ScriptLoaderService } from 'angular-google-charts';
@@ -20,6 +22,8 @@ export class DashboardPatientsComponent implements OnInit {
     public patients: PatientModel[] = [];
     public selectedItem: number;
     public data: any;
+    /** Variable para parsear solo los índices/parámetros que nos vienen rellenos */
+    private dataToShow: any;
     public globalDates: Array<any>;
     public selectedPatient: PatientModel;
     public dataChart: ChartObjectModel[];
@@ -27,11 +31,17 @@ export class DashboardPatientsComponent implements OnInit {
     public configGantt: any;
     public noData: boolean;
     public noTreatmentData: boolean;
-
     private firstDate: string = '';
     private lastDate: string = '';
 
-    constructor(private patientService: PatientsService, private patientDashboardService: PatientsDashboardService, private loaderService: ScriptLoaderService, private _translate: TranslateService) {}
+    constructor(
+        private patientService: PatientsService,
+        private patientDashboardService: PatientsDashboardService,
+        private _menuService: MenuService,
+        private _router: Router,
+        private loaderService: ScriptLoaderService,
+        private _translate: TranslateService
+    ) {}
 
     setConfigGannt(): void {
         this.configGantt = {
@@ -73,46 +83,72 @@ export class DashboardPatientsComponent implements OnInit {
     ngOnInit(): void {
         this.noData = false;
         this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
-        this.patientService.getPatientsById(this.selectedPatient.id).subscribe((data) => {
-            if (data) {
-                this.selectedPatient = data;
-            }
-        });
-
-        this.patientDashboardService.getPatientsDashboardById(this.selectedPatient.id).subscribe((data) => {
-            if (data) {
-                this.data = data;
-            }
-
-            this.globalDates = _.sortBy(
-                _.union(
-                    _.flattenDeep(
-                        Object.values(this.data).map((array) => {
-                            return Object.values(array).map((element) => {
-                                return element && element.date
-                                    ? element.date.split('T')[0]
-                                    : element.map((d) => {
-                                          return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0];
-                                      });
-                            });
-                        })
-                    )
-                )
-            );
-
-            this.firstDate = this.globalDates[0];
-            this.lastDate = this.globalDates[this.globalDates.length - 1];
-            this.setConfigGannt();
-            this.dataChart = this.parseDataChart(this.data);
-            this.noData = true;
-            this.dataChart.forEach((evolutionIndex) => {
-                if (evolutionIndex.series.length > 0) {
-                    this.noData = false;
+        if (!this.selectedPatient) {
+            this._menuService.setCurrentSectionByUrl('pathology/patients');
+            this._router.navigate(['pathology/patients']);
+        } else {
+            this.patientService.getPatientsById(this.selectedPatient.id).subscribe((data) => {
+                if (data) {
+                    this.selectedPatient = data;
                 }
             });
-            this.loadChart(this.data);
-            this.loadLines();
-        });
+
+            this.patientDashboardService.getPatientsDashboardById(this.selectedPatient.id).subscribe((data) => {
+                if (data) {
+                    this.data = data;
+                }
+
+                this.globalDates = _.sortBy(
+                    _.union(
+                        _.flattenDeep(
+                            Object.values(this.data).map((array) => {
+                                if (array) {
+                                    return Object.values(array).map((element) => {
+                                        return element && element.date
+                                            ? element.date.split('T')[0]
+                                            : element.map((d) => {
+                                                  if (d && (d.date || d.initDate)) {
+                                                      return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0];
+                                                  }
+                                              });
+                                    });
+                                }
+                            })
+                        )
+                    )
+                );
+
+                this.globalDates.forEach((date, i) => {
+                    if (!date) {
+                        this.globalDates.splice(i, 1);
+                    }
+                });
+                this.firstDate = this.globalDates[0];
+                this.lastDate = this.globalDates[this.globalDates.length - 1];
+                this.setConfigGannt();
+                this.dataChart = this.parseDataChart(this.data);
+                this.noData = true;
+                this.dataChart.forEach((evolutionIndex) => {
+                    if (evolutionIndex.series.length > 0) {
+                        this.noData = false;
+                    }
+                });
+
+                let temp = [];
+                // index examples: PASI/CVP/ADHERENCE...
+                this.dataToShow = new Object();
+                for (let index in this.data) {
+                    let value = this.data[index];
+                    if (value) {
+                        Object.assign(this.dataToShow, {
+                            [index]: this.data[index] != null ? this.data[index] : null,
+                        });
+                    }
+                }
+                this.loadChart(this.dataToShow);
+                this.loadLines();
+            });
+        }
     }
 
     loadLines() {
@@ -139,32 +175,34 @@ export class DashboardPatientsComponent implements OnInit {
         };
 
         Object.values(this.data).forEach((element: any) => {
-            Object.values(element).forEach((v: any) => {
-                if (Array.isArray(v)) {
-                    v.map((i) => {
-                        const d = Date.parse(new Date(i.date ? i.date : i.initDate).toISOString().split('T')[0]);
+            if (element) {
+                Object.values(element).forEach((v: any) => {
+                    if (Array.isArray(v)) {
+                        v.map((i) => {
+                            const d = Date.parse(new Date(i.date ? i.date : i.initDate).toISOString().split('T')[0]);
+                            if (d >= start && d <= end) {
+                                if (i.date) {
+                                    newData.indicesEvolution[i.indexType].push(i);
+                                }
+                                if (i.initDate) {
+                                    const type = i.type === 'BIOLOGICO' ? i.type : 'FAME';
+                                    newData.treatments[type].push(i);
+                                }
+                            }
+                        });
+                    } else {
+                        const d = Date.parse(new Date(v.date ? v.date : v.initDate).toISOString().split('T')[0]);
                         if (d >= start && d <= end) {
-                            if (i.date) {
-                                newData.indicesEvolution[i.indexType].push(i);
+                            if (v.date) {
+                                newData.adherence.push(v);
                             }
-                            if (i.initDate) {
-                                const type = i.type === 'BIOLOGICO' ? i.type : 'FAME';
-                                newData.treatments[type].push(i);
+                            if (v.initDate) {
+                                newData.adherence.push(v);
                             }
-                        }
-                    });
-                } else {
-                    const d = Date.parse(new Date(v.date ? v.date : v.initDate).toISOString().split('T')[0]);
-                    if (d >= start && d <= end) {
-                        if (v.date) {
-                            newData.adherence.push(v);
-                        }
-                        if (v.initDate) {
-                            newData.adherence.push(v);
                         }
                     }
-                }
-            });
+                });
+            }
         });
         this.dataChart = this.parseDataChart(newData);
         if (this.dataChart[0].series.length === 0 && this.dataChart[1].series.length === 0) {
@@ -290,7 +328,7 @@ export class DashboardPatientsComponent implements OnInit {
                         const endDate = new Date(element.finalDate);
                         objectRow[objectRow.length - 1] = endDate;
                     }
-
+                    console.log(objectRow);
                     objectChart.push(objectRow);
                 });
             } else if (data[value] && value === 'ADHERENCIA') {
