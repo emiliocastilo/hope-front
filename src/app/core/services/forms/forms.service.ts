@@ -35,6 +35,10 @@ export class FormsService {
         return this._http.get(endpoint);
     }
 
+    public getFormData(query: string) {
+        return this._http.get(`/forms?${query}`);
+    }
+
     public getFormsDatas(query: string) {
         return this._http.get(`/forms/datas?${query}`, {
             responseType: 'text',

@@ -1,14 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { from, Observable } from 'rxjs';
+import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import { FormsService } from 'src/app/core/services/forms/forms.service';
+import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
-import { QueryResult } from 'src/app/modules/management/interfaces/query-result.interface';
-import { PatientTreatmentService } from 'src/app/modules/pathology/services/patient-treatment.service';
-import { PatientTreatmentModel } from '../../../../models/patient-treatment.model';
+import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
+import { JSONTemplateModel } from 'src/app/modules/pathology/models/JSON-template.model';
+import { TemplateModel } from 'src/app/modules/pathology/models/template.model';
+import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { constants } from 'src/constants/constants';
+import { VIHTreatmentModel } from '../../models/vih-treatment.model';
 
 @Component({
     selector: 'app-vih-treatments',
@@ -16,167 +24,180 @@ import { PatientTreatmentModel } from '../../../../models/patient-treatment.mode
     styleUrls: ['./vih-treatments.component.scss']
 })
 export class VIHTreatmentsComponent implements OnInit {
-    private currentPage: number = 0;
+    key = constants.farmacologiesTreatments;
+    public treatments: Array<VIHTreatmentModel> = [];
+    public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension'];
+    public actions: TableActionsModel[] = [new TableActionsModel('changeSuspend', 'edit-3'), new TableActionsModel('edit', 'edit-2'), new TableActionsModel('delete', 'trash')];
+    public tableData: RowDataModel[] = [];
+    public tableDataFilter: any[] = [];
+    private modalForm: FormGroup = this._formBuilder.group({
+        indication: ['', Validators.required],
+        specialIndication: [false],
+        bigPsychologicalImpact: [false],
+        visibleInjury: [false],
+        others: [''],
+        treatmentType: ['', Validators.required],
+        opcionMedicamento: [''],
+        opcionFormulaMagistral: [''],
+
+        // medicamento topico
+        medicine: ['', Validators.required],
+        family: ['', Validators.required],
+        atc: ['', Validators.required],
+        cn: ['', Validators.required],
+        tract: ['', Validators.required],
+        // formula magistral topico
+        descripcionFormulaMagistral: [''],
+        dosisFormulaMagistral: [''],
+
+        dose: ['', Validators.required],
+        otherDosis: [''],
+        regimenTreatment: ['', Validators.required],
+        datePrescription: ['', Validators.required],
+        dateStart: ['', Validators.required],
+        expectedEndDate: [''],
+        observations: [''],
+        treatmentContinue: [false],
+        treatmentPulsatil: [false],
+    });
+    private modalFormUpdate: FormGroup = this._formBuilder.group({
+        reasonChangeOrSuspension: ['', Validators.required],
+        medicine: ['', Validators.required],
+        family: ['', Validators.required],
+        atc: ['', Validators.required],
+        cn: ['', Validators.required],
+        tract: ['', Validators.required],
+        dose: ['', Validators.required],
+        otherDosis: [''],
+        regimenTreatment: ['', Validators.required],
+        dateSuspension: [''],
+    });
+    private templateStructure: Array<JSONTemplateModel>;
+
+    //TO DO: Unificar los formularios con los campos comunes
+    private modalFormUpdateTopico: FormGroup = this._formBuilder.group({
+        reasonChangeOrSuspension: ['', Validators.required],
+
+        descripcionFormulaMagistral: ['', Validators.required],
+        dosisFormulaMagistral: [''],
+        opcionMedicamento: [''],
+        opcionFormulaMagistral: [''],
+
+        regimenTreatment: ['', Validators.required],
+        dateSuspension: [],
+    });
+
+    private templateName: string = 'treatment-vih';
+    // private templateName: string = 'principal-diagnosis';
+    private templateDataRequest: string;
+    public patient: PatientModel;
+    private indication = '';
+    private currentPage = 0;
     private colOrder: any;
     private typeOrder: any;
     private itemsPerPage: number;
-
-    public loading: boolean = true;
-    public columnsHeader: Array<string> = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension', 'treatmentType', 'actions'];
-    public tableData: Array<RowDataModel>;
-    public modalForm: FormGroup;
-    public selectedItem: number;
-    public isEditing = false;
     public paginationData: PaginationModel;
-    public selectedUser: any;
-    public patientTreatments: Array<PatientTreatmentModel>;
-    public selectedMedicine: PatientTreatmentModel;
-    public actions: TableActionsModel[] = new TableActionsBuilder().getChangeModificationAndDelete();
+    private sizeTable = 5;
+    private currentModal: any;
+    public loading: boolean = true;
 
     constructor(
+        private _formService: FormsService,
         private _modalService: NgbModal,
+        private _formBuilder: FormBuilder,
         private _notification: NotificationService,
-        private _patientTreatmentService: PatientTreatmentService
+        private _translate: TranslateService,
+        private _indicationService: IndicationService,
+        private _medicinesService: MedicinesServices,
+        private _router: Router
     ) { }
 
+    /*
+        * 1. Se cargan datos de BD llamando a /forms?template=name&patientId=id
+        * 2. Parseo de datos a modelo local para trabajar con los mismos
+        * 3. Carga de resultados en tabla configurando paginador y ordenado.
+        * 4. Modal alta/modificacion.
+        * 5. Modal cambio tratamiento.
+        * 6. Modal confirmación borrado.
+        * ! Deben parsearse los datos que se vayan a guardar a formato template para su guardado en bd.
+    */
+
     ngOnInit () {
-        this.getData();
+        if (localStorage.getItem('selectedPatient')) {
+            this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
+            this.templateDataRequest = `template=${this.templateName}&patientId=${this.patient.id}`;
+            this.getData();
+        } else {
+            this._notification.showErrorToast('No hay paciente seleccionado.');
+            this._router.navigateByUrl('pathology/patients');
+        }
     }
 
     private getData () {
         this.loading = true;
-        this._patientTreatmentService.get().subscribe(
-            (data: QueryResult<PatientTreatmentModel>) => {
-                this.patientTreatments = data.content;
-                this.paginationData = data;
-            }, error => this._notification.showErrorToast(error.errorCode),
-            () => this.loading = false
+        console.log(this.templateDataRequest);
+        this._formService.getFormData(this.templateDataRequest).subscribe(
+            (response: JSONTemplateModel) => this.mongoToObject(response),
+            error => this._notification.showErrorToast('ERROR RECUPERANDO DATOS')
         );
     }
 
-    private cleanModal (): void {
-        this.modalForm.reset();
-        this.selectedItem = undefined;
+    private mongoToObject (mongoObj: JSONTemplateModel): Array<VIHTreatmentModel> {
+        const mappedData: Array<VIHTreatmentModel> = [];
+        this.treatments = mongoObj.value;
+
+        // mongoObj.value.forEach((treatment: VIHTreatmentModel) => {
+        //     // Object.keys(this.defaultValues).forEach((key: string) => {
+        //     //     this.config[key] = this.config[key] ? this.config[key] : this.defaultValues[key];
+        //     // });
+        //     // Object.keys(treatment).forEach((key: string) => {
+        //     //     const parsedTreatment: VIHTreatmentModel = {
+        //     //         indication: treatment[key],
+        //     //         family: 
+        //     //     };
+        //     // });
+
+        //     // const parsedTreatment: VIHTreatmentModel = {
+        //     //     indication: treatment.indication,
+        //     //     family: treatment.family,
+        //     //     atc: treatment.atc,
+        //     //     cn: treatment.cn,
+        //     //     tract: treatment.tract,
+        //     //     dose: treatment.dose,
+        //     //     otherDosis: treatment.otherDosis,
+
+        //     // };
+        // });
+        return mappedData;
     }
 
-    private refreshData (query: string): void {
-        const user_aux = JSON.parse(localStorage.getItem('user') || '{}');
-        this._patientTreatmentService.get(query).subscribe(
-            (data: QueryResult<PatientTreatmentModel>) => {
-                this.patientTreatments = data.content;
+    private objectToMongoJSON (data: VIHTreatmentModel): string {
+        const mongoObj = {
+            template: this.templateName,
+            patientId: this.patient.id,
+            data: [
+                { type: 'select', name: 'indication', value: data.indication },
+                { type: 'input', name: 'family', value: data.family },
+                { type: 'input', name: 'atc', value: data.atc },
+                { type: 'input', name: 'cn', value: data.cn },
+                { type: 'input', name: 'tract', value: data.tract },
+                { type: 'input', name: 'dose', value: data.dose },
+                { type: 'input', name: 'otherDosis', value: data.otherDosis },
+                { type: 'input', name: 'regimenTreatment', value: data.regimenTreatment },
+                { type: 'datepicker', name: 'datePrescription', value: data.datePrescription },
+                { type: 'datepicker', name: 'dateStart', value: data.dateStart },
+                { type: 'datepicker', name: 'expectedEndDate', value: data.expectedEndDate },
+                { type: 'input', name: 'observations', value: data.observations },
+                { type: 'checkbox', name: 'treatmentContinue', value: data.treatmentContinue },
+                { type: 'checkbox', name: 'treatmentPulsatil', value: data.treatmentPulsatil },
+                { type: 'input', name: 'reasonChangeOrSuspension', value: data.reasonChangeOrSuspension },
+                { type: 'datepicker', name: 'dateSuspension', value: data.dateSuspension },
+                { type: 'input', name: 'principle', value: data.principle },
+                { type: 'input', name: 'brand', value: data.indication },
+                { type: 'input', name: 'type', value: data.type },
+            ]
+        };
 
-                // ! Si number es reasignado se producirá un bucle infinito de llamadas a API
-                // if (this.paginationData.number !== data.number) this.paginationData.number = data.number;
-
-                if (this.paginationData.size !== data.size) this.paginationData.size = data.size;
-                if (this.paginationData.totalPages !== data.totalPages) this.paginationData.totalPages = data.totalPages;
-                if (this.paginationData.totalElements !== data.totalElements) this.paginationData.totalElements = data.totalElements;
-
-                if (this.paginationData.totalPages !== data.totalPages) {
-                    this.paginationData = data;
-                }
-
-                if (this.patientTreatments.length === 0 && this.paginationData.totalElements > 0) {
-                    this.currentPage = this.currentPage - 1;
-                    this.selectPage(this.currentPage);
-                }
-            });
+        return JSON.stringify(mongoObj);
     }
-
-    private delete (id: number) {
-        this._medicinesService.delete(id).subscribe(
-            (success) => {
-                this._notification.showSuccessToast('elementDeleted');
-                this.selectPage(this.currentPage);
-            },
-            (error) => this._notification.showErrorToast('errorDeleting')
-        );
-    }
-
-    private showModalConfirm () {
-        const modalRef = this._modalService.open(ConfirmModalComponent);
-        const current = this.medicines[this.selectedItem];
-        modalRef.componentInstance.title = 'Eliminar medicamento';
-        modalRef.componentInstance.messageModal = `¿Estás seguro de que quieres eliminar el medicamento ${current.nationalCode} ${current.actIngredients}?`;
-        modalRef.componentInstance.cancel.subscribe((event) => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.accept.subscribe((event) => {
-            this.delete(current.id);
-            modalRef.close();
-        });
-    }
-
-    public selectPage (page: number): void {
-        this.paginationData.number = page + 1;
-        let query: string;
-        if (this.colOrder && this.typeOrder) {
-            query = `?sort=${this.colOrder},${this.typeOrder}&page=${page}`;
-        } else {
-            query = `?page=${page}`;
-        }
-        this.currentPage = page;
-        if (this.itemsPerPage) {
-            query = `${query}&size=${this.itemsPerPage}`;
-        }
-        this.refreshData(query);
-    }
-
-    public showModal () {
-        this.cleanModal();
-        let modalRef = this._modalService.open(EditorModalComponent, {
-            size: 'lg',
-        });
-        modalRef.componentInstance.id = 'editmedicine';
-        modalRef.componentInstance.title = 'Medicamentos';
-        modalRef.componentInstance.form = this.modalForm;
-        modalRef.componentInstance.close.subscribe((event: any) => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.save.subscribe((event: any) => {
-            this.saveMedicine(event, modalRef);
-        });
-    }
-
-    public selectItemsPerPage (number: number) {
-        this.itemsPerPage = number;
-        this.selectPage(0);
-    }
-
-    public onSelectedItem (event: any): void {
-        this.selectedItem = event;
-        this.selectedMedicine = this.medicines[event];
-        Object.keys(this.medicines[event]).forEach((key: string) => {
-            if (this.modalForm.controls[key]) {
-                this.modalForm.controls[key].setValue(this.medicines[event][key]);
-            }
-        });
-    }
-
-    public onSearch (event: string): void {
-        this._medicinesService.getSearch(event).subscribe((data: QueryResult<MedicineModel>) => {
-            this.medicines = data.content;
-            this.dataMap();
-            this.paginationData.number = 1;
-            this.paginationData.size = data.size;
-            this.paginationData.totalElements = data.totalElements;
-        });
-    }
-
-    public onSort (event: any) {
-        this.colOrder = event.column;
-        this.typeOrder = event.direction;
-        let query = `?sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
-        if (this.itemsPerPage) query = `${query}&size=${this.itemsPerPage}`;
-        this.refreshData(query);
-    }
-
-    public onIconButtonClick (event: any) {
-        if (event && event.type === 'delete') {
-            this.showModalConfirm();
-        }
-    }
-}
-
-
 }

@@ -15,4 +15,16 @@ export class PatientTreatmentService {
     get (queryParams?: string): Observable<QueryResult<PatientTreatmentModel>> {
         return this._http.get<QueryResult<PatientTreatmentModel>>(`${this.endpoint}${queryParams ? queryParams : ''}`);
     }
+
+    search (search?: string): Observable<QueryResult<PatientTreatmentModel>> {
+        return this._http.get<QueryResult<PatientTreatmentModel>>(`${this.endpoint}/searches?search=${search}`);
+    }
+
+    change () { }
+
+    modify () { }
+
+    delete (id: number): Observable<PatientTreatmentModel> {
+        return this._http.delete<PatientTreatmentModel>(`${this.endpoint}/${id}`);
+    }
 }
