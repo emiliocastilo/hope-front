@@ -10,7 +10,6 @@ export default class FormUtils {
     static createFieldConfig(form, filled?, editing?): FieldConfig[] {
         const fieldConfig: FieldConfig[] = [];
         let isFormFilled: boolean = filled && filled.length > 0;
-        console.log(filled);
         if (isFormFilled) {
             this.fillFormWithValues(form, filled);
         }
@@ -355,13 +354,12 @@ export default class FormUtils {
     static furWeeks(params: Array<any>): any {
         var currentDate = moment();
         var date = moment(params[0]);
-        console.log('CALCULO', currentDate.diff(date, 'weeks'));
         return currentDate.diff(date, 'weeks');
     }
 
     static furBirthDate(params: Array<any>): any {
         let date = moment(params[0]);
-        return date.add(280, 'days').format('DD/MM/YYYY');
+        return date.add(280, 'days').format('MM/DD/YYYY');
     }
 
     static smaqAdherence(params: Array<any>): any {

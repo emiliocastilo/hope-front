@@ -14,7 +14,6 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
     public config: FieldConfig[] = [];
     public buttons: string[] = [];
     public filled = [];
-    public isLoading = false;
     private isEmpty = true;
     private isEmptyModal = true;
     @ViewChild('form') el: ElementRef;
@@ -29,7 +28,6 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
     constructor(private _formsService: FormsService) {}
 
     ngOnInit() {
-        this.isLoading = true;
         if (this.key) {
             this.getAndParseFromTemplate();
         } else {
@@ -37,24 +35,14 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
         }
     }
 
-    ngAfterViewInit() {
-        this.isLoading = false;
-        let initConfig = Object.assign(this.el);
-        console.log('fooorm', initConfig.form);
-        console.log('INIT*****');
-        console.log(this.el);
-        console.log(initConfig);
-    }
+    ngAfterViewInit() {}
 
     onClose() {
         this.close.emit(null);
     }
 
     onModalValueChange(event?: any) {
-        // Al modificar algún valor del modal, recalculamos para los campos calculados.
-
         if (this.key) {
-            console.log(this.key);
             this.getAndParseFromTemplate();
         } else {
             this.getAndParseFromFields();
@@ -68,9 +56,6 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
             this.config = FormUtils.createFieldConfig(emptyForm);
             const buttons = this._parseStringToJSON(data.buttons);
             this.buttons = FormUtils.createButtons(buttons);
-        } else {
-            this.fillForm();
-            this.config = FormUtils.createFieldConfig(this.fields, this.config, this._formsService.editing);
         }
     }
 
