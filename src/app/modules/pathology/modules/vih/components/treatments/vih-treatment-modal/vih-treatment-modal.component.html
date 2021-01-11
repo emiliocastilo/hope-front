@@ -3,78 +3,59 @@
 
     <form class="container" [formGroup]="form">
         <div class="row">
-            <app-input 
-                id="indication"
-                name="indication"
-                isDisabled="true"
-                label="indication"
-                formControlName="indication"
-                class="col-6"
-            ></app-input>
-            <app-input 
-                id="treatmentType"
-                name="treatmentType"
-                isDisabled="true"
-                label="treatmentType"
-                formControlName="typeTreatment"
-                class="col-6"
-            ></app-input>
+            <app-input id="indication" name="indication" isDisabled="true" label="indication" formControlName="indication" class="col-6"></app-input>
+            <app-input id="treatmentType" name="treatmentType" isDisabled="true" label="treatmentType" formControlName="typeTreatment" class="col-6"></app-input>
         </div>
         <div class="row">
-            <app-input 
-                id="medicine"
-                name="medicine"
-                required="true"
-                label="medicine"
-                formControlName="medicine"
+            <app-input id="medicine" name="medicine" required="true" label="medicine" formControlName="medicine" class="col-12"></app-input>
+        </div>
+        <div class="row">
+            <app-input id="family" name="family" isDisabled="true" label="family" formControlName="family" class="col-6"></app-input>
+            <app-input id="atc" name="atc" isDisabled="true" label="atc" formControlName="atc" class="col-6"></app-input>
+        </div>
+        <div class="row">
+            <app-input id="cn" name="cn" isDisabled="true" label="cn" formControlName="cn" class="col-6"></app-input>
+            <app-input id="tract" name="tract" isDisabled="true" label="tract" formControlName="tract" class="col-6"></app-input>
+        </div>
+        <div class="row">
+            <app-input-select 
+                [required]="true" id="dose" class="roles-select" 
+                isDisabled="false" labelValue="dose" name="dose" formControlName="dose"
+                [options]="selectOptions.doses" [optionSelected]="" class="col-6"
+                [selectMultiple]="false" [clearAfterSelect]="true">
+            </app-input-select>
+            <app-input id="otherDosis" name="otherDosis" isDisabled="otherDosis" label="otherDosis" formControlName="otherDosis" class="col-6"></app-input>
+        </div>
+        <div class="row">
+            <app-input-select 
+                [required]="true" id="regimenTreatment" class="roles-select" 
+                isDisabled="false" labelValue="regimenTreatment" name="regimenTreatment" formControlName="regimenTreatment"
+                [options]="selectOptions.regimes" [optionSelected]="" class="col-6"
+                [selectMultiple]="false" [clearAfterSelect]="true">
+            </app-input-select>
+            <app-input id="datePrescription" name="datePrescription" label="datePrescription" formControlName="datePrescription" type="date" class="col-6"></app-input>
+        </div>
+        <div class="row">
+            <app-input id="dateStart" name="dateStart" label="dateStart" formControlName="dateStart" type="date" class="col-6"></app-input>
+            <app-input id="expectedEndDate" name="expectedEndDate" label="expectedEndDate" formControlName="expectedEndDate" type="date" class="col-6"></app-input>
+        </div>
+        <div class="row">
+            <app-input-textarea
+                id="observations"
+                name="observations"
+                formControlName="observations"
+                [label]="'observations' | translate"
                 class="col-12"
-            ></app-input> 
-        </div>
-        <div class="row">
-            <app-input 
-                id="family"
-                name="family"
-                isDisabled="true"
-                label="family"
-                formControlName="family"
-                class="col-6"
-            ></app-input>
-            <app-input 
-                id="atc"
-                name="atc"
-                isDisabled="true"
-                label="atc"
-                formControlName="atc"
-                class="col-6"
-            ></app-input>
-        </div>
-        <div class="row">
-            <app-input 
-                id="cn"
-                name="cn"
-                isDisabled="true"
-                label="cn"
-                formControlName="cn"
-                class="col-6"
-            ></app-input>
-            <app-input 
-                id="tract"
-                name="tract"
-                isDisabled="true"
-                label="tract"
-                formControlName="tract"
-                class="col-6"
-            ></app-input>
-            
+            ></app-input-textarea>
         </div>
     </form>
-    <div class="row" *ngIf="showRequiredLegend">
+    <!-- <div class="row" *ngIf="showRequiredLegend">
         <label class="requiredLegend">
             {{ 'requiredLegendText' | translate }}
         </label>
-    </div>
+    </div> -->
 
-    <section class="modal-content_button-container">
+    <section class="modal-content_button-container button-container">
         <app-button *ngIf="type === 'create'" clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.save" type="button" [disabledButton]="!validForm"> </app-button>
         <app-button *ngIf="type === 'edit' || type === 'changeSuspend'" clasesBtn="btn btn-primary mr-4" (click)="onUpdate()" [disabledButton]="!validForm" icono="check" texto="btn.update" type="button"> </app-button>
         <app-button clasesBtn="btn btn-danger" (click)="onClose()" icon="x" type="button" texto="btn.close"> </app-button>

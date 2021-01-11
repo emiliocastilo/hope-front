@@ -30,6 +30,7 @@ export class VIHTreatmentsComponent implements OnInit {
         new TableActionsModel('edit', 'edit-2'),
         new TableActionsModel('delete', 'trash')
     ];
+
     private modalForm: FormGroup = this._formBuilder.group({
         indication: ['', Validators.required],
         treatmentType: [{ value: 'QUIMICO', disabled: true }, Validators.required],

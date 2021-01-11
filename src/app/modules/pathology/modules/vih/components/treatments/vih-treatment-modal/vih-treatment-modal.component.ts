@@ -21,7 +21,11 @@ export class VIHTreatmentModalComponent implements OnInit {
 
     public formKeys: string[] = [];
     public showRequiredLegend: boolean = false;
-
+    public selectOptions = {
+        doses: [],
+        regimes: []
+    };
+    
     constructor() { }
 
     get validForm (): boolean {
