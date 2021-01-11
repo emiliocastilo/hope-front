@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { VIHTreatmentModificationModalComponent } from './vih-treatment-modification-modal.component';
+import { VIHTreatmentModalComponent } from './vih-treatment-modal.component';
 
-describe('VIHTreatmentModificationModalComponent', () => {
-  let component: VIHTreatmentModificationModalComponent;
-  let fixture: ComponentFixture<VIHTreatmentModificationModalComponent>;
+describe('VIHTreatmentAddModalComponent', () => {
+  let component: VIHTreatmentModalComponent;
+  let fixture: ComponentFixture<VIHTreatmentModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VIHTreatmentModificationModalComponent ]
+      declarations: [ VIHTreatmentModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VIHTreatmentModificationModalComponent);
+    fixture = TestBed.createComponent(VIHTreatmentModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

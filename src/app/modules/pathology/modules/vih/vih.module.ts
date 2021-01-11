@@ -5,9 +5,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { CoreModule, createTranslateLoader } from 'src/app/core/core.module';
-import { VIHTreatmentAddModalComponent } from './components/treatments/vih-treatment-add-modal/vih-treatment-add-modal.component';
+import { VIHTreatmentModalComponent } from './components/treatments/vih-treatment-modal/vih-treatment-modal.component';
 import { VIHTreatmentChangeModalComponent } from './components/treatments/vih-treatment-change-modal/vih-treatment-change-modal.component';
-import { VIHTreatmentModificationModalComponent } from './components/treatments/vih-treatment-modification-modal/vih-treatment-modification-modal.component';
 import { VIHTreatmentsComponent } from './components/treatments/vih-treatments.component';
 import { VIHRoutingModule } from './vih-routing.module';
 
@@ -16,9 +15,8 @@ import { VIHRoutingModule } from './vih-routing.module';
         // DashboardPatientsComponent,
         // PatientsComponent,
         VIHTreatmentsComponent,
-        VIHTreatmentAddModalComponent,
+        VIHTreatmentModalComponent,
         VIHTreatmentChangeModalComponent,
-        VIHTreatmentModificationModalComponent,
     ],
     imports: [
         CommonModule,

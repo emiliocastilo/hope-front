@@ -1,3 +1,4 @@
+import { mapToMapExpression } from '@angular/compiler/src/render3/util';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,7 +28,11 @@ export class VIHTreatmentsComponent implements OnInit {
     key = constants.farmacologiesTreatments;
     public treatments: Array<VIHTreatmentModel> = [];
     public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension'];
-    public actions: TableActionsModel[] = [new TableActionsModel('changeSuspend', 'edit-3'), new TableActionsModel('edit', 'edit-2'), new TableActionsModel('delete', 'trash')];
+    public actions: TableActionsModel[] = [
+        new TableActionsModel('changeSuspend', 'edit-3'),
+        new TableActionsModel('edit', 'edit-2'),
+        new TableActionsModel('delete', 'trash')
+    ];
     public tableData: RowDataModel[] = [];
     public tableDataFilter: any[] = [];
     private modalForm: FormGroup = this._formBuilder.group({
@@ -135,69 +140,136 @@ export class VIHTreatmentsComponent implements OnInit {
 
     private getData () {
         this.loading = true;
-        console.log(this.templateDataRequest);
         this._formService.getFormData(this.templateDataRequest).subscribe(
-            (response: JSONTemplateModel) => this.mongoToObject(response),
-            error => this._notification.showErrorToast('ERROR RECUPERANDO DATOS')
+            (response: JSONTemplateModel) => {
+                this.treatments = this.mongoToObject(response);
+
+                this.paginationData = {
+                    number: this.treatments.length,
+                    totalElements: this.treatments.length,
+                    size: this.sizeTable,
+                    totalPages: this.treatments.length / this.sizeTable
+                };
+            },
+            error => this._notification.showErrorToast('ERROR RECUPERANDO DATOS'),
+            () => this.loading = false
         );
     }
 
     private mongoToObject (mongoObj: JSONTemplateModel): Array<VIHTreatmentModel> {
-        const mappedData: Array<VIHTreatmentModel> = [];
-        this.treatments = mongoObj.value;
-
-        // mongoObj.value.forEach((treatment: VIHTreatmentModel) => {
-        //     // Object.keys(this.defaultValues).forEach((key: string) => {
-        //     //     this.config[key] = this.config[key] ? this.config[key] : this.defaultValues[key];
-        //     // });
-        //     // Object.keys(treatment).forEach((key: string) => {
-        //     //     const parsedTreatment: VIHTreatmentModel = {
-        //     //         indication: treatment[key],
-        //     //         family: 
-        //     //     };
-        //     // });
-
-        //     // const parsedTreatment: VIHTreatmentModel = {
-        //     //     indication: treatment.indication,
-        //     //     family: treatment.family,
-        //     //     atc: treatment.atc,
-        //     //     cn: treatment.cn,
-        //     //     tract: treatment.tract,
-        //     //     dose: treatment.dose,
-        //     //     otherDosis: treatment.otherDosis,
-
-        //     // };
-        // });
+        let mappedData: Array<VIHTreatmentModel> = [];
+        mappedData = mongoObj.data[0].value;
         return mappedData;
     }
 
-    private objectToMongoJSON (data: VIHTreatmentModel): string {
+    private objectToMongoJSON (): string {
         const mongoObj = {
             template: this.templateName,
             patientId: this.patient.id,
-            data: [
-                { type: 'select', name: 'indication', value: data.indication },
-                { type: 'input', name: 'family', value: data.family },
-                { type: 'input', name: 'atc', value: data.atc },
-                { type: 'input', name: 'cn', value: data.cn },
-                { type: 'input', name: 'tract', value: data.tract },
-                { type: 'input', name: 'dose', value: data.dose },
-                { type: 'input', name: 'otherDosis', value: data.otherDosis },
-                { type: 'input', name: 'regimenTreatment', value: data.regimenTreatment },
-                { type: 'datepicker', name: 'datePrescription', value: data.datePrescription },
-                { type: 'datepicker', name: 'dateStart', value: data.dateStart },
-                { type: 'datepicker', name: 'expectedEndDate', value: data.expectedEndDate },
-                { type: 'input', name: 'observations', value: data.observations },
-                { type: 'checkbox', name: 'treatmentContinue', value: data.treatmentContinue },
-                { type: 'checkbox', name: 'treatmentPulsatil', value: data.treatmentPulsatil },
-                { type: 'input', name: 'reasonChangeOrSuspension', value: data.reasonChangeOrSuspension },
-                { type: 'datepicker', name: 'dateSuspension', value: data.dateSuspension },
-                { type: 'input', name: 'principle', value: data.principle },
-                { type: 'input', name: 'brand', value: data.indication },
-                { type: 'input', name: 'type', value: data.type },
-            ]
+            data: [{
+                type: 'table',
+                name: 'principal-treatment',
+                value: []
+            }],
+            job: true
         };
+
+        this.treatments.forEach(treatment => {
+            mongoObj.data[0].value.push({
+                indication: 'vih',
+                treatmentType: 'QUIMICO',
+                opcionMedicamento: 'opcionMedicamento',
+                medicine: treatment.medicine,
+                family: treatment.family,
+                atc: treatment.atc,
+                cn: treatment.cn,
+                tract: treatment.tract,
+                dose: treatment.dose,
+                otherDosis: treatment.otherDosis,
+                regimenTreatment: treatment.regimenTreatment,
+                datePrescription: treatment.datePrescription,
+                dateStart: treatment.dateStart,
+                expectedEndDate: treatment.expectedEndDate,
+                observations: treatment.observations,
+                treatmentContinue: treatment.treatmentContinue,
+                treatmentPulsatil: treatment.treatmentPulsatil,
+                reasonChangeOrSuspension: treatment.reasonChangeOrSuspension,
+                dateSuspension: treatment.dateSuspension,
+                principle: treatment.principle,
+                brand: treatment.brand,
+                type: 'QUIMICO'
+            });
+        });
+
+        // ! DATOS DE MENTIRA
+        /*
+        for (let index = 0; index < 5; index++) {
+            mongoObj.data[0].value.push({
+                indication: 'vih',
+                treatmentType: 'QUIMICO',
+                opcionMedicamento: 'opcionMedicamento',
+                medicine: {
+                    "dateCreated": "2020-11-09T11:20:53",
+                    "dateUpdated": "2020-11-09T11:20:53",
+                    "id": 7,
+                    "actIngredients": "Apremilast",
+                    "codeAct": "L04AA32",
+                    "acronym": "APR",
+                    "nationalCode": "704966",
+                    "description": "Apremilast",
+                    "presentation": "OTEZLA 10 mg 20 mg 30 mg COMPRIMIDOS RECUBIERTOS CON PELICULA, 27 comprimidos\r\n",
+                    "content": null,
+                    "authorizationDate": null,
+                    "authorized": true,
+                    "endDateAuthorization": null,
+                    "commercialization": true,
+                    "commercializationDate": null,
+                    "endDateCommercialization": null,
+                    "units": null,
+                    "pvl": null,
+                    "pvlUnitary": null,
+                    "pvp": null,
+                    "pathology": "DERMATOLOGÍA",
+                    "biologic": true,
+                    "viaAdministration": "oral",
+                    "family": "QUIMICO",
+                    "subfamily": null,
+                    "brand": "OTEZLA",
+                    "name": "Apremilast"
+                },
+                family: "QUIMICO",
+                atc: "L04AA32",
+                cn: "704966",
+                tract: "oral",
+                dose: {
+                    name: "Otra"
+                },
+                otherDosis: "oral",
+                regimenTreatment: "Intensificada",
+                datePrescription: "2020-02-01T00:00:00.000Z",
+                dateStart: "2020-03-01T00:00:00.000Z",
+                expectedEndDate: "2020-05-05T00:00:00.000Z",
+                observations: "",
+                treatmentContinue: true,
+                treatmentPulsatil: false,
+                reasonChangeOrSuspension: null,
+                dateSuspension: null,
+                principle: "Apremilast",
+                brand: 'OTEZLA',
+                type: 'QUIMICO'
+            });
+        }
+        */
 
         return JSON.stringify(mongoObj);
     }
+
+    // ! ************** PUBLIC METHODS ************** ! //
+
+    // * PAGINADOR * //
+
+    public selectPage (page: number): void {
+        this.currentPage = page;
+    }
+
 }
