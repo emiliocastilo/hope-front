@@ -626,5 +626,8 @@
     "actIngredients" : "Active principle",
     "authorized" : "Authorized",
     "commercialization" : "Commercialization",
-    "viaAdministration" : "Way of administration"
+    "viaAdministration" : "Way of administration",
+    "smaqQuestion6" : "Since your last visit, how many full days have you not taken your medication?",
+    "adherencePercentage" : "% of adhesion",
+    "smaqScore" : "Score"
 }
