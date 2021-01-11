@@ -1,25 +1,20 @@
-import { mapToMapExpression } from '@angular/compiler/src/render3/util';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { timingSafeEqual } from 'crypto';
-import { from, Observable } from 'rxjs';
-import { timeout } from 'rxjs/operators';
-import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
+import { Observable, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap, timeout } from 'rxjs/operators';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 import { JSONTemplateModel } from 'src/app/modules/pathology/models/JSON-template.model';
-import { TemplateModel } from 'src/app/modules/pathology/models/template.model';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
-import { constants } from 'src/constants/constants';
 import { VIHTreatmentModel } from '../../models/vih-treatment.model';
+import { VIHTreatmentModalComponent } from './vih-treatment-modal/vih-treatment-modal.component';
 
 @Component({
     selector: 'app-vih-treatments',
@@ -27,7 +22,6 @@ import { VIHTreatmentModel } from '../../models/vih-treatment.model';
     styleUrls: ['./vih-treatments.component.scss']
 })
 export class VIHTreatmentsComponent implements OnInit {
-    key = constants.farmacologiesTreatments;
     public treatments: Array<VIHTreatmentModel> = [];
     public showedTreatments: Array<VIHTreatmentModel> = [];
     public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension'];
@@ -38,11 +32,7 @@ export class VIHTreatmentsComponent implements OnInit {
     ];
     private modalForm: FormGroup = this._formBuilder.group({
         indication: ['', Validators.required],
-        specialIndication: [false],
-        bigPsychologicalImpact: [false],
-        visibleInjury: [false],
-        others: [''],
-        treatmentType: ['', Validators.required],
+        treatmentType: [{ value: 'QUIMICO', disabled: true }, Validators.required],
         opcionMedicamento: [''],
         opcionFormulaMagistral: [''],
 
@@ -52,9 +42,6 @@ export class VIHTreatmentsComponent implements OnInit {
         atc: ['', Validators.required],
         cn: ['', Validators.required],
         tract: ['', Validators.required],
-        // formula magistral topico
-        descripcionFormulaMagistral: [''],
-        dosisFormulaMagistral: [''],
 
         dose: ['', Validators.required],
         otherDosis: [''],
@@ -66,6 +53,7 @@ export class VIHTreatmentsComponent implements OnInit {
         treatmentContinue: [false],
         treatmentPulsatil: [false],
     });
+
     private modalFormUpdate: FormGroup = this._formBuilder.group({
         reasonChangeOrSuspension: ['', Validators.required],
         medicine: ['', Validators.required],
@@ -80,22 +68,9 @@ export class VIHTreatmentsComponent implements OnInit {
     });
     private templateStructure: Array<JSONTemplateModel>;
 
-    //TO DO: Unificar los formularios con los campos comunes
-    private modalFormUpdateTopico: FormGroup = this._formBuilder.group({
-        reasonChangeOrSuspension: ['', Validators.required],
-
-        descripcionFormulaMagistral: ['', Validators.required],
-        dosisFormulaMagistral: [''],
-        opcionMedicamento: [''],
-        opcionFormulaMagistral: [''],
-
-        regimenTreatment: ['', Validators.required],
-        dateSuspension: [],
-    });
-
     private templateName: string = 'treatment-vih';
-    // private templateName: string = 'principal-diagnosis';
     private templateDataRequest: string;
+    private currentIndication: string;
     public patient: PatientModel;
     private indication = '';
     private currentPage = 0;
@@ -106,6 +81,113 @@ export class VIHTreatmentsComponent implements OnInit {
     private pageSize = 5;
     private currentModal: any;
     public loading: boolean = true;
+
+    private modalOptions = {
+        indication: { type: 'text', class: 'col-12', href: 'pepito' },
+        specialIndication: { type: 'checkbox', class: 'col-2' },
+        bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
+        visibleInjury: { type: 'checkbox', class: 'col-2' },
+        others: { type: 'text', class: 'col-6' },
+        treatmentType: {
+            type: 'select',
+            class: 'col-12',
+            options: [{ id: 'QUIMICO', name: this._translate.instant('chemical') }],
+            value: { id: 'QUIMICO' }
+        },
+        opcionMedicamento: {
+            type: 'radio',
+            class: 'col-6',
+        },
+        opcionFormulaMagistral: {
+            type: 'radio',
+            class: 'col-6',
+        },
+        medicine: {
+            type: 'typeahead',
+            class: 'col-12',
+            // typeahead: this.search,
+            // inputFormatter: this.formatter,
+            // resultFormatter: this.formatter,
+        },
+        family: { type: 'text', class: 'col-6' },
+        atc: { type: 'text', class: 'col-6' },
+        cn: { type: 'text', class: 'col-6' },
+        tract: {
+            type: 'text',
+            class: 'col-6',
+        },
+        dose: {
+            type: 'select',
+            class: 'col-6',
+            options: [],
+        },
+        otherDosis: { type: 'text', class: 'col-6' },
+        descripcionFormulaMagistral: { type: 'text', class: 'col-6' },
+        dosisFormulaMagistral: { type: 'text', class: 'col-6' },
+        regimenTreatment: {
+            type: 'select',
+            class: 'col-6',
+            options: [
+                { name: this._translate.instant('intensificada') },
+                { name: this._translate.instant('standard') },
+                { name: this._translate.instant('reduced') },
+            ],
+            changes: true,
+        },
+        datePrescription: { type: 'date', class: 'col-6' },
+        dateStart: { type: 'date', class: 'col-6' },
+        expectedEndDate: { type: 'date', class: 'col-6' },
+        observations: { type: 'textarea', class: 'col-12' },
+        treatmentContinue: { type: 'checkbox', class: 'col-2' },
+        treatmentPulsatil: { type: 'checkbox', class: 'col-2' },
+        reasonChangeOrSuspension: {
+            type: 'select',
+            class: 'col-12',
+            options: [
+                {
+                    id: 0,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive1'),
+                },
+                {
+                    id: 1,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive2'),
+                },
+                {
+                    id: 2,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive3'),
+                },
+                {
+                    id: 3,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive4'),
+                },
+                {
+                    id: 4,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive5'),
+                },
+                {
+                    id: 5,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive6'),
+                },
+                {
+                    id: 6,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive7'),
+                },
+                {
+                    id: 7,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive8'),
+                },
+                {
+                    id: 8,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive9'),
+                },
+                {
+                    id: 9,
+                    name: this._translate.instant('reasonChangeOrSuspensionList.motive10'),
+                },
+            ],
+        },
+        dateSuspension: { type: 'date', class: 'col-6' },
+    };
 
     constructor(
         private _formService: FormsService,
@@ -135,7 +217,7 @@ export class VIHTreatmentsComponent implements OnInit {
             size: 0,
             totalPages: 0
         };
-
+        this.currentPage = 1;
         if (localStorage.getItem('selectedPatient')) {
             this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
             this.templateDataRequest = `template=${this.templateName}&patientId=${this.patient.id}`;
@@ -159,10 +241,16 @@ export class VIHTreatmentsComponent implements OnInit {
                     totalPages: this.treatments.length / this.pageSize
                 };
 
-                this.selectPage(0);
+                this.sortTableDefault();
             },
             error => this._notification.showErrorToast('errorRetrievingData'),
             () => this.loading = false
+        );
+
+        // TODO ! RECUPERAR INDICACION
+        const indicationQuery = `template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`
+        this._formService.getFormsDatas(indicationQuery).subscribe(
+            response => this.indication = response
         );
     }
 
@@ -274,12 +362,254 @@ export class VIHTreatmentsComponent implements OnInit {
         return JSON.stringify(mongoObj);
     }
 
+    private addColorRow (tableData) {
+        tableData.forEach((element) => {
+            element.rowColor = false;
+            if (element.dateSuspension) {
+                let currentDate = new Date();
+                let month = (currentDate.getMonth() + 1).toString();
+                let day = currentDate.getDate().toString();
+                month = month.length > 1 ? month : '0' + month;
+                day = day.length > 1 ? day : '0' + day;
+                let currentDateString = currentDate.getFullYear() + '-' + month + '-' + day;
+                if (currentDateString >= element.dateSuspension.substr(0, 10)) {
+                    element.rowColor = true;
+                }
+            }
+        });
+    }
+
+    // ! FORMULARIOS ! //
+    private fillForm (form: FormGroup, values: any, type: string) {
+        let formKeys: string[] = Object.keys(form.controls);
+
+        formKeys.forEach((key: string) => {
+            form.controls[key].setValue(values[key]);
+            // if (values[key] && form.get(key) && type === 'detail') {
+            //   form.controls[key].disable();
+            // }
+        });
+
+        if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
+            var currentDate = new Date();
+            var month = (currentDate.getMonth() + 1).toString();
+            var day = currentDate.getDate().toString();
+            month = month.length > 1 ? month : '0' + month;
+            day = day.length > 1 ? day : '0' + day;
+            form.controls['dateSuspension'].setValue(currentDate.getFullYear() + '-' + month + '-' + day);
+        }
+    }
+
+    public showModalCreate (): void {
+        this.modalForm.reset({
+            indication: this.indication,
+            treatmentType: 'QUIMICO',
+            opcionMedicamento: 'opcionMedicamento',
+            medicine: '',
+            family: '',
+            atc: '',
+            cn: '',
+            tract: '',
+            dose: '',
+            otherDosis: '',
+            regimenTreatment: '',
+            datePrescription: '',
+            dateStart: '',
+            expectedEndDate: '',
+            observations: '',
+            treatmentContinue: false,
+            treatmentPulsatil: false,
+        });
+
+        const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
+
+        modalRef.componentInstance.type = 'create';
+        modalRef.componentInstance.title = 'newTreatment';
+        modalRef.componentInstance.form = this.modalForm;
+        this.modalOptions.dose.options = [];
+        modalRef.componentInstance.options = this.modalOptions;
+        modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
+            modalRef.componentInstance.options.dose.options = [];
+
+            modalRef.componentInstance.form.controls.family.setValue(event.family);
+            modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
+            modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
+            modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
+            this._medicinesService
+                .getDosesByMedicine(`medicineId=${event.id}`)
+                .then((data: any) => {
+                    data.forEach((element) => {
+                        element.name = element.description;
+                    });
+                    data.push({ name: 'Otra' });
+                    modalRef.componentInstance.options.dose.options = data;
+                })
+                .catch(({ error }) => {
+                    this._notification.showErrorToast(error.errorCode);
+                });
+        });
+
+        modalRef.componentInstance.selectDose.subscribe((event: any) => {
+            if (event.name === 'Otra') {
+                this.modalForm.controls.otherDosis.setValidators(Validators.required);
+                // this.modalForm.controls.regimenTreatment.setValue('');
+            } else {
+                this.modalForm.controls.otherDosis.clearValidators();
+                this.modalForm.controls.regimenTreatment.setValue({
+                    name: this._translate.instant(event.recommendation),
+                });
+            }
+        });
+
+        modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
+            //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
+            this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
+            this.modalForm.controls.descripcionFormulaMagistral.setValue('');
+            this.modalForm.controls.dosisFormulaMagistral.setValue('');
+            this.modalForm.controls.treatmentType.setValue(event);
+        });
+
+        modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
+            if (event === 'opcionMedicamento') {
+                this.deleteRequiredValidation(['descripcionFormulaMagistral']);
+                this.setRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+            }
+            if (event === 'opcionFormulaMagistral') {
+                this.modalForm.controls.descripcionFormulaMagistral.setValidators(Validators.required);
+                this.deleteRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+            }
+        });
+
+        modalRef.componentInstance.cancel.subscribe((event: any) => {
+            modalRef.close();
+        });
+
+        modalRef.componentInstance.save.subscribe((event: any) => {
+            event.value.indication = this.currentIndication;
+            event.value.dose = event.value.dose[0];
+
+            if (Array.isArray(event.value.regimenTreatment)) {
+                event.value.regimenTreatment = event.value.regimenTreatment[0].name;
+            } else {
+                if (event.value.regimenTreatment.name) {
+                    event.value.regimenTreatment = event.value.regimenTreatment.name;
+                }
+            }
+
+            event.value.reasonChangeOrSuspension = null;
+            event.value.dateSuspension = null;
+            event.value.principle = event.value.medicine.actIngredients;
+            event.value.brand = event.value.medicine.brand;
+            event.value.type = event.value.medicine.family;
+
+            if (Array.isArray(event.value.treatmentType)) {
+                event.value.treatmentType = event.value.treatmentType[0].id;
+            } else if (event.value.treatmentType.id) {
+                event.value.treatmentType = event.value.treatmentType.id;
+            }
+            Object.keys(event.value).forEach((key: string) => {
+                if (key.toLowerCase().includes('date') && event.value[key]) {
+                    event.value[key] = new Date(event.value[key]).toISOString();
+                }
+            });
+
+            if (!this.treatments) this.treatments = [];
+            this.currentModal = this.modalForm;
+            //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado
+            let newRow = event.value;
+            this.save(modalRef, 'create', newRow);
+        });
+    }
+
+    private deleteRequiredValidation (keys: any[]) {
+        keys.forEach((key) => {
+            this.modalForm.controls[key].clearValidators();
+            this.modalForm.controls[key].updateValueAndValidity();
+        });
+    }
+
+    private setRequiredValidation (keys: any[]) {
+        keys.forEach((key) => {
+            this.modalForm.controls[key].setValidators(Validators.required);
+            this.modalForm.controls[key].updateValueAndValidity();
+        });
+    }
+
+    private save (modalRef, type, newRow?, index?: string, editedRow?) {
+        // let repeated = false;
+        // let found = false;
+        // if (type != 'delete' && !this.currentModal.get('dateSuspension')) {
+        //     // Controla si un medicamento ya existe para un tratamiento activo
+        //     this.treatments.forEach((row) => {
+        //         if (
+        //             !row.dateSuspension &&
+        //             this.currentModal.controls.medicine &&
+        //             this.currentModal.controls.medicine.value.id === row.medicine.id
+        //         ) {
+        //             if (index && this.treatments.indexOf(row).toString() === index) {
+        //                 // Salta si es él mismo
+        //             } else {
+        //                 repeated = true;
+        //             }
+        //         }
+        //     });
+
+        //     if (repeated) {
+        //         this._notification.showErrorToast('duplicatedTreatment');
+        //     }
+        // }
+        // if (!repeated) {
+        //     if (type === 'create') {
+        //         this.tableData.push(newRow);
+        //     }
+        //     if (type === 'edit') {
+        //         Object.keys(editedRow).forEach((key: string) => {
+        //             this.tableData[Number(index)][key] = editedRow[key];
+        //         });
+        //     }
+        //     if (type === 'delete') {
+        //         this.tableData.splice(Number(index), 1);
+        //         this.paginationData.totalElements = this.tableData.length;
+        //     }
+
+        //     const form = {
+        //         template: this.key,
+        //         data: [
+        //             {
+        //                 type: 'table',
+        //                 name: 'principal-treatment',
+        //                 value: this.tableData,
+        //             },
+        //         ],
+        //         patientId: this.patient.id,
+        //         job: true,
+        //     };
+
+        //     this._formsService.fillForm(form).subscribe(
+        //         () => {
+        //             if (type === 'create') {
+        //                 this.paginationData.totalElements = this.tableData.length;
+        //                 this._notification.showSuccessToast('elementCreated');
+        //             } else if (type === 'edit') {
+        //                 this._notification.showSuccessToast('elementUpdated');
+        //             } else if (type === 'delete') {
+        //                 this._notification.showSuccessToast('elementDeleted');
+        //             }
+        //             modalRef.close();
+        //             this.refreshTable();
+        //         },
+        //         ({ error }) => {
+        //             this._notification.showErrorToast(error.errorCode);
+        //         }
+        //     );
+        // }
+    }
+
     // ! ************** PUBLIC METHODS ************** ! //
 
     // * PAGINADOR * //
 
     public selectPage (page: number): void {
-        console.log(`selectPage(${page})`);
         this.currentPage = page;
         const indexStartPage = page * this.paginationData.size;
         let finalPageItemIndex = (indexStartPage + this.paginationData.size) - 1;
@@ -296,6 +626,62 @@ export class VIHTreatmentsComponent implements OnInit {
         this.itemsPerPage = number;
         this.paginationData.size = number;
         this.selectPage(0);
+    }
+
+    // * SORT * //
+
+    public onSort (event: any) {
+        this.typeOrder = event.direction;
+        this.colOrder = event.column;
+        this.refreshTable();
+    }
+
+    public sortTableDefault () {
+        this.treatments.sort(function (a, b) {
+            if (a.dateSuspension === null && b.dateSuspension === null) {
+                return a.dateStart < b.dateStart ? 1 : -1;
+            } else if (a.dateSuspension != null && b.dateSuspension != null) {
+                return a.dateSuspension < b.dateSuspension ? 1 : -1;
+            } else {
+                if (a.dateSuspension === null) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });
+        this.selectPage(this.currentPage);
+    }
+
+    public refreshTable () {
+        if (this.typeOrder === '') {
+            this.sortTableDefault();
+        } else {
+            var typeOrder = this.typeOrder;
+            var colOrder = this.colOrder;
+            this.treatments.sort(function (a, b) {
+                if (typeOrder === 'asc' && typeof a[colOrder] === 'boolean' && typeof b[colOrder] === 'boolean') {
+                    return a[colOrder] < b[colOrder] ? 1 : -1;
+                } else if (typeOrder === 'desc' && typeof a[colOrder] === 'boolean' && typeof b[colOrder] === 'boolean') {
+                    return a[colOrder] < b[colOrder] ? -1 : 1;
+                } else if (typeOrder === 'asc' && !isNaN(a[colOrder]) && !isNaN(b[colOrder])) {
+                    return parseInt(a[colOrder]) < parseInt(b[colOrder]) ? 1 : -1;
+                } else if (typeOrder === 'desc' && !isNaN(a[colOrder]) && !isNaN(b[colOrder])) {
+                    return parseInt(a[colOrder]) < parseInt(b[colOrder]) ? -1 : 1;
+                } //Para comparar las dosis que vienen como objeto {name : 'ejemplo'}
+                else if (typeOrder === 'asc' && typeof a[colOrder] === 'object' && typeof b[colOrder] === 'object') {
+                    return a[colOrder]['name'] < b[colOrder]['name'] ? 1 : -1;
+                } else if (typeOrder === 'desc' && typeof a[colOrder] === 'object' && typeof b[colOrder] === 'object') {
+                    return a[colOrder]['name'] < b[colOrder]['name'] ? -1 : 1;
+                } else if (typeOrder === 'asc') {
+                    return a[colOrder] < b[colOrder] ? 1 : -1;
+                } else if (typeOrder === 'desc') {
+                    return a[colOrder] < b[colOrder] ? -1 : 1;
+                }
+            });
+        }
+        this.addColorRow(this.treatments);
+        this.selectPage(this.currentPage);
     }
 
 }

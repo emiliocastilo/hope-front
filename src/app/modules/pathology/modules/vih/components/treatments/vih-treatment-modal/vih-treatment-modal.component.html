@@ -1,3 +1,82 @@
-<p>
-  treatment-add-modal works!
-</p>
+<div class="modal-content">
+    <app-generic-modal-header [title]="title | translate" (close)="onClose()"> </app-generic-modal-header>
+
+    <form class="container" [formGroup]="form">
+        <div class="row">
+            <app-input 
+                id="indication"
+                name="indication"
+                isDisabled="true"
+                label="indication"
+                formControlName="indication"
+                class="col-6"
+            ></app-input>
+            <app-input 
+                id="treatmentType"
+                name="treatmentType"
+                isDisabled="true"
+                label="treatmentType"
+                formControlName="typeTreatment"
+                class="col-6"
+            ></app-input>
+        </div>
+        <div class="row">
+            <app-input 
+                id="medicine"
+                name="medicine"
+                required="true"
+                label="medicine"
+                formControlName="medicine"
+                class="col-12"
+            ></app-input> 
+        </div>
+        <div class="row">
+            <app-input 
+                id="family"
+                name="family"
+                isDisabled="true"
+                label="family"
+                formControlName="family"
+                class="col-6"
+            ></app-input>
+            <app-input 
+                id="atc"
+                name="atc"
+                isDisabled="true"
+                label="atc"
+                formControlName="atc"
+                class="col-6"
+            ></app-input>
+        </div>
+        <div class="row">
+            <app-input 
+                id="cn"
+                name="cn"
+                isDisabled="true"
+                label="cn"
+                formControlName="cn"
+                class="col-6"
+            ></app-input>
+            <app-input 
+                id="tract"
+                name="tract"
+                isDisabled="true"
+                label="tract"
+                formControlName="tract"
+                class="col-6"
+            ></app-input>
+            
+        </div>
+    </form>
+    <div class="row" *ngIf="showRequiredLegend">
+        <label class="requiredLegend">
+            {{ 'requiredLegendText' | translate }}
+        </label>
+    </div>
+
+    <section class="modal-content_button-container">
+        <app-button *ngIf="type === 'create'" clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.save" type="button" [disabledButton]="!validForm"> </app-button>
+        <app-button *ngIf="type === 'edit' || type === 'changeSuspend'" clasesBtn="btn btn-primary mr-4" (click)="onUpdate()" [disabledButton]="!validForm" icono="check" texto="btn.update" type="button"> </app-button>
+        <app-button clasesBtn="btn btn-danger" (click)="onClose()" icon="x" type="button" texto="btn.close"> </app-button>
+    </section>
+</div>

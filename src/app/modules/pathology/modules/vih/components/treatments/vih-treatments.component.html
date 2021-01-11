@@ -18,7 +18,8 @@
             </div>
             <div class="mt-4">
                 <app-table 
-                    *ngIf="!loading"                    [modifiedString]="true" 
+                    *ngIf="!loading"                    
+                    [modifiedString]="true" 
                     [columnsHeader]="columHeaders" 
                     [columnsData]="showedTreatments" 
                     [showActionButtons]="true" 
