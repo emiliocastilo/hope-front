@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../../services/forms/forms.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
+import { ifStmt } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -14,7 +15,7 @@ import { HttpClient } from '@angular/common/http';
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent implements OnChanges, OnInit {
+export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
     @Input() key: string;
@@ -38,6 +39,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
 
     constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) {}
+    ngAfterViewInit(): void {
+         this.detectCalculated();
+    }
 
     ngOnInit() {
         this.form = this.createGroup();
@@ -53,7 +57,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    detectCalculated() {
+    detectCalculated() {        
         this.changes.subscribe((change) => {
             const params = [];
             // Calculated front
@@ -64,7 +68,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
                         params[i] = change[e];
                     });
                     const value = FormUtils[field.formula](params);
-                    this.form.controls[field.name].setValue(value ? value : '', {
+                    this.form?.controls[field.name]?.setValue(value ? value : '', {
                         emitEvent: false,
                     });
                 });
@@ -81,7 +85,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
                     this.setDisabled(field.name, false);
                 } else {
                     this.setDisabled(field.name, true);
-                    this.form.controls[field.name].setValue('', {
+                    this.form.controls[field.name]?.setValue('', {
                         emitEvent: false,
                     });
                 }
@@ -169,7 +173,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
     ngOnChanges() {
+        
         if (this.form) {
+           // this._formsService.setModalForm(this.form);
             const controls = Object.keys(this.form.controls);
             const configControls = this.controls.map((item) => item.name);
 
@@ -209,9 +215,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         if (config.calculated_front) {
             const params = [];
             config.params.forEach((e, i) => {
-                params[i] = this.form.getRawValue()[e];
+                // Diferenciamos para los calculated front según si es nuevo (carga defaultValues) o no
+                params[i] = this.form ? this.form.getRawValue()[e] : this.config[i].value;
             });
-            config.value = FormUtils[config.formula](params);
+            
+            config.value = FormUtils[config.formula](params);            
         }
         const { disabled, validation, value } = config;
         return this.fb.control({ disabled, value }, validation);

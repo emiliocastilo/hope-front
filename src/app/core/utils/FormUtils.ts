@@ -7,14 +7,15 @@ import { ValidatorFn, Validators } from '@angular/forms';
 export default class FormUtils {
     static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
 
-    static createFieldConfig(form, filled?): FieldConfig[] {
+    static createFieldConfig(form, filled?, editing?): FieldConfig[] {
         const fieldConfig: FieldConfig[] = [];
-        let isFormFilled: boolean = filled && filled.length > 0;
+        let isFormFilled: boolean = filled && filled.length > 0 ;
+        console.log(filled);
         if (isFormFilled) {
             this.fillFormWithValues(form, filled);
         }
         for (const key in form) {
-            fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key], isFormFilled));
+            fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key], editing));
         }
         return fieldConfig;
     }
@@ -354,6 +355,7 @@ export default class FormUtils {
     static furWeeks(params: Array<any>): any {
         var currentDate = moment();
         var date = moment(params[0]);
+        console.log("CALCULO", currentDate.diff(date, 'weeks'));
         return currentDate.diff(date, 'weeks');
     }
 

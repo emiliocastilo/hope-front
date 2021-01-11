@@ -1,4 +1,6 @@
 <div class="dynamic-modal">
     <app-generic-modal-header [title]="title" (close)="onClose()"></app-generic-modal-header>
-    <dynamic-form [config]="config" [buttons]="buttons" [key]="key" [isModal]="true" #form="dynamicForm" (submit)="submit($event)" (cancel)="closeModal($event)"> </dynamic-form>
+    <dynamic-form (change)="onModalValueChange($event) "[config]="config" [buttons]="buttons" [key]="key" [isModal]="true" #form="dynamicForm" (submit)="submit($event)" (cancel)="closeModal($event)"> </dynamic-form>
 </div>
+
+

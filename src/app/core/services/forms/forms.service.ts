@@ -10,6 +10,7 @@ export class FormsService {
 
     private savedForm = true;
     private mustBeSaved = false;
+    public editing = true;
 
     public async get(key: string) {
         return this._http.get(`/templates?key=${key}`).toPromise();
@@ -60,4 +61,12 @@ export class FormsService {
     public setMustBeSaved(mustBeSaved: boolean) {
         this.mustBeSaved = mustBeSaved;
     }
+   /*  public setModalForm(formGroup: any){
+        this.modalForm = formGroup;
+    }
+    public getModalForm(){
+        let formToReturn = Object.assign(this.modalForm);
+        this.modalForm = null;
+        return formToReturn;
+    } */
 }
