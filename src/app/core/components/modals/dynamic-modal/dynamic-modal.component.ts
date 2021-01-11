@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import FormUtils from 'src/app/core/utils/FormUtils';
 import StringUtils from 'src/app/core/utils/StringUtils';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { formatCurrency } from '@angular/common';
-
 
 @Component({
     selector: 'app-dynamic-modal',
@@ -19,7 +18,7 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
     private isEmpty = true;
     private isEmptyModal = true;
     @ViewChild('form') el: ElementRef;
-    
+
     @Input() title: string;
     @Input() data: any;
     @Input() key: string;
@@ -30,64 +29,54 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
     constructor(private _formsService: FormsService) {}
 
     ngOnInit() {
-        this.isLoading= true;
-        if (this.key) {            
+        this.isLoading = true;
+        if (this.key) {
             this.getAndParseFromTemplate();
         } else {
             this.getAndParseFromFields();
         }
-        
-        
     }
 
-    ngAfterViewInit(){
+    ngAfterViewInit() {
         this.isLoading = false;
         let initConfig = Object.assign(this.el);
-        console.log("fooorm", initConfig.form);
-        console.log("INIT*****");        
+        console.log('fooorm', initConfig.form);
+        console.log('INIT*****');
         console.log(this.el);
         console.log(initConfig);
-        
-        
     }
 
     onClose() {
         this.close.emit(null);
     }
 
-    onModalValueChange(event?: any){
+    onModalValueChange(event?: any) {
         // Al modificar algún valor del modal, recalculamos para los campos calculados.
-        
-        if (this.key) {  
-            console.log(this.key);          
+
+        if (this.key) {
+            console.log(this.key);
             this.getAndParseFromTemplate();
         } else {
             this.getAndParseFromFields();
         }
-        
     }
 
-    async getAndParseFromTemplate() {        
+    async getAndParseFromTemplate() {
         const data: any = await this._formsService.get(this.key);
         if (data) {
             const emptyForm = this._parseStringToJSON(data.form);
             this.config = FormUtils.createFieldConfig(emptyForm);
             const buttons = this._parseStringToJSON(data.buttons);
             this.buttons = FormUtils.createButtons(buttons);
-            
-        }
-        else{
+        } else {
             this.fillForm();
             this.config = FormUtils.createFieldConfig(this.fields, this.config, this._formsService.editing);
-                
-             
-            
         }
     }
 
-    getAndParseFromFields() {       
-        this.fillForm();       
-        this.config = FormUtils.createFieldConfig(this.fields, this.filled, this._formsService.editing);      
+    getAndParseFromFields() {
+        this.fillForm();
+        this.config = FormUtils.createFieldConfig(this.fields, this.filled, this._formsService.editing);
         this.buttons = FormUtils.createButtons(['save']);
         this._formsService.editing = true;
     }
@@ -117,7 +106,7 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
             });
         } else {
             this.fields.forEach((field) => {
-                field = { ...field, value: field.defaultValue? field.defaultValue :undefined };
+                field = { ...field, value: field.defaultValue ? field.defaultValue : undefined };
                 this.filled.push(field);
             });
         }

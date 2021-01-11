@@ -32,7 +32,7 @@ export class FormListComponent implements OnInit {
     }
 
     openModalCreate() {
-        this._formsService.editing =false;
+        this._formsService.editing = false;
         const modalRef = this.modalService.open(DynamicModalComponent, {
             size: 'lg',
         });

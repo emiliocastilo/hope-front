@@ -40,7 +40,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
 
     constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) {}
     ngAfterViewInit(): void {
-         this.detectCalculated();
+        this.detectCalculated();
     }
 
     ngOnInit() {
@@ -57,7 +57,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
 
-    detectCalculated() {        
+    detectCalculated() {
         this.changes.subscribe((change) => {
             const params = [];
             // Calculated front
@@ -173,9 +173,8 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
     ngOnChanges() {
-        
         if (this.form) {
-           // this._formsService.setModalForm(this.form);
+            // this._formsService.setModalForm(this.form);
             const controls = Object.keys(this.form.controls);
             const configControls = this.controls.map((item) => item.name);
 
@@ -218,8 +217,8 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
                 // Diferenciamos para los calculated front según si es nuevo (carga defaultValues) o no
                 params[i] = this.form ? this.form.getRawValue()[e] : this.config[i].value;
             });
-            
-            config.value = FormUtils[config.formula](params);            
+
+            config.value = FormUtils[config.formula](params);
         }
         const { disabled, validation, value } = config;
         return this.fb.control({ disabled, value }, validation);
