@@ -376,7 +376,8 @@
         "missDate": "There are dates missing",
         "passwordChangedSuccessfully": "Password succesfully updated",
         "passwordChangeFailed": "Wrong password",
-        "sent": "Sent"
+        "sent": "Sent",
+        "errorRetrievingData": "An error occurred retrieving the data."
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Number of changes by biological treatment",

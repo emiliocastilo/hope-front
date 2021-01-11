@@ -4,7 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { timingSafeEqual } from 'crypto';
 import { from, Observable } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
@@ -27,14 +29,13 @@ import { VIHTreatmentModel } from '../../models/vih-treatment.model';
 export class VIHTreatmentsComponent implements OnInit {
     key = constants.farmacologiesTreatments;
     public treatments: Array<VIHTreatmentModel> = [];
+    public showedTreatments: Array<VIHTreatmentModel> = [];
     public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension'];
     public actions: TableActionsModel[] = [
         new TableActionsModel('changeSuspend', 'edit-3'),
         new TableActionsModel('edit', 'edit-2'),
         new TableActionsModel('delete', 'trash')
     ];
-    public tableData: RowDataModel[] = [];
-    public tableDataFilter: any[] = [];
     private modalForm: FormGroup = this._formBuilder.group({
         indication: ['', Validators.required],
         specialIndication: [false],
@@ -102,7 +103,7 @@ export class VIHTreatmentsComponent implements OnInit {
     private typeOrder: any;
     private itemsPerPage: number;
     public paginationData: PaginationModel;
-    private sizeTable = 5;
+    private pageSize = 5;
     private currentModal: any;
     public loading: boolean = true;
 
@@ -128,6 +129,13 @@ export class VIHTreatmentsComponent implements OnInit {
     */
 
     ngOnInit () {
+        this.paginationData = {
+            number: 0,
+            totalElements: 0,
+            size: 0,
+            totalPages: 0
+        };
+
         if (localStorage.getItem('selectedPatient')) {
             this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
             this.templateDataRequest = `template=${this.templateName}&patientId=${this.patient.id}`;
@@ -145,13 +153,15 @@ export class VIHTreatmentsComponent implements OnInit {
                 this.treatments = this.mongoToObject(response);
 
                 this.paginationData = {
-                    number: this.treatments.length,
+                    number: 1,
                     totalElements: this.treatments.length,
-                    size: this.sizeTable,
-                    totalPages: this.treatments.length / this.sizeTable
+                    size: this.pageSize,
+                    totalPages: this.treatments.length / this.pageSize
                 };
+
+                this.selectPage(0);
             },
-            error => this._notification.showErrorToast('ERROR RECUPERANDO DATOS'),
+            error => this._notification.showErrorToast('errorRetrievingData'),
             () => this.loading = false
         );
     }
@@ -269,7 +279,23 @@ export class VIHTreatmentsComponent implements OnInit {
     // * PAGINADOR * //
 
     public selectPage (page: number): void {
+        console.log(`selectPage(${page})`);
         this.currentPage = page;
+        const indexStartPage = page * this.paginationData.size;
+        let finalPageItemIndex = (indexStartPage + this.paginationData.size) - 1;
+
+        // console.log(`PAGE: ${page} | start index: ${indexStartPage} | end index: ${finalPageItemIndex} | last index: ${this.treatments.length - 1}`);
+
+        if (this.treatments.length - 1 < finalPageItemIndex) finalPageItemIndex = this.treatments.length - 1;
+
+        if (finalPageItemIndex + 1 > this.treatments.length) this.showedTreatments.slice(indexStartPage, finalPageItemIndex - this.treatments.length);
+        else this.showedTreatments = this.treatments.slice(indexStartPage, indexStartPage + this.paginationData.size);
+    }
+
+    public selectItemsPerPage (number: number) {
+        this.itemsPerPage = number;
+        this.paginationData.size = number;
+        this.selectPage(0);
     }
 
 }

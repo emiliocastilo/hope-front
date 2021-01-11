@@ -376,7 +376,8 @@
         "missDate": "Faltan fechas por rellenar",
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
-        "sent": "Enviado"
+        "sent": "Enviado",
+        "errorRetrievingData": "Ha ocurrido un error recuperando los datos."
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",

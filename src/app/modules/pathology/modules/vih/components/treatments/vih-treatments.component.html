@@ -1,6 +1,6 @@
 <div class="row m-0 p-0">
     <section class="col-md-12 col-lg-12 p-0">
-        <section class="medics-container" *ngIf="!loading">
+        <section class="medics-container">
             <div class="mt-4">
                 <app-button 
                     type="button" 
@@ -12,17 +12,15 @@
             </div>
             <div class="mt-4">
                 <app-results-per-page 
-                    *ngIf="!loading"
                     (itemsPerPage)="selectItemsPerPage($event)" 
                     [paginationData]="paginationData"> 
                 </app-results-per-page>
             </div>
             <div class="mt-4">
                 <app-table 
-                    *ngIf="!loading"
-                    [modifiedString]="true" 
+                    *ngIf="!loading"                    [modifiedString]="true" 
                     [columnsHeader]="columHeaders" 
-                    [columnsData]="treatments" 
+                    [columnsData]="showedTreatments" 
                     [showActionButtons]="true" 
                     [actions]="actions" 
                     (iconButtonClick)="onIconButtonClick($event)" 
@@ -30,7 +28,6 @@
                     [sortable]="true">
                 </app-table>
                 <app-pagination
-                    *ngIf="!loading" 
                     (selectPage)="selectPage($event)" 
                     [paginationData]="paginationData"> 
                 </app-pagination>
