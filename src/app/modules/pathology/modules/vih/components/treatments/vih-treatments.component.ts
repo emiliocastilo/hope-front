@@ -1,7 +1,8 @@
+import { transition } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap, timeout } from 'rxjs/operators';
@@ -282,9 +283,9 @@ export class VIHTreatmentsComponent implements OnInit {
                 atc: treatment.atc,
                 cn: treatment.cn,
                 tract: treatment.tract,
-                dose: treatment.dose,
+                dose: { name: treatment.dose },
                 otherDosis: treatment.otherDosis,
-                regimenTreatment: treatment.regimenTreatment,
+                regimenTreatment: { name: treatment.regimenTreatment },
                 datePrescription: treatment.datePrescription,
                 dateStart: treatment.dateStart,
                 expectedEndDate: treatment.expectedEndDate,
@@ -433,10 +434,11 @@ export class VIHTreatmentsComponent implements OnInit {
         });
 
         modalRef.componentInstance.save.subscribe((event: any) => {
-            console.log(event);
-            if (event.type === 'create') {
-                
-            }
+            const row = event.value;
+            this.save(modalRef, 'create', event.value);
+
+            // modalRef.close();
+
             // event.value.indication = this.currentIndication;
             // event.value.dose = event.value.dose[0];
 
@@ -487,74 +489,57 @@ export class VIHTreatmentsComponent implements OnInit {
         });
     }
 
-    private save (modalRef, type, newRow?, index?: string, editedRow?) {
-        // let repeated = false;
-        // let found = false;
-        // if (type != 'delete' && !this.currentModal.get('dateSuspension')) {
-        //     // Controla si un medicamento ya existe para un tratamiento activo
-        //     this.treatments.forEach((row) => {
-        //         if (
-        //             !row.dateSuspension &&
-        //             this.currentModal.controls.medicine &&
-        //             this.currentModal.controls.medicine.value.id === row.medicine.id
-        //         ) {
-        //             if (index && this.treatments.indexOf(row).toString() === index) {
-        //                 // Salta si es él mismo
-        //             } else {
-        //                 repeated = true;
-        //             }
-        //         }
-        //     });
+    private save (modalRef: NgbModalRef, action: string, treatment: VIHTreatmentModel, index?: string, editedRow?: boolean) {
+        let repeated = false;
+        let found = false;
 
-        //     if (repeated) {
-        //         this._notification.showErrorToast('duplicatedTreatment');
-        //     }
-        // }
-        // if (!repeated) {
-        //     if (type === 'create') {
-        //         this.tableData.push(newRow);
-        //     }
-        //     if (type === 'edit') {
-        //         Object.keys(editedRow).forEach((key: string) => {
-        //             this.tableData[Number(index)][key] = editedRow[key];
-        //         });
-        //     }
-        //     if (type === 'delete') {
-        //         this.tableData.splice(Number(index), 1);
-        //         this.paginationData.totalElements = this.tableData.length;
-        //     }
+        treatment.brand = treatment.medicine.brand;
+        treatment.principle = treatment.medicine.actIngredients;
+        treatment.dose = treatment.dose[0];
 
-        //     const form = {
-        //         template: this.key,
-        //         data: [
-        //             {
-        //                 type: 'table',
-        //                 name: 'principal-treatment',
-        //                 value: this.tableData,
-        //             },
-        //         ],
-        //         patientId: this.patient.id,
-        //         job: true,
-        //     };
+        console.log(treatment);
 
-        //     this._formsService.fillForm(form).subscribe(
-        //         () => {
-        //             if (type === 'create') {
-        //                 this.paginationData.totalElements = this.tableData.length;
-        //                 this._notification.showSuccessToast('elementCreated');
-        //             } else if (type === 'edit') {
-        //                 this._notification.showSuccessToast('elementUpdated');
-        //             } else if (type === 'delete') {
-        //                 this._notification.showSuccessToast('elementDeleted');
-        //             }
-        //             modalRef.close();
-        //             this.refreshTable();
-        //         },
-        //         ({ error }) => {
-        //             this._notification.showErrorToast(error.errorCode);
-        //         }
-        //     );
-        // }
+        if (action !== 'delete' && !treatment.dateSuspension) {
+            this.treatments.forEach((row) => {
+                if (!row.dateSuspension && treatment.medicine && treatment.medicine.id === row.medicine.id)
+                    if (!(index && this.treatments.indexOf(row).toString() === index)) repeated = true;
+            });
+        }
+
+        if (!repeated) {
+            switch (action) {
+                case 'create':
+                    this.treatments.push(treatment);
+                    break;
+                case 'edit':
+                    Object.keys(editedRow).forEach((key: string) => this.treatments[Number(index)][key] = editedRow[key]);
+                    break;
+                case 'delete':
+                    this.treatments.splice(Number(index), 1);
+                    break;
+            }
+
+            this._formService.fillForm(this.objectToMongoJSON()).subscribe(
+                () => {
+                    this.paginationData.totalElements = this.treatments.length;
+                    switch (action) {
+                        case 'create':
+                            this._notification.showSuccessToast('elementCreated');
+                            break;
+                        case 'edit':
+                            this._notification.showSuccessToast('elementUpdated');
+                            break;
+                        case 'delete':
+                            this._notification.showSuccessToast('elementDeleted');
+                            break;
+                    }
+
+                    modalRef.close();
+                    this.refreshTable();
+                },
+                error => this._notification.showErrorToast(error.errorCode)
+            );
+        } else this._notification.showErrorToast('duplicatedTreatment');
     }
 
     // ! ************** PUBLIC METHODS ************** ! //
