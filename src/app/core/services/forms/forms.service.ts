@@ -10,6 +10,7 @@ export class FormsService {
 
     private savedForm = true;
     private mustBeSaved = false;
+    public editing = true;
 
     public async get(key: string) {
         return this._http.get(`/templates?key=${key}`).toPromise();

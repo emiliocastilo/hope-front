@@ -7,14 +7,14 @@ import { ValidatorFn, Validators } from '@angular/forms';
 export default class FormUtils {
     static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
 
-    static createFieldConfig(form, filled?): FieldConfig[] {
+    static createFieldConfig(form, filled?, editing?): FieldConfig[] {
         const fieldConfig: FieldConfig[] = [];
         let isFormFilled: boolean = filled && filled.length > 0;
         if (isFormFilled) {
             this.fillFormWithValues(form, filled);
         }
         for (const key in form) {
-            fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key], isFormFilled));
+            fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key], editing));
         }
         return fieldConfig;
     }
@@ -359,7 +359,7 @@ export default class FormUtils {
 
     static furBirthDate(params: Array<any>): any {
         let date = moment(params[0]);
-        return date.add(280, 'days').format('DD/MM/YYYY');
+        return date.add(280, 'days').format('MM/DD/YYYY');
     }
 
     static smaqAdherence(params: Array<any>): any {
