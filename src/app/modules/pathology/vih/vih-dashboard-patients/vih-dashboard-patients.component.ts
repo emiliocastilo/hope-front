@@ -49,7 +49,7 @@ export class VihDashboardPatientsComponent implements OnInit {
 
     setConfigGannt(): void {
         this.configGantt = {
-            columns: ['QUIMICO', 'ADHERENCIA'],
+            columns: ['FAME', 'ADHERENCIA'],
             type: 'Timeline',
             data: [],
             options: {
@@ -118,11 +118,11 @@ export class VihDashboardPatientsComponent implements OnInit {
                                             ? element.date.split('T')[0]
                                             : element.map((d) => {
                                                   if (!d.date) {
-                                                      d.date = moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
-                                                      return moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
+                                                      /* d.date = moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
+                                                      return moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD'); */
                                                   }
 
-                                                  return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0] ? d.initDate.split('T')[0] : moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
+                                                  return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0]; // : d.initDate.split('T')[0]; //: moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
                                               });
                                     });
                                 }
@@ -195,13 +195,13 @@ export class VihDashboardPatientsComponent implements OnInit {
 
     parseDatesChart(start: number, end: number) {
         const newData = {
-            indicesEvolution: {
+            graphClinicalData: {
                 CVP: [],
                 CD4: [],
-                glomerular: [],
+                glomerularFiltering: [],
             },
             treatments: {
-                QUIMICO: [],
+                FAME: [],
             },
             adherence: [],
         };
@@ -214,10 +214,10 @@ export class VihDashboardPatientsComponent implements OnInit {
                             const d = Date.parse(new Date(i.date ? i.date : i.initDate).toISOString().split('T')[0]);
                             if (d >= start && d <= end) {
                                 if (i.date) {
-                                    newData.indicesEvolution[i.indexType].push(i);
+                                    newData.graphClinicalData[i.name].push(i);
                                 }
                                 if (i.initDate) {
-                                    const type = 'QUIMICO';
+                                    const type = 'FAME';
                                     newData.treatments[type].push(i);
                                 }
                             }
@@ -259,8 +259,8 @@ export class VihDashboardPatientsComponent implements OnInit {
     }
 
     private loadChart(data: any): void {
-        /*  const dataGantt = {
-            QUIMICO: data.treatments.BIOLOGICO,           
+        const dataGantt = {
+            FAME: data.treatments.FAME,
             ADHERENCIA: data.adherence,
         };
         this.configGantt.data = this.parseDataGantt(dataGantt);
@@ -268,7 +268,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         this.loaderService.loadChartPackages(this.configGantt.type).subscribe(() => {
             google.charts.load('current', { packages: ['timeline'] });
             google.charts.setOnLoadCallback(this.drawChart(this.configGantt));
-        }); */
+        });
     }
 
     parseDate(date: Date): string {
@@ -323,18 +323,17 @@ export class VihDashboardPatientsComponent implements OnInit {
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
-        const arrayData = Object.keys(data.graphClinicalData).map((keyYear: string) => {
+        const arrayData = Object.keys(data.graphClinicalData ? data.graphClinicalData : data.graphClinicalData).map((keyYear: string) => {
             const object = {
                 name: keyYear,
                 series: [],
             };
 
-            data.graphClinicalData[keyYear].forEach((element) => {
-                let date = element && element.date ? new Date(element.date) : new Date('05 October 2020 14:48 UTC');
-                element.indexType = keyYear;
+            let dataTemp = data.graphClinicalData ? data.graphClinicalData : data.graphClinicalData;
+            dataTemp[keyYear].forEach((element) => {
                 const objectSerie = {
                     value: element.value,
-                    name: date,
+                    name: new Date(element.date),
                 };
                 object.series.push(objectSerie);
             });
@@ -363,37 +362,23 @@ export class VihDashboardPatientsComponent implements OnInit {
                         const endDate = new Date(element.finalDate);
                         objectRow[objectRow.length - 1] = endDate;
                     }
-                    if (objectChart.length === 0) {
+                    /*   if (objectChart.length === 0) {
                         const dateStart = new Date('05 October 2020 14:48 UTC');
                         const objectRow = [value, '', this._translate.instant('noTreatmentData'), dateStart, dateStart];
                         data[value][0] = objectRow;
                         objectChart.push(objectRow);
-                    } else {
-                        objectChart.push(objectRow);
-                    }
+                          data[value][0] = objectRow;
+                    } else { */
+
+                    objectChart.push(objectRow);
+                    /*    } */
                 });
-            } else if (data && value === 'ADHERENCIA') {
-                if (!data[value] || data[value] === undefined) {
-                    const dateStart = new Date('05 October 2020 14:48 UTC');
-                    const objectRow = [value, '', this._translate.instant('noTreatmentData'), dateStart, dateStart];
-                    data[value] = [];
-                    data[value] = [];
-                    data[value].push(objectRow);
+            } else if (data[value] && value === 'ADHERENCIA') {
+                data[value].forEach((element: any, keyTwo: number) => {
+                    const dateStart = new Date(element.date);
+                    const objectRow = [value, '', element.description, dateStart, dateStart];
                     objectChart.push(objectRow);
-                } else {
-                    data[value].forEach((element: any) => {
-                        const dateStart = new Date(element.date);
-                        const objectRow = [value, '', element.description, dateStart, dateStart];
-                        objectChart.push(objectRow);
-                    });
-                }
-            } else {
-                if (objectChart.length === 0 || objectChart[value] === undefined) {
-                    const dateStart = new Date('05 October 2020 14:48 UTC');
-                    const objectRow = [value, '', this._translate.instant('noTreatmentData'), dateStart, dateStart];
-                    data[value][0] = objectRow;
-                    objectChart.push(objectRow);
-                }
+                });
             }
         });
         return objectChart;

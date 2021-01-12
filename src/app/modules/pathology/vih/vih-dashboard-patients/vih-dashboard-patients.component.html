@@ -19,22 +19,24 @@
             <h4>{{ 'charts.noCVPData' | translate }}</h4>
         </section>
     </div>
-    <!-- Gráfica Glomerular -->
-    <section class="col-md-12 wide-chart" [hidden]="dataChart && dataChart[1].series.length === 0">
-        <app-line-chart style="width: 100vh;" [config]="configCharts[1]" [lastDate]="lastDate" [firstDate]="firstDate" *ngIf="dataChart && dataChart[1] && dataChart[1].series.length > 0"> </app-line-chart>
-    </section>
-    <section *ngIf="dataChart && dataChart[1].series && dataChart[1].series.length === 0" class="col-md-12 p-0 mt-4" class="no-data" style="width: 100%;">
-        <h4>{{ 'charts.noGlomerularData' | translate }}</h4>
-    </section>
-    <!--  {{dataChart | json}} -->
-
-    <!-- <section class="col-md-12 p-0 mt-4" class="full-width" [hidden]="noTreatmentData">
-        <div id="google-timeline-chart"></div>
-    </section>
-    <section class="col-md-12 p-0 mt-0" class="no-data full-width no-treatments" [hidden]="!noTreatmentData">
-        <h4>{{ 'charts.noTreatmentData' | translate }}</h4>
-    </section>
-    <section class="col-md-12 p-0 mt-4 date-selector full-width" [ngClass]="{ 'sticky-bottom': noData }">
-        <app-dates-bar [dates]="globalDates" (indexes)="onChangeIndexes($event)" *ngIf="globalDates && globalDates.length"></app-dates-bar>
-    </section> -->
+    <!-- Timeline -->
+    <div class="col-md-12 p-0 mt-4 wide-chart">
+        <section class="col-md-12 p-0 mt-4 wide-chart" class="" [hidden]="noTreatmentData">
+            <div id="google-timeline-chart"></div>
+        </section>
+        <section class="col-md-12 p-0 mt-0 wide-chart" class="no-data full-width no-treatments" [hidden]="!noTreatmentData">
+            <h4>{{ 'charts.noTreatmentData' | translate }}</h4>
+        </section>
+        <section class="col-md-12 p-0 mt-4 date-selector wide-chart" [ngClass]="{ 'sticky-bottom': noData }">
+            <app-dates-bar [dates]="globalDates" (indexes)="onChangeIndexes($event)" *ngIf="globalDates && globalDates.length"></app-dates-bar>
+        </section>
+        <!-- Gráfica Glomerular -->
+        <section class="col-md-12 wide-chart" [hidden]="dataChart && dataChart[1].series.length === 0">
+            <app-line-chart style="width: 100vh;" [config]="configCharts[1]" [lastDate]="lastDate" [firstDate]="firstDate" *ngIf="dataChart && dataChart[1] && dataChart[1].series.length > 0"> </app-line-chart>
+        </section>
+        <section *ngIf="dataChart && dataChart[1].series && dataChart[1].series.length === 0" class="col-md-12 p-0 mt-4" class="no-data" style="width: 100%;">
+            <h4>{{ 'charts.noGlomerularData' | translate }}</h4>
+        </section>
+        <!--  {{dataChart | json}} -->
+    </div>
 </div>
