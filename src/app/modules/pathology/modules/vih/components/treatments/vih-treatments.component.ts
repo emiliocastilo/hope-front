@@ -37,7 +37,6 @@ export class VIHTreatmentsComponent implements OnInit {
         opcionMedicamento: [''],
         opcionFormulaMagistral: [''],
 
-        // medicamento topico
         medicine: ['', Validators.required],
         family: ['', Validators.required],
         atc: ['', Validators.required],
@@ -428,39 +427,6 @@ export class VIHTreatmentsComponent implements OnInit {
         modalRef.componentInstance.type = 'create';
         modalRef.componentInstance.title = 'newTreatment';
         modalRef.componentInstance.form = this.modalForm;
-        this.modalOptions.dose.options = [];
-        modalRef.componentInstance.options = this.modalOptions;
-        modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
-            modalRef.componentInstance.options.dose.options = [];
-
-            modalRef.componentInstance.form.controls.family.setValue(event.family);
-            modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
-            modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
-            modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
-            this._medicinesService
-                .getDosesByMedicine(`medicineId=${event.id}`)
-                .then((data: any) => {
-                    data.forEach((element) => {
-                        element.name = element.description;
-                    });
-                    data.push({ name: 'Otra' });
-                    modalRef.componentInstance.options.dose.options = data;
-                })
-                .catch(({ error }) => {
-                    this._notification.showErrorToast(error.errorCode);
-                });
-        });
-
-        modalRef.componentInstance.selectDose.subscribe((event: any) => {
-            if (event.name === 'Otra') {
-                this.modalForm.controls.otherDosis.setValidators(Validators.required);
-            } else {
-                this.modalForm.controls.otherDosis.clearValidators();
-                this.modalForm.controls.regimenTreatment.setValue({
-                    name: this._translate.instant(event.recommendation),
-                });
-            }
-        });
 
         modalRef.componentInstance.cancel.subscribe((event: any) => {
             modalRef.close();
@@ -468,6 +434,9 @@ export class VIHTreatmentsComponent implements OnInit {
 
         modalRef.componentInstance.save.subscribe((event: any) => {
             console.log(event);
+            if (event.type === 'create') {
+                
+            }
             // event.value.indication = this.currentIndication;
             // event.value.dose = event.value.dose[0];
 

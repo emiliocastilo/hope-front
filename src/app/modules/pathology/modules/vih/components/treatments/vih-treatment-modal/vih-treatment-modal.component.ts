@@ -19,7 +19,6 @@ export class VIHTreatmentModalComponent implements OnInit {
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     @Output() save: EventEmitter<any> = new EventEmitter();
     @Output() update: EventEmitter<any> = new EventEmitter();
-    @Output() selectInputTypeahead: EventEmitter<any> = new EventEmitter();
     @Output() selectDose: EventEmitter<any> = new EventEmitter();
     @Output() selectTreatmentType: EventEmitter<any> = new EventEmitter();
     @Output() selectTopicalType: EventEmitter<any> = new EventEmitter();

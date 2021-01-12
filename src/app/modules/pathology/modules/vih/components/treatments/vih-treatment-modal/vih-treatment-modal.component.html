@@ -38,18 +38,18 @@
         <div class="row">
             <app-input-select 
                 [required]="true" id="dose" class="roles-select"
-                [isDisabled]="!form.controls['medicine'].value" labelValue="dose" name="dose" form="form"
+                [isDisabled]="!form.controls['medicine'].value" labelValue="dose" name="dose" [form]="form"
                 [options]="selectOptions.doses" [optionSelected]="form.controls['dose'].value" class="col-6"
-                [selectMultiple]="false" [clearAfterSelect]="true">
+                [selectMultiple]="false" [clearAfterSelect]="false">
             </app-input-select>
             <app-input id="otherDosis" name="otherDosis" isDisabled="otherDosis" label="otherDosis" formControlName="otherDosis" class="col-6"></app-input>
         </div>
         <div class="row">
             <app-input-select 
                 [required]="true" class="roles-select" id="regimenTreatment" name="regimenTreatment"
-                isDisabled="false" labelValue="regimenTreatment" form="form"
+                isDisabled="false" labelValue="regimenTreatment" [form]="form"
                 [options]="selectOptions.regimes" [optionSelected]="form.controls['regimenTreatment'].value" class="col-6"
-                [selectMultiple]="false" [clearAfterSelect]="true">
+                [selectMultiple]="false" [clearAfterSelect]="false">
             </app-input-select>
             <app-input id="datePrescription" name="datePrescription" label="datePrescription" formControlName="datePrescription" type="date" class="col-6"></app-input>
         </div>
@@ -74,8 +74,8 @@
     </div> -->
 
     <section class="modal-content_button-container button-container">
-        <app-button *ngIf="type === 'create'" clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.save" type="button" [disabledButton]="!validForm"> </app-button>
-        <app-button *ngIf="type === 'edit' || type === 'changeSuspend'" clasesBtn="btn btn-primary mr-4" (click)="onUpdate()" [disabledButton]="!validForm" icono="check" texto="btn.update" type="button"> </app-button>
+        <app-button *ngIf="type === 'create'" clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.save" type="button" [disabledButton]="!form.valid"> </app-button>
+        <app-button *ngIf="type === 'edit' || type === 'changeSuspend'" clasesBtn="btn btn-primary mr-4" (click)="onUpdate()" [disabledButton]="!form.valid" icono="check" texto="btn.update" type="button"> </app-button>
         <app-button clasesBtn="btn btn-danger" (click)="onClose()" icon="x" type="button" texto="btn.close"> </app-button>
     </section>
 </div>
