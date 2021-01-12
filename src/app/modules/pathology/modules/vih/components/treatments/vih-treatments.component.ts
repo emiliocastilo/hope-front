@@ -6,6 +6,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap, timeout } from 'rxjs/operators';
+import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
@@ -489,6 +490,18 @@ export class VIHTreatmentsComponent implements OnInit {
         });
     }
 
+    private showModalConfirm (index: number, type: string) {
+        const modalRef = this._modalService.open(ConfirmModalComponent);
+
+        modalRef.componentInstance.title = this._translate.instant('btn.delete');
+        modalRef.componentInstance.messageModal = this._translate.instant('areYouSureDelete');
+        modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
+        modalRef.componentInstance.accept.subscribe((event: any) => {
+            let indexString = index.toString();
+            this.save(modalRef, 'delete', this.showedTreatments[index], indexString, null);
+        });
+    }
+
     private save (modalRef: NgbModalRef, action: string, treatment: VIHTreatmentModel, index?: string, editedRow?: boolean) {
         let repeated = false;
         let found = false;
@@ -543,6 +556,24 @@ export class VIHTreatmentsComponent implements OnInit {
     }
 
     // ! ************** PUBLIC METHODS ************** ! //
+
+    onIconButtonClick (event: any) {
+        const index: number = event.selectedItem;
+        const action: 'edit' | 'delete' | 'changeSuspend' = event.type;
+
+        switch (action) {
+            case 'edit':
+
+                break;
+            case 'delete':
+                this.showModalConfirm(index, action);
+                break;
+            case 'changeSuspend':
+
+                break;
+        }
+
+    }
 
     // * PAGINADOR * //
 

@@ -74,10 +74,7 @@ export class TableComponent implements OnInit {
 
     showDataTable (row: any, header: string) {
         let data = row;
-        console.log(data, typeof (data), typeof (data) == 'object');
         if (data && typeof (data) === 'object') data = data.name;
-        console.log(data);
-        console.log('==========================================');
         const conditionDate = header.toLowerCase().includes('date') || header.toLowerCase().includes('period') || header.toLowerCase().includes('period');
 
         if (this.isValidDate(data) && conditionDate) {
