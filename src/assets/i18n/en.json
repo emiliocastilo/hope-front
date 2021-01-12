@@ -376,7 +376,9 @@
         "missDate": "There are dates missing",
         "passwordChangedSuccessfully": "Password succesfully updated",
         "passwordChangeFailed": "Wrong password",
-        "sent": "Sent"
+        "sent": "Sent",
+        "fileUploadError":"An error happened trying to upload the file.",
+        "invalidFileType": "File type not allowed. Valid types: {{validTypes}}"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Number of changes by biological treatment",
@@ -611,6 +613,10 @@
     "years": "Years",
     "labelAllNothing": "None",
     "phototerapy": "Phototerapy",
+    "authorized": "Authorized",
+    "actIngredients": "Act ingredients",
+    "commercialization": "Commercialization",
+    "viaAdministration": "Via administration",
     "amount": "Price",
     "prefInitGuidelines":"Preferential initial guidelines",
     "recommendedInitGuidelines":"Recommended initial guidelines",

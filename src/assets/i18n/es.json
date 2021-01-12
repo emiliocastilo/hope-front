@@ -376,7 +376,10 @@
         "missDate": "Faltan fechas por rellenar",
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
-        "sent": "Enviado"
+        "sent": "Enviado",
+        "fileUploadError":"Ha ocurrido un error subiendo el fichero.",
+        "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{ validTypes }}",
+        "fileMaxSize": "Fichero demasiado grande. Tamaño máximo {{ maxSize }}"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",
@@ -611,6 +614,10 @@
     "years": "Años",
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
+    "authorized": "Autorizado",
+    "actIngredients": "Principio activo",
+    "commercialization": "Comercialización",
+    "viaAdministration": "Vía de administración",
     "amount": "Precio",
     "prefInitGuidelines":"Pautas de inicio preferente",
     "recommendedInitGuidelines":"Pautas de inicio recomendadas",
