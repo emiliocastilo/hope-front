@@ -403,7 +403,8 @@ export class VIHTreatmentsComponent implements OnInit {
 
     public showModalCreate (): void {
         this.modalForm.reset({
-            indication: this.indication,
+            //indication: this.indication,
+            indication: 'vih',
             treatmentType: 'QUIMICO',
             opcionMedicamento: 'opcionMedicamento',
             medicine: '',
@@ -453,7 +454,6 @@ export class VIHTreatmentsComponent implements OnInit {
         modalRef.componentInstance.selectDose.subscribe((event: any) => {
             if (event.name === 'Otra') {
                 this.modalForm.controls.otherDosis.setValidators(Validators.required);
-                // this.modalForm.controls.regimenTreatment.setValue('');
             } else {
                 this.modalForm.controls.otherDosis.clearValidators();
                 this.modalForm.controls.regimenTreatment.setValue({
@@ -462,63 +462,45 @@ export class VIHTreatmentsComponent implements OnInit {
             }
         });
 
-        modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
-            //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
-            this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
-            this.modalForm.controls.descripcionFormulaMagistral.setValue('');
-            this.modalForm.controls.dosisFormulaMagistral.setValue('');
-            this.modalForm.controls.treatmentType.setValue(event);
-        });
-
-        modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
-            if (event === 'opcionMedicamento') {
-                this.deleteRequiredValidation(['descripcionFormulaMagistral']);
-                this.setRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
-            }
-            if (event === 'opcionFormulaMagistral') {
-                this.modalForm.controls.descripcionFormulaMagistral.setValidators(Validators.required);
-                this.deleteRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
-            }
-        });
-
         modalRef.componentInstance.cancel.subscribe((event: any) => {
             modalRef.close();
         });
 
         modalRef.componentInstance.save.subscribe((event: any) => {
-            event.value.indication = this.currentIndication;
-            event.value.dose = event.value.dose[0];
+            console.log(event);
+            // event.value.indication = this.currentIndication;
+            // event.value.dose = event.value.dose[0];
 
-            if (Array.isArray(event.value.regimenTreatment)) {
-                event.value.regimenTreatment = event.value.regimenTreatment[0].name;
-            } else {
-                if (event.value.regimenTreatment.name) {
-                    event.value.regimenTreatment = event.value.regimenTreatment.name;
-                }
-            }
+            // if (Array.isArray(event.value.regimenTreatment)) {
+            //     event.value.regimenTreatment = event.value.regimenTreatment[0].name;
+            // } else {
+            //     if (event.value.regimenTreatment.name) {
+            //         event.value.regimenTreatment = event.value.regimenTreatment.name;
+            //     }
+            // }
 
-            event.value.reasonChangeOrSuspension = null;
-            event.value.dateSuspension = null;
-            event.value.principle = event.value.medicine.actIngredients;
-            event.value.brand = event.value.medicine.brand;
-            event.value.type = event.value.medicine.family;
+            // event.value.reasonChangeOrSuspension = null;
+            // event.value.dateSuspension = null;
+            // event.value.principle = event.value.medicine.actIngredients;
+            // event.value.brand = event.value.medicine.brand;
+            // event.value.type = event.value.medicine.family;
 
-            if (Array.isArray(event.value.treatmentType)) {
-                event.value.treatmentType = event.value.treatmentType[0].id;
-            } else if (event.value.treatmentType.id) {
-                event.value.treatmentType = event.value.treatmentType.id;
-            }
-            Object.keys(event.value).forEach((key: string) => {
-                if (key.toLowerCase().includes('date') && event.value[key]) {
-                    event.value[key] = new Date(event.value[key]).toISOString();
-                }
-            });
+            // if (Array.isArray(event.value.treatmentType)) {
+            //     event.value.treatmentType = event.value.treatmentType[0].id;
+            // } else if (event.value.treatmentType.id) {
+            //     event.value.treatmentType = event.value.treatmentType.id;
+            // }
+            // Object.keys(event.value).forEach((key: string) => {
+            //     if (key.toLowerCase().includes('date') && event.value[key]) {
+            //         event.value[key] = new Date(event.value[key]).toISOString();
+            //     }
+            // });
 
-            if (!this.treatments) this.treatments = [];
-            this.currentModal = this.modalForm;
-            //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado
-            let newRow = event.value;
-            this.save(modalRef, 'create', newRow);
+            // if (!this.treatments) this.treatments = [];
+            // this.currentModal = this.modalForm;
+            // //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado
+            // let newRow = event.value;
+            // this.save(modalRef, 'create', newRow);
         });
     }
 
