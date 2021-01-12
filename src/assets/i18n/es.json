@@ -629,5 +629,12 @@
     "nameClinicalTrial" : "Nombre del ensayo",
     "CICollected" : "CI recogido",
     "center" : "Centro",
-    "entryDate" : "Fecha de entrada"    
+    "entryDate" : "Fecha de entrada",
+    "actIngredients" : "Principio activo",
+    "authorized" : "Autorizado",
+    "commercialization" : "Comercialización",
+    "viaAdministration" : "Vía de administración",
+    "smaqQuestion6" : "Desde la última visita ¿cuántos días completos no tomó la medicación?",
+    "adherencePercentage" : "% de adherencia",
+    "smaqScore" : "Score"
 }

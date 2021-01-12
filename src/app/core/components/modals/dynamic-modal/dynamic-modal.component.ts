@@ -1,19 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import FormUtils from 'src/app/core/utils/FormUtils';
 import StringUtils from 'src/app/core/utils/StringUtils';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
+import { formatCurrency } from '@angular/common';
 
 @Component({
     selector: 'app-dynamic-modal',
     templateUrl: './dynamic-modal.component.html',
     styleUrls: ['./dynamic-modal.component.scss'],
 })
-export class DynamicModalComponent implements OnInit {
+export class DynamicModalComponent implements OnInit, AfterViewInit {
     public config: FieldConfig[] = [];
     public buttons: string[] = [];
     public filled = [];
     private isEmpty = true;
+    private isEmptyModal = true;
+    @ViewChild('form') el: ElementRef;
+
     @Input() title: string;
     @Input() data: any;
     @Input() key: string;
@@ -31,8 +35,18 @@ export class DynamicModalComponent implements OnInit {
         }
     }
 
+    ngAfterViewInit() {}
+
     onClose() {
         this.close.emit(null);
+    }
+
+    onModalValueChange(event?: any) {
+        if (this.key) {
+            this.getAndParseFromTemplate();
+        } else {
+            this.getAndParseFromFields();
+        }
     }
 
     async getAndParseFromTemplate() {
@@ -47,8 +61,9 @@ export class DynamicModalComponent implements OnInit {
 
     getAndParseFromFields() {
         this.fillForm();
-        this.config = FormUtils.createFieldConfig(this.fields, this.filled);
+        this.config = FormUtils.createFieldConfig(this.fields, this.filled, this._formsService.editing);
         this.buttons = FormUtils.createButtons(['save']);
+        this._formsService.editing = true;
     }
 
     submit(modalForm: { [name: string]: any }) {
@@ -76,7 +91,7 @@ export class DynamicModalComponent implements OnInit {
             });
         } else {
             this.fields.forEach((field) => {
-                field = { ...field, value: undefined };
+                field = { ...field, value: field.defaultValue ? field.defaultValue : undefined };
                 this.filled.push(field);
             });
         }
