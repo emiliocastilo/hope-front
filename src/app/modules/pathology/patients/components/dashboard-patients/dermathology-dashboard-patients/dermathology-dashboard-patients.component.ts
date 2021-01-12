@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
-import { PatientModel } from '../../models/patient.model';
+import { PatientModel } from '../../../models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { Router } from '@angular/router';
-import { ChartObjectModel } from '../../../../../core/models/graphs/chart-object.model';
-import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart.model';
+import { ChartObjectModel } from '../../../../../../core/models/graphs/chart-object.model';
+import { ColumnChartModel } from '../../../../../../core/models/graphs/column-chart.model';
 import { ScriptLoaderService } from 'angular-google-charts';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-dashboard-patients',
-    templateUrl: './dashboard-patients.component.html',
-    styleUrls: ['./dashboard-patients.component.scss'],
+    selector: 'app-dermathology-dashboard-patients',
+    templateUrl: './dermathology-dashboard-patients.component.html',
+    styleUrls: ['./dermathology-dashboard-patients.component.scss'],
 })
-export class DashboardPatientsComponent implements OnInit {
+export class DermathologyDashboardPatientsComponent implements OnInit {
     public menu: MenuItemModel[] = [];
     public menuSelected: MenuItemModel;
     public patients: PatientModel[] = [];
@@ -90,14 +90,12 @@ export class DashboardPatientsComponent implements OnInit {
             this.patientService.getPatientsById(this.selectedPatient.id).subscribe((data) => {
                 if (data) {
                     this.selectedPatient = data;
-                    console.log(data);
                 }
             });
 
             this.patientDashboardService.getPatientsDashboardById(this.selectedPatient.id).subscribe((data) => {
                 if (data) {
                     this.data = data;
-                    console.log(data);
                 }
 
                 this.globalDates = _.sortBy(

@@ -21,6 +21,7 @@ import { PrincipalTreatmentComponent } from './patients/components/principal-tre
 import { DlqiComponent } from './patients/components/evolution-clinical-indices/dlqi/dlqi.component';
 import { DynamicFormComponentComponent } from './patients/components/dynamic-form-component/dynamic-form-component.component';
 import { VihDashboardPatientsComponent } from './vih/vih-dashboard-patients/vih-dashboard-patients.component';
+import { DermathologyDashboardPatientsComponent } from './patients/components/dashboard-patients/dermathology-dashboard-patients/dermathology-dashboard-patients.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { VihDashboardPatientsComponent } from './vih/vih-dashboard-patients/vih-
         PasiBsaPgaComponent,
         DynamicFormComponentComponent,
         VihDashboardPatientsComponent,
+        DermathologyDashboardPatientsComponent,
     ],
     imports: [
         CommonModule,
