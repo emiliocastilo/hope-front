@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { from } from 'rxjs/internal/observable/from';
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { FileUtils } from 'src/app/core/utils/file.utils';
+import { read } from 'xlsx/types';
 
 export interface FileConfig {
     endpoint: string;
@@ -45,7 +47,6 @@ export class FormInputFileComponent implements OnInit {
 
     ngOnInit() {
         this.hasRequiredField(this.group.controls[this.config.name]);
-        console.log(this.config);
         this.id = `${this.config.name.toLowerCase()}-id`;
         this.fileConfig = this.config.file;
         this.fileConfig.maxSize = this.fileConfig.maxSize * 1024;
@@ -66,6 +67,8 @@ export class FormInputFileComponent implements OnInit {
 
     public handleFileInput(files: FileList): void {
         const file: File = files[0];
+        console.log(file);
+        let b64: string;
         if (FileUtils.checkValidExtension(file, this.fileConfig.validExtensions, this._translate, this._notification) && FileUtils.checkFileSize(file, this.fileConfig.maxSize, this._translate, this._notification)) {
             // TODO : PROBAR CON ENDPOINT FUNCIONAL
             // * SUBE FICHERO DIRECTAMENTE AL ADJUNTARLO * //
@@ -79,7 +82,7 @@ export class FormInputFileComponent implements OnInit {
 
             // * ASIGNA VALOR CON FICHERO AL CONTROL DEL FORMULARIO * //
             const reader = new FileReader();
-            reader.onloadend = () => {
+            reader.onload = () => {
                 const file2save: File2Save = {
                     name: file.name,
                     extension: file.name.substring(file.name.lastIndexOf('.') + 1, file.name.length),
@@ -87,8 +90,9 @@ export class FormInputFileComponent implements OnInit {
                     type: file.type,
                     base64: reader.result.toString().replace(/^data:.+;base64,/, ''),
                 };
-                this.group.controls[this.config.name].setValue(file2save);
+                this.group.controls[this.config.name].setValue(reader.result.toString().replace(/^data:.+;base64,/, ''));
             };
+            reader.readAsDataURL(file);
         } else this.currentFile = undefined;
     }
 }
