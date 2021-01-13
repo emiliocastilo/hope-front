@@ -614,10 +614,6 @@
     "years": "Años",
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
-    "authorized": "Autorizado",
-    "actIngredients": "Principio activo",
-    "commercialization": "Comercialización",
-    "viaAdministration": "Vía de administración",
     "amount": "Precio",
     "prefInitGuidelines":"Pautas de inicio preferente",
     "recommendedInitGuidelines":"Pautas de inicio recomendadas",
@@ -636,5 +632,6 @@
     "viaAdministration" : "Vía de administración",
     "smaqQuestion6" : "Desde la última visita ¿cuántos días completos no tomó la medicación?",
     "adherencePercentage" : "% de adherencia",
-    "smaqScore" : "Score"
+    "smaqScore" : "Score",
+    "fileWork" : "Pdf of the IC"
 }
