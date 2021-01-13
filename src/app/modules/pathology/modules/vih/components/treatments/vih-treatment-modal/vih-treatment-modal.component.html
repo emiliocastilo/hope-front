@@ -28,16 +28,16 @@
 
         </div>
         <div class="row">
-            <app-input id="family" name="family" isDisabled="true" label="family" formControlName="family" class="col-6"></app-input>
-            <app-input id="atc" name="atc" isDisabled="true" label="atc" formControlName="atc" class="col-6"></app-input>
+            <app-input id="family" required="true" name="family" isDisabled="true" label="family" formControlName="family" class="col-6"></app-input>
+            <app-input id="atc" required="true" name="atc" isDisabled="true" label="atc" formControlName="atc" class="col-6"></app-input>
         </div>
         <div class="row">
-            <app-input id="cn" name="cn" isDisabled="true" label="cn" formControlName="cn" class="col-6"></app-input>
-            <app-input id="tract" name="tract" isDisabled="true" label="tract" formControlName="tract" class="col-6"></app-input>
+            <app-input id="cn" required="true" name="cn" isDisabled="true" label="cn" formControlName="cn" class="col-6"></app-input>
+            <app-input id="tract" required="true" name="tract" isDisabled="true" label="tract" formControlName="tract" class="col-6"></app-input>
         </div>
         <div class="row">
             <app-input-select 
-                [required]="true" id="dose" class="roles-select"
+                required="true" id="dose" class="roles-select"
                 [isDisabled]="!form.controls['medicine']" labelValue="dose" name="dose" [form]="form"
                 [options]="selectOptions.doses" 
                 [optionSelected]="form.controls['dose'] ? form.controls['dose'].value.id : undefined" 
@@ -45,19 +45,19 @@
                 (selectTrigger)="doseChange($event)"
                 [selectMultiple]="false" [clearAfterSelect]="false">
             </app-input-select>
-            <app-input id="otherDosis" name="otherDosis" [isDisabled]="!form.controls['dose'] || form.controls['dose'].value.name != 'Otra'" label="otherDosis" formControlName="otherDosis" class="col-6"></app-input>
+            <app-input id="otherDosis" [required]="checkIfRequired('otherDosis')" name="otherDosis" [isDisabled]="!form.controls['dose'] || form.controls['dose'].value.name != 'Otra'" label="otherDosis" formControlName="otherDosis" class="col-6"></app-input>
         </div>
         <div class="row">
             <app-input-select 
-                [required]="true" class="roles-select" id="regimenTreatment" name="regimenTreatment"
+                required="true" class="roles-select" id="regimenTreatment" name="regimenTreatment"
                 isDisabled="false" labelValue="regimenTreatment" [form]="form"
                 [options]="selectOptions.regimes" [optionSelected]="form.controls['regimenTreatment'].value.id" class="col-6"
                 [selectMultiple]="false" [clearAfterSelect]="false">
             </app-input-select>
-            <app-input id="datePrescription" name="datePrescription" label="datePrescription" formControlName="datePrescription" type="date" class="col-6"></app-input>
+            <app-input required="true" id="datePrescription" name="datePrescription" label="datePrescription" formControlName="datePrescription" type="date" class="col-6"></app-input>
         </div>
         <div class="row">
-            <app-input id="dateStart" name="dateStart" label="dateStart" formControlName="dateStart" type="date" class="col-6"></app-input>
+            <app-input required="true" id="dateStart" name="dateStart" label="dateStart" formControlName="dateStart" type="date" class="col-6"></app-input>
             <app-input id="expectedEndDate" name="expectedEndDate" label="expectedEndDate" formControlName="expectedEndDate" type="date" class="col-6"></app-input>
         </div>
         <div class="row">

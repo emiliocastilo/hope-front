@@ -47,6 +47,7 @@ export class VIHTreatmentModalComponent implements OnInit {
 
     ngOnInit (): void {
         console.log(this.form.value);
+        
         if (this.type === 'edit') this.getDoses(this.form.controls.medicine.value.id);
     }
 
@@ -97,6 +98,18 @@ export class VIHTreatmentModalComponent implements OnInit {
             )
         );
     };
+
+    public checkIfRequired(key: string): boolean {
+        let isRequired: boolean = false;
+        const field = this.form.get(key);
+        if (field.validator) {
+            if (field.validator({} as any)) {
+                isRequired = field.validator({} as any).required;
+            }
+        }
+
+        return isRequired;
+    }
 
     public doseChange (event) {
         if (event.name === 'Otra') {

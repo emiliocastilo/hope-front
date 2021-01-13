@@ -41,9 +41,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
                         this.value = valueSelected.name;
                     }
 
-                    if (!this.value && this.currentValue) {
-                        this.value = this.currentValue.name;
-                    }
+                    if (!this.value && this.currentValue) this.value = this.currentValue.name;
                 }
             }, 100);
         }
@@ -54,9 +52,6 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
             if (changes.currentValue.currentValue && changes.currentValue.currentValue.name) {
                 this.value = changes.currentValue.currentValue.name;
             }
-            // else if (!changes.currentValue.currentValue) {
-            //   this.value = '';
-            // }
         }
     }
 
