@@ -623,5 +623,6 @@
     "entryDate" : "Fecha de entrada",
     "charts.noGlomerularData" : "Sin datos de filtración glomerular",
     "charts.noCD4Data": "Sin datos de CD4",
-    "charts.noCVPData": "Sin datos de CVP"
+    "charts.noCVPData": "Sin datos de CVP",
+    "cholesterol": "Colesterol"
 }
