@@ -60,17 +60,18 @@ export class PatientsComponent implements OnInit {
         if (user_aux['rolSelected']['pathology'] != null) {
             pathology_id = user_aux['rolSelected']['pathology']['id'];
         }
+        this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard');
+        this._router.navigate(['pathology/patients/dashboard']);
+        /*    break;
         switch (pathology_id) {
             case 1:
             default:
-                this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard');
-                this._router.navigate(['pathology/patients/dashboard']);
-                break;
+                
             case 3:
                 this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard-vih');
                 this._router.navigate(['pathology/patients/dashboard-vih']);
                 break;
-        }
+        } */
     }
 
     public onSearch(event: string): void {

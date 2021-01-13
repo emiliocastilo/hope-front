@@ -446,11 +446,6 @@ const routes: Routes = [
         component: PrincipalTreatmentComponent,
         canActivate: [AuthGuard],
     },
-    {
-        path: 'patients/dashboard-vih',
-        component: VihDashboardPatientsComponent,
-        canActivate: [AuthGuard],
-    },
 ];
 
 @NgModule({
