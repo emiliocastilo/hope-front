@@ -38,11 +38,14 @@
         <div class="row">
             <app-input-select 
                 [required]="true" id="dose" class="roles-select"
-                [isDisabled]="!form.controls['medicine'].value" labelValue="dose" name="dose" [form]="form"
-                [options]="selectOptions.doses" [optionSelected]="form.controls['dose'].value.id" class="col-6"
+                [isDisabled]="!form.controls['medicine']" labelValue="dose" name="dose" [form]="form"
+                [options]="selectOptions.doses" 
+                [optionSelected]="form.controls['dose'] ? form.controls['dose'].value.id : undefined" 
+                class="col-6"
+                (selectTrigger)="doseChange($event)"
                 [selectMultiple]="false" [clearAfterSelect]="false">
             </app-input-select>
-            <app-input id="otherDosis" name="otherDosis" isDisabled="otherDosis" label="otherDosis" formControlName="otherDosis" class="col-6"></app-input>
+            <app-input id="otherDosis" name="otherDosis" [isDisabled]="!form.controls['dose'] || form.controls['dose'].value.name != 'Otra'" label="otherDosis" formControlName="otherDosis" class="col-6"></app-input>
         </div>
         <div class="row">
             <app-input-select 

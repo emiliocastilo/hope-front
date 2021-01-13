@@ -299,7 +299,7 @@ export class VIHTreatmentsComponent implements OnInit {
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
         modalRef.componentInstance.accept.subscribe((event: any) => {
             let indexString = index.toString();
-            this.save(modalRef, 'delete', this.showedTreatments[index], indexString, null);
+            this.save(modalRef, 'delete', this.showedTreatments[index], indexString);
         });
     }
 
@@ -316,19 +316,10 @@ export class VIHTreatmentsComponent implements OnInit {
 
         this.fillForm(this.modalForm, dataEdit, type);
         this.modalSelectOptions.doses = [];
-        from(this._medicinesService.getDosesByMedicine(`medicineId=${this.modalForm.controls.medicine.value.id}`)).subscribe(
-            (data: any) => {
-                console.log(data);
-                data.forEach(element => element.name = element.description);
-                data.push({ name: 'Otra' });
-                this.modalSelectOptions.doses = data;
-            }, error => this._notification.showErrorToast(error.errorCode)
-        )
 
         const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
         modalRef.componentInstance.type = 'edit';
         modalRef.componentInstance.title = 'editTreatment';
-        modalRef.componentInstance.selectOptions = this.modalSelectOptions;
         modalRef.componentInstance.form = this.modalForm;
 
         this.currentModal = this.modalForm;
@@ -336,9 +327,6 @@ export class VIHTreatmentsComponent implements OnInit {
         if (this.modalForm.value.dose && this.modalForm.value.dose.name && this.modalForm.value.dose.name === 'Otra') {
             this.modalForm.controls.otherDosis.setValidators(Validators.required);
         }
-        // this.modalForm.controls.regimenTreatment.setValue({
-        //     name: this.modalForm.value.regimenTreatment && this.modalForm.value.regimenTreatment.name ? this.modalForm.value.regimenTreatment.name : this.modalForm.value.regimenTreatment,
-        // });
 
         modalRef.componentInstance.form.controls.treatmentType.setValue('QUIMICO');
 
@@ -360,12 +348,6 @@ export class VIHTreatmentsComponent implements OnInit {
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
         modalRef.componentInstance.update.subscribe((event: any) => {
-            console.log(event);
-            if (Array.isArray(event.value.dose)) event.value.dose = event.value.dose[0];
-
-            if (Array.isArray(event.value.regimenTreatment)) event.value.regimenTreatment = event.value.regimenTreatment[0].name;
-            else if (event.value.regimenTreatment.name) event.value.regimenTreatment = event.value.regimenTreatment.name;
-
             event.value.principle = event.value.medicine.actIngredients;
             event.value.brand = event.value.medicine.brand;
             event.value.type = event.value.medicine.family;
@@ -376,19 +358,17 @@ export class VIHTreatmentsComponent implements OnInit {
 
             let editedRow = event.value;
             let indexString = index.toString();
-            this.save(modalRef, 'edit', null, indexString, editedRow);
+            this.save(modalRef, 'edit', editedRow, indexString);
         });
     }
 
-    private save (modalRef: NgbModalRef, action: string, treatment: VIHTreatmentModel, index?: string, editedRow?: boolean) {
+    private save (modalRef: NgbModalRef, action: string, treatment: VIHTreatmentModel, index?: string) {
         let repeated = false;
         let found = false;
 
         treatment.brand = treatment.medicine.brand;
         treatment.principle = treatment.medicine.actIngredients;
         treatment.dose = treatment.dose;
-
-        console.log(treatment);
 
         if (action !== 'delete' && !treatment.dateSuspension) {
             this.treatments.forEach((row) => {
@@ -403,13 +383,13 @@ export class VIHTreatmentsComponent implements OnInit {
                     this.treatments.push(treatment);
                     break;
                 case 'edit':
-                    Object.keys(editedRow).forEach((key: string) => this.treatments[Number(index)][key] = editedRow[key]);
+                    this.treatments[index] = treatment;
                     break;
                 case 'delete':
                     this.treatments.splice(Number(index), 1);
                     break;
             }
-            console.log(treatment);
+
             this._formService.fillForm(this.objectToMongoJSON()).subscribe(
                 () => {
                     this.paginationData.totalElements = this.treatments.length;

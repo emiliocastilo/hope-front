@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { from, Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
@@ -17,7 +17,15 @@ export class VIHTreatmentModalComponent implements OnInit {
     @Input() title: string;
     @Input() form: FormGroup;
     @Input() options: any[];
-    @Input() selectOptions: any;
+    @Input() selectOptions = {
+        treatmentType: [{ id: 'QUIMICO', name: this._translate.instant('chemical') }],
+        doses: [],
+        regimes: [
+            { id: 1, name: this._translate.instant('intensificada') },
+            { id: 2, name: this._translate.instant('standard') },
+            { id: 3, name: this._translate.instant('reduced') },
+        ]
+    };
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     @Output() save: EventEmitter<any> = new EventEmitter();
     @Output() update: EventEmitter<any> = new EventEmitter();
@@ -29,7 +37,8 @@ export class VIHTreatmentModalComponent implements OnInit {
 
     constructor(
         private _medicinesService: MedicinesServices,
-        private _notification: NotificationService
+        private _notification: NotificationService,
+        private _translate: TranslateService,
     ) { }
 
     get validForm (): boolean {
@@ -38,17 +47,23 @@ export class VIHTreatmentModalComponent implements OnInit {
 
     ngOnInit (): void {
         console.log(this.form.value);
+        if (this.type === 'edit') this.getDoses(this.form.controls.medicine.value.id);
     }
 
     private getDoses (medicineId: number) {
         from(this._medicinesService.getDosesByMedicine(`medicineId=${medicineId}`)).subscribe(
             (data: any) => {
-                console.log(data);
                 data.forEach(element => element.name = element.description);
-                data.push({ name: 'Otra' });
+                data.push({ id: 0, name: 'Otra' });
                 this.selectOptions.doses = data;
             }, error => this._notification.showErrorToast(error.errorCode)
         )
+    }
+
+    private resetFields (keys: any[]) {
+        keys.forEach((key) => {
+            this.form.get(key).reset('');
+        });
     }
 
     public onSelectInputTypeahead (med: MedicineModel) {
@@ -82,6 +97,16 @@ export class VIHTreatmentModalComponent implements OnInit {
             )
         );
     };
+
+    public doseChange (event) {
+        if (event.name === 'Otra') {
+            this.form.controls.otherDosis.setValidators(Validators.required);
+        } else {
+            this.form.controls.otherDosis.clearValidators();
+            this.form.controls.otherDosis.reset('');
+            this.form.controls.regimenTreatment.setValue({ id: 2, name: this._translate.instant('standard') });
+        }
+    }
 
     public onSave () {
         if (this.validForm) {

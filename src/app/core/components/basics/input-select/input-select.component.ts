@@ -31,19 +31,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     optionChangeSelected: boolean;
 
     ngOnInit (): void {
-        if (this.optionSelected && this.options.length > 0) {
-            const valueSelected = this.options.filter(f => f.id === this.optionSelected)[0];
-            if (valueSelected) {
-                this.currentValue = valueSelected;
-                this.value = valueSelected.name;
-            }
-        }
-
-        if (!this.value && this.currentValue) {
-            this.value = this.currentValue.name;
-        }
-
-        if (this.optionSelected && this.options.length === 0) {
+        if (this.optionSelected !== undefined) {
             const interval = setInterval(() => {
                 if (this.options.length > 0) {
                     clearInterval(interval);
@@ -52,13 +40,13 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
                         this.currentValue = valueSelected;
                         this.value = valueSelected.name;
                     }
+
+                    if (!this.value && this.currentValue) {
+                        this.value = this.currentValue.name;
+                    }
                 }
             }, 100);
         }
-    }
-
-    checkOptions () {
-
     }
 
     ngOnChanges (changes) {
