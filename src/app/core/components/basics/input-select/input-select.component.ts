@@ -7,7 +7,7 @@ import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
     styleUrls: ['./input-select.component.scss'],
 })
 export class InputSelectComponent implements OnInit, ControlValueAccessor, OnChanges {
-    constructor() {}
+    constructor() { }
 
     @Input() id: string;
     @Input() isDisabled = false;
@@ -30,19 +30,38 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
 
     optionChangeSelected: boolean;
 
-    ngOnInit(): void {
-        if (this.optionSelected) {
-            const valueSelected = this.options.find((option) => option.id === this.optionSelected);
+    ngOnInit (): void {
+        if (this.optionSelected && this.options.length > 0) {
+            const valueSelected = this.options.filter(f => f.id === this.optionSelected)[0];
             if (valueSelected) {
+                this.currentValue = valueSelected;
                 this.value = valueSelected.name;
             }
         }
+
         if (!this.value && this.currentValue) {
             this.value = this.currentValue.name;
         }
+
+        if (this.optionSelected && this.options.length === 0) {
+            const interval = setInterval(() => {
+                if (this.options.length > 0) {
+                    clearInterval(interval);
+                    const valueSelected = this.options.filter(f => f.id === this.optionSelected)[0];
+                    if (valueSelected) {
+                        this.currentValue = valueSelected;
+                        this.value = valueSelected.name;
+                    }
+                }
+            }, 100);
+        }
     }
 
-    ngOnChanges(changes) {
+    checkOptions () {
+
+    }
+
+    ngOnChanges (changes) {
         if (this.changes) {
             if (changes.currentValue.currentValue && changes.currentValue.currentValue.name) {
                 this.value = changes.currentValue.currentValue.name;
@@ -53,7 +72,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
         }
     }
 
-    onChange(value: any): void {
+    onChange (value: any): void {
         if (this.currentValue) {
             this.optionChangeSelected = true;
         } else {
@@ -65,11 +84,11 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
         }
     }
 
-    isSelected(option, value) {
+    isSelected (option, value) {
         return option.name && value && option.name.toLowerCase() === value.toLowerCase();
     }
 
-    writeValue(value: any): void {
+    writeValue (value: any): void {
         if (value) {
             this.value = value;
         } else {
@@ -78,29 +97,26 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
         this.childControl.setValue(value);
     }
 
-    onTouch = () => {};
+    onTouch = () => { };
 
-    onInput(value: any) {
+    onInput (value: any) {
         this.value = value;
         this.setCurrentValue(value, this.options);
         this.childControl.setValue(this.currentValue);
-        if (this.form) {
-            console.log(`ID SELECT: ${this.id}`, this.form);
-            this.form.controls[this.id].setValue([this.currentValue]);
-        }
+        if (this.form) this.form.controls[this.id].setValue(this.currentValue);
         this.onChange(this.value);
         this.onTouch();
     }
 
-    registerOnChange(fn: (value: any) => void) {
+    registerOnChange (fn: (value: any) => void) {
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    registerOnTouched (fn: any): void {
         this.onTouch = fn;
     }
 
-    setCurrentValue(name: string, objectArray: any[]) {
+    setCurrentValue (name: string, objectArray: any[]) {
         objectArray.forEach((object: any) => {
             if (object.name === name) {
                 this.currentValue = object;

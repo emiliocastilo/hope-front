@@ -4,7 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import moment from 'moment';
 import { Observable, of } from 'rxjs';
+import { from } from 'rxjs/internal/observable/from';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap, timeout } from 'rxjs/operators';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
@@ -33,18 +35,25 @@ export class VIHTreatmentsComponent implements OnInit {
         new TableActionsModel('delete', 'trash')
     ];
 
+    private modalSelectOptions = {
+        treatmentType: [{ id: 'QUIMICO', name: this._translate.instant('chemical') }],
+        doses: [],
+        regimes: [
+            { id: 1, name: this._translate.instant('intensificada') },
+            { id: 2, name: this._translate.instant('standard') },
+            { id: 3, name: this._translate.instant('reduced') },
+        ]
+    };
+
     private modalForm: FormGroup = this._formBuilder.group({
         indication: ['', Validators.required],
         treatmentType: [{ value: 'QUIMICO', disabled: true }, Validators.required],
-        opcionMedicamento: [''],
-        opcionFormulaMagistral: [''],
-
+        opcionMedicamento: ['opcionMedicamento'],
         medicine: ['', Validators.required],
         family: ['', Validators.required],
         atc: ['', Validators.required],
         cn: ['', Validators.required],
         tract: ['', Validators.required],
-
         dose: ['', Validators.required],
         otherDosis: [''],
         regimenTreatment: ['', Validators.required],
@@ -83,113 +92,6 @@ export class VIHTreatmentsComponent implements OnInit {
     private pageSize = 5;
     private currentModal: any;
     public loading: boolean = true;
-
-    private modalOptions = {
-        indication: { type: 'text', class: 'col-12', href: 'pepito' },
-        specialIndication: { type: 'checkbox', class: 'col-2' },
-        bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
-        visibleInjury: { type: 'checkbox', class: 'col-2' },
-        others: { type: 'text', class: 'col-6' },
-        treatmentType: {
-            type: 'select',
-            class: 'col-12',
-            options: [{ id: 'QUIMICO', name: this._translate.instant('chemical') }],
-            value: { id: 'QUIMICO' }
-        },
-        opcionMedicamento: {
-            type: 'radio',
-            class: 'col-6',
-        },
-        opcionFormulaMagistral: {
-            type: 'radio',
-            class: 'col-6',
-        },
-        medicine: {
-            type: 'typeahead',
-            class: 'col-12',
-            // typeahead: this.search,
-            // inputFormatter: this.formatter,
-            // resultFormatter: this.formatter,
-        },
-        family: { type: 'text', class: 'col-6' },
-        atc: { type: 'text', class: 'col-6' },
-        cn: { type: 'text', class: 'col-6' },
-        tract: {
-            type: 'text',
-            class: 'col-6',
-        },
-        dose: {
-            type: 'select',
-            class: 'col-6',
-            options: [],
-        },
-        otherDosis: { type: 'text', class: 'col-6' },
-        descripcionFormulaMagistral: { type: 'text', class: 'col-6' },
-        dosisFormulaMagistral: { type: 'text', class: 'col-6' },
-        regimenTreatment: {
-            type: 'select',
-            class: 'col-6',
-            options: [
-                { name: this._translate.instant('intensificada') },
-                { name: this._translate.instant('standard') },
-                { name: this._translate.instant('reduced') },
-            ],
-            changes: true,
-        },
-        datePrescription: { type: 'date', class: 'col-6' },
-        dateStart: { type: 'date', class: 'col-6' },
-        expectedEndDate: { type: 'date', class: 'col-6' },
-        observations: { type: 'textarea', class: 'col-12' },
-        treatmentContinue: { type: 'checkbox', class: 'col-2' },
-        treatmentPulsatil: { type: 'checkbox', class: 'col-2' },
-        reasonChangeOrSuspension: {
-            type: 'select',
-            class: 'col-12',
-            options: [
-                {
-                    id: 0,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive1'),
-                },
-                {
-                    id: 1,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive2'),
-                },
-                {
-                    id: 2,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive3'),
-                },
-                {
-                    id: 3,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive4'),
-                },
-                {
-                    id: 4,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive5'),
-                },
-                {
-                    id: 5,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive6'),
-                },
-                {
-                    id: 6,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive7'),
-                },
-                {
-                    id: 7,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive8'),
-                },
-                {
-                    id: 8,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive9'),
-                },
-                {
-                    id: 9,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive10'),
-                },
-            ],
-        },
-        dateSuspension: { type: 'date', class: 'col-6' },
-    };
 
     constructor(
         private _formService: FormsService,
@@ -284,9 +186,10 @@ export class VIHTreatmentsComponent implements OnInit {
                 atc: treatment.atc,
                 cn: treatment.cn,
                 tract: treatment.tract,
-                dose: { name: treatment.dose },
+                dose: treatment.dose,
                 otherDosis: treatment.otherDosis,
-                regimenTreatment: { name: treatment.regimenTreatment },
+                // regimenTreatment: this.modalSelectOptions.regimes.find(f => f.name === treatment.regimenTreatment.name),
+                regimenTreatment: treatment.regimenTreatment,
                 datePrescription: treatment.datePrescription,
                 dateStart: treatment.dateStart,
                 expectedEndDate: treatment.expectedEndDate,
@@ -300,66 +203,6 @@ export class VIHTreatmentsComponent implements OnInit {
                 type: 'QUIMICO'
             });
         });
-
-        // ! DATOS DE MENTIRA
-        /*
-        for (let index = 0; index < 5; index++) {
-            mongoObj.data[0].value.push({
-                indication: 'vih',
-                treatmentType: 'QUIMICO',
-                opcionMedicamento: 'opcionMedicamento',
-                medicine: {
-                    "dateCreated": "2020-11-09T11:20:53",
-                    "dateUpdated": "2020-11-09T11:20:53",
-                    "id": 7,
-                    "actIngredients": "Apremilast",
-                    "codeAct": "L04AA32",
-                    "acronym": "APR",
-                    "nationalCode": "704966",
-                    "description": "Apremilast",
-                    "presentation": "OTEZLA 10 mg 20 mg 30 mg COMPRIMIDOS RECUBIERTOS CON PELICULA, 27 comprimidos\r\n",
-                    "content": null,
-                    "authorizationDate": null,
-                    "authorized": true,
-                    "endDateAuthorization": null,
-                    "commercialization": true,
-                    "commercializationDate": null,
-                    "endDateCommercialization": null,
-                    "units": null,
-                    "pvl": null,
-                    "pvlUnitary": null,
-                    "pvp": null,
-                    "pathology": "DERMATOLOGÍA",
-                    "biologic": true,
-                    "viaAdministration": "oral",
-                    "family": "QUIMICO",
-                    "subfamily": null,
-                    "brand": "OTEZLA",
-                    "name": "Apremilast"
-                },
-                family: "QUIMICO",
-                atc: "L04AA32",
-                cn: "704966",
-                tract: "oral",
-                dose: {
-                    name: "Otra"
-                },
-                otherDosis: "oral",
-                regimenTreatment: "Intensificada",
-                datePrescription: "2020-02-01T00:00:00.000Z",
-                dateStart: "2020-03-01T00:00:00.000Z",
-                expectedEndDate: "2020-05-05T00:00:00.000Z",
-                observations: "",
-                treatmentContinue: true,
-                treatmentPulsatil: false,
-                reasonChangeOrSuspension: null,
-                dateSuspension: null,
-                principle: "Apremilast",
-                brand: 'OTEZLA',
-                type: 'QUIMICO'
-            });
-        }
-        */
 
         return JSON.stringify(mongoObj);
     }
@@ -384,14 +227,7 @@ export class VIHTreatmentsComponent implements OnInit {
     // ! FORMULARIOS ! //
     private fillForm (form: FormGroup, values: any, type: string) {
         let formKeys: string[] = Object.keys(form.controls);
-
-        formKeys.forEach((key: string) => {
-            form.controls[key].setValue(values[key]);
-            // if (values[key] && form.get(key) && type === 'detail') {
-            //   form.controls[key].disable();
-            // }
-        });
-
+        formKeys.forEach((key: string) => form.controls[key].setValue(values[key]));
         if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
             var currentDate = new Date();
             var month = (currentDate.getMonth() + 1).toString();
@@ -402,6 +238,7 @@ export class VIHTreatmentsComponent implements OnInit {
         }
     }
 
+    // ! ----------------------- ALTA  ----------------------- ! //
     public showModalCreate (): void {
         this.modalForm.reset({
             //indication: this.indication,
@@ -425,54 +262,17 @@ export class VIHTreatmentsComponent implements OnInit {
         });
 
         const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
-
+        modalRef.componentInstance.selectOptions = this.modalSelectOptions;
         modalRef.componentInstance.type = 'create';
         modalRef.componentInstance.title = 'newTreatment';
         modalRef.componentInstance.form = this.modalForm;
 
-        modalRef.componentInstance.cancel.subscribe((event: any) => {
-            modalRef.close();
-        });
+        modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
         modalRef.componentInstance.save.subscribe((event: any) => {
             const row = event.value;
+            console.log(row);
             this.save(modalRef, 'create', event.value);
-
-            // modalRef.close();
-
-            // event.value.indication = this.currentIndication;
-            // event.value.dose = event.value.dose[0];
-
-            // if (Array.isArray(event.value.regimenTreatment)) {
-            //     event.value.regimenTreatment = event.value.regimenTreatment[0].name;
-            // } else {
-            //     if (event.value.regimenTreatment.name) {
-            //         event.value.regimenTreatment = event.value.regimenTreatment.name;
-            //     }
-            // }
-
-            // event.value.reasonChangeOrSuspension = null;
-            // event.value.dateSuspension = null;
-            // event.value.principle = event.value.medicine.actIngredients;
-            // event.value.brand = event.value.medicine.brand;
-            // event.value.type = event.value.medicine.family;
-
-            // if (Array.isArray(event.value.treatmentType)) {
-            //     event.value.treatmentType = event.value.treatmentType[0].id;
-            // } else if (event.value.treatmentType.id) {
-            //     event.value.treatmentType = event.value.treatmentType.id;
-            // }
-            // Object.keys(event.value).forEach((key: string) => {
-            //     if (key.toLowerCase().includes('date') && event.value[key]) {
-            //         event.value[key] = new Date(event.value[key]).toISOString();
-            //     }
-            // });
-
-            // if (!this.treatments) this.treatments = [];
-            // this.currentModal = this.modalForm;
-            // //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado
-            // let newRow = event.value;
-            // this.save(modalRef, 'create', newRow);
         });
     }
 
@@ -490,6 +290,7 @@ export class VIHTreatmentsComponent implements OnInit {
         });
     }
 
+    // ! ----------------------- BORRADO  ----------------------- ! //
     private showModalConfirm (index: number, type: string) {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
@@ -502,13 +303,90 @@ export class VIHTreatmentsComponent implements OnInit {
         });
     }
 
+    // ! ----------------------- EDICIÓN  ----------------------- ! //
+    public async showModalEdit (index: number, type: string) {
+        index = this.treatments.indexOf(this.showedTreatments[index]);
+        const dataEdit = { ...this.treatments[index] };
+
+        Object.keys(dataEdit).forEach((key: string) => {
+            if (key.toLowerCase().includes('date') && dataEdit[key]) {
+                dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
+            }
+        });
+
+        this.fillForm(this.modalForm, dataEdit, type);
+        this.modalSelectOptions.doses = [];
+        from(this._medicinesService.getDosesByMedicine(`medicineId=${this.modalForm.controls.medicine.value.id}`)).subscribe(
+            (data: any) => {
+                console.log(data);
+                data.forEach(element => element.name = element.description);
+                data.push({ name: 'Otra' });
+                this.modalSelectOptions.doses = data;
+            }, error => this._notification.showErrorToast(error.errorCode)
+        )
+
+        const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
+        modalRef.componentInstance.type = 'edit';
+        modalRef.componentInstance.title = 'editTreatment';
+        modalRef.componentInstance.selectOptions = this.modalSelectOptions;
+        modalRef.componentInstance.form = this.modalForm;
+
+        this.currentModal = this.modalForm;
+
+        if (this.modalForm.value.dose && this.modalForm.value.dose.name && this.modalForm.value.dose.name === 'Otra') {
+            this.modalForm.controls.otherDosis.setValidators(Validators.required);
+        }
+        // this.modalForm.controls.regimenTreatment.setValue({
+        //     name: this.modalForm.value.regimenTreatment && this.modalForm.value.regimenTreatment.name ? this.modalForm.value.regimenTreatment.name : this.modalForm.value.regimenTreatment,
+        // });
+
+        modalRef.componentInstance.form.controls.treatmentType.setValue('QUIMICO');
+
+        modalRef.componentInstance.selectDose.subscribe((event: any) => {
+            if (event.name === 'Otra') this.modalForm.controls.otherDosis.setValidators(Validators.required);
+            else {
+                this.modalForm.controls.otherDosis.clearValidators();
+                this.modalForm.controls.regimenTreatment.setValue({ name: this._translate.instant(event.recommendation) });
+            }
+        });
+
+        modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
+            // * si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral * //
+            this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
+            this.modalForm.controls.descripcionFormulaMagistral.setValue('');
+            this.modalForm.controls.dosisFormulaMagistral.setValue('');
+        });
+
+        modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
+
+        modalRef.componentInstance.update.subscribe((event: any) => {
+            console.log(event);
+            if (Array.isArray(event.value.dose)) event.value.dose = event.value.dose[0];
+
+            if (Array.isArray(event.value.regimenTreatment)) event.value.regimenTreatment = event.value.regimenTreatment[0].name;
+            else if (event.value.regimenTreatment.name) event.value.regimenTreatment = event.value.regimenTreatment.name;
+
+            event.value.principle = event.value.medicine.actIngredients;
+            event.value.brand = event.value.medicine.brand;
+            event.value.type = event.value.medicine.family;
+
+            Object.keys(event.value).forEach((key: string) => {
+                if (key.toLowerCase().includes('date') && event.value[key]) event.value[key] = new Date(event.value[key]).toISOString();
+            });
+
+            let editedRow = event.value;
+            let indexString = index.toString();
+            this.save(modalRef, 'edit', null, indexString, editedRow);
+        });
+    }
+
     private save (modalRef: NgbModalRef, action: string, treatment: VIHTreatmentModel, index?: string, editedRow?: boolean) {
         let repeated = false;
         let found = false;
 
         treatment.brand = treatment.medicine.brand;
         treatment.principle = treatment.medicine.actIngredients;
-        treatment.dose = treatment.dose[0];
+        treatment.dose = treatment.dose;
 
         console.log(treatment);
 
@@ -531,7 +409,7 @@ export class VIHTreatmentsComponent implements OnInit {
                     this.treatments.splice(Number(index), 1);
                     break;
             }
-
+            console.log(treatment);
             this._formService.fillForm(this.objectToMongoJSON()).subscribe(
                 () => {
                     this.paginationData.totalElements = this.treatments.length;
@@ -547,12 +425,15 @@ export class VIHTreatmentsComponent implements OnInit {
                             break;
                     }
 
-                    modalRef.close();
                     this.refreshTable();
                 },
-                error => this._notification.showErrorToast(error.errorCode)
+                error => this._notification.showErrorToast(error.errorCode),
+                () => modalRef.close()
             );
-        } else this._notification.showErrorToast('duplicatedTreatment');
+        } else {
+            this._notification.showErrorToast('duplicatedTreatment');
+            modalRef.close();
+        }
     }
 
     // ! ************** PUBLIC METHODS ************** ! //
@@ -563,13 +444,13 @@ export class VIHTreatmentsComponent implements OnInit {
 
         switch (action) {
             case 'edit':
+                this.showModalEdit(index, 'edit');
+                break;
+            case 'changeSuspend':
 
                 break;
             case 'delete':
                 this.showModalConfirm(index, action);
-                break;
-            case 'changeSuspend':
-
                 break;
         }
 

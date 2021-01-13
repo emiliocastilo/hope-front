@@ -5,6 +5,7 @@ import { from, Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { MedicineModel } from 'src/app/modules/management/models/medicines/medicines.model';
 
 @Component({
     selector: 'app-vih-treatment-modal',
@@ -16,6 +17,7 @@ export class VIHTreatmentModalComponent implements OnInit {
     @Input() title: string;
     @Input() form: FormGroup;
     @Input() options: any[];
+    @Input() selectOptions: any;
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     @Output() save: EventEmitter<any> = new EventEmitter();
     @Output() update: EventEmitter<any> = new EventEmitter();
@@ -24,22 +26,8 @@ export class VIHTreatmentModalComponent implements OnInit {
     @Output() selectTopicalType: EventEmitter<any> = new EventEmitter();
 
     public showRequiredLegend: boolean = false;
-    public selectOptions = {
-        treatmentType: [
-            { id: 'BIOLOGICO', name: this._translate.instant('biological') },
-            { id: 'QUIMICO', name: this._translate.instant('chemical') },
-            { id: 'TOPICO', name: this._translate.instant('topical') },
-        ],
-        doses: [],
-        regimes: [
-            { name: this._translate.instant('intensificada') },
-            { name: this._translate.instant('standard') },
-            { name: this._translate.instant('reduced') },
-        ]
-    };
 
     constructor(
-        private _translate: TranslateService,
         private _medicinesService: MedicinesServices,
         private _notification: NotificationService
     ) { }
@@ -49,11 +37,10 @@ export class VIHTreatmentModalComponent implements OnInit {
     }
 
     ngOnInit (): void {
-        console.log(this.form);
-        // this.showRequiredLegend = this.checkIfThereRequiredField();
+        console.log(this.form.value);
     }
 
-    private getDoses (medicineId: string) {
+    private getDoses (medicineId: number) {
         from(this._medicinesService.getDosesByMedicine(`medicineId=${medicineId}`)).subscribe(
             (data: any) => {
                 console.log(data);
@@ -64,14 +51,13 @@ export class VIHTreatmentModalComponent implements OnInit {
         )
     }
 
-    public onSelectInputTypeahead (event) {
+    public onSelectInputTypeahead (med: MedicineModel) {
         this.selectOptions.doses = [];
-        console.log(event);
-        this.form.controls.family.setValue(event.family);
-        this.form.controls.atc.setValue(event.codeAct);
-        this.form.controls.cn.setValue(event.nationalCode);
-        this.form.controls.tract.setValue(event.viaAdministration);
-        this.getDoses(event.id);
+        this.form.controls.family.setValue(med.family);
+        this.form.controls.atc.setValue(med.codeAct);
+        this.form.controls.cn.setValue(med.nationalCode);
+        this.form.controls.tract.setValue(med.viaAdministration);
+        this.getDoses(med.id);
     }
 
     formatter = (state) => state.name;
@@ -96,10 +82,6 @@ export class VIHTreatmentModalComponent implements OnInit {
             )
         );
     };
-
-    public medicineChange (event) {
-        console.log(event);
-    }
 
     public onSave () {
         if (this.validForm) {
