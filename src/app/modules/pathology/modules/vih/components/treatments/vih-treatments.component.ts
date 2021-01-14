@@ -1,4 +1,3 @@
-import { transition } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -31,16 +30,6 @@ export class VIHTreatmentsComponent implements OnInit {
         new TableActionsModel('edit', 'edit-2'),
         new TableActionsModel('delete', 'trash')
     ];
-
-    private modalSelectOptions = {
-        treatmentType: [{ id: 'QUIMICO', name: this._translate.instant('chemical') }],
-        doses: [],
-        patterns: [
-            { id: 1, name: this._translate.instant('intensificada') },
-            { id: 2, name: this._translate.instant('standard') },
-            { id: 3, name: this._translate.instant('reduced') },
-        ]
-    };
 
     private modalForm: FormGroup = this._formBuilder.group({
         indication: ['', Validators.required],
@@ -88,16 +77,6 @@ export class VIHTreatmentsComponent implements OnInit {
         private _medicinesService: MedicinesServices,
         private _router: Router
     ) { }
-
-    /*
-        * 1. Se cargan datos de BD llamando a /forms?template=name&patientId=id
-        * 2. Parseo de datos a modelo local para trabajar con los mismos
-        * 3. Carga de resultados en tabla configurando paginador y ordenado.
-        * 4. Modal alta/modificacion.
-        * 5. Modal cambio tratamiento.
-        * 6. Modal confirmación borrado.
-        * ! Deben parsearse los datos que se vayan a guardar a formato template para su guardado en bd.
-    */
 
     ngOnInit () {
         this.paginationData = {
@@ -208,21 +187,6 @@ export class VIHTreatmentsComponent implements OnInit {
         });
     }
 
-    private setRequiredValidation (keys: any[]) {
-        keys.forEach((key) => {
-            this.modalForm.controls[key].setValidators(Validators.required);
-            this.modalForm.controls[key].updateValueAndValidity();
-        });
-    }
-
-    private deleteRequiredValidation (keys: any[]) {
-        keys.forEach((key) => {
-            this.modalForm.controls[key].clearValidators();
-            this.modalForm.controls[key].updateValueAndValidity();
-        });
-    }
-
-    // ! FORMULARIOS ! //
     private fillForm (form: FormGroup, values: any, type: string) {
         let formKeys: string[] = Object.keys(form.controls);
         formKeys.forEach((key: string) => form.controls[key].setValue(values[key]));
@@ -236,10 +200,24 @@ export class VIHTreatmentsComponent implements OnInit {
         }
     }
 
+    private deleteRequiredValidation(keys: any[]) {
+        keys.forEach((key) => {
+            this.modalForm.controls[key].clearValidators();
+            this.modalForm.controls[key].updateValueAndValidity();
+        });
+    }
+
+    private setRequiredValidation(keys: any[]) {
+        keys.forEach((key) => {
+            this.modalForm.controls[key].setValidators(Validators.required);
+            this.modalForm.controls[key].updateValueAndValidity();
+        });
+    }
+
     // ! ----------------------- ALTA  ----------------------- ! //
     public showModalCreate (): void {
         this.modalForm.reset({
-            // indication: this.indication,
+            // TODO : indication: this.indication,
             indication: 'vih',
             treatmentType: 'QUIMICO',
             opcionMedicamento: 'opcionMedicamento',
@@ -262,12 +240,33 @@ export class VIHTreatmentsComponent implements OnInit {
         });
 
         const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
-        modalRef.componentInstance.selectOptions = this.modalSelectOptions;
         modalRef.componentInstance.type = 'create';
         modalRef.componentInstance.title = 'newTreatment';
 
-        this.setRequiredValidation([]);
+/*
+        indication: ['', Validators.required],
+        treatmentType: [{ value: 'QUIMICO', disabled: true }, Validators.required],
+        opcionMedicamento: ['opcionMedicamento'],
+        medicine: ['', Validators.required],
+        family: ['', Validators.required],
+        atc: ['', Validators.required],
+        cn: ['', Validators.required],
+        tract: ['', Validators.required],
+        dose: ['', Validators.required],
+        otherDosis: [''],
+        pattern: ['', Validators.required],
+        datePrescription: ['', Validators.required],
+        dateStart: ['', Validators.required],
+        dateSuspension: [''],
+        reasonChangeOrSuspension: [''],
+        expectedEndDate: [''],
+        observations: [''],
+        treatmentContinue: [false],
+        treatmentPulsatil: [false]
+*/
 
+        this.deleteRequiredValidation(['reasonChangeOrSuspension', 'dateSuspension']);
+        this.setRequiredValidation(['dateStart', 'datePrescription']);
         modalRef.componentInstance.form = this.modalForm;
 
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
@@ -304,11 +303,13 @@ export class VIHTreatmentsComponent implements OnInit {
         });
 
         this.fillForm(this.modalForm, dataEdit, type);
-        this.modalSelectOptions.doses = [];
-
+        
         const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
         modalRef.componentInstance.type = 'edit';
         modalRef.componentInstance.title = 'editTreatment';
+
+        this.deleteRequiredValidation(['reasonChangeOrSuspension', 'dateSuspension']);
+        this.setRequiredValidation(['dateStart', 'datePrescription']);
         modalRef.componentInstance.form = this.modalForm;
 
         this.currentModal = this.modalForm;
@@ -355,7 +356,10 @@ export class VIHTreatmentsComponent implements OnInit {
 
         modalRef.componentInstance.type = 'changeSuspend';
         modalRef.componentInstance.title = 'changeSuspendTreatment';
-        modalRef.componentInstance.form = form_aux;
+
+        this.deleteRequiredValidation(['dateStart', 'datePrescription']);
+        this.setRequiredValidation(['reasonChangeOrSuspension', 'dateSuspension']);
+        modalRef.componentInstance.form = this.modalForm;
 
         modalRef.componentInstance.cancel.subscribe(() => modalRef.close());
 

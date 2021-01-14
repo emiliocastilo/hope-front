@@ -117,6 +117,13 @@ export class VIHTreatmentModalComponent implements OnInit {
         return isRequired;
     }
 
+    public setReason(event) {
+        console.log(event);
+        console.log(this.form.controls.reasonChangeOrSuspension.value);
+        // console.log();
+        // console.log(this.selectOptions.endCauses.filter(f => this._translate.instant(f.name) === event), this.selectOptions.endCauses);
+    }
+
     public doseChange (event) {
         console.log(this.form.value);
         if (event.name === 'Otra') {

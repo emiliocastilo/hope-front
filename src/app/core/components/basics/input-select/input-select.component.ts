@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-input-select',
@@ -7,7 +8,7 @@ import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
     styleUrls: ['./input-select.component.scss'],
 })
 export class InputSelectComponent implements OnInit, ControlValueAccessor, OnChanges {
-    constructor() { }
+    constructor(private _translate: TranslateService) { }
 
     @Input() id: string;
     @Input() isDisabled = false;
@@ -56,16 +57,10 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     }
 
     onChange (value: any): void {
-        if (this.currentValue) {
-            this.optionChangeSelected = true;
-        } else {
-            this.optionChangeSelected = false;
-            this.currentValue = value;
-        }
+        this.optionChangeSelected = this.currentValue ? true : false;
         this.selectTrigger.emit(this.currentValue);
-        if (this.clearAfterSelect && this.value) {
-            this.writeValue('');
-        }
+        this.writeValue(this.currentValue.name);
+        if (this.clearAfterSelect && this.value) this.writeValue('');
     }
 
     isSelected (option, value) {
@@ -73,11 +68,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     }
 
     writeValue (value: any): void {
-        if (value) {
-            this.value = value;
-        } else {
-            this.value = '';
-        }
+        this.value = value ? value : '';
         this.childControl.setValue(value);
     }
 
@@ -85,7 +76,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
 
     onInput (value: any) {
         this.value = value;
-        this.setCurrentValue(value, this.options);
+        this.currentValue = this.options.filter(f => this._translate.instant(f.name) === value)[0];
         this.childControl.setValue(this.currentValue);
         if (this.form) this.form.controls[this.id].setValue(this.currentValue);
         this.onChange(this.value);
@@ -103,6 +94,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     setCurrentValue (name: string, objectArray: any[]) {
         objectArray.forEach((object: any) => {
             if (object.name === name) {
+                console.log(object)
                 this.currentValue = object;
             }
         });
