@@ -9,7 +9,7 @@ export interface DoseModel {
     name: string;
 }
 
-export interface RegimenTreatmentModel {
+export interface PatternModel {
     name: string;
 }
 
@@ -22,7 +22,7 @@ export interface VIHTreatmentModel {
     medicine: MedicineModel;
     dose: string | DoseModel;
     otherDosis: string;
-    regimenTreatment: RegimenTreatmentModel;
+    pattern: PatternModel;
     datePrescription: Date;
     dateStart: Date;
     expectedEndDate: Date;

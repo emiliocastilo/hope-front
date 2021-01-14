@@ -627,6 +627,6 @@
     "actIngredients" : "Principio activo",
     "authorized" : "Autorizado",
     "commercialization" : "Comercialización",
-    "viaAdministration" : "Vía de administración"
-    
+    "viaAdministration" : "Vía de administración",
+    "pattern": "Pauta"
 }

@@ -5,9 +5,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
-import { Observable, of } from 'rxjs';
-import { from } from 'rxjs/internal/observable/from';
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap, timeout } from 'rxjs/operators';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
@@ -38,7 +35,7 @@ export class VIHTreatmentsComponent implements OnInit {
     private modalSelectOptions = {
         treatmentType: [{ id: 'QUIMICO', name: this._translate.instant('chemical') }],
         doses: [],
-        regimes: [
+        patterns: [
             { id: 1, name: this._translate.instant('intensificada') },
             { id: 2, name: this._translate.instant('standard') },
             { id: 3, name: this._translate.instant('reduced') },
@@ -56,28 +53,16 @@ export class VIHTreatmentsComponent implements OnInit {
         tract: ['', Validators.required],
         dose: ['', Validators.required],
         otherDosis: [''],
-        regimenTreatment: ['', Validators.required],
+        pattern: ['', Validators.required],
         datePrescription: ['', Validators.required],
         dateStart: ['', Validators.required],
+        dateSuspension: [''],
+        reasonChangeOrSuspension: [''],
         expectedEndDate: [''],
         observations: [''],
         treatmentContinue: [false],
-        treatmentPulsatil: [false],
+        treatmentPulsatil: [false]
     });
-
-    private modalFormUpdate: FormGroup = this._formBuilder.group({
-        reasonChangeOrSuspension: ['', Validators.required],
-        medicine: ['', Validators.required],
-        family: ['', Validators.required],
-        atc: ['', Validators.required],
-        cn: ['', Validators.required],
-        tract: ['', Validators.required],
-        dose: ['', Validators.required],
-        otherDosis: [''],
-        regimenTreatment: ['', Validators.required],
-        dateSuspension: [''],
-    });
-    private templateStructure: Array<JSONTemplateModel>;
 
     private templateName: string = 'treatment-vih';
     private templateDataRequest: string;
@@ -188,8 +173,7 @@ export class VIHTreatmentsComponent implements OnInit {
                 tract: treatment.tract,
                 dose: treatment.dose,
                 otherDosis: treatment.otherDosis,
-                // regimenTreatment: this.modalSelectOptions.regimes.find(f => f.name === treatment.regimenTreatment.name),
-                regimenTreatment: treatment.regimenTreatment,
+                pattern: treatment.pattern,
                 datePrescription: treatment.datePrescription,
                 dateStart: treatment.dateStart,
                 expectedEndDate: treatment.expectedEndDate,
@@ -224,6 +208,20 @@ export class VIHTreatmentsComponent implements OnInit {
         });
     }
 
+    private setRequiredValidation (keys: any[]) {
+        keys.forEach((key) => {
+            this.modalForm.controls[key].setValidators(Validators.required);
+            this.modalForm.controls[key].updateValueAndValidity();
+        });
+    }
+
+    private deleteRequiredValidation (keys: any[]) {
+        keys.forEach((key) => {
+            this.modalForm.controls[key].clearValidators();
+            this.modalForm.controls[key].updateValueAndValidity();
+        });
+    }
+
     // ! FORMULARIOS ! //
     private fillForm (form: FormGroup, values: any, type: string) {
         let formKeys: string[] = Object.keys(form.controls);
@@ -241,7 +239,7 @@ export class VIHTreatmentsComponent implements OnInit {
     // ! ----------------------- ALTA  ----------------------- ! //
     public showModalCreate (): void {
         this.modalForm.reset({
-            //indication: this.indication,
+            // indication: this.indication,
             indication: 'vih',
             treatmentType: 'QUIMICO',
             opcionMedicamento: 'opcionMedicamento',
@@ -252,9 +250,11 @@ export class VIHTreatmentsComponent implements OnInit {
             tract: '',
             dose: '',
             otherDosis: '',
-            regimenTreatment: '',
+            pattern: '',
             datePrescription: '',
             dateStart: '',
+            dateSuspension: '',
+            reasonChangeOrSuspension: '',
             expectedEndDate: '',
             observations: '',
             treatmentContinue: false,
@@ -265,6 +265,9 @@ export class VIHTreatmentsComponent implements OnInit {
         modalRef.componentInstance.selectOptions = this.modalSelectOptions;
         modalRef.componentInstance.type = 'create';
         modalRef.componentInstance.title = 'newTreatment';
+
+        this.setRequiredValidation([]);
+
         modalRef.componentInstance.form = this.modalForm;
 
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
@@ -273,20 +276,6 @@ export class VIHTreatmentsComponent implements OnInit {
             const row = event.value;
             console.log(row);
             this.save(modalRef, 'create', event.value);
-        });
-    }
-
-    private deleteRequiredValidation (keys: any[]) {
-        keys.forEach((key) => {
-            this.modalForm.controls[key].clearValidators();
-            this.modalForm.controls[key].updateValueAndValidity();
-        });
-    }
-
-    private setRequiredValidation (keys: any[]) {
-        keys.forEach((key) => {
-            this.modalForm.controls[key].setValidators(Validators.required);
-            this.modalForm.controls[key].updateValueAndValidity();
         });
     }
 
@@ -329,22 +318,6 @@ export class VIHTreatmentsComponent implements OnInit {
         }
 
         modalRef.componentInstance.form.controls.treatmentType.setValue('QUIMICO');
-
-        modalRef.componentInstance.selectDose.subscribe((event: any) => {
-            if (event.name === 'Otra') this.modalForm.controls.otherDosis.setValidators(Validators.required);
-            else {
-                this.modalForm.controls.otherDosis.clearValidators();
-                this.modalForm.controls.regimenTreatment.setValue({ name: this._translate.instant(event.recommendation) });
-            }
-        });
-
-        modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
-            // * si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral * //
-            this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
-            this.modalForm.controls.descripcionFormulaMagistral.setValue('');
-            this.modalForm.controls.dosisFormulaMagistral.setValue('');
-        });
-
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
         modalRef.componentInstance.update.subscribe((event: any) => {
@@ -356,12 +329,50 @@ export class VIHTreatmentsComponent implements OnInit {
                 if (key.toLowerCase().includes('date') && event.value[key]) event.value[key] = new Date(event.value[key]).toISOString();
             });
 
-            let editedRow = event.value;
-            let indexString = index.toString();
+            const editedRow = event.value;
+            const indexString = index.toString();
             this.save(modalRef, 'edit', editedRow, indexString);
         });
     }
 
+    // ! ----------------------- CAMBIO / SUSPENSIÓN  ----------------------- ! //
+    public async showModalChange (index: number, type: string) {
+        index = this.treatments.indexOf(this.showedTreatments[index]);
+        const dataEdit = { ...this.treatments[index] };
+        let form_aux = null;
+
+        Object.keys(dataEdit).forEach((key: string) => {
+            if (key.toLowerCase().includes('date') && dataEdit[key]) {
+                dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
+            }
+        });
+
+        const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
+        form_aux = this.modalForm;
+        this.currentModal = form_aux;
+
+        this.fillForm(form_aux, dataEdit, type);
+
+        modalRef.componentInstance.type = 'changeSuspend';
+        modalRef.componentInstance.title = 'changeSuspendTreatment';
+        modalRef.componentInstance.form = form_aux;
+
+        modalRef.componentInstance.cancel.subscribe(() => modalRef.close());
+
+        modalRef.componentInstance.update.subscribe((event: any) => {
+            Object.keys(event.value).forEach((key: string) => {
+                if (key.toLowerCase().includes('date') && event.value[key]) {
+                    event.value[key] = new Date(event.value[key]).toISOString();
+                }
+            });
+
+            const editedRow = event.value;
+            const indexString = index.toString();
+            this.save(modalRef, 'edit', editedRow, indexString);
+        });
+    }
+
+    // ! ----------------------- GUARDADO  ----------------------- ! //
     private save (modalRef: NgbModalRef, action: string, treatment: VIHTreatmentModel, index?: string) {
         let repeated = false;
         let found = false;
@@ -424,16 +435,15 @@ export class VIHTreatmentsComponent implements OnInit {
 
         switch (action) {
             case 'edit':
-                this.showModalEdit(index, 'edit');
+                this.showModalEdit(index, action);
                 break;
             case 'changeSuspend':
-
+                this.showModalChange(index, action)
                 break;
             case 'delete':
                 this.showModalConfirm(index, action);
                 break;
         }
-
     }
 
     // * PAGINADOR * //

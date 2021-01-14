@@ -2,9 +2,18 @@
     <app-generic-modal-header [title]="title | translate" (close)="onClose()"> </app-generic-modal-header>
 
     <form class="container" [formGroup]="form">
-        <div class="row">
+        <div class="row" [hidden]="type === 'changeSuspend'">
             <app-input id="indication" name="indication" isDisabled="true" label="indication" formControlName="indication" class="col-6"></app-input>
             <app-input id="treatmentType" name="treatmentType" isDisabled="true" label="treatmentType" formControlName="treatmentType" class="col-6"></app-input>
+        </div>
+        <div class="row" *ngIf="type === 'changeSuspend'">
+            <app-input-select 
+                [required]="type === 'changeSuspend'" class="roles-select" id="reasonChangeOrSuspension" name="reasonChangeOrSuspension"
+                isDisabled="false" labelValue="reasonChangeOrSuspension" [form]="form" [options]="selectOptions.endCauses" 
+                (selectTrigger)="doseChange($event)"
+                [optionSelected]="form.controls['reasonChangeOrSuspension'].value ? form.controls['reasonChangeOrSuspension'].value.id : ''" class="col-12"
+                [selectMultiple]="false" [clearAfterSelect]="false">
+            </app-input-select>
         </div>
         <div class="row">
             <app-input-typeahead
@@ -24,8 +33,6 @@
                 [resultFormatter]="formatter"
                 (selectTypeahead)="onSelectInputTypeahead($event)"
                 ></app-input-typeahead>                
-                <!-- [invalidLabel]="getInvalidLabel('medicine')"  -->
-
         </div>
         <div class="row">
             <app-input id="family" required="true" name="family" isDisabled="true" label="family" formControlName="family" class="col-6"></app-input>
@@ -49,19 +56,21 @@
         </div>
         <div class="row">
             <app-input-select 
-                required="true" class="roles-select" id="regimenTreatment" name="regimenTreatment"
-                isDisabled="false" labelValue="regimenTreatment" [form]="form"
-                [options]="selectOptions.regimes" [optionSelected]="form.controls['regimenTreatment'].value.id" class="col-6"
+                required="true" class="roles-select" id="pattern" name="pattern"
+                isDisabled="false" labelValue="pattern" [form]="form"
+                [options]="selectOptions.patterns" [optionSelected]="form.controls['pattern'].value.id" class="col-6"
                 [selectMultiple]="false" [clearAfterSelect]="false">
             </app-input-select>
-            <app-input required="true" id="datePrescription" name="datePrescription" label="datePrescription" formControlName="datePrescription" type="date" class="col-6"></app-input>
+            <app-input [hidden]="type === 'changeSuspend'" required="true" id="datePrescription" name="datePrescription" label="datePrescription" formControlName="datePrescription" type="date" class="col-6"></app-input>
+            <app-input [hidden]="type !== 'changeSuspend'" id="dateSuspension" name="dateSuspension" label="dateSuspension" formControlName="dateSuspension" type="date" class="col-6"></app-input>
         </div>
         <div class="row">
-            <app-input required="true" id="dateStart" name="dateStart" label="dateStart" formControlName="dateStart" type="date" class="col-6"></app-input>
-            <app-input id="expectedEndDate" name="expectedEndDate" label="expectedEndDate" formControlName="expectedEndDate" type="date" class="col-6"></app-input>
+            <app-input [hidden]="type === 'changeSuspend'" required="true" id="dateStart" name="dateStart" label="dateStart" formControlName="dateStart" type="date" class="col-6"></app-input>
+            <app-input [hidden]="type === 'changeSuspend'" id="expectedEndDate" name="expectedEndDate" label="expectedEndDate" formControlName="expectedEndDate" type="date" class="col-6"></app-input>
         </div>
         <div class="row">
             <app-input-textarea
+                [hidden]="type === 'changeSuspend'"
                 id="observations"
                 name="observations"
                 formControlName="observations"

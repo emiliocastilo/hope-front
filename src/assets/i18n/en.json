@@ -627,5 +627,6 @@
     "actIngredients" : "Active principle",
     "authorized" : "Authorized",
     "commercialization" : "Commercialization",
-    "viaAdministration" : "Way of administration"
+    "viaAdministration" : "Way of administration",
+    "pattern": "Pattern"
 }

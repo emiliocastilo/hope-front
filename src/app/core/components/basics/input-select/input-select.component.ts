@@ -60,6 +60,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
             this.optionChangeSelected = true;
         } else {
             this.optionChangeSelected = false;
+            this.currentValue = value;
         }
         this.selectTrigger.emit(this.currentValue);
         if (this.clearAfterSelect && this.value) {
