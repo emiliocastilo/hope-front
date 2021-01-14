@@ -466,13 +466,12 @@ export default class FormUtils {
 
     static pregnancyTestResult(params: Array<any>): any {
         let result;
-        console.log(Number(params[0]));
-        if(Number(params[0]) > 50){
-            result = "Positivo";
-        }else if(Number(params[0]) <= 50 && Number(params[0]) >= 5){
-            result = "Indeterminado"; 
-        }else if(Number(params[0]) < 5){
-            result = "Negativo";
+        if (Number(params[0]) > 50) {
+            result = 'Positivo';
+        } else if (Number(params[0]) <= 50 && Number(params[0]) >= 5) {
+            result = 'Indeterminado';
+        } else if (Number(params[0]) < 5) {
+            result = 'Negativo';
         }
         return result;
     }
