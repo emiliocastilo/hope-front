@@ -97,12 +97,6 @@ export class VihDashboardPatientsComponent implements OnInit {
                 }
             });
 
-            /*  this.patientDashboardService.findEvolutionClinicalIndicesByIndexTypeAndPatient('CVP',this.selectedPatient.id).subscribe((data) => {
-                if (data) {
-                    console.log( data);
-                }
-                }); */
-
             this.patientDashboardService.getPatientsDashboardById(this.selectedPatient.id).subscribe((data) => {
                 if (data) {
                     this.data = data;
@@ -149,13 +143,11 @@ export class VihDashboardPatientsComponent implements OnInit {
                 });
 
                 this.dataChart.forEach((evolutionIndex) => {
-                    console.log(evolutionIndex);
                     if (evolutionIndex.series.length > 0) {
                         this.noData = false;
                     }
                 });
 
-                // index examples: PASI/CVP/ADHERENCE...
                 this.dataToShow = new Object();
                 for (let index in this.data) {
                     let value = this.data[index];
@@ -165,7 +157,6 @@ export class VihDashboardPatientsComponent implements OnInit {
                         });
                     }
                 }
-                console.log(this.dataToShow);
                 this.loadChart(this.dataToShow);
                 this.loadLines();
             });
@@ -189,7 +180,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         this.configCharts = [];
 
         this.configCharts[0] = new ColumnChartModel('Evolución CD4', view, schemeCD4, this.dataCharts[0], legend);
-        this.configCharts[1] = new ColumnChartModel('Evolución Glomerular', view, schemeGlom, this.dataCharts[1], legend);
+        this.configCharts[1] = new ColumnChartModel('Evolución Filtrado Glomerular', view, schemeGlom, this.dataCharts[1], legend);
         this.configCharts[2] = new ColumnChartModel('Evolución CVP', view, schemeCVP, this.dataCharts[2], legend);
     }
 
@@ -276,7 +267,6 @@ export class VihDashboardPatientsComponent implements OnInit {
     }
 
     drawChart(data: any): any {
-        console.log(this.dataToShow);
         setTimeout(() => {
             if (data && data.data && data.data.length > 0) {
                 this.noTreatmentData = false;

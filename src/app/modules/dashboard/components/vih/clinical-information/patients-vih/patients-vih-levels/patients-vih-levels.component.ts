@@ -24,28 +24,29 @@ export class PatientsVihLevelsComponent implements OnInit {
     data: ChartObjectModel[];
     options = [
         {
-            name: 'CVP',
+            name: this.translate.instant('CVP'),
         },
         {
-            name: 'CD4',
+            name: this.translate.instant('CD4'),
         },
         {
-            name: 'Grupo de riesgo',
+            name: this.translate.instant('riskGroup'),
         },
         {
-            name: 'Infección viral',
+            name: this.translate.instant('viralInfection'),
         },
         {
-            name: 'VHC',
+            name: this.translate.instant('VHC'),
         },
         {
-            name: 'pautas de inicio recomendadas',
+            name: this.translate.instant('recommendedInitGuidelines'),
         },
     ];
 
     //Tabla
+    public titleHeader: string = '';
     showingDetail = false;
-    columHeaders: string[] = ['indication', 'patients'];
+    columHeaders: string[] = [this.selectedOption, 'patients'];
     dataTable: any[];
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
@@ -89,25 +90,27 @@ export class PatientsVihLevelsComponent implements OnInit {
     }
 
     loadValues(selectedOption: string) {
+        this.columHeaders[0] = this.selectedOption;
+        this.showingDetail = false;
         let query: string;
         switch (selectedOption) {
-            case 'CVP':
+            case this.options[0].name:
                 query = 'type=CVP';
                 this.selectedChart = 'chartCVP';
                 break;
-            case 'CD4':
+            case this.options[1].name:
                 query = 'type=CD4';
                 this.selectedChart = 'chartCD4';
                 break;
-            case 'Grupo de riesgo':
+            case this.options[2].name:
                 query = 'type=risk-factors';
                 this.selectedChart = 'chartRISK';
                 break;
-            case 'Infección viral':
+            case this.options[3].name:
                 query = 'type=VIRAL';
                 this.selectedChart = 'chartVIRAL';
                 break;
-            case 'VHC':
+            case this.options[4].name:
                 query = 'type=VHC';
                 this.selectedChart = 'chartVHC';
                 break;
@@ -129,24 +132,22 @@ export class PatientsVihLevelsComponent implements OnInit {
     }
 
     private parseDataTable(data: any): any[] {
-        const arrayData = Object.keys(data).map((key) => {
-            const object = {
-                indication: key,
+        let arrayData = Object.keys(data).map((key, i) => {
+            let object = {
+                [this.selectedOption]: key,
                 patients: data[key],
             };
             return object;
         });
-
         return arrayData;
     }
 
-    // Detalle
+    // Detalle - El parámetro se llama indication pero no tiene que ver con las de Derma
     public onIconButtonClick(event: any): void {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.dataTable[event.selectedItem];
-            const query = this.query + '&indication=' + this.currentSelected.indication;
-
+            const query = this.query + '&indication=' + this.currentSelected[this.selectedOption];
             this.getDetails(query);
             this.getDetailsToExport(query);
         } else {

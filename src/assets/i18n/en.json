@@ -69,7 +69,7 @@
     "btn.search": "Search",
     "btn.select": "Select",
     "btn.update": "Update",
-    "byVIHParameters": "Patients by parameter",
+    "byVIHParameters": "Patients by",
     "calculatorPase": "Calculate PASE",
     "calificationBsa": "Bsa calification",
     "calificationPasi": "Pasi calification",
@@ -598,6 +598,9 @@
     "charts.noGlomerularData" : "No Glomerular filtering",
     "charts.noCD4Data": "No CD4 data",
     "charts.noCVPData": "Sin datos de CVP",
-    "cholesterol": "Cholesterol"
+    "cholesterol": "Cholesterol",
+    "RAMS":"RAMS",
+    "viralFailure":"Viral failure",
+    "numberChange":"Change quantity"
 
 }

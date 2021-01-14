@@ -72,7 +72,7 @@
     "btn.search": "Buscar",
     "btn.select": "Seleccionar",
     "btn.update": "Modificar",
-    "byVIHParameters": "Pacientes por parámetros",
+    "byVIHParameters": "Pacientes por",
     "calculatorPase": "Calcular PASE",
     "calificationBsa": "Calificación en base a Bsa",
     "calificationPasi": "Calificación en base a Pasi",
@@ -624,5 +624,14 @@
     "charts.noGlomerularData" : "Sin datos de filtración glomerular",
     "charts.noCD4Data": "Sin datos de CD4",
     "charts.noCVPData": "Sin datos de CVP",
-    "cholesterol": "Colesterol"
+    "cholesterol": "Colesterol",
+    "RAMS":"RAMS",
+    "viralFailure":"Fallo viral",
+    "numberChange":"Número de cambios",
+    "riskGroup":"Grupo de riesgo",
+    "VHC":"VHC",
+    "viralInfection":"Infección viral"
+
+    
+
 }

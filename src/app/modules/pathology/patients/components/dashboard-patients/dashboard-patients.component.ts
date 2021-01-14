@@ -17,31 +17,11 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./dashboard-patients.component.scss'],
 })
 export class DashboardPatientsComponent implements OnInit, AfterViewInit {
-    public menu: MenuItemModel[] = [];
-    public menuSelected: MenuItemModel;
-    public patients: PatientModel[] = [];
-    public selectedItem: number;
     public data: any;
-    /** Variable para parsear solo los índices/parámetros que nos vienen rellenos */
-    private dataToShow: any;
-    public globalDates: Array<any>;
     public selectedPatient: PatientModel;
-    public dataChart: ChartObjectModel[];
-    public configChart: ColumnChartModel;
-    public configGantt: any;
     public noData: boolean;
-    public noTreatmentData: boolean;
-    private firstDate: string = '';
-    private lastDate: string = '';
 
-    constructor(
-        private patientService: PatientsService,
-        private patientDashboardService: PatientsDashboardService,
-        private _menuService: MenuService,
-        private _router: Router,
-        private loaderService: ScriptLoaderService,
-        private _translate: TranslateService
-    ) {}
+    constructor(private patientService: PatientsService, private patientDashboardService: PatientsDashboardService, private _menuService: MenuService, private _router: Router) {}
     ngAfterViewInit(): void {}
 
     ngOnInit(): void {

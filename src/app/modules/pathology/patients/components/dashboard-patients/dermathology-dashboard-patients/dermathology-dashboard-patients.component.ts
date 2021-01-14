@@ -328,7 +328,6 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
                         const endDate = new Date(element.finalDate);
                         objectRow[objectRow.length - 1] = endDate;
                     }
-                    console.log(objectRow);
                     objectChart.push(objectRow);
                 });
             } else if (data[value] && value === 'ADHERENCIA') {
