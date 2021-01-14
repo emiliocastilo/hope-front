@@ -628,5 +628,6 @@
     "authorized" : "Authorized",
     "commercialization" : "Commercialization",
     "viaAdministration" : "Way of administration",
-    "pattern": "Pattern"
+    "pattern": "Pattern",
+    "vih": "VIH"
 }

@@ -101,7 +101,6 @@ export class VIHTreatmentsComponent implements OnInit {
         this._formService.getFormData(this.templateDataRequest).subscribe(
             (response: JSONTemplateModel) => {
                 this.treatments = this.mongoToObject(response);
-
                 this.paginationData = {
                     number: 1,
                     totalElements: this.treatments.length,
@@ -242,28 +241,6 @@ export class VIHTreatmentsComponent implements OnInit {
         const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
         modalRef.componentInstance.type = 'create';
         modalRef.componentInstance.title = 'newTreatment';
-
-/*
-        indication: ['', Validators.required],
-        treatmentType: [{ value: 'QUIMICO', disabled: true }, Validators.required],
-        opcionMedicamento: ['opcionMedicamento'],
-        medicine: ['', Validators.required],
-        family: ['', Validators.required],
-        atc: ['', Validators.required],
-        cn: ['', Validators.required],
-        tract: ['', Validators.required],
-        dose: ['', Validators.required],
-        otherDosis: [''],
-        pattern: ['', Validators.required],
-        datePrescription: ['', Validators.required],
-        dateStart: ['', Validators.required],
-        dateSuspension: [''],
-        reasonChangeOrSuspension: [''],
-        expectedEndDate: [''],
-        observations: [''],
-        treatmentContinue: [false],
-        treatmentPulsatil: [false]
-*/
 
         this.deleteRequiredValidation(['reasonChangeOrSuspension', 'dateSuspension']);
         this.setRequiredValidation(['dateStart', 'datePrescription']);
@@ -463,6 +440,7 @@ export class VIHTreatmentsComponent implements OnInit {
 
         if (finalPageItemIndex + 1 > this.treatments.length) this.showedTreatments.slice(indexStartPage, finalPageItemIndex - this.treatments.length);
         else this.showedTreatments = this.treatments.slice(indexStartPage, indexStartPage + this.paginationData.size);
+        this.addColorRow(this.showedTreatments);
     }
 
     public selectItemsPerPage (number: number) {

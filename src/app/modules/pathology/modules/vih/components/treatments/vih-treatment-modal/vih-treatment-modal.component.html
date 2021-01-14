@@ -11,7 +11,6 @@
                 [required]="type === 'changeSuspend'" class="roles-select" id="reasonChangeOrSuspension" name="reasonChangeOrSuspension"
                 isDisabled="false" labelValue="reasonChangeOrSuspension" [form]="form" [options]="selectOptions.endCauses"
                 [optionSelected]="form.controls['reasonChangeOrSuspension'].value ? form.controls['reasonChangeOrSuspension'].value.id : ''" class="col-12"
-                (selectTrigger)="setReason($event)"
                 [selectMultiple]="false" [clearAfterSelect]="false">
             </app-input-select>
         </div>
