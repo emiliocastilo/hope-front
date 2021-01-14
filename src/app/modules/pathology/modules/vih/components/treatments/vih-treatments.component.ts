@@ -22,6 +22,7 @@ import { VIHTreatmentModalComponent } from './vih-treatment-modal/vih-treatment-
     styleUrls: ['./vih-treatments.component.scss']
 })
 export class VIHTreatmentsComponent implements OnInit {
+    private settedTreatmentType = { id: 'QUIMICO', name: 'chemical' };
     public treatments: Array<VIHTreatmentModel> = [];
     public showedTreatments: Array<VIHTreatmentModel> = [];
     public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension'];
@@ -33,7 +34,7 @@ export class VIHTreatmentsComponent implements OnInit {
 
     private modalForm: FormGroup = this._formBuilder.group({
         indication: ['', Validators.required],
-        treatmentType: [{ value: 'QUIMICO', disabled: true }, Validators.required],
+        treatmentType: [this.settedTreatmentType, Validators.required],
         opcionMedicamento: ['opcionMedicamento'],
         medicine: ['', Validators.required],
         family: ['', Validators.required],
@@ -57,7 +58,7 @@ export class VIHTreatmentsComponent implements OnInit {
     private templateDataRequest: string;
     private currentIndication: string;
     public patient: PatientModel;
-    private indication = '';
+    private indication = 'vih';
     private currentPage = 0;
     private colOrder: any;
     private typeOrder: any;
@@ -117,7 +118,10 @@ export class VIHTreatmentsComponent implements OnInit {
         // TODO ! RECUPERAR INDICACION
         const indicationQuery = `template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`
         this._formService.getFormsDatas(indicationQuery).subscribe(
-            response => this.indication = response
+            response => {
+                this.indication = response;
+                this.indication = 'vih';
+            }
         );
     }
 
@@ -141,8 +145,8 @@ export class VIHTreatmentsComponent implements OnInit {
 
         this.treatments.forEach(treatment => {
             mongoObj.data[0].value.push({
-                indication: 'vih',
-                treatmentType: 'QUIMICO',
+                indication: this.indication,
+                treatmentType: this.settedTreatmentType,
                 opcionMedicamento: 'opcionMedicamento',
                 medicine: treatment.medicine,
                 family: treatment.family,
@@ -199,14 +203,14 @@ export class VIHTreatmentsComponent implements OnInit {
         }
     }
 
-    private deleteRequiredValidation(keys: any[]) {
+    private deleteRequiredValidation (keys: any[]) {
         keys.forEach((key) => {
             this.modalForm.controls[key].clearValidators();
             this.modalForm.controls[key].updateValueAndValidity();
         });
     }
 
-    private setRequiredValidation(keys: any[]) {
+    private setRequiredValidation (keys: any[]) {
         keys.forEach((key) => {
             this.modalForm.controls[key].setValidators(Validators.required);
             this.modalForm.controls[key].updateValueAndValidity();
@@ -216,9 +220,8 @@ export class VIHTreatmentsComponent implements OnInit {
     // ! ----------------------- ALTA  ----------------------- ! //
     public showModalCreate (): void {
         this.modalForm.reset({
-            // TODO : indication: this.indication,
-            indication: 'vih',
-            treatmentType: 'QUIMICO',
+            indication: this.indication,
+            treatmentType: this.settedTreatmentType,
             opcionMedicamento: 'opcionMedicamento',
             medicine: '',
             family: '',
@@ -250,7 +253,6 @@ export class VIHTreatmentsComponent implements OnInit {
 
         modalRef.componentInstance.save.subscribe((event: any) => {
             const row = event.value;
-            console.log(row);
             this.save(modalRef, 'create', event.value);
         });
     }
@@ -280,13 +282,16 @@ export class VIHTreatmentsComponent implements OnInit {
         });
 
         this.fillForm(this.modalForm, dataEdit, type);
-        
+
         const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
         modalRef.componentInstance.type = 'edit';
         modalRef.componentInstance.title = 'editTreatment';
 
         this.deleteRequiredValidation(['reasonChangeOrSuspension', 'dateSuspension']);
         this.setRequiredValidation(['dateStart', 'datePrescription']);
+        this.modalForm.controls.treatmentType.setValue(this.settedTreatmentType);
+        this.modalForm.controls.indication.setValue(this.indication);
+        console.log(this.modalForm.value);
         modalRef.componentInstance.form = this.modalForm;
 
         this.currentModal = this.modalForm;
@@ -295,7 +300,6 @@ export class VIHTreatmentsComponent implements OnInit {
             this.modalForm.controls.otherDosis.setValidators(Validators.required);
         }
 
-        modalRef.componentInstance.form.controls.treatmentType.setValue('QUIMICO');
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
         modalRef.componentInstance.update.subscribe((event: any) => {
@@ -326,6 +330,7 @@ export class VIHTreatmentsComponent implements OnInit {
         });
 
         const modalRef = this._modalService.open(VIHTreatmentModalComponent, { size: 'lg' });
+        this.modalForm.controls.treatmentType.setValue(this.settedTreatmentType);
         form_aux = this.modalForm;
         this.currentModal = form_aux;
 
@@ -358,6 +363,8 @@ export class VIHTreatmentsComponent implements OnInit {
         let repeated = false;
         let found = false;
 
+        treatment.treatmentType = this.settedTreatmentType.id;
+        treatment.indication = this.indication;
         treatment.brand = treatment.medicine.brand;
         treatment.principle = treatment.medicine.actIngredients;
         treatment.dose = treatment.dose;

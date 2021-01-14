@@ -56,6 +56,8 @@ export class VIHTreatmentModalComponent implements OnInit {
 
     ngOnInit (): void {
         console.log(this.form.value);
+        this.form.controls.indication.setValue(this._translate.instant(this.form.controls.indication.value));
+        this.form.controls.treatmentType.setValue(this._translate.instant(this.form.controls.treatmentType.value.name));
         if (this.type === 'edit' || this.type === 'changeSuspend') this.getDoses(this.form.controls.medicine.value.id);
     }
 
@@ -118,7 +120,6 @@ export class VIHTreatmentModalComponent implements OnInit {
     }
 
     public doseChange (event) {
-        console.log(this.form.value);
         if (event.name === 'Otra') {
             this.form.controls.otherDosis.setValidators(Validators.required);
         } else {

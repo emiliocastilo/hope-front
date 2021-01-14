@@ -1,5 +1,9 @@
 import { MedicineModel } from 'src/app/modules/management/models/medicines/medicines.model';
 
+export interface ValueKeyModel {
+    id: number | string;
+    name: string;
+}
 export interface DoseModel {
     id: number;
     codeAtc: string;
@@ -9,11 +13,8 @@ export interface DoseModel {
     name: string;
 }
 
-export interface PatternModel {
-    name: string;
-}
-
 export interface VIHTreatmentModel {
+    treatmentType: ValueKeyModel | string;
     indication: string;
     family: string;
     atc: string;
@@ -22,7 +23,7 @@ export interface VIHTreatmentModel {
     medicine: MedicineModel;
     dose: string | DoseModel;
     otherDosis: string;
-    pattern: PatternModel;
+    pattern: ValueKeyModel;
     datePrescription: Date;
     dateStart: Date;
     expectedEndDate: Date;
