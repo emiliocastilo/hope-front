@@ -377,7 +377,10 @@
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
         "sent": "Enviado",
-        "errorRetrievingData": "Ha ocurrido un error recuperando los datos."
+        "errorRetrievingData": "Ha ocurrido un error recuperando los datos.",
+        "fileUploadError":"Ha ocurrido un error subiendo el fichero.",
+        "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{ validTypes }}",
+        "fileMaxSize": "Fichero demasiado grande. Tamaño máximo {{ maxSize }}"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",
@@ -629,5 +632,9 @@
     "commercialization" : "Comercialización",
     "viaAdministration" : "Vía de administración",
     "pattern": "Pauta",
-    "vih": "VIH"
+    "vih": "VIH",
+    "smaqQuestion6" : "Desde la última visita ¿cuántos días completos no tomó la medicación?",
+    "adherencePercentage" : "% de adherencia",
+    "smaqScore" : "Score",
+    "fileWork" : "Pdf del CI"
 }

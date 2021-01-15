@@ -1,0 +1,6 @@
+<form class="form-group dynamic-group field" [formGroup]="group" *ngIf="loaded">
+    <label for="{{ id }}" class="dynamic-label" [ngClass]="{ 'required-label': required }">
+        {{ label | translate }}
+    </label>
+    <input type="file" (change)="handleFileInput($event.target.files)" id="{{ id }}" [(ngModel)]="currentFile" [ngModelOptions]="{ standalone: true }" [class]="styles" [name]="name" [required]="required" />
+</form>
