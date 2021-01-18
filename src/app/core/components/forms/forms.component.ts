@@ -22,7 +22,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     patient: PatientModel;
     emptyForm: any;
 
-    constructor(private _formsService: FormsService, public _translate: TranslateService, private _notification: NotificationService, private hoService: HealthOutcomeService, private _http: HttpClient) {}
+    constructor(private _formsService: FormsService, public _translate: TranslateService, private _notification: NotificationService, private hoService: HealthOutcomeService, private _http: HttpClient) { }
 
     ngOnInit(): void {
         this.getPatientId();
@@ -40,6 +40,10 @@ export class FormsComponent implements OnInit, OnDestroy {
         }
         const data: any = await this._formsService.get(this.key);
         if (data) {
+            const currentUser = JSON.parse(localStorage.getItem('user'));
+            const cie = currentUser ? currentUser.rolSelected.hospital.cie.replace('CIE', 'CIE ') : 'CIE';
+            data.form = data.form.replace(/{{currentCIE}}/g, cie);
+
             this.emptyForm = this._parseStringToJSON(data.form);
             this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
             const buttons = this._parseStringToJSON(data.buttons);
@@ -78,7 +82,7 @@ export class FormsComponent implements OnInit, OnDestroy {
                     result: value.clasificationScore,
                 };
                 this.hoService.saveScore([ho]).subscribe(
-                    () => {},
+                    () => { },
                     ({ error }) => {
                         this._notification.showErrorToast(error.errorCode);
                     }
