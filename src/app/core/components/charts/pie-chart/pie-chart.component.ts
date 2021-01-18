@@ -15,6 +15,7 @@ export class PieChartComponent {
     @Input() doughnut: boolean = false;
     @Input() gradient: boolean = false;
     @Input() legendPosition: string = 'right';
+    @Input() trimLabels: boolean = false;
     @Output() chartItemSelected: EventEmitter<any> = new EventEmitter<any>();
 
     colorScheme = {

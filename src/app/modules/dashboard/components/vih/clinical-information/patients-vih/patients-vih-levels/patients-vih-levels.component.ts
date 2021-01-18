@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { stringify } from 'querystring';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
@@ -38,6 +37,9 @@ export class PatientsVihLevelsComponent implements OnInit {
         },
         {
             name: 'VHC',
+        },
+        {
+            name: 'pautas de inicio recomendadas',
         },
     ];
 
@@ -98,7 +100,7 @@ export class PatientsVihLevelsComponent implements OnInit {
                 this.selectedChart = 'chartCD4';
                 break;
             case 'Grupo de riesgo':
-                query = 'type=RISK';
+                query = 'type=risk-factors';
                 this.selectedChart = 'chartRISK';
                 break;
             case 'Infección viral':
@@ -153,9 +155,9 @@ export class PatientsVihLevelsComponent implements OnInit {
     }
 
     private getDetails(query: string): void {
+        query = query.replace('+', '%2B');
         this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
             (data: any) => {
-                console.log(data);
                 this.details = data.content;
                 this.paginationData = data;
                 this.detailsDataTable = this.parseDataToTableDetails(data.content);
@@ -175,8 +177,8 @@ export class PatientsVihLevelsComponent implements OnInit {
                     patient: value.fullName,
                     principalDiagnose: value.principalDiagnose,
                     treatment: value.treatment,
-                    CVP: value.CVP,
-                    CD4: value.CD4,
+                    CVP: value.cvp,
+                    CD4: value.cd4,
                     adherence: value.adherence,
                 };
                 return object;
