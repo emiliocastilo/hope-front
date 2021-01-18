@@ -8,6 +8,8 @@ import { ColumnChartModel } from '../../../../../core/models/graphs/column-chart
 import { ScriptLoaderService } from 'angular-google-charts';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from 'src/app/core/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard-patients',
@@ -31,7 +33,14 @@ export class DashboardPatientsComponent implements OnInit {
     private firstDate: string = '';
     private lastDate: string = '';
 
-    constructor(private patientService: PatientsService, private patientDashboardService: PatientsDashboardService, private loaderService: ScriptLoaderService, private _translate: TranslateService) {}
+    constructor(
+        private patientService: PatientsService,
+        private patientDashboardService: PatientsDashboardService,
+        private loaderService: ScriptLoaderService,
+        private _translate: TranslateService,
+        private _notification: NotificationService,
+        private router: Router
+    ) {}
 
     setConfigGannt(): void {
         this.configGantt = {
@@ -73,46 +82,52 @@ export class DashboardPatientsComponent implements OnInit {
     ngOnInit(): void {
         this.noData = false;
         this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
-        this.patientService.getPatientsById(this.selectedPatient.id).subscribe((data) => {
-            if (data) {
-                this.selectedPatient = data;
-            }
-        });
 
-        this.patientDashboardService.getPatientsDashboardById(this.selectedPatient.id).subscribe((data) => {
-            if (data) {
-                this.data = data;
-            }
-
-            this.globalDates = _.sortBy(
-                _.union(
-                    _.flattenDeep(
-                        Object.values(this.data).map((array) => {
-                            return Object.values(array).map((element) => {
-                                return element && element.date
-                                    ? element.date.split('T')[0]
-                                    : element.map((d) => {
-                                          return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0];
-                                      });
-                            });
-                        })
-                    )
-                )
-            );
-
-            this.firstDate = this.globalDates[0];
-            this.lastDate = this.globalDates[this.globalDates.length - 1];
-            this.setConfigGannt();
-            this.dataChart = this.parseDataChart(this.data);
-            this.noData = true;
-            this.dataChart.forEach((evolutionIndex) => {
-                if (evolutionIndex.series.length > 0) {
-                    this.noData = false;
+        if (this.selectedPatient) {
+            this.patientService.getPatientsById(this.selectedPatient.id).subscribe((data) => {
+                if (data) {
+                    this.selectedPatient = data;
                 }
             });
-            this.loadChart(this.data);
-            this.loadLines();
-        });
+
+            this.patientDashboardService.getPatientsDashboardById(this.selectedPatient.id).subscribe((data) => {
+                if (data) {
+                    this.data = data;
+                }
+
+                this.globalDates = _.sortBy(
+                    _.union(
+                        _.flattenDeep(
+                            Object.values(this.data).map((array) => {
+                                return Object.values(array).map((element) => {
+                                    return element && element.date
+                                        ? element.date.split('T')[0]
+                                        : element.map((d) => {
+                                              return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0];
+                                          });
+                                });
+                            })
+                        )
+                    )
+                );
+
+                this.firstDate = this.globalDates[0];
+                this.lastDate = this.globalDates[this.globalDates.length - 1];
+                this.setConfigGannt();
+                this.dataChart = this.parseDataChart(this.data);
+                this.noData = true;
+                this.dataChart.forEach((evolutionIndex) => {
+                    if (evolutionIndex.series.length > 0) {
+                        this.noData = false;
+                    }
+                });
+                this.loadChart(this.data);
+                this.loadLines();
+            });
+        } else {
+            this._notification.showWarningToast('noPatientSelected');
+            this.router.navigateByUrl('pathology/patients');
+        }
     }
 
     loadLines() {

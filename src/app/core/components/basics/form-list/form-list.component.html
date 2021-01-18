@@ -7,7 +7,7 @@
             <thead>
                 <tr>
                     <th *ngFor="let header of config.fields" scope="col">
-                        {{ header.name | translate }}
+                        {{ (header.header ? header.header : header.name) | translate }}
                     </th>
                     <th *ngIf="config.actions">
                         {{ 'actions' | translate }}
