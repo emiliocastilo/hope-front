@@ -12,15 +12,7 @@
                 <app-results-per-page (itemsPerPage)="selectItemsPerPage($event)" [paginationData]="paginationData"> </app-results-per-page>
             </div>
             <section class="mt-4">
-                <app-table 
-                    [actions]="actions" 
-                    [showActionButtons]="true" 
-                    [columnsHeader]="patientKeysToShow" 
-                    [columnsData]="patients" 
-                    (sort)="onSort($event)" 
-                    (selectedItem)="onSelectedItem($event)" 
-                    [sortable]="true"
-                ></app-table>
+                <app-table [actions]="actions" [showActionButtons]="true" [columnsHeader]="patientKeysToShow" [columnsData]="patients" (sort)="onSort($event)" (selectedItem)="onSelectedItem($event)" [sortable]="true"></app-table>
 
                 <app-pagination (selectPage)="selectPage($event)" [paginationData]="paginationData"> </app-pagination>
             </section>

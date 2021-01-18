@@ -72,7 +72,7 @@ export class MenuService {
     public setCurrentSection(section?: MenuItemModel) {
         if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
-            if (!this.patientSection) this.patientSection = this.allSections.filter(f => f.url == '/hopes/pathology/patients')[0];
+            if (!this.patientSection) this.patientSection = this.allSections.filter((f) => f.url == '/hopes/pathology/patients')[0];
             if (!section) {
                 if (!this.allSections) this.fillSections(this.fullMenu);
                 section = this.allSections.filter((f) => f.url === '/hopes')[0];
@@ -110,7 +110,7 @@ export class MenuService {
             map((response) => {
                 this.allSections = [];
                 this.fillSections(response);
-                this.patientSection = this.allSections.filter(f => f.url == '/hopes/pathology/patients')[0];
+                this.patientSection = this.allSections.filter((f) => f.url == '/hopes/pathology/patients')[0];
                 const menu = this.assignParentAndCollapseStatus(response);
                 localStorage.setItem('menu', JSON.stringify(response.children));
                 localStorage.setItem('completeMenu', JSON.stringify(response));
