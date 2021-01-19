@@ -7,6 +7,15 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { Router } from '@angular/router';
 import reasonBioligicalTreatment from 'src/app/core/utils/reasonBioligicalTreatment';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
+import { ValueKeyModel } from 'src/app/core/models/forms/value-key.model';
+import { TranslateService } from '@ngx-translate/core';
+import { PatientsTreatmentsService } from 'src/app/modules/management/services/patients-treatments/patients-treatments.service';
+import { MedicineModel } from 'src/app/modules/management/models/medicines/medicines.model';
+
+export interface MedicineRegimeModel {
+    medicine: MedicineModel;
+    regimes: Array<ValueKeyModel>;
+}
 
 @Component({
     selector: 'app-biological-treatment-frequency',
@@ -14,6 +23,7 @@ import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model'
     styleUrls: ['./biological-treatment-frequency.component.scss'],
 })
 export class BiologicalTreatmentFrequencyComponent implements OnInit {
+    private data: Array<MedicineRegimeModel>;
     public showingDetail: boolean = false;
     public dataChart: ChartObjectModel[];
     public dataTable: any[];
@@ -34,10 +44,11 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     private endCause: string = `endCause=${reasonBioligicalTreatment.stop}`;
     public configChart: ColumnChartModel;
 
-    constructor(private _graphService: GraphsService, private _router: Router) {}
+    constructor(private _graphService: GraphsService, private _patientsTreatmentService: PatientsTreatmentsService, private _translate: TranslateService, private _router: Router) {}
 
     ngOnInit(): void {
         this.getTreatments();
+        this.getTableData();
     }
 
     private getTreatments(): void {
@@ -45,7 +56,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
             (data) => {
                 this.treatments = data;
                 this.dataChart = this.parseDataChart(data);
-                this.dataTable = this.parseDataTable(data);
+                // this.dataTable = this.parseDataTable(data);
                 const chartTitle = 'patientsDoseFrequencyBiologicalTreatment';
                 const view = null;
                 const scheme = {
@@ -53,10 +64,12 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
                 };
                 this.configChart = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
             },
-            (error) => {
-                console.error(error);
-            }
+            (error) => console.error(error)
         );
+    }
+
+    private getTableData() {
+        this._graphService.getBiologicalTreatmentfrequencyTableData().subscribe((response) => (this.dataTable = this.parseDataTable(response)));
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
@@ -72,15 +85,20 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     }
 
     private parseDataTable(data: any): any[] {
-        const arrayData = Object.keys(data).map((key) => {
-            const object = {
-                medicine: key,
-                'de-escalate': key,
-                standar: key,
-                intensify: key,
-                total: data[key],
-            };
-            return object;
+        const arrayData = [];
+        this.data = data;
+        data.forEach((med: MedicineRegimeModel) => {
+            const low = med.regimes.filter((f) => this._translate.instant('de-escalate') === f.name).length > 0 ? +med.regimes.filter((f) => this._translate.instant('de-escalate') === f.name)[0].value : 0;
+            const standar = med.regimes.filter((f) => this._translate.instant('standard') === f.name).length > 0 ? +med.regimes.filter((f) => this._translate.instant('standard') === f.name)[0].value : 0;
+            const intensify = med.regimes.filter((f) => this._translate.instant('intensify') === f.name).length > 0 ? +med.regimes.filter((f) => this._translate.instant('intensify') === f.name)[0].value : 0;
+
+            arrayData.push({
+                medicine: med.medicine.actIngredients,
+                standar: standar,
+                'de-escalate': low,
+                intensify: intensify,
+                total: standar + low + intensify,
+            });
         });
 
         return arrayData;
@@ -109,7 +127,8 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
-            const query = `regimen=${this.currentTreatment.standar}`;
+            const medicine: MedicineModel = this.data.filter((f) => f.medicine.actIngredients === this.currentTreatment.medicine)[0].medicine;
+            const query = `medicine=${medicine.actIngredients}&type=${medicine.family}`;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
@@ -119,20 +138,18 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     }
 
     private getDetails(query: string): void {
-        this._graphService.getBiologicalTreatmentfrequencyDetails(query).subscribe(
-            (data: any) => {
-                this.details = data.content;
-                this.paginationData = data;
-                this.detailsDataTable = this.parseDataToTableDetails(data.content);
+        this._patientsTreatmentService.getDetailPatientsUnderTreatment(query).subscribe(
+            (response) => {
+                this.details = response.content;
+                this.paginationData = response;
+                this.detailsDataTable = this.parseDataToTableDetails(response.content);
             },
-            (error) => {
-                console.error(error);
-            }
+            (error) => console.error(error)
         );
     }
 
     private getDetailsToExport(query: string) {
-        this._graphService.getBiologicalTreatmentfrequencyExport(query).subscribe(
+        this._patientsTreatmentService.getDetailPatientsUnderTreatmentExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
             },
