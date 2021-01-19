@@ -44,12 +44,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     private endCause: string = `endCause=${reasonBioligicalTreatment.stop}`;
     public configChart: ColumnChartModel;
 
-    constructor(
-        private _graphService: GraphsService,
-        private _patientsTreatmentService: PatientsTreatmentsService,
-        private _translate: TranslateService,
-        private _router: Router
-    ) { }
+    constructor(private _graphService: GraphsService, private _patientsTreatmentService: PatientsTreatmentsService, private _translate: TranslateService, private _router: Router) {}
 
     ngOnInit(): void {
         this.getTreatments();
@@ -74,7 +69,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     }
 
     private getTableData() {
-        this._graphService.getBiologicalTreatmentfrequencyTableData().subscribe(response => this.dataTable = this.parseDataTable(response));
+        this._graphService.getBiologicalTreatmentfrequencyTableData().subscribe((response) => (this.dataTable = this.parseDataTable(response)));
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
@@ -93,16 +88,16 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
         const arrayData = [];
         this.data = data;
         data.forEach((med: MedicineRegimeModel) => {
-            const low = med.regimes.filter(f => this._translate.instant('de-escalate') === f.name).length > 0 ? +med.regimes.filter(f => this._translate.instant('de-escalate') === f.name)[0].value : 0;
-            const standar = med.regimes.filter(f => this._translate.instant('standard') === f.name).length > 0 ? +med.regimes.filter(f => this._translate.instant('standard') === f.name)[0].value : 0;
-            const intensify = med.regimes.filter(f => this._translate.instant('intensify') === f.name).length > 0 ? +med.regimes.filter(f => this._translate.instant('intensify') === f.name)[0].value : 0;
+            const low = med.regimes.filter((f) => this._translate.instant('de-escalate') === f.name).length > 0 ? +med.regimes.filter((f) => this._translate.instant('de-escalate') === f.name)[0].value : 0;
+            const standar = med.regimes.filter((f) => this._translate.instant('standard') === f.name).length > 0 ? +med.regimes.filter((f) => this._translate.instant('standard') === f.name)[0].value : 0;
+            const intensify = med.regimes.filter((f) => this._translate.instant('intensify') === f.name).length > 0 ? +med.regimes.filter((f) => this._translate.instant('intensify') === f.name)[0].value : 0;
 
             arrayData.push({
                 medicine: med.medicine.actIngredients,
                 standar: standar,
                 'de-escalate': low,
                 intensify: intensify,
-                total: standar + low + intensify
+                total: standar + low + intensify,
             });
         });
 
@@ -132,7 +127,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
-            const medicine: MedicineModel = this.data.filter(f => f.medicine.actIngredients === this.currentTreatment.medicine)[0].medicine;
+            const medicine: MedicineModel = this.data.filter((f) => f.medicine.actIngredients === this.currentTreatment.medicine)[0].medicine;
             const query = `medicine=${medicine.actIngredients}&type=${medicine.family}`;
 
             this.getDetails(query);
@@ -144,11 +139,12 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
 
     private getDetails(query: string): void {
         this._patientsTreatmentService.getDetailPatientsUnderTreatment(query).subscribe(
-            response => {
+            (response) => {
                 this.details = response.content;
                 this.paginationData = response;
                 this.detailsDataTable = this.parseDataToTableDetails(response.content);
-            }, error => console.error(error)
+            },
+            (error) => console.error(error)
         );
     }
 

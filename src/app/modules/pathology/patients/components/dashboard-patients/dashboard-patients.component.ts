@@ -40,7 +40,7 @@ export class DashboardPatientsComponent implements OnInit {
         private _translate: TranslateService,
         private _notification: NotificationService,
         private router: Router
-    ) { }
+    ) {}
 
     setConfigGannt(): void {
         this.configGantt = {
@@ -108,8 +108,8 @@ export class DashboardPatientsComponent implements OnInit {
                                         return element && element.date
                                             ? element.date.split('T')[0]
                                             : element.map((d) => {
-                                                return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0];
-                                            });
+                                                  return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0];
+                                              });
                                     });
                                 })
                             )
@@ -129,7 +129,6 @@ export class DashboardPatientsComponent implements OnInit {
                     this.loadChart(this.data);
                     this.loadLines();
                 }
-
             });
         } else {
             this._notification.showWarningToast('noPatientSelected');
