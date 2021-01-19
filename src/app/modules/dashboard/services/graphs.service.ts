@@ -112,6 +112,10 @@ export class GraphsService {
         return this._httpClient.get(`/patients-treatments/find-info-patients-doses`);
     }
 
+    public getBiologicalTreatmentfrequencyTableData() {
+        return this._httpClient.get(`/patients-treatments/find-info-patients-doses-medicines`);
+    }
+
     public getBiologicalTreatmentfrequencyDetails(query: string) {
         return this._httpClient.get(`/patients-treatments/get-detail-patients-per-doses?${query}`);
     }
