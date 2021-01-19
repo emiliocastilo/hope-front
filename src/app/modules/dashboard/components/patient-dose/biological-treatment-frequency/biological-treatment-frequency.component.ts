@@ -11,6 +11,7 @@ import { ValueKeyModel } from 'src/app/core/models/forms/value-key.model';
 import { TranslateService } from '@ngx-translate/core';
 import { PatientsTreatmentsService } from 'src/app/modules/management/services/patients-treatments/patients-treatments.service';
 import { MedicineModel } from 'src/app/modules/management/models/medicines/medicines.model';
+import { GroupedBarChartItem } from '../../vih/clinical-information/patients-vih/patients-vih-levels/patients-vih-levels.component';
 
 export interface MedicineRegimeModel {
     medicine: MedicineModel;
@@ -44,44 +45,36 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     private endCause: string = `endCause=${reasonBioligicalTreatment.stop}`;
     public configChart: ColumnChartModel;
 
-    constructor(private _graphService: GraphsService, private _patientsTreatmentService: PatientsTreatmentsService, private _translate: TranslateService, private _router: Router) {}
+    constructor(private _graphService: GraphsService, private _patientsTreatmentService: PatientsTreatmentsService, private _translate: TranslateService, private _router: Router) { }
 
     ngOnInit(): void {
         this.getTreatments();
-        this.getTableData();
     }
 
     private getTreatments(): void {
-        this._graphService.getBiologicalTreatmentfrequency().subscribe(
-            (data) => {
-                this.treatments = data;
-                this.dataChart = this.parseDataChart(data);
-                // this.dataTable = this.parseDataTable(data);
+        this._graphService.getBiologicalTreatmentfrequencyTableData().subscribe(
+            (response) => {
+                this.treatments = response;
                 const chartTitle = 'patientsDoseFrequencyBiologicalTreatment';
                 const view = null;
-                const scheme = {
-                    domain: ['#000', '#249cf1', '#d95f02'],
-                };
+                const scheme = { domain: ['#000', '#249cf1', '#d95f02'] };
                 this.configChart = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
-            },
-            (error) => console.error(error)
-        );
-    }
-
-    private getTableData() {
-        this._graphService.getBiologicalTreatmentfrequencyTableData().subscribe((response) => (this.dataTable = this.parseDataTable(response)));
+                this.dataTable = this.parseDataTable(response);
+                this.dataChart = this.parseDataChart(response);
+            });
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
-        const arrayData = Object.keys(data).map((key) => {
-            const object = {
-                name: key.toUpperCase(),
-                value: data[key],
-            };
-            return object;
+        // data = JSON.parse('[{"medicine":{"actIngredients":"Etanercept"},"regimes":[{"name":"Estandar","value":5},{"name":"Reducida","value":24},{"name":"Intensificada","value":27}]},{"medicine":{"actIngredients":"Guselkumab"},"regimes":[{"name":"Estandar","value":14},{"name":"Reducida","value":18},{"name":"Intensificada","value":7}]},{"medicine":{"actIngredients":"Ustekinumab"},"regimes":[{"name":"Estandar","value":21},{"name":"Reducida","value":19},{"name":"Intensificada","value":13}]}]');
+        const chartData = [];
+
+        data.forEach(element => {
+            const chartGroup = { name: element.medicine.actIngredients, series: [] };
+            element.regimes.forEach(regime => chartGroup.series.push({ name: regime.name, value: regime.value }));
+            chartData.push(chartGroup);
         });
 
-        return arrayData;
+        return chartData;
     }
 
     private parseDataTable(data: any): any[] {
