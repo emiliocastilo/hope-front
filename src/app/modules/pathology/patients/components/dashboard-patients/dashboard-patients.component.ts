@@ -102,10 +102,8 @@ export class DashboardPatientsComponent implements OnInit {
                         _.union(
                             _.flattenDeep(
                                 Object.values(this.data).map((array) => {
-                                    console.log('array', array)
                                     if (!array) array = [];
                                     return Object.values(array).map((element) => {
-                                        console.log('element', element);
                                         if (!element) element = [];
                                         return element && element.date
                                             ? element.date.split('T')[0]
