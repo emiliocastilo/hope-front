@@ -8,6 +8,7 @@ import { FormsService } from '../../services/forms/forms.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { ifStmt } from '@angular/compiler/src/output/output_ast';
+import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -16,6 +17,8 @@ import { ifStmt } from '@angular/compiler/src/output/output_ast';
     styleUrls: ['./dynamic-form.component.scss'],
 })
 export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
+    private currentPatient: PatientModel = JSON.parse(localStorage.getItem('selectedPatient'));
+
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
     @Input() key: string;
@@ -41,6 +44,9 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) { }
     ngAfterViewInit(): void {
         this.detectCalculated();
+        setTimeout(() => {
+            this.displayElement(this.config);
+        }, 500);
     }
 
     ngOnInit() {
@@ -154,6 +160,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         const calculatedFields = config.filter((e) => e.hiddenWhen && e.hiddenWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
+                console.log(field);
                 if (document.getElementById(field.name)) {
                     if (this.hiddenWhen(field)) {
                         field.hidden = false;
@@ -172,13 +179,18 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
             });
         }
     }
+
     hiddenWhen(field: FieldConfig) {
+        console.log('hiddenWhen', field);
         if (field.hiddenWhen[1] === 'not_empty') {
             return this.form.controls[field.hiddenWhen[0]].value !== '';
+        } else if (field.hiddenWhen[0] === 'patientGender' && this.currentPatient.genderCode === field.hiddenWhen[1]) {
+            field.hidden = true;
         } else {
-            return this.form.controls[field.hiddenWhen[0]].value === field.hiddenWhen[1];
+            return !this.form.controls[field.hiddenWhen[0]] || (this.form.controls[field.hiddenWhen[0]].value === field.hiddenWhen[1]);
         }
     }
+
     ngOnChanges() {
         if (this.form) {
             // this._formsService.setModalForm(this.form);
