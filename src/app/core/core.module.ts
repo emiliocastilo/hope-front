@@ -80,6 +80,8 @@ import { InputMultiSelectComponent } from './components/basics/input-multi-selec
 import { NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
 import { FormMultiSelectComponent } from './components/basics/form-multi-select/form-multi-select.component';
 import { FormSpaceComponent } from './components/basics/form-space/form-space.component';
+import { FormInputFileComponent } from './components/basics/form-input-file/form-input-file.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -108,6 +110,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormInputComponent,
         FormSelectComponent,
         FormMultiSelectComponent,
+        FormInputFileComponent,
         FormButtonComponent,
         FormSpaceComponent,
         DynamicFieldDirective,
@@ -222,7 +225,10 @@ export function createTranslateLoader(http: HttpClient) {
         InputTextareaComponent,
         InputTypeaheadComponent,
         EntryMenuSelectComponent,
+        InputFileComponent,
+        FormInputFileComponent,
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [GenderFormatter],
     entryComponents: [FormButtonComponent, FormInputComponent, FormSelectComponent, FormMultiSelectComponent],
 })

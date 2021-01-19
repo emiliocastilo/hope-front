@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { GroupedLinesChartComponent } from 'src/app/core/components/charts/grouped-lines-chart/grouped-lines-chart.component';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
-import { GroupedLineChartGroupData } from 'src/app/core/models/graphs/grouped-line-chart.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -100,11 +98,11 @@ export class PatientsVihLevelsComponent implements OnInit {
         private _notificationService: NotificationService
     ) { }
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.getData(`type=${this.selectedOption.param}`);
     }
 
-    private getData (query: string): void {
+    private getData(query: string): void {
         this._graphService.getPatientsByClinicalParameter(query).subscribe(
             (data) => {
                 this.dataChart = this.parseDataChart(data);
@@ -135,12 +133,12 @@ export class PatientsVihLevelsComponent implements OnInit {
         );
     }
 
-    onSelect (event: any) {
+    onSelect(event: any) {
         this.selectedOption = this.options.filter((f) => f.name === event.target.value)[0];
         this.getData(`type=${this.selectedOption.param}`);
     }
 
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         if (this.selectedOption.chart.type === 'pie') {
             const arrayData = Object.keys(data).map((key) => {
                 const object = {
@@ -156,7 +154,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         } else return undefined;
     }
 
-    private parseGroupedChartData (data: Array<GroupedBarChartItem>): ChartObjectModel[] {
+    private parseGroupedChartData(data: Array<GroupedBarChartItem>): ChartObjectModel[] {
         const chartData = [
             { name: 'Monoterapia', series: [] },
             { name: 'Biterapia', series: [] },
@@ -189,7 +187,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         return chartData;
     }
 
-    private parseDataTable (data: any): any[] {
+    private parseDataTable(data: any): any[] {
         let arrayData = [];
         if (this.selectedOption.chart.type === 'grouped-vertical-line') {
             this.columHeaders = ['treatmentLine', 'patients'];
@@ -210,7 +208,7 @@ export class PatientsVihLevelsComponent implements OnInit {
     }
 
     // Detalle
-    public onIconButtonClick (event: any): void {
+    public onIconButtonClick(event: any): void {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.dataTable[event.selectedItem];
@@ -223,7 +221,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         }
     }
 
-    private getDetails (query: string): void {
+    private getDetails(query: string): void {
         this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
             (data: any) => {
                 this.details = data.content;
@@ -237,7 +235,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         );
     }
 
-    private parseDataToTableDetails (data: any[]): any[] {
+    private parseDataToTableDetails(data: any[]): any[] {
         if (data) {
             const arrayObject = data.map((value: any) => {
                 const object = {
@@ -256,7 +254,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         }
     }
 
-    private getDetailsToExport (query: string) {
+    private getDetailsToExport(query: string) {
         this._graphService.getDetailPatientsByClinicalParameterToExport(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
@@ -267,7 +265,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         );
     }
 
-    public onPatientClick (event: any) {
+    public onPatientClick(event: any) {
         if (event.type === 'detail') {
             const currentUser = this.details[event.selectedItem];
             const selectedUser = JSON.stringify(currentUser || {});
@@ -276,7 +274,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         }
     }
 
-    public selectPage (page: number) {
+    public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
             const query = this.query + `&result=${this.currentSelected.indication}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
@@ -284,7 +282,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         }
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         const query = this.query + `&result=${this.currentSelected.indication}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);

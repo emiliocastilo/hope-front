@@ -65,15 +65,13 @@ export class TotalExpensesBiologicalTreatmentComponent {
         return new Observable<any>((observer) => {
             if (this.selectedOption.accumulated) {
                 if (this.selectedOption.code === 'total') {
-                    // * TOTAL NO ACUMULADO
-                    this.title = 'totalCost';
+                    this.title = 'accumulatedCost';
                     this._graphService.getTotalAccumulatedExpenses(query).subscribe(
                         (data) => observer.next(data),
                         (error) => observer.error(error)
                     );
                 } else {
-                    // * MEDIO NO ACUMULADO
-                    this.title = 'averageCost';
+                    this.title = 'accumulatedAverageCost';
                     this._graphService.getTotalAvgAccumulatedExpenses(query).subscribe(
                         (data) => observer.next(data),
                         (error) => observer.error(error)
@@ -81,15 +79,13 @@ export class TotalExpensesBiologicalTreatmentComponent {
                 }
             } else {
                 if (this.selectedOption.code === 'total') {
-                    // * TOTAL ACUMULADO
-                    this.title = 'accumulatedCost';
+                    this.title = 'totalCost';
                     this._graphService.getTotalExpenses(query).subscribe(
                         (data) => observer.next(data),
                         (error) => observer.error(error)
                     );
                 } else {
-                    // * MEDIO ACUMULADO
-                    this.title = 'accumulatedAverageCost';
+                    this.title = 'averageCost';
                     this._graphService.getTotalAvgExpenses(query).subscribe(
                         (data) => observer.next(data),
                         (error) => observer.error(error)

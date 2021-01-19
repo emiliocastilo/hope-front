@@ -1,4 +1,3 @@
-@import "~src/assets/styles/variables.scss";
 @import '~src/app/core/components/basics/entry-menu-select/entry-menu-select.component.scss';
 
 .container {
@@ -25,11 +24,17 @@
   }
 }
 
-.container {
-  margin-top: 1rem;
-  display: flex;
-}
+.patients-chart-container {
+  min-height: 20rem;
 
-.select {
-  min-width: 215px !important;
+  .export-buttons {
+    text-align: right;
+    padding-bottom: 1rem;
+  }
+
+  .table-container {
+    top: 2rem;
+    padding: 1rem;
+    padding-top: 7rem;
+  }
 }
