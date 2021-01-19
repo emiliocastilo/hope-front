@@ -38,7 +38,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) {}
+    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) { }
     ngAfterViewInit(): void {
         this.detectCalculated();
     }
@@ -81,10 +81,14 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         const calculatedFields = config.filter((e) => e.enableWhen && e.enableWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
-                
-                // console.log(field, this.form.controls[field.enableWhen[0]].value, field.enableWhen[1]);
+                const controlName = field.enableWhen[0];
 
-                if (this.form.controls[field.enableWhen[0]] && this.form.controls[field.enableWhen[0]].value === field.enableWhen[1]) {
+                if (this.form.controls[field.enableWhen[0]] &&
+                    (
+                        (field.enableWhen[1] === 'not_empty' && this.form.controls[field.enableWhen[0]].value) ||
+                        this.form.controls[field.enableWhen[0]].value === field.enableWhen[1]
+                    )
+                ) {
                     this.setDisabled(field.name, false);
                 } else {
                     this.setDisabled(field.name, true);
