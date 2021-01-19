@@ -160,7 +160,6 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         const calculatedFields = config.filter((e) => e.hiddenWhen && e.hiddenWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
-                console.log(field);
                 if (document.getElementById(field.name)) {
                     if (this.hiddenWhen(field)) {
                         field.hidden = false;
@@ -181,7 +180,6 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     }
 
     hiddenWhen(field: FieldConfig) {
-        console.log('hiddenWhen', field);
         if (field.hiddenWhen[1] === 'not_empty') {
             return this.form.controls[field.hiddenWhen[0]].value !== '';
         } else if (field.hiddenWhen[0] === 'patientGender' && this.currentPatient.genderCode === field.hiddenWhen[1]) {
