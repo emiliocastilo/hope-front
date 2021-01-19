@@ -23,6 +23,7 @@ export interface MedicineRegimeModel {
     styleUrls: ['./biological-treatment-frequency.component.scss'],
 })
 export class BiologicalTreatmentFrequencyComponent implements OnInit {
+    private data: Array<MedicineRegimeModel>;
     public showingDetail: boolean = false;
     public dataChart: ChartObjectModel[];
     public dataTable: any[];
@@ -90,7 +91,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
 
     private parseDataTable(data: any): any[] {
         const arrayData = [];
-
+        this.data = data;
         data.forEach((med: MedicineRegimeModel) => {
             const low = med.regimes.filter(f => this._translate.instant('de-escalate') === f.name).length > 0 ? +med.regimes.filter(f => this._translate.instant('de-escalate') === f.name)[0].value : 0;
             const standar = med.regimes.filter(f => this._translate.instant('standard') === f.name).length > 0 ? +med.regimes.filter(f => this._translate.instant('standard') === f.name)[0].value : 0;
@@ -131,11 +132,8 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
-            console.log(event);
-            console.log(this.currentTreatment);
-            console.log(this.dataTable[event.selectedItem]);
-            console.log(this.dataTable);
-            const query = `medicine=${this.currentTreatment.medicine}&type=QUIMICO`;
+            const medicine: MedicineModel = this.data.filter(f => f.medicine.actIngredients === this.currentTreatment.medicine)[0].medicine;
+            const query = `medicine=${medicine.actIngredients}&type=${medicine.family}`;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
