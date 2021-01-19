@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class GraphsService {
     public selectedRole: any;
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) { }
 
     //TODO: delete if it isn't using it
     // public getPatientsUnderTreatment(type: string): Observable<any> {
@@ -110,6 +110,10 @@ export class GraphsService {
 
     public getBiologicalTreatmentfrequency() {
         return this._httpClient.get(`/patients-treatments/find-info-patients-doses`);
+    }
+
+    public getBiologicalTreatmentfrequencyTableData() {
+        return this._httpClient.get(`/patients-treatments/find-info-patients-doses-medicines`);
     }
 
     public getBiologicalTreatmentfrequencyDetails(query: string) {

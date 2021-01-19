@@ -81,6 +81,9 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         const calculatedFields = config.filter((e) => e.enableWhen && e.enableWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
+                
+                // console.log(field, this.form.controls[field.enableWhen[0]].value, field.enableWhen[1]);
+
                 if (this.form.controls[field.enableWhen[0]] && this.form.controls[field.enableWhen[0]].value === field.enableWhen[1]) {
                     this.setDisabled(field.name, false);
                 } else {

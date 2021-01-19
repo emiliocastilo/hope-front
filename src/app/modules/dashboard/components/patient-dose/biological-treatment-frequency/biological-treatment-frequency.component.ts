@@ -34,10 +34,14 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     private endCause: string = `endCause=${reasonBioligicalTreatment.stop}`;
     public configChart: ColumnChartModel;
 
-    constructor(private _graphService: GraphsService, private _router: Router) {}
+    constructor(
+        private _graphService: GraphsService,
+        private _router: Router
+    ) { }
 
     ngOnInit(): void {
         this.getTreatments();
+        this.getTableData();
     }
 
     private getTreatments(): void {
@@ -53,9 +57,13 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
                 };
                 this.configChart = new ColumnChartModel(chartTitle, view, scheme, this.dataChart);
             },
-            (error) => {
-                console.error(error);
-            }
+            (error) => console.error(error)
+        );
+    }
+
+    private getTableData() {
+        this._graphService.getBiologicalTreatmentfrequencyTableData().subscribe(
+            response => console.log(response)
         );
     }
 
