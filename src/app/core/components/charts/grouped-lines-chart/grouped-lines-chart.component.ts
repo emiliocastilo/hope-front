@@ -22,35 +22,22 @@ export class GroupedLinesChartComponent implements OnInit {
     showYAxisLabel: boolean = true;
 
     colorScheme = {
-        domain: [
-            '#4185f4',
-            '#df5a4f',
-            '#f3af00',
-            '#00964b',
-            '#ab47bc',
-            '#00abc0',
-            '#ff6939',
-            '#9e9d23',
-            '#5666be',
-            '#ef588b',
-            '#00786a',
-            '#c2185b',
-        ]
+        domain: ['#4185f4', '#df5a4f', '#f3af00', '#00964b', '#ab47bc', '#00abc0', '#ff6939', '#9e9d23', '#5666be', '#ef588b', '#00786a', '#c2185b'],
     };
 
-    constructor() { }
+    constructor() {}
 
-    ngOnInit () { }
+    ngOnInit() {}
 
-    onSelect (data): void {
+    onSelect(data): void {
         // console.log('Item clicked', JSON.parse(JSON.stringify(data)));
     }
 
-    onActivate (data): void {
+    onActivate(data): void {
         // console.log('Activate', JSON.parse(JSON.stringify(data)));
     }
 
-    onDeactivate (data): void {
+    onDeactivate(data): void {
         // console.log('Deactivate', JSON.parse(JSON.stringify(data)));
     }
 }

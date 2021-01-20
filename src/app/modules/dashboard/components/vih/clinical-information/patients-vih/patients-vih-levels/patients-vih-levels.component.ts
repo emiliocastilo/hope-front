@@ -91,12 +91,7 @@ export class PatientsVihLevelsComponent implements OnInit {
         direction: 'asc',
     };
 
-    constructor(
-        private _graphService: GraphsService,
-        public translate: TranslateService,
-        private _router: Router,
-        private _notificationService: NotificationService
-    ) { }
+    constructor(private _graphService: GraphsService, public translate: TranslateService, private _router: Router, private _notificationService: NotificationService) {}
 
     ngOnInit(): void {
         this.getData(`type=${this.selectedOption.param}`);
@@ -113,18 +108,18 @@ export class PatientsVihLevelsComponent implements OnInit {
                 this._notificationService.showErrorToast('errorRetrievingData');
                 // ! MOCKED DATA TEST ! //
                 const data = [
-                    { treatmentLine: "Monoterapia", activeActs: 1, patients: 16 },
-                    { treatmentLine: "Combo (2)", activeActs: 2, patients: 1 },
-                    { treatmentLine: "Combo triple (3)", activeActs: 3, patients: 165 },
-                    { treatmentLine: "Combo cuádruple (4)", activeActs: 4, patients: 7 },
-                    { treatmentLine: "Individual (1+1)", activeActs: 2, patients: 50 },
-                    { treatmentLine: "Individual (1+1+1)", activeActs: 3, patients: 23 },
-                    { treatmentLine: "Combo doble (2+1)", activeActs: 3, patients: 178 },
-                    { treatmentLine: "Individual (1+1+1+1)", activeActs: 4, patients: 4 },
-                    { treatmentLine: "Combo doble (2+1+1)", activeActs: 4, patients: 9 },
-                    { treatmentLine: "2 combos dobles (2+2)", activeActs: 4, patients: 0 },
-                    { treatmentLine: "Combo triple (3+1)", activeActs: 4, patients: 5 },
-                    { treatmentLine: "5+ principios activos", activeActs: 5, patients: 16 }
+                    { treatmentLine: 'Monoterapia', activeActs: 1, patients: 16 },
+                    { treatmentLine: 'Combo (2)', activeActs: 2, patients: 1 },
+                    { treatmentLine: 'Combo triple (3)', activeActs: 3, patients: 165 },
+                    { treatmentLine: 'Combo cuádruple (4)', activeActs: 4, patients: 7 },
+                    { treatmentLine: 'Individual (1+1)', activeActs: 2, patients: 50 },
+                    { treatmentLine: 'Individual (1+1+1)', activeActs: 3, patients: 23 },
+                    { treatmentLine: 'Combo doble (2+1)', activeActs: 3, patients: 178 },
+                    { treatmentLine: 'Individual (1+1+1+1)', activeActs: 4, patients: 4 },
+                    { treatmentLine: 'Combo doble (2+1+1)', activeActs: 4, patients: 9 },
+                    { treatmentLine: '2 combos dobles (2+2)', activeActs: 4, patients: 0 },
+                    { treatmentLine: 'Combo triple (3+1)', activeActs: 4, patients: 5 },
+                    { treatmentLine: '5+ principios activos', activeActs: 5, patients: 16 },
                 ];
                 this.dataChart = this.parseDataChart(data);
                 this.dataTable = this.parseDataTable(data);
@@ -163,23 +158,23 @@ export class PatientsVihLevelsComponent implements OnInit {
             { name: '5+ principios activos', series: [] },
         ];
 
-        data.forEach(item => {
+        data.forEach((item) => {
             if (item.patients > 0)
                 switch (item.activeActs) {
                     case 1:
-                        chartData.filter(f => f.name === 'Monoterapia')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        chartData.filter((f) => f.name === 'Monoterapia')[0].series.push({ name: item.treatmentLine, value: item.patients });
                         break;
                     case 2:
-                        chartData.filter(f => f.name === 'Biterapia')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        chartData.filter((f) => f.name === 'Biterapia')[0].series.push({ name: item.treatmentLine, value: item.patients });
                         break;
                     case 3:
-                        chartData.filter(f => f.name === 'Terapia triple')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        chartData.filter((f) => f.name === 'Terapia triple')[0].series.push({ name: item.treatmentLine, value: item.patients });
                         break;
                     case 4:
-                        chartData.filter(f => f.name === 'Terapia cuádruple')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        chartData.filter((f) => f.name === 'Terapia cuádruple')[0].series.push({ name: item.treatmentLine, value: item.patients });
                         break;
                     default:
-                        chartData.filter(f => f.name === '5+ principios activos')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        chartData.filter((f) => f.name === '5+ principios activos')[0].series.push({ name: item.treatmentLine, value: item.patients });
                         break;
                 }
         });
