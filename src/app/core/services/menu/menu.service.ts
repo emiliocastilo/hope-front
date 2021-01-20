@@ -77,7 +77,7 @@ export class MenuService {
                 if (!this.allSections) this.fillSections(this.fullMenu);
                 section = this.allSections.filter((f) => f.url === '/hopes')[0];
             }
-            const url = section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
+            const url = section && section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
 
             if (this.patientSection && !section.path.includes(this.patientSection.path) && this.thereIsPatientSelected) {
                 this.thereIsPatientSelected = false;
