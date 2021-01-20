@@ -44,7 +44,7 @@ export class DashboardPatientsComponent implements OnInit {
 
     setConfigGannt(): void {
         this.configGantt = {
-            columns: ['BIOLOGICO', 'FAME', ' ', 'ADHERENCIA', 'OTR'],
+            columns: ['BIOLOGICO', 'OTROS', ' ', 'ADHERENCIA', 'OTR'],
             type: 'Timeline',
             data: [],
             options: {
@@ -153,7 +153,7 @@ export class DashboardPatientsComponent implements OnInit {
                 PASI: [],
             },
             treatments: {
-                FAME: [],
+                OTROS: [],
                 BIOLOGICO: [],
             },
             adherence: [],
@@ -169,7 +169,7 @@ export class DashboardPatientsComponent implements OnInit {
                                 newData.indicesEvolution[i.indexType].push(i);
                             }
                             if (i.initDate) {
-                                const type = i.type === 'BIOLOGICO' ? i.type : 'FAME';
+                                const type = i.type === 'BIOLOGICO' ? i.type : 'OTROS';
                                 newData.treatments[type].push(i);
                             }
                         }
@@ -211,7 +211,7 @@ export class DashboardPatientsComponent implements OnInit {
     private loadChart(data: any): void {
         const dataGantt = {
             BIOLOGICO: data.treatments.BIOLOGICO,
-            FAME: data.treatments.FAME,
+            OTROS: data.treatments.FAME,
             ADHERENCIA: data.adherence,
         };
         this.configGantt.data = this.parseDataGantt(dataGantt);
