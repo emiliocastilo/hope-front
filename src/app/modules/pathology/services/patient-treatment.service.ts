@@ -10,21 +10,21 @@ import { PatientTreatmentModel } from '../models/patient-treatment.model';
 })
 export class PatientTreatmentService {
     private endpoint = '/patient-treatments';
-    constructor(private _http: HttpClient) { }
+    constructor(private _http: HttpClient) {}
 
-    get (queryParams?: string): Observable<QueryResult<PatientTreatmentModel>> {
+    get(queryParams?: string): Observable<QueryResult<PatientTreatmentModel>> {
         return this._http.get<QueryResult<PatientTreatmentModel>>(`${this.endpoint}${queryParams ? queryParams : ''}`);
     }
 
-    search (search?: string): Observable<QueryResult<PatientTreatmentModel>> {
+    search(search?: string): Observable<QueryResult<PatientTreatmentModel>> {
         return this._http.get<QueryResult<PatientTreatmentModel>>(`${this.endpoint}/searches?search=${search}`);
     }
 
-    change () { }
+    change() {}
 
-    modify () { }
+    modify() {}
 
-    delete (id: number): Observable<PatientTreatmentModel> {
+    delete(id: number): Observable<PatientTreatmentModel> {
         return this._http.delete<PatientTreatmentModel>(`${this.endpoint}/${id}`);
     }
 }

@@ -31,21 +31,21 @@ export class TableComponent implements OnInit {
 
     public clickedHeader: string;
 
-    constructor(public _translate: TranslateService, private datePipe: DatePipe, private genderFormatter: GenderFormatter) { }
+    constructor(public _translate: TranslateService, private datePipe: DatePipe, private genderFormatter: GenderFormatter) {}
 
-    ngOnInit (): void { }
+    ngOnInit(): void {}
 
-    emitOnSort ({ column, direction }: SortEvent) {
+    emitOnSort({ column, direction }: SortEvent) {
         this.clickedHeader = `${column}${direction}`;
         this.sort.emit({ column, direction });
     }
 
-    activate (selectedItem: number): void {
+    activate(selectedItem: number): void {
         this.selectedItem.emit(selectedItem);
         this.internalSelectedItem = selectedItem;
     }
 
-    emitIconButtonClick (type: string, selectedItem: number): void {
+    emitIconButtonClick(type: string, selectedItem: number): void {
         event.preventDefault();
         this.activate(selectedItem);
         this.iconButtonClick.emit({
@@ -54,11 +54,11 @@ export class TableComponent implements OnInit {
         });
     }
 
-    checkHiddenColumn (element: any): boolean {
+    checkHiddenColumn(element: any): boolean {
         return this.columnsHidden.filter((f) => f === element).length > 0;
     }
 
-    isValidDate (date: string): boolean {
+    isValidDate(date: string): boolean {
         let pass = false;
 
         const dateObject = new Date(date);
@@ -72,11 +72,11 @@ export class TableComponent implements OnInit {
         return pass;
     }
 
-    showDataTable (row: any, header: string) {
+    showDataTable(row: any, header: string) {
         let data = row;
 
         // console.log(data, typeof (data), typeof (data) === 'object');
-        if (data && typeof (data) === 'object') data = data.name;
+        if (data && typeof data === 'object') data = data.name;
 
         const conditionDate = header.toLowerCase().includes('date') || header.toLowerCase().includes('period') || header.toLowerCase().includes('period');
 
@@ -116,7 +116,7 @@ export class TableComponent implements OnInit {
         return data;
     }
 
-    checkRowColor (row: any): string {
+    checkRowColor(row: any): string {
         return row.rowColor;
     }
 }

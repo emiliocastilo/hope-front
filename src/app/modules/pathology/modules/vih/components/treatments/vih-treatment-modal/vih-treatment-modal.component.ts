@@ -10,7 +10,7 @@ import { MedicineModel } from 'src/app/modules/management/models/medicines/medic
 @Component({
     selector: 'app-vih-treatment-modal',
     templateUrl: './vih-treatment-modal.component.html',
-    styleUrls: ['./vih-treatment-modal.component.scss']
+    styleUrls: ['./vih-treatment-modal.component.scss'],
 })
 export class VIHTreatmentModalComponent implements OnInit {
     @Input() type: string;
@@ -30,13 +30,13 @@ export class VIHTreatmentModalComponent implements OnInit {
             { id: 7, name: 'reasonChangeOrSuspensionList.motive7' },
             { id: 8, name: 'reasonChangeOrSuspensionList.motive8' },
             { id: 9, name: 'reasonChangeOrSuspensionList.motive9' },
-            { id: 10, name: 'reasonChangeOrSuspensionList.motive10' }
+            { id: 10, name: 'reasonChangeOrSuspensionList.motive10' },
         ],
         patterns: [
             { id: 1, name: this._translate.instant('intensificada') },
             { id: 2, name: this._translate.instant('standard') },
             { id: 3, name: this._translate.instant('reduced') },
-        ]
+        ],
     };
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     @Output() save: EventEmitter<any> = new EventEmitter();
@@ -44,38 +44,35 @@ export class VIHTreatmentModalComponent implements OnInit {
 
     public showRequiredLegend: boolean = false;
 
-    constructor(
-        private _medicinesService: MedicinesServices,
-        private _notification: NotificationService,
-        private _translate: TranslateService,
-    ) { }
+    constructor(private _medicinesService: MedicinesServices, private _notification: NotificationService, private _translate: TranslateService) {}
 
-    get validForm (): boolean {
+    get validForm(): boolean {
         return this.form.valid;
     }
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         console.log(this.form.value);
         this.form.controls.indication.setValue(this._translate.instant(this.form.controls.indication.value));
         this.form.controls.treatmentType.setValue(this._translate.instant(this.form.controls.treatmentType.value.name));
         if (this.type === 'edit' || this.type === 'changeSuspend') this.getDoses(this.form.controls.medicine.value.id);
     }
 
-    private getDoses (medicineId: number) {
+    private getDoses(medicineId: number) {
         from(this._medicinesService.getDosesByMedicine(`medicineId=${medicineId}`)).subscribe(
             (data: any) => {
-                data.forEach(element => element.name = element.description);
+                data.forEach((element) => (element.name = element.description));
                 data.push({ id: 0, name: 'Otra' });
                 this.selectOptions.doses = data;
-            }, error => this._notification.showErrorToast(error.errorCode)
-        )
+            },
+            (error) => this._notification.showErrorToast(error.errorCode)
+        );
     }
 
-    private resetFields (keys: any[]) {
+    private resetFields(keys: any[]) {
         keys.forEach((key) => this.form.get(key).reset(''));
     }
 
-    public onSelectInputTypeahead (med: MedicineModel) {
+    public onSelectInputTypeahead(med: MedicineModel) {
         this.selectOptions.doses = [];
         this.form.controls.family.setValue(med.family);
         this.form.controls.atc.setValue(med.codeAct);
@@ -91,23 +88,22 @@ export class VIHTreatmentModalComponent implements OnInit {
             debounceTime(200),
             distinctUntilChanged(),
             switchMap((term) =>
-                this._medicinesService.getByText(`search=${term}&family=QUIMICO`)
-                    .pipe(
-                        map((response: any) => {
-                            return response.content;
-                        }),
-                        tap((data) => {
-                            data.forEach((element) => element.name = element.description);
-                        }),
-                        catchError(() => {
-                            return of([]);
-                        })
-                    )
+                this._medicinesService.getByText(`search=${term}&family=QUIMICO`).pipe(
+                    map((response: any) => {
+                        return response.content;
+                    }),
+                    tap((data) => {
+                        data.forEach((element) => (element.name = element.description));
+                    }),
+                    catchError(() => {
+                        return of([]);
+                    })
+                )
             )
         );
     };
 
-    public checkIfRequired (key: string): boolean {
+    public checkIfRequired(key: string): boolean {
         let isRequired: boolean = false;
         const field = this.form.get(key);
         if (field.validator) {
@@ -119,7 +115,7 @@ export class VIHTreatmentModalComponent implements OnInit {
         return isRequired;
     }
 
-    public doseChange (event) {
+    public doseChange(event) {
         if (event.name === 'Otra') {
             this.form.controls.otherDosis.setValidators(Validators.required);
         } else {
@@ -129,28 +125,27 @@ export class VIHTreatmentModalComponent implements OnInit {
         }
     }
 
-    public onSave () {
+    public onSave() {
         if (this.validForm) {
             this.save.emit(this.form);
         }
     }
 
-    public onUpdate () {
+    public onUpdate() {
         if (this.validForm) {
             this.update.emit(this.form);
         }
     }
 
-    public onClose () {
+    public onClose() {
         this.cancel.emit(null);
     }
 
-    public isDisabled (formKey) {
+    public isDisabled(formKey) {
         if (this.type === 'changeSuspend') {
             return ['medicine', 'family', 'atc', 'cn', 'tract', 'indication'].indexOf(formKey) > -1;
         } else {
             return ['family', 'atc', 'cn', 'tract', 'indication'].indexOf(formKey) > -1;
         }
     }
-
 }

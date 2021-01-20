@@ -19,18 +19,14 @@ import { VIHTreatmentModalComponent } from './vih-treatment-modal/vih-treatment-
 @Component({
     selector: 'app-vih-treatments',
     templateUrl: './vih-treatments.component.html',
-    styleUrls: ['./vih-treatments.component.scss']
+    styleUrls: ['./vih-treatments.component.scss'],
 })
 export class VIHTreatmentsComponent implements OnInit {
     private settedTreatmentType = { id: 'QUIMICO', name: 'chemical' };
     public treatments: Array<VIHTreatmentModel> = [];
     public showedTreatments: Array<VIHTreatmentModel> = [];
     public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension'];
-    public actions: TableActionsModel[] = [
-        new TableActionsModel('changeSuspend', 'edit-3'),
-        new TableActionsModel('edit', 'edit-2'),
-        new TableActionsModel('delete', 'trash')
-    ];
+    public actions: TableActionsModel[] = [new TableActionsModel('changeSuspend', 'edit-3'), new TableActionsModel('edit', 'edit-2'), new TableActionsModel('delete', 'trash')];
 
     private modalForm: FormGroup = this._formBuilder.group({
         indication: ['', Validators.required],
@@ -51,7 +47,7 @@ export class VIHTreatmentsComponent implements OnInit {
         expectedEndDate: [''],
         observations: [''],
         treatmentContinue: [false],
-        treatmentPulsatil: [false]
+        treatmentPulsatil: [false],
     });
 
     private templateName: string = 'treatment-vih';
@@ -77,14 +73,14 @@ export class VIHTreatmentsComponent implements OnInit {
         private _indicationService: IndicationService,
         private _medicinesService: MedicinesServices,
         private _router: Router
-    ) { }
+    ) {}
 
-    ngOnInit () {
+    ngOnInit() {
         this.paginationData = {
             number: 0,
             totalElements: 0,
             size: 0,
-            totalPages: 0
+            totalPages: 0,
         };
         this.currentPage = 1;
         if (localStorage.getItem('selectedPatient')) {
@@ -97,7 +93,7 @@ export class VIHTreatmentsComponent implements OnInit {
         }
     }
 
-    private getData () {
+    private getData() {
         this.loading = true;
         this._formService.getFormData(this.templateDataRequest).subscribe(
             (response: JSONTemplateModel) => {
@@ -106,44 +102,44 @@ export class VIHTreatmentsComponent implements OnInit {
                     number: 1,
                     totalElements: this.treatments.length,
                     size: this.pageSize,
-                    totalPages: this.treatments.length / this.pageSize
+                    totalPages: this.treatments.length / this.pageSize,
                 };
 
                 this.sortTableDefault();
             },
-            error => this._notification.showErrorToast('errorRetrievingData'),
-            () => this.loading = false
+            (error) => this._notification.showErrorToast('errorRetrievingData'),
+            () => (this.loading = false)
         );
 
         // TODO ! RECUPERAR INDICACION
-        const indicationQuery = `template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`
-        this._formService.getFormsDatas(indicationQuery).subscribe(
-            response => {
-                this.indication = response;
-                this.indication = 'vih';
-            }
-        );
+        const indicationQuery = `template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`;
+        this._formService.getFormsDatas(indicationQuery).subscribe((response) => {
+            this.indication = response;
+            this.indication = 'vih';
+        });
     }
 
-    private mongoToObject (mongoObj: JSONTemplateModel): Array<VIHTreatmentModel> {
+    private mongoToObject(mongoObj: JSONTemplateModel): Array<VIHTreatmentModel> {
         let mappedData: Array<VIHTreatmentModel> = [];
         mappedData = mongoObj.data[0].value;
         return mappedData;
     }
 
-    private objectToMongoJSON (): string {
+    private objectToMongoJSON(): string {
         const mongoObj = {
             template: this.templateName,
             patientId: this.patient.id,
-            data: [{
-                type: 'table',
-                name: 'principal-treatment',
-                value: []
-            }],
-            job: true
+            data: [
+                {
+                    type: 'table',
+                    name: 'principal-treatment',
+                    value: [],
+                },
+            ],
+            job: true,
         };
 
-        this.treatments.forEach(treatment => {
+        this.treatments.forEach((treatment) => {
             mongoObj.data[0].value.push({
                 indication: this.indication,
                 treatmentType: this.settedTreatmentType,
@@ -166,14 +162,14 @@ export class VIHTreatmentsComponent implements OnInit {
                 dateSuspension: treatment.dateSuspension,
                 principle: treatment.principle,
                 brand: treatment.brand,
-                type: 'QUIMICO'
+                type: 'QUIMICO',
             });
         });
 
         return JSON.stringify(mongoObj);
     }
 
-    private addColorRow (tableData) {
+    private addColorRow(tableData) {
         tableData.forEach((element) => {
             element.rowColor = false;
             if (element.dateSuspension) {
@@ -190,7 +186,7 @@ export class VIHTreatmentsComponent implements OnInit {
         });
     }
 
-    private fillForm (form: FormGroup, values: any, type: string) {
+    private fillForm(form: FormGroup, values: any, type: string) {
         let formKeys: string[] = Object.keys(form.controls);
         formKeys.forEach((key: string) => form.controls[key].setValue(values[key]));
         if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
@@ -203,14 +199,14 @@ export class VIHTreatmentsComponent implements OnInit {
         }
     }
 
-    private deleteRequiredValidation (keys: any[]) {
+    private deleteRequiredValidation(keys: any[]) {
         keys.forEach((key) => {
             this.modalForm.controls[key].clearValidators();
             this.modalForm.controls[key].updateValueAndValidity();
         });
     }
 
-    private setRequiredValidation (keys: any[]) {
+    private setRequiredValidation(keys: any[]) {
         keys.forEach((key) => {
             this.modalForm.controls[key].setValidators(Validators.required);
             this.modalForm.controls[key].updateValueAndValidity();
@@ -218,7 +214,7 @@ export class VIHTreatmentsComponent implements OnInit {
     }
 
     // ! ----------------------- ALTA  ----------------------- ! //
-    public showModalCreate (): void {
+    public showModalCreate(): void {
         this.modalForm.reset({
             indication: this.indication,
             treatmentType: this.settedTreatmentType,
@@ -258,7 +254,7 @@ export class VIHTreatmentsComponent implements OnInit {
     }
 
     // ! ----------------------- BORRADO  ----------------------- ! //
-    private showModalConfirm (index: number, type: string) {
+    private showModalConfirm(index: number, type: string) {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = this._translate.instant('btn.delete');
@@ -271,7 +267,7 @@ export class VIHTreatmentsComponent implements OnInit {
     }
 
     // ! ----------------------- EDICIÓN  ----------------------- ! //
-    public async showModalEdit (index: number, type: string) {
+    public async showModalEdit(index: number, type: string) {
         index = this.treatments.indexOf(this.showedTreatments[index]);
         const dataEdit = { ...this.treatments[index] };
 
@@ -318,7 +314,7 @@ export class VIHTreatmentsComponent implements OnInit {
     }
 
     // ! ----------------------- CAMBIO / SUSPENSIÓN  ----------------------- ! //
-    public async showModalChange (index: number, type: string) {
+    public async showModalChange(index: number, type: string) {
         index = this.treatments.indexOf(this.showedTreatments[index]);
         const dataEdit = { ...this.treatments[index] };
         let form_aux = null;
@@ -359,7 +355,7 @@ export class VIHTreatmentsComponent implements OnInit {
     }
 
     // ! ----------------------- GUARDADO  ----------------------- ! //
-    private save (modalRef: NgbModalRef, action: string, treatment: VIHTreatmentModel, index?: string) {
+    private save(modalRef: NgbModalRef, action: string, treatment: VIHTreatmentModel, index?: string) {
         let repeated = false;
         let found = false;
 
@@ -371,8 +367,7 @@ export class VIHTreatmentsComponent implements OnInit {
 
         if (action !== 'delete' && !treatment.dateSuspension) {
             this.treatments.forEach((row) => {
-                if (!row.dateSuspension && treatment.medicine && treatment.medicine.id === row.medicine.id)
-                    if (!(index && this.treatments.indexOf(row).toString() === index)) repeated = true;
+                if (!row.dateSuspension && treatment.medicine && treatment.medicine.id === row.medicine.id) if (!(index && this.treatments.indexOf(row).toString() === index)) repeated = true;
             });
         }
 
@@ -406,7 +401,7 @@ export class VIHTreatmentsComponent implements OnInit {
 
                     this.refreshTable();
                 },
-                error => this._notification.showErrorToast(error.errorCode),
+                (error) => this._notification.showErrorToast(error.errorCode),
                 () => modalRef.close()
             );
         } else {
@@ -417,7 +412,7 @@ export class VIHTreatmentsComponent implements OnInit {
 
     // ! ************** PUBLIC METHODS ************** ! //
 
-    onIconButtonClick (event: any) {
+    onIconButtonClick(event: any) {
         const index: number = event.selectedItem;
         const action: 'edit' | 'delete' | 'changeSuspend' = event.type;
 
@@ -426,7 +421,7 @@ export class VIHTreatmentsComponent implements OnInit {
                 this.showModalEdit(index, action);
                 break;
             case 'changeSuspend':
-                this.showModalChange(index, action)
+                this.showModalChange(index, action);
                 break;
             case 'delete':
                 this.showModalConfirm(index, action);
@@ -436,10 +431,10 @@ export class VIHTreatmentsComponent implements OnInit {
 
     // * PAGINADOR * //
 
-    public selectPage (page: number): void {
+    public selectPage(page: number): void {
         this.currentPage = page;
         const indexStartPage = page * this.paginationData.size;
-        let finalPageItemIndex = (indexStartPage + this.paginationData.size) - 1;
+        let finalPageItemIndex = indexStartPage + this.paginationData.size - 1;
 
         // console.log(`PAGE: ${page} | start index: ${indexStartPage} | end index: ${finalPageItemIndex} | last index: ${this.treatments.length - 1}`);
 
@@ -450,7 +445,7 @@ export class VIHTreatmentsComponent implements OnInit {
         this.addColorRow(this.showedTreatments);
     }
 
-    public selectItemsPerPage (number: number) {
+    public selectItemsPerPage(number: number) {
         this.itemsPerPage = number;
         this.paginationData.size = number;
         this.selectPage(0);
@@ -458,13 +453,13 @@ export class VIHTreatmentsComponent implements OnInit {
 
     // * SORT * //
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         this.typeOrder = event.direction;
         this.colOrder = event.column;
         this.refreshTable();
     }
 
-    public sortTableDefault () {
+    public sortTableDefault() {
         this.treatments.sort(function (a, b) {
             if (a.dateSuspension === null && b.dateSuspension === null) {
                 return a.dateStart < b.dateStart ? 1 : -1;
@@ -481,7 +476,7 @@ export class VIHTreatmentsComponent implements OnInit {
         this.selectPage(this.currentPage);
     }
 
-    public refreshTable () {
+    public refreshTable() {
         if (this.typeOrder === '') {
             this.sortTableDefault();
         } else {
@@ -511,5 +506,4 @@ export class VIHTreatmentsComponent implements OnInit {
         this.addColorRow(this.treatments);
         this.selectPage(this.currentPage);
     }
-
 }

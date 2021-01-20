@@ -616,6 +616,7 @@
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
     "amount": "Precio",
+    "treatmentLine": "Línea de tratamiento",
     "prefInitGuidelines":"Pautas de inicio preferente",
     "recommendedInitGuidelines":"Pautas de inicio recomendadas",
     "recommendedChangeGuidelines":"Pautas de cambio recomendadas",
@@ -636,5 +637,6 @@
     "smaqQuestion6" : "Desde la última visita ¿cuántos días completos no tomó la medicación?",
     "adherencePercentage" : "% de adherencia",
     "smaqScore" : "Score",
-    "fileWork" : "Pdf del CI"
+    "fileWork" : "Pdf del CI",
+    "noPatientSelected": "No hay paciente seleccionado."
 }

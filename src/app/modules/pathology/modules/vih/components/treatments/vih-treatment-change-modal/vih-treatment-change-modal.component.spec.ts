@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { VIHTreatmentChangeModalComponent } from './vih-treatment-change-modal.component';
 
 describe('VIHTreatmentChangeModalComponent', () => {
-  let component: VIHTreatmentChangeModalComponent;
-  let fixture: ComponentFixture<VIHTreatmentChangeModalComponent>;
+    let component: VIHTreatmentChangeModalComponent;
+    let fixture: ComponentFixture<VIHTreatmentChangeModalComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ VIHTreatmentChangeModalComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [VIHTreatmentChangeModalComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(VIHTreatmentChangeModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(VIHTreatmentChangeModalComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

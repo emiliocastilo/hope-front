@@ -18,7 +18,7 @@ export class MenuService {
     private current: MenuItemModel;
     private fullMenu: MenuItemModel;
     private homeUrl = '/hopes';
-    private patientPath: string;
+    private patientSection: MenuItemModel;
 
     public currentSection = new Subject<MenuItemModel>();
     public allSections: MenuItemModel[];
@@ -27,13 +27,12 @@ export class MenuService {
     constructor(private _httpClient: HttpClient, private _formService: FormsService, private _modalService: NgbModal, private translate: TranslateService, private _router: Router) {
         this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
         this.thereIsPatientSelected = localStorage.getItem('thereIsPatientSelected') !== undefined && localStorage.getItem('thereIsPatientSelected') !== null;
-        this.getSideBar();
+        this.getMenu();
     }
 
     private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
         menu.collapsed = true;
         menu.path = `${root ? root : ''}/${menu.id}`;
-        if (menu.url === '/hopes/pathology/patients') this.patientPath = menu.path;
         if (menu.children && menu.children.length > 0) {
             menu.children.forEach((submenu) => {
                 submenu.parentId = menu.id;
@@ -73,13 +72,14 @@ export class MenuService {
     public setCurrentSection(section?: MenuItemModel) {
         if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
+            if (!this.patientSection) this.patientSection = this.allSections && this.allSections.length > 0 ? this.allSections.filter((f) => f.url == '/hopes/pathology/patients')[0] : undefined;
             if (!section) {
                 if (!this.allSections) this.fillSections(this.fullMenu);
                 section = this.allSections.filter((f) => f.url === '/hopes')[0];
             }
-            const url = section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
+            const url = section && section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
 
-            if (!section.path.includes(this.patientPath) && this.thereIsPatientSelected) {
+            if (this.patientSection && !section.path.includes(this.patientSection.path) && this.thereIsPatientSelected) {
                 this.thereIsPatientSelected = false;
                 localStorage.removeItem('selectedPatient');
                 this.assignParentAndCollapseStatus(this.fullMenu);
@@ -105,11 +105,12 @@ export class MenuService {
         return this.currentSection.asObservable();
     }
 
-    public getSideBar(): Observable<MenuItemModel> {
+    public getMenu(): Observable<MenuItemModel> {
         return this._httpClient.get<MenuItemModel>('/menus').pipe(
             map((response) => {
                 this.allSections = [];
                 this.fillSections(response);
+                this.patientSection = this.allSections.filter((f) => f.url == '/hopes/pathology/patients')[0];
                 const menu = this.assignParentAndCollapseStatus(response);
                 localStorage.setItem('menu', JSON.stringify(response.children));
                 localStorage.setItem('completeMenu', JSON.stringify(response));

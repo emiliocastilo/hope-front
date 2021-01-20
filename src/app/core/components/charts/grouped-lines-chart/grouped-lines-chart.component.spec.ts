@@ -3,20 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { VIHTreatmentModalComponent } from './vih-treatment-modal.component';
+import { GroupedLinesChartComponent } from './grouped-lines-chart.component';
 
-describe('VIHTreatmentAddModalComponent', () => {
-    let component: VIHTreatmentModalComponent;
-    let fixture: ComponentFixture<VIHTreatmentModalComponent>;
+describe('GroupedLinesChartComponent', () => {
+    let component: GroupedLinesChartComponent;
+    let fixture: ComponentFixture<GroupedLinesChartComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [VIHTreatmentModalComponent],
+            declarations: [GroupedLinesChartComponent],
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(VIHTreatmentModalComponent);
+        fixture = TestBed.createComponent(GroupedLinesChartComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

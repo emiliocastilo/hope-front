@@ -20,11 +20,11 @@ const routes: Routes = [
         path: 'treatments/current',
         component: VIHTreatmentsComponent,
         canActivate: [AuthGuard],
-    }
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class VIHRoutingModule { }
+export class VIHRoutingModule {}

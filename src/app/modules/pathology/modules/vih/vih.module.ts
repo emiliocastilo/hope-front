@@ -34,4 +34,4 @@ import { VIHRoutingModule } from './vih-routing.module';
         }),
     ],
 })
-export class VIHModule { }
+export class VIHModule {}
