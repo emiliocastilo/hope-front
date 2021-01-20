@@ -25,6 +25,7 @@ export class MedicineModel {
     family?: string;
     subfamily?: string;
     brand?: string;
+    treatmentType: string;
 
     constructor(obj?: Partial<MedicineModel>) {
         this.setValuesFromObject(obj);
@@ -56,5 +57,6 @@ export class MedicineModel {
         this.viaAdministration = obj && obj.viaAdministration ? obj.viaAdministration : undefined;
         this.family = obj && obj.family ? obj.family : undefined;
         this.brand = obj && obj.brand ? obj.family : undefined;
+        this.treatmentType = obj && obj.treatmentType ? obj.treatmentType : undefined;
     }
 }
