@@ -75,6 +75,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { DynamicModalComponent } from './components/modals/dynamic-modal/dynamic-modal.component';
 import { EntryMenuSelectComponent } from './components/basics/entry-menu-select/entry-menu-select.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { GroupedLinesChartComponent } from './components/charts/grouped-lines-chart/grouped-lines-chart.component';
 import { InputMultiSelectComponent } from './components/basics/input-multi-select/input-multi-select.component';
 import { NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
 import { FormMultiSelectComponent } from './components/basics/form-multi-select/form-multi-select.component';
@@ -135,6 +136,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormsComponent,
         ColumnChartComponent,
         PieChartComponent,
+        GroupedLinesChartComponent,
         DatesBarComponent,
         ExportButtonsComponent,
         FormListComponent,
@@ -209,6 +211,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormsComponent,
         SwitchComponent,
         PieChartComponent,
+        GroupedLinesChartComponent,
         ExportButtonsComponent,
         ColumnChartComponent,
         DatesBarComponent,

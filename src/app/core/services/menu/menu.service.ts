@@ -27,7 +27,7 @@ export class MenuService {
     constructor(private _httpClient: HttpClient, private _formService: FormsService, private _modalService: NgbModal, private translate: TranslateService, private _router: Router) {
         this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
         this.thereIsPatientSelected = localStorage.getItem('thereIsPatientSelected') !== undefined && localStorage.getItem('thereIsPatientSelected') !== null;
-        this.getSideBar();
+        this.getMenu();
     }
 
     private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
@@ -72,12 +72,12 @@ export class MenuService {
     public setCurrentSection(section?: MenuItemModel) {
         if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
-            if (!this.patientSection) this.patientSection = this.allSections.filter((f) => f.url == '/hopes/pathology/patients')[0];
+            if (!this.patientSection) this.patientSection = this.allSections && this.allSections.length > 0 ? this.allSections.filter((f) => f.url == '/hopes/pathology/patients')[0] : undefined;
             if (!section) {
                 if (!this.allSections) this.fillSections(this.fullMenu);
                 section = this.allSections.filter((f) => f.url === '/hopes')[0];
             }
-            const url = section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
+            const url = section && section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
 
             if (this.patientSection && !section.path.includes(this.patientSection.path) && this.thereIsPatientSelected) {
                 this.thereIsPatientSelected = false;
@@ -105,7 +105,7 @@ export class MenuService {
         return this.currentSection.asObservable();
     }
 
-    public getSideBar(): Observable<MenuItemModel> {
+    public getMenu(): Observable<MenuItemModel> {
         return this._httpClient.get<MenuItemModel>('/menus').pipe(
             map((response) => {
                 this.allSections = [];

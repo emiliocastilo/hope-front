@@ -377,6 +377,7 @@
         "passwordChangedSuccessfully": "Password succesfully updated",
         "passwordChangeFailed": "Wrong password",
         "sent": "Sent",
+        "errorRetrievingData": "Error Retrieving Data",
         "fileUploadError":"An error happened trying to upload the file.",
         "invalidFileType": "File type not allowed. Valid types: {{validTypes}}"
     },
@@ -614,6 +615,7 @@
     "labelAllNothing": "None",
     "phototerapy": "Phototerapy",
     "amount": "Price",
+    "treatmentLine": "Treatment line",
     "prefInitGuidelines":"Preferential initial guidelines",
     "recommendedInitGuidelines":"Recommended initial guidelines",
     "recommendedChangeGuidelines":"Recommended change guidelines",

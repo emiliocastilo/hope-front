@@ -20,6 +20,6 @@ export class HomeComponent implements OnInit {
     }
 
     fetchModules() {
-        this._sidebar.getSideBar().subscribe((response) => (this.modules = response.children));
+        this._sidebar.getMenu().subscribe((response) => (this.modules = response.children));
     }
 }
