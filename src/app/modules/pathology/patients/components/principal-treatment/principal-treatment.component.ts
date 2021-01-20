@@ -103,7 +103,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             switchMap((term) =>
                 this._medicinesService
                     .getByText(
-                        `search=${term}&family=${
+                        `search=${term}&treatmentType=${
                             this.modalForm.controls.treatmentType.value.id
                                 ? this.modalForm.controls.treatmentType.value.id
                                 : this.modalForm.controls.treatmentType.value[0]?.id
