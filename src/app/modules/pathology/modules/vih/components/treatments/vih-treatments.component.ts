@@ -57,7 +57,7 @@ export class VIHTreatmentsComponent implements OnInit {
     private indication = 'vih';
     private currentPage = 0;
     private colOrder: any;
-    private typeOrder: any;
+    private typeOrder = '';
     private itemsPerPage: number;
     public paginationData: PaginationModel;
     private pageSize = 5;
@@ -460,6 +460,7 @@ export class VIHTreatmentsComponent implements OnInit {
     }
 
     public sortTableDefault() {
+        console.log(this.treatments);
         this.treatments.sort(function (a, b) {
             if (a.dateSuspension === null && b.dateSuspension === null) {
                 return a.dateStart < b.dateStart ? 1 : -1;
