@@ -120,7 +120,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
             const medicine: MedicineModel = this.data.filter((f) => f.medicine.actIngredients === this.currentTreatment.medicine)[0].medicine;
-            const query = `medicine=${medicine.actIngredients}&type=${medicine.treatmentType}`;
+            const query = `medicine=${medicine.id}&type=${medicine.treatmentType}`;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
