@@ -116,9 +116,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     }
 
     public onIconButtonClick(event: any): void {
-        console.log(event);
         if (event.type === 'detail') {
-            debugger;
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
             const medicine: MedicineModel = this.data[event.selectedItem].medicine;
