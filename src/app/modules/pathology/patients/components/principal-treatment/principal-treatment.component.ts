@@ -139,18 +139,9 @@ export class PrincipalTreatmentComponent implements OnInit {
             type: 'select',
             class: 'col-12',
             options: [
-                {
-                    id: 'BIOLOGICO',
-                    name: this._translate.instant('biological'),
-                },
-                {
-                    id: 'QUIMICO',
-                    name: this._translate.instant('chemical'),
-                },
-                {
-                    id: 'TOPICO',
-                    name: this._translate.instant('topical'),
-                },
+                { id: 'BIOLOGICO', name: this._translate.instant('biological') },
+                { id: 'QUIMICO', name: this._translate.instant('chemical') },
+                { id: 'TOPICO', name: this._translate.instant('topical') },
             ],
             value: {
                 id: 'QUIMICO',
@@ -189,17 +180,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         regimenTreatment: {
             type: 'select',
             class: 'col-6',
-            options: [
-                {
-                    name: this._translate.instant('intensificada'),
-                },
-                {
-                    name: this._translate.instant('standard'),
-                },
-                {
-                    name: this._translate.instant('reduced'),
-                },
-            ],
+            options: [{ name: this._translate.instant('intensificada') }, { name: this._translate.instant('standard') }, { name: this._translate.instant('reduced') }],
             changes: true,
         },
         datePrescription: { type: 'date', class: 'col-6' },
@@ -275,6 +256,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             size: 0,
             totalElements: 0,
         };
+        this.currentPage = 1;
         this.typeOrder = '';
         this.colOrder = '';
         // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
@@ -450,7 +432,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado
             let newRow = event.value;
             this.save(modalRef, 'create', newRow);
-            //this.refreshTable();
+            this.refreshTable();
         });
     }
 
@@ -858,9 +840,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
         this.addColorRow(this.tableData);
         this.tableDataFilter = this.tableData.map((x) => x);
-        if (this.currentPage > 0) {
-            this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
-        }
+        this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
     }
 
     private addColorRow(tableData) {
