@@ -733,6 +733,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
         if (!repeated) {
             if (type === 'create') {
+                if (this.tableData.length === 0) this.tableData = [];
                 this.tableData.push(newRow);
             }
             if (type === 'edit') {
@@ -758,6 +759,8 @@ export class PrincipalTreatmentComponent implements OnInit {
                 job: true,
             };
 
+            console.log(this.tableData);
+            console.log(this.tableDataFilter);
             this._formsService.fillForm(form).subscribe(
                 () => {
                     if (type === 'create') {
@@ -769,7 +772,8 @@ export class PrincipalTreatmentComponent implements OnInit {
                         this._notification.showSuccessToast('elementDeleted');
                     }
                     modalRef.close();
-                    this.refreshTable();
+                    if (this.tableDataFilter.length === 0) this.ngOnInit();
+                    else this.refreshTable();
                 },
                 ({ error }) => {
                     this._notification.showErrorToast(error.errorCode);
@@ -838,6 +842,7 @@ export class PrincipalTreatmentComponent implements OnInit {
                 }
             });
         }
+
         this.addColorRow(this.tableData);
         this.tableDataFilter = this.tableData.map((x) => x);
         this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
