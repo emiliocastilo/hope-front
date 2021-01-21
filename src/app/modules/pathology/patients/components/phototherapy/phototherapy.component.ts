@@ -148,6 +148,7 @@ export class PhototherapyComponent implements OnInit {
                 size: this.sizeTable,
                 totalElements: this.tableData.length,
             };
+            this.currentPage = 1;
             this.addColorRow(this.tableData);
             this.tableDataFilter = this.tableData.map((x) => x);
             this.tableDataFilter = this.tableDataFilter.splice(this.paginationData.number * this.paginationData.size, this.paginationData.size);
@@ -486,9 +487,7 @@ export class PhototherapyComponent implements OnInit {
         }
         this.addColorRow(this.tableData);
         this.tableDataFilter = this.tableData.map((x) => x);
-        if (this.currentPage > 0) {
-            this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
-        }
+        this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
     }
 
     private addColorRow(tableData: any) {
