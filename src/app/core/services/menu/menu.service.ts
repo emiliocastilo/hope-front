@@ -60,13 +60,15 @@ export class MenuService {
 
     public fillSections(section: MenuItemModel) {
         if (!this.allSections) this.allSections = [];
-        section.visible = true;
-        this.allSections.push(section);
-        if (section.children && section.children.length > 0)
-            section.children.forEach((child) => {
-                child.parentId = section.id;
-                this.fillSections(child);
-            });
+        if (section) {
+            section.visible = true;
+            this.allSections.push(section);
+            if (section.children && section.children.length > 0)
+                section.children.forEach((child) => {
+                    child.parentId = section.id;
+                    this.fillSections(child);
+                });
+        }
     }
 
     public setCurrentSection(section?: MenuItemModel) {
@@ -75,8 +77,9 @@ export class MenuService {
             if (!this.patientSection) this.patientSection = this.allSections && this.allSections.length > 0 ? this.allSections.filter((f) => f.url == '/hopes/pathology/patients')[0] : undefined;
             if (!section) {
                 if (!this.allSections) this.fillSections(this.fullMenu);
-                section = this.allSections.filter((f) => f.url === '/hopes')[0];
+                section = this.allSections.filter((f) => f.title === 'Hopes')[0];
             }
+
             const url = section && section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
 
             if (this.patientSection && !section.path.includes(this.patientSection.path) && this.thereIsPatientSelected) {
@@ -108,10 +111,12 @@ export class MenuService {
     public getMenu(): Observable<MenuItemModel> {
         return this._httpClient.get<MenuItemModel>('/menus').pipe(
             map((response) => {
+                // if (this.fullMenu && this.fullMenu === response) return this.fullMenu;
                 this.allSections = [];
                 this.fillSections(response);
                 this.patientSection = this.allSections.filter((f) => f.url == '/hopes/pathology/patients')[0];
                 const menu = this.assignParentAndCollapseStatus(response);
+                // this.fullMenu = response;
                 localStorage.setItem('menu', JSON.stringify(response.children));
                 localStorage.setItem('completeMenu', JSON.stringify(response));
                 return menu;

@@ -46,7 +46,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         this.detectCalculated();
         setTimeout(() => {
             this.displayElement(this.config);
-        }, 500);
+        }, 1000);
     }
 
     ngOnInit() {
@@ -80,6 +80,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
                 });
             }
             this.enabledThen(this.config);
+            this.displayElement(this.config);
         });
     }
 
