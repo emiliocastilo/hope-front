@@ -372,7 +372,8 @@ export class PhototherapyComponent implements OnInit {
                 } else if (type === 'delete') {
                     this._notification.showSuccessToast('elementDeleted');
                 }
-
+                if (this.tableDataFilter.length === 0) this.ngOnInit();
+                else this.refreshTable();
                 modalRef.close();
             },
             ({ error }) => {
