@@ -116,12 +116,11 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     }
 
     public onIconButtonClick(event: any): void {
-        this.dataTable = [];
+        this.details = [];
+        this.detailsDataTable = [];
         if (event.type === 'detail') {
-            this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
             const query = `actIngredient=${this.dataTable[event.selectedItem].actIngredients}&type=BIOLOGICO`;
-
             this.getDetails(query);
             this.getDetailsToExport(query);
         } else {
@@ -132,6 +131,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     private getDetails(query: string): void {
         this._patientsTreatmentService.getDetailPatientsUnderTreatment(query).subscribe(
             (response) => {
+                this.showingDetail = true;
                 this.details = response.content;
                 this.paginationData = response;
                 this.detailsDataTable = this.parseDataToTableDetails(response.content);
