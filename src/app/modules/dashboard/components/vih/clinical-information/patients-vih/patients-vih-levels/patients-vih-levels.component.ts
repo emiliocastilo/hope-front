@@ -4,8 +4,24 @@ import { TranslateService } from '@ngx-translate/core';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
+
+export interface SelectOption {
+    name: string;
+    param: string;
+    chart: {
+        name: string;
+        type: 'pie' | 'grouped-vertical-line';
+    };
+}
+
+export interface GroupedBarChartItem {
+    treatmentLine: string;
+    activeActs: number;
+    patients: number;
+}
 
 @Component({
     selector: 'app-patients-vih-levels',
@@ -13,50 +29,61 @@ import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service
     styleUrls: ['./patients-vih-levels.component.scss'],
 })
 export class PatientsVihLevelsComponent implements OnInit {
-    // Select, datos iniciales
-    selectLabel: string;
-    selectedOption = 'CVP';
-    selectedChart = '';
+    private query: string;
 
-    query: string;
-    //Gráfica
-    dataChart: ChartObjectModel[];
-    data: ChartObjectModel[];
-    options = [
+    public selectLabel: string = 'byVIHParameters';
+    public options: Array<SelectOption> = [
         {
             name: 'CVP',
+            param: 'CVP',
+            chart: { name: 'chartCVP', type: 'pie' },
         },
         {
             name: 'CD4',
+            param: 'CD4',
+            chart: { name: 'chartCD4', type: 'pie' },
         },
         {
             name: 'Grupo de riesgo',
+            param: 'RISK',
+            chart: { name: 'chartRISK', type: 'pie' },
         },
         {
             name: 'Infección viral',
+            param: 'VIRAL',
+            chart: { name: 'chartVIRAL', type: 'pie' },
         },
         {
             name: 'VHC',
+            param: 'VHC',
+            chart: { name: 'chartVHC', type: 'pie' },
         },
         {
-            name: 'pautas de inicio recomendadas',
+            name: 'Línea de tratamiento',
+            param: 'treatment-line',
+            chart: { name: 'chartTreatmentLine', type: 'grouped-vertical-line' },
         },
     ];
+    public selectedOption: SelectOption = this.options[0];
+
+    //Gráfica
+    private data: ChartObjectModel[];
+    public dataChart: ChartObjectModel[];
 
     //Tabla
-    showingDetail = false;
-    columHeaders: string[] = ['indication', 'patients'];
-    dataTable: any[];
+    public showingDetail = false;
+    public columHeaders: string[] = ['indication', 'patients'];
+    public dataTable: any[];
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
     //Detalle
+    private currentSelected: any;
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalDiagnose', 'treatment', 'CVP', 'CD4', 'adherence'];
     public detailsDataTable: any[];
-    private currentSelected: any;
     public details: any[] = [];
     public dataToExport: any[] = [];
 
-    // Paginación
+    // Paginacióny en
     public currentPage: number = 0;
     public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
     public currentSort: any = {
@@ -64,11 +91,10 @@ export class PatientsVihLevelsComponent implements OnInit {
         direction: 'asc',
     };
 
-    constructor(private _graphService: GraphsService, public translate: TranslateService, private _router: Router) {}
+    constructor(private _graphService: GraphsService, public translate: TranslateService, private _router: Router, private _notificationService: NotificationService) {}
 
     ngOnInit(): void {
-        this.selectLabel = this.translate.instant('byVIHParameters');
-        this.loadValues(this.selectedOption);
+        this.getData(`type=${this.selectedOption.param}`);
     }
 
     private getData(query: string): void {
@@ -79,63 +105,99 @@ export class PatientsVihLevelsComponent implements OnInit {
             },
             (error) => {
                 console.error(error);
+                this._notificationService.showErrorToast('errorRetrievingData');
+                // ! MOCKED DATA TEST ! //
+                const data = [
+                    { treatmentLine: 'Monoterapia', activeActs: 1, patients: 16 },
+                    { treatmentLine: 'Combo (2)', activeActs: 2, patients: 1 },
+                    { treatmentLine: 'Combo triple (3)', activeActs: 3, patients: 165 },
+                    { treatmentLine: 'Combo cuádruple (4)', activeActs: 4, patients: 7 },
+                    { treatmentLine: 'Individual (1+1)', activeActs: 2, patients: 50 },
+                    { treatmentLine: 'Individual (1+1+1)', activeActs: 3, patients: 23 },
+                    { treatmentLine: 'Combo doble (2+1)', activeActs: 3, patients: 178 },
+                    { treatmentLine: 'Individual (1+1+1+1)', activeActs: 4, patients: 4 },
+                    { treatmentLine: 'Combo doble (2+1+1)', activeActs: 4, patients: 9 },
+                    { treatmentLine: '2 combos dobles (2+2)', activeActs: 4, patients: 0 },
+                    { treatmentLine: 'Combo triple (3+1)', activeActs: 4, patients: 5 },
+                    { treatmentLine: '5+ principios activos', activeActs: 5, patients: 16 },
+                ];
+                this.dataChart = this.parseDataChart(data);
+                this.dataTable = this.parseDataTable(data);
+                // ! MOCKED DATA TEST ! //
             }
         );
     }
 
     onSelect(event: any) {
-        this.selectedOption = event.target.value;
-        this.loadValues(this.selectedOption);
-    }
-
-    loadValues(selectedOption: string) {
-        let query: string;
-        switch (selectedOption) {
-            case 'CVP':
-                query = 'type=CVP';
-                this.selectedChart = 'chartCVP';
-                break;
-            case 'CD4':
-                query = 'type=CD4';
-                this.selectedChart = 'chartCD4';
-                break;
-            case 'Grupo de riesgo':
-                query = 'type=risk-factors';
-                this.selectedChart = 'chartRISK';
-                break;
-            case 'Infección viral':
-                query = 'type=VIRAL';
-                this.selectedChart = 'chartVIRAL';
-                break;
-            case 'VHC':
-                query = 'type=VHC';
-                this.selectedChart = 'chartVHC';
-                break;
-        }
-        this.query = query;
-        this.getData(query);
+        this.selectedOption = this.options.filter((f) => f.name === event.target.value)[0];
+        this.getData(`type=${this.selectedOption.param}`);
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
-        const arrayData = Object.keys(data).map((key) => {
-            const object = {
-                name: key,
-                value: data[key],
-            };
-            return object;
+        if (this.selectedOption.chart.type === 'pie') {
+            const arrayData = Object.keys(data).map((key) => {
+                const object = {
+                    name: key,
+                    value: data[key],
+                };
+                return object;
+            });
+            return arrayData;
+        } else if (this.selectedOption.chart.type === 'grouped-vertical-line') {
+            const chartData: ChartObjectModel[] = this.parseGroupedChartData(data);
+            return chartData;
+        } else return undefined;
+    }
+
+    private parseGroupedChartData(data: Array<GroupedBarChartItem>): ChartObjectModel[] {
+        const chartData = [
+            { name: 'Monoterapia', series: [] },
+            { name: 'Biterapia', series: [] },
+            { name: 'Terapia triple', series: [] },
+            { name: 'Terapia cuádruple', series: [] },
+            { name: '5+ principios activos', series: [] },
+        ];
+
+        data.forEach((item) => {
+            if (item.patients > 0)
+                switch (item.activeActs) {
+                    case 1:
+                        chartData.filter((f) => f.name === 'Monoterapia')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                    case 2:
+                        chartData.filter((f) => f.name === 'Biterapia')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                    case 3:
+                        chartData.filter((f) => f.name === 'Terapia triple')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                    case 4:
+                        chartData.filter((f) => f.name === 'Terapia cuádruple')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                    default:
+                        chartData.filter((f) => f.name === '5+ principios activos')[0].series.push({ name: item.treatmentLine, value: item.patients });
+                        break;
+                }
         });
 
-        return arrayData;
+        return chartData;
     }
 
     private parseDataTable(data: any): any[] {
-        const arrayData = Object.keys(data).map((key) => {
-            const object = {
-                indication: key,
-                patients: data[key],
-            };
-            return object;
-        });
+        let arrayData = [];
+        if (this.selectedOption.chart.type === 'grouped-vertical-line') {
+            this.columHeaders = ['treatmentLine', 'patients'];
+            data.forEach((item: GroupedBarChartItem) => {
+                arrayData.push({ treatmentLine: item.treatmentLine, patients: item.patients });
+            });
+        } else {
+            arrayData = Object.keys(data).map((key) => {
+                const object = {
+                    indication: key,
+                    patients: data[key],
+                };
+                return object;
+            });
+        }
 
         return arrayData;
     }
@@ -155,7 +217,6 @@ export class PatientsVihLevelsComponent implements OnInit {
     }
 
     private getDetails(query: string): void {
-        query = query.replace('+', '%2B');
         this._graphService.getDetailPatientsByClinicalParameter(query).subscribe(
             (data: any) => {
                 this.details = data.content;
@@ -163,6 +224,7 @@ export class PatientsVihLevelsComponent implements OnInit {
                 this.detailsDataTable = this.parseDataToTableDetails(data.content);
             },
             (error) => {
+                this._notificationService.showErrorToast('errorRetrievingData');
                 console.error(error);
             }
         );
@@ -177,8 +239,8 @@ export class PatientsVihLevelsComponent implements OnInit {
                     patient: value.fullName,
                     principalDiagnose: value.principalDiagnose,
                     treatment: value.treatment,
-                    CVP: value.cvp,
-                    CD4: value.cd4,
+                    CVP: value.CVP,
+                    CD4: value.CD4,
                     adherence: value.adherence,
                 };
                 return object;

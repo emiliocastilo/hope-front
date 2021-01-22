@@ -377,6 +377,7 @@
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
         "sent": "Enviado",
+        "errorRetrievingData": "Error obteniendo información",
         "fileUploadError":"Ha ocurrido un error subiendo el fichero.",
         "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{ validTypes }}",
         "fileMaxSize": "Fichero demasiado grande. Tamaño máximo {{ maxSize }}"
@@ -615,6 +616,7 @@
     "labelAllNothing": "Ninguna",
     "phototerapy": "Fototerapia",
     "amount": "Precio",
+    "treatmentLine": "Línea de tratamiento",
     "prefInitGuidelines":"Pautas de inicio preferente",
     "recommendedInitGuidelines":"Pautas de inicio recomendadas",
     "recommendedChangeGuidelines":"Pautas de cambio recomendadas",

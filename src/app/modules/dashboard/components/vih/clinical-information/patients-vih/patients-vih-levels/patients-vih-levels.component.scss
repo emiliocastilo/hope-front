@@ -1,4 +1,4 @@
-@import '~src/assets/styles/variables.scss';
+@import "~src/assets/styles/variables.scss";
 @import '~src/app/core/components/basics/entry-menu-select/entry-menu-select.component.scss';
 
 .container {
@@ -23,4 +23,8 @@
     background-color: white;
     padding: 0 0.4rem;
   }
+}
+
+.select {
+  min-width: 215px !important;
 }
