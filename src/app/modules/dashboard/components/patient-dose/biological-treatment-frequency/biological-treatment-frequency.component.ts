@@ -14,7 +14,7 @@ import { MedicineModel } from 'src/app/modules/management/models/medicines/medic
 import { GroupedBarChartItem } from '../../vih/clinical-information/patients-vih/patients-vih-levels/patients-vih-levels.component';
 
 export interface MedicineRegimeModel {
-    medicine: MedicineModel;
+    actIngredient: string;
     regimes: Array<ValueKeyModel>;
 }
 
@@ -30,7 +30,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     public dataTable: any[];
     private treatments: any;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
-    public columHeaders: string[] = ['medicine', 'de-escalate', 'standar', 'intensify', 'total'];
+    public columHeaders: string[] = ['actIngredients', 'de-escalate', 'standar', 'intensify', 'total'];
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
     public currentPage: number = 0;
     public detailsDataTable: any[];
@@ -68,7 +68,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
         const chartData = [];
 
         data.forEach((element) => {
-            const chartGroup = { name: element.medicine.actIngredients, series: [] };
+            const chartGroup = { name: element.actIngredient, series: [] };
             element.regimes.forEach((regime) => chartGroup.series.push({ name: regime.name, value: regime.value }));
             chartData.push(chartGroup);
         });
@@ -85,7 +85,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
             const intensify = med.regimes.filter((f) => this._translate.instant('intensify') === f.name).length > 0 ? +med.regimes.filter((f) => this._translate.instant('intensify') === f.name)[0].value : 0;
 
             arrayData.push({
-                medicine: med.medicine.actIngredients,
+                actIngredients: med.actIngredient,
                 standar: standar,
                 'de-escalate': low,
                 intensify: intensify,
@@ -119,9 +119,7 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
-            const medicine: MedicineModel = this.data.filter((f) => f.medicine.actIngredients === this.currentTreatment.medicine)[0].medicine;
-            // const medicine: MedicineModel = this.data[event.selectedItem].medicine;
-            const query = `medicine=${medicine.actIngredients}&type=${medicine.treatmentType}`;
+            const query = `medicine=${this.dataTable[event.selectedItem].actIngredients}&type=BIOLOGICO`;
 
             this.getDetails(query);
             this.getDetailsToExport(query);
