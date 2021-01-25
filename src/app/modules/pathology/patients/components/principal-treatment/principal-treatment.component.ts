@@ -103,10 +103,9 @@ export class PrincipalTreatmentComponent implements OnInit {
             switchMap((term) =>
                 this._medicinesService
                     .getByText(
-                        `search=${term}&treatmentType=${
-                            this.modalForm.controls.treatmentType.value.id
-                                ? this.modalForm.controls.treatmentType.value.id
-                                : this.modalForm.controls.treatmentType.value[0]?.id
+                        `search=${term}&treatmentType=${this.modalForm.controls.treatmentType.value.id
+                            ? this.modalForm.controls.treatmentType.value.id
+                            : this.modalForm.controls.treatmentType.value[0]?.id
                                 ? this.modalForm.controls.treatmentType.value[0].id
                                 : this.modalForm.controls.treatmentType.value
                         }`
@@ -246,7 +245,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         private _translate: TranslateService,
         private _indicationService: IndicationService,
         private _medicinesService: MedicinesServices
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
@@ -438,6 +437,7 @@ export class PrincipalTreatmentComponent implements OnInit {
 
     public async showModalChange(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
+        dataEdit.indication = this._translate.instant(dataEdit.indication);
         let form_aux = null;
 
         Object.keys(dataEdit).forEach((key: string) => {
@@ -537,6 +537,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     // EDICIÓN
     public async showModalEdit(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
+        dataEdit.indication = this._translate.instant(dataEdit.indication);
+
         Object.keys(dataEdit).forEach((key: string) => {
             if (key.toLowerCase().includes('date') && dataEdit[key]) {
                 dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
