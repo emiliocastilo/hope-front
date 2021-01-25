@@ -438,6 +438,7 @@ export class PrincipalTreatmentComponent implements OnInit {
 
     public async showModalChange(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
+        dataEdit.indication = this._translate.instant(dataEdit.indication);
         let form_aux = null;
 
         Object.keys(dataEdit).forEach((key: string) => {
@@ -537,6 +538,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     // EDICIÓN
     public async showModalEdit(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
+        dataEdit.indication = this._translate.instant(dataEdit.indication);
+
         Object.keys(dataEdit).forEach((key: string) => {
             if (key.toLowerCase().includes('date') && dataEdit[key]) {
                 dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
