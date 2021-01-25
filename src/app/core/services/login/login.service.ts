@@ -26,6 +26,7 @@ export class LoginService {
             map((res) => {
                 this.currentUserSubject.next(res);
                 this._storeData(res);
+                localStorage.removeItem('section');
                 return res;
             })
         );
