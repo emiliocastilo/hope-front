@@ -103,9 +103,10 @@ export class PrincipalTreatmentComponent implements OnInit {
             switchMap((term) =>
                 this._medicinesService
                     .getByText(
-                        `search=${term}&treatmentType=${this.modalForm.controls.treatmentType.value.id
-                            ? this.modalForm.controls.treatmentType.value.id
-                            : this.modalForm.controls.treatmentType.value[0]?.id
+                        `search=${term}&treatmentType=${
+                            this.modalForm.controls.treatmentType.value.id
+                                ? this.modalForm.controls.treatmentType.value.id
+                                : this.modalForm.controls.treatmentType.value[0]?.id
                                 ? this.modalForm.controls.treatmentType.value[0].id
                                 : this.modalForm.controls.treatmentType.value
                         }`
@@ -245,7 +246,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         private _translate: TranslateService,
         private _indicationService: IndicationService,
         private _medicinesService: MedicinesServices
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));

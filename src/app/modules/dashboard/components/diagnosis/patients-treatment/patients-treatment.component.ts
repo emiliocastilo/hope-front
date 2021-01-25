@@ -64,7 +64,7 @@ export class PatientsTreatmentComponent implements OnInit {
     private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
-                treatmentType: key,
+                treatmentType: key.toUpperCase(),
                 patients: data[key],
             };
             return object;
