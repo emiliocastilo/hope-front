@@ -518,11 +518,18 @@ export class PrincipalTreatmentComponent implements OnInit {
             }
             AbstractControl;
 
+            let changeType = '';
             if (Array.isArray(event.value.reasonChangeOrSuspension)) {
+                // changeType = event.value.reasonChangeOrSuspension[0].name;
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension[0].name;
             } else if (event.value.reasonChangeOrSuspension.name) {
+                // changeType = event.value.reasonChangeOrSuspension.name;
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension.name;
             }
+
+            // changeType = changeType === 'Suspensión' ? 'Suspension' : changeType;
+            // event.value.reasonChangeOrSuspension = changeType;
+
             Object.keys(event.value).forEach((key: string) => {
                 if (key.toLowerCase().includes('date') && event.value[key]) {
                     event.value[key] = new Date(event.value[key]).toISOString();

@@ -153,6 +153,19 @@ export class HeatlhOutcomesComponent implements OnInit {
     }
 
     public onIconButtonClick(event: any): void {
+        // Para click en gráfica
+        if (event.name) {
+            event.type = 'detail';
+            event.selectedItem = this.dataTable.indexOf(this.dataTable.filter((f) => f.results === event.name)[0]);
+        } else if (typeof event === 'string') {
+            event = {
+                type: 'detail',
+                selectedItem: this.dataTable.indexOf(this.dataTable.filter((f) => f.results === event)[0]),
+            };
+        }
+
+        // Click en detalle tabla
+
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.selectedItem = this.dataTable[event.selectedItem];
