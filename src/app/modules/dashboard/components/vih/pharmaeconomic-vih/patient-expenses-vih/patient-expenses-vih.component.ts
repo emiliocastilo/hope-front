@@ -142,6 +142,7 @@ export class PatientExpensesVihComponent implements OnInit {
     }
 
     loadValues(): Observable<any> {
+        this.showingDetail = false;
         return new Observable<any>((observer) => {
             switch (this.selectedOption) {
                 case this.options[0].name:

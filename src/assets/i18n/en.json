@@ -72,7 +72,7 @@
     "btn.search": "Search",
     "btn.select": "Select",
     "btn.update": "Update",
-    "byVIHParameters": "Patients by parameter",
+    "byVIHParameters": "Patients by",
     "calculatorPase": "Calculate PASE",
     "calificationBsa": "Bsa calification",
     "calificationPasi": "Pasi calification",
@@ -616,6 +616,8 @@
     "phototerapy": "Phototerapy",
     "amount": "Price",
     "treatmentLine": "Treatment line",
+    "charts.noData": "No data",
+    "charts.noTreatmentData": "No treatment data",
     "prefInitGuidelines":"Preferential initial guidelines",
     "recommendedInitGuidelines":"Recommended initial guidelines",
     "recommendedChangeGuidelines":"Recommended change guidelines",
@@ -637,5 +639,13 @@
     "adherencePercentage" : "% of adhesion",
     "smaqScore" : "Score",
     "fileWork" : "Pdf of the ICs",
-    "noPatientSelected": "There's no patient selected."
+    "noPatientSelected": "There's no patient selected.",
+    "charts.noGlomerularData" : "No Glomerular filtering",
+    "charts.noCD4Data": "No CD4 data",
+    "charts.noCVPData": "Sin datos de CVP",
+    "cholesterol": "Cholesterol",
+    "RAMS":"RAMS",
+    "viralFailure":"Viral failure",
+    "numberChange":"Change quantity"
+
 }

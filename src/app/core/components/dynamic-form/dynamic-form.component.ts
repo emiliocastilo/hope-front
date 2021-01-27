@@ -47,6 +47,11 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         setTimeout(() => {
             this.displayElement(this.config);
         }, 1000);
+
+        if (this.isModal) {
+            this.detectCalculated();
+            this.detectCalculatedBack();
+        }
     }
 
     ngOnInit() {
@@ -97,6 +102,15 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
                     this.form.controls[field.name]?.setValue('', {
                         emitEvent: false,
                     });
+                    if (field.type === 'checkbox') {
+                        this.form.controls[field.name].setValue(false, {
+                            emitEvent: false,
+                        });
+                    } else {
+                        this.form.controls[field.name]?.setValue('', {
+                            emitEvent: false,
+                        });
+                    }
                 }
             });
         }
@@ -108,14 +122,21 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
             // Calculated back
             const calculatedFields = this.config.filter((e) => e.calculated_back && e.event === 'change');
             if (calculatedFields && calculatedFields.length > 0) {
-                calculatedFields.forEach((field) => {
+                calculatedFields.forEach((field, i) => {
                     if (this.enabledWhen(field)) {
                         this.setDisabled(field.name, false);
                     } else {
+                        // Para los checkbox calculados
                         this.setDisabled(field.name, true);
-                        this.form.controls[field.name].setValue('', {
-                            emitEvent: false,
-                        });
+                        if (field.type === 'checkbox') {
+                            this.form.controls[field.name].setValue(false, {
+                                emitEvent: false,
+                            });
+                        } else {
+                            this.form.controls[field.name].setValue('', {
+                                emitEvent: false,
+                            });
+                        }
                     }
                     // field.params.forEach((e, i) => {
                     //   params[i] = change[e];
