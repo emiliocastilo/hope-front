@@ -82,7 +82,6 @@ export class DashboardPatientsComponent implements OnInit {
     ngOnInit(): void {
         this.noData = false;
         this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
-
         if (this.selectedPatient) {
             this.patientService.getPatientsById(this.selectedPatient.id).subscribe((data) => {
                 if (data) {

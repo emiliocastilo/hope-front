@@ -37,6 +37,7 @@ export class MedicinesComponent implements OnInit {
     public paginationData: PaginationModel;
     public selectedUser: any;
     public medicines: Array<MedicineModel>;
+    ºº;
     public selectedMedicine: MedicineModel;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDelete();
 

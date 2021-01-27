@@ -445,6 +445,11 @@ const routes: Routes = [
         component: PrincipalTreatmentComponent,
         canActivate: [AuthGuard],
     },
+    {
+        path: 'vih',
+        loadChildren: () => import('./modules/vih/vih.module').then((m) => m.VIHModule),
+        canActivate: [AuthGuard],
+    },
 ];
 
 @NgModule({

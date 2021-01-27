@@ -377,7 +377,7 @@
         "passwordChangedSuccessfully": "Contraseña actualizada con exito",
         "passwordChangeFailed": "Contraseña errónea",
         "sent": "Enviado",
-        "errorRetrievingData": "Error obteniendo información",
+        "errorRetrievingData": "Ha ocurrido un error recuperando los datos.",
         "fileUploadError":"Ha ocurrido un error subiendo el fichero.",
         "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{ validTypes }}",
         "fileMaxSize": "Fichero demasiado grande. Tamaño máximo {{ maxSize }}"
@@ -632,6 +632,8 @@
     "authorized" : "Autorizado",
     "commercialization" : "Comercialización",
     "viaAdministration" : "Vía de administración",
+    "pattern": "Pauta",
+    "vih": "VIH",
     "smaqQuestion6" : "Desde la última visita ¿cuántos días completos no tomó la medicación?",
     "adherencePercentage" : "% de adherencia",
     "smaqScore" : "Score",

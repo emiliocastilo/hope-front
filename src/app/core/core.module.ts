@@ -198,6 +198,7 @@ export function createTranslateLoader(http: HttpClient) {
         ButtonNailsComponent,
         ResetPasswordComponent,
         SelectRoleComponent,
+        GenericModalHeaderComponent,
         SearchComponent,
         TableComponent,
         BoxDataComponent,
