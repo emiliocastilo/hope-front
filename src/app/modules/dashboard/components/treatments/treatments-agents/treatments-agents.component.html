@@ -17,7 +17,7 @@
 
 <section class="col-md-12 col-lg-12 m-0 p-0" *ngIf="!loadingData">
     <section class="patients-chart-container">
-        <app-column-chart [stacked]="true" [config]="dataChart"> </app-column-chart>
+        <app-column-chart [stacked]="true" (select)="onIconButtonClick($event)" [config]="dataChart"> </app-column-chart>
 
         <div class="table-container" *ngIf="!showingDetail">
             <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable" (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true"> </app-table>

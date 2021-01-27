@@ -103,7 +103,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             switchMap((term) =>
                 this._medicinesService
                     .getByText(
-                        `search=${term}&family=${
+                        `search=${term}&treatmentType=${
                             this.modalForm.controls.treatmentType.value.id
                                 ? this.modalForm.controls.treatmentType.value.id
                                 : this.modalForm.controls.treatmentType.value[0]?.id
@@ -139,18 +139,9 @@ export class PrincipalTreatmentComponent implements OnInit {
             type: 'select',
             class: 'col-12',
             options: [
-                {
-                    id: 'BIOLOGICO',
-                    name: this._translate.instant('biological'),
-                },
-                {
-                    id: 'QUIMICO',
-                    name: this._translate.instant('chemical'),
-                },
-                {
-                    id: 'TOPICO',
-                    name: this._translate.instant('topical'),
-                },
+                { id: 'BIOLOGICO', name: this._translate.instant('biological') },
+                { id: 'QUIMICO', name: this._translate.instant('chemical') },
+                { id: 'TOPICO', name: this._translate.instant('topical') },
             ],
             value: {
                 id: 'QUIMICO',
@@ -189,17 +180,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         regimenTreatment: {
             type: 'select',
             class: 'col-6',
-            options: [
-                {
-                    name: this._translate.instant('intensificada'),
-                },
-                {
-                    name: this._translate.instant('standard'),
-                },
-                {
-                    name: this._translate.instant('reduced'),
-                },
-            ],
+            options: [{ name: this._translate.instant('intensificada') }, { name: this._translate.instant('standard') }, { name: this._translate.instant('reduced') }],
             changes: true,
         },
         datePrescription: { type: 'date', class: 'col-6' },
@@ -275,6 +256,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             size: 0,
             totalElements: 0,
         };
+        this.currentPage = 1;
         this.typeOrder = '';
         this.colOrder = '';
         // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
@@ -450,12 +432,13 @@ export class PrincipalTreatmentComponent implements OnInit {
             //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado
             let newRow = event.value;
             this.save(modalRef, 'create', newRow);
-            //this.refreshTable();
+            this.refreshTable();
         });
     }
 
     public async showModalChange(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
+        dataEdit.indication = this._translate.instant(dataEdit.indication);
         let form_aux = null;
 
         Object.keys(dataEdit).forEach((key: string) => {
@@ -535,11 +518,18 @@ export class PrincipalTreatmentComponent implements OnInit {
             }
             AbstractControl;
 
+            let changeType = '';
             if (Array.isArray(event.value.reasonChangeOrSuspension)) {
+                // changeType = event.value.reasonChangeOrSuspension[0].name;
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension[0].name;
             } else if (event.value.reasonChangeOrSuspension.name) {
+                // changeType = event.value.reasonChangeOrSuspension.name;
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension.name;
             }
+
+            // changeType = changeType === 'Suspensión' ? 'Suspension' : changeType;
+            // event.value.reasonChangeOrSuspension = changeType;
+
             Object.keys(event.value).forEach((key: string) => {
                 if (key.toLowerCase().includes('date') && event.value[key]) {
                     event.value[key] = new Date(event.value[key]).toISOString();
@@ -555,6 +545,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     // EDICIÓN
     public async showModalEdit(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
+        dataEdit.indication = this._translate.instant(dataEdit.indication);
+
         Object.keys(dataEdit).forEach((key: string) => {
             if (key.toLowerCase().includes('date') && dataEdit[key]) {
                 dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
@@ -751,6 +743,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
         if (!repeated) {
             if (type === 'create') {
+                if (this.tableData.length === 0) this.tableData = [];
                 this.tableData.push(newRow);
             }
             if (type === 'edit') {
@@ -776,6 +769,8 @@ export class PrincipalTreatmentComponent implements OnInit {
                 job: true,
             };
 
+            console.log(this.tableData);
+            console.log(this.tableDataFilter);
             this._formsService.fillForm(form).subscribe(
                 () => {
                     if (type === 'create') {
@@ -787,7 +782,8 @@ export class PrincipalTreatmentComponent implements OnInit {
                         this._notification.showSuccessToast('elementDeleted');
                     }
                     modalRef.close();
-                    this.refreshTable();
+                    if (this.tableDataFilter.length === 0) this.ngOnInit();
+                    else this.refreshTable();
                 },
                 ({ error }) => {
                     this._notification.showErrorToast(error.errorCode);
@@ -856,11 +852,10 @@ export class PrincipalTreatmentComponent implements OnInit {
                 }
             });
         }
+
         this.addColorRow(this.tableData);
         this.tableDataFilter = this.tableData.map((x) => x);
-        if (this.currentPage > 0) {
-            this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
-        }
+        this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
     }
 
     private addColorRow(tableData) {
