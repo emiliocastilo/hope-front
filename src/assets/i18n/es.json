@@ -638,5 +638,6 @@
     "adherencePercentage" : "% de adherencia",
     "smaqScore" : "Score",
     "fileWork" : "Pdf del CI",
-    "noPatientSelected": "No hay paciente seleccionado."
+    "noPatientSelected": "No hay paciente seleccionado.",
+    "actionType": "Acción"
 }

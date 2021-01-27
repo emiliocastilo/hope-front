@@ -637,5 +637,6 @@
     "adherencePercentage" : "% of adhesion",
     "smaqScore" : "Score",
     "fileWork" : "Pdf of the ICs",
-    "noPatientSelected": "There's no patient selected."
+    "noPatientSelected": "There's no patient selected.",
+    "actionType": "Action"
 }

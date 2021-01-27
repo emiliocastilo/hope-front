@@ -59,6 +59,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         treatmentPulsatil: [false],
     });
     private modalFormUpdate: FormGroup = this._formBuilder.group({
+        actionType: ['', Validators.required],
         reasonChangeOrSuspension: ['', Validators.required],
         medicine: ['', Validators.required],
         family: ['', Validators.required],
@@ -71,15 +72,14 @@ export class PrincipalTreatmentComponent implements OnInit {
         dateSuspension: [''],
     });
 
-    //TO DO: Unificar los formularios con los campos comunes
+    // TODO: Unificar los formularios con los campos comunes
     private modalFormUpdateTopico: FormGroup = this._formBuilder.group({
+        actionType: ['', Validators.required],
         reasonChangeOrSuspension: ['', Validators.required],
-
         descripcionFormulaMagistral: ['', Validators.required],
         dosisFormulaMagistral: [''],
         opcionMedicamento: [''],
         opcionFormulaMagistral: [''],
-
         regimenTreatment: ['', Validators.required],
         dateSuspension: [],
     });
@@ -103,10 +103,9 @@ export class PrincipalTreatmentComponent implements OnInit {
             switchMap((term) =>
                 this._medicinesService
                     .getByText(
-                        `search=${term}&treatmentType=${
-                            this.modalForm.controls.treatmentType.value.id
-                                ? this.modalForm.controls.treatmentType.value.id
-                                : this.modalForm.controls.treatmentType.value[0]?.id
+                        `search=${term}&treatmentType=${this.modalForm.controls.treatmentType.value.id
+                            ? this.modalForm.controls.treatmentType.value.id
+                            : this.modalForm.controls.treatmentType.value[0]?.id
                                 ? this.modalForm.controls.treatmentType.value[0].id
                                 : this.modalForm.controls.treatmentType.value
                         }`
@@ -128,8 +127,14 @@ export class PrincipalTreatmentComponent implements OnInit {
         );
     };
 
-    // TO DO: cuando se vaya a refactorizar las opciones del treatmentType hay que cambiarlo tambien en la modal
+    // TODO: cuando se vaya a refactorizar las opciones del treatmentType hay que cambiarlo tambien en la modal
     private modalOptions = {
+        actionType: {
+            type: 'select',
+            class: 'col-12',
+            options: [{ id: 'change', name: 'change' }, { id: 'suspension', name: 'suspension' }],
+            value: { id: 'change', name: 'change' },
+        },
         indication: { type: 'text', class: 'col-12', href: 'pepito' },
         specialIndication: { type: 'checkbox', class: 'col-2' },
         bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
@@ -143,18 +148,10 @@ export class PrincipalTreatmentComponent implements OnInit {
                 { id: 'QUIMICO', name: this._translate.instant('chemical') },
                 { id: 'TOPICO', name: this._translate.instant('topical') },
             ],
-            value: {
-                id: 'QUIMICO',
-            },
+            value: { id: 'QUIMICO' },
         },
-        opcionMedicamento: {
-            type: 'radio',
-            class: 'col-6',
-        },
-        opcionFormulaMagistral: {
-            type: 'radio',
-            class: 'col-6',
-        },
+        opcionMedicamento: { type: 'radio', class: 'col-6' },
+        opcionFormulaMagistral: { type: 'radio', class: 'col-6' },
         medicine: {
             type: 'typeahead',
             class: 'col-12',
@@ -169,11 +166,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             type: 'text',
             class: 'col-6',
         },
-        dose: {
-            type: 'select',
-            class: 'col-6',
-            options: [],
-        },
+        dose: { type: 'select', class: 'col-6', options: [] },
         otherDosis: { type: 'text', class: 'col-6' },
         descripcionFormulaMagistral: { type: 'text', class: 'col-6' },
         dosisFormulaMagistral: { type: 'text', class: 'col-6' },
@@ -193,46 +186,16 @@ export class PrincipalTreatmentComponent implements OnInit {
             type: 'select',
             class: 'col-12',
             options: [
-                {
-                    id: 0,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive1'),
-                },
-                {
-                    id: 1,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive2'),
-                },
-                {
-                    id: 2,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive3'),
-                },
-                {
-                    id: 3,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive4'),
-                },
-                {
-                    id: 4,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive5'),
-                },
-                {
-                    id: 5,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive6'),
-                },
-                {
-                    id: 6,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive7'),
-                },
-                {
-                    id: 7,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive8'),
-                },
-                {
-                    id: 8,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive9'),
-                },
-                {
-                    id: 9,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive10'),
-                },
+                { id: 0, name: this._translate.instant('reasonChangeOrSuspensionList.motive1') },
+                { id: 1, name: this._translate.instant('reasonChangeOrSuspensionList.motive2') },
+                { id: 2, name: this._translate.instant('reasonChangeOrSuspensionList.motive3') },
+                { id: 3, name: this._translate.instant('reasonChangeOrSuspensionList.motive4') },
+                { id: 4, name: this._translate.instant('reasonChangeOrSuspensionList.motive5') },
+                { id: 5, name: this._translate.instant('reasonChangeOrSuspensionList.motive6') },
+                { id: 6, name: this._translate.instant('reasonChangeOrSuspensionList.motive7') },
+                { id: 7, name: this._translate.instant('reasonChangeOrSuspensionList.motive8') },
+                { id: 8, name: this._translate.instant('reasonChangeOrSuspensionList.motive9') },
+                { id: 9, name: this._translate.instant('reasonChangeOrSuspensionList.motive10') },
             ],
         },
         dateSuspension: { type: 'date', class: 'col-6' },
@@ -246,9 +209,9 @@ export class PrincipalTreatmentComponent implements OnInit {
         private _translate: TranslateService,
         private _indicationService: IndicationService,
         private _medicinesService: MedicinesServices
-    ) {}
+    ) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
         this.paginationData = {
             number: 0,
@@ -264,7 +227,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.getForm();
     }
 
-    async getForm() {
+    async getForm () {
         const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
 
         if (retrievedForm && retrievedForm.data.length > 0) {
@@ -281,7 +244,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
     }
 
-    getFormDatas() {
+    getFormDatas () {
         this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
                 let indications = this._indicationService.indications;
@@ -304,7 +267,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     // CREACIÓN
-    public showModalCreate(): void {
+    public showModalCreate (): void {
         this.modalForm.reset({
             indication: this.indication,
             specialIndication: false,
@@ -436,7 +399,8 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    public async showModalChange(index: number, type: string) {
+    // CAMBIO/SUSPENSIÓN
+    public async showModalChange (index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
         dataEdit.indication = this._translate.instant(dataEdit.indication);
         let form_aux = null;
@@ -446,6 +410,7 @@ export class PrincipalTreatmentComponent implements OnInit {
                 dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
             }
         });
+
         if (dataEdit.treatmentType !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
             await this._medicinesService
                 .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
@@ -461,9 +426,7 @@ export class PrincipalTreatmentComponent implements OnInit {
                 });
         }
 
-        const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
-            size: 'lg',
-        });
+        const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, { size: 'lg' });
 
         if (dataEdit.treatmentType === 'TOPICO' && dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral') {
             form_aux = this.modalFormUpdateTopico;
@@ -488,6 +451,24 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
         modalRef.componentInstance.form.controls.regimenTreatment.setValue({
             name: dataEdit.regimenTreatment,
+        });
+
+        modalRef.componentInstance.selectActionType.subscribe((event: any) => {
+            console.log('entro aquí', event);
+            if (event.name === 'suspension') {
+                var currentDate = new Date();
+                var month = (currentDate.getMonth() + 1).toString();
+                var day = currentDate.getDate().toString();
+                month = month.length > 1 ? month : '0' + month;
+                day = day.length > 1 ? day : '0' + day;
+                modalRef.componentInstance.form.controls.dateSuspension.setValidators(Validators.required);
+                modalRef.componentInstance.form.controls.dateSuspension.setValue(currentDate.getFullYear() + '-' + month + '-' + day);
+                modalRef.componentInstance.form.controls.dateSuspension.enable();
+            } else if (event.name === 'change') {
+                modalRef.componentInstance.form.controls.dateSuspension.clearValidators();
+                modalRef.componentInstance.form.controls.dateSuspension.setValue('');
+                modalRef.componentInstance.form.controls.dateSuspension.disable();
+            }
         });
 
         modalRef.componentInstance.selectDose.subscribe((event: any) => {
@@ -543,7 +524,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     // EDICIÓN
-    public async showModalEdit(index: number, type: string) {
+    public async showModalEdit (index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
         dataEdit.indication = this._translate.instant(dataEdit.indication);
 
@@ -674,7 +655,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    private showModalConfirm(index: number, type: string) {
+    private showModalConfirm (index: number, type: string) {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = this._translate.instant('btn.delete');
@@ -689,7 +670,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    public onIconButtonClick($event: any) {
+    public onIconButtonClick ($event: any) {
         var posIndex = this.currentPage * this.paginationData.size + $event.selectedItem;
         switch ($event.type) {
             case 'changeSuspend':
@@ -704,7 +685,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
     }
 
-    private fillForm(form: FormGroup, values: any, type: string) {
+    private fillForm (form: FormGroup, values: any, type: string) {
         let formKeys: string[] = Object.keys(form.controls);
 
         formKeys.forEach((key: string) => {
@@ -713,17 +694,17 @@ export class PrincipalTreatmentComponent implements OnInit {
             //   form.controls[key].disable();
             // }
         });
-        if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
-            var currentDate = new Date();
-            var month = (currentDate.getMonth() + 1).toString();
-            var day = currentDate.getDate().toString();
-            month = month.length > 1 ? month : '0' + month;
-            day = day.length > 1 ? day : '0' + day;
-            form.controls['dateSuspension'].setValue(currentDate.getFullYear() + '-' + month + '-' + day);
-        }
+        // if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
+        //     var currentDate = new Date();
+        //     var month = (currentDate.getMonth() + 1).toString();
+        //     var day = currentDate.getDate().toString();
+        //     month = month.length > 1 ? month : '0' + month;
+        //     day = day.length > 1 ? day : '0' + day;
+        //     form.controls['dateSuspension'].setValue(currentDate.getFullYear() + '-' + month + '-' + day);
+        // }
     }
 
-    private save(modalRef, type, newRow?, index?: string, editedRow?) {
+    private save (modalRef, type, newRow?, index?: string, editedRow?) {
         let repeated = false;
         let found = false;
         if (type != 'delete' && !this.currentModal.get('dateSuspension')) {
@@ -792,7 +773,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
     }
 
-    public sortTableDefault() {
+    public sortTableDefault () {
         this.tableData.sort(function (a, b) {
             if (a.dateSuspension === null && b.dateSuspension === null) {
                 return a.dateStart < b.dateStart ? 1 : -1;
@@ -808,24 +789,24 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    public onSort(event: any) {
+    public onSort (event: any) {
         this.typeOrder = event.direction;
         this.colOrder = event.column;
         this.refreshTable();
     }
 
-    public selectPage(page: number): void {
+    public selectPage (page: number): void {
         this.currentPage = page;
         this.refreshTable();
     }
 
-    public selectItemsPerPage(number: number) {
+    public selectItemsPerPage (number: number) {
         this.itemsPerPage = number;
         this.paginationData.size = number;
         this.selectPage(0);
     }
 
-    public refreshTable() {
+    public refreshTable () {
         if (this.typeOrder === '') {
             this.sortTableDefault();
         } else {
@@ -858,7 +839,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
     }
 
-    private addColorRow(tableData) {
+    private addColorRow (tableData) {
         tableData.forEach((element) => {
             element.rowColor = false;
             if (element.dateSuspension) {
@@ -875,14 +856,14 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    private deleteRequiredValidation(keys: any[]) {
+    private deleteRequiredValidation (keys: any[]) {
         keys.forEach((key) => {
             this.modalForm.controls[key].clearValidators();
             this.modalForm.controls[key].updateValueAndValidity();
         });
     }
 
-    private setRequiredValidation(keys: any[]) {
+    private setRequiredValidation (keys: any[]) {
         keys.forEach((key) => {
             this.modalForm.controls[key].setValidators(Validators.required);
             this.modalForm.controls[key].updateValueAndValidity();
