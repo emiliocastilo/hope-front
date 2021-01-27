@@ -116,6 +116,15 @@ export class BiologicalTreatmentFrequencyComponent implements OnInit {
     }
 
     public onIconButtonClick(event: any): void {
+        if (typeof event === 'string') return;
+
+        // Para click en gráfica
+        if (event.series) {
+            event.type = 'detail';
+            event.selectedItem = this.dataTable.indexOf(this.dataTable.filter((f) => this._translate.instant(f.actIngredients) === event.series)[0]);
+        }
+
+        // Click en detalle tabla
         this.details = [];
         this.detailsDataTable = [];
         if (event.type === 'detail') {

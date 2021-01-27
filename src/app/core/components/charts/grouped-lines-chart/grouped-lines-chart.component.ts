@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GroupedLineChartGroupData } from 'src/app/core/models/graphs/grouped-line-chart.model';
 
 @Component({
@@ -11,6 +11,7 @@ export class GroupedLinesChartComponent implements OnInit {
     @Input() xAxisLabel: string = '';
     @Input() yAxisLabel: string = '';
     @Input() legendTitle: string = '';
+    @Output() onClick: EventEmitter<any> = new EventEmitter<any>();
 
     view: any[] = [window.innerWidth - 320, 400];
 
@@ -29,8 +30,8 @@ export class GroupedLinesChartComponent implements OnInit {
 
     ngOnInit() {}
 
-    onSelect(data): void {
-        // console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+    onSelect(event: any): void {
+        this.onClick.emit(event);
     }
 
     onActivate(data): void {
