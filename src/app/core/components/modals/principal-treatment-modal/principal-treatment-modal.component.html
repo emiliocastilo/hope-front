@@ -20,8 +20,8 @@
                 [inputFormatter]="options[formKey].inputFormatter"
                 [resultFormatter]="options[formKey].resultFormatter"
                 (selectTypeahead)="selectInputTypeaheadModal($event)"
-            >
-            </app-input-typeahead>
+            ></app-input-typeahead>
+
             <app-input
                 *ngIf="checkInputType(['text', 'password', 'date', 'number'], options[formKey].type) && checkTypeTreatment(formKey)"
                 [id]="formKey"
