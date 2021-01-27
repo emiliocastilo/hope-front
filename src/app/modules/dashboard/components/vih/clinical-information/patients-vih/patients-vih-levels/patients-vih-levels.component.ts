@@ -34,32 +34,32 @@ export class PatientsVihLevelsComponent implements OnInit {
     public selectLabel: string = 'byVIHParameters';
     public options: Array<SelectOption> = [
         {
-            name: 'CVP',
+            name: this.translate.instant('CVP'),
             param: 'CVP',
             chart: { name: 'chartCVP', type: 'pie' },
         },
         {
-            name: 'CD4',
+            name: this.translate.instant('CD4'),
             param: 'CD4',
             chart: { name: 'chartCD4', type: 'pie' },
         },
         {
-            name: 'Grupo de riesgo',
+            name: this.translate.instant('riskGroup'),
             param: 'RISK',
             chart: { name: 'chartRISK', type: 'pie' },
         },
         {
-            name: 'Infección viral',
+            name: this.translate.instant('viralInfection'),
             param: 'VIRAL',
             chart: { name: 'chartVIRAL', type: 'pie' },
         },
         {
-            name: 'VHC',
+            name: this.translate.instant('VHC'),
             param: 'VHC',
             chart: { name: 'chartVHC', type: 'pie' },
         },
         {
-            name: 'Línea de tratamiento',
+            name: this.translate.instant('recommendedInitGuidelines'),
             param: 'treatment-line',
             chart: { name: 'chartTreatmentLine', type: 'grouped-vertical-line' },
         },
@@ -71,9 +71,10 @@ export class PatientsVihLevelsComponent implements OnInit {
     public dataChart: ChartObjectModel[];
 
     //Tabla
-    public showingDetail = false;
-    public columHeaders: string[] = ['indication', 'patients'];
-    public dataTable: any[];
+    public titleHeader: string = '';
+    showingDetail = false;
+    columHeaders: string[] = [this.selectedOption.name, 'patients'];
+    dataTable: any[];
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
     //Detalle
@@ -202,13 +203,12 @@ export class PatientsVihLevelsComponent implements OnInit {
         return arrayData;
     }
 
-    // Detalle
+    // Detalle - El parámetro se llama indication pero no tiene que ver con las de Derma
     public onIconButtonClick(event: any): void {
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.dataTable[event.selectedItem];
-            const query = this.query + '&indication=' + this.currentSelected.indication;
-
+            const query = this.query + '&indication=' + this.currentSelected[this.selectedOption.name];
             this.getDetails(query);
             this.getDetailsToExport(query);
         } else {

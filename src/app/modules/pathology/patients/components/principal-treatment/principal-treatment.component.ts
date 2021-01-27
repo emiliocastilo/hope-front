@@ -103,9 +103,10 @@ export class PrincipalTreatmentComponent implements OnInit {
             switchMap((term) =>
                 this._medicinesService
                     .getByText(
-                        `search=${term}&treatmentType=${this.modalForm.controls.treatmentType.value.id
-                            ? this.modalForm.controls.treatmentType.value.id
-                            : this.modalForm.controls.treatmentType.value[0]?.id
+                        `search=${term}&treatmentType=${
+                            this.modalForm.controls.treatmentType.value.id
+                                ? this.modalForm.controls.treatmentType.value.id
+                                : this.modalForm.controls.treatmentType.value[0]?.id
                                 ? this.modalForm.controls.treatmentType.value[0].id
                                 : this.modalForm.controls.treatmentType.value
                         }`
@@ -132,7 +133,10 @@ export class PrincipalTreatmentComponent implements OnInit {
         actionType: {
             type: 'select',
             class: 'col-12',
-            options: [{ id: 'change', name: 'change' }, { id: 'suspension', name: 'suspension' }],
+            options: [
+                { id: 'change', name: 'change' },
+                { id: 'suspension', name: 'suspension' },
+            ],
             value: { id: 'change', name: 'change' },
         },
         indication: { type: 'text', class: 'col-12', href: 'pepito' },
@@ -209,9 +213,9 @@ export class PrincipalTreatmentComponent implements OnInit {
         private _translate: TranslateService,
         private _indicationService: IndicationService,
         private _medicinesService: MedicinesServices
-    ) { }
+    ) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
         this.paginationData = {
             number: 0,
@@ -227,7 +231,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.getForm();
     }
 
-    async getForm () {
+    async getForm() {
         const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
 
         if (retrievedForm && retrievedForm.data.length > 0) {
@@ -244,7 +248,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
     }
 
-    getFormDatas () {
+    getFormDatas() {
         this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
                 let indications = this._indicationService.indications;
@@ -267,7 +271,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     // CREACIÓN
-    public showModalCreate (): void {
+    public showModalCreate(): void {
         this.modalForm.reset({
             indication: this.indication,
             specialIndication: false,
@@ -400,7 +404,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     // CAMBIO/SUSPENSIÓN
-    public async showModalChange (index: number, type: string) {
+    public async showModalChange(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
         dataEdit.indication = this._translate.instant(dataEdit.indication);
         let form_aux = null;
@@ -524,7 +528,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     // EDICIÓN
-    public async showModalEdit (index: number, type: string) {
+    public async showModalEdit(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
         dataEdit.indication = this._translate.instant(dataEdit.indication);
 
@@ -655,7 +659,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    private showModalConfirm (index: number, type: string) {
+    private showModalConfirm(index: number, type: string) {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = this._translate.instant('btn.delete');
@@ -670,7 +674,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    public onIconButtonClick ($event: any) {
+    public onIconButtonClick($event: any) {
         var posIndex = this.currentPage * this.paginationData.size + $event.selectedItem;
         switch ($event.type) {
             case 'changeSuspend':
@@ -685,7 +689,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
     }
 
-    private fillForm (form: FormGroup, values: any, type: string) {
+    private fillForm(form: FormGroup, values: any, type: string) {
         let formKeys: string[] = Object.keys(form.controls);
 
         formKeys.forEach((key: string) => {
@@ -704,7 +708,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         // }
     }
 
-    private save (modalRef, type, newRow?, index?: string, editedRow?) {
+    private save(modalRef, type, newRow?, index?: string, editedRow?) {
         let repeated = false;
         let found = false;
         if (type != 'delete' && !this.currentModal.get('dateSuspension')) {
@@ -773,7 +777,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
     }
 
-    public sortTableDefault () {
+    public sortTableDefault() {
         this.tableData.sort(function (a, b) {
             if (a.dateSuspension === null && b.dateSuspension === null) {
                 return a.dateStart < b.dateStart ? 1 : -1;
@@ -789,24 +793,24 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         this.typeOrder = event.direction;
         this.colOrder = event.column;
         this.refreshTable();
     }
 
-    public selectPage (page: number): void {
+    public selectPage(page: number): void {
         this.currentPage = page;
         this.refreshTable();
     }
 
-    public selectItemsPerPage (number: number) {
+    public selectItemsPerPage(number: number) {
         this.itemsPerPage = number;
         this.paginationData.size = number;
         this.selectPage(0);
     }
 
-    public refreshTable () {
+    public refreshTable() {
         if (this.typeOrder === '') {
             this.sortTableDefault();
         } else {
@@ -839,7 +843,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
     }
 
-    private addColorRow (tableData) {
+    private addColorRow(tableData) {
         tableData.forEach((element) => {
             element.rowColor = false;
             if (element.dateSuspension) {
@@ -856,14 +860,14 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    private deleteRequiredValidation (keys: any[]) {
+    private deleteRequiredValidation(keys: any[]) {
         keys.forEach((key) => {
             this.modalForm.controls[key].clearValidators();
             this.modalForm.controls[key].updateValueAndValidity();
         });
     }
 
-    private setRequiredValidation (keys: any[]) {
+    private setRequiredValidation(keys: any[]) {
         keys.forEach((key) => {
             this.modalForm.controls[key].setValidators(Validators.required);
             this.modalForm.controls[key].updateValueAndValidity();

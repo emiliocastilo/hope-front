@@ -17,7 +17,6 @@ export class PatientsTreatmentsService {
     getDetailPatientsUnderTreatment(query: string = ''): Observable<any> {
         return this._http.get(`/patients-treatments/get-detail-patients-under-treatment?${query}`);
     }
-
     getDetailPatientsUnderTreatmentExport(query: string = ''): Observable<any> {
         return this._http.get(`/patients-treatments/get-detail-patients-under-treatment-export?${query}`);
     }
