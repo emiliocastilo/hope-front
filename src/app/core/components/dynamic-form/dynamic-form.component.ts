@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../../services/forms/forms.service';
-import { NotificationService } from '../../services/notification.service';
-import { HttpClient } from '@angular/common/http';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { Subscription } from 'rxjs';
+import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -16,8 +15,9 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
+export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     private currentPatient: PatientModel = JSON.parse(localStorage.getItem('selectedPatient'));
+    private formSubscription: Subscription;
 
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
@@ -28,21 +28,27 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     form: FormGroup;
     public f: any;
 
-    get controls() {
+    get controls () {
         return this.config.filter(({ type }) => type !== 'button' || 'title');
     }
-    get changes() {
+    get changes () {
         return this.form.valueChanges;
     }
-    get valid() {
+    get valid () {
         return this.form.valid;
     }
-    get value() {
+    get value () {
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) {}
-    ngAfterViewInit(): void {
+    constructor(
+        private formBuilder: FormBuilder,
+        private _modalService: NgbModal,
+        private _formsService: FormsService,
+        private _dynamicFormService: DynamicFormService
+    ) { }
+
+    ngAfterViewInit (): void {
         this.detectCalculated();
         setTimeout(() => {
             this.displayElement(this.config);
@@ -54,11 +60,16 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
 
-    ngOnInit() {
-        this.form = this.createGroup();
+    ngOnInit () {
+        this.formSubscription = this._dynamicFormService.getForm().subscribe(
+            (form: FormGroup) => {
+                this.form = form;
+                console.log(new Date().getTime(), this.form);
+            });
+        this._dynamicFormService.addControls(this.controls, this.config);
     }
 
-    isNormalType(type: string) {
+    isNormalType (type: string) {
         const isArray = ['table', 'historic', 'title', 'button'];
         const found = isArray.find((e) => e === type);
         if (found) {
@@ -68,7 +79,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
 
-    detectCalculated() {
+    detectCalculated () {
         this.changes.subscribe((change) => {
             const params = [];
             // Calculated front
@@ -89,7 +100,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         });
     }
 
-    enabledThen(config) {
+    enabledThen (config) {
         const calculatedFields = config.filter((e) => e.enableWhen && e.enableWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
@@ -116,7 +127,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
 
-    detectCalculatedBack() {
+    detectCalculatedBack () {
         this.changes.subscribe((change) => {
             const params = [];
             // Calculated back
@@ -166,14 +177,14 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
             }, 20);
         });
     }
-    enabledWhen(field: FieldConfig) {
+    enabledWhen (field: FieldConfig) {
         if (field.enableWhen[1] === 'not_empty') {
             return this.form.controls[field.enableWhen[0]].value !== '';
         } else {
             return this.form.controls[field.enableWhen[0]].value === field.enableWhen[1];
         }
     }
-    displayElement(config) {
+    displayElement (config) {
         const calculatedFields = config.filter((e) => e.hiddenWhen && e.hiddenWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
@@ -196,7 +207,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
 
-    hiddenWhen(field: FieldConfig) {
+    hiddenWhen (field: FieldConfig) {
         if (field.hiddenWhen[1] === 'not_empty') {
             return this.form.controls[field.hiddenWhen[0]].value !== '';
         } else if (field.hiddenWhen[0] === 'patientGender' && this.currentPatient.genderCode === field.hiddenWhen[1]) {
@@ -206,7 +217,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
 
-    ngOnChanges() {
+    ngOnChanges () {
         if (this.form) {
             // this._formsService.setModalForm(this.form);
             const controls = Object.keys(this.form.controls);
@@ -219,7 +230,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
                 .forEach((name) => {
                     const config = this.config.find((control) => control.name === name);
                     if (this.isNormalType(config.type)) {
-                        this.form.addControl(name, this.createControl(config));
+                        this.form.addControl(name, this._dynamicFormService.createControl(config, this.config));
                     }
                     if (config.type === 'table') {
                         this._formsService.setMustBeSaved(true);
@@ -236,45 +247,25 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
 
-    createGroup() {
-        const group = this.fb.group({});
-        this.controls.forEach((control) => {
-            group.addControl(control.name, this.createControl(control));
-        });
-        return group;
-    }
 
-    createControl(config: FieldConfig) {
-        if (config.calculated_front) {
-            const params = [];
-            config.params.forEach((e, i) => {
-                // Diferenciamos para los calculated front según si es nuevo (carga defaultValues) o no
-                params[i] = this.form ? this.form.getRawValue()[e] : this.config[i].value;
-            });
 
-            config.value = FormUtils[config.formula](params);
-        }
-        const { disabled, validation, value } = config;
-        return this.fb.control({ disabled, value }, validation);
-    }
-
-    createArray(config: FieldConfig) {
-        const group = this.fb.group({});
+    createArray (config: FieldConfig) {
+        const group = this.formBuilder.group({});
         config.fields.forEach((field) => {
-            group.addControl(field.name, this.fb.control(''));
+            group.addControl(field.name, this.formBuilder.control(''));
         });
-        return this.fb.array([group]);
+        return this.formBuilder.array([group]);
     }
 
-    createHistoric(config: FieldConfig) {
+    createHistoric (config: FieldConfig) {
         const { validation } = config;
-        const group = this.fb.group({});
-        group.addControl('date', this.fb.control('', validation));
-        group.addControl('value', this.fb.control('', validation));
-        return this.fb.array([group]);
+        const group = this.formBuilder.group({});
+        group.addControl('date', this.formBuilder.control('', validation));
+        group.addControl('value', this.formBuilder.control('', validation));
+        return this.formBuilder.array([group]);
     }
 
-    handleSubmit(event: Event) {
+    handleSubmit (event: Event) {
         event.preventDefault();
         event.stopPropagation();
         if (this.valid && this.validationHistoric(event)) {
@@ -285,17 +276,17 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         }
     }
 
-    cleanClick(event: Event) {
+    cleanClick (event: Event) {
         this.form.reset();
     }
 
-    cancelClick() {
+    cancelClick () {
         if (this.isModal) {
             this.cancel.emit(true);
         }
     }
 
-    showChartFront(event: Event) {
+    showChartFront (event: Event) {
         const parseData = [];
         this.controls.forEach((control) => {
             if (control.type === 'historic' && control.historic && control.name !== 'date') {
@@ -309,7 +300,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         this.showModal(parseData);
     }
 
-    async showChartFromBack() {
+    async showChartFromBack () {
         const patient = JSON.parse(localStorage.getItem('selectedPatient'));
         const dataGraph: any = await this._formsService.retrieveFormGraph(this.key, patient.id);
 
@@ -326,7 +317,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         this.showModal(dataGraph);
     }
 
-    private parseIsoToDate(array: any[]): any[] {
+    private parseIsoToDate (array: any[]): any[] {
         const parseArrayData = array
             .filter((object) => object.date && object.value)
             .map((object: any) => {
@@ -336,7 +327,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         return parseArrayData;
     }
 
-    private showModal(data: any[]) {
+    private showModal (data: any[]) {
         const modalRef = this._modalService.open(ManyChartModalComponent, {
             size: 'lg',
         });
@@ -347,7 +338,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         });
     }
 
-    setDisabled(name: string, disable: boolean) {
+    setDisabled (name: string, disable: boolean) {
         if (this.form.controls[name]) {
             const method = disable ? 'disable' : 'enable';
             this.form.controls[name][method]({ emitEvent: false });
@@ -362,11 +353,11 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         });
     }
 
-    setValue(name: string, value: any) {
+    setValue (name: string, value: any) {
         this.form.controls[name].setValue(value, { emitEvent: true });
     }
 
-    private validationHistoric(event: Event): boolean {
+    private validationHistoric (event: Event): boolean {
         let isValid: boolean = true;
         let historicWithValidations = this.config.filter((e) => e.validation && e.type === 'historic');
         if (historicWithValidations && historicWithValidations.length > 0) {
@@ -381,7 +372,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         return isValid;
     }
 
-    private setValueToEmptyHistoricInput(event: Event): any {
+    private setValueToEmptyHistoricInput (event: Event): any {
         const object = {
             date: '',
             value: '',
@@ -403,7 +394,13 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         return this.value;
     }
 
-    private isStringEmpty(text: string): boolean {
+    private isStringEmpty (text: string): boolean {
         return !text || text === null || text === undefined || text === '';
+    }
+
+    ngOnDestroy () {
+        // this._dynamicFormService.form = undefined;
+        this._dynamicFormService.setForm(undefined);
+        this.formSubscription.unsubscribe();
     }
 }

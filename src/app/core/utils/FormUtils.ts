@@ -69,6 +69,7 @@ export default class FormUtils {
 
         fieldConfig.multiselect = value.multiselect;
         fieldConfig.file = value.file;
+        fieldConfig.accordion = value.accordion;
 
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
