@@ -83,6 +83,7 @@ import { FormSpaceComponent } from './components/basics/form-space/form-space.co
 import { FormInputFileComponent } from './components/basics/form-input-file/form-input-file.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormAccordionComponent } from './components/basics/form-accordion/form-accordion.component';
+import { FormTextComponent } from './components/basics/form-text/form-text.component';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -134,6 +135,7 @@ export function createTranslateLoader(http: HttpClient) {
         FromDividerComponent,
         FromTitleComponent,
         FromSectionComponent,
+        FormTextComponent,
         NgbdSortableHeader,
         FormsComponent,
         ColumnChartComponent,

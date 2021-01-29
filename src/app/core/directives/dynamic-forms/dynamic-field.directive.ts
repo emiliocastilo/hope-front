@@ -21,6 +21,7 @@ import { FormMultiSelectComponent } from '../../components/basics/form-multi-sel
 import { FormSpaceComponent } from '../../components/basics/form-space/form-space.component';
 import { FormInputFileComponent } from '../../components/basics/form-input-file/form-input-file.component';
 import { FormAccordionComponent } from '../../components/basics/form-accordion/form-accordion.component';
+import { FormTextComponent } from '../../components/basics/form-text/form-text.component';
 
 const components = {
     button: FormButtonComponent,
@@ -41,6 +42,7 @@ const components = {
     space: FormSpaceComponent,
     file: FormInputFileComponent,
     accordion: FormAccordionComponent,
+    text: FormTextComponent,
 };
 
 @Directive({
