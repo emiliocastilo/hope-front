@@ -2,7 +2,7 @@ import { ValidatorFn } from '@angular/forms';
 export interface AccordionPanel {
     header: string;
     content: FieldConfig[];
-    config?: FieldConfig;
+    config?: FieldConfig[];
 }
 export interface FieldConfig {
     name: string;

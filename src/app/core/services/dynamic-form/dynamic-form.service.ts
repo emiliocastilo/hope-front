@@ -8,7 +8,7 @@ import FormUtils from '../../utils/FormUtils';
     providedIn: 'root'
 })
 export class DynamicFormService {
-    private form: FormGroup;
+    public form: FormGroup;
     public formSubject = new Subject<FormGroup>();
 
     constructor(private formBuilder: FormBuilder) { }
@@ -26,7 +26,8 @@ export class DynamicFormService {
     public addControls (controls: FieldConfig[], config: FieldConfig[]) {
         controls.forEach((control) => {
             console.log(control.name);
-            this.form.addControl(control.name, this.createControl(control, config));
+            if (this.form.controls[control.name] !== undefined)
+                this.form.addControl(control.name, this.createControl(control, config));
         });
         this.setForm(this.form);
     }
@@ -42,11 +43,16 @@ export class DynamicFormService {
             fieldConfig.value = FormUtils[fieldConfig.formula](params);
         }
         const { disabled, validation, value } = fieldConfig;
-        debugger
+
+        // validation = FormUtils.parseValidations(validation);
+        // return this.formBuilder.control({ disabled, value }, validation);
+
         // return this.formBuilder.group({ items: [[{ disabled, value }, validation]] });
-        // return this.formBuilder.control([{ disabled, value }, validation]);
         // return new FormControl('', Validators.required);
         // FormControl({value: '', disabled: true})
-        return new FormControl({ value: value, disabled: disabled }, validation);
+        // return new FormControl({ value: value, disabled: disabled }, validation);
+        // return this.formBuilder.control([{ disabled, value }, validation]);
+        // console.log(new Date().getTime(), fieldConfig.name, validation, typeof(validation));
+        return this.formBuilder.control({ disabled: disabled, value: value }, validation);
     }
 }
