@@ -19,6 +19,7 @@ export class FormAccordionComponent implements OnInit {
     ngOnInit () {
         this.panels = this.config.accordion.panels;
         this.name = this.config.name;
+        console.log(`${this.name}`, this.config);
     }
 
 }

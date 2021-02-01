@@ -9,7 +9,7 @@ import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -20,6 +20,7 @@ import { Observable, Subscription } from 'rxjs';
 export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     private currentPatient: PatientModel = JSON.parse(localStorage.getItem('selectedPatient'));
     private formObserver: Subscription;
+    
 
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
@@ -29,6 +30,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
     form: FormGroup;
     public f: any;
+    public loaded: boolean;
 
     get controls () {
         return this.config.filter(({ type }) => type !== 'button' || 'title');
@@ -47,8 +49,6 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         private fb: FormBuilder,
         private _modalService: NgbModal,
         private _formsService: FormsService,
-        private _notification: NotificationService,
-        private _http: HttpClient,
         private _dynamicFormService: DynamicFormService
     ) { }
     ngAfterViewInit (): void {
@@ -66,7 +66,15 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     ngOnInit () {
         // this.form = this.createGroup();
         this.form = this._dynamicFormService.form;
-        this.formObserver = this._dynamicFormService.getForm().subscribe((form: FormGroup) => this.form = form);
+
+        this.formObserver = this._dynamicFormService.getForm().subscribe(
+            (form: FormGroup) => { 
+                console.log(new Date().getTime(), form);
+                this.form = form;
+                // console.log(this.form);
+                this.loaded = true;
+            });
+
         if (!this.form) this.form = new FormGroup({});
         this._dynamicFormService.addControls(this.controls, this.config);
     }

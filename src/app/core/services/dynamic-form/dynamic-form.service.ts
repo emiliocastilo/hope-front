@@ -25,14 +25,14 @@ export class DynamicFormService {
 
     public addControls (controls: FieldConfig[], config: FieldConfig[]) {
         controls.forEach((control) => {
-            console.log(control.name);
-            if (this.form.controls[control.name] !== undefined)
+            if (this.form.controls[control.name] === undefined)
                 this.form.addControl(control.name, this.createControl(control, config));
         });
         this.setForm(this.form);
     }
 
     public createControl (fieldConfig: FieldConfig, config: FieldConfig[]) {
+        // fieldConfig = FormUtils.convertJSONToFieldConfig(fieldConfig, false);
         if (fieldConfig.calculated_front) {
             const params = [];
             fieldConfig.params.forEach((e, i) => {

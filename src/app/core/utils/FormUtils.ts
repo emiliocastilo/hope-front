@@ -20,9 +20,9 @@ export default class FormUtils {
     //     return fieldConfig;
     // }
 
-    static createFieldConfig (form, filled?, editing?): FieldConfig[] {
-        // if (!fieldConfig) fieldConfig = [];
-        const fieldConfig: FieldConfig[] = [];
+    static createFieldConfig (form, filled?, editing?, fieldConfig?: FieldConfig[]): FieldConfig[] {
+        // const fieldConfig: FieldConfig[] = [];
+        if (!fieldConfig) fieldConfig = [];
         let isFormFilled: boolean = filled && filled.length > 0;
         if (isFormFilled) {
             this.fillFormWithValues(form, filled);
@@ -33,7 +33,7 @@ export default class FormUtils {
 
             if (fieldConf.accordion) {
                 fieldConf.accordion.panels.forEach(panel => {
-                    // panel.config = this.createFieldConfig(panel.content, filled, editing, fieldConfig);
+                    // fieldConfig = this.createFieldConfig(panel.content, filled, editing, fieldConfig);
                     panel.config = this.createFieldConfig(panel.content, filled, editing);
                     // this.createFieldConfig(panel.content).forEach(element => {
                     //     if (fieldConfig.filter(f => f.name === element.name).length === 0) {
@@ -44,7 +44,7 @@ export default class FormUtils {
                 });
             }
 
-            fieldConfig.push(fieldConf);
+            if (fieldConfig.filter(f => f.name === fieldConf.name).length === 0) fieldConfig.push(fieldConf);
         }
         return fieldConfig;
     }
@@ -105,7 +105,7 @@ export default class FormUtils {
 
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
-            console.log('FormUtils', value.validation);
+            // console.log('FormUtils', value.validation);
             fieldConfig.validation = this.parseValidations(validations);
         }
         return fieldConfig;
