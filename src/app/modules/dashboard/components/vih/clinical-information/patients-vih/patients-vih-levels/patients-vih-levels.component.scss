@@ -1,10 +1,17 @@
-@import '~src/assets/styles/variables.scss';
+@import "~src/assets/styles/variables.scss";
+@import '~src/app/core/components/basics/entry-menu-select/entry-menu-select.component.scss';
+
+.container {
+  margin-top: 2rem;
+  display: flex;
+  margin-left: 0;
+}
 
 .dynamic-field {
   position: relative;
   margin-right: 2rem;
   top: -2.75rem;
-  width: 12rem;
+  width: 17rem;
 
   .dynamic-label {
     position: relative;
@@ -18,7 +25,6 @@
   }
 }
 
-.container {
-  margin-top: 1rem;
-  display: flex;
+.select {
+  min-width: 215px !important;
 }

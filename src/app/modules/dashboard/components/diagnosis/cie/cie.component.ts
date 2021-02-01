@@ -87,6 +87,18 @@ export class CieComponent implements OnInit {
     }
 
     onIconButtonClick(event: any) {
+        // Para click en gráfica
+        if (event.name) {
+            event.type = 'detail';
+            event.selectedItem = this.dataTable.indexOf(this.dataTable.filter((f) => f.cieDiagnostic === event.name)[0]);
+        } else if (typeof event === 'string') {
+            event = {
+                type: 'detail',
+                selectedItem: this.dataTable.indexOf(this.dataTable.filter((f) => f.cieDiagnostic === event)[0]),
+            };
+        }
+
+        // Click en detalle tabla
         if (event && event.type === 'detail') {
             this.showingDetail = true;
             this.selectedCie = this.dataChart[event.selectedItem].name;

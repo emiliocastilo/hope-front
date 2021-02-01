@@ -10,6 +10,7 @@ export class FormsService {
 
     private savedForm = true;
     private mustBeSaved = false;
+    public editing = true;
 
     public async get(key: string) {
         return this._http.get(`/templates?key=${key}`).toPromise();
@@ -33,6 +34,14 @@ export class FormsService {
 
     public callEndpoint(endpoint: string): Observable<any> {
         return this._http.get(endpoint);
+    }
+
+    public getFormData(query: string) {
+        return this._http.get(`/forms?${query}`);
+    }
+
+    public postEndpoint(endpoint: string, data: any): Observable<any> {
+        return this._http.post(endpoint, data);
     }
 
     public getFormsDatas(query: string) {

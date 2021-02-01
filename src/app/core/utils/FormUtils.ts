@@ -7,14 +7,14 @@ import { ValidatorFn, Validators } from '@angular/forms';
 export default class FormUtils {
     static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
 
-    static createFieldConfig(form, filled?): FieldConfig[] {
+    static createFieldConfig(form, filled?, editing?): FieldConfig[] {
         const fieldConfig: FieldConfig[] = [];
         let isFormFilled: boolean = filled && filled.length > 0;
         if (isFormFilled) {
             this.fillFormWithValues(form, filled);
         }
         for (const key in form) {
-            fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key], isFormFilled));
+            fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key], editing));
         }
         return fieldConfig;
     }
@@ -68,6 +68,7 @@ export default class FormUtils {
         fieldConfig.readonly = value.readonly;
 
         fieldConfig.multiselect = value.multiselect;
+        fieldConfig.file = value.file;
 
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
@@ -359,7 +360,7 @@ export default class FormUtils {
 
     static furBirthDate(params: Array<any>): any {
         let date = moment(params[0]);
-        return date.add(280, 'days').format('DD/MM/YYYY');
+        return date.add(280, 'days').format('MM/DD/YYYY');
     }
 
     static smaqAdherence(params: Array<any>): any {
@@ -461,5 +462,17 @@ export default class FormUtils {
         } else {
             return categoria;
         }
+    }
+
+    static pregnancyTestResult(params: Array<any>): any {
+        let result;
+        if (Number(params[0]) > 50) {
+            result = 'Positivo';
+        } else if (Number(params[0]) <= 50 && Number(params[0]) >= 5) {
+            result = 'Indeterminado';
+        } else if (Number(params[0]) < 5) {
+            result = 'Negativo';
+        }
+        return result;
     }
 }

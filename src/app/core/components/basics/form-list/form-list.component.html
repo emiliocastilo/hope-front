@@ -7,7 +7,7 @@
             <thead>
                 <tr>
                     <th *ngFor="let header of config.fields" scope="col">
-                        {{ header.name | translate }}
+                        {{ (header.header ? header.header : header.name) | translate }}
                     </th>
                     <th *ngIf="config.actions">
                         {{ 'actions' | translate }}
@@ -18,7 +18,7 @@
                 <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
                     <td *ngFor="let header of config.fields">
                         <div class="ellipsis max-width-cell">
-                            {{ showDataTable(row[header.name], header.name) }}
+                            {{ showDataTable(row[header?.name], header.name) }}
                         </div>
                     </td>
                     <td *ngIf="config.actions">

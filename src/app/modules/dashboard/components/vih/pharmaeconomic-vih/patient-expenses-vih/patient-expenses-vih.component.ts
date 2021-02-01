@@ -105,7 +105,6 @@ export class PatientExpensesVihComponent implements OnInit {
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
-        console.log('parsedataChart', data);
         if (data.ene) {
             const arrayData = Object.keys(data.ene).map((keyYear: string) => {
                 const object = {
@@ -143,6 +142,7 @@ export class PatientExpensesVihComponent implements OnInit {
     }
 
     loadValues(): Observable<any> {
+        this.showingDetail = false;
         return new Observable<any>((observer) => {
             switch (this.selectedOption) {
                 case this.options[0].name:
@@ -243,8 +243,8 @@ export class PatientExpensesVihComponent implements OnInit {
                     patient: value.fullName,
                     principalDiagnose: value.principalDiagnose,
                     treatment: value.treatment,
-                    CVP: value.CVP,
-                    CD4: value.CD4,
+                    CVP: value.cvp,
+                    CD4: value.cd4,
                     adherence: value.adherence,
                 };
                 return object;

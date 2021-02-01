@@ -10,11 +10,9 @@ export class GraphsService {
     constructor(private _httpClient: HttpClient) {}
 
     //TODO: delete if it isn't using it
-    // public getPatientsUnderTreatment(type: string): Observable<any> {
-    //   return this._httpClient.get(
-    //     `/graphs/patients-under-treatment?type=${type}`
-    //   );
-    // }
+    public getPatientsUnderTreatment(type: string): Observable<any> {
+        return this._httpClient.get(`/graphs/patients-under-treatment?type=${type}`);
+    }
     //TODO: delete if it isn't using it
     // public getHealthOutcomesByType(type: string): Observable<any> {
     //   return this._httpClient.get(
@@ -112,6 +110,10 @@ export class GraphsService {
         return this._httpClient.get(`/patients-treatments/find-info-patients-doses`);
     }
 
+    public getBiologicalTreatmentfrequencyTableData() {
+        return this._httpClient.get(`/patients-treatments/find-info-patients-doses-medicines`);
+    }
+
     public getBiologicalTreatmentfrequencyDetails(query: string) {
         return this._httpClient.get(`/patients-treatments/get-detail-patients-per-doses?${query}`);
     }
@@ -156,26 +158,46 @@ export class GraphsService {
     // TODO plopezc - completar con back, ahora están puestas igual
     //Parámetros clínicos
     public getPatientsByClinicalParameter(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type?${query}`);
     }
-
     public getDetailPatientsByClinicalParameter(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name-indication?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type-indication?${query}`);
     }
-
     public getDetailPatientsByClinicalParameterToExport(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-name-indication-toExport?${query}`);
+        return this._httpClient.get(`/patient-clinical-data/by-type-indication-toExport?${query}`);
     }
 
-    //Cambio de tratamiento
-    public getPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/by-treatment-change?${query}`);
+    // Cambio de tratamiento
+    public getReasonLastChangeChemical(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes?${query}`);
     }
-    public getDetailPatientsByTreatmentChange(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/detail-by-treatment-change?${query}`);
+    public getReasonLastChangeChemicalDetails(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes/patients?${query}`);
     }
-    public getDetailPatientsByTreatmentChangeToExport(query: string) {
-        return this._httpClient.get(`/patient-clinical-data/detail-by-treatment-change-toExport?${query}`);
+    public getReasonLastChangeChemicalDetailsToExport(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/end-causes/patients-export?${query}`);
+    }
+
+    // Causas (si es necesario, si se puede reutilizar los de Cambio de tratamiento mejor)
+    public getReasonTypeLastChangeTreatment(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/resonType?${query}`);
+    }
+    public getReasonTypeLastChangeTreatmentDetailsToExport(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/reasonType/patients?${query}`);
+    }
+    public getReasonTypeLastChangeTreatmentDetails(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/reasonType/patients-export?${query}`);
+    }
+
+    // Número de cambios
+    public getNumberChangesChemicalTreatment() {
+        return this._httpClient.get(`/patients-diagnoses/number-changes`);
+    }
+    public getNumberChangesChemicalTreatmentDetails(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/number-changes/patients?${query}`);
+    }
+    public getNumberChangesChemicalTreatmentDetailsToExport(query: string) {
+        return this._httpClient.get(`/patients-diagnoses/number-changes/patients-export?${query}`);
     }
 
     //Costes tipo paciente
@@ -213,15 +235,5 @@ export class GraphsService {
     }
     public getAvgCostsByGuideLineAccumulated(query: string) {
         return this._httpClient.get(`/patient-clinical-data/by-guideline-avg-acucumulated?${query}`);
-    }
-
-    // Mock para getPatientsByPatientType()
-    public getMock(): any {
-        const data = [
-            { name: 'En ensayo clínico', value: 9 },
-            { name: 'Controlados y estables', value: 20 },
-        ];
-
-        return data;
     }
 }

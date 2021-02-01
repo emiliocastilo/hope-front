@@ -71,13 +71,13 @@ export class DiagnosisReasonsComponent implements OnInit {
     private getData(): Observable<any> {
         return new Observable<any>((observer) => {
             if (this.dataConfig.years == 0) {
-                this.cause = `endCause=${this.dataConfig.selectValue.literal}`;
+                this.cause = `endCause=${this.dataConfig.selectValue.code}`;
                 this._graphService.getReasonLastChangeBiological(this.cause).subscribe(
                     (data) => observer.next(data),
                     (error) => observer.error(error)
                 );
             } else {
-                this.cause = `endCause=${this.dataConfig.selectValue.literal}&years=5`;
+                this.cause = `endCause=${this.dataConfig.selectValue.code}&years=5`;
                 this._graphService.getReasonLastChangeBiologicalFiveYears(this.cause).subscribe(
                     (data) => observer.next(data),
                     (error) => observer.error(error)

@@ -1,6 +1,5 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-principal-treatment-modal',
@@ -17,11 +16,18 @@ export class PrincipalTreatmentModalComponent implements OnInit {
     @Output() update: EventEmitter<any> = new EventEmitter();
     @Output() selectInputTypeahead: EventEmitter<any> = new EventEmitter();
     @Output() selectDose: EventEmitter<any> = new EventEmitter();
+    @Output() selectActionType: EventEmitter<any> = new EventEmitter();
     @Output() selectTreatmentType: EventEmitter<any> = new EventEmitter();
     @Output() selectTopicalType: EventEmitter<any> = new EventEmitter();
 
     public formKeys: string[] = [];
     public showRequiredLegend: boolean = false;
+    public selectOptions = {
+        changeTypes: [
+            { id: 'change', name: 'change' },
+            { id: 'suspension', name: 'suspension' },
+        ],
+    };
     constructor() {}
 
     get validForm(): boolean {
@@ -96,10 +102,13 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         return pass;
     }
 
-    public select(formKey, event) {
+    public select(formKey: string, event: any) {
+        console.log('select', formKey, event);
         if (formKey === 'dose') {
             this.selectDose.emit(event);
         }
+
+        if (formKey === 'actionType') this.selectActionType.emit(event);
 
         // Cuando cambiamos el tipo de tratamiento, seleccionamos el check de medicamento por defecto y limpiamos lo que hubiese en el formulario compartido.
         if ((formKey === 'treatmentType' && event.id === 'TOPICO') || (formKey === 'treatmentType' && event.id === 'BIOLOGICO') || (formKey === 'treatmentType' && event.id === 'QUIMICO')) {

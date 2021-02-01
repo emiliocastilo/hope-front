@@ -1,6 +1,6 @@
 <section class="col-md-12 col-lg-12 m-0 p-0">
     <section class="patients-chart-container">
-        <app-pie-chart [chartTitle]="'patientsByTreatmentType'" [results]="dataChart" [showLabels]="false"></app-pie-chart>
+        <app-pie-chart (chartItemSelected)="onIconButtonClick($event)" [chartTitle]="'patientsByTreatmentType'" [results]="dataChart" [showLabels]="false"></app-pie-chart>
 
         <div class="table-container" *ngIf="!showingDetail">
             <app-table [columnsHeader]="columHeaders" [columnsData]="dataTable" (iconButtonClick)="onIconButtonClick($event)" [actions]="actions" [showActionButtons]="true"> </app-table>

@@ -1,4 +1,4 @@
-import { Component, Input, Self, OnInit } from '@angular/core';
+import { Component, Input, Self, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -24,8 +24,9 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     @Input() maxDate: string = null;
     @Input() routerLink: string = null;
     @Input() routerLinkText: string = null;
-
     @Input() value: string;
+
+    @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
     childControl = new FormControl();
     onChange = (_: any) => {};
@@ -37,6 +38,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         this.value = value;
         this.onTouch();
         this.onChange(this.value);
+        this.valueChange.emit(value);
     }
 
     writeValue(value: any): void {

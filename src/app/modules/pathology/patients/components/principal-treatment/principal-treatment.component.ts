@@ -59,6 +59,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         treatmentPulsatil: [false],
     });
     private modalFormUpdate: FormGroup = this._formBuilder.group({
+        actionType: ['', Validators.required],
         reasonChangeOrSuspension: ['', Validators.required],
         medicine: ['', Validators.required],
         family: ['', Validators.required],
@@ -71,15 +72,14 @@ export class PrincipalTreatmentComponent implements OnInit {
         dateSuspension: [''],
     });
 
-    //TO DO: Unificar los formularios con los campos comunes
+    // TODO: Unificar los formularios con los campos comunes
     private modalFormUpdateTopico: FormGroup = this._formBuilder.group({
+        actionType: ['', Validators.required],
         reasonChangeOrSuspension: ['', Validators.required],
-
         descripcionFormulaMagistral: ['', Validators.required],
         dosisFormulaMagistral: [''],
         opcionMedicamento: [''],
         opcionFormulaMagistral: [''],
-
         regimenTreatment: ['', Validators.required],
         dateSuspension: [],
     });
@@ -103,7 +103,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             switchMap((term) =>
                 this._medicinesService
                     .getByText(
-                        `search=${term}&family=${
+                        `search=${term}&treatmentType=${
                             this.modalForm.controls.treatmentType.value.id
                                 ? this.modalForm.controls.treatmentType.value.id
                                 : this.modalForm.controls.treatmentType.value[0]?.id
@@ -128,8 +128,17 @@ export class PrincipalTreatmentComponent implements OnInit {
         );
     };
 
-    // TO DO: cuando se vaya a refactorizar las opciones del treatmentType hay que cambiarlo tambien en la modal
+    // TODO: cuando se vaya a refactorizar las opciones del treatmentType hay que cambiarlo tambien en la modal
     private modalOptions = {
+        actionType: {
+            type: 'select',
+            class: 'col-12',
+            options: [
+                { id: 'change', name: 'change' },
+                { id: 'suspension', name: 'suspension' },
+            ],
+            value: { id: 'change', name: 'change' },
+        },
         indication: { type: 'text', class: 'col-12', href: 'pepito' },
         specialIndication: { type: 'checkbox', class: 'col-2' },
         bigPsychologicalImpact: { type: 'checkbox', class: 'col-2' },
@@ -139,31 +148,14 @@ export class PrincipalTreatmentComponent implements OnInit {
             type: 'select',
             class: 'col-12',
             options: [
-                {
-                    id: 'BIOLOGICO',
-                    name: this._translate.instant('biological'),
-                },
-                {
-                    id: 'QUIMICO',
-                    name: this._translate.instant('chemical'),
-                },
-                {
-                    id: 'TOPICO',
-                    name: this._translate.instant('topical'),
-                },
+                { id: 'BIOLOGICO', name: this._translate.instant('biological') },
+                { id: 'QUIMICO', name: this._translate.instant('chemical') },
+                { id: 'TOPICO', name: this._translate.instant('topical') },
             ],
-            value: {
-                id: 'QUIMICO',
-            },
+            value: { id: 'QUIMICO' },
         },
-        opcionMedicamento: {
-            type: 'radio',
-            class: 'col-6',
-        },
-        opcionFormulaMagistral: {
-            type: 'radio',
-            class: 'col-6',
-        },
+        opcionMedicamento: { type: 'radio', class: 'col-6' },
+        opcionFormulaMagistral: { type: 'radio', class: 'col-6' },
         medicine: {
             type: 'typeahead',
             class: 'col-12',
@@ -178,28 +170,14 @@ export class PrincipalTreatmentComponent implements OnInit {
             type: 'text',
             class: 'col-6',
         },
-        dose: {
-            type: 'select',
-            class: 'col-6',
-            options: [],
-        },
+        dose: { type: 'select', class: 'col-6', options: [] },
         otherDosis: { type: 'text', class: 'col-6' },
         descripcionFormulaMagistral: { type: 'text', class: 'col-6' },
         dosisFormulaMagistral: { type: 'text', class: 'col-6' },
         regimenTreatment: {
             type: 'select',
             class: 'col-6',
-            options: [
-                {
-                    name: this._translate.instant('intensificada'),
-                },
-                {
-                    name: this._translate.instant('standard'),
-                },
-                {
-                    name: this._translate.instant('reduced'),
-                },
-            ],
+            options: [{ name: this._translate.instant('intensificada') }, { name: this._translate.instant('standard') }, { name: this._translate.instant('reduced') }],
             changes: true,
         },
         datePrescription: { type: 'date', class: 'col-6' },
@@ -212,46 +190,16 @@ export class PrincipalTreatmentComponent implements OnInit {
             type: 'select',
             class: 'col-12',
             options: [
-                {
-                    id: 0,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive1'),
-                },
-                {
-                    id: 1,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive2'),
-                },
-                {
-                    id: 2,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive3'),
-                },
-                {
-                    id: 3,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive4'),
-                },
-                {
-                    id: 4,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive5'),
-                },
-                {
-                    id: 5,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive6'),
-                },
-                {
-                    id: 6,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive7'),
-                },
-                {
-                    id: 7,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive8'),
-                },
-                {
-                    id: 8,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive9'),
-                },
-                {
-                    id: 9,
-                    name: this._translate.instant('reasonChangeOrSuspensionList.motive10'),
-                },
+                { id: 0, name: this._translate.instant('reasonChangeOrSuspensionList.motive1') },
+                { id: 1, name: this._translate.instant('reasonChangeOrSuspensionList.motive2') },
+                { id: 2, name: this._translate.instant('reasonChangeOrSuspensionList.motive3') },
+                { id: 3, name: this._translate.instant('reasonChangeOrSuspensionList.motive4') },
+                { id: 4, name: this._translate.instant('reasonChangeOrSuspensionList.motive5') },
+                { id: 5, name: this._translate.instant('reasonChangeOrSuspensionList.motive6') },
+                { id: 6, name: this._translate.instant('reasonChangeOrSuspensionList.motive7') },
+                { id: 7, name: this._translate.instant('reasonChangeOrSuspensionList.motive8') },
+                { id: 8, name: this._translate.instant('reasonChangeOrSuspensionList.motive9') },
+                { id: 9, name: this._translate.instant('reasonChangeOrSuspensionList.motive10') },
             ],
         },
         dateSuspension: { type: 'date', class: 'col-6' },
@@ -275,6 +223,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             size: 0,
             totalElements: 0,
         };
+        this.currentPage = 1;
         this.typeOrder = '';
         this.colOrder = '';
         // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
@@ -450,12 +399,14 @@ export class PrincipalTreatmentComponent implements OnInit {
             //Controlamos que el elemento no se inserte en la tabla antes de guardar si el tratamiento es dupliclado
             let newRow = event.value;
             this.save(modalRef, 'create', newRow);
-            //this.refreshTable();
+            this.refreshTable();
         });
     }
 
+    // CAMBIO/SUSPENSIÓN
     public async showModalChange(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
+        dataEdit.indication = this._translate.instant(dataEdit.indication);
         let form_aux = null;
 
         Object.keys(dataEdit).forEach((key: string) => {
@@ -463,6 +414,7 @@ export class PrincipalTreatmentComponent implements OnInit {
                 dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
             }
         });
+
         if (dataEdit.treatmentType !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
             await this._medicinesService
                 .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
@@ -478,9 +430,7 @@ export class PrincipalTreatmentComponent implements OnInit {
                 });
         }
 
-        const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
-            size: 'lg',
-        });
+        const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, { size: 'lg' });
 
         if (dataEdit.treatmentType === 'TOPICO' && dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral') {
             form_aux = this.modalFormUpdateTopico;
@@ -505,6 +455,24 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
         modalRef.componentInstance.form.controls.regimenTreatment.setValue({
             name: dataEdit.regimenTreatment,
+        });
+
+        modalRef.componentInstance.selectActionType.subscribe((event: any) => {
+            console.log('entro aquí', event);
+            if (event.name === 'suspension') {
+                var currentDate = new Date();
+                var month = (currentDate.getMonth() + 1).toString();
+                var day = currentDate.getDate().toString();
+                month = month.length > 1 ? month : '0' + month;
+                day = day.length > 1 ? day : '0' + day;
+                modalRef.componentInstance.form.controls.dateSuspension.setValidators(Validators.required);
+                modalRef.componentInstance.form.controls.dateSuspension.setValue(currentDate.getFullYear() + '-' + month + '-' + day);
+                modalRef.componentInstance.form.controls.dateSuspension.enable();
+            } else if (event.name === 'change') {
+                modalRef.componentInstance.form.controls.dateSuspension.clearValidators();
+                modalRef.componentInstance.form.controls.dateSuspension.setValue('');
+                modalRef.componentInstance.form.controls.dateSuspension.disable();
+            }
         });
 
         modalRef.componentInstance.selectDose.subscribe((event: any) => {
@@ -535,11 +503,18 @@ export class PrincipalTreatmentComponent implements OnInit {
             }
             AbstractControl;
 
+            let changeType = '';
             if (Array.isArray(event.value.reasonChangeOrSuspension)) {
+                // changeType = event.value.reasonChangeOrSuspension[0].name;
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension[0].name;
             } else if (event.value.reasonChangeOrSuspension.name) {
+                // changeType = event.value.reasonChangeOrSuspension.name;
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension.name;
             }
+
+            // changeType = changeType === 'Suspensión' ? 'Suspension' : changeType;
+            // event.value.reasonChangeOrSuspension = changeType;
+
             Object.keys(event.value).forEach((key: string) => {
                 if (key.toLowerCase().includes('date') && event.value[key]) {
                     event.value[key] = new Date(event.value[key]).toISOString();
@@ -555,6 +530,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     // EDICIÓN
     public async showModalEdit(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
+        dataEdit.indication = this._translate.instant(dataEdit.indication);
+
         Object.keys(dataEdit).forEach((key: string) => {
             if (key.toLowerCase().includes('date') && dataEdit[key]) {
                 dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
@@ -721,14 +698,14 @@ export class PrincipalTreatmentComponent implements OnInit {
             //   form.controls[key].disable();
             // }
         });
-        if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
-            var currentDate = new Date();
-            var month = (currentDate.getMonth() + 1).toString();
-            var day = currentDate.getDate().toString();
-            month = month.length > 1 ? month : '0' + month;
-            day = day.length > 1 ? day : '0' + day;
-            form.controls['dateSuspension'].setValue(currentDate.getFullYear() + '-' + month + '-' + day);
-        }
+        // if (type === 'changeSuspend' && !form.controls['dateSuspension'].value) {
+        //     var currentDate = new Date();
+        //     var month = (currentDate.getMonth() + 1).toString();
+        //     var day = currentDate.getDate().toString();
+        //     month = month.length > 1 ? month : '0' + month;
+        //     day = day.length > 1 ? day : '0' + day;
+        //     form.controls['dateSuspension'].setValue(currentDate.getFullYear() + '-' + month + '-' + day);
+        // }
     }
 
     private save(modalRef, type, newRow?, index?: string, editedRow?) {
@@ -751,6 +728,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
         if (!repeated) {
             if (type === 'create') {
+                if (this.tableData.length === 0) this.tableData = [];
                 this.tableData.push(newRow);
             }
             if (type === 'edit') {
@@ -776,6 +754,8 @@ export class PrincipalTreatmentComponent implements OnInit {
                 job: true,
             };
 
+            console.log(this.tableData);
+            console.log(this.tableDataFilter);
             this._formsService.fillForm(form).subscribe(
                 () => {
                     if (type === 'create') {
@@ -787,7 +767,8 @@ export class PrincipalTreatmentComponent implements OnInit {
                         this._notification.showSuccessToast('elementDeleted');
                     }
                     modalRef.close();
-                    this.refreshTable();
+                    if (this.tableDataFilter.length === 0) this.ngOnInit();
+                    else this.refreshTable();
                 },
                 ({ error }) => {
                     this._notification.showErrorToast(error.errorCode);
@@ -856,11 +837,10 @@ export class PrincipalTreatmentComponent implements OnInit {
                 }
             });
         }
+
         this.addColorRow(this.tableData);
         this.tableDataFilter = this.tableData.map((x) => x);
-        if (this.currentPage > 0) {
-            this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
-        }
+        this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
     }
 
     private addColorRow(tableData) {

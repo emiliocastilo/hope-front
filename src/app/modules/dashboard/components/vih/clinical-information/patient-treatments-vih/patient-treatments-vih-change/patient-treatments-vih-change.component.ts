@@ -19,16 +19,16 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     // Select, datos iniciales
     options = [
         {
-            name: 'Motivo de cambio',
+            name: this.translate.instant('changeCause'),
         },
         {
-            name: 'Fallo Viral',
+            name: this.translate.instant('viralFailure'),
         },
         {
-            name: 'RAMs', // (Reacciones adversas a medicamentos)
+            name: this.translate.instant('RAMS'),
         },
         {
-            name: 'Número de cambios por tratamiento',
+            name: this.translate.instant('numberChange'),
         },
     ];
     selectLabel: string;
@@ -38,7 +38,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
 
     //Tabla
     showingDetail = false;
-    columHeaders: string[] = ['changeCause', 'patients'];
+    columHeaders: string[] = [this.selectedOption, 'patients'];
     dataTable: any[];
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
 
@@ -65,15 +65,47 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     }
 
     private getData(query: string): void {
-        this._graphService.getPatientsByTreatmentChange(query).subscribe(
-            (data) => {
-                this.dataChart = this.parseDataChart(data);
-                this.dataTable = this.parseDataTable(data);
-            },
-            (error) => {
-                console.error(error);
-            }
-        );
+        // TODO - plopezc llamar cuando esté en back, porque Solo está preparado para Biológicos. o el método que ponga back
+        // this._graphService.getReasonLastChangeChemical(query)
+        // En detalles y export están los nombres ok y creados los métodos en el graphservice - hasta que se haga en back
+
+        // Motivos de cambio
+        if (this.selectedOption !== this.options[3].name) {
+            this._graphService.getReasonLastChangeBiological(query).subscribe(
+                (data) => {
+                    this.dataChart = this.parseDataChart(data);
+                    this.dataTable = this.parseDataTable(data);
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        }
+
+        // Cantidad de cambios
+        else if (this.selectedOption === this.options[3].name) {
+            this._graphService.getNumberChangesBiologicalTreatment().subscribe(
+                (data) => {
+                    this.dataChart = this.parseDataChart(data);
+                    this.dataTable = this.parseDataTable(data);
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+
+            // Tipo de cambio
+        } /* else {
+            this._graphService.getReasonLastChangeBiological(query).subscribe(
+                (data) => {
+                    this.dataChart = this.parseDataChart(data);
+                    this.dataTable = this.parseDataTable(data);
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        } */
     }
 
     onSelect(event: any) {
@@ -82,22 +114,23 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     }
 
     loadValues(selectedOption: string) {
+        this.columHeaders[0] = this.selectedOption;
+        this.showingDetail = false;
         let query: string;
         switch (selectedOption) {
             case this.options[0].name:
-                query = 'type=cause';
+                query = 'endCause=Cambio';
                 this.selectedChart = 'changeCause';
                 break;
             case this.options[1].name:
-                query = 'type=failure';
+                query = 'endCause=' + this.options[1].name;
                 this.selectedChart = 'chartFailure';
                 break;
             case this.options[2].name:
-                query = 'type=RAMS';
+                query = 'endCause=' + this.options[2].name;
                 this.selectedChart = 'chartRAMS';
                 break;
             case this.options[3].name:
-                query = 'type=changequantity';
                 this.selectedChart = 'chartChangeQuantity';
                 break;
         }
@@ -120,7 +153,7 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
-                changeCause: key,
+                [this.selectedOption]: key,
                 patients: data[key],
             };
             return object;
@@ -135,7 +168,6 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
             this.showingDetail = true;
             this.currentSelected = this.dataTable[event.selectedItem];
             const query = this.query + '&reason=' + this.currentSelected.changeCause;
-
             this.getDetails(query);
             this.getDetailsToExport(query);
         } else {
@@ -144,16 +176,42 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     }
 
     private getDetails(query: string): void {
-        this._graphService.getDetailPatientsByTreatmentChange(query).subscribe(
-            (data: any) => {
-                this.details = data.content;
-                this.paginationData = data;
-                this.detailsDataTable = this.parseDataToTableDetails(data.content);
-            },
-            (error) => {
-                console.error(error);
-            }
-        );
+        if (this.selectedOption !== this.options[3].name) {
+            this._graphService.getReasonLastChangeBiologicalDetails(query).subscribe(
+                (data: any) => {
+                    this.details = data.content;
+                    this.paginationData = data;
+                    this.detailsDataTable = this.parseDataToTableDetails(data.content);
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        } else if (this.selectedOption === this.options[3].name) {
+            this._graphService.getNumberChangesBiologicalTreatmentDetails(query).subscribe(
+                (data: any) => {
+                    this.details = data.content;
+                    this.paginationData = data;
+                    this.detailsDataTable = this.parseDataToTableDetails(data.content);
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        }
+        /* else{
+            this._graphService.getReasonTypeLastChangeTreatmentDetails(query).subscribe(
+                (data: any) => {
+                    this.details = data.content;
+                    this.paginationData = data;
+                    this.detailsDataTable = this.parseDataToTableDetails(data.content);
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );           
+            
+        } */
     }
 
     private parseDataToTableDetails(data: any[]): any[] {
@@ -165,8 +223,8 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
                     patient: value.fullName,
                     principalDiagnose: value.principalDiagnose,
                     treatment: value.treatment,
-                    CVP: value.CVP,
-                    CD4: value.CD4,
+                    CVP: value.cvp,
+                    CD4: value.cd4,
                     adherence: value.adherence,
                 };
                 return object;
@@ -176,14 +234,34 @@ export class PatientTreatmentsVihChangeComponent implements OnInit {
     }
 
     private getDetailsToExport(query: string) {
-        this._graphService.getDetailPatientsByTreatmentChangeToExport(query).subscribe(
-            (data: any) => {
-                this.dataToExport = data;
-            },
-            (error) => {
-                console.error(error);
-            }
-        );
+        if (this.selectedOption !== this.options[3]) {
+            this._graphService.getReasonLastChangeChemicalDetailsToExport(query).subscribe(
+                (data: any) => {
+                    this.dataToExport = data;
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        } else if (this.selectedOption === this.options[3]) {
+            this._graphService.getNumberChangesChemicalTreatmentDetailsToExport(query).subscribe(
+                (data: any) => {
+                    this.dataToExport = data;
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        } /* else {
+            this._graphService.getNumberChangesChemicalTreatmentDetailsToExport(query).subscribe(
+                (data: any) => {
+                    this.dataToExport = data;
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        } */
     }
 
     public onPatientClick(event: any) {

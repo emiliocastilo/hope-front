@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-input-select',
@@ -7,7 +8,7 @@ import { FormControl, ControlValueAccessor, FormGroup } from '@angular/forms';
     styleUrls: ['./input-select.component.scss'],
 })
 export class InputSelectComponent implements OnInit, ControlValueAccessor, OnChanges {
-    constructor() {}
+    constructor(private _translate: TranslateService) {}
 
     @Input() id: string;
     @Input() isDisabled = false;
@@ -31,14 +32,19 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     optionChangeSelected: boolean;
 
     ngOnInit(): void {
-        if (this.optionSelected) {
-            const valueSelected = this.options.find((option) => option.id === this.optionSelected);
-            if (valueSelected) {
-                this.value = valueSelected.name;
-            }
-        }
-        if (!this.value && this.currentValue) {
-            this.value = this.currentValue.name;
+        if (this.optionSelected !== undefined) {
+            const interval = setInterval(() => {
+                if (this.options.length > 0) {
+                    clearInterval(interval);
+                    const valueSelected = this.options.filter((f) => f.id === this.optionSelected)[0];
+                    if (valueSelected) {
+                        this.currentValue = valueSelected;
+                        this.value = valueSelected.name;
+                    }
+
+                    if (!this.value && this.currentValue) this.value = this.currentValue.name;
+                }
+            }, 100);
         }
     }
 
@@ -47,22 +53,14 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
             if (changes.currentValue.currentValue && changes.currentValue.currentValue.name) {
                 this.value = changes.currentValue.currentValue.name;
             }
-            // else if (!changes.currentValue.currentValue) {
-            //   this.value = '';
-            // }
         }
     }
 
     onChange(value: any): void {
-        if (this.currentValue) {
-            this.optionChangeSelected = true;
-        } else {
-            this.optionChangeSelected = false;
-        }
+        this.optionChangeSelected = this.currentValue ? true : false;
         this.selectTrigger.emit(this.currentValue);
-        if (this.clearAfterSelect && this.value) {
-            this.writeValue('');
-        }
+        this.writeValue(this.currentValue.name);
+        if (this.clearAfterSelect && this.value) this.writeValue('');
     }
 
     isSelected(option, value) {
@@ -70,11 +68,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     }
 
     writeValue(value: any): void {
-        if (value) {
-            this.value = value;
-        } else {
-            this.value = '';
-        }
+        this.value = value ? value : '';
         this.childControl.setValue(value);
     }
 
@@ -82,11 +76,9 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
 
     onInput(value: any) {
         this.value = value;
-        this.setCurrentValue(value, this.options);
+        this.currentValue = this.options.filter((f) => this._translate.instant(f.name) === value)[0];
         this.childControl.setValue(this.currentValue);
-        if (this.form) {
-            this.form.controls[this.id].setValue([this.currentValue]);
-        }
+        if (this.form) this.form.controls[this.id].setValue(this.currentValue);
         this.onChange(this.value);
         this.onTouch();
     }
@@ -102,6 +94,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     setCurrentValue(name: string, objectArray: any[]) {
         objectArray.forEach((object: any) => {
             if (object.name === name) {
+                console.log(object);
                 this.currentValue = object;
             }
         });

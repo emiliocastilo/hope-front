@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MenuService } from '../../services/menu/menu.service';
 import { Subscription } from 'rxjs';
 import { CurrentRoleListenerService } from '../../services/current-role-listener/current-role-listener.service';
+import { RolModel } from 'src/app/modules/management/models/rol.model';
 
 @Component({
     selector: 'side-bar',
@@ -32,7 +33,14 @@ export class SideBarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         const user = JSON.parse(localStorage.getItem('user'));
         this.menu = JSON.parse(localStorage.getItem('menu'));
+        this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((role: RolModel) => (this.rol = role.name));
 
+        if (!this.menu || this.menu.length === 0) {
+            this._menuService.getMenu().subscribe((response: MenuItemModel) => {
+                this.loaded = true;
+                this.menu = response.children;
+            });
+        }
         if (!this.menu || this.menu.length === 0) this.getMenu();
 
         if (user) {
@@ -47,7 +55,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     }
 
     private getMenu() {
-        this._menuService.getSideBar().subscribe((response: MenuItemModel) => {
+        this._menuService.getMenu().subscribe((response: MenuItemModel) => {
             this.loaded = true;
             this.menu = response.children;
             this._menuService.setCurrentSection(undefined);

@@ -32,6 +32,7 @@ export class FormListComponent implements OnInit {
     }
 
     openModalCreate() {
+        this._formsService.editing = false;
         const modalRef = this.modalService.open(DynamicModalComponent, {
             size: 'lg',
         });
@@ -139,12 +140,11 @@ export class FormListComponent implements OnInit {
 
         if (header === 'typePsoriasis') {
             let indications = this._indicationService.indications;
-            if (indications && indications.length > 0) {
-                data = this.translate.instant(indications.filter((f) => f.id === row)[0].description);
-            } else {
+            if (indications && indications.length > 0) data = this.translate.instant(indications.filter((f) => f.code === row)[0].description);
+            else {
                 this._indicationService.getList().subscribe((response) => {
                     indications = response;
-                    data = this.translate.instant(indications.filter((f) => f.id === row)[0].description);
+                    data = this.translate.instant(indications.filter((f) => f.code === row)[0].description);
                 });
             }
         }
