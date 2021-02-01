@@ -245,9 +245,9 @@ export class PatientsComponent implements OnInit {
                     }
                 }
             }
-        } else {
-            pathologies_aux.push(formValues.pathology[0]);
-        }
+        } else if (Array.isArray(formValues.pathology)) pathologies_aux.push(formValues.pathology[0]);
+        else pathologies_aux.push(formValues.pathology);
+
         const hospital = formValues.hospital ? (formValues.hospital[0] ? formValues.hospital[0] : formValues.hospital) : formValues.hospital;
         const patient: PatientModel = new PatientModel(
             id,
