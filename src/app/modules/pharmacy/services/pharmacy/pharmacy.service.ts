@@ -9,17 +9,17 @@ import { PharmacyModel } from '../../models/pharmacy/pharmacy.model';
 })
 export class PharmacyService {
     private endpoint = '/pharmacy';
-    constructor(private _http: HttpClient) { }
+    constructor(private _http: HttpClient) {}
 
-    getData (queryParams?: string): Observable<QueryResult<PharmacyModel>> {
+    getData(queryParams?: string): Observable<QueryResult<PharmacyModel>> {
         return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}${queryParams ? queryParams : ''}`);
     }
 
-    getById (id: number): Observable<PharmacyModel> {
+    getById(id: number): Observable<PharmacyModel> {
         return this._http.get<PharmacyModel>(`${this.endpoint}/${id}`);
     }
 
-    getSearch (pathology: string, search?: string) {
+    getSearch(pathology: string, search?: string) {
         return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}/searches?search=${search}`);
     }
 }

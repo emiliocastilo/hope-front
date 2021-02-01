@@ -9,12 +9,9 @@
                 </div>
             </section>
             <div class="mt-4">
-                <app-results-per-page 
-                    (itemsPerPage)="selectItemsPerPage($event)" 
-                    [paginationData]="paginationData"
-                ></app-results-per-page>
+                <app-results-per-page (itemsPerPage)="selectItemsPerPage($event)" [paginationData]="paginationData"></app-results-per-page>
             </div>
-            <section class="mt-4">
+            <section class="mt-4" *ngIf="!loading">
                 <app-table
                     *ngIf="pharmacyRows.length > 0"
                     [columnsHeader]="pharmacyKeysToShow"
@@ -26,10 +23,7 @@
                     [sortable]="true"
                 ></app-table>
 
-                <app-pagination 
-                    (selectPage)="selectPage($event)" 
-                    [paginationData]="paginationData"
-                ></app-pagination>
+                <app-pagination (selectPage)="selectPage($event)" [paginationData]="paginationData"></app-pagination>
             </section>
         </section>
     </section>

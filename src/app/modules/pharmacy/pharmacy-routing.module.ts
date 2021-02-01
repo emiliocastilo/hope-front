@@ -8,11 +8,11 @@ const routes: Routes = [
         path: '',
         component: PharmacyComponent,
         canActivate: [AuthGuard],
-    }
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class PharmacyRoutingModule { }
+export class PharmacyRoutingModule {}

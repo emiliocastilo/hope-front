@@ -16,7 +16,7 @@ export class PharmacyModel {
         this.setValuesFromObject(obj);
     }
 
-    public setValuesFromObject (obj?: Partial<PharmacyModel>) {
+    public setValuesFromObject(obj?: Partial<PharmacyModel>) {
         this.nhc = obj && obj.nhc ? obj.nhc : undefined;
         this.date = obj && obj.date ? obj.date : undefined;
         this.nationalCode = obj && obj.nationalCode ? obj.nationalCode : undefined;

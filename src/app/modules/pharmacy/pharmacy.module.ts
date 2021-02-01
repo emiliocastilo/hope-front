@@ -5,13 +5,7 @@ import { PharmacyRoutingModule } from './pharmacy-routing.module';
 import { CoreModule } from 'src/app/core/core.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule,
-        PharmacyRoutingModule,
-    ],
-    declarations: [
-        PharmacyComponent
-    ]
+    imports: [CommonModule, CoreModule, PharmacyRoutingModule],
+    declarations: [PharmacyComponent],
 })
-export class PharmacyModule { }
+export class PharmacyModule {}

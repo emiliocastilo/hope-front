@@ -14,15 +14,7 @@ import { RoleManagementComponent } from './components/role-management/role-manag
 import { PatientsComponent } from './components/patients/patients.component';
 import { MedicinesComponent } from './components/medicines/medicines.component';
 @NgModule({
-    declarations: [
-        ManagementComponent, 
-        RoleManagementComponent, 
-        UsersComponent, 
-        PatientsComponent, 
-        DispensationsComponent, 
-        SectionsComponent, 
-        MedicinesComponent
-    ],
+    declarations: [ManagementComponent, RoleManagementComponent, UsersComponent, PatientsComponent, DispensationsComponent, SectionsComponent, MedicinesComponent],
     imports: [
         CommonModule,
         CoreModule,
