@@ -61,6 +61,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     }
 
     submit(value: { [name: string]: any }) {
+        console.log(value);
         if (value) {
             const form = {
                 template: this.key,

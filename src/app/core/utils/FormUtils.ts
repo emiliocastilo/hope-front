@@ -1,4 +1,4 @@
-import { FieldConfig } from '../interfaces/dynamic-forms/field-config.interface';
+import { AccordionPanel, FieldConfig } from '../interfaces/dynamic-forms/field-config.interface';
 import { FieldConfigModel } from '../models/forms/field-config.model';
 import moment from 'moment';
 import StringUtils from './StringUtils';
@@ -7,21 +7,7 @@ import { ValidatorFn, Validators } from '@angular/forms';
 export default class FormUtils {
     static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
 
-    // ! ORIGINAL ! //
-    // static createFieldConfig(form, filled?, editing?): FieldConfig[] {
-    //     const fieldConfig: FieldConfig[] = [];
-    //     let isFormFilled: boolean = filled && filled.length > 0;
-    //     if (isFormFilled) {
-    //         this.fillFormWithValues(form, filled);
-    //     }
-    //     for (const key in form) {
-    //         fieldConfig.push(FormUtils.convertJSONToFieldConfig(form[key], editing));
-    //     }
-    //     return fieldConfig;
-    // }
-
     static createFieldConfig (form, filled?, editing?, fieldConfig?: FieldConfig[]): FieldConfig[] {
-        // const fieldConfig: FieldConfig[] = [];
         if (!fieldConfig) fieldConfig = [];
         let isFormFilled: boolean = filled && filled.length > 0;
         if (isFormFilled) {
@@ -29,18 +15,10 @@ export default class FormUtils {
         }
         for (const key in form) {
             const fieldConf = FormUtils.convertJSONToFieldConfig(form[key], editing);
-            // if (fieldConfig.filter(f => f.name === fieldConf.name).length === 0) fieldConfig.push(fieldConf);
 
             if (fieldConf.accordion) {
                 fieldConf.accordion.panels.forEach(panel => {
-                    // fieldConfig = this.createFieldConfig(panel.content, filled, editing, fieldConfig);
                     panel.config = this.createFieldConfig(panel.content, filled, editing);
-                    // this.createFieldConfig(panel.content).forEach(element => {
-                    //     if (fieldConfig.filter(f => f.name === element.name).length === 0) {
-                    //         console.log(element.name);
-                    //         fieldConfig.push(element);
-                    //     }
-                    // });
                 });
             }
 
@@ -170,12 +148,22 @@ export default class FormUtils {
     }
 
     static fillFormWithValues (form, filled) {
-        form.forEach((element) => {
-            filled.forEach((e) => {
-                if (element.name === e.name) {
-                    element.value = e.value;
-                    if (e.type === 'historic') {
-                        element.historic = e.value;
+        form.forEach((formEl) => {
+            filled.forEach((filledEl) => {
+                if (formEl.name === filledEl.name) {
+                    formEl.value = filledEl.value;
+
+                    if (filledEl.type === 'historic') formEl.historic = filledEl.value;
+
+                    if (filledEl.type === 'accordion') {
+                        const filledAccordion = filledEl.value;
+                        formEl.accordion.panels.forEach((panel, i) => {
+                            panel.content.forEach(acEl => {
+                                const value2save = filledAccordion[i].filter(f => f.name === acEl.name)[0];
+                                if (value2save) acEl.value = value2save.value;
+                            });
+
+                        });
                     }
                 }
             });
@@ -197,6 +185,14 @@ export default class FormUtils {
                         // ? JSON.stringify(e[1])
                         // : e[1],
                     };
+
+                    if (field.type === 'accordion') {
+                        entry.value = [];
+                        field.accordion.panels.forEach((panel: AccordionPanel) => {
+                            entry.value.push(this.parseEntriesForm(values, panel.content));
+                        });
+                    }
+
                     form.push(entry);
                 }
             });

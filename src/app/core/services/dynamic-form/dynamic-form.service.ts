@@ -32,7 +32,6 @@ export class DynamicFormService {
     }
 
     public createControl (fieldConfig: FieldConfig, config: FieldConfig[]) {
-        // fieldConfig = FormUtils.convertJSONToFieldConfig(fieldConfig, false);
         if (fieldConfig.calculated_front) {
             const params = [];
             fieldConfig.params.forEach((e, i) => {
@@ -43,16 +42,6 @@ export class DynamicFormService {
             fieldConfig.value = FormUtils[fieldConfig.formula](params);
         }
         const { disabled, validation, value } = fieldConfig;
-
-        // validation = FormUtils.parseValidations(validation);
-        // return this.formBuilder.control({ disabled, value }, validation);
-
-        // return this.formBuilder.group({ items: [[{ disabled, value }, validation]] });
-        // return new FormControl('', Validators.required);
-        // FormControl({value: '', disabled: true})
-        // return new FormControl({ value: value, disabled: disabled }, validation);
-        // return this.formBuilder.control([{ disabled, value }, validation]);
-        // console.log(new Date().getTime(), fieldConfig.name, validation, typeof(validation));
         return this.formBuilder.control({ disabled: disabled, value: value }, validation);
     }
 }

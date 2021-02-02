@@ -5,8 +5,6 @@ import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../../services/forms/forms.service';
-import { NotificationService } from '../../services/notification.service';
-import { HttpClient } from '@angular/common/http';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
 import { Subscription } from 'rxjs';
@@ -17,10 +15,9 @@ import { Subscription } from 'rxjs';
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
+export class DynamicFormComponent implements OnChanges, OnInit {
     private currentPatient: PatientModel = JSON.parse(localStorage.getItem('selectedPatient'));
     private formObserver: Subscription;
-    
 
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
@@ -51,40 +48,27 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         private _formsService: FormsService,
         private _dynamicFormService: DynamicFormService
     ) { }
-    ngAfterViewInit (): void {
-        this.detectCalculated();
-        setTimeout(() => {
-            this.displayElement(this.config);
-        }, 1000);
-
-        if (this.isModal) {
-            this.detectCalculated();
-            this.detectCalculatedBack();
-        }
-    }
 
     ngOnInit () {
-        // this.form = this.createGroup();
         this.form = this._dynamicFormService.form;
 
         this.formObserver = this._dynamicFormService.getForm().subscribe(
-            (form: FormGroup) => { 
-                console.log(new Date().getTime(), form);
+            (form: FormGroup) => {
                 this.form = form;
-                // console.log(this.form);
+
+                this.detectCalculated();
+                this.displayElement(this.config);
+                if (this.isModal) {
+                    this.detectCalculated();
+                    this.detectCalculatedBack();
+                }
+
                 this.loaded = true;
+
             });
 
         if (!this.form) this.form = new FormGroup({});
         this._dynamicFormService.addControls(this.controls, this.config);
-    }
-
-    createGroup () {
-        const group = this.fb.group({});
-        this.controls.forEach((control) => {
-            group.addControl(control.name, this.createControl(control));
-        });
-        return group;
     }
 
     isNormalType (type: string) {
