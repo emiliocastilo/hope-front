@@ -38,6 +38,7 @@ export interface FieldConfig {
     template?: string;
     css?: string;
     readonly?: boolean;
+    cleanFormOnChange?: boolean;
     multiselect?: {
         enableSearch?: boolean;
         checkedStyle?: 'fontawesome' | 'checkboxes' | 'glyphicon' | 'visual';

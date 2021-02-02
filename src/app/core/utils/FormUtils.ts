@@ -66,6 +66,7 @@ export default class FormUtils {
         fieldConfig.template = value.template;
         fieldConfig.css = value.css;
         fieldConfig.readonly = value.readonly;
+        fieldConfig.cleanFormOnChange = value.cleanFormOnChange;
 
         fieldConfig.multiselect = value.multiselect;
         fieldConfig.file = value.file;
