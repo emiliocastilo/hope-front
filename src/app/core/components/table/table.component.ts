@@ -60,9 +60,7 @@ export class TableComponent implements OnInit {
 
     isValidDate(date: string): boolean {
         let pass = false;
-
         const dateObject = new Date(date);
-
         if (Object.prototype.toString.call(dateObject) === '[object Date]') {
             if (!isNaN(dateObject.getTime())) {
                 pass = true;
@@ -80,7 +78,7 @@ export class TableComponent implements OnInit {
 
         const conditionDate = header.toLowerCase().includes('date') || header.toLowerCase().includes('period') || header.toLowerCase().includes('period');
 
-        if (this.isValidDate(data) && conditionDate) {
+        if (conditionDate && this.isValidDate(data)) {
             data = this.datePipe.transform(row, 'dd/MM/yy');
         }
 
@@ -112,6 +110,8 @@ export class TableComponent implements OnInit {
         } else if ((data == null || !data) && header == 'psoralenoPlusUva') {
             data = 'No';
         }
+
+        if (data === true || data === false) data = data === true ? 'Sí' : 'No';
 
         return data;
     }
