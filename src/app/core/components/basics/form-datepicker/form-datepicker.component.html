@@ -9,5 +9,5 @@
         }"
         >{{ config.label | translate }}
     </label>
-    <input [attr.id]="config.name" [attr.name]="config.name" [attr.placeholder]="config.placeholder" [formControlName]="config.name" class="dynamic-field" type="date" [min]="minDate" [max]="maxDate" />
+    <input [attr.id]="config.name" [attr.name]="config.name" [attr.placeholder]="config.placeholder" [formControlName]="config.name" class="dynamic-field" type="date" [min]="minDate" [max]="maxDate" (change)="onChangeDatePicker($event)" />
 </div>
