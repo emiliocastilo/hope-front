@@ -8,8 +8,6 @@ import { ConfirmModalComponent } from '../../components/modals/confirm-modal/con
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ifError } from 'assert';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Injectable({
     providedIn: 'root',

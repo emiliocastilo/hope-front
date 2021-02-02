@@ -1,5 +1,9 @@
 import { ValidatorFn } from '@angular/forms';
-
+export interface AccordionPanel {
+    header: string;
+    content: FieldConfig[];
+    config?: FieldConfig[];
+}
 export interface FieldConfig {
     name: string;
     type: string;
@@ -58,5 +62,8 @@ export interface FieldConfig {
         endpoint: string;
         validExtensions?: Array<string>;
         maxSize: number;
+    };
+    accordion?: {
+        panels: Array<AccordionPanel>;
     };
 }

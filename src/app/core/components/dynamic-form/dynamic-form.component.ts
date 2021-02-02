@@ -5,10 +5,9 @@ import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../../services/forms/forms.service';
-import { NotificationService } from '../../services/notification.service';
-import { HttpClient } from '@angular/common/http';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -16,8 +15,9 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
+export class DynamicFormComponent implements OnChanges, OnInit {
     private currentPatient: PatientModel = JSON.parse(localStorage.getItem('selectedPatient'));
+    private formObserver: Subscription;
 
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
@@ -27,6 +27,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
     form: FormGroup;
     public f: any;
+    public loaded: boolean;
 
     get controls() {
         return this.config.filter(({ type }) => type !== 'button' || 'title');
@@ -41,21 +42,26 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) {}
-    ngAfterViewInit(): void {
-        this.detectCalculated();
-        setTimeout(() => {
-            this.displayElement(this.config);
-        }, 1000);
-
-        if (this.isModal) {
-            this.detectCalculated();
-            this.detectCalculatedBack();
-        }
-    }
+    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {}
 
     ngOnInit() {
-        this.form = this.createGroup();
+        this.form = this._dynamicFormService.form;
+
+        this.formObserver = this._dynamicFormService.getForm().subscribe((form: FormGroup) => {
+            this.form = form;
+
+            this.detectCalculated();
+            this.displayElement(this.config);
+            if (this.isModal) {
+                this.detectCalculated();
+                this.detectCalculatedBack();
+            }
+
+            this.loaded = true;
+        });
+
+        if (!this.form) this.form = new FormGroup({});
+        this._dynamicFormService.addControls(this.controls, this.config);
     }
 
     isNormalType(type: string) {
@@ -234,14 +240,6 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
             this.detectCalculatedBack();
             this.detectCalculated();
         }
-    }
-
-    createGroup() {
-        const group = this.fb.group({});
-        this.controls.forEach((control) => {
-            group.addControl(control.name, this.createControl(control));
-        });
-        return group;
     }
 
     createControl(config: FieldConfig) {
