@@ -153,12 +153,12 @@ export default class FormUtils {
 
                     if (filledEl.type === 'historic') formEl.historic = filledEl.value;
 
-                    if (filledEl.type === 'accordion') {
+                    if (filledEl.type === 'accordion' && filledEl.value !== null) {
                         const filledAccordion = filledEl.value;
                         formEl.accordion.panels.forEach((panel, i) => {
                             panel.content.forEach((acEl) => {
-                                const value2save = filledAccordion[i].filter((f) => f.name === acEl.name)[0];
-                                if (value2save) acEl.value = value2save.value;
+                                const dataItem = filledAccordion[i].filter((f) => f.name === acEl.name);
+                                if (dataItem && dataItem.length > 0) acEl.value = dataItem[0].value;
                             });
                         });
                     }
