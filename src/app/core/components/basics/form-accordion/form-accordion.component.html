@@ -1,6 +1,6 @@
 <div class="accordion" [id]="name">
     <div class="card" *ngFor="let panel of panels; let i = index">
-        <div class="card-header" id="heading{{i}}">
+        <div class="card-header" id="heading{{ i }}">
             <h2 class="mb-0">
                 <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'#collapse' + i">
                     {{ panel.header }}

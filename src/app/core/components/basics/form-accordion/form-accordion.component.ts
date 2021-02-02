@@ -5,7 +5,7 @@ import { AccordionPanel, FieldConfig } from 'src/app/core/interfaces/dynamic-for
 @Component({
     selector: 'app-form-accordion',
     templateUrl: './form-accordion.component.html',
-    styleUrls: ['./form-accordion.component.scss']
+    styleUrls: ['./form-accordion.component.scss'],
 })
 export class FormAccordionComponent implements OnInit {
     config: FieldConfig;
@@ -16,10 +16,9 @@ export class FormAccordionComponent implements OnInit {
     required = false;
     panels: AccordionPanel[];
 
-    ngOnInit () {
+    ngOnInit() {
         this.panels = this.config.accordion.panels;
         this.name = this.config.name;
         console.log(`${this.name}`, this.config);
     }
-
 }

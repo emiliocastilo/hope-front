@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { FormAccordionComponent } from './form-accordion.component';
 
 describe('FormAccordionComponent', () => {
-  let component: FormAccordionComponent;
-  let fixture: ComponentFixture<FormAccordionComponent>;
+    let component: FormAccordionComponent;
+    let fixture: ComponentFixture<FormAccordionComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FormAccordionComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [FormAccordionComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FormAccordionComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FormAccordionComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

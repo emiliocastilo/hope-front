@@ -5,33 +5,32 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import FormUtils from '../../utils/FormUtils';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DynamicFormService {
     public form: FormGroup;
     public formSubject = new Subject<FormGroup>();
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder) {}
 
-    public getForm () {
+    public getForm() {
         if (!this.form) this.form = new FormGroup({});
         return this.formSubject.asObservable();
     }
 
-    public setForm (form: FormGroup) {
+    public setForm(form: FormGroup) {
         this.form = form;
         this.formSubject.next(form);
     }
 
-    public addControls (controls: FieldConfig[], config: FieldConfig[]) {
+    public addControls(controls: FieldConfig[], config: FieldConfig[]) {
         controls.forEach((control) => {
-            if (this.form.controls[control.name] === undefined)
-                this.form.addControl(control.name, this.createControl(control, config));
+            if (this.form.controls[control.name] === undefined) this.form.addControl(control.name, this.createControl(control, config));
         });
         this.setForm(this.form);
     }
 
-    public createControl (fieldConfig: FieldConfig, config: FieldConfig[]) {
+    public createControl(fieldConfig: FieldConfig, config: FieldConfig[]) {
         if (fieldConfig.calculated_front) {
             const params = [];
             fieldConfig.params.forEach((e, i) => {
