@@ -25,9 +25,9 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
     @Output() close: EventEmitter<any> = new EventEmitter();
     @Output() save: EventEmitter<any> = new EventEmitter();
 
-    constructor(private _formsService: FormsService) {}
+    constructor(private _formsService: FormsService) { }
 
-    ngOnInit() {
+    ngOnInit () {
         if (this.key) {
             this.getAndParseFromTemplate();
         } else {
@@ -35,13 +35,13 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
         }
     }
 
-    ngAfterViewInit() {}
+    ngAfterViewInit () { }
 
-    onClose() {
+    onClose () {
         this.close.emit(null);
     }
 
-    onModalValueChange(event?: any) {
+    onModalValueChange (event?: any) {
         if (this.key) {
             this.getAndParseFromTemplate();
         } else {
@@ -49,7 +49,7 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
         }
     }
 
-    async getAndParseFromTemplate() {
+    async getAndParseFromTemplate () {
         const data: any = await this._formsService.get(this.key);
         if (data) {
             const emptyForm = this._parseStringToJSON(data.form);
@@ -59,14 +59,14 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
         }
     }
 
-    getAndParseFromFields() {
+    getAndParseFromFields () {
         this.fillForm();
         this.config = FormUtils.createFieldConfig(this.fields, this.filled, this._formsService.editing);
         this.buttons = FormUtils.createButtons(['save']);
         this._formsService.editing = true;
     }
 
-    submit(modalForm: { [name: string]: any }) {
+    submit (modalForm: { [name: string]: any }) {
         // Impedimos que se añada un registro vacío aunque no haya campos requeridos
         let object = modalForm;
         for (let key in object) {
@@ -82,7 +82,7 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
         }
     }
 
-    fillForm() {
+    fillForm () {
         if (this.data) {
             Object.keys(this.data).forEach((key) => {
                 let field = this.fields.find((o) => o.name === key);
@@ -97,13 +97,13 @@ export class DynamicModalComponent implements OnInit, AfterViewInit {
         }
     }
 
-    closeModal(cancel: boolean) {
+    closeModal (cancel: boolean) {
         if (cancel) {
             this.close.emit(null);
         }
     }
 
-    private _parseStringToJSON(form: string): JSON {
+    private _parseStringToJSON (form: string): JSON {
         return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
     }
 }

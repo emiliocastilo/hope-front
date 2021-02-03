@@ -24,6 +24,7 @@ export class DynamicFormService {
     }
 
     public addControls(controls: FieldConfig[], config: FieldConfig[]) {
+        // if (config.name !== 'table')
         controls.forEach((control) => {
             if (this.form.controls[control.name] === undefined) this.form.addControl(control.name, this.createControl(control, config));
         });
