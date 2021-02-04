@@ -380,7 +380,8 @@
         "pharmacyListError": "An error occurred obtaining pharmacy information.",
         "errorRetrievingData": "An error occurred retrieving the data.",
         "fileUploadError": "An error happened trying to upload the file.",
-        "invalidFileType": "File type not allowed. Valid types: {{validTypes}}"
+        "invalidFileType": "File type not allowed. Valid types: {{validTypes}}",
+        "incorrectFormat": "The document format is not correct"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Number of changes by biological treatment",

@@ -381,7 +381,8 @@
         "errorRetrievingData": "Ha ocurrido un error recuperando los datos.",
         "fileUploadError": "Ha ocurrido un error subiendo el fichero.",
         "invalidFileType": "No se admite el tipo de fichero seleccionado. Tipos válidos: {{ validTypes }}",
-        "fileMaxSize": "Fichero demasiado grande. Tamaño máximo {{ maxSize }}"
+        "fileMaxSize": "Fichero demasiado grande. Tamaño máximo {{ maxSize }}",
+        "incorrectFormat": "El formato del documento no es correcto"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Número de cambios de tratamiento biológico",
