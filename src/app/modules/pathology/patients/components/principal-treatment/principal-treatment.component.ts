@@ -15,6 +15,7 @@ import { constants } from '../../../../../../constants/constants';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import moment from 'moment';
 import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
+import { DoseModel } from '../../../modules/vih/models/vih-treatment.model';
 
 @Component({
     selector: 'app-principal-treatment',
@@ -309,19 +310,18 @@ export class PrincipalTreatmentComponent implements OnInit {
         modalRef.componentInstance.options = this.modalOptions;
         modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
             modalRef.componentInstance.options.dose.options = [];
-
             modalRef.componentInstance.form.controls.family.setValue(event.family);
             modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
             modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
             modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
+
             this._medicinesService
                 .getDosesByMedicine(`medicineId=${event.id}`)
-                .then((data: any) => {
-                    data.forEach((element) => {
-                        element.name = element.description;
-                    });
-                    data.push({ name: 'Otra' });
-                    modalRef.componentInstance.options.dose.options = data;
+                .then((data: DoseModel[]) => {
+                    const comboData = [];
+                    data.forEach((element: DoseModel, i: number) => comboData.push({ id: i, name: `${element.description} ${element.doseIndicated ? '(' + element.doseIndicated + ')' : ''}` }));
+                    comboData.push({ id: 0, name: 'Otra' });
+                    modalRef.componentInstance.options.dose.options = comboData;
                 })
                 .catch(({ error }) => {
                     this._notification.showErrorToast(error.errorCode);
@@ -329,14 +329,13 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
 
         modalRef.componentInstance.selectDose.subscribe((event: any) => {
+            debugger;
             if (event.name === 'Otra') {
                 this.modalForm.controls.otherDosis.setValidators(Validators.required);
                 // this.modalForm.controls.regimenTreatment.setValue('');
             } else {
                 this.modalForm.controls.otherDosis.clearValidators();
-                this.modalForm.controls.regimenTreatment.setValue({
-                    name: this._translate.instant(event.recommendation),
-                });
+                this.modalForm.controls.regimenTreatment.setValue({ name: this._translate.instant('standard') });
             }
         });
 
@@ -458,7 +457,6 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
 
         modalRef.componentInstance.selectActionType.subscribe((event: any) => {
-            console.log('entro aquí', event);
             if (event.name === 'suspension') {
                 var currentDate = new Date();
                 var month = (currentDate.getMonth() + 1).toString();
@@ -541,14 +539,13 @@ export class PrincipalTreatmentComponent implements OnInit {
             await this._medicinesService
                 .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
                 .then((data: any) => {
-                    data.forEach((element) => {
-                        element.name = element.description;
-                    });
-                    data.push({ name: 'Otra' });
-                    this.modalOptions.dose.options = data;
+                    const comboData = [];
+                    data.forEach((element: DoseModel, i: number) => comboData.push({ id: i, name: `${element.description} ${element.doseIndicated ? '(' + element.doseIndicated + ')' : ''}` }));
+                    comboData.push({ id: 0, name: 'Otra' });
+                    modalRef.componentInstance.options.dose.options = comboData;
                 })
                 .catch(({ error }) => {
-                    this._notification.showErrorToast(error.errorCode);
+                    this._notification.showErrorToast(error);
                 });
         }
 
@@ -578,14 +575,25 @@ export class PrincipalTreatmentComponent implements OnInit {
             modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
             modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
 
+            // this._medicinesService
+            //     .getDosesByMedicine(`medicineId=${event.id}`)
+            //     .then((data: any) => {
+            //         data.forEach((element) => {
+            //             element.name = element.description;
+            //         });
+            //         data.push({ name: 'Otra' });
+            //         modalRef.componentInstance.options.dose.options = data;
+            //     })
+            //     .catch(({ error }) => {
+            //         this._notification.showErrorToast(error.errorCode);
+            //     });
             this._medicinesService
-                .getDosesByMedicine(`medicineId=${event.id}`)
-                .then((data: any) => {
-                    data.forEach((element) => {
-                        element.name = element.description;
-                    });
-                    data.push({ name: 'Otra' });
-                    modalRef.componentInstance.options.dose.options = data;
+                .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
+                .then((data: DoseModel[]) => {
+                    const comboData = [];
+                    data.forEach((element, i) => comboData.push({ id: i, name: `${element.description} ${element.doseIndicated ? '(' + element.doseIndicated + ')' : ''}` }));
+                    comboData.push({ id: 0, name: 'Otra' });
+                    modalRef.componentInstance.options.dose.options = comboData;
                 })
                 .catch(({ error }) => {
                     this._notification.showErrorToast(error.errorCode);
@@ -595,15 +603,24 @@ export class PrincipalTreatmentComponent implements OnInit {
         modalRef.componentInstance.selectDose.subscribe((event: any) => {
             if (event.name === 'Otra') {
                 this.modalForm.controls.otherDosis.setValidators(Validators.required);
-                // this.modalForm.controls.regimenTreatment.setValue('');
             } else {
                 this.modalForm.controls.otherDosis.clearValidators();
-
-                this.modalForm.controls.regimenTreatment.setValue({
-                    name: this._translate.instant(event.recommendation),
-                });
+                this.modalForm.controls.regimenTreatment.setValue({ name: this._translate.instant('standard') });
             }
         });
+
+        // modalRef.componentInstance.selectDose.subscribe((event: any) => {
+        //     if (event.name === 'Otra') {
+        //         this.modalForm.controls.otherDosis.setValidators(Validators.required);
+        //         // this.modalForm.controls.regimenTreatment.setValue('');
+        //     } else {
+        //         this.modalForm.controls.otherDosis.clearValidators();
+
+        //         this.modalForm.controls.regimenTreatment.setValue({
+        //             name: this._translate.instant(event.recommendation),
+        //         });
+        //     }
+        // });
         modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
             //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
             this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
@@ -754,8 +771,6 @@ export class PrincipalTreatmentComponent implements OnInit {
                 job: true,
             };
 
-            console.log(this.tableData);
-            console.log(this.tableDataFilter);
             this._formsService.fillForm(form).subscribe(
                 () => {
                     if (type === 'create') {

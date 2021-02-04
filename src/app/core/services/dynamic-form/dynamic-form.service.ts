@@ -24,6 +24,8 @@ export class DynamicFormService {
     }
 
     public addControls(controls: FieldConfig[], config: FieldConfig[], isModal: boolean) {
+        debugger;
+        if (!this.form) this.form = new FormGroup({});
         const form: FormGroup = isModal ? new FormGroup({}) : this.form;
         controls.forEach((control) => {
             if (form.controls[control.name] === undefined) form.addControl(control.name, this.createControl(control, config));
