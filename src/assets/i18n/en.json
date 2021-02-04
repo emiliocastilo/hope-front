@@ -655,5 +655,16 @@
     "cholesterol": "Cholesterol",
     "RAMS": "RAMS",
     "viralFailure": "Viral failure",
-    "numberChange": "Change quantity"
+    "numberChange": "Change quantity",
+    "searcher": "Searcher",
+    "finger": {
+        "pinkie": "pinkie",
+        "middle": "middle finger",
+        "ring": "ring finger",
+        "index": "index finger",
+        "thumb": "thumb"
+    },
+    "lbl": {
+        "search": "Search"
+    }
 }
