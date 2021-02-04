@@ -45,7 +45,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {}
 
     ngOnInit() {
-        console.log(this.isAccordion ? 'acordeon TRUE' : 'acordeon FALSE', this.isModal ? 'modal TRUE' : 'modal FALSE', this.config);
         if (this.isAccordion) this.form = this._dynamicFormService.form;
         else this.form = new FormGroup({});
 
@@ -53,7 +52,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
         if (this.isModal) {
             this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
-            console.log(this.form);
             this.displayElement(this.config);
             this.detectCalculated();
             this.detectCalculatedBack();
@@ -72,7 +70,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             const controls = Object.keys(this.form.controls);
             const configControls = this.controls.map((item) => item.name);
 
-            console.log(this.isModal ? 'MODAL' : 'PADRE', controls, configControls);
             controls.filter((control) => !configControls.includes(control)).forEach((control) => this.form.removeControl(control));
             configControls
                 .filter((control) => !controls.includes(control))
@@ -94,8 +91,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.detectCalculatedBack();
             this.detectCalculated();
             if (!this.isModal) this._dynamicFormService.setForm(this.form);
-            console.log('AFTER ON CHANGES', this.form.controls);
-            console.log('=====================================================');
         }
     }
 
