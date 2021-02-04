@@ -21,9 +21,9 @@ export class FormListComponent implements OnInit {
     detailArray: Array<any>;
     today: string;
 
-    constructor(private modalService: NgbModal, private datePipe: DatePipe, private translate: TranslateService, private _formsService: FormsService, private _indicationService: IndicationService) { }
+    constructor(private modalService: NgbModal, private datePipe: DatePipe, private translate: TranslateService, private _formsService: FormsService, private _indicationService: IndicationService) {}
 
-    ngOnInit () {
+    ngOnInit() {
         this.today = moment(new Date()).format('YYYY-MM-DD');
         if (this.config.value && this.config.value.length > 0) {
             this.rows = this.config.value;
@@ -31,7 +31,7 @@ export class FormListComponent implements OnInit {
         }
     }
 
-    setInvalidForm (error: boolean) {
+    setInvalidForm(error: boolean) {
         setTimeout(() => {
             if (error) {
                 this.group.controls[this.config.name].setErrors({
@@ -43,14 +43,14 @@ export class FormListComponent implements OnInit {
         }, 100);
     }
 
-    onDeleteRow (index) {
+    onDeleteRow(index) {
         event.preventDefault();
         this.rows.splice(index, 1);
         this._formsService.setSavedStatusForm(false);
         this.deleteToForm(index);
     }
 
-    bindToForm () {
+    bindToForm() {
         setTimeout(() => {
             this.rows.forEach((r, i) => {
                 this.group.controls[this.config.name].value.push(r);
@@ -59,11 +59,11 @@ export class FormListComponent implements OnInit {
         }, 500);
     }
 
-    deleteToForm (index) {
+    deleteToForm(index) {
         this.group.controls[this.config.name].value.splice(index, 1);
     }
 
-    emitIconButtonClick (action, i, content) {
+    emitIconButtonClick(action, i, content) {
         switch (action) {
             case 'edit':
                 this.openModalEdit(i);
@@ -79,7 +79,7 @@ export class FormListComponent implements OnInit {
         }
     }
 
-        openModalCreate () {
+    openModalCreate() {
         this._formsService.editing = false;
         const modalRef = this.modalService.open(DynamicModalComponent, {
             size: 'lg',
@@ -97,7 +97,7 @@ export class FormListComponent implements OnInit {
         });
     }
 
-    openModalEdit (index: number) {
+    openModalEdit(index: number) {
         const modalRef = this.modalService.open(DynamicModalComponent, {
             size: 'lg',
         });
@@ -115,7 +115,7 @@ export class FormListComponent implements OnInit {
         });
     }
 
-    openModalDetail (i: number, content: any) {
+    openModalDetail(i: number, content: any) {
         this.detailArray = [];
         Object.entries(this.rows[i]).forEach((e) => {
             const entry = {
@@ -124,18 +124,17 @@ export class FormListComponent implements OnInit {
             };
             this.detailArray.push(entry);
         });
-        debugger
         this.modalService.open(content).result.then(
-            (result) => { debugger },
-            (reason) => { debugger }
+            (result) => {},
+            (reason) => {}
         );
     }
 
-    formatDate (date) {
+    formatDate(date) {
         return moment(date).format('YYYY-MM-DD');
     }
 
-    showDataTable (row: any, header: string) {
+    showDataTable(row: any, header: string) {
         let data = row;
         const conditionDate = header.toLowerCase().includes('date') || header.toLowerCase().includes('period');
 

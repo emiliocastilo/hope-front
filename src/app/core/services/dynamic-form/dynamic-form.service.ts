@@ -11,20 +11,20 @@ export class DynamicFormService {
     public form: FormGroup;
     public formSubject = new Subject<FormGroup>();
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder) {}
 
-    public getForm () {
+    public getForm() {
         if (!this.form) this.form = new FormGroup({});
         return this.formSubject.asObservable();
     }
 
-    public setForm (form: FormGroup) {
+    public setForm(form: FormGroup) {
         this.form = form;
         this.formSubject.next(form);
     }
 
-    public addControls (controls: FieldConfig[], config: FieldConfig[], isModal: boolean) {
-        const form: FormGroup = isModal ? new FormGroup({}): this.form;
+    public addControls(controls: FieldConfig[], config: FieldConfig[], isModal: boolean) {
+        const form: FormGroup = isModal ? new FormGroup({}) : this.form;
         controls.forEach((control) => {
             if (form.controls[control.name] === undefined) form.addControl(control.name, this.createControl(control, config));
         });
@@ -32,7 +32,7 @@ export class DynamicFormService {
         else return form;
     }
 
-    public createControl (fieldConfig: FieldConfig, config: FieldConfig[]) {
+    public createControl(fieldConfig: FieldConfig, config: FieldConfig[]) {
         if (fieldConfig.calculated_front) {
             const params = [];
             fieldConfig.params.forEach((e, i) => {
