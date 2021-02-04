@@ -445,6 +445,18 @@ const routes: Routes = [
         component: PrincipalTreatmentComponent,
         canActivate: [AuthGuard],
     },
+    {
+        path: 'vih',
+        loadChildren: () => import('./modules/vih/vih.module').then((m) => m.VIHModule),
+        canActivate: [AuthGuard],
+    },
+    // ! TESTING NEW TEMPLATES ! //
+    {
+        path: 'accordion-template',
+        component: DynamicFormComponentComponent,
+        canActivate: [AuthGuard],
+    },
+    // ! TESTING NEW TEMPLATES ! //
 ];
 
 @NgModule({

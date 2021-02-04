@@ -78,11 +78,11 @@ export class BoxDataComponent implements OnInit {
         modalRef.componentInstance.messageModal = 'Hay cambios sin guardar, ¿Continuar?';
         modalRef.componentInstance.cancel.subscribe((event) => {
             modalRef.close();
-            this._formService.setSavedForm(false);
+            this._formService.setSavedStatusForm(false);
         });
         modalRef.componentInstance.accept.subscribe((event) => {
             modalRef.close();
-            this._formService.setSavedForm(true);
+            this._formService.setSavedStatusForm(true);
             this.back();
         });
     }

@@ -148,6 +148,15 @@ export class TreatmentsAgentsComponent implements OnInit {
     }
 
     public onIconButtonClick(event: any) {
+        if (typeof event === 'string') return;
+
+        // Para click en gráfica
+        if (event.series) {
+            event.type = 'detail';
+            event.selectedItem = this.dataTable.indexOf(this.dataTable.filter((f) => this._translate.instant(f.treatmentType) === event.series)[0]);
+        }
+
+        // Click en detalle tabla
         if (event && event.type === 'detail') {
             this.showingDetail = true;
             this.currentSelected = this.data[event.selectedItem];

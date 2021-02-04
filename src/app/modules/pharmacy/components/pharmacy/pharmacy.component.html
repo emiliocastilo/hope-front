@@ -1,0 +1,30 @@
+<div class="row m-0 p-0">
+    <section class="col-md-12 p-0 col-lg-12">
+        <section class="patients-container">
+            <section class="mt-4">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <app-search (emitAction)="onSearch($event)"></app-search>
+                    </div>
+                </div>
+            </section>
+            <div class="mt-4">
+                <app-results-per-page (itemsPerPage)="selectItemsPerPage($event)" [paginationData]="paginationData"></app-results-per-page>
+            </div>
+            <section class="mt-4" *ngIf="!loading">
+                <app-table
+                    *ngIf="pharmacyRows.length > 0"
+                    [columnsHeader]="pharmacyKeysToShow"
+                    [columnsData]="pharmacyRows"
+                    (selectedItem)="onSelectedItem($event)"
+                    (sort)="onSort($event)"
+                    [showActionButtons]="false"
+                    (iconButtonClick)="onIconButtonClick($event)"
+                    [sortable]="true"
+                ></app-table>
+
+                <app-pagination (selectPage)="selectPage($event)" [paginationData]="paginationData"></app-pagination>
+            </section>
+        </section>
+    </section>
+</div>

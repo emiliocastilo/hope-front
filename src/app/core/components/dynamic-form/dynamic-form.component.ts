@@ -5,10 +5,9 @@ import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../../services/forms/forms.service';
-import { NotificationService } from '../../services/notification.service';
-import { HttpClient } from '@angular/common/http';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -16,13 +15,15 @@ import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
+export class DynamicFormComponent implements OnChanges, OnInit {
     private currentPatient: PatientModel = JSON.parse(localStorage.getItem('selectedPatient'));
+    private formObserver: Subscription;
 
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
     @Input() key: string;
     @Input() isModal = false;
+    @Input() isAccordion = false;
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
     form: FormGroup;
@@ -41,16 +42,53 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, private _http: HttpClient) {}
-    ngAfterViewInit(): void {
-        this.detectCalculated();
-        setTimeout(() => {
-            this.displayElement(this.config);
-        }, 500);
-    }
+    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {}
 
     ngOnInit() {
-        this.form = this.createGroup();
+        if (this.isAccordion) this.form = this._dynamicFormService.form;
+        else this.form = new FormGroup({});
+
+        if (this.isModal) {
+            this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
+            this.displayElement(this.config);
+            this.detectCalculated();
+            this.detectCalculatedBack();
+        } else this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
+
+        this.formObserver = this._dynamicFormService.getForm().subscribe((form: FormGroup) => {
+            this.form = form;
+            this.detectCalculated();
+            this.displayElement(this.config);
+        });
+    }
+
+    ngOnChanges() {
+        if (this.form) {
+            const controls = Object.keys(this.form.controls);
+            const configControls = this.controls.map((item) => item.name);
+
+            controls.filter((control) => !configControls.includes(control)).forEach((control) => this.form.removeControl(control));
+            configControls
+                .filter((control) => !controls.includes(control))
+                .forEach((name) => {
+                    const config = this.config.find((control) => control.name === name);
+                    if (this.isNormalType(config.type)) {
+                        this.form.addControl(name, this.createControl(config));
+                    }
+                    if (config.type === 'table') {
+                        this._formsService.setMustBeSaved(true);
+                        const controlArray = this.createArray(config);
+                        controlArray.removeAt(0);
+                        this.form.addControl(name, controlArray);
+                    }
+                    if (config.type === 'historic') {
+                        this.form.addControl(name, this.createHistoric(config));
+                    }
+                });
+            this.detectCalculatedBack();
+            this.detectCalculated();
+            if (!this.isModal) this._dynamicFormService.setForm(this.form);
+        }
     }
 
     isNormalType(type: string) {
@@ -80,6 +118,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
                 });
             }
             this.enabledThen(this.config);
+            this.displayElement(this.config);
         });
     }
 
@@ -96,6 +135,15 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
                     this.form.controls[field.name]?.setValue('', {
                         emitEvent: false,
                     });
+                    if (field.type === 'checkbox') {
+                        this.form.controls[field.name].setValue(false, {
+                            emitEvent: false,
+                        });
+                    } else {
+                        this.form.controls[field.name]?.setValue('', {
+                            emitEvent: false,
+                        });
+                    }
                 }
             });
         }
@@ -107,14 +155,21 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
             // Calculated back
             const calculatedFields = this.config.filter((e) => e.calculated_back && e.event === 'change');
             if (calculatedFields && calculatedFields.length > 0) {
-                calculatedFields.forEach((field) => {
+                calculatedFields.forEach((field, i) => {
                     if (this.enabledWhen(field)) {
                         this.setDisabled(field.name, false);
                     } else {
+                        // Para los checkbox calculados
                         this.setDisabled(field.name, true);
-                        this.form.controls[field.name].setValue('', {
-                            emitEvent: false,
-                        });
+                        if (field.type === 'checkbox') {
+                            this.form.controls[field.name].setValue(false, {
+                                emitEvent: false,
+                            });
+                        } else {
+                            this.form.controls[field.name].setValue('', {
+                                emitEvent: false,
+                            });
+                        }
                     }
                     // field.params.forEach((e, i) => {
                     //   params[i] = change[e];
@@ -151,6 +206,7 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
             return this.form.controls[field.enableWhen[0]].value === field.enableWhen[1];
         }
     }
+
     displayElement(config) {
         const calculatedFields = config.filter((e) => e.hiddenWhen && e.hiddenWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
@@ -182,44 +238,6 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
         } else {
             return !this.form.controls[field.hiddenWhen[0]] || this.form.controls[field.hiddenWhen[0]].value === field.hiddenWhen[1];
         }
-    }
-
-    ngOnChanges() {
-        if (this.form) {
-            // this._formsService.setModalForm(this.form);
-            const controls = Object.keys(this.form.controls);
-            const configControls = this.controls.map((item) => item.name);
-
-            controls.filter((control) => !configControls.includes(control)).forEach((control) => this.form.removeControl(control));
-
-            configControls
-                .filter((control) => !controls.includes(control))
-                .forEach((name) => {
-                    const config = this.config.find((control) => control.name === name);
-                    if (this.isNormalType(config.type)) {
-                        this.form.addControl(name, this.createControl(config));
-                    }
-                    if (config.type === 'table') {
-                        this._formsService.setMustBeSaved(true);
-                        const controlArray = this.createArray(config);
-                        controlArray.removeAt(0);
-                        this.form.addControl(name, controlArray);
-                    }
-                    if (config.type === 'historic') {
-                        this.form.addControl(name, this.createHistoric(config));
-                    }
-                });
-            this.detectCalculatedBack();
-            this.detectCalculated();
-        }
-    }
-
-    createGroup() {
-        const group = this.fb.group({});
-        this.controls.forEach((control) => {
-            group.addControl(control.name, this.createControl(control));
-        });
-        return group;
     }
 
     createControl(config: FieldConfig) {
@@ -364,7 +382,6 @@ export class DynamicFormComponent implements OnChanges, OnInit, AfterViewInit {
             date: '',
             value: '',
         };
-
         let configHistoric = this.config.filter((e) => e.type === 'historic');
 
         configHistoric.forEach((element) => {

@@ -37,6 +37,7 @@ export class MedicinesComponent implements OnInit {
     public paginationData: PaginationModel;
     public selectedUser: any;
     public medicines: Array<MedicineModel>;
+    ºº;
     public selectedMedicine: MedicineModel;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDelete();
 
@@ -89,7 +90,11 @@ export class MedicinesComponent implements OnInit {
             .then((response: any) => {
                 modal.close();
                 this.refreshData(`?page=${this.currentPage}`);
-                this._notification.showSuccessToast('elementCreated');
+                if (response.ok) {
+                    this._notification.showSuccessToast('elementCreated');
+                } else {
+                    this._notification.showErrorToast('incorrectFormat');
+                }
             })
             .catch((error: any) => {
                 this._notification.showErrorToast(error.errorCode);

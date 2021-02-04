@@ -1,0 +1,119 @@
+<div class="modal-content">
+    <app-generic-modal-header [title]="title | translate" (close)="onClose()"> </app-generic-modal-header>
+
+    <form class="container" [formGroup]="form">
+        <div class="row" [hidden]="type === 'changeSuspend'">
+            <app-input id="indication" name="indication" isDisabled="true" label="indication" formControlName="indication" class="col-6"></app-input>
+            <app-input id="treatmentType" name="treatmentType" isDisabled="true" label="treatmentType" formControlName="treatmentType" class="col-6"></app-input>
+        </div>
+        <div class="row" [hidden]="type !== 'changeSuspend'">
+            <app-input-select
+                [required]="type === 'changeSuspend'"
+                class="roles-select"
+                id="reasonChangeOrSuspension"
+                name="reasonChangeOrSuspension"
+                isDisabled="false"
+                labelValue="reasonChangeOrSuspension"
+                [form]="form"
+                [options]="selectOptions.endCauses"
+                [optionSelected]="form.controls['reasonChangeOrSuspension'].value ? form.controls['reasonChangeOrSuspension'].value.id : ''"
+                class="col-12"
+                [selectMultiple]="false"
+                [clearAfterSelect]="false"
+            >
+            </app-input-select>
+        </div>
+        <div class="row">
+            <app-input-typeahead
+                id="medicine"
+                name="medicine"
+                class="col-12"
+                [controlForm]="form.controls['medicine']"
+                formControlName="medicine"
+                [label]="'medicine' | translate"
+                [value]="form.controls['medicine'].value"
+                [placeholder]="'medicine' + 'Placeholder' | translate"
+                type="QUIMICO"
+                required="true"
+                [isDisabled]="isDisabled('medicine')"
+                [search]="search"
+                [inputFormatter]="formatter"
+                [resultFormatter]="formatter"
+                (selectTypeahead)="onSelectInputTypeahead($event)"
+            ></app-input-typeahead>
+        </div>
+        <div class="row">
+            <app-input id="family" required="true" name="family" isDisabled="true" label="family" formControlName="family" class="col-6"></app-input>
+            <app-input id="atc" required="true" name="atc" isDisabled="true" label="atc" formControlName="atc" class="col-6"></app-input>
+        </div>
+        <div class="row">
+            <app-input id="cn" required="true" name="cn" isDisabled="true" label="cn" formControlName="cn" class="col-6"></app-input>
+            <app-input id="tract" required="true" name="tract" isDisabled="true" label="tract" formControlName="tract" class="col-6"></app-input>
+        </div>
+        <div class="row">
+            <app-input-select
+                required="true"
+                id="dose"
+                class="roles-select"
+                [isDisabled]="!form.controls['medicine']"
+                labelValue="dose"
+                name="dose"
+                [form]="form"
+                [options]="selectOptions.doses"
+                [optionSelected]="form.controls['dose'] ? form.controls['dose'].value.id : undefined"
+                class="col-6"
+                (selectTrigger)="doseChange($event)"
+                [selectMultiple]="false"
+                [clearAfterSelect]="false"
+            >
+            </app-input-select>
+            <app-input
+                id="otherDosis"
+                name="otherDosis"
+                [required]="form.controls['dose'].value && form.controls['dose'].value.name === 'Otra'"
+                [isDisabled]="!form.controls['dose'] || form.controls['dose'].value.name != 'Otra'"
+                label="otherDosis"
+                formControlName="otherDosis"
+                class="col-6"
+            >
+            </app-input>
+        </div>
+        <div class="row">
+            <app-input-select
+                required="true"
+                class="roles-select"
+                id="pattern"
+                name="pattern"
+                isDisabled="false"
+                labelValue="pattern"
+                [form]="form"
+                [options]="selectOptions.patterns"
+                [optionSelected]="form.controls['pattern'].value.id"
+                class="col-6"
+                [selectMultiple]="false"
+                [clearAfterSelect]="false"
+            >
+            </app-input-select>
+            <app-input [hidden]="type === 'changeSuspend'" [required]="type !== 'changeSuspend'" id="datePrescription" name="datePrescription" label="datePrescription" formControlName="datePrescription" type="date" class="col-6"></app-input>
+            <app-input [hidden]="type !== 'changeSuspend'" id="dateSuspension" name="dateSuspension" label="dateSuspension" formControlName="dateSuspension" type="date" class="col-6"></app-input>
+        </div>
+        <div class="row" [hidden]="type === 'changeSuspend'">
+            <app-input [required]="type !== 'changeSuspend'" id="dateStart" name="dateStart" label="dateStart" formControlName="dateStart" type="date" class="col-6"></app-input>
+            <app-input id="expectedEndDate" name="expectedEndDate" label="expectedEndDate" formControlName="expectedEndDate" type="date" class="col-6"></app-input>
+        </div>
+        <div class="row">
+            <app-input-textarea [hidden]="type === 'changeSuspend'" id="observations" name="observations" formControlName="observations" [label]="'observations' | translate" class="col-12"></app-input-textarea>
+        </div>
+    </form>
+    <!-- <div class="row" *ngIf="showRequiredLegend">
+        <label class="requiredLegend">
+            {{ 'requiredLegendText' | translate }}
+        </label>
+    </div> -->
+
+    <section class="modal-content_button-container button-container">
+        <app-button *ngIf="type === 'create'" clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.save" type="button" [disabledButton]="!form.valid"> </app-button>
+        <app-button *ngIf="type === 'edit' || type === 'changeSuspend'" clasesBtn="btn btn-primary mr-4" (click)="onUpdate()" [disabledButton]="!form.valid" icono="check" texto="btn.update" type="button"> </app-button>
+        <app-button clasesBtn="btn btn-danger" (click)="onClose()" icon="x" type="button" texto="btn.close"> </app-button>
+    </section>
+</div>

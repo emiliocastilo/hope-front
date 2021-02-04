@@ -31,24 +31,6 @@ export class FormListComponent implements OnInit {
         }
     }
 
-    openModalCreate() {
-        this._formsService.editing = false;
-        const modalRef = this.modalService.open(DynamicModalComponent, {
-            size: 'lg',
-        });
-        modalRef.componentInstance.title = 'Nuevo ' + this.config.label;
-        modalRef.componentInstance.fields = this.config.fields;
-        modalRef.componentInstance.close.subscribe(() => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.save.subscribe((event) => {
-            this._formsService.setSavedForm(false);
-            this.rows.push(event);
-            this.bindToForm();
-            modalRef.close();
-        });
-    }
-
     setInvalidForm(error: boolean) {
         setTimeout(() => {
             if (error) {
@@ -64,12 +46,13 @@ export class FormListComponent implements OnInit {
     onDeleteRow(index) {
         event.preventDefault();
         this.rows.splice(index, 1);
-        this._formsService.setSavedForm(false);
+        this._formsService.setSavedStatusForm(false);
         this.deleteToForm(index);
     }
 
     bindToForm() {
         setTimeout(() => {
+            this.group.controls[this.config.name].setValue([]);
             this.rows.forEach((r) => {
                 this.group.controls[this.config.name].value.push(r);
             });
@@ -78,6 +61,58 @@ export class FormListComponent implements OnInit {
 
     deleteToForm(index) {
         this.group.controls[this.config.name].value.splice(index, 1);
+    }
+
+    emitIconButtonClick(action, i, content) {
+        switch (action) {
+            case 'edit':
+                this.openModalEdit(i);
+                break;
+            case 'delete':
+                this.onDeleteRow(i);
+                break;
+            case 'detail':
+                this.openModalDetail(i, content);
+                break;
+            default:
+                break;
+        }
+    }
+
+    openModalCreate() {
+        this._formsService.editing = false;
+        const modalRef = this.modalService.open(DynamicModalComponent, {
+            size: 'lg',
+        });
+        modalRef.componentInstance.title = 'Nuevo ' + this.config.label;
+        modalRef.componentInstance.fields = this.config.fields;
+        modalRef.componentInstance.close.subscribe(() => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.save.subscribe((event) => {
+            this._formsService.setSavedStatusForm(false);
+            this.rows.push(event);
+            this.bindToForm();
+            modalRef.close();
+        });
+    }
+
+    openModalEdit(index: number) {
+        const modalRef = this.modalService.open(DynamicModalComponent, {
+            size: 'lg',
+        });
+        modalRef.componentInstance.title = 'Editar ' + this.config.label;
+        modalRef.componentInstance.fields = this.config.fields;
+        modalRef.componentInstance.data = this.rows[index];
+        modalRef.componentInstance.close.subscribe(() => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.save.subscribe((event) => {
+            this.rows[index] = event;
+            this._formsService.setSavedStatusForm(false);
+            this.bindToForm();
+            modalRef.close();
+        });
     }
 
     openModalDetail(i: number, content: any) {
@@ -95,41 +130,6 @@ export class FormListComponent implements OnInit {
         );
     }
 
-    emitIconButtonClick(action, i, content) {
-        event.preventDefault();
-        switch (action) {
-            case 'edit':
-                this.openModalEdit(i);
-                break;
-            case 'delete':
-                this.onDeleteRow(i);
-                break;
-            case 'detail':
-                this.openModalDetail(i, content);
-                break;
-            default:
-                break;
-        }
-    }
-
-    openModalEdit(index: number) {
-        const modalRef = this.modalService.open(DynamicModalComponent, {
-            size: 'lg',
-        });
-        modalRef.componentInstance.title = 'Editar ' + this.config.label;
-        modalRef.componentInstance.fields = this.config.fields;
-        modalRef.componentInstance.data = this.rows[index];
-        modalRef.componentInstance.close.subscribe(() => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.save.subscribe((event) => {
-            this.rows[index] = event;
-            this._formsService.setSavedForm(false);
-            this.bindToForm();
-            modalRef.close();
-        });
-    }
-
     formatDate(date) {
         return moment(date).format('YYYY-MM-DD');
     }
@@ -140,12 +140,11 @@ export class FormListComponent implements OnInit {
 
         if (header === 'typePsoriasis') {
             let indications = this._indicationService.indications;
-            if (indications && indications.length > 0) {
-                data = this.translate.instant(indications.filter((f) => f.id === row)[0].description);
-            } else {
+            if (indications && indications.length > 0) data = this.translate.instant(indications.filter((f) => f.code === row)[0].description);
+            else {
                 this._indicationService.getList().subscribe((response) => {
                     indications = response;
-                    data = this.translate.instant(indications.filter((f) => f.id === row)[0].description);
+                    data = this.translate.instant(indications.filter((f) => f.code === row)[0].description);
                 });
             }
         }

@@ -1,5 +1,9 @@
 import { ValidatorFn } from '@angular/forms';
-
+export interface AccordionPanel {
+    header: string;
+    content: FieldConfig[];
+    config?: FieldConfig[];
+}
 export interface FieldConfig {
     name: string;
     type: string;
@@ -30,7 +34,7 @@ export interface FieldConfig {
     button_click?: any;
     hidden?: boolean;
     params?: Array<string>;
-    actions?: Array<string>;
+    actions?: Array<action>;
     columns?: Array<any>;
     fields?: Array<any>;
     historic?: Array<any>;
@@ -38,6 +42,7 @@ export interface FieldConfig {
     template?: string;
     css?: string;
     readonly?: boolean;
+    cleanFormOnChange?: boolean;
     multiselect?: {
         enableSearch?: boolean;
         checkedStyle?: 'fontawesome' | 'checkboxes' | 'glyphicon' | 'visual';
@@ -58,4 +63,12 @@ export interface FieldConfig {
         validExtensions?: Array<string>;
         maxSize: number;
     };
+    accordion?: {
+        panels: Array<AccordionPanel>;
+    };
+}
+
+interface action {
+    name: string;
+    icon: string;
 }

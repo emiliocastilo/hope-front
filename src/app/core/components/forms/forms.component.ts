@@ -52,7 +52,7 @@ export class FormsComponent implements OnInit, OnDestroy {
             this._notification.showErrorToast('formNotFound');
         }
         this.detectCalculatedBackOnInit();
-        this._formsService.setSavedForm(true);
+        this._formsService.setSavedStatusForm(true);
         this.buttons.forEach((button) => {
             if (button === 'save') {
                 this._formsService.setMustBeSaved(true);
@@ -61,6 +61,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     }
 
     submit(value: { [name: string]: any }) {
+        console.log(value);
         if (value) {
             const form = {
                 template: this.key,
@@ -72,7 +73,7 @@ export class FormsComponent implements OnInit, OnDestroy {
             } else {
                 this.fillForm(form);
             }
-            this._formsService.setSavedForm(true);
+            this._formsService.setSavedStatusForm(true);
             if (this.key === 'dlqi') {
                 const ho = {
                     patientId: this.patient.id,
@@ -140,7 +141,7 @@ export class FormsComponent implements OnInit, OnDestroy {
             () => {
                 this.getAndParseForm();
                 this._notification.showSuccessToast('elementCreated');
-                this._formsService.setSavedForm(true);
+                this._formsService.setSavedStatusForm(true);
             },
             ({ error }) => {
                 this._notification.showErrorToast(error.errorCode);
@@ -153,7 +154,7 @@ export class FormsComponent implements OnInit, OnDestroy {
             (data: any) => {
                 this.getAndParseForm();
                 this._notification.showSuccessToast('elementUpdated');
-                this._formsService.setSavedForm(true);
+                this._formsService.setSavedStatusForm(true);
             },
             ({ error }) => {
                 this._notification.showErrorToast(error.errorCode);
@@ -167,6 +168,6 @@ export class FormsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this._formsService.setSavedForm(true);
+        this._formsService.setSavedStatusForm(true);
     }
 }

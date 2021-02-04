@@ -64,7 +64,7 @@ export class PatientsTreatmentComponent implements OnInit {
     private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
-                treatmentType: key,
+                treatmentType: key.toUpperCase(),
                 patients: data[key],
             };
             return object;
@@ -93,6 +93,18 @@ export class PatientsTreatmentComponent implements OnInit {
     }
 
     public onIconButtonClick(event: any): void {
+        // Para click en gráfica
+        if (event.name) {
+            event.type = 'detail';
+            event.selectedItem = this.dataTable.indexOf(this.dataTable.filter((f) => f.treatmentType === event.name)[0]);
+        } else if (typeof event === 'string') {
+            event = {
+                type: 'detail',
+                selectedItem: this.dataTable.indexOf(this.dataTable.filter((f) => f.treatmentType === event)[0]),
+            };
+        }
+
+        // Click en detalle tabla
         if (event.type === 'detail') {
             this.showingDetail = true;
             this.currentTreatment = this.dataTable[event.selectedItem];
