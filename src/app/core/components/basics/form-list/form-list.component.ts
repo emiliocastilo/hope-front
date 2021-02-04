@@ -31,24 +31,6 @@ export class FormListComponent implements OnInit {
         }
     }
 
-    openModalCreate () {
-        this._formsService.editing = false;
-        const modalRef = this.modalService.open(DynamicModalComponent, {
-            size: 'lg',
-        });
-        modalRef.componentInstance.title = 'Nuevo ' + this.config.label;
-        modalRef.componentInstance.fields = this.config.fields;
-        modalRef.componentInstance.close.subscribe(() => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.save.subscribe((event) => {
-            this._formsService.setSavedStatusForm(false);
-            this.rows.push(event);
-            this.bindToForm();
-            modalRef.close();
-        });
-    }
-
     setInvalidForm (error: boolean) {
         setTimeout(() => {
             if (error) {
@@ -97,20 +79,22 @@ export class FormListComponent implements OnInit {
         }
     }
 
-    openModalDetail (i: number, content: any) {
-        this.detailArray = [];
-        Object.entries(this.rows[i]).forEach((e) => {
-            const entry = {
-                name: e[0],
-                value: e[1],
-            };
-            this.detailArray.push(entry);
+        openModalCreate () {
+        this._formsService.editing = false;
+        const modalRef = this.modalService.open(DynamicModalComponent, {
+            size: 'lg',
         });
-        debugger
-        this.modalService.open(content).result.then(
-            (result) => { },
-            (reason) => { }
-        );
+        modalRef.componentInstance.title = 'Nuevo ' + this.config.label;
+        modalRef.componentInstance.fields = this.config.fields;
+        modalRef.componentInstance.close.subscribe(() => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.save.subscribe((event) => {
+            this._formsService.setSavedStatusForm(false);
+            this.rows.push(event);
+            this.bindToForm();
+            modalRef.close();
+        });
     }
 
     openModalEdit (index: number) {
@@ -129,6 +113,22 @@ export class FormListComponent implements OnInit {
             this.bindToForm();
             modalRef.close();
         });
+    }
+
+    openModalDetail (i: number, content: any) {
+        this.detailArray = [];
+        Object.entries(this.rows[i]).forEach((e) => {
+            const entry = {
+                name: e[0],
+                value: e[1],
+            };
+            this.detailArray.push(entry);
+        });
+        debugger
+        this.modalService.open(content).result.then(
+            (result) => { debugger },
+            (reason) => { debugger }
+        );
     }
 
     formatDate (date) {

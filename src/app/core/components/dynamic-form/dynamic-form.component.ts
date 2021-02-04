@@ -290,7 +290,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
 
     handleSubmit (event: Event) {
-        debugger
         event.preventDefault();
         event.stopPropagation();
         if (this.valid && this.validationHistoric(event)) {
