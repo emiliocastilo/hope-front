@@ -52,9 +52,9 @@ export class FormListComponent implements OnInit {
 
     bindToForm() {
         setTimeout(() => {
-            this.rows.forEach((r, i) => {
+            this.group.controls[this.config.name].setValue([]);
+            this.rows.forEach((r) => {
                 this.group.controls[this.config.name].value.push(r);
-                // this.group.controls[this.config.fields[i].name].setValue(r[this.config.fields[i].name]);
             });
         }, 500);
     }

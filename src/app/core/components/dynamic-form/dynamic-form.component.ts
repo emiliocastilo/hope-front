@@ -48,8 +48,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         if (this.isAccordion) this.form = this._dynamicFormService.form;
         else this.form = new FormGroup({});
 
-        // this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
-
         if (this.isModal) {
             this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
             this.displayElement(this.config);
@@ -66,7 +64,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
     ngOnChanges() {
         if (this.form) {
-            // this._formsService.setModalForm(this.form);
             const controls = Object.keys(this.form.controls);
             const configControls = this.controls.map((item) => item.name);
 
@@ -385,7 +382,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             date: '',
             value: '',
         };
-
         let configHistoric = this.config.filter((e) => e.type === 'historic');
 
         configHistoric.forEach((element) => {
