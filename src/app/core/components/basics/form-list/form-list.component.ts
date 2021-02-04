@@ -31,24 +31,6 @@ export class FormListComponent implements OnInit {
         }
     }
 
-    openModalCreate() {
-        this._formsService.editing = false;
-        const modalRef = this.modalService.open(DynamicModalComponent, {
-            size: 'lg',
-        });
-        modalRef.componentInstance.title = 'Nuevo ' + this.config.label;
-        modalRef.componentInstance.fields = this.config.fields;
-        modalRef.componentInstance.close.subscribe(() => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.save.subscribe((event) => {
-            this._formsService.setSavedForm(false);
-            this.rows.push(event);
-            this.bindToForm();
-            modalRef.close();
-        });
-    }
-
     setInvalidForm(error: boolean) {
         setTimeout(() => {
             if (error) {
@@ -64,14 +46,15 @@ export class FormListComponent implements OnInit {
     onDeleteRow(index) {
         event.preventDefault();
         this.rows.splice(index, 1);
-        this._formsService.setSavedForm(false);
+        this._formsService.setSavedStatusForm(false);
         this.deleteToForm(index);
     }
 
     bindToForm() {
         setTimeout(() => {
-            this.rows.forEach((r) => {
+            this.rows.forEach((r, i) => {
                 this.group.controls[this.config.name].value.push(r);
+                // this.group.controls[this.config.fields[i].name].setValue(r[this.config.fields[i].name]);
             });
         }, 500);
     }
@@ -80,23 +63,7 @@ export class FormListComponent implements OnInit {
         this.group.controls[this.config.name].value.splice(index, 1);
     }
 
-    openModalDetail(i: number, content: any) {
-        this.detailArray = [];
-        Object.entries(this.rows[i]).forEach((e) => {
-            const entry = {
-                name: e[0],
-                value: e[1],
-            };
-            this.detailArray.push(entry);
-        });
-        this.modalService.open(content).result.then(
-            (result) => {},
-            (reason) => {}
-        );
-    }
-
     emitIconButtonClick(action, i, content) {
-        event.preventDefault();
         switch (action) {
             case 'edit':
                 this.openModalEdit(i);
@@ -112,6 +79,24 @@ export class FormListComponent implements OnInit {
         }
     }
 
+    openModalCreate() {
+        this._formsService.editing = false;
+        const modalRef = this.modalService.open(DynamicModalComponent, {
+            size: 'lg',
+        });
+        modalRef.componentInstance.title = 'Nuevo ' + this.config.label;
+        modalRef.componentInstance.fields = this.config.fields;
+        modalRef.componentInstance.close.subscribe(() => {
+            modalRef.close();
+        });
+        modalRef.componentInstance.save.subscribe((event) => {
+            this._formsService.setSavedStatusForm(false);
+            this.rows.push(event);
+            this.bindToForm();
+            modalRef.close();
+        });
+    }
+
     openModalEdit(index: number) {
         const modalRef = this.modalService.open(DynamicModalComponent, {
             size: 'lg',
@@ -124,10 +109,25 @@ export class FormListComponent implements OnInit {
         });
         modalRef.componentInstance.save.subscribe((event) => {
             this.rows[index] = event;
-            this._formsService.setSavedForm(false);
+            this._formsService.setSavedStatusForm(false);
             this.bindToForm();
             modalRef.close();
         });
+    }
+
+    openModalDetail(i: number, content: any) {
+        this.detailArray = [];
+        Object.entries(this.rows[i]).forEach((e) => {
+            const entry = {
+                name: e[0],
+                value: e[1],
+            };
+            this.detailArray.push(entry);
+        });
+        this.modalService.open(content).result.then(
+            (result) => {},
+            (reason) => {}
+        );
     }
 
     formatDate(date) {

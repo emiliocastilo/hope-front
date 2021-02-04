@@ -23,11 +23,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     @Input() buttons: string[] = [];
     @Input() key: string;
     @Input() isModal = false;
+    @Input() isAccordion = false;
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
     form: FormGroup;
     public f: any;
-    public loaded: boolean;
 
     get controls() {
         return this.config.filter(({ type }) => type !== 'button' || 'title');
@@ -45,23 +45,53 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {}
 
     ngOnInit() {
-        this.form = this._dynamicFormService.form;
+        if (this.isAccordion) this.form = this._dynamicFormService.form;
+        else this.form = new FormGroup({});
+
+        // this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
+
+        if (this.isModal) {
+            this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
+            this.displayElement(this.config);
+            this.detectCalculated();
+            this.detectCalculatedBack();
+        } else this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
 
         this.formObserver = this._dynamicFormService.getForm().subscribe((form: FormGroup) => {
             this.form = form;
-
             this.detectCalculated();
             this.displayElement(this.config);
-            if (this.isModal) {
-                this.detectCalculated();
-                this.detectCalculatedBack();
-            }
-
-            this.loaded = true;
         });
+    }
 
-        if (!this.form) this.form = new FormGroup({});
-        this._dynamicFormService.addControls(this.controls, this.config);
+    ngOnChanges() {
+        if (this.form) {
+            // this._formsService.setModalForm(this.form);
+            const controls = Object.keys(this.form.controls);
+            const configControls = this.controls.map((item) => item.name);
+
+            controls.filter((control) => !configControls.includes(control)).forEach((control) => this.form.removeControl(control));
+            configControls
+                .filter((control) => !controls.includes(control))
+                .forEach((name) => {
+                    const config = this.config.find((control) => control.name === name);
+                    if (this.isNormalType(config.type)) {
+                        this.form.addControl(name, this.createControl(config));
+                    }
+                    if (config.type === 'table') {
+                        this._formsService.setMustBeSaved(true);
+                        const controlArray = this.createArray(config);
+                        controlArray.removeAt(0);
+                        this.form.addControl(name, controlArray);
+                    }
+                    if (config.type === 'historic') {
+                        this.form.addControl(name, this.createHistoric(config));
+                    }
+                });
+            this.detectCalculatedBack();
+            this.detectCalculated();
+            if (!this.isModal) this._dynamicFormService.setForm(this.form);
+        }
     }
 
     isNormalType(type: string) {
@@ -179,6 +209,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             return this.form.controls[field.enableWhen[0]].value === field.enableWhen[1];
         }
     }
+
     displayElement(config) {
         const calculatedFields = config.filter((e) => e.hiddenWhen && e.hiddenWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
@@ -209,36 +240,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             field.hidden = true;
         } else {
             return !this.form.controls[field.hiddenWhen[0]] || this.form.controls[field.hiddenWhen[0]].value === field.hiddenWhen[1];
-        }
-    }
-
-    ngOnChanges() {
-        if (this.form) {
-            // this._formsService.setModalForm(this.form);
-            const controls = Object.keys(this.form.controls);
-            const configControls = this.controls.map((item) => item.name);
-
-            controls.filter((control) => !configControls.includes(control)).forEach((control) => this.form.removeControl(control));
-
-            configControls
-                .filter((control) => !controls.includes(control))
-                .forEach((name) => {
-                    const config = this.config.find((control) => control.name === name);
-                    if (this.isNormalType(config.type)) {
-                        this.form.addControl(name, this.createControl(config));
-                    }
-                    if (config.type === 'table') {
-                        this._formsService.setMustBeSaved(true);
-                        const controlArray = this.createArray(config);
-                        controlArray.removeAt(0);
-                        this.form.addControl(name, controlArray);
-                    }
-                    if (config.type === 'historic') {
-                        this.form.addControl(name, this.createHistoric(config));
-                    }
-                });
-            this.detectCalculatedBack();
-            this.detectCalculated();
         }
     }
 

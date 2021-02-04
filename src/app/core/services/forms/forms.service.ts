@@ -58,7 +58,7 @@ export class FormsService {
         return this.savedForm;
     }
 
-    public setSavedForm(saved: boolean) {
+    public setSavedStatusForm(saved: boolean) {
         this.savedForm = saved;
     }
 

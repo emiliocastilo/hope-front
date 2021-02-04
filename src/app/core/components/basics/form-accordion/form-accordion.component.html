@@ -9,7 +9,7 @@
         </div>
         <div [id]="'collapse' + i" class="collapse" [attr.aria-labelledby]="'heading' + i" [attr.data-parent]="'#' + name">
             <div class="card-body">
-                <dynamic-form [config]="panel.config"></dynamic-form>
+                <dynamic-form [config]="panel.config" isAccordion="true"></dynamic-form>
             </div>
         </div>
     </div>

@@ -23,11 +23,13 @@ export class DynamicFormService {
         this.formSubject.next(form);
     }
 
-    public addControls(controls: FieldConfig[], config: FieldConfig[]) {
+    public addControls(controls: FieldConfig[], config: FieldConfig[], isModal: boolean) {
+        const form: FormGroup = isModal ? new FormGroup({}) : this.form;
         controls.forEach((control) => {
-            if (this.form.controls[control.name] === undefined) this.form.addControl(control.name, this.createControl(control, config));
+            if (form.controls[control.name] === undefined) form.addControl(control.name, this.createControl(control, config));
         });
-        this.setForm(this.form);
+        if (!isModal) this.setForm(form);
+        else return form;
     }
 
     public createControl(fieldConfig: FieldConfig, config: FieldConfig[]) {

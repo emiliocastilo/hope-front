@@ -1,4 +1,4 @@
-<form class="dynamic-form row" [formGroup]="form" (submit)="handleSubmit($event)" *ngIf="loaded">
+<form class="dynamic-form row" [formGroup]="form" (submit)="handleSubmit($event)">
     <div *ngFor="let field of config" class=" {{ field.css ? field.css : 'col-12' }}" [hidden]="field.hidden === true">
         <ng-container dynamicField [config]="field" [group]="form"> </ng-container>
         <div *ngIf="form.get(field.name) && form.get(field.name).errors && form.get(field.name).dirty">
