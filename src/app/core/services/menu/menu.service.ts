@@ -8,8 +8,6 @@ import { ConfirmModalComponent } from '../../components/modals/confirm-modal/con
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ifError } from 'assert';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 
 @Injectable({
     providedIn: 'root',
@@ -129,11 +127,11 @@ export class MenuService {
         modalRef.componentInstance.messageModal = this.translate.instant('saveWarningMessage');
         modalRef.componentInstance.cancel.subscribe((event) => {
             modalRef.close();
-            this._formService.setSavedForm(false);
+            this._formService.setSavedStatusForm(false);
         });
         modalRef.componentInstance.accept.subscribe((event) => {
             modalRef.close();
-            this._formService.setSavedForm(true);
+            this._formService.setSavedStatusForm(true);
             section ? this.setCurrentSection(section) : this.setCurrentSection();
         });
     }

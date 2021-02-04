@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
 
 import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.interface';
 import moment from 'moment';
@@ -20,7 +20,7 @@ export class FormDatepickerComponent implements OnInit {
     ngOnInit() {
         this.min();
         this.max();
-        this.hasRequiredField(this.group.controls[this.config.name]);
+        this.hasRequiredField(this.getDatePickerControl());
     }
 
     max() {
@@ -38,6 +38,7 @@ export class FormDatepickerComponent implements OnInit {
             this.minDate = this.config.min;
         }
     }
+
     hasRequiredField(abstractControl: AbstractControl) {
         if (abstractControl.validator) {
             const validator = abstractControl.validator({} as AbstractControl);
@@ -45,5 +46,22 @@ export class FormDatepickerComponent implements OnInit {
                 this.required = true;
             }
         }
+    }
+
+    public onChangeDatePicker(event: Event): void {
+        if (this.config.cleanFormOnChange) {
+            this.onChangeResetForm();
+        }
+    }
+
+    private onChangeResetForm(): void {
+        const datePickerControl: AbstractControl = this.getDatePickerControl();
+        const datePickerBackUp: string = datePickerControl.value;
+        this.group.reset();
+        datePickerControl.setValue(datePickerBackUp);
+    }
+
+    private getDatePickerControl(): AbstractControl {
+        return this.group.controls[this.config.name];
     }
 }

@@ -19,7 +19,6 @@ export class TreatmentInfoVihComponent implements OnInit {
     private currentPage: number = 0;
     private currentSelected: any;
     private type: string;
-    public selectedOption: any;
 
     options = [
         { code: 'type', name: this._translate.instant('allTreatments') },
@@ -29,6 +28,7 @@ export class TreatmentInfoVihComponent implements OnInit {
         { code: 'recChange', name: this._translate.instant('recommendedChangeGuidelines') },
         { code: 'otherTreatments', name: this._translate.instant('otherTreatments') },
     ];
+    public selectedOption = this.options[0];
     public paginationData: PaginationModel = new PaginationModel(0, 0, 0);
     public config = { defaultConfig: true };
     public loadingData: boolean = true;
@@ -37,7 +37,7 @@ export class TreatmentInfoVihComponent implements OnInit {
     public dataPie: ChartObjectModel[];
     public dataTable: any[];
     public actions: TableActionsModel[] = new TableActionBuilder().getDetail();
-    public columHeaders: string[] = ['treatmentType', 'patients'];
+    public columHeaders: string[] = [this.selectedOption.name, 'patients'];
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalDiagnose', 'treatment', 'CVP', 'CD4', 'adherence'];
     public detailsDataTable: any[];
     public currentSort: any = {
@@ -59,19 +59,28 @@ export class TreatmentInfoVihComponent implements OnInit {
         const view = null;
         const scheme = { domain: ['#249cf1'] };
 
-        if (!this.selectedOption) this.selectedOption = this.options[0];
+        if (!this.selectedOption) {
+            this.selectedOption = this.options[0];
+        }
         const chartTitle = this.selectedOption.name;
         this.type = this.selectedOption.code;
-        this.graphService.getPatientsByClinicalParameter('type=' + this.type).subscribe((data) => {
-            this.loadingData = false;
-            this.data = this.parseDataChart(data);
-            if (this.selectedOption == this.options[0]) {
+        // Recuperamos todos los tratamientos y se muestra el pie chart
+        if (this.selectedOption == this.options[0]) {
+            this._patientsTreatmentsService.getPatientsTreatmentFindPatients('QUIMICO', '').subscribe((data) => {
+                this.loadingData = false;
+                this.data = this.parseDataChart(data);
                 this.dataPie = this.parseDataChart(data);
-            } else {
+                this.dataTable = this.parseDataTable(data);
+            });
+        } else {
+            // Filtramos por pauta y se muestran las bar charts
+            this.graphService.getTreatments().subscribe((data) => {
+                this.loadingData = false;
+                this.data = this.parseDataChart(data);
                 this.dataChart = new ColumnChartModel(chartTitle, view, scheme, this.data);
-            }
-            this.dataTable = this.parseDataTable(data);
-        });
+                this.dataTable = this.parseDataTable(data);
+            });
+        }
     }
 
     private parseDataChart(data: any): ChartObjectModel[] {
@@ -107,7 +116,7 @@ export class TreatmentInfoVihComponent implements OnInit {
     private parseDataTable(data: any): any[] {
         const arrayData = Object.keys(data).map((key: any) => {
             const object = {
-                treatmentType: key,
+                [this.selectedOption.name]: key,
                 patients: data[key],
             };
             return object;
@@ -134,7 +143,7 @@ export class TreatmentInfoVihComponent implements OnInit {
 
     private getDetails(query: string) {
         query = query.replace('+', '%2B');
-        this.graphService.getDetailPatientsByClinicalParameter(query).subscribe(
+        this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
             (data: any) => {
                 this.details = data.content;
                 this.paginationData = data;
@@ -147,7 +156,7 @@ export class TreatmentInfoVihComponent implements OnInit {
     }
 
     private getDetailsToExport(query: string) {
-        this.graphService.getDetailPatientsByClinicalParameterToExport(query).subscribe(
+        this._patientsTreatmentsService.getDetailPatientsUnderTreatment(query).subscribe(
             (data: any) => {
                 this.dataToExport = data;
             },
@@ -165,8 +174,9 @@ export class TreatmentInfoVihComponent implements OnInit {
     public onIconButtonClick(event: any) {
         if (event && event.type === 'detail') {
             this.showingDetail = true;
+            console.log(event.selectedItem);
             this.currentSelected = this.data[event.selectedItem];
-            const query = 'type=' + this.type + '&indication=' + this.currentSelected.name;
+            const query = 'type=QUIMICO' + '&medicine=' + this.currentSelected.name;
             this.getDetails(query);
             this.getDetailsToExport(query);
         } else {
@@ -186,13 +196,13 @@ export class TreatmentInfoVihComponent implements OnInit {
     public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
-            const query = `type=${this.type}&indication=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
+            const query = `type=QUIMICO&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${this.currentSort.column},${this.currentSort.direction}`;
             this.getDetails(query);
         }
     }
 
     public onSort(event: any) {
-        const query = `type=${this.type}&indication=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
+        const query = `type=QUIMICO&medicine=${this.currentSelected.name}&page=${this.currentPage}&sort=${event.column},${event.direction}`;
         this.currentSort = event;
         this.getDetails(query);
     }

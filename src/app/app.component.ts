@@ -45,6 +45,7 @@ export class AppComponent implements OnInit {
         const pass = arrayNoShow.includes(url);
 
         return pass;
+        // return arrayNoShow.indexOf(url) > -1
     }
 
     onCollapse(event) {

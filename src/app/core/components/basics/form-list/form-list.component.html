@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody [ngSwitch]="true">
-                <tr *ngFor="let row of rows; index as i" [formArrayName]="config.name">
+                <tr *ngFor="let row of rows; index as i">
                     <td *ngFor="let header of config.fields">
                         <div class="ellipsis max-width-cell">
                             {{ showDataTable(row[header?.name], header.name) }}
@@ -25,7 +25,6 @@
                         <div class="table-body_row_actions">
                             <a
                                 *ngFor="let action of config.actions"
-                                href=""
                                 (click)="emitIconButtonClick(action.name, i, content)"
                                 [ngClass]="{
                                     'table-body_row_actions-container': true,
