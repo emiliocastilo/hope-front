@@ -79,7 +79,7 @@ export class PharmacyComponent implements OnInit {
     public onSort(event: any) {
         this.colOrder = event.column;
         this.typeOrder = event.direction;
-        let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
+        let query = `?sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
 
         if (this.itemsPerPage) query = `${query}&size=${this.itemsPerPage}`;
 
