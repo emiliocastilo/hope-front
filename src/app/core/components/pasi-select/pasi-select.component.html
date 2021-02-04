@@ -9,7 +9,7 @@
             </select>
         </div>
         <div class="box-data" [ngSwitch]="group">
-            <span class="total-label">TOTAL</span>
+            <span class="total-label">{{ 'total' | translate | uppercase }}</span>
             <input type="text" class="box-data-info" *ngSwitchCase="'cabeza'" formControlName="total" [value]="totalcabeza" readonly />
             <input type="text" class="box-data-info" *ngSwitchCase="'tronco'" formControlName="total" [value]="totaltronco" readonly />
             <input type="text" class="box-data-info" *ngSwitchCase="'esup'" formControlName="total" [value]="totalesup" readonly />

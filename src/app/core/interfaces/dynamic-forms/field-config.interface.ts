@@ -34,7 +34,7 @@ export interface FieldConfig {
     button_click?: any;
     hidden?: boolean;
     params?: Array<string>;
-    actions?: Array<string>;
+    actions?: Array<action>;
     columns?: Array<any>;
     fields?: Array<any>;
     historic?: Array<any>;
@@ -66,4 +66,9 @@ export interface FieldConfig {
     accordion?: {
         panels: Array<AccordionPanel>;
     };
+}
+
+interface action {
+    name: string;
+    icon: string;
 }
