@@ -71,29 +71,14 @@ export class FormListComponent implements OnInit {
     bindToForm () {
         setTimeout(() => {
             this.rows.forEach((r, i) => {
-                // this.group.controls[this.config.name].value.push(r);
-                this.group.controls[this.config.fields[i].name].setValue(r[this.config.fields[i].name]);
+                this.group.controls[this.config.name].value.push(r);
+                // this.group.controls[this.config.fields[i].name].setValue(r[this.config.fields[i].name]);
             });
         }, 500);
     }
 
     deleteToForm (index) {
         this.group.controls[this.config.name].value.splice(index, 1);
-    }
-
-    openModalDetail (i: number, content: any) {
-        this.detailArray = [];
-        Object.entries(this.rows[i]).forEach((e) => {
-            const entry = {
-                name: e[0],
-                value: e[1],
-            };
-            this.detailArray.push(entry);
-        });
-        this.modalService.open(content).result.then(
-            (result) => { },
-            (reason) => { }
-        );
     }
 
     emitIconButtonClick (action, i, content) {
@@ -110,6 +95,22 @@ export class FormListComponent implements OnInit {
             default:
                 break;
         }
+    }
+
+    openModalDetail (i: number, content: any) {
+        this.detailArray = [];
+        Object.entries(this.rows[i]).forEach((e) => {
+            const entry = {
+                name: e[0],
+                value: e[1],
+            };
+            this.detailArray.push(entry);
+        });
+        debugger
+        this.modalService.open(content).result.then(
+            (result) => { },
+            (reason) => { }
+        );
     }
 
     openModalEdit (index: number) {

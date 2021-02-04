@@ -23,48 +23,95 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     @Input() buttons: string[] = [];
     @Input() key: string;
     @Input() isModal = false;
+    @Input() isAccordion = false;
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
     form: FormGroup;
     public f: any;
-    public loaded: boolean;
 
-    get controls() {
+    get controls () {
         return this.config.filter(({ type }) => type !== 'button' || 'title');
     }
-    get changes() {
+    get changes () {
         return this.form.valueChanges;
     }
-    get valid() {
+    get valid () {
         return this.form.valid;
     }
-    get value() {
+    get value () {
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {}
+    constructor(
+        private fb: FormBuilder,
+        private _modalService: NgbModal,
+        private _formsService: FormsService,
+        private _dynamicFormService: DynamicFormService
+    ) { }
 
-    ngOnInit() {
-        this.form = this._dynamicFormService.form;
 
-        this.formObserver = this._dynamicFormService.getForm().subscribe((form: FormGroup) => {
-            this.form = form;
 
-            this.detectCalculated();
+    ngOnInit () {
+        console.log(
+            this.isAccordion ? 'acordeon TRUE' : 'acordeon FALSE',
+            this.isModal ? 'modal TRUE' : 'modal FALSE',
+            this.config);
+        if (this.isAccordion) this.form = this._dynamicFormService.form;
+        else this.form = new FormGroup({});
+
+        // this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
+
+        if (this.isModal) {
+            this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
+            console.log(this.form);
             this.displayElement(this.config);
-            if (this.isModal) {
+            this.detectCalculated();
+            this.detectCalculatedBack();
+        } else this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
+
+        this.formObserver = this._dynamicFormService.getForm().subscribe(
+            (form: FormGroup) => {
+                this.form = form;
                 this.detectCalculated();
-                this.detectCalculatedBack();
-            }
-
-            this.loaded = true;
-        });
-
-        if (!this.form) this.form = new FormGroup({});
-        this._dynamicFormService.addControls(this.controls, this.config);
+                this.displayElement(this.config);
+            });
     }
 
-    isNormalType(type: string) {
+    ngOnChanges () {
+        if (this.form) {
+            // this._formsService.setModalForm(this.form);
+            const controls = Object.keys(this.form.controls);
+            const configControls = this.controls.map((item) => item.name);
+            
+            console.log(this.isModal ? 'MODAL' : 'PADRE', controls, configControls);
+            controls.filter((control) => !configControls.includes(control)).forEach((control) => this.form.removeControl(control));
+            // ! this._dynamicFormService.addControls(this.controls, this.config);
+            configControls
+                .filter((control) => !controls.includes(control))
+                .forEach((name) => {
+                    const config = this.config.find((control) => control.name === name);
+                    if (this.isNormalType(config.type)) {
+                        this.form.addControl(name, this.createControl(config));
+                    }
+                    if (config.type === 'table') {
+                        this._formsService.setMustBeSaved(true);
+                        const controlArray = this.createArray(config);
+                        controlArray.removeAt(0);
+                        this.form.addControl(name, controlArray);
+                    }
+                    if (config.type === 'historic') {
+                        this.form.addControl(name, this.createHistoric(config));
+                    }
+                });
+            this.detectCalculatedBack();
+            this.detectCalculated();
+            if (!this.isModal) this._dynamicFormService.setForm(this.form);
+            console.log('AFTER ON CHANGES', this.form.controls);
+            console.log('=====================================================');
+        }
+    }
+
+    isNormalType (type: string) {
         const isArray = ['table', 'historic', 'title', 'button'];
         const found = isArray.find((e) => e === type);
         if (found) {
@@ -74,7 +121,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    detectCalculated() {
+    detectCalculated () {
         this.changes.subscribe((change) => {
             const params = [];
             // Calculated front
@@ -95,7 +142,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         });
     }
 
-    enabledThen(config) {
+    enabledThen (config) {
         const calculatedFields = config.filter((e) => e.enableWhen && e.enableWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
@@ -122,7 +169,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    detectCalculatedBack() {
+    detectCalculatedBack () {
         this.changes.subscribe((change) => {
             const params = [];
             // Calculated back
@@ -172,14 +219,14 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             }, 20);
         });
     }
-    enabledWhen(field: FieldConfig) {
+    enabledWhen (field: FieldConfig) {
         if (field.enableWhen[1] === 'not_empty') {
             return this.form.controls[field.enableWhen[0]].value !== '';
         } else {
             return this.form.controls[field.enableWhen[0]].value === field.enableWhen[1];
         }
     }
-    displayElement(config) {
+    displayElement (config) {
         const calculatedFields = config.filter((e) => e.hiddenWhen && e.hiddenWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
@@ -202,7 +249,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    hiddenWhen(field: FieldConfig) {
+    hiddenWhen (field: FieldConfig) {
         if (field.hiddenWhen[1] === 'not_empty') {
             return this.form.controls[field.hiddenWhen[0]].value !== '';
         } else if (field.hiddenWhen[0] === 'patientGender' && this.currentPatient.genderCode === field.hiddenWhen[1]) {
@@ -212,37 +259,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    ngOnChanges() {
-        if (this.form) {
-            // this._formsService.setModalForm(this.form);
-            const controls = Object.keys(this.form.controls);
-            const configControls = this.controls.map((item) => item.name);
-
-            controls.filter((control) => !configControls.includes(control)).forEach((control) => this.form.removeControl(control));
-            // ! this._dynamicFormService.addControls(this.controls, this.config);
-            configControls
-                .filter((control) => !controls.includes(control))
-                .forEach((name) => {
-                    const config = this.config.find((control) => control.name === name);
-                    if (this.isNormalType(config.type)) {
-                        this.form.addControl(name, this.createControl(config));
-                    }
-                    if (config.type === 'table') {
-                        this._formsService.setMustBeSaved(true);
-                        const controlArray = this.createArray(config);
-                        controlArray.removeAt(0);
-                        this.form.addControl(name, controlArray);
-                    }
-                    if (config.type === 'historic') {
-                        this.form.addControl(name, this.createHistoric(config));
-                    }
-                });
-            this.detectCalculatedBack();
-            this.detectCalculated();
-        }
-    }
-
-    createControl(config: FieldConfig) {
+    createControl (config: FieldConfig) {
         if (config.calculated_front) {
             const params = [];
             config.params.forEach((e, i) => {
@@ -256,7 +273,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return this.fb.control({ disabled, value }, validation);
     }
 
-    createArray(config: FieldConfig) {
+    createArray (config: FieldConfig) {
         const group = this.fb.group({});
         config.fields.forEach((field) => {
             group.addControl(field.name, this.fb.control(''));
@@ -264,7 +281,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return this.fb.array([group]);
     }
 
-    createHistoric(config: FieldConfig) {
+    createHistoric (config: FieldConfig) {
         const { validation } = config;
         const group = this.fb.group({});
         group.addControl('date', this.fb.control('', validation));
@@ -272,7 +289,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return this.fb.array([group]);
     }
 
-    handleSubmit(event: Event) {
+    handleSubmit (event: Event) {
+        debugger
         event.preventDefault();
         event.stopPropagation();
         if (this.valid && this.validationHistoric(event)) {
@@ -283,17 +301,17 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    cleanClick(event: Event) {
+    cleanClick (event: Event) {
         this.form.reset();
     }
 
-    cancelClick() {
+    cancelClick () {
         if (this.isModal) {
             this.cancel.emit(true);
         }
     }
 
-    showChartFront(event: Event) {
+    showChartFront (event: Event) {
         const parseData = [];
         this.controls.forEach((control) => {
             if (control.type === 'historic' && control.historic && control.name !== 'date') {
@@ -307,7 +325,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         this.showModal(parseData);
     }
 
-    async showChartFromBack() {
+    async showChartFromBack () {
         const patient = JSON.parse(localStorage.getItem('selectedPatient'));
         const dataGraph: any = await this._formsService.retrieveFormGraph(this.key, patient.id);
 
@@ -324,7 +342,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         this.showModal(dataGraph);
     }
 
-    private parseIsoToDate(array: any[]): any[] {
+    private parseIsoToDate (array: any[]): any[] {
         const parseArrayData = array
             .filter((object) => object.date && object.value)
             .map((object: any) => {
@@ -334,7 +352,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return parseArrayData;
     }
 
-    private showModal(data: any[]) {
+    private showModal (data: any[]) {
         const modalRef = this._modalService.open(ManyChartModalComponent, {
             size: 'lg',
         });
@@ -345,7 +363,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         });
     }
 
-    setDisabled(name: string, disable: boolean) {
+    setDisabled (name: string, disable: boolean) {
         if (this.form.controls[name]) {
             const method = disable ? 'disable' : 'enable';
             this.form.controls[name][method]({ emitEvent: false });
@@ -360,11 +378,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         });
     }
 
-    setValue(name: string, value: any) {
+    setValue (name: string, value: any) {
         this.form.controls[name].setValue(value, { emitEvent: true });
     }
 
-    private validationHistoric(event: Event): boolean {
+    private validationHistoric (event: Event): boolean {
         let isValid: boolean = true;
         let historicWithValidations = this.config.filter((e) => e.validation && e.type === 'historic');
         if (historicWithValidations && historicWithValidations.length > 0) {
@@ -379,7 +397,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return isValid;
     }
 
-    private setValueToEmptyHistoricInput(event: Event): any {
+    private setValueToEmptyHistoricInput (event: Event): any {
         const object = {
             date: '',
             value: '',
@@ -401,7 +419,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return this.value;
     }
 
-    private isStringEmpty(text: string): boolean {
+    private isStringEmpty (text: string): boolean {
         return !text || text === null || text === undefined || text === '';
     }
 }
