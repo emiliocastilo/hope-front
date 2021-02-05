@@ -11,15 +11,21 @@ export class PharmacyService {
     private endpoint = '/pharmacy';
     constructor(private _http: HttpClient) {}
 
-    getData(queryParams?: string): Observable<QueryResult<PharmacyModel>> {
-        return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}${queryParams ? queryParams : ''}`);
+    getData(currentPage: number = 0): Observable<QueryResult<PharmacyModel>> {
+        return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}?page=${currentPage}`);
     }
 
     getById(id: number): Observable<PharmacyModel> {
         return this._http.get<PharmacyModel>(`${this.endpoint}/${id}`);
     }
 
-    getSearch(pathology: string, search?: string) {
-        return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}/searches?search=${search}`);
+    getSearch(queryParams: string, search?: string) {
+        if (!queryParams) {
+            queryParams = `?page=0`;
+        }
+        if (search) {
+            queryParams += `&search=${search}`;
+        }
+        return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}/searches${queryParams}`);
     }
 }
