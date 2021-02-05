@@ -26,6 +26,6 @@ export class PharmacyService {
         if (search) {
             queryParams += `&search=${search}`;
         }
-        return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}${queryParams}`);
+        return this._http.get<QueryResult<PharmacyModel>>(`${this.endpoint}/searches${queryParams}`);
     }
 }

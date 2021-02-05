@@ -26,8 +26,9 @@ export class PharmacyComponent implements OnInit {
     public modalForm: FormGroup;
 
     private currentPage = 0;
-    private colOrder: any;
-    private typeOrder: any;
+    private colOrder: string;
+    private typeOrder: string;
+    private search: string;
     private itemsPerPage: number;
     public paginationData: PaginationModel;
     public pharmacyRows: Array<PharmacyModel> = [];
@@ -78,8 +79,9 @@ export class PharmacyComponent implements OnInit {
 
     public onSearch(event: string): void {
         this.paginationData.number = 1;
+        this.search = event;
         const query: string = this.generateQueryParams();
-        this.refreshData(query, event);
+        this.refreshData(query);
     }
 
     public onSort(sort: SortModel): void {
@@ -110,8 +112,8 @@ export class PharmacyComponent implements OnInit {
         return query;
     }
 
-    private refreshData(query: string, search?: string): void {
-        this._pharmacyService.getSearch(query, search).subscribe((data: QueryResult<PharmacyModel>) => {
+    private refreshData(query: string): void {
+        this._pharmacyService.getSearch(query, this.search).subscribe((data: QueryResult<PharmacyModel>) => {
             this.pharmacyRows = data.content;
             this.paginationData.totalElements = data.totalElements;
             if (this.paginationData.totalPages !== data.totalPages) {
