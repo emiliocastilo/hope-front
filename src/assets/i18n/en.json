@@ -380,7 +380,8 @@
         "pharmacyListError": "An error occurred obtaining pharmacy information.",
         "errorRetrievingData": "An error occurred retrieving the data.",
         "fileUploadError": "An error happened trying to upload the file.",
-        "invalidFileType": "File type not allowed. Valid types: {{validTypes}}"
+        "invalidFileType": "File type not allowed. Valid types: {{validTypes}}",
+        "incorrectFormat": "The document format is not correct"
     },
     "nov": "Nov",
     "numberChangesBiologicalTreatment": "Number of changes by biological treatment",
@@ -654,5 +655,16 @@
     "cholesterol": "Cholesterol",
     "RAMS": "RAMS",
     "viralFailure": "Viral failure",
-    "numberChange": "Change quantity"
+    "numberChange": "Change quantity",
+    "searcher": "Searcher",
+    "finger": {
+        "pinkie": "pinkie",
+        "middle": "middle finger",
+        "ring": "ring finger",
+        "index": "index finger",
+        "thumb": "thumb"
+    },
+    "lbl": {
+        "search": "Search"
+    }
 }

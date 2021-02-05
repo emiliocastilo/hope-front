@@ -23,7 +23,7 @@ export class PharmacyComponent implements OnInit {
     public pharmacyKeysToShow: string[] = PHARMACY_TABLE_KEYS;
     public selectedItem: number;
     public modalForm: FormGroup;
-    private currentPage = 1;
+    private currentPage = 0;
     private colOrder: any;
     private typeOrder: any;
     public paginationData: PaginationModel;
@@ -88,14 +88,15 @@ export class PharmacyComponent implements OnInit {
 
     public selectItemsPerPage(number: number) {
         this.itemsPerPage = number;
-        this.selectPage(1);
+        this.selectPage(0);
     }
 
     public selectPage(page: number): void {
-        if (page === 0) page = 1;
+        //if (page === 0) page = 1;
+        this.paginationData.number = page + 1;
         let query: string;
         if (this.colOrder && this.typeOrder) {
-            query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
+            query = `?sort=${this.colOrder},${this.typeOrder}&page=${page}`;
         } else {
             query = `?page=${page}`;
         }

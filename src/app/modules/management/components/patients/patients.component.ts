@@ -238,15 +238,14 @@ export class PatientsComponent implements OnInit {
                 pathologies_aux = this.selectedPatient.pathologies;
             } else {
                 for (let i = 0; i < this.selectedPatient.pathologies.length; i++) {
-                    if (parseInt(this.selectedPatient.pathologies[i].id) != parseInt(formValues.pathology[0].id) && parseInt(this.selectedPatient.pathologies[i].id) == parseInt(this.selectedUser.rolSelected.pathology.id)) {
-                        pathologies_aux.push(formValues.pathology[0]);
+                    if (parseInt(this.selectedPatient.pathologies[i].id) != parseInt(this.getPathologyFromPatient(formValues).id) && parseInt(this.selectedPatient.pathologies[i].id) == parseInt(this.selectedUser.rolSelected.pathology.id)) {
+                        pathologies_aux.push(this.getPathologyFromPatient(formValues));
                     } else {
                         pathologies_aux.push(this.selectedPatient.pathologies[i]);
                     }
                 }
             }
-        } else if (Array.isArray(formValues.pathology)) pathologies_aux.push(formValues.pathology[0]);
-        else pathologies_aux.push(formValues.pathology);
+        } else pathologies_aux.push(this.getPathologyFromPatient(formValues));
 
         const hospital = formValues.hospital ? (formValues.hospital[0] ? formValues.hospital[0] : formValues.hospital) : formValues.hospital;
         const patient: PatientModel = new PatientModel(
@@ -288,6 +287,10 @@ export class PatientsComponent implements OnInit {
                 }
             );
         }
+    }
+
+    private getPathologyFromPatient(form: any): PathologyModel {
+        return (Array.isArray(form.pathology) ? form.pathology[0] : form.pathology) as PathologyModel;
     }
 
     public selectPage(page: number): void {
