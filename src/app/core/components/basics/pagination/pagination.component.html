@@ -1,5 +1,5 @@
 <div class="app-pagination-section">
-    <ngb-pagination [(page)]="paginationData.number" [pageSize]="paginationData.size" [collectionSize]="paginationData.totalElements" [boundaryLinks]="true" (pageChange)="pageChange($event)">
+    <ngb-pagination [collectionSize]="paginationData.totalElements" [(page)]="paginationData.number" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="pageChange($event)">
         <ng-template ngbPaginationFirst>
             <i aria-hidden="true" class="fa fa-angle-double-left"></i>
         </ng-template>
@@ -12,5 +12,7 @@
         <ng-template ngbPaginationNext>
             <i aria-hidden="true" class="fa fa-angle-right"></i>
         </ng-template>
+        <ng-template ngbPaginationEllipsis>...</ng-template>
+        <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
     </ngb-pagination>
 </div>

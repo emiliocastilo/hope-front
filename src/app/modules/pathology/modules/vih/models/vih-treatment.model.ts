@@ -4,7 +4,7 @@ export interface ValueKeyModel {
     id: number | string;
     name: string;
 }
-export interface DoseModel {
+export interface VIHDoseModel {
     id: number;
     codeAtc: string;
     description: string;
@@ -21,7 +21,7 @@ export interface VIHTreatmentModel {
     cn: string;
     tract: string;
     medicine: MedicineModel;
-    dose: string | DoseModel;
+    dose: string | VIHDoseModel;
     otherDosis: string;
     pattern: ValueKeyModel;
     datePrescription: Date;
