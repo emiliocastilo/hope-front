@@ -477,7 +477,7 @@
     },
     "reason": "Motivo",
     "reasonChangeBiologicalTreatmentFiveYears": "Motivo del cambio de tratamiento biológico de los últimos 5 años",
-    "reasonChangeOrSuspension": "Causa de finalización",
+    "reasonChangeOrSuspension": "Causa",
     "reasonChangeOrSuspensionList": {
         "motive1": "Ineficacia",
         "motive2": "Fallo primario (no se alcanzó nunca PASI 75)",
