@@ -24,7 +24,6 @@ export class DynamicFormService {
     }
 
     public addControls(controls: FieldConfig[], config: FieldConfig[], isModal: boolean) {
-        debugger;
         if (!this.form) this.form = new FormGroup({});
         const form: FormGroup = isModal ? new FormGroup({}) : this.form;
         controls.forEach((control) => {
