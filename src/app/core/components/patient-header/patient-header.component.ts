@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientModel } from '../../../modules/pathology/patients/models/patient.model';
+import { PatientModel } from '../../../modules/pathology/models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { ChartObjectModel } from '../../models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../models/graphs/column-chart.model';

@@ -5,7 +5,7 @@ import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../../services/forms/forms.service';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
 import { Subscription } from 'rxjs';
 

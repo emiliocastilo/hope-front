@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
 import { PatientsResolverService } from '../../../management/services/patients/patients-resolver.service';
-import { PatientsComponent } from '../../patients/components/patients/patients.component';
+import { PatientsComponent } from '../dermatology/components/patients/patients.component';
 import { VIHTreatmentsComponent } from './components/treatments/vih-treatments.component';
 
 const routes: Routes = [

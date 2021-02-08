@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
