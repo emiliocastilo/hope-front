@@ -8,6 +8,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgbdSortableHeader, SortEvent } from '../../directives/sortable.directive';
 import { TableActionsModel } from '../../models/table/table-actions-model';
 
+export interface SortModel {
+    column: string;
+    direction: string;
+}
 @Component({
     selector: 'app-table',
     templateUrl: './table.component.html',
@@ -21,7 +25,7 @@ export class TableComponent implements OnInit {
     @Input() sortable: boolean;
     @Output() selectedItem: EventEmitter<number> = new EventEmitter();
     @Output() iconButtonClick: EventEmitter<any> = new EventEmitter();
-    @Output() sort: EventEmitter<any> = new EventEmitter();
+    @Output() sort: EventEmitter<SortModel> = new EventEmitter();
     @Input() actions: TableActionsModel[];
     @Input() fieldRedRow: string;
     public internalSelectedItem: number;

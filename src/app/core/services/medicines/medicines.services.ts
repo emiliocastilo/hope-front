@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { DoseModel } from 'src/app/modules/management/models/medicines/dose.model';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +17,7 @@ export class MedicinesServices {
         return this._http.get(`/medicines/searches?${query}`);
     }
 
-    getDosesByMedicine(query: string) {
-        return this._http.get(`/medicines/doses?${query}`).toPromise();
+    getDosesByMedicine(query: string): Observable<DoseModel[]> {
+        return this._http.get<DoseModel[]>(`/medicines/doses?${query}`);
     }
 }

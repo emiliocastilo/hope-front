@@ -15,6 +15,7 @@ import { constants } from '../../../../../../constants/constants';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import moment from 'moment';
 import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
+import { DoseModel } from 'src/app/modules/management/models/medicines/dose.model';
 
 @Component({
     selector: 'app-principal-treatment',
@@ -270,7 +271,25 @@ export class PrincipalTreatmentComponent implements OnInit {
         );
     }
 
-    // CREACIÓN
+    private setDoses(doses: DoseModel[], modalRef) {
+        const comboData = [];
+        doses.forEach((element: DoseModel, i: number) => comboData.push({ id: i, name: `${element.description} ${element.doseIndicated ? '(' + element.doseIndicated + ')' : ''}` }));
+        comboData.push({ id: doses.length + 1, name: 'Otra' });
+        modalRef.componentInstance.options.dose.options = comboData;
+        return modalRef;
+    }
+
+    private onDoseSelect(event: any) {
+        if (event.name === 'Otra') this.modalForm.controls.otherDosis.setValidators(Validators.required);
+        else {
+            this.modalForm.controls.otherDosis.clearValidators();
+            this.modalForm.controls.otherDosis.setValue('');
+        }
+
+        this.modalForm.controls.regimenTreatment.setValue({ name: this._translate.instant('standard') });
+    }
+
+    // ! CREACIÓN ! //
     public showModalCreate(): void {
         this.modalForm.reset({
             indication: this.indication,
@@ -298,7 +317,8 @@ export class PrincipalTreatmentComponent implements OnInit {
             descripcionFormulaMagistral: '',
             dosisFormulaMagistral: '',
         });
-        const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
+
+        let modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
             size: 'lg',
         });
 
@@ -309,36 +329,18 @@ export class PrincipalTreatmentComponent implements OnInit {
         modalRef.componentInstance.options = this.modalOptions;
         modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
             modalRef.componentInstance.options.dose.options = [];
-
             modalRef.componentInstance.form.controls.family.setValue(event.family);
             modalRef.componentInstance.form.controls.atc.setValue(event.codeAct);
             modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
             modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
-            this._medicinesService
-                .getDosesByMedicine(`medicineId=${event.id}`)
-                .then((data: any) => {
-                    data.forEach((element) => {
-                        element.name = element.description;
-                    });
-                    data.push({ name: 'Otra' });
-                    modalRef.componentInstance.options.dose.options = data;
-                })
-                .catch(({ error }) => {
-                    this._notification.showErrorToast(error.errorCode);
-                });
+
+            this._medicinesService.getDosesByMedicine(`medicineId=${event.id}`).subscribe(
+                (doses: DoseModel[]) => (modalRef = this.setDoses(doses, modalRef)),
+                (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
+            );
         });
 
-        modalRef.componentInstance.selectDose.subscribe((event: any) => {
-            if (event.name === 'Otra') {
-                this.modalForm.controls.otherDosis.setValidators(Validators.required);
-                // this.modalForm.controls.regimenTreatment.setValue('');
-            } else {
-                this.modalForm.controls.otherDosis.clearValidators();
-                this.modalForm.controls.regimenTreatment.setValue({
-                    name: this._translate.instant(event.recommendation),
-                });
-            }
-        });
+        modalRef.componentInstance.selectDose.subscribe((event: any) => this.onDoseSelect(event));
 
         modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
             //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
@@ -365,7 +367,7 @@ export class PrincipalTreatmentComponent implements OnInit {
 
         modalRef.componentInstance.save.subscribe((event: any) => {
             event.value.indication = this.currentIndication;
-            event.value.dose = event.value.dose[0];
+            event.value.dose = event.value.dose[0] ? event.value.dose[0] : event.controls.dose.value;
 
             if (Array.isArray(event.value.regimenTreatment)) {
                 event.value.regimenTreatment = event.value.regimenTreatment[0].name;
@@ -403,7 +405,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    // CAMBIO/SUSPENSIÓN
+    // ! CAMBIO/SUSPENSIÓN ! //
     public async showModalChange(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
         dataEdit.indication = this._translate.instant(dataEdit.indication);
@@ -415,22 +417,17 @@ export class PrincipalTreatmentComponent implements OnInit {
             }
         });
 
-        if (dataEdit.treatmentType !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
-            await this._medicinesService
-                .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
-                .then((data: any) => {
-                    data.forEach((element) => {
-                        element.name = element.description;
-                    });
-                    data.push({ name: 'Otra' });
-                    this.modalOptions.dose.options = data;
-                })
-                .catch(({ error }) => {
-                    this._notification.showErrorToast(error.errorCode);
-                });
-        }
+        let modalRef = this._modalService.open(PrincipalTreatmentModalComponent, { size: 'lg' });
 
-        const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, { size: 'lg' });
+        if (dataEdit.treatmentType !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
+            this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
+                (doses: DoseModel[]) => {
+                    modalRef = this.setDoses(doses, modalRef);
+                    this.onDoseSelect({ name: dataEdit.dose.name });
+                },
+                (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
+            );
+        }
 
         if (dataEdit.treatmentType === 'TOPICO' && dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral') {
             form_aux = this.modalFormUpdateTopico;
@@ -453,12 +450,8 @@ export class PrincipalTreatmentComponent implements OnInit {
                 name: dataEdit.reasonChangeOrSuspension,
             });
         }
-        modalRef.componentInstance.form.controls.regimenTreatment.setValue({
-            name: dataEdit.regimenTreatment,
-        });
 
         modalRef.componentInstance.selectActionType.subscribe((event: any) => {
-            console.log('entro aquí', event);
             if (event.name === 'suspension') {
                 var currentDate = new Date();
                 var month = (currentDate.getMonth() + 1).toString();
@@ -475,25 +468,13 @@ export class PrincipalTreatmentComponent implements OnInit {
             }
         });
 
-        modalRef.componentInstance.selectDose.subscribe((event: any) => {
-            if (event.name === 'Otra') {
-                this.modalFormUpdate.controls.otherDosis.setValidators(Validators.required);
-                // this.modalFormUpdate.controls.regimenTreatment.setValue('');
-            } else {
-                this.modalFormUpdate.controls.otherDosis.clearValidators();
-                this.modalFormUpdate.controls.regimenTreatment.setValue({
-                    name: this._translate.instant(event.recommendation),
-                });
-            }
-        });
+        modalRef.componentInstance.selectDose.subscribe((event: any) => this.onDoseSelect(event));
         modalRef.componentInstance.cancel.subscribe((event: any) => {
             modalRef.close();
         });
 
         modalRef.componentInstance.update.subscribe((event: any) => {
-            if (Array.isArray(event.value.dose)) {
-                event.value.dose = event.value.dose[0];
-            }
+            event.value.dose = event.value.dose[0] ? event.value.dose[0] : event.controls.dose.value;
             if (Array.isArray(event.value.regimenTreatment)) {
                 event.value.regimenTreatment = event.value.regimenTreatment[0].name;
             } else {
@@ -503,31 +484,25 @@ export class PrincipalTreatmentComponent implements OnInit {
             }
             AbstractControl;
 
-            let changeType = '';
             if (Array.isArray(event.value.reasonChangeOrSuspension)) {
-                // changeType = event.value.reasonChangeOrSuspension[0].name;
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension[0].name;
             } else if (event.value.reasonChangeOrSuspension.name) {
-                // changeType = event.value.reasonChangeOrSuspension.name;
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension.name;
             }
-
-            // changeType = changeType === 'Suspensión' ? 'Suspension' : changeType;
-            // event.value.reasonChangeOrSuspension = changeType;
 
             Object.keys(event.value).forEach((key: string) => {
                 if (key.toLowerCase().includes('date') && event.value[key]) {
                     event.value[key] = new Date(event.value[key]).toISOString();
                 }
             });
+
             let editedRow = event.value;
             let indexString = index.toString();
             this.save(modalRef, 'edit', null, indexString, editedRow);
-            //this.refreshTable();
         });
     }
 
-    // EDICIÓN
+    // ! EDICIÓN ! //
     public async showModalEdit(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
         dataEdit.indication = this._translate.instant(dataEdit.indication);
@@ -537,25 +512,22 @@ export class PrincipalTreatmentComponent implements OnInit {
                 dataEdit[key] = moment(dataEdit[key]).format('YYYY-MM-DD');
             }
         });
-        if (dataEdit.treatmentType.id !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
-            await this._medicinesService
-                .getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`)
-                .then((data: any) => {
-                    data.forEach((element) => {
-                        element.name = element.description;
-                    });
-                    data.push({ name: 'Otra' });
-                    this.modalOptions.dose.options = data;
-                })
-                .catch(({ error }) => {
-                    this._notification.showErrorToast(error.errorCode);
-                });
-        }
 
         this.fillForm(this.modalForm, dataEdit, type);
-        const modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
+        let modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
             size: 'lg',
         });
+
+        if (dataEdit.treatmentType.id !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
+            this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
+                (doses: DoseModel[]) => {
+                    modalRef = this.setDoses(doses, modalRef);
+                    this.onDoseSelect({ name: dataEdit.dose.name });
+                },
+                (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
+            );
+        }
+
         modalRef.componentInstance.type = 'edit';
         modalRef.componentInstance.title = 'editTreatment';
         modalRef.componentInstance.form = this.modalForm;
@@ -565,9 +537,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         if (this.modalForm.value.dose && this.modalForm.value.dose.name && this.modalForm.value.dose.name === 'Otra') {
             this.modalForm.controls.otherDosis.setValidators(Validators.required);
         }
-        this.modalForm.controls.regimenTreatment.setValue({
-            name: this.modalForm.value.regimenTreatment && this.modalForm.value.regimenTreatment.name ? this.modalForm.value.regimenTreatment.name : this.modalForm.value.regimenTreatment,
-        });
+
         //seteamos el select del tipo de tratamiento para que venga seleccionado.
         modalRef.componentInstance.form.controls.treatmentType.setValue(this.modalForm.value.treatmentType);
         modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
@@ -578,32 +548,13 @@ export class PrincipalTreatmentComponent implements OnInit {
             modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
             modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
 
-            this._medicinesService
-                .getDosesByMedicine(`medicineId=${event.id}`)
-                .then((data: any) => {
-                    data.forEach((element) => {
-                        element.name = element.description;
-                    });
-                    data.push({ name: 'Otra' });
-                    modalRef.componentInstance.options.dose.options = data;
-                })
-                .catch(({ error }) => {
-                    this._notification.showErrorToast(error.errorCode);
-                });
+            this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
+                (doses: DoseModel[]) => (modalRef = this.setDoses(doses, modalRef)),
+                (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
+            );
         });
 
-        modalRef.componentInstance.selectDose.subscribe((event: any) => {
-            if (event.name === 'Otra') {
-                this.modalForm.controls.otherDosis.setValidators(Validators.required);
-                // this.modalForm.controls.regimenTreatment.setValue('');
-            } else {
-                this.modalForm.controls.otherDosis.clearValidators();
-
-                this.modalForm.controls.regimenTreatment.setValue({
-                    name: this._translate.instant(event.recommendation),
-                });
-            }
-        });
+        modalRef.componentInstance.selectDose.subscribe((event: any) => this.onDoseSelect(event));
         modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
             //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
             this.modalForm.controls.descripcionFormulaMagistral.clearValidators();
@@ -754,8 +705,6 @@ export class PrincipalTreatmentComponent implements OnInit {
                 job: true,
             };
 
-            console.log(this.tableData);
-            console.log(this.tableDataFilter);
             this._formsService.fillForm(form).subscribe(
                 () => {
                     if (type === 'create') {

@@ -477,7 +477,7 @@
     },
     "reason": "Reason",
     "reasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
-    "reasonChangeOrSuspension": "Cause of termination",
+    "reasonChangeOrSuspension": "Cause",
     "reasonChangeOrSuspensionList": {
         "motive1": "Ineffectiveness",
         "motive2": "Primary failure (PASI 75 never reached)",
@@ -655,5 +655,16 @@
     "cholesterol": "Cholesterol",
     "RAMS": "RAMS",
     "viralFailure": "Viral failure",
-    "numberChange": "Change quantity"
+    "numberChange": "Change quantity",
+    "searcher": "Searcher",
+    "finger": {
+        "pinkie": "pinkie",
+        "middle": "middle finger",
+        "ring": "ring finger",
+        "index": "index finger",
+        "thumb": "thumb"
+    },
+    "lbl": {
+        "search": "Search"
+    }
 }
