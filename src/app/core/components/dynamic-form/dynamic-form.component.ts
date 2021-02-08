@@ -48,18 +48,18 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         if (this.isAccordion) this.form = this._dynamicFormService.form;
         else this.form = new FormGroup({});
 
+        this.formObserver = this._dynamicFormService.getForm().subscribe((form: FormGroup) => {
+            this.form = form;
+            this.detectCalculated();
+            this.displayElement(this.config);
+        });
+
         if (this.isModal) {
             this.form = this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
             this.displayElement(this.config);
             this.detectCalculated();
             this.detectCalculatedBack();
         } else this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
-
-        this.formObserver = this._dynamicFormService.getForm().subscribe((form: FormGroup) => {
-            this.form = form;
-            this.detectCalculated();
-            this.displayElement(this.config);
-        });
     }
 
     ngOnChanges() {

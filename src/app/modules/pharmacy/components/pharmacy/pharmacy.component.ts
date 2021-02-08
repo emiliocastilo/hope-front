@@ -10,6 +10,7 @@ import { QueryResult } from '../../../management/interfaces/query-result.interfa
 import { PharmacyModel } from '../../models/pharmacy/pharmacy.model';
 import { UserModel } from '../../../management/models/user/user.model';
 import { PHARMACY_TABLE_KEYS } from '../../constants/pharmacy.constants';
+import { SortModel } from 'src/app/core/components/table/table.component';
 
 @Component({
     selector: 'app-pharmacy',
@@ -23,15 +24,18 @@ export class PharmacyComponent implements OnInit {
     public pharmacyKeysToShow: string[] = PHARMACY_TABLE_KEYS;
     public selectedItem: number;
     public modalForm: FormGroup;
-    private currentPage = 1;
-    private colOrder: any;
-    private typeOrder: any;
-    public paginationData: PaginationModel;
+
+    private currentPage = 0;
+    private colOrder: string;
+    private typeOrder: string;
+    private search: string;
     private itemsPerPage: number;
+    public paginationData: PaginationModel;
+    public pharmacyRows: Array<PharmacyModel> = [];
+
     private selectedUser: UserModel;
 
     public loading: boolean = true;
-    public pharmacyRows: Array<PharmacyModel> = [];
 
     constructor(private _pharmacyService: PharmacyService, private _notificationService: NotificationService) {}
 
@@ -46,8 +50,8 @@ export class PharmacyComponent implements OnInit {
         this.getData();
     }
 
-    private getData() {
-        this._pharmacyService.getData(`?page=${this.currentPage}`).subscribe(
+    private getData(): void {
+        this._pharmacyService.getData(this.currentPage).subscribe(
             (data: QueryResult<PharmacyModel>) => {
                 this.pharmacyRows = data.content;
                 this.paginationData = data;
@@ -68,34 +72,36 @@ export class PharmacyComponent implements OnInit {
         );
     }
 
-    public onSearch(event: string): void {
-        const currentPathology: PathologyModel = this.selectedUser.rolSelected.pathology;
-        this._pharmacyService.getSearch(currentPathology.id, event).subscribe((data: QueryResult<PharmacyModel>) => {
-            this.pharmacyRows = data.content;
-            this.currentPage = 1;
-        });
+    public selectItemsPerPage(number: number): void {
+        this.itemsPerPage = number;
+        this.selectPage(0);
     }
 
-    public onSort(event: any) {
-        this.colOrder = event.column;
-        this.typeOrder = event.direction;
-        let query = `?sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
-
-        if (this.itemsPerPage) query = `${query}&size=${this.itemsPerPage}`;
-
+    public onSearch(event: string): void {
+        this.paginationData.number = 1;
+        this.search = event;
+        const query: string = this.generateQueryParams();
         this.refreshData(query);
     }
 
-    public selectItemsPerPage(number: number) {
-        this.itemsPerPage = number;
-        this.selectPage(1);
+    public onSort(sort: SortModel): void {
+        this.colOrder = sort.column;
+        this.typeOrder = sort.direction;
+        const query: string = this.generateQueryParams();
+        this.refreshData(query);
     }
 
     public selectPage(page: number): void {
-        if (page === 0) page = 1;
+        this.paginationData.number = page + 1;
+        const query: string = this.generateQueryParams();
+        this.refreshData(query);
+    }
+
+    private generateQueryParams(): string {
+        const page = this.paginationData.number - 1;
         let query: string;
         if (this.colOrder && this.typeOrder) {
-            query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
+            query = `?sort=${this.colOrder},${this.typeOrder}&page=${page}`;
         } else {
             query = `?page=${page}`;
         }
@@ -103,19 +109,19 @@ export class PharmacyComponent implements OnInit {
         if (this.itemsPerPage) {
             query = `${query}&size=${this.itemsPerPage}`;
         }
-        this.refreshData(query);
+        return query;
     }
 
     private refreshData(query: string): void {
-        this._pharmacyService.getData(query).subscribe((data: QueryResult<PharmacyModel>) => {
+        this._pharmacyService.getSearch(query, this.search).subscribe((data: QueryResult<PharmacyModel>) => {
             this.pharmacyRows = data.content;
             this.paginationData.totalElements = data.totalElements;
             if (this.paginationData.totalPages !== data.totalPages) {
                 this.paginationData = data;
             }
+
             if (this.pharmacyRows.length === 0 && this.paginationData.totalElements > 0) {
                 this.currentPage = this.currentPage === 1 ? this.currentPage : this.currentPage - 1;
-                // this.selectPage(this.currentPage);
             }
         });
     }
