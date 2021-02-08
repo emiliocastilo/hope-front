@@ -6,8 +6,11 @@ import { PathologyRoutingModule } from './pathology-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { PatientsComponent } from './components/patients/patients.component';
 @NgModule({
-    declarations: [],
+    declarations: [
+        PatientsComponent
+    ],
     imports: [
         CommonModule,
         CoreModule,
@@ -22,6 +25,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
                 deps: [HttpClient],
             },
         }),
-    ],
+    ], exports: [
+        PatientsComponent
+    ]
 })
 export class PathologyModule { }

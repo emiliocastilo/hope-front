@@ -17,16 +17,16 @@ import { EvolutionClinicalIndicesComponent } from './components/evolution-clinic
 import { NapsiComponent } from './components/evolution-clinical-indices/napsi/napsi.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { PasiBsaPgaComponent } from './components/pasi-bsa-pga/pasi-bsa-pga.component';
-import { PatientsComponent } from './components/patients/patients.component';
 import { PersonalInformationComponent } from './components/personal-information/personal-information.component';
 import { PhototherapyComponent } from './components/phototherapy/phototherapy.component';
 import { PrincipalTreatmentComponent } from './components/principal-treatment/principal-treatment.component';
 import { DermatologyRoutingModule } from './dermatology-routing.module';
+import { DermaPatientComponent } from './components/patient/derma-patient.component';
+import { PathologyModule } from '../../pathology.module';
 
 @NgModule({
     declarations: [
         DashboardPatientsComponent,
-        PatientsComponent,
         GalleryComponent,
         DiagnosisComponent,
         EavPaseComponent,
@@ -41,10 +41,12 @@ import { DermatologyRoutingModule } from './dermatology-routing.module';
         DynamicFormComponentComponent,
         VihDashboardPatientsComponent,
         DermathologyDashboardPatientsComponent,
+        DermaPatientComponent
     ],
     imports: [
         CommonModule,
         CoreModule,
+        PathologyModule,
         ReactiveFormsModule,
         FormsModule,
         DermatologyRoutingModule,
@@ -58,4 +60,4 @@ import { DermatologyRoutingModule } from './dermatology-routing.module';
         }),
     ],
 })
-export class DermatologyModule {}
+export class DermatologyModule { }
