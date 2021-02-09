@@ -126,15 +126,15 @@ export class MenuService {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
             if (!this.allSections) this.fillSections(this.fullMenu);
             if (!this.pathologyPath) this.setPathologyPath();
-
-            // this.pathologyPath = this.allSections && this.allSections.length > 0 ? this.allSections.filter((f) => f.url.includes(this.pathologyRoot))[0].path + '/' : undefined;
-            this.pathologyPath = this.setPathologyPath();
-
             if (!section) section = this.allSections.filter((f) => f.title === 'Hopes')[0];
 
             const url = section && section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
 
-            if (this.pathologyPath && !section.path.includes(this.pathologyPath)) {
+            if (
+                (this.pathologyPath && !section.path.includes(this.pathologyPath)) ||
+                this.pathologyPath === section.path ||
+                (this.pathologyPath && section.path.includes(this.pathologyPath) && !this.thereIsPatientSelected)
+            ) {
                 this.thereIsPatientSelected = false;
                 localStorage.removeItem('selectedPatient');
                 this.assignParentAndCollapseStatus(this.fullMenu);

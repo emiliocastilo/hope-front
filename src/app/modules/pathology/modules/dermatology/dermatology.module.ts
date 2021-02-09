@@ -44,7 +44,6 @@ import { PathologyModule } from '../../pathology.module';
         ReactiveFormsModule,
         FormsModule,
         DermatologyRoutingModule,
-        // PathologyModule,
         GoogleChartsModule,
         TranslateModule.forChild({
             loader: {

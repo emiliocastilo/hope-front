@@ -36,6 +36,72 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'diagnosis',
+        component: DiagnosisComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'evolution-clinical-indices',
+        component: EvolutionClinicalIndicesComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'evolution-clinical-indices/napsi',
+        component: NapsiComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'diagnosis/comorbidities',
+        component: ComorbiditiesComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'evolution-clinical-indices/pasi-bsa-pga',
+        component: PasiBsaPgaComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'evolution-clinical-indices/eav-pase',
+        component: EavPaseComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'evolution-clinical-indices/dlqi',
+        component: DlqiComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'phototherapy',
+        component: PhototherapyComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'principal-treatment',
+        component: PrincipalTreatmentComponent,
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'family-history',
         component: DynamicFormComponentComponent,
         canActivate: [AuthGuard],
@@ -65,30 +131,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'diagnosis',
-        component: DiagnosisComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'evolution-clinical-indices',
-        component: EvolutionClinicalIndicesComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'evolution-clinical-indices/napsi',
-        component: NapsiComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'diagnosis/principal-diagnosis',
         component: DynamicFormComponentComponent,
         resolve: {
@@ -105,40 +147,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'diagnosis/comorbidities',
-        component: ComorbiditiesComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'evolution-clinical-indices/pasi-bsa-pga',
-        component: PasiBsaPgaComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'tracing',
         component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'evolution-clinical-indices/eav-pase',
-        component: EavPaseComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'evolution-clinical-indices/dlqi',
-        component: DlqiComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -270,16 +280,6 @@ const routes: Routes = [
         resolve: {
             patients: PatientsResolverService,
         },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'phototherapy',
-        component: PhototherapyComponent,
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'principal-treatment',
-        component: PrincipalTreatmentComponent,
         canActivate: [AuthGuard],
     }
 ];

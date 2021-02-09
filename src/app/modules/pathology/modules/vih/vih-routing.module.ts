@@ -6,13 +6,13 @@ import { PatientsResolverService } from '../../../management/services/patients/p
 import { PatientsComponent } from '../../components/patients/patients.component';
 import { DynamicFormComponentComponent } from '../dermatology/components/dynamic-form-component/dynamic-form-component.component';
 import { VIHTreatmentsComponent } from './components/treatments/vih-treatments.component';
+import { VihDashboardPatientsComponent } from './components/vih-dashboard-patients/vih-dashboard-patients.component';
 
 const routes: Routes = [
     {
-        path: '',
-        component: PatientsComponent,
+        path: 'dashboard',
+        component: VihDashboardPatientsComponent,
         resolve: {
-            hospitals: HospitalResolverService,
             patients: PatientsResolverService,
         },
         canActivate: [AuthGuard],
