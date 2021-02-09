@@ -9,14 +9,14 @@ import { VIHTreatmentModalComponent } from './components/treatments/vih-treatmen
 import { VIHTreatmentChangeModalComponent } from './components/treatments/vih-treatment-change-modal/vih-treatment-change-modal.component';
 import { VIHTreatmentsComponent } from './components/treatments/vih-treatments.component';
 import { VIHRoutingModule } from './vih-routing.module';
+import { VihDashboardPatientsComponent } from './components/vih-dashboard-patients/vih-dashboard-patients.component';
 
 @NgModule({
     declarations: [
-        // DashboardPatientsComponent,
-        // PatientsComponent,
         VIHTreatmentsComponent,
         VIHTreatmentModalComponent,
         VIHTreatmentChangeModalComponent,
+        VihDashboardPatientsComponent
     ],
     imports: [
         CommonModule,
@@ -33,5 +33,8 @@ import { VIHRoutingModule } from './vih-routing.module';
             },
         }),
     ],
+    exports: [
+        VihDashboardPatientsComponent
+    ]
 })
-export class VIHModule {}
+export class VIHModule { }

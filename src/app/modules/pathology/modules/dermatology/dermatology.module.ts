@@ -5,7 +5,6 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { CoreModule, createTranslateLoader } from 'src/app/core/core.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { VihDashboardPatientsComponent } from '../vih/components/vih-dashboard-patients/vih-dashboard-patients.component';
 import { DashboardPatientsComponent } from '../../components/dashboard/dashboard-patients.component';
 import { DermathologyDashboardPatientsComponent } from './components/dashboard-patients/dermathology-dashboard-patients/dermathology-dashboard-patients.component';
 import { ComorbiditiesComponent } from './components/diagnosis/comorbidities/comorbidities.component';
@@ -25,7 +24,6 @@ import { PathologyModule } from '../../pathology.module';
 
 @NgModule({
     declarations: [
-        DashboardPatientsComponent,
         GalleryComponent,
         DiagnosisComponent,
         EavPaseComponent,
@@ -38,7 +36,6 @@ import { PathologyModule } from '../../pathology.module';
         PrincipalTreatmentComponent,
         PasiBsaPgaComponent,
         DynamicFormComponentComponent,
-        VihDashboardPatientsComponent,
         DermathologyDashboardPatientsComponent
     ],
     imports: [
@@ -47,7 +44,7 @@ import { PathologyModule } from '../../pathology.module';
         ReactiveFormsModule,
         FormsModule,
         DermatologyRoutingModule,
-        PathologyModule,
+        // PathologyModule,
         GoogleChartsModule,
         TranslateModule.forChild({
             loader: {
@@ -56,6 +53,8 @@ import { PathologyModule } from '../../pathology.module';
                 deps: [HttpClient],
             },
         }),
+    ], exports: [
+        DermathologyDashboardPatientsComponent
     ]
 })
 export class DermatologyModule { }

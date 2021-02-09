@@ -46,7 +46,6 @@ export class PatientsComponent implements OnInit {
         this.patients = this._activatedRoute.snapshot.data.patients.content;
         this.paginationData = this._activatedRoute.snapshot.data.patients;
         this.selectedUser = JSON.parse(localStorage.getItem('user'));
-        console.log('PatientsComponent');
     }
 
     public goToDermatologiPatients (): void {
@@ -67,18 +66,10 @@ export class PatientsComponent implements OnInit {
         if (user_aux['rolSelected']['pathology'] != null) {
             pathology_id = user_aux['rolSelected']['pathology']['id'];
         }
-        this._menuService.setCurrentSectionByUrl(this._menuService.pathologyRoot + 'dashboard');
-        this._router.navigate([this._menuService.pathologyRoot + 'dashboard']);
-        /*    break;
-        switch (pathology_id) {
-            case 1:
-            default:
-                
-            case 3:
-                this._menuService.setCurrentSectionByUrl('pathology/patients/dashboard-vih');
-                this._router.navigate(['pathology/patients/dashboard-vih']);
-                break;
-        } */
+        const dashboardRoute = `/pathology/${this._menuService.currentPathology.code}/dashboard`;
+        console.log(dashboardRoute);
+        this._menuService.setCurrentSectionByUrl(dashboardRoute);
+        this._router.navigateByUrl(dashboardRoute);
     }
 
     public onSearch (event: string): void {

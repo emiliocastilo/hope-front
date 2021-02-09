@@ -8,6 +8,8 @@ import { ConfirmModalComponent } from '../../components/modals/confirm-modal/con
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
+import { PathologyModel } from 'src/app/modules/management/models/patients/pathology.model';
+import { UserModel } from 'src/app/modules/management/models/user/user.model';
 
 @Injectable({
     providedIn: 'root',
@@ -17,8 +19,8 @@ export class MenuService {
     private fullMenu: MenuItemModel;
     private homeUrl = '/hopes';
     private pathologyPath: string;
-    private currentPathology: string;
 
+    public currentPathology: PathologyModel;
     public pathologyRoot: string;
     public currentSection = new Subject<MenuItemModel>();
     public allSections: MenuItemModel[] = [];
@@ -39,20 +41,24 @@ export class MenuService {
 
     private initialSetUp () {
         const user = JSON.parse(localStorage.getItem('user'));
-
         if (user) {
-            const pathologyRoots = ['derma', 'vih'];
-            const pathologyName = user.rolSelected.pathology.name.toLowerCase();
-            const currentPathology = pathologyRoots.filter(f => pathologyName.includes(f) != 0)[0];
-            // this.pathologyRoot = `/pathology/${currentPathology}/`;
-            this.pathologyRoot = `/hopes/pathology/patients`;
-            console.log(`PATHOLOGY RADICAL: ${this.pathologyRoot}`);
-
+            this.currentPathology = user.rolSelected.pathology;
+            this.setPathology(user);
             if (this.allSections.length === 0) this.fillSections(this.fullMenu);
-
             const currentSection = JSON.parse(localStorage.getItem('section'));
             if (currentSection) this.setCurrentSection(currentSection);
         }
+    }
+
+    private setPathology (user?: any) {
+        // TODO limpiar asignaciones code pathology
+        if (!user) user = JSON.parse(localStorage.getItem('user'));
+        this.currentPathology = user.rolSelected.pathology;
+        const pathologyName = this.currentPathology.name.toLowerCase();
+        const pathologyRoots = ['derma', 'vih'];
+        this.currentPathology.code = pathologyRoots.filter(f => pathologyName.includes(f))[0];
+        this.pathologyRoot = `/hopes/pathology/`;
+        console.log(`PATHOLOGY RADICAL: ${this.pathologyRoot}`);
     }
 
     private assignParentAndCollapseStatus (menu: MenuItemModel, root?: string) {
@@ -109,7 +115,7 @@ export class MenuService {
         if (!this.allSections || this.allSections.length === 0) this.fillSections(this.fullMenu);
 
         if (this.allSections && this.allSections.length > 0) {
-            const sect = this.allSections.filter((f) => f.url === this.pathologyRoot);
+            const sect = this.allSections.filter((f) => f.url.includes(this.pathologyRoot));
             path = sect && sect.length > 0 && sect[0].path ? sect[0].path : undefined
         }
         return path;
@@ -162,6 +168,7 @@ export class MenuService {
                     map((response) => {
                         this.allSections = [];
                         this.fullMenu = response;
+                        this.setPathology();
                         this.fillSections(response);
                         this.pathologyPath = this.setPathologyPath();
                         const menu = this.assignParentAndCollapseStatus(response);

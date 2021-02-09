@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
-import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
 import { PatientsResolverService } from 'src/app/modules/management/services/patients/patients-resolver.service';
-import { DashboardPatientsComponent } from '../../components/dashboard/dashboard-patients.component';
+import { DermathologyDashboardPatientsComponent } from './components/dashboard-patients/dermathology-dashboard-patients/dermathology-dashboard-patients.component';
 import { ComorbiditiesComponent } from './components/diagnosis/comorbidities/comorbidities.component';
 import { DiagnosisComponent } from './components/diagnosis/diagnosis.component';
 import { DynamicFormComponentComponent } from './components/dynamic-form-component/dynamic-form-component.component';
@@ -19,16 +18,16 @@ import { PrincipalTreatmentComponent } from './components/principal-treatment/pr
 
 const routes: Routes = [
     {
-        path: 'personal-information',
-        component: PersonalInformationComponent,
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'dashboard',
-        component: DashboardPatientsComponent,
+        component: DermathologyDashboardPatientsComponent,
         resolve: {
             patients: PatientsResolverService,
         },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'personal-information',
+        component: PersonalInformationComponent,
         canActivate: [AuthGuard],
     },
     {
@@ -98,23 +97,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'diagnosis/principal-diagnosis-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'diagnosis/secundary-diagnosis',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'diagnosis/secundary-diagnosis-vih',
         component: DynamicFormComponentComponent,
         resolve: {
             patients: PatientsResolverService,
@@ -130,14 +113,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'diagnosis/sexually-transmitted-diseases-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'evolution-clinical-indices/pasi-bsa-pga',
         component: PasiBsaPgaComponent,
         resolve: {
@@ -147,14 +122,6 @@ const routes: Routes = [
     },
     {
         path: 'tracing',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'tracing-vih',
         component: DynamicFormComponentComponent,
         resolve: {
             patients: PatientsResolverService,
@@ -179,14 +146,6 @@ const routes: Routes = [
     },
     {
         path: 'complementary-imaging-scans',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'complementary-imaging-scans-vih',
         component: DynamicFormComponentComponent,
         resolve: {
             patients: PatientsResolverService,
@@ -226,14 +185,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'blood-count-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'work-groups',
         component: DynamicFormComponentComponent,
         resolve: {
@@ -242,63 +193,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'patient-situation-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'work-groups-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'sociodemographic-data-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'physical-condition-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'basic-urinalysis-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'other-analysis-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'adherence-to-treatment-SMAQ',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'serology-vih',
         component: DynamicFormComponentComponent,
         resolve: {
             patients: PatientsResolverService,
@@ -338,23 +233,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'metabolic-profile-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'kidney-liver-biochemistry',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'kidney-liver-biochemistry-vih',
         component: DynamicFormComponentComponent,
         resolve: {
             patients: PatientsResolverService,
@@ -394,38 +273,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'shared-patients-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'comorbidities-coinfections-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'genotyping-resistances-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'viral-tropism-vih',
-        component: DynamicFormComponentComponent,
-        resolve: {
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'phototherapy',
         component: PhototherapyComponent,
         canActivate: [AuthGuard],
@@ -441,4 +288,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class DermatologyRoutingModule {}
+export class DermatologyRoutingModule { }

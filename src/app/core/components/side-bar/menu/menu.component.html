@@ -10,7 +10,7 @@
                 </span>
 
                 <a [ngClass]="{ 'nav-link': !collapsed, 'nav-link-hidden': collapsed }" (click)="goUrl(menuOption)">
-                    {{ menuOption.title }} {{ menuOption.subsectionVisible ? 'V' : 'O' }}
+                    {{ menuOption.title }}
                 </a>
 
                 <a [ngClass]="{ icon: !collapsed, 'icon-hidden': collapsed }" (click)="toggleColapseMenu(menuOption)" *ngIf="menuOption.children.length">

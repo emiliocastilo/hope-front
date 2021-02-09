@@ -7,6 +7,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { PatientsComponent } from './components/patients/patients.component';
+import { DermatologyModule } from './modules/dermatology/dermatology.module';
+import { VIHModule } from './modules/vih/vih.module';
 @NgModule({
     declarations: [
         PatientsComponent
@@ -16,6 +18,8 @@ import { PatientsComponent } from './components/patients/patients.component';
         CoreModule,
         ReactiveFormsModule,
         FormsModule,
+        DermatologyModule,
+        VIHModule,
         PathologyRoutingModule,
         GoogleChartsModule,
         TranslateModule.forChild({
