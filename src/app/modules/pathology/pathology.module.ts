@@ -25,8 +25,6 @@ import { PatientsComponent } from './components/patients/patients.component';
                 deps: [HttpClient],
             },
         }),
-    ], exports: [
-        PatientsComponent
     ]
 })
 export class PathologyModule { }

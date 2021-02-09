@@ -8,7 +8,6 @@ import { ConfirmModalComponent } from '../../components/modals/confirm-modal/con
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from '../forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
-import { getLocaleNumberSymbol } from '@angular/common';
 
 @Injectable({
     providedIn: 'root',
@@ -36,7 +35,6 @@ export class MenuService {
         this.thereIsPatientSelected = localStorage.getItem('selectedPatient') !== undefined && localStorage.getItem('selectedPatient') !== null;
         if (!this.fullMenu) this.getMenu().subscribe((response: MenuItemModel) => this.initialSetUp());
         else this.initialSetUp();
-
     }
 
     private initialSetUp () {
@@ -46,7 +44,9 @@ export class MenuService {
             const pathologyRoots = ['derma', 'vih'];
             const pathologyName = user.rolSelected.pathology.name.toLowerCase();
             const currentPathology = pathologyRoots.filter(f => pathologyName.includes(f) != 0)[0];
-            this.pathologyRoot = `/pathology/${currentPathology}/`;
+            // this.pathologyRoot = `/pathology/${currentPathology}/`;
+            this.pathologyRoot = `/hopes/pathology/patients`;
+            console.log(`PATHOLOGY RADICAL: ${this.pathologyRoot}`);
 
             if (this.allSections.length === 0) this.fillSections(this.fullMenu);
 
@@ -59,13 +59,14 @@ export class MenuService {
         menu.collapsed = true;
         menu.path = `${root ? root : ''}/${menu.id}`;
         this.thereIsPatientSelected = localStorage.getItem('selectedPatient') !== undefined && localStorage.getItem('selectedPatient') !== null;
+        if (!this.pathologyPath) this.setPathologyPath();
 
         if (menu.children && menu.children.length > 0) {
             menu.children.forEach((submenu) => {
                 submenu.parentId = menu.id;
                 submenu.path = `${menu.path}/${submenu.id}`;
                 submenu.collapsed = true;
-                submenu.subsectionVisible = !submenu.url.includes(this.pathologyRoot) || (submenu.url.includes(this.pathologyRoot) && this.thereIsPatientSelected);
+                submenu.subsectionVisible = this.checkVisibleSection(submenu);
                 if (submenu.children && submenu.children.length > 0) this.assignParentAndCollapseStatus(submenu, menu.path);
             });
         }
@@ -98,12 +99,18 @@ export class MenuService {
         }
     }
 
+    public checkVisibleSection (item: MenuItemModel) {
+        if (!this.pathologyPath) this.pathologyPath = this.setPathologyPath();
+        return !item.path.includes(this.pathologyPath) || (item.path.includes(this.pathologyPath) && this.thereIsPatientSelected);
+    }
+
     private setPathologyPath (): string {
         let path = undefined;
         if (!this.allSections || this.allSections.length === 0) this.fillSections(this.fullMenu);
+
         if (this.allSections && this.allSections.length > 0) {
-            const sect = this.allSections.filter((f) => f.url.includes(this.pathologyRoot));
-            path = sect && sect.length > 0 ? sect[0].path + '/' : undefined
+            const sect = this.allSections.filter((f) => f.url === this.pathologyRoot);
+            path = sect && sect.length > 0 && sect[0].path ? sect[0].path : undefined
         }
         return path;
     }
@@ -114,7 +121,8 @@ export class MenuService {
             if (!this.allSections) this.fillSections(this.fullMenu);
             if (!this.pathologyPath) this.setPathologyPath();
 
-            this.pathologyPath = this.allSections && this.allSections.length > 0 ? this.allSections.filter((f) => f.url.includes(this.pathologyRoot))[0].path + '/' : undefined;
+            // this.pathologyPath = this.allSections && this.allSections.length > 0 ? this.allSections.filter((f) => f.url.includes(this.pathologyRoot))[0].path + '/' : undefined;
+            this.pathologyPath = this.setPathologyPath();
 
             if (!section) section = this.allSections.filter((f) => f.title === 'Hopes')[0];
 

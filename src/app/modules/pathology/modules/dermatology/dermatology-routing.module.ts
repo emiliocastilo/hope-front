@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
 import { PatientsResolverService } from 'src/app/modules/management/services/patients/patients-resolver.service';
-import { DashboardPatientsComponent } from './components/dashboard-patients/dashboard-patients.component';
+import { DashboardPatientsComponent } from '../../components/dashboard/dashboard-patients.component';
 import { ComorbiditiesComponent } from './components/diagnosis/comorbidities/comorbidities.component';
 import { DiagnosisComponent } from './components/diagnosis/diagnosis.component';
 import { DynamicFormComponentComponent } from './components/dynamic-form-component/dynamic-form-component.component';
@@ -16,18 +16,8 @@ import { PasiBsaPgaComponent } from './components/pasi-bsa-pga/pasi-bsa-pga.comp
 import { PersonalInformationComponent } from './components/personal-information/personal-information.component';
 import { PhototherapyComponent } from './components/phototherapy/phototherapy.component';
 import { PrincipalTreatmentComponent } from './components/principal-treatment/principal-treatment.component';
-import { DermaPatientComponent } from './components/patient/derma-patient.component';
 
 const routes: Routes = [
-    {
-        path: 'patients',
-        component: DermaPatientComponent,
-        resolve: {
-            hospitals: HospitalResolverService,
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
     {
         path: 'personal-information',
         component: PersonalInformationComponent,

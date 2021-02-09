@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { PatientModel } from '../../../../models/patient.model';
+import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { PatientsDashboardService } from 'src/app/modules/management/services/patients-dashboard/patients-dashboard.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';

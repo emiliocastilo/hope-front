@@ -51,15 +51,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (!this.level) this.level = 1;
     }
 
-    private checkHiddenSubsection (item: MenuItemModel) {
-        return !item.url.includes(this._menuService.pathologyRoot) || (item.url.includes(this._menuService.pathologyRoot) && this._menuService.thereIsPatientSelected);
-    }
-
     collapseAll (menu?: Array<MenuItemModel>) {
         if (menu && menu.length > 0) {
             menu.forEach((element) => {
                 element.collapsed = true;
-                element.subsectionVisible = this.checkHiddenSubsection(element);
+                element.subsectionVisible = this._menuService.checkVisibleSection(element);
                 if (element.children && element.children.length > 0) this.collapseAll(element.children);
             });
         }
@@ -72,7 +68,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     updateCollapseState (menu: Array<MenuItemModel>) {
         if (this.currentSection) {
             menu.forEach((item) => {
-                item.subsectionVisible = this.checkHiddenSubsection(item);
+                item.subsectionVisible = this._menuService.checkVisibleSection(item);
                 item.collapsed = this.currentSection.path.includes(item.path) ? false : true;
                 if (!item.collapsed && item.children && item.children.length > 0) this.updateCollapseState(item.children);
                 else item.collapsed = true;

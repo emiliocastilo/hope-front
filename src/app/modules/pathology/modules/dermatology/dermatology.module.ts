@@ -6,7 +6,7 @@ import { CoreModule, createTranslateLoader } from 'src/app/core/core.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { VihDashboardPatientsComponent } from '../vih/components/vih-dashboard-patients/vih-dashboard-patients.component';
-import { DashboardPatientsComponent } from './components/dashboard-patients/dashboard-patients.component';
+import { DashboardPatientsComponent } from '../../components/dashboard/dashboard-patients.component';
 import { DermathologyDashboardPatientsComponent } from './components/dashboard-patients/dermathology-dashboard-patients/dermathology-dashboard-patients.component';
 import { ComorbiditiesComponent } from './components/diagnosis/comorbidities/comorbidities.component';
 import { DiagnosisComponent } from './components/diagnosis/diagnosis.component';
@@ -21,7 +21,6 @@ import { PersonalInformationComponent } from './components/personal-information/
 import { PhototherapyComponent } from './components/phototherapy/phototherapy.component';
 import { PrincipalTreatmentComponent } from './components/principal-treatment/principal-treatment.component';
 import { DermatologyRoutingModule } from './dermatology-routing.module';
-import { DermaPatientComponent } from './components/patient/derma-patient.component';
 import { PathologyModule } from '../../pathology.module';
 
 @NgModule({
@@ -40,8 +39,7 @@ import { PathologyModule } from '../../pathology.module';
         PasiBsaPgaComponent,
         DynamicFormComponentComponent,
         VihDashboardPatientsComponent,
-        DermathologyDashboardPatientsComponent,
-        DermaPatientComponent
+        DermathologyDashboardPatientsComponent
     ],
     imports: [
         CommonModule,
