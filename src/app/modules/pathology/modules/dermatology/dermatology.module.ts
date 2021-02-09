@@ -46,10 +46,10 @@ import { PathologyModule } from '../../pathology.module';
     imports: [
         CommonModule,
         CoreModule,
-        PathologyModule,
         ReactiveFormsModule,
         FormsModule,
         DermatologyRoutingModule,
+        PathologyModule,
         GoogleChartsModule,
         TranslateModule.forChild({
             loader: {
@@ -58,6 +58,6 @@ import { PathologyModule } from '../../pathology.module';
                 deps: [HttpClient],
             },
         }),
-    ],
+    ]
 })
 export class DermatologyModule { }
