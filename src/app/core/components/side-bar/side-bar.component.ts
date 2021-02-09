@@ -36,12 +36,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((role: RolModel) => (this.rol = role.name));
 
         if (!this.menu || this.menu.length === 0) {
-            this._menuService.getMenu().subscribe((response: MenuItemModel) => {
+            this._menuService.getMenu(false).subscribe((response: MenuItemModel) => {
                 this.loaded = true;
                 this.menu = response.children;
             });
         }
-        if (!this.menu || this.menu.length === 0) this.getMenu();
+        if (!this.menu || this.menu.length === 0) this.getMenu(false);
 
         if (user) {
             this.rol = user.rolSelected && user.rolSelected.name ? user.rolSelected.name : '';
@@ -50,12 +50,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
         this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((response) => {
             this.rol = response.name;
-            this.getMenu();
+            this.getMenu(true);
         });
     }
 
-    private getMenu() {
-        this._menuService.getMenu().subscribe((response: MenuItemModel) => {
+    private getMenu(roleChanged: boolean) {
+        this._menuService.getMenu(roleChanged).subscribe((response: MenuItemModel) => {
             this.loaded = true;
             this.menu = response.children;
             this._menuService.setCurrentSection(undefined);
