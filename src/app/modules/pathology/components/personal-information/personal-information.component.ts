@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientModel } from '../../../../models/patient.model';
+import { PatientModel } from '../../models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import FormUtils from 'src/app/core/utils/FormUtils';
-import StringUtils from '../../../../../../core/utils/StringUtils';
-import { FieldConfig } from '../../../../../../core/interfaces/dynamic-forms/field-config.interface';
+import StringUtils from '../../../../core/utils/StringUtils';
+import { FieldConfig } from '../../../../core/interfaces/dynamic-forms/field-config.interface';
 import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 

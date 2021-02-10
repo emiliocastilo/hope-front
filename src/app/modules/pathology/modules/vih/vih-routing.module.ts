@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
-import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
 import { PatientsResolverService } from '../../../management/services/patients/patients-resolver.service';
-import { PatientsComponent } from '../../components/patients/patients.component';
 import { DynamicFormComponentComponent } from '../dermatology/components/dynamic-form-component/dynamic-form-component.component';
 import { VIHTreatmentsComponent } from './components/treatments/vih-treatments.component';
 import { VihDashboardPatientsComponent } from './components/vih-dashboard-patients/vih-dashboard-patients.component';

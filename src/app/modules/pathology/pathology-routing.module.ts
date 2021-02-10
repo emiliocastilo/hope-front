@@ -5,6 +5,7 @@ import { HospitalResolverService } from 'src/app/core/services/hospital/hospital
 import { PatientsResolverService } from '../management/services/patients/patients-resolver.service';
 import { DashboardPatientsComponent } from './components/dashboard/dashboard-patients.component';
 import { PatientsComponent } from './components/patients/patients.component';
+import { PersonalInformationComponent } from './components/personal-information/personal-information.component';
 
 const routes: Routes = [
     {
@@ -19,6 +20,14 @@ const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardPatientsComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'personal-information',
+        component: PersonalInformationComponent,
         resolve: {
             patients: PatientsResolverService,
         },
