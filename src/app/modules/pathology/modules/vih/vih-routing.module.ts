@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic/dynamic-form/dynamic-form.component';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { PatientsResolverService } from '../../../management/services/patients/patients-resolver.service';
 import { DynamicFormComponentComponent } from '../dermatology/components/dynamic-form-component/dynamic-form-component.component';
@@ -24,6 +25,14 @@ const routes: Routes = [
     {
         path: 'diagnosis/principal-diagnosis-vih',
         component: DynamicFormComponentComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'personal-information',
+        component: DynamicFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },

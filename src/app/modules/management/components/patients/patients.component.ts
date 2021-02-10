@@ -15,7 +15,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { HospitalService } from 'src/app/core/services/hospital/hospital.service';
-import { DynamicFormComponent } from '../../../../core/components/dynamic-form/dynamic-form.component';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic/dynamic-form/dynamic-form.component';
 
 @Component({
     selector: 'app-patients',

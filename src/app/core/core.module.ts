@@ -22,7 +22,6 @@ import { SelectRoleComponent } from './components/select-role/select-role.compon
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
 import { BoxDataComponent } from './components/box-data/box-data.component';
-import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { FormInputComponent } from './components/basics/form-input/form-input.component';
 import { FormSelectComponent } from './components/basics/form-select/form-select.component';
 import { FormButtonComponent } from './components/basics/form-button/form-button.component';
@@ -84,6 +83,7 @@ import { FormInputFileComponent } from './components/basics/form-input-file/form
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormAccordionComponent } from './components/basics/form-accordion/form-accordion.component';
 import { FormTextComponent } from './components/basics/form-text/form-text.component';
+import { DynamicFormComponent } from './components/dynamic/dynamic-form/dynamic-form.component';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
