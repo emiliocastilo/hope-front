@@ -34,7 +34,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     ngOnInit(): void {
         if (this.optionSelected !== undefined) {
             const interval = setInterval(() => {
-                if (this.options.length > 0) {
+                if (this.options?.length > 0) {
                     clearInterval(interval);
                     const valueSelected = this.options.filter((f) => f.id === this.optionSelected)[0];
                     if (valueSelected) {
@@ -43,6 +43,8 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
                     }
 
                     if (!this.value && this.currentValue) this.value = this.currentValue.name;
+                } else {
+                    this.options = [];
                 }
             }, 100);
         }
