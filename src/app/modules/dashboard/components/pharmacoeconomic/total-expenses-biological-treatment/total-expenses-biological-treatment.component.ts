@@ -144,7 +144,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
     }
 
     private getMedicines(): void {
-        const query = 'size=1000';
+        const query = 'size=1000&groupby=actIngredients';
         this._medicinesService.getAll(query).subscribe(
             (data) => {
                 if (!data.empty) {
