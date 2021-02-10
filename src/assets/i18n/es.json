@@ -491,7 +491,7 @@
     "motive9": "Embarazo",
     "motive10": "Otros"
   },
-  "reasonLastChangeBiologicalTreatment": "Motivo del último {{reason}} de tratamiento biológico",
+  "reasonLastChangeBiologicalTreatment": "Motivo",
   "reasonStopBiologicalTreatment": "Motivo",
   "reasonStopBiologicalTreatmentFiveYears": "Motivo de la suspensión de tratamiento biológicos de los últimos 5 años",
   "recuperarcontraseña": "Recuperar contraseña",

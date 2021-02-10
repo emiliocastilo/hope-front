@@ -38,7 +38,7 @@ export class DiagnosisReasonsComponent implements OnInit {
 
     public chartTitle: string;
     public actions: TableActionsModel[] = new TableActionsBuilder().getDetail();
-    public columHeaders: string[] = ['reason', 'patients'];
+    public columHeaders: string[] = ['reasonLastChangeBiologicalTreatment', 'patients'];
     public headersDetailsTable: string[] = ['nhc', 'sip', 'patient', 'principalIndication', 'principalDiagnose', 'treatment', 'pasi', 'pasiDate', 'dlqi', 'dlqiDate'];
     public currentPage: number = 0;
     public detailsDataTable: any[];
@@ -57,7 +57,7 @@ export class DiagnosisReasonsComponent implements OnInit {
 
     ngOnInit(): void {
         this.options = [
-            { code: 'change', name: 'change', literal: 'Cambio' },
+            { code: 'cambio', name: 'change', literal: 'Cambio' },
             { code: 'suspension', name: 'suspension', literal: 'Suspensión' },
         ];
         this.dataConfig = {
