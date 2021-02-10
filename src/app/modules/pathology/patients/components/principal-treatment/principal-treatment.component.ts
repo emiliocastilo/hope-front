@@ -474,7 +474,10 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
 
         modalRef.componentInstance.update.subscribe((event: any) => {
-            event.value.dose = event.value.dose[0] ? event.value.dose[0] : event.controls.dose.value;
+            if (event.value.dose) {
+                event.value.dose = event.value.dose[0] ? event.value.dose[0] : event.controls.dose.value;
+            }
+
             if (Array.isArray(event.value.regimenTreatment)) {
                 event.value.regimenTreatment = event.value.regimenTreatment[0].name;
             } else {
@@ -482,7 +485,6 @@ export class PrincipalTreatmentComponent implements OnInit {
                     event.value.regimenTreatment = event.value.regimenTreatment.name;
                 }
             }
-            AbstractControl;
 
             if (Array.isArray(event.value.reasonChangeOrSuspension)) {
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension[0].name;
