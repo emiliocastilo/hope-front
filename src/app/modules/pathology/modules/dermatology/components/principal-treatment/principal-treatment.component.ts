@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
-import { PatientModel } from '../../../../models/patient.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { PrincipalTreatmentModalComponent } from 'src/app/core/components/modals/principal-treatment-modal/principal-treatment-modal.component';
@@ -11,11 +10,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
-import { constants } from '../../../../../../../constants/constants';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import moment from 'moment';
 import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 import { DoseModel } from 'src/app/modules/management/models/medicines/dose.model';
+import { constants } from 'src/constants/constants';
+import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 
 @Component({
     selector: 'app-principal-treatment',
@@ -474,7 +474,10 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
 
         modalRef.componentInstance.update.subscribe((event: any) => {
-            event.value.dose = event.value.dose[0] ? event.value.dose[0] : event.controls.dose.value;
+            if (event.value.dose) {
+                event.value.dose = event.value.dose[0] ? event.value.dose[0] : event.controls.dose.value;
+            }
+
             if (Array.isArray(event.value.regimenTreatment)) {
                 event.value.regimenTreatment = event.value.regimenTreatment[0].name;
             } else {
@@ -482,7 +485,6 @@ export class PrincipalTreatmentComponent implements OnInit {
                     event.value.regimenTreatment = event.value.regimenTreatment.name;
                 }
             }
-            AbstractControl;
 
             if (Array.isArray(event.value.reasonChangeOrSuspension)) {
                 event.value.reasonChangeOrSuspension = event.value.reasonChangeOrSuspension[0].name;

@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { HospitalResolverService } from 'src/app/core/services/hospital/hospital-resolver.service';
 import { PatientsResolverService } from '../management/services/patients/patients-resolver.service';
-import { DashboardPatientsComponent } from './components/dashboard/dashboard-patients.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { PersonalInformationComponent } from './components/personal-information/personal-information.component';
 
@@ -13,14 +12,6 @@ const routes: Routes = [
         component: PatientsComponent,
         resolve: {
             hospitals: HospitalResolverService,
-            patients: PatientsResolverService,
-        },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'dashboard',
-        component: DashboardPatientsComponent,
-        resolve: {
             patients: PatientsResolverService,
         },
         canActivate: [AuthGuard],
