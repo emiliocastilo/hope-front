@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../utils/FormUtils';
 import { ManyChartModalComponent } from 'src/app/core/components/modals/many-chart-modal/many-chart-modal.component';
@@ -8,6 +8,8 @@ import { FormsService } from '../../services/forms/forms.service';
 import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
 import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { CalculatedBackService } from '../../services/dynamic-form/calculated-back.service';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -22,8 +24,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
     @Input() key: string;
-    @Input() isModal = false;
-    @Input() isAccordion = false;
+    @Input() isModal: boolean = false;
+    @Input() isAccordion: boolean = false;
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
     form: FormGroup;
@@ -42,7 +44,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {}
+    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService, private readonly calculatedBackService: CalculatedBackService) {}
 
     ngOnInit() {
         if (this.isAccordion) this.form = this._dynamicFormService.form;
@@ -91,7 +93,58 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    isNormalType(type: string) {
+    public handleSubmit(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
+        if (this.valid && this.validationHistoric(event)) {
+            const form = this.setValueToEmptyHistoricInput(event);
+            this.submit.emit(form);
+        } else {
+            this.submit.emit(null);
+        }
+    }
+
+    public cleanClick(event: Event): void {
+        this.form.reset();
+    }
+
+    public cancelClick(): void {
+        if (this.isModal) {
+            this.cancel.emit(true);
+        }
+    }
+
+    public showChartFront(event: Event): void {
+        const parseData = [];
+        this.controls.forEach((control) => {
+            if (control.type === 'historic' && control.historic && control.name !== 'date') {
+                const object = {
+                    name: control.label,
+                    values: this.parseIsoToDate(control.historic),
+                };
+                parseData.push(object);
+            }
+        });
+        this.showModal(parseData);
+    }
+
+    public async showChartFromBack(): Promise<any> {
+        const patient = JSON.parse(localStorage.getItem('selectedPatient'));
+        const dataGraph: any = await this._formsService.retrieveFormGraph(this.key, patient.id);
+
+        if (dataGraph.length > 0) {
+            dataGraph.forEach((element) => {
+                if (element.values.length > 0) {
+                    element.values.forEach((value) => {
+                        value.date = new Date(value.date);
+                    });
+                }
+            });
+        }
+        this.showModal(dataGraph);
+    }
+
+    private isNormalType(type: string): boolean {
         const isArray = ['table', 'historic', 'title', 'button'];
         const found = isArray.find((e) => e === type);
         if (found) {
@@ -101,8 +154,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    detectCalculated() {
-        this.changes.subscribe((change) => {
+    private detectCalculated(): void {
+        this.changes.subscribe((change: any) => {
             const params = [];
             // Calculated front
             let calculatedFields = this.config.filter((e) => e.calculated_front);
@@ -122,7 +175,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         });
     }
 
-    enabledThen(config) {
+    private enabledThen(config: Array<FieldConfig>): void {
         const calculatedFields = config.filter((e) => e.enableWhen && e.enableWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
@@ -136,7 +189,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
                         emitEvent: false,
                     });
                     if (field.type === 'checkbox') {
-                        this.form.controls[field.name].setValue(false, {
+                        this.form.controls[field.name]?.setValue(false, {
                             emitEvent: false,
                         });
                     } else {
@@ -149,65 +202,29 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    detectCalculatedBack() {
-        this.changes.subscribe((change) => {
-            const params = [];
-            // Calculated back
-            const calculatedFields = this.config.filter((e) => e.calculated_back && e.event === 'change');
-            if (calculatedFields && calculatedFields.length > 0) {
-                calculatedFields.forEach((field, i) => {
-                    if (this.enabledWhen(field)) {
-                        this.setDisabled(field.name, false);
-                    } else {
-                        // Para los checkbox calculados
-                        this.setDisabled(field.name, true);
-                        if (field.type === 'checkbox') {
-                            this.form.controls[field.name].setValue(false, {
-                                emitEvent: false,
-                            });
-                        } else {
-                            this.form.controls[field.name].setValue('', {
-                                emitEvent: false,
-                            });
-                        }
+    private detectCalculatedBack(): void {
+        this.changes.pipe(debounceTime(800)).subscribe((change) => {
+            const calculatedField: FieldConfig = this.config.find((e) => e.calculated_back); //TODO: actualmente solo funciona con un campo calculado en back por formulario (find)
+            if (calculatedField) {
+                if (!this.form.pristine && this.validFields(calculatedField.params)) {
+                    let body: any = {};
+                    for (let index in calculatedField.params) {
+                        body[calculatedField.params[index]] = change[calculatedField.params[index]];
                     }
-                    // field.params.forEach((e, i) => {
-                    //   params[i] = change[e];
-                    // });
-                    // const patient = JSON.parse(localStorage.getItem('selectedPatient'));
-                    // let urlEndpoint = field.endpoint;
-                    // urlEndpoint = urlEndpoint.replace('${patient}', patient.id);
-                    // for (let f = 0; f < params.length; f++) {
-                    //   const configParams = this.config.filter(
-                    //     (e) => e.name === params[f]
-                    //   );
-                    //   if (configParams != null && configParams.length > 1) {
-                    //     urlEndpoint = urlEndpoint.replace(
-                    //       '${' + f + '}',
-                    //       configParams[0].value
-                    //     );
-                    //   }
-                    // }
-                    // const value = this._http.get(urlEndpoint).toPromise();
-                    // this.form.controls[field.name].setValue(value ? value : '', {
-                    //   emitEvent: false,
-                    // });
-                });
+                    this.calculatedBackService.calculateFieldInBack(calculatedField.endpoint, body).subscribe((calculatedValue: string) => {
+                        this.form.get(calculatedField.name).setValue(calculatedValue);
+                        calculatedField.value = calculatedValue;
+                    });
+                }
             }
-            setTimeout(() => {
-                this.displayElement(this.config);
-            }, 20);
         });
     }
-    enabledWhen(field: FieldConfig) {
-        if (field.enableWhen[1] === 'not_empty') {
-            return this.form.controls[field.enableWhen[0]].value !== '';
-        } else {
-            return this.form.controls[field.enableWhen[0]].value === field.enableWhen[1];
-        }
+
+    private validFields(fields: string[]): boolean {
+        return fields.filter((field: string) => this.form.get(field).invalid).length === 0;
     }
 
-    displayElement(config) {
+    private displayElement(config: Array<FieldConfig>): void {
         const calculatedFields = config.filter((e) => e.hiddenWhen && e.hiddenWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
@@ -230,7 +247,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    hiddenWhen(field: FieldConfig) {
+    private hiddenWhen(field: FieldConfig): boolean {
         if (field.hiddenWhen[1] === 'not_empty') {
             return this.form.controls[field.hiddenWhen[0]].value !== '';
         } else if (field.hiddenWhen[0] === 'patientGender' && this.currentPatient.genderCode === field.hiddenWhen[1]) {
@@ -240,7 +257,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         }
     }
 
-    createControl(config: FieldConfig) {
+    private createControl(config: FieldConfig): FormControl {
         if (config.calculated_front) {
             const params = [];
             config.params.forEach((e, i) => {
@@ -254,72 +271,20 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return this.fb.control({ disabled, value }, validation);
     }
 
-    createArray(config: FieldConfig) {
-        const group = this.fb.group({});
+    private createArray(config: FieldConfig): FormArray {
+        const group: FormGroup = this.fb.group({});
         config.fields.forEach((field) => {
             group.addControl(field.name, this.fb.control(''));
         });
         return this.fb.array([group]);
     }
 
-    createHistoric(config: FieldConfig) {
+    private createHistoric(config: FieldConfig): FormArray {
         const { validation } = config;
         const group = this.fb.group({});
         group.addControl('date', this.fb.control('', validation));
         group.addControl('value', this.fb.control('', validation));
         return this.fb.array([group]);
-    }
-
-    handleSubmit(event: Event) {
-        event.preventDefault();
-        event.stopPropagation();
-        if (this.valid && this.validationHistoric(event)) {
-            const form = this.setValueToEmptyHistoricInput(event);
-            this.submit.emit(form);
-        } else {
-            this.submit.emit(null);
-        }
-    }
-
-    cleanClick(event: Event) {
-        this.form.reset();
-    }
-
-    cancelClick() {
-        if (this.isModal) {
-            this.cancel.emit(true);
-        }
-    }
-
-    showChartFront(event: Event) {
-        const parseData = [];
-        this.controls.forEach((control) => {
-            if (control.type === 'historic' && control.historic && control.name !== 'date') {
-                const object = {
-                    name: control.label,
-                    values: this.parseIsoToDate(control.historic),
-                };
-                parseData.push(object);
-            }
-        });
-        this.showModal(parseData);
-    }
-
-    async showChartFromBack() {
-        const patient = JSON.parse(localStorage.getItem('selectedPatient'));
-        const dataGraph: any = await this._formsService.retrieveFormGraph(this.key, patient.id);
-
-        if (dataGraph.length > 0) {
-            dataGraph.forEach((element) => {
-                if (element.values.length > 0) {
-                    element.values.forEach((value) => {
-                        value.date = new Date(value.date);
-                    });
-                }
-            });
-        }
-
-        this.showModal(dataGraph);
     }
 
     private parseIsoToDate(array: any[]): any[] {
@@ -343,7 +308,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         });
     }
 
-    setDisabled(name: string, disable: boolean) {
+    private setDisabled(name: string, disable: boolean): FieldConfig {
         if (this.form.controls[name]) {
             const method = disable ? 'disable' : 'enable';
             this.form.controls[name][method]({ emitEvent: false });
@@ -356,10 +321,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             }
             return item;
         });
-    }
-
-    setValue(name: string, value: any) {
-        this.form.controls[name].setValue(value, { emitEvent: true });
     }
 
     private validationHistoric(event: Event): boolean {
