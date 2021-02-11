@@ -78,7 +78,9 @@ export class TableComponent implements OnInit {
         let data = row;
 
         // console.log(data, typeof (data), typeof (data) === 'object');
-        if (data && typeof data === 'object') data = data.name;
+        if (data && typeof data === 'object' && data.name) {
+            data = data.name;
+        }
 
         const conditionDate = header.toLowerCase().includes('date') || header.toLowerCase().includes('period') || header.toLowerCase().includes('period');
 

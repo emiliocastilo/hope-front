@@ -144,15 +144,13 @@ export class TotalExpensesBiologicalTreatmentComponent {
     }
 
     private getMedicines(): void {
-        const query = 'size=1000';
-        this._medicinesService.getAll(query).subscribe(
+        const query = 'size=1000&groupby=actIngredients';
+        this._medicinesService.getAllGrupedBy(query).subscribe(
             (data) => {
-                if (!data.empty) {
-                    this.medicines = data.content;
-                    this.addNameToMedicine(this.medicines);
-                    this.currenMedicine = this.medicines[0];
-                    this.loadData();
-                }
+                this.medicines = this.formatMedicines(data);
+                //  this.addNameToMedicine(this.medicines);
+                this.currenMedicine = this.medicines[0];
+                this.loadData();
             },
             (error) => this._notification.showErrorToast(error.errorCode)
         );
@@ -162,6 +160,18 @@ export class TotalExpensesBiologicalTreatmentComponent {
         array.forEach((value: any, key: number) => {
             array[key].name = array[key].actIngredients;
         });
+    }
+
+    private formatMedicines(medicines: any): Array<MedicineModel> {
+        const medicinesFormated: Array<MedicineModel> = [];
+        Object.keys(medicines).forEach((key: string) => {
+            let medicine: MedicineModel = new MedicineModel();
+            medicine.name = key;
+            medicine.codeAct = medicines[key];
+            medicinesFormated.push(medicine);
+        });
+
+        return medicinesFormated;
     }
 
     public onFormSubmit(): void {
