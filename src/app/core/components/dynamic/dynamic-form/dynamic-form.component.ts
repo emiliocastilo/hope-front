@@ -64,6 +64,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
     ngOnChanges() {
         if (this.form) {
+            if (this.key === 'personal-information') this.config = FormUtils.getLocalStoragePatientData(this.config);
             const controls = Object.keys(this.form.controls);
             const configControls = this.controls.map((item) => item.name);
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TemplateFormComponent } from 'src/app/core/components/dynamic/template-form-component/template-form.component';
+import { TemplateFormComponent } from 'src/app/core/components/dynamic/template-form/template-form.component';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { PatientsResolverService } from 'src/app/modules/management/services/patients/patients-resolver.service';
 import { DermathologyDashboardPatientsComponent } from './components/dashboard-patients/dermathology-dashboard-patients/dermathology-dashboard-patients.component';
