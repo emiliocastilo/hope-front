@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { PatientsService } from './patients.service';
 
 @Injectable({

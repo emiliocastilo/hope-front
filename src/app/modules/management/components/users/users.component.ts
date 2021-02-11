@@ -1,6 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
 import { EditorModalComponent } from 'src/app/core/components/modals/editor-modal/editor-modal/editor-modal.component';
 import { Validators, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { UserModel } from 'src/app/modules/management/models/user/user.model';
@@ -16,11 +15,11 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { RolModel } from '../../models/rol.model';
-import { RoleService } from '../../../../core/services/role/role.service';
 import { forkJoin } from 'rxjs';
 import { SectionModel } from '../../models/section.model';
 import { RoleManagementService } from '../../services/roles/role-management.service';
 import { SectionsService } from '../../services/sections/sections.service';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic/dynamic-form/dynamic-form.component';
 
 @Component({
     selector: 'app-users',

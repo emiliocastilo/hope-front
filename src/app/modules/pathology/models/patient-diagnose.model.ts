@@ -1,5 +1,5 @@
 import { IndicationModel } from '../../management/models/indication/indication.model';
-import { PatientModel } from '../patients/models/patient.model';
+import { PatientModel } from './patient.model';
 import { PatientTreatmentModel } from './patient-treatment.model';
 
 export class PatientDiagnoseModel {

@@ -5,9 +5,9 @@ import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interfa
 import StringUtils from '../../utils/StringUtils';
 import FormUtils from '../../utils/FormUtils';
 import { NotificationService } from '../../services/notification.service';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { HttpClient } from '@angular/common/http';
-import { HealthOutcomeService } from 'src/app/modules/pathology/patients/services/health-outcome.service';
+import { HealthOutcomeService } from 'src/app/modules/pathology/modules/dermatology/services/health-outcome.service';
 
 @Component({
     selector: 'app-forms',

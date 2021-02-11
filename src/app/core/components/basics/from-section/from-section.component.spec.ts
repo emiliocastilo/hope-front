@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FromTitleComponent } from './from-section.component';
+import { FromTitleComponent } from '../from-title/from-title.component';
 
 describe('FromTitleComponent', () => {
     let component: FromTitleComponent;

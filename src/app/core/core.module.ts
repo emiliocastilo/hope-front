@@ -22,7 +22,6 @@ import { SelectRoleComponent } from './components/select-role/select-role.compon
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/table/table.component';
 import { BoxDataComponent } from './components/box-data/box-data.component';
-import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { FormInputComponent } from './components/basics/form-input/form-input.component';
 import { FormSelectComponent } from './components/basics/form-select/form-select.component';
 import { FormButtonComponent } from './components/basics/form-button/form-button.component';
@@ -67,8 +66,6 @@ import { ChangePasswordModalComponent } from './components/modals/change-passwor
 import { QuestionnaireAnalysisArtritisPsoriasicaComponent } from './components/questionnaire-analysis-artritis-psoriasica/questionnaire-analysis-artritis-psoriasica.component';
 import { NumericInput } from './directives/numeric-input.directive';
 import { ButtonNailsComponent } from './components/button-nails/button-nails.component';
-import { PhototherapyModalComponent } from './components/modals/phototherapy-modal/phototherapy-modal.component';
-import { PrincipalTreatmentModalComponent } from './components/modals/principal-treatment-modal/principal-treatment-modal.component';
 import { InputTextareaComponent } from './components/basics/app-input-textarea/app-input-textarea.component';
 import { InputTypeaheadComponent } from './components/basics/input-typeahead/input-typeahead.component';
 import { ContactComponent } from './components/contact/contact.component';
@@ -84,6 +81,8 @@ import { FormInputFileComponent } from './components/basics/form-input-file/form
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormAccordionComponent } from './components/basics/form-accordion/form-accordion.component';
 import { FormTextComponent } from './components/basics/form-text/form-text.component';
+import { DynamicFormComponent } from './components/dynamic/dynamic-form/dynamic-form.component';
+import { TemplateFormComponent } from './components/dynamic/template-form-component/template-form.component';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -109,6 +108,7 @@ export function createTranslateLoader(http: HttpClient) {
         ButtonNailsComponent,
         BoxDataComponent,
         DynamicFormComponent,
+        TemplateFormComponent,
         FormInputComponent,
         FormSelectComponent,
         FormMultiSelectComponent,
@@ -157,8 +157,6 @@ export function createTranslateLoader(http: HttpClient) {
         MyAccountComponent,
         ChangePasswordModalComponent,
         QuestionnaireAnalysisArtritisPsoriasicaComponent,
-        PhototherapyModalComponent,
-        PrincipalTreatmentModalComponent,
         InputTextareaComponent,
         InputTypeaheadComponent,
         ContactComponent,
@@ -207,6 +205,7 @@ export function createTranslateLoader(http: HttpClient) {
         TableComponent,
         BoxDataComponent,
         DynamicFormComponent,
+        TemplateFormComponent,
         DynamicFieldDirective,
         NumericInput,
         EditorModalComponent,
