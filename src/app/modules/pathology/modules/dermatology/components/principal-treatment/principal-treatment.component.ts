@@ -3,7 +3,6 @@ import { TableActionsModel } from 'src/app/core/models/table/table-actions-model
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { PrincipalTreatmentModalComponent } from 'src/app/core/components/modals/principal-treatment-modal/principal-treatment-modal.component';
 import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,6 +15,7 @@ import { IndicationService } from 'src/app/modules/management/services/indicatio
 import { DoseModel } from 'src/app/modules/management/models/medicines/dose.model';
 import { constants } from 'src/constants/constants';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
+import { PrincipalTreatmentModalComponent } from '../principal-treatment-modal/principal-treatment-modal.component';
 
 @Component({
     selector: 'app-principal-treatment',
@@ -280,7 +280,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     private onDoseSelect(event: any) {
-        if (event.name === 'Otra') this.modalForm.controls.otherDosis.setValidators(Validators.required);
+        if (event && event.name === 'Otra') this.modalForm.controls.otherDosis.setValidators(Validators.required);
         else {
             this.modalForm.controls.otherDosis.clearValidators();
             this.modalForm.controls.otherDosis.setValue('');

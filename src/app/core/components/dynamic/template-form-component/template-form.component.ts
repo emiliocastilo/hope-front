@@ -1,13 +1,12 @@
-import { DOCUMENT } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-dynamic-form-component',
-    templateUrl: './dynamic-form-component.component.html',
-    styleUrls: ['./dynamic-form-component.component.scss'],
+    selector: 'app-template-form',
+    templateUrl: './template-form.component.html',
+    styleUrls: ['./template-form.component.scss'],
 })
-export class DynamicFormComponentComponent {
+export class TemplateFormComponent {
     key: string;
 
     constructor(router: Router) {

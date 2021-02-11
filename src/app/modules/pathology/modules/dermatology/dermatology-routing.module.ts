@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DynamicFormComponent } from 'src/app/core/components/dynamic/dynamic-form/dynamic-form.component';
+import { TemplateFormComponent } from 'src/app/core/components/dynamic/template-form-component/template-form.component';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { PatientsResolverService } from 'src/app/modules/management/services/patients/patients-resolver.service';
 import { DermathologyDashboardPatientsComponent } from './components/dashboard-patients/dermathology-dashboard-patients/dermathology-dashboard-patients.component';
 import { ComorbiditiesComponent } from './components/diagnosis/comorbidities/comorbidities.component';
 import { DiagnosisComponent } from './components/diagnosis/diagnosis.component';
-import { DynamicFormComponentComponent } from './components/dynamic-form-component/dynamic-form-component.component';
 import { EavPaseComponent } from './components/eav-pase/eav-pase.component';
 import { DlqiComponent } from './components/evolution-clinical-indices/dlqi/dlqi.component';
 import { EvolutionClinicalIndicesComponent } from './components/evolution-clinical-indices/evolution-clinical-indices.component';
@@ -96,9 +95,10 @@ const routes: Routes = [
         component: PrincipalTreatmentComponent,
         canActivate: [AuthGuard],
     },
+    // ! PLANTILLAS ! //
     {
         path: 'personal-information',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -106,12 +106,12 @@ const routes: Routes = [
     },
     {
         path: 'family-history',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         canActivate: [AuthGuard],
     },
     {
         path: 'sociodemographic-data',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -119,7 +119,7 @@ const routes: Routes = [
     },
     {
         path: 'physical-condition',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -127,7 +127,7 @@ const routes: Routes = [
     },
     {
         path: 'consumption-habits',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -135,7 +135,7 @@ const routes: Routes = [
     },
     {
         path: 'diagnosis/principal-diagnosis',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -143,7 +143,7 @@ const routes: Routes = [
     },
     {
         path: 'diagnosis/secundary-diagnosis',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -151,7 +151,7 @@ const routes: Routes = [
     },
     {
         path: 'tracing',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -159,7 +159,7 @@ const routes: Routes = [
     },
     {
         path: 'complementary-imaging-scans',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -167,7 +167,7 @@ const routes: Routes = [
     },
     {
         path: 'adherence-to-treatment-morisky',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -175,7 +175,7 @@ const routes: Routes = [
     },
     {
         path: 'adherence-to-treatment-haynes',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -183,7 +183,7 @@ const routes: Routes = [
     },
     {
         path: 'consent',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -191,7 +191,7 @@ const routes: Routes = [
     },
     {
         path: 'blood-count',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -199,7 +199,7 @@ const routes: Routes = [
     },
     {
         path: 'work-groups',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -207,7 +207,7 @@ const routes: Routes = [
     },
     {
         path: 'adherence-to-treatment-SMAQ',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -215,7 +215,7 @@ const routes: Routes = [
     },
     {
         path: 'cardiovascular-risk',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -223,7 +223,7 @@ const routes: Routes = [
     },
     {
         path: 'risk-factors',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -231,7 +231,7 @@ const routes: Routes = [
     },
     {
         path: 'gynecology',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -239,7 +239,7 @@ const routes: Routes = [
     },
     {
         path: 'metabolic-profile',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -247,7 +247,7 @@ const routes: Routes = [
     },
     {
         path: 'kidney-liver-biochemistry',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -255,7 +255,7 @@ const routes: Routes = [
     },
     {
         path: 'serology',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -263,7 +263,7 @@ const routes: Routes = [
     },
     {
         path: 'leukocyte-antibody-antigen',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -271,7 +271,7 @@ const routes: Routes = [
     },
     {
         path: 'biological-drug-monitoring',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -279,7 +279,7 @@ const routes: Routes = [
     },
     {
         path: 'shared-patients',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },

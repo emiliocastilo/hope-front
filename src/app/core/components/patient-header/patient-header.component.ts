@@ -3,7 +3,6 @@ import { PatientModel } from '../../../modules/pathology/models/patient.model';
 import { PatientsService } from 'src/app/modules/management/services/patients/patients.service';
 import { ChartObjectModel } from '../../models/graphs/chart-object.model';
 import { ColumnChartModel } from '../../models/graphs/column-chart.model';
-import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 import FormUtils from 'src/app/core/utils/FormUtils';
 
 @Component({

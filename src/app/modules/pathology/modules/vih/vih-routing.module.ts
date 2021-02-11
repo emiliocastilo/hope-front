@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DynamicFormComponent } from 'src/app/core/components/dynamic/dynamic-form/dynamic-form.component';
+import { TemplateFormComponent } from 'src/app/core/components/dynamic/template-form-component/template-form.component';
 import { AuthGuard } from 'src/app/core/services/guard/auth.guard';
 import { PatientsResolverService } from '../../../management/services/patients/patients-resolver.service';
-import { DynamicFormComponentComponent } from '../dermatology/components/dynamic-form-component/dynamic-form-component.component';
 import { VIHTreatmentsComponent } from './components/treatments/vih-treatments.component';
 import { VihDashboardPatientsComponent } from './components/vih-dashboard-patients/vih-dashboard-patients.component';
 
@@ -24,7 +23,7 @@ const routes: Routes = [
     // ! PLANTILLAS ! //
     {
         path: 'diagnosis/principal-diagnosis-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -32,7 +31,7 @@ const routes: Routes = [
     },
     {
         path: 'personal-information',
-        component: DynamicFormComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -40,7 +39,7 @@ const routes: Routes = [
     },
     {
         path: 'diagnosis/secundary-diagnosis-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -48,7 +47,7 @@ const routes: Routes = [
     },
     {
         path: 'diagnosis/sexually-transmitted-diseases-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -56,7 +55,7 @@ const routes: Routes = [
     },
     {
         path: 'tracing-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -64,7 +63,7 @@ const routes: Routes = [
     },
     {
         path: 'complementary-imaging-scans-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -72,7 +71,7 @@ const routes: Routes = [
     },
     {
         path: 'blood-count-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -80,7 +79,7 @@ const routes: Routes = [
     },
     {
         path: 'patient-situation-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -88,7 +87,7 @@ const routes: Routes = [
     },
     {
         path: 'work-groups-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -96,7 +95,7 @@ const routes: Routes = [
     },
     {
         path: 'sociodemographic-data-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -104,7 +103,7 @@ const routes: Routes = [
     },
     {
         path: 'physical-condition-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -112,7 +111,7 @@ const routes: Routes = [
     },
     {
         path: 'basic-urinalysis-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -120,7 +119,7 @@ const routes: Routes = [
     },
     {
         path: 'other-analysis-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -128,7 +127,7 @@ const routes: Routes = [
     },
     {
         path: 'serology-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -136,7 +135,7 @@ const routes: Routes = [
     },
     {
         path: 'metabolic-profile-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -144,7 +143,7 @@ const routes: Routes = [
     },
     {
         path: 'kidney-liver-biochemistry-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -152,7 +151,7 @@ const routes: Routes = [
     },
     {
         path: 'shared-patients-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -160,7 +159,7 @@ const routes: Routes = [
     },
     {
         path: 'comorbidities-coinfections-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -168,7 +167,7 @@ const routes: Routes = [
     },
     {
         path: 'genotyping-resistances-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
@@ -176,7 +175,7 @@ const routes: Routes = [
     },
     {
         path: 'viral-tropism-vih',
-        component: DynamicFormComponentComponent,
+        component: TemplateFormComponent,
         resolve: {
             patients: PatientsResolverService,
         },
