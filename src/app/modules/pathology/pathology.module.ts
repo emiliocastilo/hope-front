@@ -9,11 +9,9 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { PatientsComponent } from './components/patients/patients.component';
 import { DermatologyModule } from './modules/dermatology/dermatology.module';
 import { VIHModule } from './modules/vih/vih.module';
-import { PersonalInformationComponent } from './components/personal-information/personal-information.component';
 @NgModule({
     declarations: [
-        PatientsComponent,
-        PersonalInformationComponent,
+        PatientsComponent
     ],
     imports: [
         CommonModule,

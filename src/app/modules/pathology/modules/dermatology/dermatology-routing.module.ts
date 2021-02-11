@@ -97,6 +97,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'personal-information',
+        component: DynamicFormComponentComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'family-history',
         component: DynamicFormComponentComponent,
         canActivate: [AuthGuard],
