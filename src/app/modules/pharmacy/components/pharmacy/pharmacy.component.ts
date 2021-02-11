@@ -4,13 +4,13 @@ import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { FormGroup } from '@angular/forms';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { DynamicFormComponent } from '../../../../core/components/dynamic-form/dynamic-form.component';
 import { PharmacyService } from '../../services/pharmacy/pharmacy.service';
 import { QueryResult } from '../../../management/interfaces/query-result.interface';
 import { PharmacyModel } from '../../models/pharmacy/pharmacy.model';
 import { UserModel } from '../../../management/models/user/user.model';
 import { PHARMACY_TABLE_KEYS } from '../../constants/pharmacy.constants';
 import { SortModel } from 'src/app/core/components/table/table.component';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic/dynamic-form/dynamic-form.component';
 
 @Component({
     selector: 'app-pharmacy',

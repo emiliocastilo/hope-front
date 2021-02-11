@@ -15,7 +15,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { HospitalService } from 'src/app/core/services/hospital/hospital.service';
-import { DynamicFormComponent } from '../../../../core/components/dynamic-form/dynamic-form.component';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic/dynamic-form/dynamic-form.component';
 
 @Component({
     selector: 'app-patients',
@@ -63,7 +63,14 @@ export class PatientsComponent implements OnInit {
         //Obtenemos las patologias
         if (this.role_aux['service']['pathologies'].length > 0) {
             for (let i = 0; i < this.role_aux['service']['pathologies'].length; i++) {
-                this.pathologies.push(new PathologyModel(this.role_aux['service']['pathologies'][i]['id'], this.role_aux['service']['pathologies'][i]['name'], this.role_aux['service']['pathologies'][i]['description']));
+                this.pathologies.push(
+                    new PathologyModel(
+                        this.role_aux['service']['pathologies'][i]['id'],
+                        this.role_aux['service']['pathologies'][i]['code'],
+                        this.role_aux['service']['pathologies'][i]['name'],
+                        this.role_aux['service']['pathologies'][i]['description']
+                    )
+                );
             }
         }
 

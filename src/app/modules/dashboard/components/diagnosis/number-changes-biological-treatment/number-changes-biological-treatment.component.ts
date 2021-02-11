@@ -6,7 +6,6 @@ import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { Router } from '@angular/router';
 import reasonBioligicalTreatment from 'src/app/core/utils/reasonBioligicalTreatment';
-import { ValueKeyModel } from 'src/app/modules/pathology/modules/vih/models/vih-treatment.model';
 
 @Component({
     selector: 'app-number-changes-biological-treatment',
