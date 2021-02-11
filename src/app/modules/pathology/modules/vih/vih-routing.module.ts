@@ -110,6 +110,38 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'cardiovascular-risk',
+        component: TemplateFormComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'gynecology',
+        component: TemplateFormComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'risk-factors',
+        component: TemplateFormComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'adherence-to-treatment-SMAQ',
+        component: TemplateFormComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'basic-urinalysis-vih',
         component: TemplateFormComponent,
         resolve: {
