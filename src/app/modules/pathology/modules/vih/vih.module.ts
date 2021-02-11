@@ -12,12 +12,7 @@ import { VIHRoutingModule } from './vih-routing.module';
 import { VihDashboardPatientsComponent } from './components/vih-dashboard-patients/vih-dashboard-patients.component';
 
 @NgModule({
-    declarations: [
-        VIHTreatmentsComponent,
-        VIHTreatmentModalComponent,
-        VIHTreatmentChangeModalComponent,
-        VihDashboardPatientsComponent
-    ],
+    declarations: [VIHTreatmentsComponent, VIHTreatmentModalComponent, VIHTreatmentChangeModalComponent, VihDashboardPatientsComponent],
     imports: [
         CommonModule,
         CoreModule,
@@ -33,8 +28,6 @@ import { VihDashboardPatientsComponent } from './components/vih-dashboard-patien
             },
         }),
     ],
-    exports: [
-        VihDashboardPatientsComponent
-    ]
+    exports: [VihDashboardPatientsComponent],
 })
-export class VIHModule { }
+export class VIHModule {}

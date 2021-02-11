@@ -34,7 +34,7 @@ import { PrincipalTreatmentModalComponent } from './components/principal-treatme
         PasiBsaPgaComponent,
         DermathologyDashboardPatientsComponent,
         PhototherapyModalComponent,
-        PrincipalTreatmentModalComponent
+        PrincipalTreatmentModalComponent,
     ],
     imports: [
         CommonModule,
@@ -50,8 +50,7 @@ import { PrincipalTreatmentModalComponent } from './components/principal-treatme
                 deps: [HttpClient],
             },
         }),
-    ], exports: [
-        DermathologyDashboardPatientsComponent
-    ]
+    ],
+    exports: [DermathologyDashboardPatientsComponent],
 })
-export class DermatologyModule { }
+export class DermatologyModule {}

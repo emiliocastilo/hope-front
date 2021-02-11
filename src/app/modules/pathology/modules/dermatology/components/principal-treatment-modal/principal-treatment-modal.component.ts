@@ -28,34 +28,34 @@ export class PrincipalTreatmentModalComponent implements OnInit {
             { id: 'suspension', name: 'suspension' },
         ],
     };
-    constructor() { }
+    constructor() {}
 
-    get validForm (): boolean {
+    get validForm(): boolean {
         return this.form.valid;
     }
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.formKeys = Object.keys(this.form.controls);
         this.showRequiredLegend = this.checkIfThereRequiredField();
     }
 
-    public onSave () {
+    public onSave() {
         if (this.validForm) {
             this.save.emit(this.form);
         }
     }
 
-    public onUpdate () {
+    public onUpdate() {
         if (this.validForm) {
             this.update.emit(this.form);
         }
     }
 
-    public onClose () {
+    public onClose() {
         this.cancel.emit(null);
     }
 
-    public isDisabled (formKey) {
+    public isDisabled(formKey) {
         if (this.type === 'changeSuspend') {
             return ['medicine', 'family', 'atc', 'cn', 'tract', 'indication'].indexOf(formKey) > -1;
         } else {
@@ -63,21 +63,21 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         }
     }
 
-    public selectInputTypeaheadModal (event) {
+    public selectInputTypeaheadModal(event) {
         this.selectInputTypeahead.emit(event);
     }
 
-    public getInvalidLabel (formKey: string): string {
+    public getInvalidLabel(formKey: string): string {
         const errors = this.form ? this.form.get(formKey).errors : undefined;
         const label = errors ? Object.keys(errors).filter((key: string) => errors[key]) : undefined;
         return label ? `form.validate.${label[0]}` : 'form.validate.required';
     }
 
-    public checkInputType (array: string[], type: string): boolean {
+    public checkInputType(array: string[], type: string): boolean {
         return array.includes(type);
     }
 
-    public checkIfRequired (key: string): boolean {
+    public checkIfRequired(key: string): boolean {
         let isRequired: boolean = false;
 
         const field = this.form.get(key);
@@ -91,7 +91,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         return isRequired;
     }
 
-    private checkIfThereRequiredField (): boolean {
+    private checkIfThereRequiredField(): boolean {
         let pass = false;
         const count = this.formKeys.filter((key: string) => this.form.get(key) && this.form.get(key).validator && this.form.get(key).validator({} as any) && this.form.get(key).validator({} as any).required);
 
@@ -102,7 +102,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         return pass;
     }
 
-    public select (formKey: string, event: any) {
+    public select(formKey: string, event: any) {
         if (event && formKey === 'dose') this.selectDose.emit(event);
 
         if (formKey === 'actionType') this.selectActionType.emit(event);
@@ -115,7 +115,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         }
     }
 
-    checkTypeTreatment (key): boolean {
+    checkTypeTreatment(key): boolean {
         let show = true;
         // Si estamos en cambiar o suspender
         // TODO: comparar si estamos en cambiar o suspender, si es así, deshabilitar/habilitar los campos correspondientes
@@ -165,7 +165,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         }
         return show;
     }
-    setRadioValues (key) {
+    setRadioValues(key) {
         if (key === 'opcionFormulaMagistral') {
             this.form.get('opcionFormulaMagistral').setValue(key);
             this.form.get('opcionMedicamento').setValue('');
@@ -178,7 +178,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
         this.selectTopicalType.emit(key);
     }
 
-    private resetFields (keys: any[]) {
+    private resetFields(keys: any[]) {
         keys.forEach((key) => {
             this.form.get(key).reset('');
         });

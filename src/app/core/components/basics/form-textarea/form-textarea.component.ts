@@ -13,12 +13,12 @@ export class FormTextareaComponent implements OnInit {
     rows: number;
     required: boolean = false;
 
-    ngOnInit () {
+    ngOnInit() {
         this.hasRequiredField(this.group.controls[this.config.name]);
         this.rows = this.config ? this.config.rows : 1;
     }
 
-    hasRequiredField (abstractControl: AbstractControl) {
+    hasRequiredField(abstractControl: AbstractControl) {
         if (abstractControl.validator) {
             const validator = abstractControl.validator({} as AbstractControl);
             if (validator && validator.required) {
@@ -27,7 +27,7 @@ export class FormTextareaComponent implements OnInit {
         }
     }
 
-    removeMutation (index: number) {
+    removeMutation(index: number) {
         this.group.controls.mutationsAdd.value.splice(index, 1);
     }
 }

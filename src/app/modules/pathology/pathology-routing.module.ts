@@ -24,11 +24,11 @@ const routes: Routes = [
         path: 'vih',
         loadChildren: () => import('./modules/vih/vih.module').then((m) => m.VIHModule),
         canActivate: [AuthGuard],
-    }
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class PathologyRoutingModule { }
+export class PathologyRoutingModule {}

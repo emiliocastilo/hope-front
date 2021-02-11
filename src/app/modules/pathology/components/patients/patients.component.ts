@@ -32,15 +32,9 @@ export class PatientsComponent implements OnInit {
 
     @Input() patients: PatientModel[] = [];
 
-    constructor(
-        private _patientsService: PatientsService,
-        private _activatedRoute: ActivatedRoute,
-        private _router: Router,
-        private _menuService: MenuService
-    ) {
-    }
+    constructor(private _patientsService: PatientsService, private _activatedRoute: ActivatedRoute, private _router: Router, private _menuService: MenuService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.columnsHeader = this.PATIENTS_HEADER;
         this.hospitals = this._activatedRoute.snapshot.data.hospitals;
         this.patients = this._activatedRoute.snapshot.data.patients.content;
@@ -48,11 +42,11 @@ export class PatientsComponent implements OnInit {
         this.selectedUser = JSON.parse(localStorage.getItem('user'));
     }
 
-    public goToDermatologiPatients (): void {
+    public goToDermatologiPatients(): void {
         this._router.navigate(['management/patients']);
     }
 
-    public onSelectedItem (event: number): void {
+    public onSelectedItem(event: number): void {
         this.selectedPatient = this.patients[event];
         const selectedUser = JSON.stringify(this.selectedPatient || {});
         localStorage.setItem('selectedPatient', selectedUser);
@@ -71,13 +65,13 @@ export class PatientsComponent implements OnInit {
         this._router.navigateByUrl(dashboardRoute);
     }
 
-    public onSearch (event: string): void {
+    public onSearch(event: string): void {
         this._patientsService.findPatients(this.selectedUser.rolSelected.pathology.id, event).subscribe((data) => {
             this.patients = data.content;
         });
     }
 
-    public selectPage (page: number): void {
+    public selectPage(page: number): void {
         let query = `&page=${page}`;
         this.currentPage = page;
         if (this.itemsPerPage) {
@@ -86,7 +80,7 @@ export class PatientsComponent implements OnInit {
         this.refreshData(query);
     }
 
-    private refreshData (query: string): void {
+    private refreshData(query: string): void {
         this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, query).subscribe((data) => {
             this.patients = data.content;
             if (this.paginationData.totalPages !== data.totalPages) {
@@ -95,7 +89,7 @@ export class PatientsComponent implements OnInit {
         });
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         let query = `&sort=${event.column},${event.direction}&page=${this.currentPage}`;
 
         if (this.itemsPerPage) {
@@ -105,7 +99,7 @@ export class PatientsComponent implements OnInit {
         this.refreshData(query);
     }
 
-    public selectItemsPerPage (number: number) {
+    public selectItemsPerPage(number: number) {
         this.itemsPerPage = number;
         this.selectPage(0);
     }

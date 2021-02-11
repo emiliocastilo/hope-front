@@ -51,9 +51,9 @@ export class PatientsComponent implements OnInit {
         private _notification: NotificationService,
         private _formBuilder: FormBuilder,
         private _hospitalService: HospitalService
-    ) { }
+    ) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.hospitals = this._activatedRoute.snapshot.data.hospitals;
         // this.patients = this._activatedRoute.snapshot.data.patients.content;
         //this.pathologies = this._activatedRoute.snapshot.data.hospitals[0].services[3].pathologies;
@@ -95,7 +95,7 @@ export class PatientsComponent implements OnInit {
         });
     }
 
-    public onSelectedItem (event: number): void {
+    public onSelectedItem(event: number): void {
         this.selectedPatient = this.patients[event];
         const selectedUser = JSON.stringify(this.selectedPatient || {});
         localStorage.setItem('selectedPatient', selectedUser);
@@ -107,25 +107,25 @@ export class PatientsComponent implements OnInit {
         });
     }
 
-    public getPatients () {
+    public getPatients() {
         this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, '').subscribe((data) => {
             this.patients = data.content;
         });
     }
 
-    public getPathologiesIds () {
+    public getPathologiesIds() {
         this.pathologies.forEach((pathology) => {
             this.pathologiesIds.push(pathology.id);
         });
     }
 
-    public onSearch (event: string): void {
+    public onSearch(event: string): void {
         this._patientsService.findPatients(this.selectedUser.rolSelected.pathology.id, event).subscribe((data) => {
             this.patients = data.content;
         });
     }
 
-    public onIconButtonClick (event: any) {
+    public onIconButtonClick(event: any) {
         if (event && event.type === 'edit') {
             if (this.selectedPatient) {
                 this.modalForm.controls['pathology'].setValue(this.pathologies);
@@ -136,7 +136,7 @@ export class PatientsComponent implements OnInit {
         }
     }
 
-    public onSort (event: any) {
+    public onSort(event: any) {
         this.colOrder = event.column;
         this.typeOrder = event.direction;
         let query = `&sort=${this.colOrder},${this.typeOrder}&page=${this.currentPage}`;
@@ -148,12 +148,12 @@ export class PatientsComponent implements OnInit {
         this.refreshData(query);
     }
 
-    public selectItemsPerPage (number: number) {
+    public selectItemsPerPage(number: number) {
         this.itemsPerPage = number;
         this.selectPage(0);
     }
 
-    public savePatient (): void {
+    public savePatient(): void {
         this.isEditing = false;
         this.selectedItem = null;
         this.modalForm.reset();
@@ -161,12 +161,12 @@ export class PatientsComponent implements OnInit {
         this.showModal();
     }
 
-    public editPatient (): void {
+    public editPatient(): void {
         this.isEditing = true;
         this.showModal();
     }
 
-    public deletePatient (): void {
+    public deletePatient(): void {
         this._patientsService.deletePatient(this.patients[this.selectedItem].id).subscribe(
             (response) => {
                 this._notification.showSuccessToast('elementDeleted');
@@ -178,7 +178,7 @@ export class PatientsComponent implements OnInit {
         );
     }
 
-    private showModalConfirm () {
+    private showModalConfirm() {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = 'Eliminar Paciente';
@@ -192,7 +192,7 @@ export class PatientsComponent implements OnInit {
         });
     }
 
-    private showModal () {
+    private showModal() {
         const modalRef = this._modalService.open(EditorModalComponent, {
             size: 'lg',
         });
@@ -232,7 +232,7 @@ export class PatientsComponent implements OnInit {
         });
     }
 
-    private saveOrUpdate (event: any, modalRef: any): void {
+    private saveOrUpdate(event: any, modalRef: any): void {
         const formValues: any = event.value;
         const birthDate = new Date(formValues.birthDate).toISOString();
         let id: string;
@@ -296,11 +296,11 @@ export class PatientsComponent implements OnInit {
         }
     }
 
-    private getPathologyFromPatient (form: any): PathologyModel {
+    private getPathologyFromPatient(form: any): PathologyModel {
         return (Array.isArray(form.pathology) ? form.pathology[0] : form.pathology) as PathologyModel;
     }
 
-    public selectPage (page: number): void {
+    public selectPage(page: number): void {
         let query: string;
         if (this.colOrder && this.typeOrder) {
             query = `&sort=${this.colOrder},${this.typeOrder}&page=${page}`;
@@ -314,7 +314,7 @@ export class PatientsComponent implements OnInit {
         this.refreshData(query);
     }
 
-    private refreshData (query: string): void {
+    private refreshData(query: string): void {
         this._patientsService.getPatients(this.selectedUser.rolSelected.pathology.id, query).subscribe((data) => {
             this.patients = data.content;
             this.paginationData.totalElements = data.totalElements;

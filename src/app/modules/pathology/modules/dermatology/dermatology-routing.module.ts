@@ -284,11 +284,11 @@ const routes: Routes = [
             patients: PatientsResolverService,
         },
         canActivate: [AuthGuard],
-    }
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class DermatologyRoutingModule { }
+export class DermatologyRoutingModule {}

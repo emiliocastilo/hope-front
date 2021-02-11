@@ -39,9 +39,9 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         private _translate: TranslateService,
         private _menuService: MenuService,
         private _router: Router
-    ) { }
+    ) {}
 
-    setConfigGannt (): void {
+    setConfigGannt(): void {
         this.configGantt = {
             columns: ['BIOLOGICO', 'OTROS', ' ', 'ADHERENCIA', 'OTR'],
             type: 'Timeline',
@@ -78,7 +78,7 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         };
     }
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.noData = false;
         this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
         if (!this.selectedPatient) {
@@ -139,7 +139,7 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         }*/
     }
 
-    loadLines () {
+    loadLines() {
         const title = 'evolutionIndex';
         const view = null;
         const autoscale = true;
@@ -149,7 +149,7 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         const legend = false;
         this.configChart = new ColumnChartModel(title, view, scheme, this.dataChart, legend);
     }
-    parseDatesChart (start: number, end: number) {
+    parseDatesChart(start: number, end: number) {
         const newData = {
             indicesEvolution: {
                 DLQI: [],
@@ -200,7 +200,7 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         this.configChart = { ...this.configChart, results: this.dataChart };
     }
 
-    onChangeIndexes (event: any) {
+    onChangeIndexes(event: any) {
         const { min, max } = event;
         const start = Date.parse(this.globalDates[min]);
         const end = Date.parse(this.globalDates[max]);
@@ -211,7 +211,7 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         this.parseDatesChart(start, end);
     }
 
-    private loadChart (data: any): void {
+    private loadChart(data: any): void {
         const dataGantt = {
             BIOLOGICO: data.treatments.BIOLOGICO,
             OTROS: data.treatments.FAME,
@@ -225,11 +225,11 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         });
     }
 
-    parseDate (date: Date): string {
+    parseDate(date: Date): string {
         return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     }
 
-    drawChart (data: any): any {
+    drawChart(data: any): any {
         setTimeout(() => {
             if (data && data.data && data.data.length > 0) {
                 this.noTreatmentData = false;
@@ -275,7 +275,7 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         }, 1);
     }
 
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         const arrayData = Object.keys(data.indicesEvolution).map((keyYear: string) => {
             const object = {
                 name: keyYear,
@@ -296,7 +296,7 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataGantt (data: any): ChartObjectModel[] {
+    private parseDataGantt(data: any): ChartObjectModel[] {
         const objectChart = [];
 
         this.configGantt.columns.forEach((value: string, key: number) => {

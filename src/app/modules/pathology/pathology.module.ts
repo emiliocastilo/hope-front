@@ -10,9 +10,7 @@ import { PatientsComponent } from './components/patients/patients.component';
 import { DermatologyModule } from './modules/dermatology/dermatology.module';
 import { VIHModule } from './modules/vih/vih.module';
 @NgModule({
-    declarations: [
-        PatientsComponent
-    ],
+    declarations: [PatientsComponent],
     imports: [
         CommonModule,
         CoreModule,
@@ -29,6 +27,6 @@ import { VIHModule } from './modules/vih/vih.module';
                 deps: [HttpClient],
             },
         }),
-    ]
+    ],
 })
-export class PathologyModule { }
+export class PathologyModule {}

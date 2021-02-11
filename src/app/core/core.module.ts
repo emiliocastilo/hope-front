@@ -84,7 +84,7 @@ import { FormTextComponent } from './components/basics/form-text/form-text.compo
 import { DynamicFormComponent } from './components/dynamic/dynamic-form/dynamic-form.component';
 import { TemplateFormComponent } from './components/dynamic/template-form-component/template-form.component';
 
-export function createTranslateLoader (http: HttpClient) {
+export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 @NgModule({
@@ -236,4 +236,4 @@ export function createTranslateLoader (http: HttpClient) {
     providers: [GenderFormatter],
     entryComponents: [FormButtonComponent, FormInputComponent, FormSelectComponent, FormMultiSelectComponent],
 })
-export class CoreModule { }
+export class CoreModule {}

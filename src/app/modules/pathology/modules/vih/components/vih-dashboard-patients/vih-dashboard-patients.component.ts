@@ -44,9 +44,9 @@ export class VihDashboardPatientsComponent implements OnInit {
         private patientDashboardService: PatientsDashboardService,
         private loaderService: ScriptLoaderService,
         public _translate: TranslateService
-    ) { }
+    ) {}
 
-    setConfigGannt (): void {
+    setConfigGannt(): void {
         this.configGantt = {
             columns: ['FAME', 'ADHERENCIA'],
             type: 'Timeline',
@@ -83,7 +83,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         };
     }
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.noData = false;
         this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
         if (!this.selectedPatient) {
@@ -110,13 +110,13 @@ export class VihDashboardPatientsComponent implements OnInit {
                                         return element && element.date
                                             ? element.date.split('T')[0]
                                             : element.map((d) => {
-                                                if (!d.date) {
-                                                    /* d.date = moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
+                                                  if (!d.date) {
+                                                      /* d.date = moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
                                                     return moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD'); */
-                                                }
+                                                  }
 
-                                                return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0]; // : d.initDate.split('T')[0]; //: moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
-                                            });
+                                                  return d.date ? d.date.split('T')[0] : d.initDate.split('T')[0]; // : d.initDate.split('T')[0]; //: moment(new Date(+new Date() - Math.floor(Math.random() * 100000000000))).format('YYYY-MM-DD');
+                                              });
                                     });
                                 }
                             })
@@ -164,7 +164,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         }
     }
 
-    loadLines () {
+    loadLines() {
         const title = 'evolutionIndex';
         const view = null;
         const autoscale = true;
@@ -185,7 +185,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         this.configCharts[2] = new ColumnChartModel('Evolución CVP', view, schemeCVP, this.dataCharts[2], legend);
     }
 
-    parseDatesChart (start: number, end: number) {
+    parseDatesChart(start: number, end: number) {
         const newData = {
             graphClinicalData: {
                 CVP: [],
@@ -239,7 +239,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         this.configChart = { ...this.configChart, results: this.dataChart };
     }
 
-    onChangeIndexes (event: any) {
+    onChangeIndexes(event: any) {
         const { min, max } = event;
         const start = Date.parse(this.globalDates[min]);
         const end = Date.parse(this.globalDates[max]);
@@ -250,7 +250,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         this.parseDatesChart(start, end);
     }
 
-    private loadChart (data: any): void {
+    private loadChart(data: any): void {
         const dataGantt = {
             FAME: data.treatments.FAME,
             ADHERENCIA: data.adherence,
@@ -263,11 +263,11 @@ export class VihDashboardPatientsComponent implements OnInit {
         });
     }
 
-    parseDate (date: Date): string {
+    parseDate(date: Date): string {
         return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     }
 
-    drawChart (data: any): any {
+    drawChart(data: any): any {
         setTimeout(() => {
             if (data && data.data && data.data.length > 0) {
                 this.noTreatmentData = false;
@@ -313,7 +313,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         }, 1);
     }
 
-    private parseDataChart (data: any): ChartObjectModel[] {
+    private parseDataChart(data: any): ChartObjectModel[] {
         const arrayData = Object.keys(data.graphClinicalData ? data.graphClinicalData : data.graphClinicalData).map((keyYear: string) => {
             const object = {
                 name: keyYear,
@@ -335,7 +335,7 @@ export class VihDashboardPatientsComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataGantt (data: any): ChartObjectModel[] {
+    private parseDataGantt(data: any): ChartObjectModel[] {
         const objectChart = [];
 
         this.configGantt.columns.forEach((value: string, key: number) => {

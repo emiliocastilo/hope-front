@@ -26,20 +26,14 @@ export class MenuService {
     public allSections: MenuItemModel[] = [];
     public thereIsPatientSelected: boolean = false;
 
-    constructor(
-        private _httpClient: HttpClient,
-        private _formService: FormsService,
-        private _modalService: NgbModal,
-        private translate: TranslateService,
-        private _router: Router
-    ) {
+    constructor(private _httpClient: HttpClient, private _formService: FormsService, private _modalService: NgbModal, private translate: TranslateService, private _router: Router) {
         this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
         this.thereIsPatientSelected = localStorage.getItem('selectedPatient') !== undefined && localStorage.getItem('selectedPatient') !== null;
         if (!this.fullMenu) this.getMenu().subscribe((response: MenuItemModel) => this.initialSetUp());
         else this.initialSetUp();
     }
 
-    private initialSetUp () {
+    private initialSetUp() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             this.currentPathology = user.rolSelected.pathology;
@@ -50,18 +44,18 @@ export class MenuService {
         }
     }
 
-    private setPathology (user?: any) {
+    private setPathology(user?: any) {
         // TODO limpiar asignaciones code pathology
         if (!user) user = JSON.parse(localStorage.getItem('user'));
         this.currentPathology = user.rolSelected.pathology;
         const pathologyName = this.currentPathology.name.toLowerCase();
         const pathologyRoots = ['derma', 'vih'];
-        this.currentPathology.code = pathologyRoots.filter(f => pathologyName.includes(f))[0];
+        this.currentPathology.code = pathologyRoots.filter((f) => pathologyName.includes(f))[0];
         this.pathologyRoot = `/hopes/pathology/`;
         console.log(`PATHOLOGY RADICAL: ${this.pathologyRoot}`);
     }
 
-    private assignParentAndCollapseStatus (menu: MenuItemModel, root?: string) {
+    private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
         menu.collapsed = true;
         menu.path = `${root ? root : ''}/${menu.id}`;
         this.thereIsPatientSelected = localStorage.getItem('selectedPatient') !== undefined && localStorage.getItem('selectedPatient') !== null;
@@ -79,7 +73,7 @@ export class MenuService {
         return menu;
     }
 
-    private findSectionByUrl (menu: Array<MenuItemModel>, url: string): MenuItemModel {
+    private findSectionByUrl(menu: Array<MenuItemModel>, url: string): MenuItemModel {
         menu.forEach((item) => {
             if (url.indexOf('hopes') < 0) {
                 if (!url.startsWith('/')) url = '/hopes/' + url;
@@ -92,7 +86,7 @@ export class MenuService {
         return this.current;
     }
 
-    public fillSections (section: MenuItemModel) {
+    public fillSections(section: MenuItemModel) {
         if (!this.allSections) this.allSections = [];
         if (section) {
             section.visible = true;
@@ -105,23 +99,23 @@ export class MenuService {
         }
     }
 
-    public checkVisibleSection (item: MenuItemModel) {
+    public checkVisibleSection(item: MenuItemModel) {
         if (!this.pathologyPath) this.pathologyPath = this.setPathologyPath();
         return !item.path.includes(this.pathologyPath) || (item.path.includes(this.pathologyPath) && this.thereIsPatientSelected);
     }
 
-    private setPathologyPath (): string {
+    private setPathologyPath(): string {
         let path = undefined;
         if (!this.allSections || this.allSections.length === 0) this.fillSections(this.fullMenu);
 
         if (this.allSections && this.allSections.length > 0) {
             const sect = this.allSections.filter((f) => f.url.includes(this.pathologyRoot));
-            path = sect && sect.length > 0 && sect[0].path ? sect[0].path : undefined
+            path = sect && sect.length > 0 && sect[0].path ? sect[0].path : undefined;
         }
         return path;
     }
 
-    public setCurrentSection (section?: MenuItemModel) {
+    public setCurrentSection(section?: MenuItemModel) {
         if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
             if (!this.allSections) this.fillSections(this.fullMenu);
@@ -130,11 +124,7 @@ export class MenuService {
 
             const url = section && section.url === this.homeUrl ? this.homeUrl : section.url.split('/hopes')[1];
 
-            if (
-                (this.pathologyPath && !section.path.includes(this.pathologyPath)) ||
-                this.pathologyPath === section.path ||
-                (this.pathologyPath && section.path.includes(this.pathologyPath) && !this.thereIsPatientSelected)
-            ) {
+            if ((this.pathologyPath && !section.path.includes(this.pathologyPath)) || this.pathologyPath === section.path || (this.pathologyPath && section.path.includes(this.pathologyPath) && !this.thereIsPatientSelected)) {
                 this.thereIsPatientSelected = false;
                 localStorage.removeItem('selectedPatient');
                 this.assignParentAndCollapseStatus(this.fullMenu);
@@ -151,38 +141,41 @@ export class MenuService {
         }
     }
 
-    public setCurrentSectionByUrl (url: string) {
+    public setCurrentSectionByUrl(url: string) {
         const menu: MenuItemModel = JSON.parse(localStorage.getItem('completeMenu'));
         if (menu) this.setCurrentSection(this.findSectionByUrl(menu.children, url));
     }
 
-    public getCurrentSection (): Observable<MenuItemModel> {
+    public getCurrentSection(): Observable<MenuItemModel> {
         return this.currentSection.asObservable();
     }
 
-    public getMenu (rolChanged?: boolean): Observable<MenuItemModel> {
-        return new Observable<MenuItemModel>(obs => {
+    public getMenu(rolChanged?: boolean): Observable<MenuItemModel> {
+        return new Observable<MenuItemModel>((obs) => {
             if (this.fullMenu && !rolChanged) obs.next(this.fullMenu);
             else {
-                this._httpClient.get<MenuItemModel>('/menus').pipe(
-                    map((response) => {
-                        this.allSections = [];
-                        this.fullMenu = response;
-                        this.setPathology();
-                        this.fillSections(response);
-                        this.pathologyPath = this.setPathologyPath();
-                        const menu = this.assignParentAndCollapseStatus(response);
-                        localStorage.setItem('menu', JSON.stringify(response.children));
-                        localStorage.setItem('completeMenu', JSON.stringify(response));
-                        return menu;
-                    })
-                ).subscribe(menu => obs.next(menu));
+                this._httpClient
+                    .get<MenuItemModel>('/menus')
+                    .pipe(
+                        map((response) => {
+                            this.allSections = [];
+                            this.fullMenu = response;
+                            this.setPathology();
+                            this.fillSections(response);
+                            this.pathologyPath = this.setPathologyPath();
+                            const menu = this.assignParentAndCollapseStatus(response);
+                            localStorage.setItem('menu', JSON.stringify(response.children));
+                            localStorage.setItem('completeMenu', JSON.stringify(response));
+                            return menu;
+                        })
+                    )
+                    .subscribe((menu) => obs.next(menu));
             }
         });
 
-        return
+        return;
     }
-    private showModalConfirm (section?: MenuItemModel) {
+    private showModalConfirm(section?: MenuItemModel) {
         const modalRef = this._modalService.open(ConfirmModalComponent);
         modalRef.componentInstance.title = this.translate.instant('saveWarning');
         modalRef.componentInstance.messageModal = this.translate.instant('saveWarningMessage');

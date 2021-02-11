@@ -33,9 +33,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     @Input() level: number;
     @Input() collapsed: boolean;
 
-    constructor(private _menuService: MenuService, private _roleListener: CurrentRoleListenerService) { }
+    constructor(private _menuService: MenuService, private _roleListener: CurrentRoleListenerService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.currentSection = JSON.parse(localStorage.getItem('section'));
 
         this.currentRoleSubscription = this._roleListener.getCurrentRole().subscribe((role: RolModel) => {
@@ -51,7 +51,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (!this.level) this.level = 1;
     }
 
-    collapseAll (menu?: Array<MenuItemModel>) {
+    collapseAll(menu?: Array<MenuItemModel>) {
         if (menu && menu.length > 0) {
             menu.forEach((element) => {
                 element.collapsed = true;
@@ -61,11 +61,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
     }
 
-    goUrl (section: MenuItemModel) {
+    goUrl(section: MenuItemModel) {
         this._menuService.setCurrentSection(section);
     }
 
-    updateCollapseState (menu: Array<MenuItemModel>) {
+    updateCollapseState(menu: Array<MenuItemModel>) {
         if (this.currentSection) {
             menu.forEach((item) => {
                 item.subsectionVisible = this._menuService.checkVisibleSection(item);
@@ -76,12 +76,12 @@ export class MenuComponent implements OnInit, OnDestroy {
         } else this.collapseAll();
     }
 
-    public toggleColapseMenu (menuItem: MenuItemModel): void {
+    public toggleColapseMenu(menuItem: MenuItemModel): void {
         if (menuItem.collapsed) this.collapseAll(this.menu);
         menuItem.collapsed = !menuItem.collapsed;
     }
 
-    ngOnDestroy () {
+    ngOnDestroy() {
         if (this.currentSectionSubscription) this.currentSectionSubscription.unsubscribe();
         if (this.currentRoleSubscription) this.currentRoleSubscription.unsubscribe();
     }
