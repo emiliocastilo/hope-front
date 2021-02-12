@@ -179,10 +179,12 @@ export class MenuService {
         const modalRef = this._modalService.open(ConfirmModalComponent);
         modalRef.componentInstance.title = this.translate.instant('saveWarning');
         modalRef.componentInstance.messageModal = this.translate.instant('saveWarningMessage');
+        
         modalRef.componentInstance.cancel.subscribe((event) => {
             modalRef.close();
             this._formService.setSavedStatusForm(false);
         });
+
         modalRef.componentInstance.accept.subscribe((event) => {
             modalRef.close();
             this._formService.setSavedStatusForm(true);
