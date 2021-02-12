@@ -206,14 +206,14 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         this.changes.pipe(debounceTime(800)).subscribe((change) => {
             const calculatedField: FieldConfig = this.config.find((e) => e.calculated_back); //TODO: actualmente solo funciona con un campo calculado en back por formulario (find)
             if (calculatedField) {
-                if (!this.form.pristine && this.validFields(calculatedField.params)) {
+                if (this.dirtyFields(calculatedField.params) && this.validFields(calculatedField.params)) {
                     let body: any = {};
                     for (let index in calculatedField.params) {
                         body[calculatedField.params[index]] = change[calculatedField.params[index]];
                     }
                     this.calculatedBackService.calculateFieldInBack(calculatedField.endpoint, body).subscribe((calculatedValue: string) => {
                         this.form.get(calculatedField.name).setValue(calculatedValue);
-                        calculatedField.value = calculatedValue;
+                        this.form.markAsPristine();
                     });
                 }
             }
@@ -222,6 +222,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
     private validFields(fields: string[]): boolean {
         return fields.filter((field: string) => this.form.get(field).invalid).length === 0;
+    }
+
+    private dirtyFields(fields: string[]): boolean {
+        const a = fields.filter((field: string) => this.form.get(field).dirty);
+        return a.length > 0;
     }
 
     private displayElement(config: Array<FieldConfig>): void {
