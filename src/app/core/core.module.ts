@@ -82,7 +82,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormAccordionComponent } from './components/basics/form-accordion/form-accordion.component';
 import { FormTextComponent } from './components/basics/form-text/form-text.component';
 import { DynamicFormComponent } from './components/dynamic/dynamic-form/dynamic-form.component';
-import { TemplateFormComponent } from './components/dynamic/template-form-component/template-form.component';
+import { TemplateFormComponent } from './components/dynamic/template-form/template-form.component';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
