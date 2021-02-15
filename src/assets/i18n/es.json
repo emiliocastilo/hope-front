@@ -520,7 +520,7 @@
   "rxDatasDate": "Fecha",
   "rxDatasDiagnosis": "Diagnóstico",
   "saveWarning": "Aviso de cambios",
-  "saveWarningMessage": "Hay cambios sin guardar, ¿Continuar?",
+  "saveWarningMessage": "Hay cambios sin guardar, ¿desea guardarlos?",
   "scaleEav": "Escala Analógica Visual (EAV)",
   "scan": "Fibro Scan",
   "scanDate": "Fecha",

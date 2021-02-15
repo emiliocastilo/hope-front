@@ -519,7 +519,7 @@
     "rxDatasDate": "Date",
     "rxDatasDiagnosis": "Diagnosis",
     "saveWarning": "Unsaved changes detected",
-    "saveWarningMessage": "There are unsaved changes. Continue?",
+    "saveWarningMessage": "There are unsaved changes. Should we save?",
     "scaleEav": "Visual Analog Scale (EAV)",
     "scan": "Fibro Scan",
     "scanDate": "Date",

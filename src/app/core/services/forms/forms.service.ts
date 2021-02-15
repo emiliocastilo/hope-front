@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+import FormUtils from '../../utils/FormUtils';
+import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
+
+export interface FormServiceConfig {
+    key: string;
+    config: FieldConfig[];
+}
 
 @Injectable({
     providedIn: 'root',
@@ -11,6 +19,8 @@ export class FormsService {
     private savedForm = true;
     private mustBeSaved = false;
     public editing = true;
+    public currentConfig: FormServiceConfig;
+    public currentForm: any;
 
     public async get(key: string) {
         return this._http.get(`/templates?key=${key}`).toPromise();
@@ -68,5 +78,24 @@ export class FormsService {
 
     public setMustBeSaved(mustBeSaved: boolean) {
         this.mustBeSaved = mustBeSaved;
+    }
+
+    // public updateTemplateObject (form: FormGroup, config: FieldConfig[], key: string) {
+    public updateTemplateObject(form: FormGroup) {
+        const formControls = this.currentConfig.config.filter(({ type }) => type !== 'button' || 'title');
+        const configControls = formControls.map((item) => item.name);
+        const parsedData = [];
+
+        configControls.forEach((name) => {
+            if (form.controls[name]) parsedData.push({ name: name, value: form.controls[name].value });
+        });
+
+        const form2save = {
+            template: this.currentConfig.key,
+            data: parsedData,
+            patientId: JSON.parse(localStorage.getItem('selectedPatient')).id,
+        };
+
+        this.currentForm = form2save;
     }
 }
