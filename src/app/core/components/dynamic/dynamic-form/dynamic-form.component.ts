@@ -36,7 +36,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
     get changes() {
         if (!this.isModal) {
-            this._formsService.currentConfig = { config: this.config, key: this.key };
+            if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
             this._formsService.updateTemplateObject(this.form);
         }
         return this.form.valueChanges;
@@ -46,7 +46,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
     get value() {
         if (!this.isModal) {
-            this._formsService.currentConfig = { config: this.config, key: this.key };
+            if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
             this._formsService.updateTemplateObject(this.form);
         }
         return this.form.value;
@@ -66,10 +66,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.form = form;
             this.detectCalculated();
             this.displayElement(this.config);
-            this._formsService.currentConfig = {
-                key: this.key,
-                config: this.config,
-            };
+            if (!this.isAccordion) this._formsService.currentConfig = { key: this.key, config: this.config };
         });
 
         if (this.isModal) {
@@ -295,7 +292,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     handleSubmit(event: Event) {
         console.log(event);
         if (!this.isModal) {
-            this._formsService.currentConfig = { config: this.config, key: this.key };
+            if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
             this._formsService.updateTemplateObject(this.form);
         }
         event.preventDefault();

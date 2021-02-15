@@ -80,14 +80,30 @@ export class FormsService {
         this.mustBeSaved = mustBeSaved;
     }
 
-    // public updateTemplateObject (form: FormGroup, config: FieldConfig[], key: string) {
     public updateTemplateObject(form: FormGroup) {
         const formControls = this.currentConfig.config.filter(({ type }) => type !== 'button' || 'title');
         const configControls = formControls.map((item) => item.name);
         const parsedData = [];
 
-        configControls.forEach((name) => {
-            if (form.controls[name]) parsedData.push({ name: name, value: form.controls[name].value });
+        this.currentConfig.config.forEach((conf) => {
+            if (form.controls[conf.name]) {
+                parsedData.push({ name: conf.name, type: conf.type, value: form.controls[conf.name].value });
+                if (conf.type === 'accordion') {
+                    const accordionValue = [];
+                    conf.accordion.panels.forEach((panel) => {
+                        const panelContent = [];
+                        panel.content.forEach((item) =>
+                            panelContent.push({
+                                type: item.type,
+                                name: item.name,
+                                value: form.controls[item.name] && form.controls[item.name].value ? form.controls[item.name].value : [],
+                            })
+                        );
+                        accordionValue.push(panelContent);
+                    });
+                    parsedData[parsedData.length - 1].value = accordionValue;
+                }
+            }
         });
 
         const form2save = {
