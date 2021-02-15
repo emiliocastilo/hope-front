@@ -87,6 +87,7 @@
   "changePassword": "Cambiar contraseña",
   "changeSuspend": "Cambiar/Suspender",
   "changeSuspendTreatment": "Cambiar o suspender tratamiento",
+  "suspendTreatment": "Suspender tratamiento",
   "chartCD4": "Pacientes estratificados por niveles de CD4",
   "chartChangeQuantity": "Número de cambios por tratamiento",
   "chartCVP": "Pacientes por carga viral plásmatica (CVP)",
@@ -478,8 +479,8 @@
   },
   "reason": "Motivo",
   "reasonChangeBiologicalTreatmentFiveYears": "Motivo del cambio de tratamiento biológico de los últimos 5 años",
-  "reasonChangeOrSuspension": "Causa de finalización",
-  "reasonChangeOrSuspensionList": {
+  "reasonSuspension": "Causa de finalización",
+  "reasonSuspensionList": {
     "motive1": "Ineficacia",
     "motive2": "Fallo primario (no se alcanzó nunca PASI 75)",
     "motive3": "Fallo secundario (perdida de PASI 75)",

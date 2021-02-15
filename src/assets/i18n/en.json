@@ -87,6 +87,7 @@
     "changePassword": "Change password",
     "changeSuspend": "Change/Suspend",
     "changeSuspendTreatment": "Change or stop treatment",
+    "suspendTreatment": "Stop treatment",
     "chartCD4": "Patients by CD4",
     "chartChangeQuantity": "Number of changes per treatment",
     "chartCVP": "Patients by CVP",
@@ -477,8 +478,8 @@
     },
     "reason": "Reason",
     "reasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
-    "reasonChangeOrSuspension": "Cause",
-    "reasonChangeOrSuspensionList": {
+    "reasonSuspension": "Cause",
+    "reasonSuspensionList": {
         "motive1": "Ineffectiveness",
         "motive2": "Primary failure (PASI 75 never reached)",
         "motive3": "Secondary failure (loss of PASI 75)",
