@@ -82,7 +82,6 @@ export default class FormUtils {
 
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
-            // console.log('FormUtils', value.validation);
             fieldConfig.validation = this.parseValidations(validations);
         }
         return fieldConfig;
