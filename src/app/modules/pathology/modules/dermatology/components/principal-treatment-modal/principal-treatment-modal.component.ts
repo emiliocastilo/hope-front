@@ -57,7 +57,7 @@ export class PrincipalTreatmentModalComponent implements OnInit {
 
     public isDisabled(formKey) {
         if (this.type === 'suspend') {
-            return ['medicine', 'family', 'atc', 'cn', 'tract', 'indication'].indexOf(formKey) > -1;
+            return ['medicine', 'family', 'atc', 'cn', 'tract', 'indication', 'dose', 'otherDose', 'regime'].indexOf(formKey) > -1;
         } else {
             return ['family', 'atc', 'cn', 'tract', 'indication'].indexOf(formKey) > -1;
         }
@@ -117,7 +117,6 @@ export class PrincipalTreatmentModalComponent implements OnInit {
 
     checkTypeTreatment(key): boolean {
         let show = true;
-        // Si estamos en cambiar o suspender
         // TODO: comparar si estamos en cambiar o suspender, si es así, deshabilitar/habilitar los campos correspondientes
 
         if (!this.form.get('treatmentType') && this.form.get('reasonSuspension')) {
