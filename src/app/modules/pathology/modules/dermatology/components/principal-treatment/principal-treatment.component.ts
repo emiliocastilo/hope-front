@@ -17,6 +17,7 @@ import { DoseModel } from 'src/app/modules/management/models/medicines/dose.mode
 import { constants } from 'src/constants/constants';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { PrincipalTreatmentModalComponent } from '../principal-treatment-modal/principal-treatment-modal.component';
+import { PatientsIndicationService } from 'src/app/modules/management/services/patients-indication/patients-indication.service';
 
 @Component({
     selector: 'app-principal-treatment',
@@ -259,7 +260,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.typeOrder = '';
         this.colOrder = '';
         // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
-        // this.getFormDatas();
+        this.getFormDatas();
         this.getTreatments();
     }
 

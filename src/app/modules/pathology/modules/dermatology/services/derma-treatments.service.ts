@@ -13,7 +13,7 @@ export class DermaTreatmentsService {
 
     public getAll(patientId: string): Observable<Pagination<any>> {
         const params: HttpParams = new HttpParams().set('patientId', patientId);
-        return this._http.get<any>(this.endPoint, { params });
+        return this._http.get<any>('/patients-treatments/find-by-patient', { params });
     }
 
     public createTreatment(patientId: string, treatment: any): Observable<void> {
