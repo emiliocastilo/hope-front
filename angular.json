@@ -25,6 +25,7 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
+              "src/assets/data/vih/guidelines.json",
               "src/assets"
             ],
             "styles": [

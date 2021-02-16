@@ -3,7 +3,7 @@ import { FieldConfig } from 'src/app/core/interfaces/dynamic-forms/field-config.
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 
 @Component({
     selector: 'app-form-search',

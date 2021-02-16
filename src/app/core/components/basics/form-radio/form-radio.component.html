@@ -1,7 +1,7 @@
 <div class="dynamic-field" [formGroup]="group">
     <label class="title-label" [ngClass]="{ 'required-label': required }"> {{ config.label }}</label>
     <div *ngFor="let option of config.radioButton" class="form-check">
-        <input [formControlName]="config.name" type="radio" [name]="config.name" [value]="option.value" [(ngModel)]="config.value" class="form-check-input" />
-        <label [for]="config.name" class="form-check-label"> {{ option.optionName | translate }}</label>
+        <input [formControlName]="config.name" [id]="config.name + option.value" type="radio" [name]="config.name" [value]="option.value" [(ngModel)]="config.value" class="form-check-input" />
+        <label [for]="config.name + option.value" class="form-check-label"> {{ option.optionName | translate }}</label>
     </div>
 </div>

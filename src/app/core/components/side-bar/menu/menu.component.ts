@@ -55,7 +55,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (menu && menu.length > 0) {
             menu.forEach((element) => {
                 element.collapsed = true;
-                element.subsectionVisible = !element.url.includes('/pathology/patients') || (element.url.includes('/pathology/patients') && this._menuService.thereIsPatientSelected);
+                element.subsectionVisible = this._menuService.checkVisibleSection(element);
                 if (element.children && element.children.length > 0) this.collapseAll(element.children);
             });
         }
@@ -68,7 +68,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     updateCollapseState(menu: Array<MenuItemModel>) {
         if (this.currentSection) {
             menu.forEach((item) => {
-                item.subsectionVisible = !item.url.includes('/pathology/patients') || (item.url.includes('/pathology/patients') && this._menuService.thereIsPatientSelected);
+                item.subsectionVisible = this._menuService.checkVisibleSection(item);
                 item.collapsed = this.currentSection.path.includes(item.path) ? false : true;
                 if (!item.collapsed && item.children && item.children.length > 0) this.updateCollapseState(item.children);
                 else item.collapsed = true;

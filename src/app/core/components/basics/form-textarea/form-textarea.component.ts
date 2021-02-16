@@ -10,11 +10,12 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 export class FormTextareaComponent implements OnInit {
     config: FieldConfig;
     group: FormGroup;
-    rows: number = this.config?.rows | 1;
+    rows: number;
     required: boolean = false;
 
     ngOnInit() {
         this.hasRequiredField(this.group.controls[this.config.name]);
+        this.rows = this.config ? this.config.rows : 1;
     }
 
     hasRequiredField(abstractControl: AbstractControl) {

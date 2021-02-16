@@ -12,8 +12,9 @@ import { MedicinesServices } from 'src/app/core/services/medicines/medicines.ser
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 import { JSONTemplateModel } from 'src/app/modules/pathology/models/JSON-template.model';
-import { PatientModel } from 'src/app/modules/pathology/patients/models/patient.model';
+import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { VIHTreatmentModel } from '../../models/vih-treatment.model';
+import { VIHTreatmentService } from '../../services/VIH-treatment.service';
 import { VIHTreatmentModalComponent } from './vih-treatment-modal/vih-treatment-modal.component';
 
 @Component({
@@ -67,11 +68,10 @@ export class VIHTreatmentsComponent implements OnInit {
     constructor(
         private _formService: FormsService,
         private _modalService: NgbModal,
+        private _vihTreatmentService: VIHTreatmentService,
         private _formBuilder: FormBuilder,
         private _notification: NotificationService,
         private _translate: TranslateService,
-        private _indicationService: IndicationService,
-        private _medicinesService: MedicinesServices,
         private _router: Router
     ) {}
 
@@ -95,6 +95,11 @@ export class VIHTreatmentsComponent implements OnInit {
 
     private getData() {
         this.loading = true;
+
+        this._vihTreatmentService.getGuidelines().subscribe((response) => {
+            console.log(response);
+        });
+
         this._formService.getFormData(this.templateDataRequest).subscribe(
             (response: JSONTemplateModel) => {
                 this.treatments = this.mongoToObject(response);

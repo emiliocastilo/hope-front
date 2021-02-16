@@ -25,7 +25,8 @@ export class MedicineModel {
     family?: string;
     subfamily?: string;
     brand?: string;
-    treatmentType: string;
+    treatmentType?: string;
+    name?: string;
 
     constructor(obj?: Partial<MedicineModel>) {
         this.setValuesFromObject(obj);

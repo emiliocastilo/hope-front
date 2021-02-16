@@ -52,6 +52,27 @@ export class NumberChangesBiologicalTreatmentComponent implements OnInit {
         );
     }
 
+    private dataSpecificSort(structure: 'table' | 'chart', data: any[]): any[] {
+        // TODO : Este endpoint necesitará devolver una propiedad con el número de cambios para su ordenación (naive = 0)
+        const sortedData = [];
+
+        if (structure === 'chart') {
+            sortedData[0] = data.filter((f) => f.name === 'Naive al TB')[0];
+            sortedData[1] = data.filter((f) => f.name === '1 cambio')[0];
+            sortedData[2] = data.filter((f) => f.name === '2 cambios')[0];
+            sortedData[3] = data.filter((f) => f.name === '3 cambios')[0];
+            sortedData[4] = data.filter((f) => f.name === 'Más 3 cambios')[0];
+        } else {
+            sortedData[0] = data.filter((f) => f.reasonStopBiologicalTreatment === 'Naive al TB')[0];
+            sortedData[1] = data.filter((f) => f.reasonStopBiologicalTreatment === '1 cambio')[0];
+            sortedData[2] = data.filter((f) => f.reasonStopBiologicalTreatment === '2 cambios')[0];
+            sortedData[3] = data.filter((f) => f.reasonStopBiologicalTreatment === '3 cambios')[0];
+            sortedData[4] = data.filter((f) => f.reasonStopBiologicalTreatment === 'Más 3 cambios')[0];
+        }
+
+        return sortedData;
+    }
+
     private parseDataChart(data: any): ChartObjectModel[] {
         const arrayData = Object.keys(data).map((key) => {
             const object = {
@@ -61,7 +82,7 @@ export class NumberChangesBiologicalTreatmentComponent implements OnInit {
             return object;
         });
 
-        return arrayData;
+        return this.dataSpecificSort('chart', arrayData);
     }
 
     private parseDataTable(data: any): any[] {
@@ -73,7 +94,7 @@ export class NumberChangesBiologicalTreatmentComponent implements OnInit {
             return object;
         });
 
-        return arrayData;
+        return this.dataSpecificSort('table', arrayData);
     }
 
     private parseDataToTableDetails(data: any[]): any[] {

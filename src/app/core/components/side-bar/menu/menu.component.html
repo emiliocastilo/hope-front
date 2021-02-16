@@ -12,13 +12,7 @@
                     <i-feather name="{{ ICONS[menuOption.title] }}" class="feather-thin"></i-feather>
                 </span>
 
-                <a
-                    [ngClass]="{
-                        'nav-link': !collapsed,
-                        'nav-link-hidden': collapsed
-                    }"
-                    (click)="goUrl(menuOption)"
-                >
+                <a [ngClass]="{ 'nav-link': !collapsed, 'nav-link-hidden': collapsed }" (click)="goUrl(menuOption)">
                     {{ menuOption.title }}
                 </a>
 

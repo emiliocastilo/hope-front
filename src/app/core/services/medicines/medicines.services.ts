@@ -13,6 +13,10 @@ export class MedicinesServices {
         return this._http.get(`/medicines?${query}`);
     }
 
+    getAllGrupedBy(query: string): Observable<any> {
+        return this._http.get(`/medicines/groupedBy?${query}`);
+    }
+
     getByText(query: string) {
         return this._http.get(`/medicines/searches?${query}`);
     }

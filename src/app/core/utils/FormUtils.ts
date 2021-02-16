@@ -82,7 +82,6 @@ export default class FormUtils {
 
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
-            // console.log('FormUtils', value.validation);
             fieldConfig.validation = this.parseValidations(validations);
         }
         return fieldConfig;
@@ -502,5 +501,37 @@ export default class FormUtils {
             result = 'Negativo';
         }
         return result;
+    }
+
+    static calculateYearsFromDate(date: Date): number {
+        var diff_ms = Date.now() - date.getTime();
+        var age_dt = new Date(diff_ms);
+        return Math.abs(age_dt.getUTCFullYear() - 1970);
+    }
+
+    static getLocalStoragePatientData(config: FieldConfig[]): FieldConfig[] {
+        const storagedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
+
+        Object.keys(storagedPatient).forEach((field: string) => {
+            if (config.find((f) => f.name === field)) {
+                switch (field) {
+                    case 'name':
+                        config.find((f) => f.name === field).value = `${storagedPatient['name']} ${storagedPatient['firstSurname']} ${storagedPatient['secondSurname'] ? storagedPatient['secondSurname'] : ''}`;
+                        break;
+                    case 'birthDate':
+                        const bdate = new Date(storagedPatient[field]);
+                        config.find((f) => f.name === field).value = `${bdate.getDate()}/${bdate.getMonth()}/${bdate.getFullYear()}`;
+                        config.find((f) => f.name === 'age').value = this.calculateYearsFromDate(bdate);
+                        break;
+                    case 'genderCode':
+                        config.find((f) => f.name === field).value = storagedPatient[field] === 'F' ? '♀' : '♂';
+                        break;
+                    default:
+                        config.find((f) => f.name === field).value = storagedPatient[field];
+                        break;
+                }
+            }
+        });
+        return config;
     }
 }
