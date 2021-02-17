@@ -9,19 +9,19 @@ import { Pagination } from 'src/app/core/models/pagination/pagination/pagination
 export class DermaTreatmentsService {
     constructor(private _http: HttpClient) {}
 
-    private readonly endPoint = '/patients-treatments/find-all-treatments';
+    private readonly endPoint = '/patients-treatments';
 
     public getAll(patientId: string): Observable<Pagination<any>> {
         const params: HttpParams = new HttpParams().set('patientId', patientId);
-        return this._http.get<any>('/patients-treatments/find-by-patient', { params });
+        return this._http.get<any>(`${this.endPoint}/find-by-patient`, { params });
     }
 
     public createTreatment(patientId: string, treatment: any): Observable<void> {
-        return this._http.put<void>(`${this.endPoint}/${patientId}`, treatment);
+        return this._http.put<void>(`${this.endPoint}/new/${patientId}`, treatment);
     }
 
     public updateTreatment(patientId: string, treatment: any): Observable<void> {
-        return this._http.post<void>(`${this.endPoint}/${patientId}`, treatment);
+        return this._http.post<void>(`${this.endPoint}/update/${patientId}`, treatment);
     }
 
     public suspendTreatment(patientId: string, treatment: any): Observable<void> {
@@ -29,6 +29,6 @@ export class DermaTreatmentsService {
     }
 
     public deleteTreatment(patientId: string, treatmentId: string): Observable<void> {
-        return this._http.delete<void>(`${this.endPoint}/${patientId}/${treatmentId}`);
+        return this._http.delete<void>(`${this.endPoint}/delete/${patientId}/${treatmentId}`);
     }
 }
