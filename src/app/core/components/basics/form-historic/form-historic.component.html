@@ -13,7 +13,30 @@
             <label [attr.for]="config.name" class="firefox-position dynamic-label">
                 {{ 'actualValue' | translate }}
             </label>
-            <input NumericInput [attr.id]="config.name" [attr.name]="config.name" class="dynamic-field" [attr.disabled]="config.calculated_front" [type]="today ? 'date' : 'number'" [max]="today" (change)="onChange($event, config.name)" />
+            <input 
+                *ngIf="!today"
+                NumericInput 
+                [attr.id]="config.name" 
+                [attr.name]="config.name" 
+                class="dynamic-field" 
+                [attr.disabled]="config.calculated_front" 
+                type="number"
+                [max]="today" 
+                (change)="onChange($event, config.name)" 
+            />
+            <input 
+                *ngIf="today"
+                NumericInput 
+                [attr.id]="config.name" 
+                [attr.name]="config.name" 
+                class="dynamic-field" 
+                [attr.disabled]="config.calculated_front" 
+                type="date" 
+                [(ngModel)]="today"
+                [ngModelOptions]="{ standalone: true }"
+                [max]="today" 
+                (change)="onChange($event, config.name)" 
+            />
         </div>
     </div>
 </div>

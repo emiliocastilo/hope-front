@@ -16,22 +16,23 @@ export class FormHistoricComponent implements OnInit {
     selectedDate: string;
     today: string;
 
-    constructor() {}
+    constructor() { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.checkIfDate();
         if (this.config.historic && this.config.historic.length > 0) {
             this.recoverHistoric();
         }
     }
 
-    checkIfDate() {
+    checkIfDate () {
         if (this.config.name.includes('date')) {
             this.today = moment(new Date()).format('YYYY-MM-DD');
+            this.onChange({target: { value: this.today }}, this.config.name);
         }
     }
 
-    recoverHistoric() {
+    recoverHistoric () {
         setTimeout(() => {
             const control = this.group.controls[this.config.name] as FormArray;
             control.removeAt(0);
@@ -42,7 +43,7 @@ export class FormHistoricComponent implements OnInit {
         this.oldValue = this.config.historic && this.config.historic.length > 0 ? (this.config.historic[this.config.historic.length - 1] ? this.config.historic[this.config.historic.length - 1].value : '') : '';
     }
 
-    bindToForm(field: any) {
+    bindToForm (field: any) {
         if (!this.oldValue) {
             const control = this.group.controls[this.config.name] as FormArray;
             control.removeAt(0);
@@ -51,7 +52,7 @@ export class FormHistoricComponent implements OnInit {
         this.group.controls[this.config.name].value.push(field);
     }
 
-    onChange(event: any, name: string) {
+    onChange (event: any, name: string) {
         const isFieldDate = name.includes('date');
         if (isFieldDate) {
             this.onSelectDate(event);
@@ -62,7 +63,7 @@ export class FormHistoricComponent implements OnInit {
         });
     }
 
-    onSelectDate(event: any) {
+    onSelectDate (event: any) {
         this.selectedDate = new Date(event.target.value).toISOString();
         localStorage.setItem('historicDate', this.selectedDate);
     }
