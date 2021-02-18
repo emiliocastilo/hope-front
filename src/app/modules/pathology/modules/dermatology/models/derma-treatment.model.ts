@@ -11,21 +11,21 @@ export class DermaTreatmentModel {
     masterFormula?: string;
     masterFormulaDose?: string;
     regimen?: string;
-    initDate?: Date;
-    finalDate?: Date;
+    initDate?: Date | string;
+    finalDate?: Date | string;
     endCause?: string;
     reason?: string;
     lines?: any[];
+    suspensionDate?: Date | string;
 
     // ? Los que faltan
     psychologicalImpact: boolean = false;
-    datePrescription: Date;
-    expectedEndDate: Date;
+    datePrescription: Date | string;
+    expectedEndDate: Date | string;
     observations: string;
     otherDose: string;
     treatmentContinue: boolean = false;
     visibleInjury: boolean = false;
     pulsatileTreatment: boolean = false;
     other: string;
-    suspensionDate: Date;
 }

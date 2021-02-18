@@ -78,7 +78,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
 
     onInput(value: any) {
         this.value = value;
-        this.currentValue = this.options.filter((f) => this._translate.instant(f.name) === value)[0];
+        this.currentValue = this.options.find((f) => this._translate.instant(f.name?.trim()) === value?.trim());
         this.childControl.setValue(this.currentValue);
         if (this.form) this.form.controls[this.id].setValue(this.currentValue);
         this.onChange(this.value);

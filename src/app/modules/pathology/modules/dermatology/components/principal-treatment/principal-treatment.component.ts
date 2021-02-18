@@ -1,23 +1,25 @@
+import { SortModel } from './../../../../../../core/components/table/table.component';
+import { IndicationModel } from './../../../../../management/models/indication/indication.model';
+import { Indication } from './../../../../../dashboard/components/treatments/treatments-patients/treatments-patients.component';
+import { DermaTreatmentModel } from './../../models/derma-treatment.model';
 import { DermaTreatmentsService } from './../../services/derma-treatments.service';
 import { Component, OnInit } from '@angular/core';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { Pagination, PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-modal/confirm-modal.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
-import moment from 'moment';
 import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
-import { DoseModel } from 'src/app/modules/management/models/medicines/dose.model';
 import { constants } from 'src/constants/constants';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
-import { PrincipalTreatmentModalComponent } from '../principal-treatment-modal/principal-treatment-modal.component';
-import { PatientsIndicationService } from 'src/app/modules/management/services/patients-indication/patients-indication.service';
+import { PrincipalTreatmentModalCreateComponent } from '../principal-treatment-modal/principal-tratment-modal-create/principal-treatment-modal-create.component';
+import { PrincipalTreatmentModalSuspendComponent } from '../principal-treatment-modal/principal-tratment-modal-suspend/principal-treatment-modal-suspend.component';
+import moment from 'moment';
 
 @Component({
     selector: 'app-principal-treatment',
@@ -25,11 +27,11 @@ import { PatientsIndicationService } from 'src/app/modules/management/services/p
     styleUrls: ['./principal-treatment.component.scss'],
 })
 export class PrincipalTreatmentComponent implements OnInit {
-    private currentIndication: string;
+    private currentIndication: IndicationModel;
     key = constants.farmacologiesTreatments;
     public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension', 'treatmentType'];
     public actions: TableActionsModel[] = [new TableActionsModel('suspend', 'edit-3'), new TableActionsModel('edit', 'edit-2'), new TableActionsModel('delete', 'trash')];
-    public tableData: any[] = [];
+    public tableData: DermaTreatmentModel[] = [];
     public tableDataFilter: any[] = [];
     private modalFormCreate: FormGroup = this._formBuilder.group({
         indication: ['', Validators.required],
@@ -261,11 +263,11 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.colOrder = '';
         // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
         this.getFormDatas();
-        this.getTreatments();
+        this.getTreatments(this.makeQueryPaginator());
     }
 
-    private getTreatments(): void {
-        this._dermaTreatmentsService.getAll(this.patient.id).subscribe((treatments: Pagination<any>) => {
+    private getTreatments(query: string): void {
+        this._dermaTreatmentsService.getAllByPatient(this.patient.id, query).subscribe((treatments: Pagination<DermaTreatmentModel>) => {
             this.tableData = treatments.content;
             this.paginationData = treatments;
             this.frontPaginated();
@@ -296,17 +298,18 @@ export class PrincipalTreatmentComponent implements OnInit {
     private getFormDatas() {
         this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
+                debugger;
                 let indications = this._indicationService.indications;
                 if (!indications) this.indication = data;
 
                 if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
                     this._indicationService.getList().subscribe((response) => {
-                        this.indication = this._translate.instant(response.filter((f) => f.code === data)[0].description);
-                        this.currentIndication = response.filter((f) => f.code === data)[0].code;
+                        this.currentIndication = response.find((f) => f.code === data);
+                        this.indication = this._translate.instant(this.currentIndication.description);
                     });
                 } else {
                     this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
-                    this.currentIndication = this._indicationService.indications.filter((f) => f.code === data)[0].code;
+                    this.currentIndication = this._indicationService.indications.find((f) => f.code === data);
                 }
             },
             ({ error }) => {
@@ -315,144 +318,27 @@ export class PrincipalTreatmentComponent implements OnInit {
         );
     }
 
-    private setDoses(doses: DoseModel[], modalRef) {
-        const comboData = [];
-        doses.forEach((element: DoseModel, i: number) => comboData.push({ id: i, name: `${element.description} ${element.doseIndicated ? '(' + element.doseIndicated + ')' : ''}` }));
-        comboData.push({ id: doses.length + 1, name: 'Otra' });
-        modalRef.componentInstance.options.dose.options = comboData;
-        return modalRef;
-    }
-
-    private onDoseSelect(event: any) {
-        if (event && event.name === 'Otra') this.modalFormCreate.controls.otherDosis.setValidators(Validators.required);
-        else {
-            this.modalFormCreate.controls.otherDosis.clearValidators();
-            this.modalFormCreate.controls.otherDosis.setValue('');
-        }
-
-        this.modalFormCreate.controls.regimenTreatment.setValue({ name: this._translate.instant('standard') });
-    }
-
     public showModalCreate(): void {
-        this.modalFormCreate.reset({
-            indication: this.indication,
-            specialIndication: false,
-            bigPsychologicalImpact: false,
-            visibleInjury: false,
-            others: '',
-            treatmentType: '',
-            opcionMedicamento: 'opcionMedicamento',
-            opcionFormulaMagistral: null,
-            medicine: '',
-            family: '',
-            atc: '',
-            cn: '',
-            tract: '',
-            dose: '',
-            otherDosis: '',
-            regimenTreatment: '',
-            datePrescription: '',
-            dateStart: '',
-            expectedEndDate: '',
-            observations: '',
-            treatmentContinue: false,
-            treatmentPulsatil: false,
-            descripcionFormulaMagistral: '',
-            dosisFormulaMagistral: '',
-        });
+        let modalRef = this._modalService.open(PrincipalTreatmentModalCreateComponent, { size: 'lg' });
 
-        let modalRef = this._modalService.open(PrincipalTreatmentModalComponent, { size: 'lg' });
-
-        modalRef.componentInstance.type = 'create';
-        modalRef.componentInstance.title = 'newTreatment';
-        modalRef.componentInstance.form = this.modalFormCreate;
-        this.modalOptions.dose.options = [];
-        modalRef.componentInstance.options = this.modalOptions;
-        modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
-            modalRef.componentInstance.options.dose.options = [];
-            modalRef.componentInstance.form.controls.family.setValue(event.family);
-            modalRef.componentInstance.form.controls.atc.setValue(event.codeAtc);
-            modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
-            modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
-
-            this._medicinesService.getDosesByMedicine(`medicineId=${event.id}`).subscribe(
-                (doses: DoseModel[]) => (modalRef = this.setDoses(doses, modalRef)),
-                (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
-            );
-        });
-
-        modalRef.componentInstance.selectDose.subscribe((event: any) => this.onDoseSelect(event));
-
-        modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
-            this.modalFormCreate.controls.descripcionFormulaMagistral.clearValidators();
-            this.modalFormCreate.controls.descripcionFormulaMagistral.setValue('');
-            this.modalFormCreate.controls.dosisFormulaMagistral.setValue('');
-            this.modalFormCreate.controls.treatmentType.setValue(event);
-        });
-
-        modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
-            if (event === 'opcionMedicamento') {
-                this.deleteRequiredValidation(['descripcionFormulaMagistral']);
-                this.setRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
-            }
-            if (event === 'opcionFormulaMagistral') {
-                this.modalFormCreate.controls.descripcionFormulaMagistral.setValidators(Validators.required);
-                this.deleteRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
-            }
-        });
-
+        modalRef.componentInstance.indication = this.currentIndication;
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
-        modalRef.componentInstance.save.subscribe((event: any) => {
-            if (!this.isMedicineRepeated(event)) {
-                event.value.indication = this.currentIndication;
-                event.value.dose = event.value.dose[0] ? event.value.dose[0] : event.controls.dose.value;
-
-                if (Array.isArray(event.value.regimenTreatment)) {
-                    event.value.regimenTreatment = event.value.regimenTreatment[0].name;
-                } else {
-                    if (event.value.regimenTreatment.name) {
-                        event.value.regimenTreatment = event.value.regimenTreatment.name;
-                    }
-                }
-
-                event.value.reasonSuspension = null;
-                event.value.dateSuspension = null;
-                event.value.principle = event.value.medicine.actIngredients;
-                event.value.brand = event.value.medicine.brand;
-                event.value.type = event.value.medicine.family;
-
-                if (Array.isArray(event.value.treatmentType)) {
-                    event.value.treatmentType = event.value.treatmentType[0].id;
-                } else if (event.value.treatmentType.id) {
-                    event.value.treatmentType = event.value.treatmentType.id;
-                }
-                Object.keys(event.value).forEach((key: string) => {
-                    if (key.toLowerCase().includes('date') && event.value[key]) {
-                        event.value[key] = new Date(event.value[key]).toISOString();
-                    }
-                });
-
-                if (!this.tableData) {
-                    this.tableData = [];
-                }
-                this.currentModal = this.modalFormCreate;
-                let newRow = event.value;
-                this._dermaTreatmentsService.createTreatment(this.patient.id, newRow).subscribe(() => this.getTreatments());
-                /*
-            this.save(modalRef, 'create', newRow);
-            this.refreshTable();
-*/
-            } else {
-                this._notification.showErrorToast('duplicatedTreatment');
-            }
+        modalRef.componentInstance.save.subscribe((treatment: DermaTreatmentModel) => {
+            this._dermaTreatmentsService.isMedicineRepeated(this.patient.id, treatment.medicine.id.toString()).subscribe((isRepeated: boolean) => {
+                !isRepeated
+                    ? this._dermaTreatmentsService.createTreatment(treatment).subscribe(
+                          () => this.getTreatments(this.makeQueryPaginator()),
+                          (error) => this._notification.showErrorToast(error.message)
+                      )
+                    : this._notification.showErrorToast('duplicatedTreatment');
+            });
         });
     }
 
     public async showModalSuspend(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
-        dataEdit.indication = this._translate.instant(dataEdit.indication);
-        let form_aux = null;
+        // dataEdit.indication = this._translate.instant(dataEdit.indication);
 
         Object.keys(dataEdit).forEach((key: string) => {
             if (key.toLowerCase().includes('date') && dataEdit[key]) {
@@ -460,93 +346,42 @@ export class PrincipalTreatmentComponent implements OnInit {
             }
         });
 
-        let modalRef = this._modalService.open(PrincipalTreatmentModalComponent, { size: 'lg' });
+        let modalRef = this._modalService.open(PrincipalTreatmentModalSuspendComponent, { size: 'lg' });
 
-        if (dataEdit.treatmentType !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
-            this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
-                (doses: DoseModel[]) => {
-                    modalRef = this.setDoses(doses, modalRef);
-                    this.onDoseSelect({ name: dataEdit.dose.name });
-                },
-                (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
-            );
-        }
+        // if (dataEdit.medicine.treatmentType !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
+        //     this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
+        //         (doses: DoseModel[]) => {
+        //             modalRef = this.setDoses(doses, modalRef);
+        //             this.onDoseSelect({ name: dataEdit.dose.name });
+        //         },
+        //         (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
+        //     );
+        // }
 
-        if (dataEdit.treatmentType === 'TOPICO' && dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral') {
-            form_aux = this.modalFormSuspendTopico;
-            this.currentModal = form_aux;
-        } else {
-            form_aux = this.modalFormSuspend;
-            this.currentModal = form_aux;
-        }
+        // if (dataEdit.treatmentType === 'TOPICO' && dataEdit.opcionFormulaMagistral === 'opcionFormulaMagistral') {
+        //     form_aux = this.modalFormSuspendTopico;
+        //     this.currentModal = form_aux;
+        // } else {
+        //     form_aux = this.modalFormSuspend;
+        //     this.currentModal = form_aux;
+        // }
 
-        this.fillForm(form_aux, dataEdit, type);
-
-        modalRef.componentInstance.type = 'suspend';
-        modalRef.componentInstance.title = 'suspendTreatment';
-        modalRef.componentInstance.form = form_aux;
-        modalRef.componentInstance.options = this.modalOptions;
-        if (!modalRef.componentInstance.form.value.reasonSuspension) {
-            modalRef.componentInstance.form.controls.reasonSuspension.setValue('');
-        } else {
-            modalRef.componentInstance.form.controls.reasonSuspension.setValue({ name: dataEdit.reasonSuspension });
-        }
-
-        modalRef.componentInstance.selectActionType.subscribe((event: any) => {
-            if (event.name === 'suspension') {
-                var currentDate = new Date();
-                var month = (currentDate.getMonth() + 1).toString();
-                var day = currentDate.getDate().toString();
-                month = month.length > 1 ? month : '0' + month;
-                day = day.length > 1 ? day : '0' + day;
-                modalRef.componentInstance.form.controls.dateSuspension.setValidators(Validators.required);
-                modalRef.componentInstance.form.controls.dateSuspension.setValue(currentDate.getFullYear() + '-' + month + '-' + day);
-                modalRef.componentInstance.form.controls.dateSuspension.enable();
-            } else if (event.name === 'change') {
-                modalRef.componentInstance.form.controls.dateSuspension.clearValidators();
-                modalRef.componentInstance.form.controls.dateSuspension.setValue('');
-                modalRef.componentInstance.form.controls.dateSuspension.disable();
-            }
-        });
-
-        modalRef.componentInstance.selectDose.subscribe((event: any) => this.onDoseSelect(event));
+        modalRef.componentInstance.treatment = dataEdit;
         modalRef.componentInstance.cancel.subscribe((event: any) => {
             modalRef.close();
         });
-
-        modalRef.componentInstance.update.subscribe((event: any) => {
-            if (event.value.dose) {
-                event.value.dose = event.value.dose[0] ? event.value.dose[0] : event.controls.dose.value;
-            }
-
-            if (Array.isArray(event.value.regimenTreatment)) {
-                event.value.regimenTreatment = event.value.regimenTreatment[0].name;
-            } else {
-                if (event.value.regimenTreatment.name) {
-                    event.value.regimenTreatment = event.value.regimenTreatment.name;
-                }
-            }
-
-            if (Array.isArray(event.value.reasonSuspension)) {
-                event.value.reasonSuspension = event.value.reasonSuspension[0].name;
-            } else if (event.value.reasonSuspension.name) {
-                event.value.reasonSuspension = event.value.reasonSuspension.name;
-            }
-
+        modalRef.componentInstance.suspend.subscribe((event: any) => {
             Object.keys(event.value).forEach((key: string) => {
                 if (key.toLowerCase().includes('date') && event.value[key]) {
                     event.value[key] = new Date(event.value[key]).toISOString();
                 }
             });
-
             let editedRow = event.value;
-            /*            let indexString = index.toString();
-            this.save(modalRef, 'edit', null, indexString, editedRow);
-*/
-            this._dermaTreatmentsService.suspendTreatment(this.patient.id, editedRow).subscribe(() => this.getTreatments());
+            this._dermaTreatmentsService.suspendTreatment(editedRow).subscribe(() => this.getTreatments(this.makeQueryPaginator()));
         });
     }
 
+    /*
     public async showModalEdit(index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
         dataEdit.indication = this._translate.instant(dataEdit.indication);
@@ -646,7 +481,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             } else {
                 this._notification.showErrorToast('duplicatedTreatment');
             }
-            /*
+            
             Object.keys(event.value).forEach((key: string) => {
                 if (key.toLowerCase().includes('date') && event.value[key]) {
                     event.value[key] = new Date(event.value[key]).toISOString();
@@ -656,7 +491,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             let editedRow = event.value;
             let indexString = index.toString();
             this.save(modalRef, 'edit', null, indexString, editedRow);
-*/
+
         });
     }
 
@@ -673,32 +508,31 @@ export class PrincipalTreatmentComponent implements OnInit {
             /*
             let indexString = index.toString();
             this.save(modalRef, 'delete', null, indexString, null);
-            */
+            
             //this.refreshTable();
         });
     }
-
+*/
     public onIconButtonClick($event: any) {
         var posIndex = this.currentPage * this.paginationData.size + $event.selectedItem;
         switch ($event.type) {
             case 'suspend':
-                this.showModalSuspend(posIndex, $event.type);
+                this.showModalSuspend($event.selectedItem, $event.type);
                 break;
-            case 'edit':
+            /*case 'edit':
                 this.showModalEdit(posIndex, $event.type);
                 break;
             case 'delete':
                 this.showModalConfirmDelete(posIndex, $event.type);
-                break;
+                break;*/
         }
     }
 
     private fillForm(form: FormGroup, values: any, type: string) {
         let formKeys: string[] = Object.keys(form.controls);
-
         formKeys.forEach((key: string) => form.controls[key].setValue(values[key]));
     }
-
+    /*
     private save(modalRef, type, newRow?, index?: string, editedRow?) {
         let repeated = false;
         let found = false;
@@ -756,11 +590,11 @@ export class PrincipalTreatmentComponent implements OnInit {
             );
         }
     }
-
+*/
     private isMedicineRepeated(treatment: any) {
         return this.tableData.find((value: any) => value.id !== treatment.id && value.medicine?.id === treatment.medicine?.id);
     }
-
+    /*
     public sortTableDefault() {
         this.tableData.sort(function (a, b) {
             if (a.dateSuspension === null && b.dateSuspension === null) {
@@ -782,18 +616,35 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.colOrder = event.column;
         this.refreshTable();
     }
-
-    public selectPage(page: number): void {
-        this.currentPage = page;
-        this.refreshTable();
+*/
+    public selectPage(page: number) {
+        if (this.currentPage !== page) {
+            this.currentPage = page;
+            this.getTreatments(this.makeQueryPaginator());
+        }
     }
+
+    public onSort(event: SortModel) {
+        this.colOrder = event.column;
+        this.typeOrder = event.direction;
+        this.getTreatments(this.makeQueryPaginator());
+    }
+
+    private makeQueryPaginator(): string {
+        let query: string = 'page=${this.currentPage}';
+        if (this.colOrder && this.typeOrder) {
+            query += `&sort=${this.colOrder},${this.typeOrder}`;
+        }
+        return query;
+    }
+    /*
 
     public selectItemsPerPage(number: number) {
         this.itemsPerPage = number;
         this.paginationData.size = number;
         this.selectPage(0);
     }
-
+/*
     public refreshTable() {
         if (this.typeOrder === '') {
             this.sortTableDefault();
@@ -826,7 +677,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.tableDataFilter = this.tableData.map((x) => x);
         this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
     }
-
+*/
     private addColorRow(tableData) {
         tableData.forEach((element) => {
             element.rowColor = false;

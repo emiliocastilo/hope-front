@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Pagination } from 'src/app/core/models/pagination/pagination/pagination.model';
+import { DermaTreatmentModel } from '../models/derma-treatment.model';
 
 @Injectable({
     providedIn: 'root',
@@ -11,24 +12,32 @@ export class DermaTreatmentsService {
 
     private readonly endPoint = '/patients-treatments';
 
-    public getAll(patientId: string): Observable<Pagination<any>> {
-        const params: HttpParams = new HttpParams().set('patientId', patientId);
-        return this._http.get<any>(`${this.endPoint}/find-by-patient`, { params });
+    public getAll(): Observable<Pagination<DermaTreatmentModel>> {
+        return this._http.get<Pagination<DermaTreatmentModel>>(`${this.endPoint}/find-all-treatments`);
     }
 
-    public createTreatment(patientId: string, treatment: any): Observable<void> {
-        return this._http.put<void>(`${this.endPoint}/new/${patientId}`, treatment);
+    public getAllByPatient(patientId: string, queryPaginator: string): Observable<Pagination<DermaTreatmentModel>> {
+        return this._http.get<Pagination<DermaTreatmentModel>>(`${this.endPoint}/find-by-patient?patientId=${patientId}${queryPaginator}`);
     }
 
-    public updateTreatment(patientId: string, treatment: any): Observable<void> {
-        return this._http.post<void>(`${this.endPoint}/update/${patientId}`, treatment);
+    public isMedicineRepeated(patientId: string, medicineId: string): Observable<boolean> {
+        const params: HttpParams = new HttpParams().set('patientId', patientId).set('medicineId', medicineId);
+        return this._http.get<boolean>(`/medicines/is-assigned`, { params });
     }
 
-    public suspendTreatment(patientId: string, treatment: any): Observable<void> {
-        return this._http.post<void>(`${this.endPoint}/${patientId}/suspend`, treatment);
+    public createTreatment(treatment: DermaTreatmentModel): Observable<void> {
+        return this._http.post<void>(`${this.endPoint}/new/`, treatment);
     }
 
-    public deleteTreatment(patientId: string, treatmentId: string): Observable<void> {
-        return this._http.delete<void>(`${this.endPoint}/delete/${patientId}/${treatmentId}`);
+    public updateTreatment(treatment: DermaTreatmentModel): Observable<void> {
+        return this._http.post<void>(`${this.endPoint}/update/`, treatment);
+    }
+
+    public suspendTreatment(treatment: DermaTreatmentModel): Observable<void> {
+        return this._http.post<void>(`${this.endPoint}/suspend`, treatment);
+    }
+
+    public deleteTreatment(treatmentId: string): Observable<void> {
+        return this._http.delete<void>(`${this.endPoint}/delete/${treatmentId}`);
     }
 }

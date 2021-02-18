@@ -167,7 +167,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
         Object.keys(medicines).forEach((key: string) => {
             let medicine: MedicineModel = new MedicineModel();
             medicine.name = key;
-            medicine.codeAct = medicines[key];
+            medicine.codeAtc = medicines[key];
             medicinesFormated.push(medicine);
         });
 

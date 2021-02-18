@@ -7,5 +7,5 @@ export interface Pagination<T> {
     size: number;
     totalElements: number;
     totalPages: number;
-    content: T;
+    content: Array<T>;
 }

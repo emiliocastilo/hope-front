@@ -1,0 +1,96 @@
+<div class="modal-content">
+    <app-generic-modal-header [title]="title | translate" (close)="onClose()"> </app-generic-modal-header>
+
+    <form class="row" [formGroup]="form">
+        <div class="col-12">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="reasonSuspension"
+                [form]="form"
+                [labelValue]="'reasonSuspension' | translate"
+                [options]="reasonSuspensionOptions"
+                [placeholder]="'reasonSuspension' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+                [required]="true"
+            >
+            </app-input-select>
+        </div>
+
+        <div class="col-12" [hidden]="isFormulaMagistral">
+            <app-input id="medicine" formControlName="medicine" [label]="'medicine' | translate" [placeholder]="'medicine' | translate" type="text" [invalidLabel]="getInvalidLabel('medicine')" [required]="!isFormulaMagistral" [isDisabled]="true">
+            </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="family" formControlName="family" [label]="'family' | translate" [placeholder]="'family' | translate" type="text" [invalidLabel]="getInvalidLabel('family')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="atc" formControlName="atc" [label]="'atc' | translate" [placeholder]="'atc' | translate" type="text" [invalidLabel]="getInvalidLabel('atc')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="cn" formControlName="cn" [label]="'cn' | translate" [placeholder]="'cn' | translate" type="text" [invalidLabel]="getInvalidLabel('cn')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="tract" formControlName="tract" [label]="'tract' | translate" [placeholder]="'tract' | translate" type="text" [invalidLabel]="getInvalidLabel('tract')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="dose" formControlName="dose" [label]="'dose' | translate" [placeholder]="'dose' | translate" type="text" [invalidLabel]="getInvalidLabel('dose')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="otherDosis" formControlName="otherDosis" [label]="'otherDosis' | translate" [placeholder]="'otherDosis' | translate" type="text" [invalidLabel]="getInvalidLabel('otherDosis')" [isDisabled]="true"> </app-input>
+        </div>
+
+        <div class="col-6" [hidden]="!isFormulaMagistral">
+            <app-input
+                id="descripcionFormulaMagistral"
+                formControlName="descripcionFormulaMagistral"
+                [label]="'descripcionFormulaMagistral' | translate"
+                [placeholder]="'descripcionFormulaMagistral' | translate"
+                type="text"
+                [isDisabled]="true"
+                [invalidLabel]="getInvalidLabel('descripcionFormulaMagistral')"
+                [required]="isFormulaMagistral"
+            >
+            </app-input>
+        </div>
+        <div class="col-6" [hidden]="!isFormulaMagistral">
+            <app-input
+                id="dosisFormulaMagistral"
+                formControlName="dosisFormulaMagistral"
+                [label]="'dosisFormulaMagistral' | translate"
+                [placeholder]="'dosisFormulaMagistral' | translate"
+                type="text"
+                [isDisabled]="true"
+                [invalidLabel]="getInvalidLabel('dosisFormulaMagistral')"
+            >
+            </app-input>
+        </div>
+
+        <div class="col-6">
+            <app-input
+                id="regimenTreatment"
+                formControlName="regimenTreatment"
+                [label]="'regimenTreatment' | translate"
+                [placeholder]="'regimenTreatment' | translate"
+                type="text"
+                [isDisabled]="true"
+                [invalidLabel]="getInvalidLabel('regimenTreatment')"
+            >
+            </app-input>
+        </div>
+        <div class="col-6">
+            <app-input id="dateSuspension" formControlName="dateSuspension" [label]="'dateSuspension' | translate" [placeholder]="'dateSuspension' | translate" type="date" [required]="true" [invalidLabel]="getInvalidLabel('dateSuspension')">
+            </app-input>
+        </div>
+    </form>
+    <div class="row">
+        <label class="requiredLegend">
+            {{ 'requiredLegendText' | translate }}
+        </label>
+    </div>
+
+    <section class="modal-content_button-container">
+        <app-button clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.update" type="button" [disabledButton]="!validForm"> </app-button>
+        <app-button clasesBtn="btn btn-danger" (click)="onClose()" icon="x" type="button" texto="btn.close"> </app-button>
+    </section>
+</div>
