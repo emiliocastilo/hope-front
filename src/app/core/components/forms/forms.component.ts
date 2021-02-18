@@ -49,9 +49,7 @@ export class FormsComponent implements OnInit, OnDestroy {
                         const currentUser = JSON.parse(localStorage.getItem('user'));
                         const cie = currentUser ? currentUser.rolSelected.hospital.cie.replace('CIE', 'CIE ') : 'CIE';
                         data.form = data.form.replace(/{{currentCIE}}/g, cie);
-
                         this.emptyForm = this._parseStringToJSON(data.form);
-
                         const defaultFields = this.emptyForm.filter(f => f.defaultValue === 'today');
 
                         this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
@@ -59,34 +57,11 @@ export class FormsComponent implements OnInit, OnDestroy {
                         if (CleanOnInitTemplates.includes(this.key)) {
                             const defaultValuedField = this.emptyForm.find(f => f.defaultValue !== undefined);
                             if (defaultValuedField?.value != moment(new Date()).format('YYYY-MM-DD')) {
-                                // ! LIMPIA Y ESTABLECE LA FECHA DE HOY
                                 // TODO :: Hacer un cribado más exhaustivo de campos tipo fecha que tengan defaultValue == today
                                 this.config.forEach(item => {
                                     if (!item.disabled) item.value = undefined;
                                 });
                                 this.config.find(f => f.name === defaultValuedField.name).value = moment(new Date()).format('YYYY-MM-DD');
-                                // console.log(this.config);
-                                // console.log(defaultValuedField);
-                                // console.log(defaultValuedField?.defaultValue);
-                                // console.log(moment(new Date()).format('YYYY-MM-DD'));
-                                // console.log(defaultValuedField?.value);
-
-                                // this.config.forEach((item: FieldConfigModel) => {
-                                //     // console.log(item.name, item.value);
-                                //     if (!item.disabled && item.name !== defaultValuedField.name) {
-                                //         item.value = undefined;
-                                //         // const defaultValuedField = defaultFields.find(f => f.name == item.name);
-                                //         // console.log(defaultValuedField);
-                                //         // console.log(item.name, item.value);
-                                //         // console.log(defaultFields);
-
-                                //         // if (defaultValuedField)
-                                //         //     if (defaultValuedField.defaultValue !== 'today') item.value = undefined;
-                                //     }
-                                // });
-
-                            } else {
-                                // ! NO HACE NADA
                             }
                         }
                         const buttons = this._parseStringToJSON(data.buttons);
