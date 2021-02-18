@@ -83,8 +83,8 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
         if (this.validForm) {
             const treatmentData = this.form.value;
             const patientTreatment: DermaTreatmentModel = {
-                datePrescription: new Date(treatmentData.datePrescription).toISOString(),
-                expectedEndDate: new Date(treatmentData.expectedEndDate).toISOString(),
+                datePrescription: treatmentData.datePrescription ? new Date(treatmentData.datePrescription).toISOString() : '',
+                expectedEndDate: treatmentData.expectedEndDate ? new Date(treatmentData.expectedEndDate).toISOString() : '',
                 type: treatmentData.treatmentType.id,
                 patientDiagnose: { id: this.indication.id },
                 regimen: treatmentData.regimenTreatment?.name,
@@ -93,7 +93,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
                 dose: treatmentData.dose?.name,
                 masterFormula: treatmentData.descripcionFormulaMagistral,
                 masterFormulaDose: treatmentData.dosisFormulaMagistral,
-                initDate: new Date(treatmentData.dateStart).toISOString(),
+                initDate: treatmentData.dateStart ? new Date(treatmentData.dateStart).toISOString() : '',
                 psychologicalImpact: treatmentData.bigPsychologicalImpact,
                 observations: treatmentData.observations,
                 otherDose: treatmentData.otherDosis,

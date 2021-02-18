@@ -1,6 +1,5 @@
 import { SortModel } from './../../../../../../core/components/table/table.component';
 import { IndicationModel } from './../../../../../management/models/indication/indication.model';
-import { Indication } from './../../../../../dashboard/components/treatments/treatments-patients/treatments-patients.component';
 import { DermaTreatmentModel } from './../../models/derma-treatment.model';
 import { DermaTreatmentsService } from './../../services/derma-treatments.service';
 import { Component, OnInit } from '@angular/core';
@@ -261,7 +260,6 @@ export class PrincipalTreatmentComponent implements OnInit {
         this.currentPage = 1;
         this.typeOrder = '';
         this.colOrder = '';
-        // const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
         this.getFormDatas();
         this.getTreatments(this.makeQueryPaginator());
     }
@@ -298,7 +296,6 @@ export class PrincipalTreatmentComponent implements OnInit {
     private getFormDatas() {
         this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
-                debugger;
                 let indications = this._indicationService.indications;
                 if (!indications) this.indication = data;
 
@@ -631,7 +628,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     private makeQueryPaginator(): string {
-        let query: string = 'page=${this.currentPage}';
+        let query: string = `&page=${this.currentPage}`;
         if (this.colOrder && this.typeOrder) {
             query += `&sort=${this.colOrder},${this.typeOrder}`;
         }
