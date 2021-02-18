@@ -8,6 +8,8 @@ import { FormsService } from '../../../services/forms/forms.service';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { DynamicFormService } from '../../../services/dynamic-form/dynamic-form.service';
 import { Subscription } from 'rxjs';
+import { FieldConfigModel } from 'src/app/core/models/forms/field-config.model';
+import { ParsedProperty } from '@angular/compiler';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -33,16 +35,28 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return this.config.filter(({ type }) => type !== 'button' || 'title');
     }
     get changes() {
+        if (!this.isModal) {
+            if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
+            this._formsService.updateTemplateObject(this.form);
+        }
         return this.form.valueChanges;
     }
     get valid() {
         return this.form.valid;
     }
     get value() {
+        if (!this.isModal) {
+            if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
+            this._formsService.updateTemplateObject(this.form);
+        }
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {}
+    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {
+        this.form?.valueChanges.subscribe((f) => {
+            if (!this.isModal) this._formsService.updateTemplateObject(this.form);
+        });
+    }
 
     ngOnInit() {
         if (this.isAccordion) this.form = this._dynamicFormService.form;
@@ -52,6 +66,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             this.form = form;
             this.detectCalculated();
             this.displayElement(this.config);
+            if (!this.isAccordion) this._formsService.currentConfig = { key: this.key, config: this.config };
         });
 
         if (this.isModal) {
@@ -67,6 +82,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
             if (this.key === 'personal-information') this.config = FormUtils.getLocalStoragePatientData(this.config);
             const controls = Object.keys(this.form.controls);
             const configControls = this.controls.map((item) => item.name);
+            const parsedData = [];
 
             controls.filter((control) => !configControls.includes(control)).forEach((control) => this.form.removeControl(control));
             configControls
@@ -86,8 +102,10 @@ export class DynamicFormComponent implements OnChanges, OnInit {
                         this.form.addControl(name, this.createHistoric(config));
                     }
                 });
+
             this.detectCalculatedBack();
             this.detectCalculated();
+
             if (!this.isModal) this._dynamicFormService.setForm(this.form);
         }
     }
@@ -272,6 +290,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
 
     handleSubmit(event: Event) {
+        console.log(event);
+        if (!this.isModal) {
+            if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
+            this._formsService.updateTemplateObject(this.form);
+        }
         event.preventDefault();
         event.stopPropagation();
         if (this.valid && this.validationHistoric(event)) {

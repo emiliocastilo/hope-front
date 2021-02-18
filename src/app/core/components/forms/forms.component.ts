@@ -18,6 +18,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     public config: FieldConfig[] = [];
     public buttons: string[] = [];
     public filledForm: any;
+
     @Input() key = '';
     patient: PatientModel;
     emptyForm: any;

@@ -115,8 +115,6 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
                         )
                     );
 
-                    this.globalDates = [];
-
                     this.firstDate = this.globalDates[0];
                     this.lastDate = this.globalDates[this.globalDates.length - 1];
                     this.setConfigGannt();
