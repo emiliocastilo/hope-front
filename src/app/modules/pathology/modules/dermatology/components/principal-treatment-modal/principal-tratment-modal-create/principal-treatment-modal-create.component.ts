@@ -17,12 +17,13 @@ enum TREATMENT_TYPE {
 }
 
 @Component({
-    selector: 'app-principal-treatment-modal',
+    selector: 'app-principal-treatment-modal-create',
     templateUrl: './principal-treatment-modal-create.component.html',
     styleUrls: ['./principal-treatment-modal-create.component.scss'],
 })
 export class PrincipalTreatmentModalCreateComponent implements OnInit {
     @Input() indication: IndicationModel;
+    @Input() patientId: string;
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     @Output() save: EventEmitter<DermaTreatmentModel> = new EventEmitter();
 
@@ -86,7 +87,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
                 datePrescription: treatmentData.datePrescription ? new Date(treatmentData.datePrescription).toISOString() : '',
                 expectedEndDate: treatmentData.expectedEndDate ? new Date(treatmentData.expectedEndDate).toISOString() : '',
                 type: treatmentData.treatmentType.id,
-                patientDiagnose: { id: this.indication.id },
+                patientDiagnose: { indication: this.indication, patient: { id: this.patientId } },
                 regimen: treatmentData.regimenTreatment?.name,
                 active: true,
                 medicine: treatmentData.medicine,

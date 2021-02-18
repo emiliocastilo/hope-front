@@ -1,3 +1,4 @@
+import { PrincipalTreatmentModalEditComponent } from './../principal-treatment-modal/principal-tratment-modal-edit/principal-treatment-modal-edit.component';
 import { SortModel } from './../../../../../../core/components/table/table.component';
 import { IndicationModel } from './../../../../../management/models/indication/indication.model';
 import { DermaTreatmentModel } from './../../models/derma-treatment.model';
@@ -268,11 +269,10 @@ export class PrincipalTreatmentComponent implements OnInit {
         this._dermaTreatmentsService.getAllByPatient(this.patient.id, query).subscribe((treatments: Pagination<DermaTreatmentModel>) => {
             this.tableData = treatments.content;
             this.paginationData = treatments;
-            this.frontPaginated();
         });
     }
 
-    async getForm() {
+    private async getForm() {
         const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
 
         if (retrievedForm && retrievedForm.data.length > 0) {
@@ -283,16 +283,15 @@ export class PrincipalTreatmentComponent implements OnInit {
                 size: this.sizeTable,
                 totalElements: this.tableData.length,
             };
-            this.frontPaginated();
         }
     }
-
+    /*
     private frontPaginated() {
         this.addColorRow(this.tableData);
         this.tableDataFilter = this.tableData.map((x) => x);
         this.tableDataFilter = this.tableDataFilter.splice(this.paginationData.number * this.paginationData.size, this.paginationData.size);
     }
-
+*/
     private getFormDatas() {
         this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
@@ -319,13 +318,17 @@ export class PrincipalTreatmentComponent implements OnInit {
         let modalRef = this._modalService.open(PrincipalTreatmentModalCreateComponent, { size: 'lg' });
 
         modalRef.componentInstance.indication = this.currentIndication;
+        modalRef.componentInstance.patientId = this.patient.id;
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
         modalRef.componentInstance.save.subscribe((treatment: DermaTreatmentModel) => {
             this._dermaTreatmentsService.isMedicineRepeated(this.patient.id, treatment.medicine.id.toString()).subscribe((isRepeated: boolean) => {
                 !isRepeated
                     ? this._dermaTreatmentsService.createTreatment(treatment).subscribe(
-                          () => this.getTreatments(this.makeQueryPaginator()),
+                          () => {
+                              modalRef.close();
+                              this.selectPage(0);
+                          },
                           (error) => this._notification.showErrorToast(error.message)
                       )
                     : this._notification.showErrorToast('duplicatedTreatment');
@@ -378,10 +381,8 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
     }
 
-    /*
     public async showModalEdit(index: number, type: string) {
-        const dataEdit = { ...this.tableData[index] };
-        dataEdit.indication = this._translate.instant(dataEdit.indication);
+        const dataEdit: DermaTreatmentModel = { ...this.tableData[index] };
 
         Object.keys(dataEdit).forEach((key: string) => {
             if (key.toLowerCase().includes('date') && dataEdit[key]) {
@@ -390,126 +391,123 @@ export class PrincipalTreatmentComponent implements OnInit {
         });
 
         this.fillForm(this.modalFormEdit, dataEdit, type);
-        let modalRef = this._modalService.open(PrincipalTreatmentModalComponent, {
-            size: 'lg',
-        });
-        this.modalFormEdit.get('reasonSuspension').reset();
+        let modalRef = this._modalService.open(PrincipalTreatmentModalEditComponent, { size: 'lg' });
 
-        if (dataEdit.treatmentType.id !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
-            this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
-                (doses: DoseModel[]) => {
-                    modalRef = this.setDoses(doses, modalRef);
-                    this.onDoseSelect({ name: dataEdit.dose.name });
-                },
-                (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
-            );
-        }
-
-        modalRef.componentInstance.type = 'edit';
-        modalRef.componentInstance.title = 'editTreatment';
-        modalRef.componentInstance.form = this.modalFormEdit;
-        this.currentModal = this.modalFormEdit;
-        modalRef.componentInstance.options = this.modalOptions;
-
-        if (this.modalFormEdit.value.dose && this.modalFormEdit.value.dose.name && this.modalFormEdit.value.dose.name === 'Otra') {
-            this.modalFormEdit.controls.otherDosis.setValidators(Validators.required);
-        }
-
-        //seteamos el select del tipo de tratamiento para que venga seleccionado.
-        modalRef.componentInstance.form.controls.treatmentType.setValue(this.modalFormEdit.value.treatmentType);
-        modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
-            modalRef.componentInstance.options.dose.options = [];
-
-            modalRef.componentInstance.form.controls.family.setValue(event.family);
-            modalRef.componentInstance.form.controls.atc.setValue(event.codeAtc);
-            modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
-            modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
-
-            this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
-                (doses: DoseModel[]) => (modalRef = this.setDoses(doses, modalRef)),
-                (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
-            );
-        });
-
-        modalRef.componentInstance.selectDose.subscribe((event: any) => this.onDoseSelect(event));
-        modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
-            //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
-            this.modalFormEdit.controls.descripcionFormulaMagistral.clearValidators();
-            this.modalFormEdit.controls.descripcionFormulaMagistral.setValue('');
-            this.modalFormEdit.controls.dosisFormulaMagistral.setValue('');
-        });
-
-        modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
-            if (event === 'opcionMedicamento') {
-                this.deleteRequiredValidation(['descripcionFormulaMagistral']);
-                this.setRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
-            }
-            if (event === 'opcionFormulaMagistral') {
-                this.modalFormEdit.controls.descripcionFormulaMagistral.setValidators(Validators.required);
-                this.deleteRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
-            }
-        });
-
-        modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
-
-        modalRef.componentInstance.update.subscribe((event: any) => {
-            if (!this.isMedicineRepeated(event)) {
-                if (Array.isArray(event.value.dose)) {
-                    event.value.dose = event.value.dose[0];
-                }
-                if (Array.isArray(event.value.regimenTreatment)) {
-                    event.value.regimenTreatment = event.value.regimenTreatment[0].name;
-                } else {
-                    if (event.value.regimenTreatment.name) {
-                        event.value.regimenTreatment = event.value.regimenTreatment.name;
-                    }
-                }
-                if (Array.isArray(event.value.treatmentType)) {
-                    event.value.treatmentType = event.value.treatmentType[0].id;
-                } else {
-                    if (event.value.treatmentType.id) event.value.treatmentType = event.value.treatmentType.id;
-                }
-
-                event.value.principle = event.value.medicine.actIngredients;
-                event.value.brand = event.value.medicine.brand;
-                event.value.type = event.value.medicine.family;
-
-                this._dermaTreatmentsService.updateTreatment(this.patient.id, event).subscribe(() => this.getTreatments());
-            } else {
-                this._notification.showErrorToast('duplicatedTreatment');
-            }
-            
-            Object.keys(event.value).forEach((key: string) => {
-                if (key.toLowerCase().includes('date') && event.value[key]) {
-                    event.value[key] = new Date(event.value[key]).toISOString();
-                }
+        /*     if (dataEdit.treatmentType.id !== 'TOPICO' && dataEdit.opcionFormulaMagistral !== 'opcionFormulaMagistral') {
+                 this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
+                     (doses: DoseModel[]) => {
+                         modalRef = this.setDoses(doses, modalRef);
+                         this.onDoseSelect({ name: dataEdit.dose.name });
+                     },
+                     (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
+                 );
+             }
+     
+             modalRef.componentInstance.type = 'edit';
+             modalRef.componentInstance.title = 'editTreatment';
+             modalRef.componentInstance.form = this.modalFormEdit;
+             this.currentModal = this.modalFormEdit;
+             modalRef.componentInstance.options = this.modalOptions;
+     
+             if (this.modalFormEdit.value.dose && this.modalFormEdit.value.dose.name && this.modalFormEdit.value.dose.name === 'Otra') {
+                 this.modalFormEdit.controls.otherDosis.setValidators(Validators.required);
+             }
+     
+             //seteamos el select del tipo de tratamiento para que venga seleccionado.
+             modalRef.componentInstance.form.controls.treatmentType.setValue(this.modalFormEdit.value.treatmentType);
+             modalRef.componentInstance.selectInputTypeahead.subscribe((event: any) => {
+                 modalRef.componentInstance.options.dose.options = [];
+     
+                 modalRef.componentInstance.form.controls.family.setValue(event.family);
+                 modalRef.componentInstance.form.controls.atc.setValue(event.codeAtc);
+                 modalRef.componentInstance.form.controls.cn.setValue(event.nationalCode);
+                 modalRef.componentInstance.form.controls.tract.setValue(event.viaAdministration);
+     
+                 this._medicinesService.getDosesByMedicine(`medicineId=${dataEdit.medicine.id}`).subscribe(
+                     (doses: DoseModel[]) => (modalRef = this.setDoses(doses, modalRef)),
+                     (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
+                 );
+             });
+     
+             modalRef.componentInstance.selectDose.subscribe((event: any) => this.onDoseSelect(event));
+             modalRef.componentInstance.selectTreatmentType.subscribe((event: any) => {
+                 //si cambiamos el tipo de tratamiento, limpiamos lo que hubiese en las opciones de la formula magistral
+                 this.modalFormEdit.controls.descripcionFormulaMagistral.clearValidators();
+                 this.modalFormEdit.controls.descripcionFormulaMagistral.setValue('');
+                 this.modalFormEdit.controls.dosisFormulaMagistral.setValue('');
+             });
+     
+             modalRef.componentInstance.selectTopicalType.subscribe((event: any) => {
+                 if (event === 'opcionMedicamento') {
+                     this.deleteRequiredValidation(['descripcionFormulaMagistral']);
+                     this.setRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+                 }
+                 if (event === 'opcionFormulaMagistral') {
+                     this.modalFormEdit.controls.descripcionFormulaMagistral.setValidators(Validators.required);
+                     this.deleteRequiredValidation(['medicine', 'family', 'atc', 'cn', 'tract', 'dose', 'otherDosis']);
+                 }
+             });
+     
+             modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
+     
+             modalRef.componentInstance.update.subscribe((event: any) => {
+                 if (!this.isMedicineRepeated(event)) {
+                     if (Array.isArray(event.value.dose)) {
+                         event.value.dose = event.value.dose[0];
+                     }
+                     if (Array.isArray(event.value.regimenTreatment)) {
+                         event.value.regimenTreatment = event.value.regimenTreatment[0].name;
+                     } else {
+                         if (event.value.regimenTreatment.name) {
+                             event.value.regimenTreatment = event.value.regimenTreatment.name;
+                         }
+                     }
+                     if (Array.isArray(event.value.treatmentType)) {
+                         event.value.treatmentType = event.value.treatmentType[0].id;
+                     } else {
+                         if (event.value.treatmentType.id) event.value.treatmentType = event.value.treatmentType.id;
+                     }
+     
+                     event.value.principle = event.value.medicine.actIngredients;
+                     event.value.brand = event.value.medicine.brand;
+                     event.value.type = event.value.medicine.family;
+     
+                     this._dermaTreatmentsService.updateTreatment(this.patient.id, event).subscribe(() => this.getTreatments());
+                 } else {
+                     this._notification.showErrorToast('duplicatedTreatment');
+                 }
+                 
+                 Object.keys(event.value).forEach((key: string) => {
+                     if (key.toLowerCase().includes('date') && event.value[key]) {
+                         event.value[key] = new Date(event.value[key]).toISOString();
+                     }
+                 });
+     
+                 let editedRow = event.value;
+                 let indexString = index.toString();
+                 this.save(modalRef, 'edit', null, indexString, editedRow);
+     
+             });*/
+    }
+    /*
+        private showModalConfirmDelete(index: number, type: string) {
+            const modalRef = this._modalService.open(ConfirmModalComponent);
+    
+            modalRef.componentInstance.title = this._translate.instant('btn.delete');
+            modalRef.componentInstance.messageModal = this._translate.instant('areYouSureDelete');
+            modalRef.componentInstance.cancel.subscribe((event: any) => {
+                modalRef.close();
             });
-
-            let editedRow = event.value;
-            let indexString = index.toString();
-            this.save(modalRef, 'edit', null, indexString, editedRow);
-
-        });
-    }
-
-    private showModalConfirmDelete(index: number, type: string) {
-        const modalRef = this._modalService.open(ConfirmModalComponent);
-
-        modalRef.componentInstance.title = this._translate.instant('btn.delete');
-        modalRef.componentInstance.messageModal = this._translate.instant('areYouSureDelete');
-        modalRef.componentInstance.cancel.subscribe((event: any) => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.accept.subscribe((event: any) => {
-            this._dermaTreatmentsService.deleteTreatment(this.patient.id, this.tableData[Number(index)].id).subscribe(() => this.getTreatments());
-            /*
-            let indexString = index.toString();
-            this.save(modalRef, 'delete', null, indexString, null);
-            
-            //this.refreshTable();
-        });
-    }
-*/
+            modalRef.componentInstance.accept.subscribe((event: any) => {
+                this._dermaTreatmentsService.deleteTreatment(this.patient.id, this.tableData[Number(index)].id).subscribe(() => this.getTreatments());
+                /*
+                let indexString = index.toString();
+                this.save(modalRef, 'delete', null, indexString, null);
+                
+                //this.refreshTable();
+            });
+        }
+    */
     public onIconButtonClick($event: any) {
         var posIndex = this.currentPage * this.paginationData.size + $event.selectedItem;
         switch ($event.type) {
@@ -588,25 +586,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
     }
 */
-    private isMedicineRepeated(treatment: any) {
-        return this.tableData.find((value: any) => value.id !== treatment.id && value.medicine?.id === treatment.medicine?.id);
-    }
     /*
-    public sortTableDefault() {
-        this.tableData.sort(function (a, b) {
-            if (a.dateSuspension === null && b.dateSuspension === null) {
-                return a.dateStart < b.dateStart ? 1 : -1;
-            } else if (a.dateSuspension != null && b.dateSuspension != null) {
-                return a.dateSuspension < b.dateSuspension ? 1 : -1;
-            } else {
-                if (a.dateSuspension === null) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        });
-    }
 
     public onSort(event: any) {
         this.typeOrder = event.direction;
