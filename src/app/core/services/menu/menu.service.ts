@@ -116,7 +116,8 @@ export class MenuService {
     }
 
     public setCurrentSection(section?: MenuItemModel) {
-        if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
+        // if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
+        if (this._formService.getSavedForm()) {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
             if (!this.allSections) this.fillSections(this.fullMenu);
             if (!this.pathologyPath) this.setPathologyPath();
@@ -186,13 +187,14 @@ export class MenuService {
         });
 
         modalRef.componentInstance.accept.subscribe((event) => {
-            modalRef.close();
             this._formService.updateForm(this._formService.currentForm).subscribe(
                 (response) => {
+                    this._formService.setMustBeSaved(false);
                     this._formService.setSavedStatusForm(true);
                     section ? this.setCurrentSection(section) : this.setCurrentSection();
                 },
-                (error) => this._notificationService.showErrorToast('API-001')
+                (error) => this._notificationService.showErrorToast('API-001'),
+                () => modalRef.close()
             );
         });
     }

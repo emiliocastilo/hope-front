@@ -106,6 +106,8 @@ export class FormsService {
             }
         });
 
+        this.savedForm = false;
+
         const form2save = {
             template: this.currentConfig.key,
             data: parsedData,

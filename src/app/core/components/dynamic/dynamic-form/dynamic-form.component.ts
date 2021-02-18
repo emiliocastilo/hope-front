@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FieldConfig } from '../../../interfaces/dynamic-forms/field-config.interface';
 import FormUtils from '../../../utils/FormUtils';
@@ -8,8 +8,7 @@ import { FormsService } from '../../../services/forms/forms.service';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { DynamicFormService } from '../../../services/dynamic-form/dynamic-form.service';
 import { Subscription } from 'rxjs';
-import { FieldConfigModel } from 'src/app/core/models/forms/field-config.model';
-import { ParsedProperty } from '@angular/compiler';
+import { AvoidSaveMessageTemplates } from '../../../enum/template-cases.enum';
 
 @Component({
     exportAs: 'dynamicForm',
@@ -17,9 +16,11 @@ import { ParsedProperty } from '@angular/compiler';
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent implements OnChanges, OnInit {
+export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
     private currentPatient: PatientModel = JSON.parse(localStorage.getItem('selectedPatient'));
     private formObserver: Subscription;
+    private onLoad: boolean = true;
+    private formValueChangeSubscription: Subscription;
 
     @Input() config: FieldConfig[] = [];
     @Input() buttons: string[] = [];
@@ -35,38 +36,41 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         return this.config.filter(({ type }) => type !== 'button' || 'title');
     }
     get changes() {
-        if (!this.isModal) {
-            if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
-            this._formsService.updateTemplateObject(this.form);
-        }
         return this.form.valueChanges;
     }
     get valid() {
         return this.form.valid;
     }
     get value() {
-        if (!this.isModal) {
-            if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
-            this._formsService.updateTemplateObject(this.form);
-        }
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {
-        this.form?.valueChanges.subscribe((f) => {
-            if (!this.isModal) this._formsService.updateTemplateObject(this.form);
-        });
-    }
+    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService) {}
 
     ngOnInit() {
+        this.onLoad = true;
         if (this.isAccordion) this.form = this._dynamicFormService.form;
         else this.form = new FormGroup({});
 
         this.formObserver = this._dynamicFormService.getForm().subscribe((form: FormGroup) => {
-            this.form = form;
-            this.detectCalculated();
-            this.displayElement(this.config);
-            if (!this.isAccordion) this._formsService.currentConfig = { key: this.key, config: this.config };
+            if (this.config.length > 0) {
+                this.onLoad = true;
+                if (this.formValueChangeSubscription) this.formValueChangeSubscription.unsubscribe();
+
+                this.form = form;
+                this.detectCalculated();
+                this.displayElement(this.config);
+
+                if (!this.isAccordion) this._formsService.currentConfig = { key: this.key, config: this.config };
+
+                this.formValueChangeSubscription = this.form.valueChanges.subscribe((f) => {
+                    if (!this.onLoad && !this.isModal) this._formsService.updateTemplateObject(this.form);
+                });
+                setTimeout(() => {
+                    this.onLoad = false;
+                    this._formsService.setSavedStatusForm(true);
+                }, 1000);
+            }
         });
 
         if (this.isModal) {
@@ -290,7 +294,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
 
     handleSubmit(event: Event) {
-        console.log(event);
         if (!this.isModal) {
             if (!this.isAccordion) this._formsService.currentConfig = { config: this.config, key: this.key };
             this._formsService.updateTemplateObject(this.form);
@@ -424,5 +427,10 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
     private isStringEmpty(text: string): boolean {
         return !text || text === null || text === undefined || text === '';
+    }
+
+    ngOnDestroy() {
+        this.formValueChangeSubscription.unsubscribe();
+        this.formObserver.unsubscribe();
     }
 }
