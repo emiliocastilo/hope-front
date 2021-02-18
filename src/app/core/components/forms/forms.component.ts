@@ -8,6 +8,9 @@ import { NotificationService } from '../../services/notification.service';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { HttpClient } from '@angular/common/http';
 import { HealthOutcomeService } from 'src/app/modules/pathology/modules/dermatology/services/health-outcome.service';
+import { CleanOnInitTemplates } from '../../enum/template-cases.enum';
+import { FieldConfigModel } from '../../models/forms/field-config.model';
+import moment from 'moment';
 
 @Component({
     selector: 'app-forms',
@@ -23,45 +26,89 @@ export class FormsComponent implements OnInit, OnDestroy {
     patient: PatientModel;
     emptyForm: any;
 
-    constructor(private _formsService: FormsService, public _translate: TranslateService, private _notification: NotificationService, private hoService: HealthOutcomeService, private _http: HttpClient) {}
+    constructor(private _formsService: FormsService, public _translate: TranslateService, private _notification: NotificationService, private hoService: HealthOutcomeService, private _http: HttpClient) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.getPatientId();
         this.getAndParseForm();
     }
 
-    getPatientId() {
+    getPatientId () {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
-    async getAndParseForm() {
-        const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
-        if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
-            this.filledForm = retrievedForm.data;
-        }
-        const data: any = await this._formsService.get(this.key);
-        if (data) {
-            const currentUser = JSON.parse(localStorage.getItem('user'));
-            const cie = currentUser ? currentUser.rolSelected.hospital.cie.replace('CIE', 'CIE ') : 'CIE';
-            data.form = data.form.replace(/{{currentCIE}}/g, cie);
+    getAndParseForm () {
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe(
+            (retrievedForm: any) => {
+                if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
+                    this.filledForm = retrievedForm.data;
+                }
 
-            this.emptyForm = this._parseStringToJSON(data.form);
-            this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
-            const buttons = this._parseStringToJSON(data.buttons);
-            this.buttons = FormUtils.createButtons(buttons);
-        } else {
-            this._notification.showErrorToast('formNotFound');
-        }
-        this.detectCalculatedBackOnInit();
-        this._formsService.setSavedStatusForm(true);
-        this.buttons.forEach((button) => {
-            if (button === 'save') {
-                this._formsService.setMustBeSaved(true);
+                this._formsService.get(this.key).subscribe(
+                    (data: any) => {
+                        const currentUser = JSON.parse(localStorage.getItem('user'));
+                        const cie = currentUser ? currentUser.rolSelected.hospital.cie.replace('CIE', 'CIE ') : 'CIE';
+                        data.form = data.form.replace(/{{currentCIE}}/g, cie);
+
+                        this.emptyForm = this._parseStringToJSON(data.form);
+
+                        const defaultFields = this.emptyForm.filter(f => f.defaultValue === 'today');
+
+                        this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
+
+                        if (CleanOnInitTemplates.includes(this.key)) {
+                            const defaultValuedField = this.emptyForm.find(f => f.defaultValue !== undefined);
+                            if (defaultValuedField?.value != moment(new Date()).format('YYYY-MM-DD')) {
+                                // ! LIMPIA Y ESTABLECE LA FECHA DE HOY
+                                // TODO :: Hacer un cribado más exhaustivo de campos tipo fecha que tengan defaultValue == today
+                                this.config.forEach(item => {
+                                    if (!item.disabled) item.value = undefined;
+                                });
+                                this.config.find(f => f.name === defaultValuedField.name).value = moment(new Date()).format('YYYY-MM-DD');
+                                // console.log(this.config);
+                                // console.log(defaultValuedField);
+                                // console.log(defaultValuedField?.defaultValue);
+                                // console.log(moment(new Date()).format('YYYY-MM-DD'));
+                                // console.log(defaultValuedField?.value);
+
+                                // this.config.forEach((item: FieldConfigModel) => {
+                                //     // console.log(item.name, item.value);
+                                //     if (!item.disabled && item.name !== defaultValuedField.name) {
+                                //         item.value = undefined;
+                                //         // const defaultValuedField = defaultFields.find(f => f.name == item.name);
+                                //         // console.log(defaultValuedField);
+                                //         // console.log(item.name, item.value);
+                                //         // console.log(defaultFields);
+
+                                //         // if (defaultValuedField)
+                                //         //     if (defaultValuedField.defaultValue !== 'today') item.value = undefined;
+                                //     }
+                                // });
+
+                            } else {
+                                // ! NO HACE NADA
+                            }
+                        }
+                        const buttons = this._parseStringToJSON(data.buttons);
+                        this.buttons = FormUtils.createButtons(buttons);
+
+                        this.detectCalculatedBackOnInit();
+                        this._formsService.setSavedStatusForm(true);
+
+                        this.buttons.forEach((button) => {
+                            if (button === 'save') {
+                                this._formsService.setMustBeSaved(true);
+                            }
+                        });
+                    }, error => this._notification.showErrorToast('formNotFound')
+                );
             }
-        });
+        );
+
+
     }
 
-    submit(value: { [name: string]: any }) {
+    submit (value: { [name: string]: any }) {
         console.log(value);
         if (value) {
             const form = {
@@ -84,7 +131,7 @@ export class FormsComponent implements OnInit, OnDestroy {
                     result: value.clasificationScore,
                 };
                 this.hoService.saveScore([ho]).subscribe(
-                    () => {},
+                    () => { },
                     ({ error }) => {
                         this._notification.showErrorToast(error.errorCode);
                     }
@@ -95,7 +142,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         }
     }
 
-    detectCalculatedBackOnInit() {
+    detectCalculatedBackOnInit () {
         const calculatedFields = this.config.filter((e) => e.calculated_back && e.event === 'init');
         const params = [];
         if (calculatedFields && calculatedFields.length > 0) {
@@ -114,7 +161,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         }
     }
 
-    checkHistoricField(val: any) {
+    checkHistoricField (val: any) {
         this.emptyForm.forEach((field) => {
             if (field.type === 'historic') {
                 const entry = {
@@ -137,7 +184,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         );
     }
 
-    fillForm(form: any) {
+    fillForm (form: any) {
         this._formsService.fillForm(form).subscribe(
             () => {
                 this.getAndParseForm();
@@ -150,7 +197,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         );
     }
 
-    updateForm(form: any) {
+    updateForm (form: any) {
         this._formsService.updateForm(form).subscribe(
             (data: any) => {
                 this.getAndParseForm();
@@ -163,12 +210,12 @@ export class FormsComponent implements OnInit, OnDestroy {
         );
     }
 
-    private _parseStringToJSON(form: string): JSON {
+    private _parseStringToJSON (form: string): JSON {
         //TODO: check if json is valid
         return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
     }
 
-    ngOnDestroy() {
+    ngOnDestroy () {
         this._formsService.setSavedStatusForm(true);
     }
 }
