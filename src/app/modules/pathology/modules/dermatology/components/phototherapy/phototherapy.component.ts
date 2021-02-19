@@ -137,21 +137,21 @@ export class PhototherapyComponent implements OnInit {
     }
 
     async getForm() {
-        const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
-
-        if (retrievedForm && retrievedForm.data.length > 0) {
-            this.tableData = retrievedForm.data[0].value;
-            this.paginationData = {
-                number: this.currentPage,
-                totalPages: this.tableData.length / this.sizeTable,
-                size: this.sizeTable,
-                totalElements: this.tableData.length,
-            };
-            this.currentPage = 1;
-            this.addColorRow(this.tableData);
-            this.tableDataFilter = this.tableData.map((x) => x);
-            this.tableDataFilter = this.tableDataFilter.splice(this.paginationData.number * this.paginationData.size, this.paginationData.size);
-        }
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe((retrievedForm: any) => {
+            if (retrievedForm && retrievedForm.data.length > 0) {
+                this.tableData = retrievedForm.data[0].value;
+                this.paginationData = {
+                    number: this.currentPage,
+                    totalPages: this.tableData.length / this.sizeTable,
+                    size: this.sizeTable,
+                    totalElements: this.tableData.length,
+                };
+                this.currentPage = 1;
+                this.addColorRow(this.tableData);
+                this.tableDataFilter = this.tableData.map((x) => x);
+                this.tableDataFilter = this.tableDataFilter.splice(this.paginationData.number * this.paginationData.size, this.paginationData.size);
+            }
+        });
     }
 
     getFormDatas() {
