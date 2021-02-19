@@ -176,7 +176,7 @@ export class NapsiComponent implements OnInit {
         this.showModalGraph(dataGraph);
     }
 
-    async getForm () {
+    getForm () {
         this._formsService.retrieveForm(this.key, this.patient.id).subscribe(
             (retrievedForm: any) => {
                 this.retrievedForm = retrievedForm;
@@ -190,6 +190,5 @@ export class NapsiComponent implements OnInit {
                 }
             }
         );
-
     }
 }

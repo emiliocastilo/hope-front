@@ -32,6 +32,7 @@ export class PasiBsaPgaComponent implements OnInit {
     einf: boolean;
     patient: PatientModel;
     filledForm: any;
+    todaysForm: any;
     defaultChecked: boolean;
     key = constants.keyPasiBsaPga;
 
@@ -63,7 +64,7 @@ export class PasiBsaPgaComponent implements OnInit {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
-    async getAndParseForm (event?: any) {
+    getAndParseForm (event?: any) {
         let dateSelected: any;
         if (event) {
             dateSelected = event.target.value;
@@ -104,21 +105,33 @@ export class PasiBsaPgaComponent implements OnInit {
             bsa: ['', Validators.required],
             pasi: ['', Validators.required],
         });
+        const todayMoment = moment(new Date()).format('YYYY-MM-DD');
         if (!event) {
             this._formsService.retrieveForm(this.key, this.patient.id).subscribe(
                 (retrievedForm: any) => {
-                    const todayMoment = moment(new Date()).format('YYYY-MM-DD');
                     if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0 && retrievedForm.data[0].value === todayMoment) {
                         this.filledForm = JSON.parse(retrievedForm.data.find((e) => e.type === 'form').value);
+                        this.todaysForm = this.filledForm;
                         this.pasiForm.setValue(this.filledForm);
                         this.printFormValues(this.filledForm);
                     }
                 }
             );
+        } else {
+            const eventDate = moment(dateSelected).format('YYYY-MM-DD');
+            console.log(eventDate, todayMoment);
+            if (eventDate === todayMoment) {
+                setTimeout(() => {
+                    this.filledForm = this.todaysForm;
+                    this.pasiForm.setValue(this.filledForm);
+                    this.printFormValues(this.filledForm);
+                }, 100);
+            }
         }
     }
 
     isChecked (event: any, field: string) {
+        console.log(`isChecked ${event}, ${field}`);
         if (event) {
             this.pasiForm.controls[field].enable();
         } else {
@@ -273,11 +286,8 @@ export class PasiBsaPgaComponent implements OnInit {
         this.bsaCalification = PasiUtils.getCalificationBsa(form.bsa);
         this.pgaCalification = PasiUtils.selectPGA(form.pga);
         Object.entries(form).forEach((e: any) => {
-            if (typeof e[1] === 'object') {
-                if (typeof e[1].total === 'number') {
-                    this.isChecked(true, e[0]);
-                }
-            }
+            if (typeof e[1] === 'object' && typeof e[1].total === 'number') this.isChecked(true, e[0]);
+
         });
     }
 }
