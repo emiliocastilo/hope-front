@@ -116,9 +116,9 @@ export class PhototherapyComponent implements OnInit {
         private _indicationService: IndicationService,
         private _translate: TranslateService,
         private _formsService: FormsService
-    ) {}
+    ) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         //this.getCurrentPatient();
         //const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
         //this.getData(query);
@@ -136,25 +136,27 @@ export class PhototherapyComponent implements OnInit {
         this.getForm();
     }
 
-    async getForm() {
-        const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
-
-        if (retrievedForm && retrievedForm.data.length > 0) {
-            this.tableData = retrievedForm.data[0].value;
-            this.paginationData = {
-                number: this.currentPage,
-                totalPages: this.tableData.length / this.sizeTable,
-                size: this.sizeTable,
-                totalElements: this.tableData.length,
-            };
-            this.currentPage = 1;
-            this.addColorRow(this.tableData);
-            this.tableDataFilter = this.tableData.map((x) => x);
-            this.tableDataFilter = this.tableDataFilter.splice(this.paginationData.number * this.paginationData.size, this.paginationData.size);
-        }
+    async getForm () {
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe(
+            (retrievedForm: any) => {
+                if (retrievedForm && retrievedForm.data.length > 0) {
+                    this.tableData = retrievedForm.data[0].value;
+                    this.paginationData = {
+                        number: this.currentPage,
+                        totalPages: this.tableData.length / this.sizeTable,
+                        size: this.sizeTable,
+                        totalElements: this.tableData.length,
+                    };
+                    this.currentPage = 1;
+                    this.addColorRow(this.tableData);
+                    this.tableDataFilter = this.tableData.map((x) => x);
+                    this.tableDataFilter = this.tableDataFilter.splice(this.paginationData.number * this.paginationData.size, this.paginationData.size);
+                }
+            }
+        );
     }
 
-    getFormDatas() {
+    getFormDatas () {
         this._formsService.getFormsDatas(`template=principal-diagnosis&patientId=${this.patient.id}&name=principalIndication`).subscribe(
             (data: string) => {
                 this.indication = data;
@@ -175,7 +177,7 @@ export class PhototherapyComponent implements OnInit {
         );
     }
 
-    private getCurrentPatient(): void {
+    private getCurrentPatient (): void {
         this._patientService.getPatientsById(this.currentUser.id).subscribe((data) => {
             if (data) {
                 this.currentUser = data;
@@ -183,7 +185,7 @@ export class PhototherapyComponent implements OnInit {
         });
     }
 
-    public showModalCreate(): void {
+    public showModalCreate (): void {
         this.modalForm.reset({
             indication: this.indication,
             specialIndication: false,
@@ -242,7 +244,7 @@ export class PhototherapyComponent implements OnInit {
         });
     }
 
-    private fillForm(form: FormGroup, values: any, type: string) {
+    private fillForm (form: FormGroup, values: any, type: string) {
         let formKeys: string[] = Object.keys(form.controls);
 
         formKeys.forEach((key: string) => {
@@ -261,7 +263,7 @@ export class PhototherapyComponent implements OnInit {
         }
     }
 
-    public async showModalChange(index: number, type: string) {
+    public async showModalChange (index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
 
         Object.keys(dataEdit).forEach((key: string) => {
@@ -309,7 +311,7 @@ export class PhototherapyComponent implements OnInit {
         });
     }
 
-    public async showModalEdit(index: number, type: string) {
+    public async showModalEdit (index: number, type: string) {
         const dataEdit = { ...this.tableData[index] };
 
         Object.keys(dataEdit).forEach((key: string) => {
@@ -348,7 +350,7 @@ export class PhototherapyComponent implements OnInit {
         });
     }
 
-    private save(modalRef, type) {
+    private save (modalRef, type) {
         const form = {
             template: this.key,
             data: [
@@ -381,7 +383,7 @@ export class PhototherapyComponent implements OnInit {
         );
     }
 
-    public onIconButtonClick($event: any) {
+    public onIconButtonClick ($event: any) {
         var posIndex = this.currentPage * this.paginationData.size + $event.selectedItem;
         switch ($event.type) {
             case 'delete':
@@ -402,19 +404,19 @@ export class PhototherapyComponent implements OnInit {
     this.getData(query);
   }*/
 
-    private getData(query: string): void {
+    private getData (query: string): void {
         this.tableData = this._nonParmacologicService.getMock(query).content;
         this.paginationData = this._nonParmacologicService.getMock(query);
     }
 
-    public onSearch(search: string) {
+    public onSearch (search: string) {
         this.currentPage = 0;
         const query = `patient=${this.currentUser.id}&treatment=${this.currentTreatment}&page=${this.currentPage}`;
         const serach = search ? `${query}&search=${search}` : query;
         this.getData(serach);
     }
 
-    private showModalConfirm(index: number, type: string) {
+    private showModalConfirm (index: number, type: string) {
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = this._translate.instant('btn.delete');
@@ -430,7 +432,7 @@ export class PhototherapyComponent implements OnInit {
         });
     }
 
-    public sortTableDefault() {
+    public sortTableDefault () {
         this.tableData.sort(function (a, b) {
             if (a.dateSuspension === null && b.dateSuspension === null) {
                 return a.dateStart < b.dateStart ? 1 : -1;
@@ -446,24 +448,24 @@ export class PhototherapyComponent implements OnInit {
         });
     }
 
-    public onSort(event: any) {
+    public onSort (event: any) {
         this.typeOrder = event.direction;
         this.colOrder = event.column;
         this.refreshTable();
     }
 
-    public selectPage(page: number): void {
+    public selectPage (page: number): void {
         this.currentPage = page;
         this.refreshTable();
     }
 
-    public selectItemsPerPage(number: number) {
+    public selectItemsPerPage (number: number) {
         this.itemsPerPage = number;
         this.paginationData.size = number;
         this.selectPage(0);
     }
 
-    public refreshTable() {
+    public refreshTable () {
         if (this.typeOrder === '') {
             this.sortTableDefault();
         } else {
@@ -490,7 +492,7 @@ export class PhototherapyComponent implements OnInit {
         this.tableDataFilter = this.tableDataFilter.splice(this.currentPage * this.paginationData.size, this.paginationData.size);
     }
 
-    private addColorRow(tableData: any) {
+    private addColorRow (tableData: any) {
         tableData.forEach((element) => {
             element.rowColor = false;
             if (element.dateSuspension) {

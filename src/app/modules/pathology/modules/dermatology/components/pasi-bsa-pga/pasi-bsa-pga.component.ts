@@ -35,35 +35,35 @@ export class PasiBsaPgaComponent implements OnInit {
     defaultChecked: boolean;
     key = constants.keyPasiBsaPga;
 
-    constructor(private fb: FormBuilder, private _formsService: FormsService, private hoService: HealthOutcomeService, private _notification: NotificationService, private _modalService: NgbModal, public _translate: TranslateService) {}
+    constructor(private fb: FormBuilder, private _formsService: FormsService, private hoService: HealthOutcomeService, private _notification: NotificationService, private _modalService: NgbModal, public _translate: TranslateService) { }
 
-    get area(): FormControl {
+    get area (): FormControl {
         return this.pasiForm.controls['area'] as FormControl;
     }
-    get infiltracion(): FormControl {
+    get infiltracion (): FormControl {
         return this.pasiForm.controls['infiltracion'] as FormControl;
     }
-    get escamas(): FormControl {
+    get escamas (): FormControl {
         return this.pasiForm.controls['escamas'] as FormControl;
     }
-    get eritema(): FormControl {
+    get eritema (): FormControl {
         return this.pasiForm.controls['eritema'] as FormControl;
     }
-    get valid(): boolean {
+    get valid (): boolean {
         return this.pasiForm.valid;
     }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.today = moment(new Date()).format('YYYY-MM-DD');
         this.getPatientId();
         this.getAndParseForm();
     }
 
-    getPatientId() {
+    getPatientId () {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
-    async getAndParseForm(event?: any) {
+    async getAndParseForm (event?: any) {
         let dateSelected: any;
         if (event) {
             dateSelected = event.target.value;
@@ -105,16 +105,20 @@ export class PasiBsaPgaComponent implements OnInit {
             pasi: ['', Validators.required],
         });
         if (!event) {
-            const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
-            if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
-                this.filledForm = JSON.parse(retrievedForm.data.find((e) => e.type === 'form').value);
-                this.pasiForm.setValue(this.filledForm);
-                this.printFormValues(this.filledForm);
-            }
+            this._formsService.retrieveForm(this.key, this.patient.id).subscribe(
+                (retrievedForm: any) => {
+                    const todayMoment = moment(new Date()).format('YYYY-MM-DD');
+                    if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0 && retrievedForm.data[0].value === todayMoment) {
+                        this.filledForm = JSON.parse(retrievedForm.data.find((e) => e.type === 'form').value);
+                        this.pasiForm.setValue(this.filledForm);
+                        this.printFormValues(this.filledForm);
+                    }
+                }
+            );
         }
     }
 
-    isChecked(event: any, field: string) {
+    isChecked (event: any, field: string) {
         if (event) {
             this.pasiForm.controls[field].enable();
         } else {
@@ -126,7 +130,7 @@ export class PasiBsaPgaComponent implements OnInit {
         this[field] = event;
     }
 
-    onSave() {
+    onSave () {
         const form = {
             template: this.key,
             data: PasiUtils.parseEntriesForm(this.pasiForm.value),
@@ -142,7 +146,7 @@ export class PasiBsaPgaComponent implements OnInit {
         }
     }
 
-    saveHealthOutcome() {
+    saveHealthOutcome () {
         let healthOutcomeArray: HealthOutcomeModel[] = [];
         let ho: HealthOutcomeModel = {
             patientId: this.patient.id,
@@ -177,14 +181,14 @@ export class PasiBsaPgaComponent implements OnInit {
             }
         }
         this.hoService.saveScore(healthOutcomeArray).subscribe(
-            () => {},
+            () => { },
             ({ error }) => {
                 this._notification.showErrorToast(error.errorCode);
             }
         );
     }
 
-    async showGraph() {
+    async showGraph () {
         const dataGraph: any = await this._formsService.retrieveFormGraph(this.key, this.patient.id);
 
         if (dataGraph.length > 0) {
@@ -200,7 +204,7 @@ export class PasiBsaPgaComponent implements OnInit {
         this.showModal(dataGraph);
     }
 
-    private showModal(data: any[]) {
+    private showModal (data: any[]) {
         const modalRef = this._modalService.open(ManyChartModalComponent, {
             size: 'lg',
         });
@@ -211,7 +215,7 @@ export class PasiBsaPgaComponent implements OnInit {
         });
     }
 
-    getScore(scores: any) {
+    getScore (scores: any) {
         this.pasiScore = scores.pasi;
         this.bsaScore = scores.bsa;
         this.pasiForm.controls.bsa.setValue(this.bsaScore);
@@ -220,43 +224,43 @@ export class PasiBsaPgaComponent implements OnInit {
         this.bsaCalification = PasiUtils.getCalificationBsa(this.bsaScore);
     }
 
-    onSelectPGA(event: any) {
+    onSelectPGA (event: any) {
         const option = event.target.value.split(':')[1].trim();
         this.pgaCalification = PasiUtils.selectPGA(option);
         this.pgaScore = option;
     }
 
-    fillForm(form: any) {
+    fillForm (form: any) {
         this._formsService.fillForm(form).subscribe(
             () => {
                 this.saveHealthOutcome();
                 this._notification.showSuccessToast('elementCreated');
             },
-            ({ error }) => {}
+            ({ error }) => { }
         );
     }
 
-    updateForm(form: any) {
+    updateForm (form: any) {
         this._formsService.updateForm(form).subscribe(() => {
             this.saveHealthOutcome();
             this._notification.showSuccessToast('elementUpdated');
         });
     }
 
-    onClear() {
+    onClear () {
         this.pasiForm.reset();
         this.clearLabels();
         this.clearChecks();
     }
 
-    clearChecks() {
+    clearChecks () {
         this.isChecked(false, 'cabeza');
         this.isChecked(false, 'tronco');
         this.isChecked(false, 'esup');
         this.isChecked(false, 'einf');
     }
 
-    clearLabels() {
+    clearLabels () {
         this.pasiCalification = '';
         this.pgaCalification = '';
         this.bsaCalification = '';
@@ -264,7 +268,7 @@ export class PasiBsaPgaComponent implements OnInit {
         this.bsaScore = '';
     }
 
-    printFormValues(form: any) {
+    printFormValues (form: any) {
         this.pasiCalification = PasiUtils.getCalificationPasi(form.pasi);
         this.bsaCalification = PasiUtils.getCalificationBsa(form.bsa);
         this.pgaCalification = PasiUtils.selectPGA(form.pga);
