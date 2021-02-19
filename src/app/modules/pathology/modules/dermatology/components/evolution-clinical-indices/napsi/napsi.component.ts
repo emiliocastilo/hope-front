@@ -38,13 +38,13 @@ export class NapsiComponent implements OnInit {
         this.DontPush = false;
     }
 
-    ngOnInit () {
+    ngOnInit() {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
         this.getFormNails();
         this.getForm();
     }
 
-    getFormNails () {
+    getFormNails() {
         this.form = this._formBuilder.group({
             evaluationDate: [moment(new Date()).format('YYYY-MM-DD')],
             mano_izquierda_matriz: this._formBuilder.group({
@@ -79,7 +79,7 @@ export class NapsiComponent implements OnInit {
         });
     }
 
-    save () {
+    save() {
         let healthOutcomeArray: HealthOutcomeModel[] = [];
         const form = {
             template: this.key,
@@ -100,7 +100,7 @@ export class NapsiComponent implements OnInit {
                 result: this.napsiCalification,
             });
             this._napsiService.saveScore(healthOutcomeArray).subscribe(
-                () => { },
+                () => {},
                 ({ error }) => {
                     this._notification.showErrorToast(error.errorCode);
                 }
@@ -108,13 +108,13 @@ export class NapsiComponent implements OnInit {
         }
     }
 
-    getScore (score: number) {
+    getScore(score: number) {
         this.napsiScore = this.form.value.napsiScore + score;
         this.form.controls.napsiScore.setValue(this.napsiScore);
         //  this.napsiCalification = PasiUtils.getCalificationNapsi(this.napsiScore);
     }
 
-    onClear (event: any) {
+    onClear(event: any) {
         this.clear = event;
         this.form.reset({
             napsiScore: 0,
@@ -127,7 +127,7 @@ export class NapsiComponent implements OnInit {
         }, 100);
     }
 
-    updateForm (form: any) {
+    updateForm(form: any) {
         this._formsService.updateForm(form).subscribe(
             () => {
                 this._notification.showSuccessToast('elementUpdated');
@@ -138,7 +138,7 @@ export class NapsiComponent implements OnInit {
         );
     }
 
-    fillForm (form: any) {
+    fillForm(form: any) {
         this._formsService.fillForm(form).subscribe(
             () => {
                 this._notification.showSuccessToast('elementCreated');
@@ -149,7 +149,7 @@ export class NapsiComponent implements OnInit {
         );
     }
 
-    private showModalGraph (data: any[]) {
+    private showModalGraph(data: any[]) {
         const modalRef = this._modalService.open(ManyChartModalComponent, {
             size: 'lg',
         });
@@ -160,7 +160,7 @@ export class NapsiComponent implements OnInit {
         });
     }
 
-    async showChartFront () {
+    async showChartFront() {
         const dataGraph: any = await this._formsService.retrieveFormGraph(this.key, this.patient.id);
 
         if (dataGraph.length > 0) {
@@ -176,19 +176,17 @@ export class NapsiComponent implements OnInit {
         this.showModalGraph(dataGraph);
     }
 
-    getForm () {
-        this._formsService.retrieveForm(this.key, this.patient.id).subscribe(
-            (retrievedForm: any) => {
-                this.retrievedForm = retrievedForm;
-                const todayMoment = moment(new Date()).format('YYYY-MM-DD');
-                if (this.retrievedForm && this.retrievedForm.data.length > 0 && retrievedForm.data[0].value === todayMoment) {
-                    for (const element of this.retrievedForm.data) {
-                        this.retrievedFormFormat[element.name] = element.value;
-                    }
-                    this.filledForm = JSON.parse(this.retrievedForm.data.find((e) => e.type === 'form').value);
-                    this.form.controls.napsiScore.setValue(this.filledForm.napsiScore);
+    getForm() {
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe((retrievedForm: any) => {
+            this.retrievedForm = retrievedForm;
+            const todayMoment = moment(new Date()).format('YYYY-MM-DD');
+            if (this.retrievedForm && this.retrievedForm.data.length > 0 && retrievedForm.data[0].value === todayMoment) {
+                for (const element of this.retrievedForm.data) {
+                    this.retrievedFormFormat[element.name] = element.value;
                 }
+                this.filledForm = JSON.parse(this.retrievedForm.data.find((e) => e.type === 'form').value);
+                this.form.controls.napsiScore.setValue(this.filledForm.napsiScore);
             }
-        );
+        });
     }
 }

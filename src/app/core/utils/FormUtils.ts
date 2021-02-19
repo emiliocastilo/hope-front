@@ -7,7 +7,7 @@ import { ValidatorFn, Validators } from '@angular/forms';
 export default class FormUtils {
     static decimalPattern: string = '^[0-9]+(.[0-9]{1,valueToReplace})?$';
 
-    static createFieldConfig (form, filled?, editing?, fieldConfig?: FieldConfig[]): FieldConfig[] {
+    static createFieldConfig(form, filled?, editing?, fieldConfig?: FieldConfig[]): FieldConfig[] {
         if (!fieldConfig) fieldConfig = [];
         let isFormFilled: boolean = filled && filled.length > 0;
         if (isFormFilled) {
@@ -27,7 +27,7 @@ export default class FormUtils {
         return fieldConfig;
     }
 
-    static createButtons (buttons): string[] {
+    static createButtons(buttons): string[] {
         const buttonsArray: string[] = [];
         for (const key in buttons) {
             buttonsArray.push(buttons[key]);
@@ -35,7 +35,7 @@ export default class FormUtils {
         return buttonsArray;
     }
 
-    static convertJSONToFieldConfig (value, isFormFilled): FieldConfig {
+    static convertJSONToFieldConfig(value, isFormFilled): FieldConfig {
         const fieldConfig: FieldConfig = new FieldConfigModel();
         fieldConfig.name = value.name;
         fieldConfig.type = value.type;
@@ -87,7 +87,7 @@ export default class FormUtils {
         return fieldConfig;
     }
 
-    static parseValidations (validation: string[]): ValidatorFn[] {
+    static parseValidations(validation: string[]): ValidatorFn[] {
         const finalValidators: any[] = [];
         validation.forEach((element) => {
             // Required
@@ -122,7 +122,7 @@ export default class FormUtils {
         return finalValidators;
     }
 
-    static configDefautlValue (value, isFormFilled) {
+    static configDefautlValue(value, isFormFilled) {
         if (!isFormFilled && value.defaultValue) {
             switch (value.type) {
                 case 'datepicker':
@@ -142,11 +142,11 @@ export default class FormUtils {
         }
     }
 
-    static parseValueIntoPattern (decimalPattern: string, value: string): string {
+    static parseValueIntoPattern(decimalPattern: string, value: string): string {
         return value ? decimalPattern.replace('valueToReplace', value) : decimalPattern.replace('valueToReplace', '2');
     }
 
-    static fillFormWithValues (form, filled) {
+    static fillFormWithValues(form, filled) {
         form.forEach((formEl) => {
             filled.forEach((filledEl) => {
                 if (formEl.name === filledEl.name) {
@@ -168,7 +168,7 @@ export default class FormUtils {
         });
     }
 
-    static parseEntriesForm (values: any, config: any) {
+    static parseEntriesForm(values: any, config: any) {
         const form = [];
         Object.entries(values).forEach((e: any) => {
             config.forEach((field: any) => {
@@ -198,7 +198,7 @@ export default class FormUtils {
         return form;
     }
 
-    static formatDataMultiGraph (translate, formKeys, keyTranslation, retrievedFormFormat) {
+    static formatDataMultiGraph(translate, formKeys, keyTranslation, retrievedFormFormat) {
         const parseData = [];
 
         for (const key of formKeys) {
@@ -215,7 +215,7 @@ export default class FormUtils {
         return parseData;
     }
 
-    static parseIsoToDate (array: any[]): any[] {
+    static parseIsoToDate(array: any[]): any[] {
         if (!array) {
             return [];
         }
@@ -228,16 +228,16 @@ export default class FormUtils {
         return parseArrayData;
     }
 
-    static ageBybirthdate (params: Array<any>) {
+    static ageBybirthdate(params: Array<any>) {
         return moment().diff(params[0], 'years');
     }
 
-    static calculateIMC (params: Array<any>) {
+    static calculateIMC(params: Array<any>) {
         const imc = params[0] / (params[1] * params[1]);
         return isNaN(imc) ? '' : imc.toFixed(2);
     }
 
-    static clasificationIMC (params: Array<any>) {
+    static clasificationIMC(params: Array<any>) {
         if (!params[0] || !params[1]) {
             return '';
         }
@@ -255,7 +255,7 @@ export default class FormUtils {
         return '';
     }
 
-    static calculateDlqi (params: Array<any>) {
+    static calculateDlqi(params: Array<any>) {
         let total = 0;
         params.forEach((p) => {
             const score = parseInt(p, 10);
@@ -267,7 +267,7 @@ export default class FormUtils {
         return total;
     }
 
-    static clasificationDlqi (params: Array<any>) {
+    static clasificationDlqi(params: Array<any>) {
         const score = params[0];
 
         if (!score) {
@@ -288,18 +288,18 @@ export default class FormUtils {
         return '';
     }
 
-    static calculateBodyArea (params: Array<any>) {
+    static calculateBodyArea(params: Array<any>) {
         const weight = Math.pow(params[0], 0.425);
         const height = Math.pow(params[1], 0.725);
         const bodyArea = (0.7184 * height * weight) / 100;
         return isNaN(bodyArea) ? '' : bodyArea.toFixed(2);
     }
 
-    static cigarettesToYear (params: Array<any>) {
+    static cigarettesToYear(params: Array<any>) {
         return params[0] * 365;
     }
 
-    static yearsWithoutSmoking (params: Array<any>) {
+    static yearsWithoutSmoking(params: Array<any>) {
         if (!params[0]) {
             return '';
         }
@@ -309,7 +309,7 @@ export default class FormUtils {
         return diff.toFixed(2);
     }
 
-    static clean (form: any): any {
+    static clean(form: any): any {
         form.forEach((element) => {
             if (!element.disabled) {
                 element.value = '';
@@ -318,7 +318,7 @@ export default class FormUtils {
         return form;
     }
 
-    static moriskyAdherence (params: Array<any>): any {
+    static moriskyAdherence(params: Array<any>): any {
         let cont = 0;
 
         if (!params[4]) {
@@ -343,14 +343,14 @@ export default class FormUtils {
         return cont;
     }
 
-    static moriskyAssessment (params: Array<any>): any {
+    static moriskyAssessment(params: Array<any>): any {
         if (params[0] === false && params[1] === true && params[2] === false && params[3] === true) {
             return 'Adherente';
         }
         return 'No adherente';
     }
 
-    static haynesAdherence (params: Array<any>): any {
+    static haynesAdherence(params: Array<any>): any {
         if (params[1] === true) {
             if (!params[2]) {
                 return '';
@@ -365,7 +365,7 @@ export default class FormUtils {
         return '';
     }
 
-    static haynesAssessment (params: Array<any>): any {
+    static haynesAssessment(params: Array<any>): any {
         if (params[0] && !params[1]) {
             return 'Adherente';
         } else {
@@ -380,18 +380,18 @@ export default class FormUtils {
         return '';
     }
 
-    static furWeeks (params: Array<any>): any {
+    static furWeeks(params: Array<any>): any {
         var currentDate = moment();
         var date = moment(params[0]);
         return currentDate.diff(date, 'weeks');
     }
 
-    static furBirthDate (params: Array<any>): any {
+    static furBirthDate(params: Array<any>): any {
         let date = moment(params[0]);
         return date.add(280, 'days').format('MM/DD/YYYY');
     }
 
-    static smaqAdherence (params: Array<any>): any {
+    static smaqAdherence(params: Array<any>): any {
         let points: number = 0;
         if (params[0] == false || params[0] == null) {
             points = points + 1;
@@ -414,7 +414,7 @@ export default class FormUtils {
         return points;
     }
 
-    static smaqAssessment (params: Array<any>): any {
+    static smaqAssessment(params: Array<any>): any {
         let points: number = 0;
         if (params[0] == false || params[0] == null) {
             points = points + 1;
@@ -441,7 +441,7 @@ export default class FormUtils {
         }
     }
 
-    static smaqAdherencePercentage (params: Array<any>): any {
+    static smaqAdherencePercentage(params: Array<any>): any {
         switch (params[4]) {
             case 'Ninguna':
             case null:
@@ -456,12 +456,12 @@ export default class FormUtils {
                 return '< 30 %';
         }
     }
-    static mutationsAdd (params: Array<any>): any {
+    static mutationsAdd(params: Array<any>): any {
         return params;
     }
 
     //TODO: los casos del switch, se dejan así porque están así en plantilla, cuando tengamos la patología casi cerrada convendría modificarlos por valores y no textos.
-    static stadiumClassification (params: Array<any>): any {
+    static stadiumClassification(params: Array<any>): any {
         let categoria: string = '';
         switch (params[1]) {
             case 'Infección aguda asintomática o LPG':
@@ -492,7 +492,7 @@ export default class FormUtils {
         }
     }
 
-    static pregnancyTestResult (params: Array<any>): any {
+    static pregnancyTestResult(params: Array<any>): any {
         let result;
         if (Number(params[0]) > 50) {
             result = 'Positivo';
@@ -504,13 +504,13 @@ export default class FormUtils {
         return result;
     }
 
-    static calculateYearsFromDate (date: Date): number {
+    static calculateYearsFromDate(date: Date): number {
         var diff_ms = Date.now() - date.getTime();
         var age_dt = new Date(diff_ms);
         return Math.abs(age_dt.getUTCFullYear() - 1970);
     }
 
-    static getLocalStoragePatientData (config: FieldConfig[]): FieldConfig[] {
+    static getLocalStoragePatientData(config: FieldConfig[]): FieldConfig[] {
         const storagedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
 
         Object.keys(storagedPatient).forEach((field: string) => {

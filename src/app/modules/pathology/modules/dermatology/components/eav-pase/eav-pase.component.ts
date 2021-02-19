@@ -27,9 +27,9 @@ export class EavPaseComponent implements OnInit {
     public retrievedForm;
     public retrievedFormFormat = {};
 
-    constructor(private _formBuilder: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, public _translate: TranslateService) { }
+    constructor(private _formBuilder: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _notification: NotificationService, public _translate: TranslateService) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
         this.getForm();
         this.form = this._formBuilder.group({
@@ -49,20 +49,18 @@ export class EavPaseComponent implements OnInit {
         }
     }
 
-    async getForm () {
-        this._formsService.retrieveForm(this.key, this.patient.id).subscribe(
-            (retrievedForm: any) => {
-                this.retrievedForm = retrievedForm;
-                if (this.retrievedForm && this.retrievedForm.data.length > 0) {
-                    for (const element of this.retrievedForm.data) {
-                        this.retrievedFormFormat[element.name] = element.value;
-                    }
+    async getForm() {
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe((retrievedForm: any) => {
+            this.retrievedForm = retrievedForm;
+            if (this.retrievedForm && this.retrievedForm.data.length > 0) {
+                for (const element of this.retrievedForm.data) {
+                    this.retrievedFormFormat[element.name] = element.value;
                 }
             }
-        );
+        });
     }
 
-    public checkIfRequired (key: string) {
+    public checkIfRequired(key: string) {
         let isRequired: boolean = false;
 
         const field = this.form.get(key);
@@ -76,7 +74,7 @@ export class EavPaseComponent implements OnInit {
         return isRequired;
     }
 
-    public getType (formKey: string): string {
+    public getType(formKey: string): string {
         let type = 'text';
         const key = formKey.toLowerCase();
 
@@ -94,13 +92,13 @@ export class EavPaseComponent implements OnInit {
         return type;
     }
 
-    getInvalidLabel (formKey: string): string {
+    getInvalidLabel(formKey: string): string {
         const errors = this.form ? this.form.get(formKey).errors : undefined;
         const label = errors ? Object.keys(errors).filter((key: string) => errors[key]) : undefined;
         return label ? `form.validate.${label[0]}` : 'form.validate.required';
     }
 
-    public checkAnyRequired (keys: Array<string>) {
+    public checkAnyRequired(keys: Array<string>) {
         keys.forEach((key) => {
             const field = this.form.get(key);
 
@@ -114,7 +112,7 @@ export class EavPaseComponent implements OnInit {
         });
     }
 
-    public isActiveRadioButton (key, value) {
+    public isActiveRadioButton(key, value) {
         const valueForm = parseInt(this.form.controls[key].value);
         if (valueForm === value) {
             return true;
@@ -122,7 +120,7 @@ export class EavPaseComponent implements OnInit {
         return false;
     }
 
-    public showModal () {
+    public showModal() {
         event.preventDefault();
         const modalRef = this._modalService.open(QuestionnaireAnalysisArtritisPsoriasicaComponent, {
             size: 'xl',
@@ -142,7 +140,7 @@ export class EavPaseComponent implements OnInit {
         });
     }
 
-    public resetForm () {
+    public resetForm() {
         this.form.reset({
             dateEvaluation: moment(new Date()).format('YYYY-MM-DD'),
             evaluationPrurito: '',
@@ -155,7 +153,7 @@ export class EavPaseComponent implements OnInit {
         });
     }
 
-    public isValidForm () {
+    public isValidForm() {
         if (!this.form.controls['dateEvaluation'].value && (this.form.controls['evaluationPrurito'].value || this.form.controls['evaluationPrurito'].value || this.form.controls['evaluationPrurito'].value)) {
             this._notification.showErrorToast('missDate');
             return false;
@@ -169,7 +167,7 @@ export class EavPaseComponent implements OnInit {
         return true;
     }
 
-    public save (rr) {
+    public save(rr) {
         if (!this.isValidForm()) {
             return;
         }
@@ -221,7 +219,7 @@ export class EavPaseComponent implements OnInit {
         }
     }
 
-    getValueForm (key, date) {
+    getValueForm(key, date) {
         let currentValue = this.form.controls[key].value;
         if (currentValue && key.includes('date')) {
             currentValue = new Date(date).toLocaleDateString();
@@ -250,7 +248,7 @@ export class EavPaseComponent implements OnInit {
         }
     }
 
-    showChartFront () {
+    showChartFront() {
         event.preventDefault();
 
         const parseData = FormUtils.formatDataMultiGraph(this._translate, this.formKeys, 'eavpase', this.retrievedFormFormat);
@@ -258,7 +256,7 @@ export class EavPaseComponent implements OnInit {
         this.showModalGraph(parseData);
     }
 
-    private showModalGraph (data: any[]) {
+    private showModalGraph(data: any[]) {
         const modalRef = this._modalService.open(ManyChartModalComponent, {
             size: 'lg',
         });
@@ -269,7 +267,7 @@ export class EavPaseComponent implements OnInit {
         });
     }
 
-    private parseIsoToDate (array: any[]): any[] {
+    private parseIsoToDate(array: any[]): any[] {
         if (!array) {
             return [];
         }

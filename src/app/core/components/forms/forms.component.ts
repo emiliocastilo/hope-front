@@ -26,64 +26,61 @@ export class FormsComponent implements OnInit, OnDestroy {
     patient: PatientModel;
     emptyForm: any;
 
-    constructor(private _formsService: FormsService, public _translate: TranslateService, private _notification: NotificationService, private hoService: HealthOutcomeService, private _http: HttpClient) { }
+    constructor(private _formsService: FormsService, public _translate: TranslateService, private _notification: NotificationService, private hoService: HealthOutcomeService, private _http: HttpClient) {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         this.getPatientId();
         this.getAndParseForm();
     }
 
-    getPatientId () {
+    getPatientId() {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
-    getAndParseForm () {
-        this._formsService.retrieveForm(this.key, this.patient.id).subscribe(
-            (retrievedForm: any) => {
-                if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
-                    this.filledForm = retrievedForm.data;
-                }
-
-                this._formsService.get(this.key).subscribe(
-                    (data: any) => {
-                        const currentUser = JSON.parse(localStorage.getItem('user'));
-                        const cie = currentUser ? currentUser.rolSelected.hospital.cie.replace('CIE', 'CIE ') : 'CIE';
-                        data.form = data.form.replace(/{{currentCIE}}/g, cie);
-                        this.emptyForm = this._parseStringToJSON(data.form);
-                        const defaultFields = this.emptyForm.filter(f => f.defaultValue === 'today');
-
-                        this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
-
-                        if (CleanOnInitTemplates.includes(this.key)) {
-                            const defaultValuedField = this.emptyForm.find(f => f.defaultValue !== undefined);
-                            if (defaultValuedField?.value != moment(new Date()).format('YYYY-MM-DD')) {
-                                // TODO :: Hacer un cribado más exhaustivo de campos tipo fecha que tengan defaultValue == today
-                                this.config.forEach(item => {
-                                    if (!item.disabled) item.value = undefined;
-                                });
-                                this.config.find(f => f.name === defaultValuedField.name).value = moment(new Date()).format('YYYY-MM-DD');
-                            }
-                        }
-                        const buttons = this._parseStringToJSON(data.buttons);
-                        this.buttons = FormUtils.createButtons(buttons);
-
-                        this.detectCalculatedBackOnInit();
-                        this._formsService.setSavedStatusForm(true);
-
-                        this.buttons.forEach((button) => {
-                            if (button === 'save') {
-                                this._formsService.setMustBeSaved(true);
-                            }
-                        });
-                    }, error => this._notification.showErrorToast('formNotFound')
-                );
+    getAndParseForm() {
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe((retrievedForm: any) => {
+            if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
+                this.filledForm = retrievedForm.data;
             }
-        );
 
+            this._formsService.get(this.key).subscribe(
+                (data: any) => {
+                    const currentUser = JSON.parse(localStorage.getItem('user'));
+                    const cie = currentUser ? currentUser.rolSelected.hospital.cie.replace('CIE', 'CIE ') : 'CIE';
+                    data.form = data.form.replace(/{{currentCIE}}/g, cie);
+                    this.emptyForm = this._parseStringToJSON(data.form);
+                    const defaultFields = this.emptyForm.filter((f) => f.defaultValue === 'today');
 
+                    this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
+
+                    if (CleanOnInitTemplates.includes(this.key)) {
+                        const defaultValuedField = this.emptyForm.find((f) => f.defaultValue !== undefined);
+                        if (defaultValuedField?.value != moment(new Date()).format('YYYY-MM-DD')) {
+                            // TODO :: Hacer un cribado más exhaustivo de campos tipo fecha que tengan defaultValue == today
+                            this.config.forEach((item) => {
+                                if (!item.disabled) item.value = undefined;
+                            });
+                            this.config.find((f) => f.name === defaultValuedField.name).value = moment(new Date()).format('YYYY-MM-DD');
+                        }
+                    }
+                    const buttons = this._parseStringToJSON(data.buttons);
+                    this.buttons = FormUtils.createButtons(buttons);
+
+                    this.detectCalculatedBackOnInit();
+                    this._formsService.setSavedStatusForm(true);
+
+                    this.buttons.forEach((button) => {
+                        if (button === 'save') {
+                            this._formsService.setMustBeSaved(true);
+                        }
+                    });
+                },
+                (error) => this._notification.showErrorToast('formNotFound')
+            );
+        });
     }
 
-    submit (value: { [name: string]: any }) {
+    submit(value: { [name: string]: any }) {
         console.log(value);
         if (value) {
             const form = {
@@ -106,7 +103,7 @@ export class FormsComponent implements OnInit, OnDestroy {
                     result: value.clasificationScore,
                 };
                 this.hoService.saveScore([ho]).subscribe(
-                    () => { },
+                    () => {},
                     ({ error }) => {
                         this._notification.showErrorToast(error.errorCode);
                     }
@@ -117,7 +114,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         }
     }
 
-    detectCalculatedBackOnInit () {
+    detectCalculatedBackOnInit() {
         const calculatedFields = this.config.filter((e) => e.calculated_back && e.event === 'init');
         const params = [];
         if (calculatedFields && calculatedFields.length > 0) {
@@ -136,7 +133,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         }
     }
 
-    checkHistoricField (val: any) {
+    checkHistoricField(val: any) {
         this.emptyForm.forEach((field) => {
             if (field.type === 'historic') {
                 const entry = {
@@ -159,7 +156,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         );
     }
 
-    fillForm (form: any) {
+    fillForm(form: any) {
         this._formsService.fillForm(form).subscribe(
             () => {
                 this.getAndParseForm();
@@ -172,7 +169,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         );
     }
 
-    updateForm (form: any) {
+    updateForm(form: any) {
         this._formsService.updateForm(form).subscribe(
             (data: any) => {
                 this.getAndParseForm();
@@ -185,12 +182,12 @@ export class FormsComponent implements OnInit, OnDestroy {
         );
     }
 
-    private _parseStringToJSON (form: string): JSON {
+    private _parseStringToJSON(form: string): JSON {
         //TODO: check if json is valid
         return JSON.parse(StringUtils.replaceAllSimpleToDoubleQuotes(form));
     }
 
-    ngOnDestroy () {
+    ngOnDestroy() {
         this._formsService.setSavedStatusForm(true);
     }
 }
