@@ -6,8 +6,8 @@ import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { DynamicModalComponent } from '../../modals/dynamic-modal/dynamic-modal.component';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
-import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 import { TranslateService } from '@ngx-translate/core';
+import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 
 @Component({
     selector: 'app-form-list',
@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./form-list.component.scss'],
 })
 export class FormListComponent implements OnInit {
+    key: string;
     config: FieldConfig;
     group: FormGroup;
     rows = [];
@@ -56,6 +57,7 @@ export class FormListComponent implements OnInit {
             this.rows.forEach((r) => {
                 this.group.controls[this.config.name].value.push(r);
             });
+            this._formsService.updateTemplateObject(this.group);
         }, 500);
     }
 

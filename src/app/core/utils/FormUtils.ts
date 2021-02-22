@@ -82,7 +82,6 @@ export default class FormUtils {
 
         if (value.validation) {
             const validations = StringUtils.stringToArray(value.validation);
-            // console.log('FormUtils', value.validation);
             fieldConfig.validation = this.parseValidations(validations);
         }
         return fieldConfig;
@@ -128,7 +127,8 @@ export default class FormUtils {
             switch (value.type) {
                 case 'datepicker':
                     if (value.defaultValue === 'today') {
-                        return moment(new Date()).format('YYYY-MM-DD');
+                        return value.value ? value.value : moment(new Date()).format('YYYY-MM-DD');
+                        // return moment(new Date()).format('YYYY-MM-DD');
                     } else {
                         return value.defaultValue;
                     }

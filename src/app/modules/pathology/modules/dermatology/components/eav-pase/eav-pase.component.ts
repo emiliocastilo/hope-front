@@ -50,13 +50,14 @@ export class EavPaseComponent implements OnInit {
     }
 
     async getForm() {
-        this.retrievedForm = await this._formsService.retrieveForm(this.key, this.patient.id);
-
-        if (this.retrievedForm && this.retrievedForm.data.length > 0) {
-            for (const element of this.retrievedForm.data) {
-                this.retrievedFormFormat[element.name] = element.value;
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe((retrievedForm: any) => {
+            this.retrievedForm = retrievedForm;
+            if (this.retrievedForm && this.retrievedForm.data.length > 0) {
+                for (const element of this.retrievedForm.data) {
+                    this.retrievedFormFormat[element.name] = element.value;
+                }
             }
-        }
+        });
     }
 
     public checkIfRequired(key: string) {

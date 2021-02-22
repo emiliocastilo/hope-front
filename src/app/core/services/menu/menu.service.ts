@@ -10,6 +10,7 @@ import { FormsService } from '../forms/forms.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PathologyModel } from 'src/app/modules/management/models/patients/pathology.model';
 import { UserModel } from 'src/app/modules/management/models/user/user.model';
+import { NotificationService } from '../notification.service';
 
 @Injectable({
     providedIn: 'root',
@@ -26,7 +27,7 @@ export class MenuService {
     public allSections: MenuItemModel[] = [];
     public thereIsPatientSelected: boolean = false;
 
-    constructor(private _httpClient: HttpClient, private _formService: FormsService, private _modalService: NgbModal, private translate: TranslateService, private _router: Router) {
+    constructor(private _httpClient: HttpClient, private _formService: FormsService, private _modalService: NgbModal, private _notificationService: NotificationService, private translate: TranslateService, private _router: Router) {
         this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
         this.thereIsPatientSelected = localStorage.getItem('selectedPatient') !== undefined && localStorage.getItem('selectedPatient') !== null;
         if (!this.fullMenu) this.getMenu().subscribe((response: MenuItemModel) => this.initialSetUp());
@@ -52,7 +53,6 @@ export class MenuService {
         const pathologyRoots = ['derma', 'vih'];
         this.currentPathology.code = pathologyRoots.filter((f) => pathologyName.includes(f))[0];
         this.pathologyRoot = `/hopes/pathology/`;
-        console.log(`PATHOLOGY RADICAL: ${this.pathologyRoot}`);
     }
 
     private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
@@ -116,7 +116,8 @@ export class MenuService {
     }
 
     public setCurrentSection(section?: MenuItemModel) {
-        if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
+        // if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
+        if (this._formService.getSavedForm()) {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
             if (!this.allSections) this.fillSections(this.fullMenu);
             if (!this.pathologyPath) this.setPathologyPath();
@@ -179,14 +180,22 @@ export class MenuService {
         const modalRef = this._modalService.open(ConfirmModalComponent);
         modalRef.componentInstance.title = this.translate.instant('saveWarning');
         modalRef.componentInstance.messageModal = this.translate.instant('saveWarningMessage');
+
         modalRef.componentInstance.cancel.subscribe((event) => {
             modalRef.close();
             this._formService.setSavedStatusForm(false);
         });
+
         modalRef.componentInstance.accept.subscribe((event) => {
-            modalRef.close();
-            this._formService.setSavedStatusForm(true);
-            section ? this.setCurrentSection(section) : this.setCurrentSection();
+            this._formService.updateForm(this._formService.currentForm).subscribe(
+                (response) => {
+                    this._formService.setMustBeSaved(false);
+                    this._formService.setSavedStatusForm(true);
+                    section ? this.setCurrentSection(section) : this.setCurrentSection();
+                },
+                (error) => this._notificationService.showErrorToast('API-001'),
+                () => modalRef.close()
+            );
         });
     }
 }

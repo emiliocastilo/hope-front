@@ -492,7 +492,7 @@
     "motive10": "Otros"
   },
   "reasonLastChangeBiologicalTreatment": "Motivo",
-  "reasonStopBiologicalTreatment": "Motivo",
+  "reasonStopBiologicalTreatment": "Número de cambios de tratamiento",
   "reasonStopBiologicalTreatmentFiveYears": "Motivo de la suspensión de tratamiento biológicos de los últimos 5 años",
   "recuperarcontraseña": "Recuperar contraseña",
   "reduced": "Reducida",
@@ -520,7 +520,7 @@
   "rxDatasDate": "Fecha",
   "rxDatasDiagnosis": "Diagnóstico",
   "saveWarning": "Aviso de cambios",
-  "saveWarningMessage": "Hay cambios sin guardar, ¿Continuar?",
+  "saveWarningMessage": "Hay cambios sin guardar, ¿desea guardarlos?",
   "scaleEav": "Escala Analógica Visual (EAV)",
   "scan": "Fibro Scan",
   "scanDate": "Fecha",
@@ -670,5 +670,6 @@
   },
   "lbl": {
     "search": "Buscar"
-  }
+  },
+  "treatmentChangesNumber": "Número de cambios de tratamiento"
 }
