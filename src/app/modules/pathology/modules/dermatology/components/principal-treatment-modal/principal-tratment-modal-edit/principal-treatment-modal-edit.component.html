@@ -3,6 +3,19 @@
 
     <form class="row" [formGroup]="form">
         <div class="col-12">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="reasonChange"
+                [form]="form"
+                [labelValue]="'reasonChange' | translate"
+                [options]="reasonChangeOptions"
+                [placeholder]="'reasonChange' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+            >
+            </app-input-select>
+        </div>
+        <div class="col-12">
             <app-input id="indication" formControlName="indication" [label]="'indication' | translate" [placeholder]="'indication' | translate" type="text" [invalidLabel]="getInvalidLabel('indication')" [required]="true" [isDisabled]="true">
             </app-input>
         </div>
@@ -27,6 +40,7 @@
                 [labelValue]="'treatmentType' | translate"
                 [options]="treatmentTypeOptions"
                 [placeholder]="'treatmentType' | translate"
+                [optionSelected]="treatmentTypeSelectedId"
                 [selectMultiple]="false"
                 [form]="form"
                 [required]="true"
@@ -57,6 +71,7 @@
                 id="medicine"
                 formControlName="medicine"
                 [label]="'medicine' | translate"
+                [controlForm]="form.controls['medicine']"
                 [placeholder]="'medicinePlaceholder' | translate"
                 [invalidLabel]="getInvalidLabel('medicine')"
                 [required]="!isFormulaMagistral"
@@ -88,6 +103,7 @@
                 [labelValue]="'dose' | translate"
                 [options]="doseOptions"
                 [placeholder]="'dose' | translate"
+                [optionSelected]="doseSelectedId"
                 [selectMultiple]="false"
                 [form]="form"
                 [required]="!isFormulaMagistral"
@@ -96,7 +112,7 @@
             </app-input-select>
         </div>
         <div class="col-6" [hidden]="isFormulaMagistral">
-            <app-input id="otherDosis" formControlName="otherDosis" [label]="'otherDosis' | translate" [placeholder]="'otherDosis' | translate" type="text" [invalidLabel]="getInvalidLabel('otherDosis')"> </app-input>
+            <app-input id="otherDosis" formControlName="otherDosis" [label]="'otherDosis' | translate" [placeholder]="'otherDosis' | translate" type="text" [invalidLabel]="getInvalidLabel('otherDosis')" [required]="isOtherDoseSelected"> </app-input>
         </div>
 
         <div class="col-6" *ngIf="isFormulaMagistral">
@@ -130,6 +146,7 @@
                 [form]="form"
                 [labelValue]="'regimenTreatment' | translate"
                 [options]="regimenTreatmentOptions"
+                [currentValue]="regimenTreatmentSelected"
                 [placeholder]="'regimenTreatment' | translate"
                 [selectMultiple]="false"
                 [form]="form"

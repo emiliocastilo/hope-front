@@ -1,13 +1,10 @@
-import { MedicineModel } from '../../../../../../management/models/medicines/medicines.model';
+import { LineTreatment, SuspendTreatmentModel } from './../../../models/derma-treatment.model';
+import { Indication } from './../../../../../../dashboard/components/treatments/treatments-patients/treatments-patients.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, Validator, ValidationErrors } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, map, tap, catchError } from 'rxjs/operators';
-import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
-import { DoseModel } from 'src/app/modules/management/models/medicines/dose.model';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { DermaTreatmentModel } from '../../../models/derma-treatment.model';
+import moment from 'moment';
 
 enum TREATMENT_TYPE {
     BIOLOGICO = 'BIOLOGICO',
@@ -16,15 +13,16 @@ enum TREATMENT_TYPE {
 }
 
 @Component({
-    selector: 'app-principal-treatment-modal',
+    selector: 'app-principal-treatment-modal-suspend',
     templateUrl: './principal-treatment-modal-suspend.component.html',
     styleUrls: ['./principal-treatment-modal-suspend.component.scss'],
 })
 export class PrincipalTreatmentModalSuspendComponent implements OnInit {
     @Input() indication: string;
     @Input() treatment: DermaTreatmentModel;
+    @Input() lineTreatment: LineTreatment;
     @Output() cancel: EventEmitter<any> = new EventEmitter();
-    @Output() save: EventEmitter<DermaTreatmentModel> = new EventEmitter();
+    @Output() suspend: EventEmitter<SuspendTreatmentModel> = new EventEmitter();
 
     public title: string = 'suspendTreatment';
     public isFormulaMagistral: boolean = false;
@@ -39,7 +37,7 @@ export class PrincipalTreatmentModalSuspendComponent implements OnInit {
 
     ngOnInit(): void {
         this.buildForm();
-        this.isFormulaMagistral = this.treatment.masterFormula !== '';
+        this.isFormulaMagistral = this.treatment.masterFormula !== null;
 
         this.reasonSuspensionOptions = [
             { id: 0, name: this._translate.instant('reasonSuspensionList.motive1') },
@@ -53,21 +51,20 @@ export class PrincipalTreatmentModalSuspendComponent implements OnInit {
             { id: 8, name: this._translate.instant('reasonSuspensionList.motive9') },
             { id: 9, name: this._translate.instant('reasonSuspensionList.motive10') },
         ];
-        this.form.get('indication').setValue(this.indication);
     }
 
     private buildForm(): void {
         this.form = this._formBuilder.group({
             reasonSuspension: ['', Validators.required],
-            medicine: [this.treatment.medicine?.name, this.requiredIfNotFormulaMagistral.bind(this)],
-            family: [this.treatment.medicine?.family, this.requiredIfNotFormulaMagistral.bind(this)],
-            atc: [this.treatment.medicine?.codeAtc, this.requiredIfNotFormulaMagistral.bind(this)],
-            cn: [this.treatment.medicine?.nationalCode, this.requiredIfNotFormulaMagistral.bind(this)],
-            tract: [this.treatment.medicine?.viaAdministration, this.requiredIfNotFormulaMagistral.bind(this)],
+            medicine: [this.lineTreatment.medicine?.description, this.requiredIfNotFormulaMagistral.bind(this)],
+            family: [this.lineTreatment.medicine?.family, this.requiredIfNotFormulaMagistral.bind(this)],
+            atc: [this.lineTreatment.medicine?.codeAtc, this.requiredIfNotFormulaMagistral.bind(this)],
+            cn: [this.lineTreatment.medicine?.nationalCode, this.requiredIfNotFormulaMagistral.bind(this)],
+            tract: [this.lineTreatment.medicine?.viaAdministration, this.requiredIfNotFormulaMagistral.bind(this)],
             dose: [this.treatment.dose, this.requiredIfNotFormulaMagistral.bind(this)],
             otherDosis: [this.treatment.otherDose],
             regimenTreatment: [this.treatment.regimen, Validators.required],
-            dateSuspension: [new Date()],
+            dateSuspension: [moment().format('yyyy-MM-DD')],
             descripcionFormulaMagistral: [this.treatment.masterFormula, this.requiredIfFormulaMagistral.bind(this)],
             dosisFormulaMagistral: [this.treatment.masterFormulaDose],
             opcionMedicamento: [''],
@@ -77,7 +74,12 @@ export class PrincipalTreatmentModalSuspendComponent implements OnInit {
 
     public onSave() {
         if (this.validForm) {
-            this.save.emit(this.form.value);
+            const suspendTreatment: SuspendTreatmentModel = {
+                lineId: this.lineTreatment.id,
+                reason: this.form.value.reasonSuspension.name,
+                suspensionDate: new Date(this.form.value.dateSuspension).toISOString(),
+            };
+            this.suspend.emit(suspendTreatment);
         }
     }
 

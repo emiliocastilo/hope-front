@@ -72,6 +72,7 @@
     "btn.search": "Search",
     "btn.select": "Select",
     "btn.update": "Update",
+    "btn.suspend": "Suspend",
     "byVIHParameters": "Patients by",
     "calculatorPase": "Calculate PASE",
     "calificationBsa": "Bsa calification",
@@ -479,7 +480,20 @@
     "reason": "Reason",
     "reasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
     "reasonSuspension": "Cause",
+    "reasonChange": "Cause",
     "reasonSuspensionList": {
+        "motive1": "Ineffectiveness",
+        "motive2": "Primary failure (PASI 75 never reached)",
+        "motive3": "Secondary failure (loss of PASI 75)",
+        "motive4": "Bleaching",
+        "motive5": "Non-compliance",
+        "motive6": "I leave",
+        "motive7": "Adverse effects",
+        "motive8": "Patient preference",
+        "motive9": "Pregnancy",
+        "motive10": "Others"
+    },
+    "reasonChangeList": {
         "motive1": "Ineffectiveness",
         "motive2": "Primary failure (PASI 75 never reached)",
         "motive3": "Secondary failure (loss of PASI 75)",

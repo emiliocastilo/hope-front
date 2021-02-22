@@ -32,6 +32,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
     public doseOptions: Array<{ id: string; name: string }>;
     public regimenTreatmentOptions: Array<{ name: string }>;
     public isFormulaMagistral: boolean = false;
+    public isOtherDoseSelected: boolean = false;
     public form: FormGroup;
 
     constructor(private readonly _translate: TranslateService, private readonly _medicinesService: MedicinesServices, private readonly _notification: NotificationService, private readonly _formBuilder: FormBuilder) {}
@@ -69,7 +70,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
             descripcionFormulaMagistral: ['', this.requiredIfFormulaMagistral.bind(this)],
             dosisFormulaMagistral: [''],
             dose: ['', this.requiredIfNotFormulaMagistral.bind(this)],
-            otherDosis: [''],
+            otherDosis: ['', this.requiredOtherDose.bind(this)],
             regimenTreatment: ['', Validators.required],
             datePrescription: ['', Validators.required],
             dateStart: ['', Validators.required],
@@ -141,12 +142,8 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
     }
 
     public onDoseSelect(event: any) {
-        if (event && event.name === 'Otra') this.form.controls.otherDosis.setValidators(Validators.required);
-        else {
-            this.form.controls.otherDosis.clearValidators();
-            this.form.controls.otherDosis.setValue('');
-        }
-
+        this.isOtherDoseSelected = event && event.name === 'Otra';
+        this.form.get('otherDosis').updateValueAndValidity();
         this.form.controls.regimenTreatment.setValue({ name: this._translate.instant('standard') });
     }
 
@@ -189,9 +186,18 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
         }
         return errors;
     }
+
     private requiredIfFormulaMagistral(formControl: FormControl): ValidationErrors {
         let errors: ValidationErrors = null;
         if (this.isFormulaMagistral && !formControl.value) {
+            errors = { required: true };
+        }
+        return errors;
+    }
+
+    private requiredOtherDose(formControl: FormControl): ValidationErrors {
+        let errors: ValidationErrors = null;
+        if (this.isOtherDoseSelected && !formControl.value) {
             errors = { required: true };
         }
         return errors;

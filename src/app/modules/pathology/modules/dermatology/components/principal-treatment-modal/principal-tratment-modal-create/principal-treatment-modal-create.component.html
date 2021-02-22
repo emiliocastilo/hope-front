@@ -35,7 +35,7 @@
             </app-input-select>
         </div>
 
-        <div *ngIf="isTreatmentTopicSelected()" class="col-6">
+        <div [hidden]="!isTreatmentTopicSelected()" class="col-6">
             <fieldset class="radioButtons">
                 <label>
                     <input id="opcionMedicamento" (click)="setRadioValues('opcionMedicamento')" type="radio" name="opcionBiologica" />
@@ -43,7 +43,7 @@
                 </label>
             </fieldset>
         </div>
-        <div *ngIf="isTreatmentTopicSelected()" class="col-6">
+        <div [hidden]="!isTreatmentTopicSelected()" class="col-6">
             <fieldset class="radioButtons">
                 <label>
                     <input id="opcionFormulaMagistral" (click)="setRadioValues('opcionFormulaMagistral')" type="radio" name="opcionBiologica" />
@@ -97,10 +97,10 @@
             </app-input-select>
         </div>
         <div class="col-6" [hidden]="isFormulaMagistral">
-            <app-input id="otherDosis" formControlName="otherDosis" [label]="'otherDosis' | translate" [placeholder]="'otherDosis' | translate" type="text" [invalidLabel]="getInvalidLabel('otherDosis')"> </app-input>
+            <app-input id="otherDosis" formControlName="otherDosis" [label]="'otherDosis' | translate" [placeholder]="'otherDosis' | translate" type="text" [invalidLabel]="getInvalidLabel('otherDosis')" [required]="isOtherDoseSelected"> </app-input>
         </div>
 
-        <div class="col-6" *ngIf="isFormulaMagistral">
+        <div class="col-6" [hidden]="!isFormulaMagistral">
             <app-input
                 id="descripcionFormulaMagistral"
                 formControlName="descripcionFormulaMagistral"
@@ -112,7 +112,7 @@
             >
             </app-input>
         </div>
-        <div class="col-6" *ngIf="isFormulaMagistral">
+        <div class="col-6" [hidden]="!isFormulaMagistral">
             <app-input
                 id="dosisFormulaMagistral"
                 formControlName="dosisFormulaMagistral"

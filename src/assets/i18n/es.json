@@ -72,6 +72,7 @@
   "btn.search": "Buscar",
   "btn.select": "Seleccionar",
   "btn.update": "Modificar",
+  "btn.suspend": "Suspender",
   "byVIHParameters": "Pacientes por",
   "calculatorPase": "Calcular PASE",
   "calificationBsa": "Calificación en base a Bsa",
@@ -480,6 +481,19 @@
   "reasonChangeBiologicalTreatmentFiveYears": "Motivo del cambio de tratamiento biológico de los últimos 5 años",
   "reasonSuspension": "Causa de finalización",
   "reasonSuspensionList": {
+    "motive1": "Ineficacia",
+    "motive2": "Fallo primario (no se alcanzó nunca PASI 75)",
+    "motive3": "Fallo secundario (perdida de PASI 75)",
+    "motive4": "Blanqueamiento",
+    "motive5": "Incumplimiento",
+    "motive6": "Abandono",
+    "motive7": "Efectos adversos",
+    "motive8": "Preferencia del paciente",
+    "motive9": "Embarazo",
+    "motive10": "Otros"
+  },
+  "reasonChange": "Causa de cambio",
+  "reasonChangeList": {
     "motive1": "Ineficacia",
     "motive2": "Fallo primario (no se alcanzó nunca PASI 75)",
     "motive3": "Fallo secundario (perdida de PASI 75)",
