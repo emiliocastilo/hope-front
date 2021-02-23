@@ -72,6 +72,7 @@
     "btn.search": "Search",
     "btn.select": "Select",
     "btn.update": "Update",
+    "btn.suspend": "Suspend",
     "byVIHParameters": "Patients by",
     "calculatorPase": "Calculate PASE",
     "calificationBsa": "Bsa calification",
@@ -87,6 +88,7 @@
     "changePassword": "Change password",
     "changeSuspend": "Change/Suspend",
     "changeSuspendTreatment": "Change or stop treatment",
+    "suspendTreatment": "Stop treatment",
     "chartCD4": "Patients by CD4",
     "chartChangeQuantity": "Number of changes per treatment",
     "chartCVP": "Patients by CVP",
@@ -111,7 +113,7 @@
     "cmvDate": "Date CMV Serology",
     "cn": "National Code",
     "code": "Code",
-    "codeAct": "Code",
+    "codeAtc": "Code",
     "coinfectionsType": "Type of coinfections",
     "collegeNumber": "College number",
     "combinedTreatments": "Combined treatments",
@@ -352,7 +354,8 @@
     "notAffected": "Not affected",
     "notifications": {
         "API-001": "Something went wrong",
-        "duplicatedTreatment": "Mdicine already exists on an active patient treatment",
+        "duplicatedTreatment": "Medicine already exists on an active patient treatment",
+        "treatmentAlreadySuspend": "This medicine is suspend",
         "elementCreated": "Element created correctly",
         "elementDeleted": "Element removed correctly",
         "elementUpdated": "Element updated correctly",
@@ -477,8 +480,21 @@
     },
     "reason": "Reason",
     "reasonChangeBiologicalTreatmentFiveYears": "Reason change biological treatment on the last five years",
-    "reasonChangeOrSuspension": "Cause",
-    "reasonChangeOrSuspensionList": {
+    "reasonSuspension": "Cause",
+    "reasonChange": "Cause",
+    "reasonSuspensionList": {
+        "motive1": "Ineffectiveness",
+        "motive2": "Primary failure (PASI 75 never reached)",
+        "motive3": "Secondary failure (loss of PASI 75)",
+        "motive4": "Bleaching",
+        "motive5": "Non-compliance",
+        "motive6": "I leave",
+        "motive7": "Adverse effects",
+        "motive8": "Patient preference",
+        "motive9": "Pregnancy",
+        "motive10": "Others"
+    },
+    "reasonChangeList": {
         "motive1": "Ineffectiveness",
         "motive2": "Primary failure (PASI 75 never reached)",
         "motive3": "Secondary failure (loss of PASI 75)",
@@ -491,7 +507,7 @@
         "motive10": "Others"
     },
     "reasonLastChangeBiologicalTreatment": "Reason",
-    "reasonStopBiologicalTreatment": "Reason",
+    "reasonStopBiologicalTreatment": "Treatment changes",
     "reasonStopBiologicalTreatmentFiveYears": "Reason to Stop Biological Treatment Five Years",
     "recuperarcontraseña": "Recover password",
     "reduced": "Reduced",
@@ -666,5 +682,6 @@
     },
     "lbl": {
         "search": "Search"
-    }
+    },
+    "treatmentChangesNumber": "Treatment changes number"
 }

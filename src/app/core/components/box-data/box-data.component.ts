@@ -76,10 +76,12 @@ export class BoxDataComponent implements OnInit {
         const modalRef = this._modalService.open(ConfirmModalComponent);
         modalRef.componentInstance.title = 'Aviso de cambios';
         modalRef.componentInstance.messageModal = 'Hay cambios sin guardar, ¿Continuar?';
+
         modalRef.componentInstance.cancel.subscribe((event) => {
             modalRef.close();
             this._formService.setSavedStatusForm(false);
         });
+
         modalRef.componentInstance.accept.subscribe((event) => {
             modalRef.close();
             this._formService.setSavedStatusForm(true);

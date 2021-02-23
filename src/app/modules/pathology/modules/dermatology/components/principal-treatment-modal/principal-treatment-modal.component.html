@@ -87,7 +87,7 @@
 
     <section class="modal-content_button-container">
         <app-button *ngIf="type === 'create'" clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.save" type="button" [disabledButton]="!validForm"> </app-button>
-        <app-button *ngIf="type === 'edit' || type === 'changeSuspend'" clasesBtn="btn btn-primary mr-4" (click)="onUpdate()" [disabledButton]="!validForm" icono="check" texto="btn.update" type="button"> </app-button>
+        <app-button *ngIf="type === 'edit' || type === 'suspend'" clasesBtn="btn btn-primary mr-4" (click)="onUpdate()" [disabledButton]="!validForm" icono="check" texto="btn.update" type="button"> </app-button>
         <app-button clasesBtn="btn btn-danger" (click)="onClose()" icon="x" type="button" texto="btn.close"> </app-button>
     </section>
 </div>

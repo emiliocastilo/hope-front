@@ -1,3 +1,4 @@
+import { PrincipalTreatmentModalCreateComponent } from './components/principal-treatment-modal/principal-tratment-modal-create/principal-treatment-modal-create.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -19,6 +20,8 @@ import { PrincipalTreatmentComponent } from './components/principal-treatment/pr
 import { DermatologyRoutingModule } from './dermatology-routing.module';
 import { PhototherapyModalComponent } from './components/phototherapy-modal/phototherapy-modal.component';
 import { PrincipalTreatmentModalComponent } from './components/principal-treatment-modal/principal-treatment-modal.component';
+import { PrincipalTreatmentModalEditComponent } from './components/principal-treatment-modal/principal-tratment-modal-edit/principal-treatment-modal-edit.component';
+import { PrincipalTreatmentModalSuspendComponent } from './components/principal-treatment-modal/principal-tratment-modal-suspend/principal-treatment-modal-suspend.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +38,9 @@ import { PrincipalTreatmentModalComponent } from './components/principal-treatme
         DermathologyDashboardPatientsComponent,
         PhototherapyModalComponent,
         PrincipalTreatmentModalComponent,
+        PrincipalTreatmentModalSuspendComponent,
+        PrincipalTreatmentModalEditComponent,
+        PrincipalTreatmentModalCreateComponent,
     ],
     imports: [
         CommonModule,

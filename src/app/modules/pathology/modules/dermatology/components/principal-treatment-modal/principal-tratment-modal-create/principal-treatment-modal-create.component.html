@@ -1,0 +1,190 @@
+<div class="modal-content">
+    <app-generic-modal-header [title]="title | translate" (close)="onClose()"> </app-generic-modal-header>
+
+    <form class="row" [formGroup]="form">
+        <div class="col-12">
+            <app-input id="indication" formControlName="indication" [label]="'indication' | translate" [placeholder]="'indication' | translate" type="text" [invalidLabel]="getInvalidLabel('indication')" [required]="true" [isDisabled]="true">
+            </app-input>
+        </div>
+        <div class="col-2">
+            <app-switch formControlName="specialIndication" id="specialIndication" [label]="'specialIndication' | translate"> </app-switch>
+        </div>
+        <div class="col-2">
+            <app-switch formControlName="bigPsychologicalImpact" id="bigPsychologicalImpact" [label]="'bigPsychologicalImpact' | translate"> </app-switch>
+        </div>
+        <div class="col-2">
+            <app-switch formControlName="visibleInjury" id="visibleInjury" [label]="'visibleInjury' | translate"> </app-switch>
+        </div>
+        <div class="col-6">
+            <app-input id="others" formControlName="others" [label]="'others' | translate" [placeholder]="'others' | translate" type="text" [invalidLabel]="getInvalidLabel('others')"> </app-input>
+        </div>
+        <div class="col-12">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="treatmentType"
+                form="form"
+                [form]="form"
+                [labelValue]="'treatmentType' | translate"
+                [options]="treatmentTypeOptions"
+                [placeholder]="'treatmentType' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+                [required]="true"
+                (selectTrigger)="onSelectTreatmentType($event)"
+            >
+            </app-input-select>
+        </div>
+
+        <div [hidden]="!isTreatmentTopicSelected()" class="col-6">
+            <fieldset class="radioButtons">
+                <label>
+                    <input id="opcionMedicamento" (click)="setRadioValues('opcionMedicamento')" type="radio" name="opcionBiologica" />
+                    {{ 'opcionMedicamento' | translate }}
+                </label>
+            </fieldset>
+        </div>
+        <div [hidden]="!isTreatmentTopicSelected()" class="col-6">
+            <fieldset class="radioButtons">
+                <label>
+                    <input id="opcionFormulaMagistral" (click)="setRadioValues('opcionFormulaMagistral')" type="radio" name="opcionBiologica" />
+                    {{ 'opcionFormulaMagistral' | translate }}
+                </label>
+            </fieldset>
+        </div>
+
+        <div class="col-12" [hidden]="isFormulaMagistral">
+            <app-input-typeahead
+                id="medicine"
+                formControlName="medicine"
+                [label]="'medicine' | translate"
+                [controlForm]="form.controls['medicine']"
+                [placeholder]="'medicinePlaceholder' | translate"
+                [invalidLabel]="getInvalidLabel('medicine')"
+                [required]="!isFormulaMagistral"
+                [isDisabled]="false"
+                [search]="search"
+                [inputFormatter]="formatter"
+                [resultFormatter]="formatter"
+                (selectTypeahead)="onSelectMedicine($event)"
+            >
+            </app-input-typeahead>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="family" formControlName="family" [label]="'family' | translate" [placeholder]="'family' | translate" type="text" [invalidLabel]="getInvalidLabel('family')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="atc" formControlName="atc" [label]="'atc' | translate" [placeholder]="'atc' | translate" type="text" [invalidLabel]="getInvalidLabel('atc')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="cn" formControlName="cn" [label]="'cn' | translate" [placeholder]="'cn' | translate" type="text" [invalidLabel]="getInvalidLabel('cn')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input id="tract" formControlName="tract" [label]="'tract' | translate" [placeholder]="'tract' | translate" type="text" [invalidLabel]="getInvalidLabel('tract')" [required]="!isFormulaMagistral" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="dose"
+                [form]="form"
+                [labelValue]="'dose' | translate"
+                [options]="doseOptions"
+                [placeholder]="'dose' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+                [required]="!isFormulaMagistral"
+                (selectTrigger)="onDoseSelect($event)"
+            >
+            </app-input-select>
+        </div>
+        <div class="col-6" [hidden]="isFormulaMagistral">
+            <app-input
+                id="otherDosis"
+                formControlName="otherDosis"
+                [label]="'otherDosis' | translate"
+                [placeholder]="'otherDosis' | translate"
+                type="text"
+                [invalidLabel]="getInvalidLabel('otherDosis')"
+                [required]="isOtherDoseSelected"
+                [hidden]="!isOtherDoseSelected"
+            >
+            </app-input>
+        </div>
+
+        <div class="col-6" [hidden]="!isFormulaMagistral">
+            <app-input
+                id="descripcionFormulaMagistral"
+                formControlName="descripcionFormulaMagistral"
+                [label]="'descripcionFormulaMagistral' | translate"
+                [placeholder]="'descripcionFormulaMagistral' | translate"
+                type="text"
+                [invalidLabel]="getInvalidLabel('descripcionFormulaMagistral')"
+                [required]="isFormulaMagistral"
+            >
+            </app-input>
+        </div>
+        <div class="col-6" [hidden]="!isFormulaMagistral">
+            <app-input
+                id="dosisFormulaMagistral"
+                formControlName="dosisFormulaMagistral"
+                [label]="'dosisFormulaMagistral' | translate"
+                [placeholder]="'dosisFormulaMagistral' | translate"
+                type="text"
+                [invalidLabel]="getInvalidLabel('dosisFormulaMagistral')"
+            >
+            </app-input>
+        </div>
+
+        <div class="col-6">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="regimenTreatment"
+                [form]="form"
+                [labelValue]="'regimenTreatment' | translate"
+                [options]="regimenTreatmentOptions"
+                [placeholder]="'regimenTreatment' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+                [required]="true"
+            >
+            </app-input-select>
+        </div>
+        <div class="col-6">
+            <app-input
+                id="datePrescription"
+                formControlName="datePrescription"
+                [label]="'datePrescription' | translate"
+                [placeholder]="'datePrescription' | translate"
+                type="date"
+                [required]="true"
+                [invalidLabel]="getInvalidLabel('datePrescription')"
+            >
+            </app-input>
+        </div>
+        <div class="col-6">
+            <app-input id="dateStart" formControlName="dateStart" [label]="'dateStart' | translate" [placeholder]="'dateStart' | translate" type="date" [required]="true" [invalidLabel]="getInvalidLabel('dateStart')"> </app-input>
+        </div>
+        <div class="col-6">
+            <app-input id="expectedEndDate" formControlName="expectedEndDate" [label]="'expectedEndDate' | translate" [placeholder]="'expectedEndDate' | translate" type="date" [invalidLabel]="getInvalidLabel('expectedEndDate')"> </app-input>
+        </div>
+        <div class="col-12">
+            <app-input-textarea id="observations" class="col-12" formControlName="observations" [label]="'observations' | translate" type="textarea" [placeholder]="'observations' | translate" [invalidLabel]="getInvalidLabel('observations')">
+            </app-input-textarea>
+        </div>
+        <div class="col-2">
+            <app-switch formControlName="treatmentContinue" id="treatmentContinue" [label]="'treatmentContinue' | translate"> </app-switch>
+        </div>
+        <div class="col-2">
+            <app-switch formControlName="treatmentPulsatil" id="treatmentPulsatil" [label]="'treatmentPulsatil' | translate"> </app-switch>
+        </div>
+    </form>
+    <div class="row">
+        <label class="requiredLegend">
+            {{ 'requiredLegendText' | translate }}
+        </label>
+    </div>
+
+    <section class="modal-content_button-container">
+        <app-button clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.save" type="button" [disabledButton]="!validForm"> </app-button>
+        <app-button clasesBtn="btn btn-danger" (click)="onClose()" icon="x" type="button" texto="btn.close"> </app-button>
+    </section>
+</div>

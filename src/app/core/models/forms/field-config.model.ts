@@ -1,22 +1,22 @@
 import { FieldConfig } from '../../interfaces/dynamic-forms/field-config.interface';
 
 export class FieldConfigModel implements FieldConfig {
-    name: string;
-    type: string;
+    css?: string;
     disabled?: boolean;
-    label?: string;
-    options?: any[];
-    placeholder?: string;
-    validation?: import('@angular/forms').ValidatorFn[];
-    value?: any;
+    formula?: any;
     icon?: string;
-    selectMultiple?: boolean;
-    radioButton?: any;
+    inputType?: string;
+    label?: string;
     labelCheckOff: string;
     labelCheckOn: string;
-    rows?: number;
-    inputType?: string;
-    css?: string;
-    formula?: any;
+    name: string;
+    options?: any[];
+    placeholder?: string;
+    radioButton?: any;
     readonly?: boolean;
+    rows?: number;
+    selectMultiple?: boolean;
+    type: string;
+    validation?: import('@angular/forms').ValidatorFn[];
+    value?: any;
 }

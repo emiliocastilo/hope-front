@@ -15,7 +15,6 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     @Input() labelValue = '';
     @Input() name: string;
     @Input() options: any[] = [];
-    @Input() optionSelected: number;
     @Input() currentValue: any;
     @Input() placeholder = '';
     @Input() selectMultiple = false;
@@ -23,8 +22,17 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     @Input() form: FormGroup;
     @Input() required = false;
     @Input() changes = false;
+    @Input()
+    set optionSelected(optionSelected: number) {
+        this._optionSelected = optionSelected;
+        if (this.options?.length > 0) {
+            this.selectValue();
+        }
+    }
 
     @Output() selectTrigger: EventEmitter<any> = new EventEmitter<any>();
+
+    private _optionSelected: number;
 
     public value: string = null;
     childControl = new FormControl();
@@ -32,22 +40,24 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
     optionChangeSelected: boolean;
 
     ngOnInit(): void {
-        if (this.optionSelected !== undefined) {
+        if (this._optionSelected !== undefined) {
             const interval = setInterval(() => {
                 if (this.options?.length > 0) {
                     clearInterval(interval);
-                    const valueSelected = this.options.filter((f) => f.id === this.optionSelected)[0];
-                    if (valueSelected) {
-                        this.currentValue = valueSelected;
-                        this.value = valueSelected.name;
-                    }
-
-                    if (!this.value && this.currentValue) this.value = this.currentValue.name;
+                    this.selectValue();
                 } else {
                     this.options = [];
                 }
             }, 100);
         }
+    }
+
+    private selectValue() {
+        const valueSelected = this.options.filter((f) => f.id === this._optionSelected)[0];
+        this.currentValue = valueSelected;
+        this.value = valueSelected?.name;
+
+        if (!this.value && this.currentValue) this.value = this.currentValue.name;
     }
 
     ngOnChanges(changes) {
@@ -78,7 +88,7 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
 
     onInput(value: any) {
         this.value = value;
-        this.currentValue = this.options.filter((f) => this._translate.instant(f.name) === value)[0];
+        this.currentValue = this.options.find((f) => this._translate.instant(f.name?.trim()) === value?.trim());
         this.childControl.setValue(this.currentValue);
         if (this.form) this.form.controls[this.id].setValue(this.currentValue);
         this.onChange(this.value);

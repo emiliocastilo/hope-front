@@ -3,14 +3,14 @@ import { PatientModel } from './patient.model';
 import { PatientTreatmentModel } from './patient-treatment.model';
 
 export class PatientDiagnoseModel {
-    id: number;
-    patient: PatientModel;
-    indication: IndicationModel;
-    cieCode: string;
-    cieDescription: string;
-    othersIndications: string;
-    initDate: Date;
-    symptomsDate: Date;
-    derivationDate: Date;
-    treatments: Array<PatientTreatmentModel>;
+    id?: number;
+    patient?: PatientModel;
+    indication?: IndicationModel;
+    cieCode?: string;
+    cieDescription?: string;
+    othersIndications?: string;
+    initDate?: Date;
+    symptomsDate?: Date;
+    derivationDate?: Date;
+    treatments?: Array<PatientTreatmentModel>;
 }
