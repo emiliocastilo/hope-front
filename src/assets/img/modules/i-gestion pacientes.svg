@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="55.809" height="70.856" viewBox="0 0 55.809 70.856">
+  <g id="i-gestion_pacientes" data-name="i-gestion pacientes" transform="translate(-1166.681 -321.144)">
+    <path id="Trazado_4" data-name="Trazado 4" d="M441.928,498.48V493.6a9.8,9.8,0,0,0-9.794-9.794H412.589a9.793,9.793,0,0,0-9.794,9.794v4.9" transform="translate(764.886 -107.496)" fill="none" stroke="#363e63" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Trazado_5" data-name="Trazado 5" d="M426.172,482.21a9.794,9.794,0,1,1-9.794-9.794,9.8,9.8,0,0,1,9.794,9.794Z" transform="translate(770.861 -125.46)" fill="none" stroke="#363e63" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Trazado_6" data-name="Trazado 6" d="M428.163,498.275v-4.9a9.8,9.8,0,0,0-7.338-9.446" transform="translate(793.327 -107.294)" fill="none" stroke="#363e63" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Trazado_7" data-name="Trazado 7" d="M417.03,472.544a9.795,9.795,0,0,1,0,18.957" transform="translate(787.341 -125.258)" fill="none" stroke="#363e63" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Trazado_117" data-name="Trazado 117" d="M388.752,474.773c0-.059.036-.109.038-.168a2.9,2.9,0,0,0-2.833-2.971h-.245a2.393,2.393,0,0,1-2.192-1.45v-.115a2.4,2.4,0,0,1,.476-2.64l.086-.086a1.61,1.61,0,0,0,.119-.119,2.9,2.9,0,0,0-4.225-3.986l-.086.086a2.413,2.413,0,0,1-4.091-1.71v-.27a2.9,2.9,0,0,0-5.8.138v.245a2.394,2.394,0,0,1-1.45,2.19h-.115a2.394,2.394,0,0,1-2.64-.478l-.086-.086a2.905,2.905,0,1,0-4.112,4.105l.092.092a2.505,2.505,0,0,1-1.71,4.2h-.27a2.9,2.9,0,0,0-2.831,2.971.473.473,0,0,0,.006.055" transform="translate(821.754 -136.366)" fill="none" stroke="#29a9e0" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Trazado_118" data-name="Trazado 118" d="M371.124,468.67c0-.08.025-.155.025-.237a4.352,4.352,0,0,0-8.7,0c0,.082.019.157.023.237" transform="translate(827.856 -130.264)" fill="none" stroke="#29a9e0" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>

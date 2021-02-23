@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.336" height="21" viewBox="0 0 15.336 21">
+  <g id="i-gestion-medicamentos-xs" transform="translate(-1167.933 -433.526)">
+    <path id="Trazado_117" data-name="Trazado 117" d="M8.629,4.4c0-.016.01-.029.01-.045a.786.786,0,0,0-.767-.8H7.806a.648.648,0,0,1-.593-.393V3.129a.649.649,0,0,1,.129-.715l.023-.023A.438.438,0,0,0,7.4,2.358.786.786,0,0,0,6.253,1.279L6.23,1.3A.653.653,0,0,1,5.123.84V.767A.786.786,0,0,0,3.552.8V.87a.648.648,0,0,1-.393.593H3.129a.648.648,0,0,1-.715-.129l-.023-.023A.786.786,0,1,0,1.278,2.422l.025.025a.648.648,0,0,1,.13.712.647.647,0,0,1-.593.424H.767a.785.785,0,0,0-.766.8A.128.128,0,0,0,0,4.4" transform="translate(1182.77 438.632) rotate(90)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Trazado_118" data-name="Trazado 118" d="M2.35,1.242c0-.022.007-.042.007-.064A1.178,1.178,0,0,0,0,1.178c0,.022.005.043.006.064" transform="translate(1179.61 441.792) rotate(90)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <rect id="Rectángulo_87" data-name="Rectángulo 87" width="4.705" height="2.558" rx="1.279" transform="translate(1175.7 437.414) rotate(135)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Línea_31" data-name="Línea 31" x2="1.796" y2="1.809" transform="translate(1172.143 437.372)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+    <rect id="Rectángulo_88" data-name="Rectángulo 88" width="4.705" height="2.558" rx="1.279" transform="translate(1175.7 443.228) rotate(135)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Línea_32" data-name="Línea 32" x2="1.796" y2="1.809" transform="translate(1172.143 443.186)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+    <rect id="Rectángulo_89" data-name="Rectángulo 89" width="4.705" height="2.558" rx="1.279" transform="translate(1175.7 449.081) rotate(135)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Línea_33" data-name="Línea 33" x2="1.796" y2="1.809" transform="translate(1172.143 449.039)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+    <path id="Trazado_119" data-name="Trazado 119" d="M304.415,497.434H298.1a2.022,2.022,0,0,0-2.022,2.022v15.956a2.022,2.022,0,0,0,2.022,2.023h6.313" transform="translate(872.354 -63.408)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+  </g>
+</svg>

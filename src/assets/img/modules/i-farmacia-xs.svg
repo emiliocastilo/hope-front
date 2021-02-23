@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14.497" height="21" viewBox="0 0 14.497 21">
+  <g id="i-farmacia-xs" transform="translate(-206.254 -496.945)">
+    <path id="Trazado_111" data-name="Trazado 111" d="M217.605,520.075h-8.547a2.3,2.3,0,0,1-2.3-2.3v-7.5a3.4,3.4,0,0,1,.73-2.085l1.955-2.475a.467.467,0,0,0,.1-.289V503.74" transform="translate(-0.008 -2.63)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <path id="Trazado_111-2" data-name="Trazado 111" d="M226.42,510.337l.46.582a3.392,3.392,0,0,1,.73,2.085h0v7.532a2.3,2.3,0,0,1-2.3,2.3h-.956" transform="translate(-7.361 -5.386)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <path id="Trazado_111-3" data-name="Trazado 111" d="M225.741,507.6,227,509.195" transform="translate(-7.938 -4.244)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <path id="Trazado_111-4" data-name="Trazado 111" d="M225.159,503.692v1.69a.451.451,0,0,0,.1.281l.241.306" transform="translate(-7.695 -2.61)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Línea_33" data-name="Línea 33" y2="5.065" transform="translate(213.502 507.76)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Línea_34" data-name="Línea 34" x1="5.065" transform="translate(210.97 510.292)" fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <path id="Rectángulo_85" data-name="Rectángulo 85" d="M1.261,0H8.284A1.261,1.261,0,0,1,9.545,1.261V2.375A1.261,1.261,0,0,1,8.284,3.636H1.261A1.261,1.261,0,0,1,0,2.375V1.261A1.261,1.261,0,0,1,1.261,0Z" transform="translate(208.712 497.445)" fill="none" stroke="#fff" stroke-width="1"/>
+  </g>
+</svg>
