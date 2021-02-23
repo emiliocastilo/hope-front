@@ -1,16 +1,9 @@
 import { LineTreatment, SuspendTreatmentModel } from './../../../models/derma-treatment.model';
-import { Indication } from './../../../../../../dashboard/components/treatments/treatments-patients/treatments-patients.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { DermaTreatmentModel } from '../../../models/derma-treatment.model';
 import moment from 'moment';
-
-enum TREATMENT_TYPE {
-    BIOLOGICO = 'BIOLOGICO',
-    QUIMICO = 'QUIMICO',
-    TOPICO = 'TOPICO',
-}
 
 @Component({
     selector: 'app-principal-treatment-modal-suspend',
@@ -61,9 +54,9 @@ export class PrincipalTreatmentModalSuspendComponent implements OnInit {
             atc: [this.lineTreatment.medicine?.codeAtc, this.requiredIfNotFormulaMagistral.bind(this)],
             cn: [this.lineTreatment.medicine?.nationalCode, this.requiredIfNotFormulaMagistral.bind(this)],
             tract: [this.lineTreatment.medicine?.viaAdministration, this.requiredIfNotFormulaMagistral.bind(this)],
-            dose: [this.treatment.dose, this.requiredIfNotFormulaMagistral.bind(this)],
-            otherDosis: [this.treatment.otherDose],
-            regimenTreatment: [this.treatment.regimen, Validators.required],
+            dose: [this.lineTreatment.dose, this.requiredIfNotFormulaMagistral.bind(this)],
+            otherDosis: [this.lineTreatment.otherDose],
+            regimenTreatment: [this.lineTreatment.regimen, Validators.required],
             dateSuspension: [moment().format('yyyy-MM-DD')],
             descripcionFormulaMagistral: [this.treatment.masterFormula, this.requiredIfFormulaMagistral.bind(this)],
             dosisFormulaMagistral: [this.treatment.masterFormulaDose],

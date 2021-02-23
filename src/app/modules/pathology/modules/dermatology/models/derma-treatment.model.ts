@@ -31,6 +31,17 @@ export class DermaTreatmentModel {
 }
 
 export interface LineTreatment {
+    specialIndication: boolean;
+    psychologicalImpact: boolean;
+    visibleInjury: boolean;
+    other: string;
+    otherDose: string;
+    datePrescription: Date | string;
+    initDate: Date | string;
+    expectedEndDate: Date | string;
+    observations: string;
+    treatmentContinue: boolean;
+    pulsatileTreatment: boolean;
     lineId?: number;
     treatmentId?: number;
     patientTreatment?: number;

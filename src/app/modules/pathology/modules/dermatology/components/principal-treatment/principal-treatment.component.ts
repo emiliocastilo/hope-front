@@ -128,7 +128,7 @@ export class PrincipalTreatmentComponent implements OnInit {
         const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
         const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
 
-        if (treatment.suspensionDate) {
+        if (line.suspensionDate) {
             this._notification.showErrorToast('treatmentAlreadySuspend');
         } else {
             this.formatDates(treatment);
@@ -153,7 +153,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     public async showModalEdit(index: number) {
         const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
         const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
-        if (treatment.suspensionDate) {
+        if (line.suspensionDate) {
             this._notification.showErrorToast('treatmentAlreadySuspend');
         } else {
             this.formatDates(treatment);
@@ -232,8 +232,8 @@ export class PrincipalTreatmentComponent implements OnInit {
                     principle: line.medicine?.actIngredients,
                     brand: line.medicine?.brand,
                     dose: line.dose,
-                    dateStart: treatment.initDate,
-                    datePrescription: treatment.datePrescription,
+                    dateStart: line.initDate,
+                    datePrescription: line.datePrescription,
                     dateSuspension: line.suspensionDate,
                     treatmentType: line.type,
                     rowColor: line.suspensionDate ? true : false,
