@@ -507,7 +507,7 @@
     "motive10": "Otros"
   },
   "reasonLastChangeBiologicalTreatment": "Motivo",
-  "reasonStopBiologicalTreatment": "Motivo",
+  "reasonStopBiologicalTreatment": "Número de cambios de tratamiento",
   "reasonStopBiologicalTreatmentFiveYears": "Motivo de la suspensión de tratamiento biológicos de los últimos 5 años",
   "recuperarcontraseña": "Recuperar contraseña",
   "reduced": "Reducida",
@@ -685,5 +685,6 @@
   },
   "lbl": {
     "search": "Buscar"
-  }
+  },
+  "treatmentChangesNumber": "Número de cambios de tratamiento"
 }

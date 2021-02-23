@@ -127,7 +127,8 @@ export default class FormUtils {
             switch (value.type) {
                 case 'datepicker':
                     if (value.defaultValue === 'today') {
-                        return moment(new Date()).format('YYYY-MM-DD');
+                        return value.value ? value.value : moment(new Date()).format('YYYY-MM-DD');
+                        // return moment(new Date()).format('YYYY-MM-DD');
                     } else {
                         return value.defaultValue;
                     }

@@ -176,15 +176,17 @@ export class NapsiComponent implements OnInit {
         this.showModalGraph(dataGraph);
     }
 
-    async getForm() {
-        this.retrievedForm = await this._formsService.retrieveForm(this.key, this.patient.id);
-
-        if (this.retrievedForm && this.retrievedForm.data.length > 0) {
-            for (const element of this.retrievedForm.data) {
-                this.retrievedFormFormat[element.name] = element.value;
+    getForm() {
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe((retrievedForm: any) => {
+            this.retrievedForm = retrievedForm;
+            const todayMoment = moment(new Date()).format('YYYY-MM-DD');
+            if (this.retrievedForm && this.retrievedForm.data.length > 0 && retrievedForm.data[0].value === todayMoment) {
+                for (const element of this.retrievedForm.data) {
+                    this.retrievedFormFormat[element.name] = element.value;
+                }
+                this.filledForm = JSON.parse(this.retrievedForm.data.find((e) => e.type === 'form').value);
+                this.form.controls.napsiScore.setValue(this.filledForm.napsiScore);
             }
-            this.filledForm = JSON.parse(this.retrievedForm.data.find((e) => e.type === 'form').value);
-            this.form.controls.napsiScore.setValue(this.filledForm.napsiScore);
-        }
+        });
     }
 }

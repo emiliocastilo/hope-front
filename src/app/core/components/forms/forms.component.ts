@@ -8,6 +8,9 @@ import { NotificationService } from '../../services/notification.service';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { HttpClient } from '@angular/common/http';
 import { HealthOutcomeService } from 'src/app/modules/pathology/modules/dermatology/services/health-outcome.service';
+import { CleanOnInitTemplates } from '../../enum/template-cases.enum';
+import { FieldConfigModel } from '../../models/forms/field-config.model';
+import moment from 'moment';
 
 @Component({
     selector: 'app-forms',
@@ -34,30 +37,46 @@ export class FormsComponent implements OnInit, OnDestroy {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
-    async getAndParseForm() {
-        const retrievedForm: any = await this._formsService.retrieveForm(this.key, this.patient.id);
-        if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
-            this.filledForm = retrievedForm.data;
-        }
-        const data: any = await this._formsService.get(this.key);
-        if (data) {
-            const currentUser = JSON.parse(localStorage.getItem('user'));
-            const cie = currentUser ? currentUser.rolSelected.hospital.cie.replace('CIE', 'CIE ') : 'CIE';
-            data.form = data.form.replace(/{{currentCIE}}/g, cie);
-
-            this.emptyForm = this._parseStringToJSON(data.form);
-            this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
-            const buttons = this._parseStringToJSON(data.buttons);
-            this.buttons = FormUtils.createButtons(buttons);
-        } else {
-            this._notification.showErrorToast('formNotFound');
-        }
-        this.detectCalculatedBackOnInit();
-        this._formsService.setSavedStatusForm(true);
-        this.buttons.forEach((button) => {
-            if (button === 'save') {
-                this._formsService.setMustBeSaved(true);
+    getAndParseForm() {
+        this._formsService.retrieveForm(this.key, this.patient.id).subscribe((retrievedForm: any) => {
+            if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
+                this.filledForm = retrievedForm.data;
             }
+
+            this._formsService.get(this.key).subscribe(
+                (data: any) => {
+                    const currentUser = JSON.parse(localStorage.getItem('user'));
+                    const cie = currentUser ? currentUser.rolSelected.hospital.cie.replace('CIE', 'CIE ') : 'CIE';
+                    data.form = data.form.replace(/{{currentCIE}}/g, cie);
+                    this.emptyForm = this._parseStringToJSON(data.form);
+                    const defaultFields = this.emptyForm.filter((f) => f.defaultValue === 'today');
+
+                    this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
+
+                    if (CleanOnInitTemplates.includes(this.key)) {
+                        const defaultValuedField = this.emptyForm.find((f) => f.defaultValue !== undefined);
+                        if (defaultValuedField?.value != moment(new Date()).format('YYYY-MM-DD')) {
+                            // TODO :: Hacer un cribado más exhaustivo de campos tipo fecha que tengan defaultValue == today
+                            this.config.forEach((item) => {
+                                if (!item.disabled) item.value = undefined;
+                            });
+                            this.config.find((f) => f.name === defaultValuedField.name).value = moment(new Date()).format('YYYY-MM-DD');
+                        }
+                    }
+                    const buttons = this._parseStringToJSON(data.buttons);
+                    this.buttons = FormUtils.createButtons(buttons);
+
+                    this.detectCalculatedBackOnInit();
+                    this._formsService.setSavedStatusForm(true);
+
+                    this.buttons.forEach((button) => {
+                        if (button === 'save') {
+                            this._formsService.setMustBeSaved(true);
+                        }
+                    });
+                },
+                (error) => this._notification.showErrorToast('formNotFound')
+            );
         });
     }
 

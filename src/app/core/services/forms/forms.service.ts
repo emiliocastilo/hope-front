@@ -22,8 +22,8 @@ export class FormsService {
     public currentConfig: FormServiceConfig;
     public currentForm: any;
 
-    public async get(key: string) {
-        return this._http.get(`/templates?key=${key}`).toPromise();
+    public get(key: string) {
+        return this._http.get(`/templates?key=${key}`);
     }
 
     public fillForm(form: any) {
@@ -34,8 +34,8 @@ export class FormsService {
         return this._http.put('/forms', form);
     }
 
-    public async retrieveForm(template: string, patientId: any) {
-        return this._http.get(`/forms?template=${template}&patientId=${patientId}`).toPromise();
+    public retrieveForm(template: string, patientId: any) {
+        return this._http.get(`/forms?template=${template}&patientId=${patientId}`);
     }
 
     public async retrieveFormGraph(template: string, patientId: any) {
@@ -105,6 +105,8 @@ export class FormsService {
                 }
             }
         });
+
+        this.savedForm = false;
 
         const form2save = {
             template: this.currentConfig.key,
