@@ -176,6 +176,7 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
         this.form.controls.atc.setValue(medicine.codeAtc);
         this.form.controls.cn.setValue(medicine.nationalCode);
         this.form.controls.tract.setValue(medicine.viaAdministration);
+        this.form.controls.dose.reset();
 
         this.getDosesByMedicine(medicine);
     }
@@ -198,7 +199,7 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
         doses.forEach((element: DoseModel, i: number) => comboData.push({ id: i, name: `${element.description} ${element.doseIndicated ? '(' + element.doseIndicated + ')' : ''}` }));
         comboData.push({ id: doses.length + 1, name: 'Otra' });
         this.doseOptions = comboData;
-        this.doseSelectedId = comboData.find((doseSelectedItem: { id: string; name: string }) => doseSelectedItem.name === this.lineTreatment.dose).id;
+        this.doseSelectedId = comboData.find((doseSelectedItem: { id: string; name: string }) => doseSelectedItem.name === this.lineTreatment.dose)?.id ?? null;
     }
 
     public isTreatmentTopicSelected(): boolean {

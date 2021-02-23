@@ -54,10 +54,8 @@ export class InputSelectComponent implements OnInit, ControlValueAccessor, OnCha
 
     private selectValue() {
         const valueSelected = this.options.filter((f) => f.id === this._optionSelected)[0];
-        if (valueSelected) {
-            this.currentValue = valueSelected;
-            this.value = valueSelected.name;
-        }
+        this.currentValue = valueSelected;
+        this.value = valueSelected?.name;
 
         if (!this.value && this.currentValue) this.value = this.currentValue.name;
     }
