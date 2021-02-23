@@ -76,7 +76,7 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
         this.buildForm();
         if (this.lineTreatment.medicine) {
             this.originalMedicineId = this.lineTreatment.medicine.id;
-            this.getDosesByMedicine(this.treatment.medicine);
+            this.getDosesByMedicine(this.lineTreatment.medicine);
         }
     }
 
