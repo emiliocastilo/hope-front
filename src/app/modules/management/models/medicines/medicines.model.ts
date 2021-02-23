@@ -4,6 +4,7 @@ export class MedicineModel {
     id?: number;
     actIngredients?: string;
     codeAct?: string;
+    codeAtc?: string;
     acronym?: string;
     nationalCode?: number;
     description?: string;
@@ -38,6 +39,7 @@ export class MedicineModel {
         this.id = obj && obj.id ? obj.id : undefined;
         this.actIngredients = obj && obj.actIngredients ? obj.actIngredients : undefined;
         this.codeAct = obj && obj.codeAct ? obj.codeAct : undefined;
+        this.codeAtc = obj && obj.codeAtc ? obj.codeAtc : undefined;
         this.acronym = obj && obj.acronym ? obj.acronym : undefined;
         this.nationalCode = obj && obj.nationalCode ? obj.nationalCode : undefined;
         this.description = obj && obj.description ? obj.description : undefined;
