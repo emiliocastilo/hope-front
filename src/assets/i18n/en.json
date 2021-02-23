@@ -354,7 +354,8 @@
     "notAffected": "Not affected",
     "notifications": {
         "API-001": "Something went wrong",
-        "duplicatedTreatment": "Mdicine already exists on an active patient treatment",
+        "duplicatedTreatment": "Medicine already exists on an active patient treatment",
+        "treatmentAlreadySuspend": "This medicine is suspend",
         "elementCreated": "Element created correctly",
         "elementDeleted": "Element removed correctly",
         "elementUpdated": "Element updated correctly",

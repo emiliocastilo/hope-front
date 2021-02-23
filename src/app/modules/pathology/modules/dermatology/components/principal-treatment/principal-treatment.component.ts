@@ -128,45 +128,52 @@ export class PrincipalTreatmentComponent implements OnInit {
         const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
         const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
 
-        this.formatDates(treatment);
-        this.formatDates(line);
+        if (treatment.suspensionDate) {
+            this._notification.showErrorToast('treatmentAlreadySuspend');
+        } else {
+            this.formatDates(treatment);
+            this.formatDates(line);
 
-        let modalRef = this._modalService.open(PrincipalTreatmentModalSuspendComponent, { size: 'lg' });
+            let modalRef = this._modalService.open(PrincipalTreatmentModalSuspendComponent, { size: 'lg' });
 
-        modalRef.componentInstance.treatment = treatment;
-        modalRef.componentInstance.lineTreatment = line;
-        modalRef.componentInstance.cancel.subscribe((event: any) => {
-            modalRef.close();
-        });
-        modalRef.componentInstance.suspend.subscribe((suspendTreatment: SuspendTreatmentModel) => {
-            this._dermaTreatmentsService.suspendTreatment(suspendTreatment).subscribe(() => {
+            modalRef.componentInstance.treatment = treatment;
+            modalRef.componentInstance.lineTreatment = line;
+            modalRef.componentInstance.cancel.subscribe((event: any) => {
                 modalRef.close();
-                this.getTreatments(this.makeQueryPaginator());
             });
-        });
+            modalRef.componentInstance.suspend.subscribe((suspendTreatment: SuspendTreatmentModel) => {
+                this._dermaTreatmentsService.suspendTreatment(suspendTreatment).subscribe(() => {
+                    modalRef.close();
+                    this.getTreatments(this.makeQueryPaginator());
+                });
+            });
+        }
     }
 
     public async showModalEdit(index: number) {
         const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
         const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
+        if (treatment.suspensionDate) {
+            this._notification.showErrorToast('treatmentAlreadySuspend');
+        } else {
+            this.formatDates(treatment);
+            this.formatDates(line);
 
-        this.formatDates(treatment);
-        this.formatDates(line);
+            let modalRef = this._modalService.open(PrincipalTreatmentModalEditComponent, { size: 'lg' });
 
-        let modalRef = this._modalService.open(PrincipalTreatmentModalEditComponent, { size: 'lg' });
+            modalRef.componentInstance.treatment = treatment;
+            modalRef.componentInstance.lineTreatment = line;
 
-        modalRef.componentInstance.treatment = treatment;
-        modalRef.componentInstance.lineTreatment = line;
-
-        modalRef.componentInstance.indication = this.currentIndication;
-        modalRef.componentInstance.title = 'editTreatment';
-        modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
-        modalRef.componentInstance.save.subscribe((treatment: EditTreatmentModel) => {
-            this._dermaTreatmentsService.updateTreatment(treatment).subscribe(() => {
-                modalRef.close();
-                this.getTreatments(this.makeQueryPaginator());
+            modalRef.componentInstance.indication = this.currentIndication;
+            modalRef.componentInstance.title = 'editTreatment';
+            modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
+            modalRef.componentInstance.save.subscribe((treatment: EditTreatmentModel) => {
+                this._dermaTreatmentsService.updateTreatment(treatment).subscribe(() => {
+                    modalRef.close();
+                    this.getTreatments(this.makeQueryPaginator());
+                });
             });
-        });
+        }
     }
 
     private showModalConfirmDelete(index: number) {
@@ -229,7 +236,7 @@ export class PrincipalTreatmentComponent implements OnInit {
                     datePrescription: treatment.datePrescription,
                     dateSuspension: line.suspensionDate,
                     treatmentType: line.type,
-                    rowColor: line.suspensionDate ? moment(line.suspensionDate).isSameOrBefore(moment()) : false,
+                    rowColor: line.suspensionDate ? true : false,
                 });
             });
         });

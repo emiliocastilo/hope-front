@@ -101,7 +101,7 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
             opcionMedicamento: [''],
             opcionFormulaMagistral: [''],
             opcionBiologica: [opcionBiologica],
-            medicine: [this.treatment.medicine ? { ...this.treatment.medicine, name: this.treatment.medicine?.description } : '', this.requiredIfNotFormulaMagistral.bind(this)],
+            medicine: [this.lineTreatment.medicine ? { ...this.lineTreatment.medicine, name: this.lineTreatment.medicine?.description } : '', this.requiredIfNotFormulaMagistral.bind(this)],
             family: [this.lineTreatment.medicine?.family, this.requiredIfNotFormulaMagistral.bind(this)],
             atc: [this.lineTreatment.medicine?.codeAtc, this.requiredIfNotFormulaMagistral.bind(this)],
             cn: [this.lineTreatment.medicine?.nationalCode, this.requiredIfNotFormulaMagistral.bind(this)],
@@ -191,7 +191,6 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
     public onDoseSelect(event: any) {
         this.isOtherDoseSelected = event && event.name === 'Otra';
         this.form.get('otherDosis').updateValueAndValidity();
-        this.form.controls.regimenTreatment.setValue({ name: this._translate.instant('standard') });
     }
 
     private setDoses(doses: DoseModel[]) {

@@ -144,7 +144,6 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
     public onDoseSelect(event: any) {
         this.isOtherDoseSelected = event && event.name === 'Otra';
         this.form.get('otherDosis').updateValueAndValidity();
-        this.form.controls.regimenTreatment.setValue({ name: this._translate.instant('standard') });
     }
 
     private setDoses(doses: DoseModel[]) {
