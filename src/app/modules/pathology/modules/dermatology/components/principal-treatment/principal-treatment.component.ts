@@ -103,7 +103,8 @@ export class PrincipalTreatmentComponent implements OnInit {
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
         modalRef.componentInstance.save.subscribe((treatment: DermaTreatmentModel) => {
-            if (treatment.masterFormula === '') {
+            debugger;
+            if (!treatment.masterFormula) {
                 this._dermaTreatmentsService.isMedicineRepeated(this.patient.id, treatment.medicine.id.toString()).subscribe((isRepeated: boolean) => {
                     !isRepeated ? this.createTreatment(treatment, modalRef) : this._notification.showErrorToast('duplicatedTreatment');
                 });

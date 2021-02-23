@@ -129,7 +129,7 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
                 datePrescription: treatmentData.datePrescription ? new Date(treatmentData.datePrescription).toISOString() : '',
                 expectedEndDate: treatmentData.expectedEndDate ? new Date(treatmentData.expectedEndDate).toISOString() : '',
                 type: treatmentData.treatmentType.id,
-                regimen: treatmentData.regimenTreatment?.name,
+                regimen: treatmentData.regimenTreatment?.name || treatmentData.regimenTreatment,
                 medicine: treatmentData.medicine,
                 dose: treatmentData.dose?.name || treatmentData.dose,
                 masterFormula: treatmentData.descripcionFormulaMagistral,
@@ -199,6 +199,7 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
         comboData.push({ id: doses.length + 1, name: 'Otra' });
         this.doseOptions = comboData;
         this.doseSelectedId = comboData.find((doseSelectedItem: { id: string; name: string }) => doseSelectedItem.name === this.lineTreatment.dose)?.id ?? null;
+        this.isOtherDoseSelected = this.lineTreatment.dose === 'Otra';
     }
 
     public isTreatmentTopicSelected(): boolean {
