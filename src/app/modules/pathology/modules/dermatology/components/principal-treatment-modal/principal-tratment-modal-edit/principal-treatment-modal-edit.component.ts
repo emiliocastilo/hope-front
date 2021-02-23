@@ -93,7 +93,7 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
         this.form = this._formBuilder.group({
             reasonChange: [''],
             indication: [this.indication.description, Validators.required],
-            specialIndication: [/*this.treatment.special*/ false],
+            specialIndication: [this.treatment.specialIndication],
             bigPsychologicalImpact: [this.treatment.psychologicalImpact],
             visibleInjury: [this.treatment.visibleInjury],
             others: [this.treatment.other],
@@ -145,6 +145,7 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
                 hadMedicineChange: this.originalMedicineId !== treatmentData.medicine?.id,
                 reason: treatmentData.reasonChange.name,
                 modificationCount: this.lineTreatment.modificationCount,
+                specialIndication: treatmentData.specialIndication,
             };
 
             this.save.emit(patientTreatment);

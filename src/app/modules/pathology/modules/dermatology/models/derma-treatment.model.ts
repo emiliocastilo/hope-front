@@ -26,6 +26,7 @@ export class DermaTreatmentModel {
     treatmentContinue: boolean = false;
     visibleInjury: boolean = false;
     pulsatileTreatment: boolean = false;
+    specialIndication: boolean = false;
     other: string;
 }
 
@@ -76,4 +77,5 @@ export interface EditTreatmentModel {
     treatmentContinue?: boolean;
     visibleInjury?: boolean;
     pulsatileTreatment?: boolean;
+    specialIndication?: boolean;
 }

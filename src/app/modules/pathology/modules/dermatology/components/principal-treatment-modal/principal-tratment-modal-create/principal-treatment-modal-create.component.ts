@@ -103,7 +103,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
                 visibleInjury: treatmentData.visibleInjury,
                 pulsatileTreatment: treatmentData.treatmentPulsatil,
                 other: treatmentData.others,
-                // suspensionDate: treatmentData
+                specialIndication: treatmentData.specialIndication,
             };
 
             this.save.emit(patientTreatment);
