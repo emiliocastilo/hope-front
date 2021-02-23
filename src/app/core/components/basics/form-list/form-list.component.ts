@@ -15,14 +15,14 @@ import { IndicationService } from 'src/app/modules/management/services/indicatio
     styleUrls: ['./form-list.component.scss'],
 })
 export class FormListComponent implements OnInit {
-    key: string;
     config: FieldConfig;
-    group: FormGroup;
-    rows = [];
     detailArray: Array<any>;
+    group: FormGroup;
+    key: string;
+    rows = [];
     today: string;
 
-    constructor(private modalService: NgbModal, private datePipe: DatePipe, private translate: TranslateService, private _formsService: FormsService, private _indicationService: IndicationService) {}
+    constructor(private _formsService: FormsService, private _indicationService: IndicationService, private datePipe: DatePipe, private modalService: NgbModal, private translate: TranslateService) {}
 
     ngOnInit() {
         this.today = moment(new Date()).format('YYYY-MM-DD');
@@ -59,6 +59,10 @@ export class FormListComponent implements OnInit {
             });
             this._formsService.updateTemplateObject(this.group);
         }, 500);
+    }
+
+    visibleColumns(): FieldConfig[] {
+        return this.config.fields.filter((f) => !f.table?.hiddenColumn);
     }
 
     deleteToForm(index) {
