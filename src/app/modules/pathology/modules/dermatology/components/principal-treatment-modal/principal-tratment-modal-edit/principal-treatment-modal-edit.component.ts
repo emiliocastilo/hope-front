@@ -143,7 +143,8 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
                 pulsatileTreatment: treatmentData.treatmentPulsatil,
                 other: treatmentData.others,
                 hadMedicineChange: this.originalMedicineId !== treatmentData.medicine?.id,
-                reasonChange: treatmentData.reasonChange,
+                reason: treatmentData.reasonChange.name,
+                modificationCount: this.lineTreatment.modificationCount,
             };
 
             this.save.emit(patientTreatment);
@@ -215,7 +216,6 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
             this.isFormulaMagistral = false;
             this.resetFields(['descripcionFormulaMagistral', 'dosisFormulaMagistral']);
         }
-        this.form.updateValueAndValidity();
     }
 
     private resetFields(keys: any[]) {

@@ -17,7 +17,6 @@ export class DermaTreatmentModel {
     reason?: string;
     lines?: LineTreatment[];
     suspensionDate?: Date | string;
-
     // ? Los que faltan
     psychologicalImpact: boolean = false;
     datePrescription: Date | string;
@@ -58,7 +57,8 @@ export interface EditTreatmentModel {
     lineId: number;
     patientTreatment: number;
     hadMedicineChange?: boolean;
-    reasonChange?: string;
+    modificationCount?: number;
+    reason?: string;
     type?: string;
     medicine?: MedicineModel;
     dose?: string;
