@@ -6,7 +6,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th *ngFor="let header of config.fields" scope="col">
+                    <th *ngFor="let header of visibleColumns()" scope="col">
                         {{ (header.header ? header.header : header.name) | translate }}
                     </th>
                     <th *ngIf="config.actions">
@@ -16,9 +16,9 @@
             </thead>
             <tbody [ngSwitch]="true">
                 <tr *ngFor="let row of rows; index as i">
-                    <td *ngFor="let header of config.fields">
+                    <td *ngFor="let column of visibleColumns()">
                         <div class="ellipsis max-width-cell">
-                            {{ showDataTable(row[header?.name], header.name) }}
+                            {{ showDataTable(row[column?.name], column.name) }}
                         </div>
                     </td>
                     <td *ngIf="config.actions">

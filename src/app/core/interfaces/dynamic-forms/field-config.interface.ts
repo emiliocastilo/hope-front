@@ -1,74 +1,76 @@
 import { ValidatorFn } from '@angular/forms';
 export interface AccordionPanel {
-    header: string;
-    content: FieldConfig[];
     config?: FieldConfig[];
+    content: FieldConfig[];
+    header: string;
 }
 export interface FieldConfig {
-    name: string;
-    type: string;
-    disabled?: boolean;
-    label?: string;
-    options?: any[];
-    placeholder?: string;
-    validation?: ValidatorFn[];
-    value?: any;
-    icon?: string;
-    selectMultiple?: boolean;
-    radioButton?: any;
-    labelCheckOff: string;
-    labelCheckOn: string;
-    rows?: number;
-    inputType?: string;
-    formula?: any;
-    calculated_front?: boolean;
-    calculated_back?: any;
-    event?: string;
-    graphBack?: boolean;
-    max?: any;
-    min?: any;
-    enableWhen?: Array<any>;
-    hiddenWhen?: Array<any>;
-    defaultValue?: any;
-    button?: any;
-    button_click?: any;
-    hidden?: boolean;
-    params?: Array<string>;
-    actions?: Array<action>;
-    columns?: Array<any>;
-    fields?: Array<any>;
-    historic?: Array<any>;
-    endpoint?: string;
-    template?: string;
-    css?: string;
-    readonly?: boolean;
-    cleanFormOnChange?: boolean;
-    multiselect?: {
-        enableSearch?: boolean;
-        checkedStyle?: 'fontawesome' | 'checkboxes' | 'glyphicon' | 'visual';
-        buttonClasses?: string;
-        itemClasses?: string;
-        containerClasses?: string;
-        dynamicTitleMaxItems?: number;
-        displayAllSelectedText?: boolean;
-        selectionLimit?: number;
-        minSelectionLimit?: number;
-        showCheckAll?: boolean;
-        showUncheckAll?: boolean;
-        placeholder?: string;
-        selectedOptions?: Array<any>;
-    };
-    file?: {
-        endpoint: string;
-        validExtensions?: Array<string>;
-        maxSize: number;
-    };
     accordion?: {
         panels: Array<AccordionPanel>;
     };
-}
-
-interface action {
+    actions?: Array<action>;
+    button?: any;
+    button_click?: any;
+    calculated_back?: any;
+    calculated_front?: boolean;
+    cleanFormOnChange?: boolean;
+    columns?: Array<any>;
+    css?: string;
+    defaultValue?: any;
+    disabled?: boolean;
+    enableWhen?: Array<any>;
+    endpoint?: string;
+    event?: string;
+    fields?: Array<any>;
+    file?: {
+        endpoint: string;
+        maxSize: number;
+        validExtensions?: Array<string>;
+    };
+    formula?: any;
+    graphBack?: boolean;
+    hidden?: boolean;
+    hiddenWhen?: Array<any>;
+    historic?: Array<any>;
+    icon?: string;
+    inputType?: string;
+    label?: string;
+    labelCheckOff: string;
+    labelCheckOn: string;
+    max?: any;
+    min?: any;
+    multiselect?: {
+        buttonClasses?: string;
+        checkedStyle?: 'fontawesome' | 'checkboxes' | 'glyphicon' | 'visual';
+        containerClasses?: string;
+        displayAllSelectedText?: boolean;
+        dynamicTitleMaxItems?: number;
+        enableSearch?: boolean;
+        itemClasses?: string;
+        minSelectionLimit?: number;
+        placeholder?: string;
+        selectedOptions?: Array<any>;
+        selectionLimit?: number;
+        showCheckAll?: boolean;
+        showUncheckAll?: boolean;
+    };
     name: string;
+    options?: any[];
+    params?: Array<string>;
+    placeholder?: string;
+    radioButton?: any;
+    readonly?: boolean;
+    rows?: number;
+    selectMultiple?: boolean;
+    table?: {
+        hiddenColumn?: boolean;
+    };
+    template?: string;
+    type: string;
+    validation?: ValidatorFn[];
+    value?: any;
+}
+interface action {
     icon: string;
+    name: string;
 }
