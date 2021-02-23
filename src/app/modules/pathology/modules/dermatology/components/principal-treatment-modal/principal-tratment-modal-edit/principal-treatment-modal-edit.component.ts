@@ -33,14 +33,14 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
     public treatmentTypeOptions: Array<{ id: TREATMENT_TYPE; name: string }>;
     public doseOptions: Array<{ id: string; name: string }>;
     public reasonChangeOptions: Array<{ id: number; name: string }>;
-    public regimenTreatmentOptions: Array<{ name: string }>;
+    public regimenTreatmentOptions: Array<{ id: number; name: string }>;
     public isFormulaMagistral: boolean = false;
     public isOtherDoseSelected: boolean = false;
     public form: FormGroup;
 
     public treatmentTypeSelectedId;
     public doseSelectedId;
-    public regimenTreatmentSelected: { name: string };
+    public regimenTreatmentSelectedId;
 
     private originalMedicineId: number;
 
@@ -68,7 +68,11 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
             { id: 8, name: this._translate.instant('reasonSuspensionList.motive9') },
             { id: 9, name: this._translate.instant('reasonSuspensionList.motive10') },
         ];
-        this.regimenTreatmentOptions = [{ name: this._translate.instant('intensificada') }, { name: this._translate.instant('standard') }, { name: this._translate.instant('reduced') }];
+        this.regimenTreatmentOptions = [
+            { id: 1, name: this._translate.instant('intensificada') },
+            { id: 2, name: this._translate.instant('standard') },
+            { id: 3, name: this._translate.instant('reduced') },
+        ];
         this.buildForm();
         if (this.lineTreatment.medicine) {
             this.originalMedicineId = this.lineTreatment.medicine.id;
@@ -79,7 +83,13 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
     private buildForm(): void {
         const treatmentTypeSelected = this.treatmentTypeOptions.find((type: { id: string; name: string }) => type.id.toUpperCase() === this.lineTreatment.type);
         this.treatmentTypeSelectedId = treatmentTypeSelected.id;
-        this.regimenTreatmentSelected = { name: this.treatment.regimen };
+        this.regimenTreatmentSelectedId = this.regimenTreatmentOptions.find((regimen: { id: number; name: string }) => regimen.name === this.treatment.regimen).id;
+        let opcionBiologica: string = '';
+
+        if (this.lineTreatment.type === TREATMENT_TYPE.TOPICO) {
+            this.isFormulaMagistral = !this.lineTreatment.medicine;
+            opcionBiologica = this.isFormulaMagistral ? 'opcionFormulaMagistral' : 'opcionMedicamento';
+        }
         this.form = this._formBuilder.group({
             reasonChange: [''],
             indication: [this.indication.description, Validators.required],
@@ -89,12 +99,13 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
             others: [this.treatment.other],
             treatmentType: [treatmentTypeSelected, Validators.required],
             opcionMedicamento: [''],
-            opcionFormulaMagistral: [this.treatment.masterFormula],
-            medicine: [{ ...this.treatment.medicine, name: this.treatment.medicine.description }, this.requiredIfNotFormulaMagistral.bind(this)],
-            family: [this.lineTreatment.medicine.family, this.requiredIfNotFormulaMagistral.bind(this)],
-            atc: [this.lineTreatment.medicine.codeAtc, this.requiredIfNotFormulaMagistral.bind(this)],
-            cn: [this.lineTreatment.medicine.nationalCode, this.requiredIfNotFormulaMagistral.bind(this)],
-            tract: [this.lineTreatment.medicine.viaAdministration, this.requiredIfNotFormulaMagistral.bind(this)],
+            opcionFormulaMagistral: [''],
+            opcionBiologica: [opcionBiologica],
+            medicine: [this.treatment.medicine ? { ...this.treatment.medicine, name: this.treatment.medicine?.description } : '', this.requiredIfNotFormulaMagistral.bind(this)],
+            family: [this.lineTreatment.medicine?.family, this.requiredIfNotFormulaMagistral.bind(this)],
+            atc: [this.lineTreatment.medicine?.codeAtc, this.requiredIfNotFormulaMagistral.bind(this)],
+            cn: [this.lineTreatment.medicine?.nationalCode, this.requiredIfNotFormulaMagistral.bind(this)],
+            tract: [this.lineTreatment.medicine?.viaAdministration, this.requiredIfNotFormulaMagistral.bind(this)],
             descripcionFormulaMagistral: [this.treatment.masterFormula, this.requiredIfFormulaMagistral.bind(this)],
             dosisFormulaMagistral: [this.treatment.masterFormulaDose],
             dose: [this.treatment.dose, this.requiredIfNotFormulaMagistral.bind(this)],
@@ -113,8 +124,8 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
         if (this.validForm) {
             const treatmentData = this.form.value;
             const patientTreatment: EditTreatmentModel = {
-                lineId: this.lineTreatment.id,
-                patientTreatment: this.treatment.id,
+                lineId: this.lineTreatment.lineId,
+                patientTreatment: this.treatment.treatmentId,
                 datePrescription: treatmentData.datePrescription ? new Date(treatmentData.datePrescription).toISOString() : '',
                 expectedEndDate: treatmentData.expectedEndDate ? new Date(treatmentData.expectedEndDate).toISOString() : '',
                 type: treatmentData.treatmentType.id,

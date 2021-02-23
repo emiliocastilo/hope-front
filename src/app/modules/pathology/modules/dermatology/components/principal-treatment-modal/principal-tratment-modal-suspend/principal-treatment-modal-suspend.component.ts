@@ -75,7 +75,7 @@ export class PrincipalTreatmentModalSuspendComponent implements OnInit {
     public onSave() {
         if (this.validForm) {
             const suspendTreatment: SuspendTreatmentModel = {
-                lineId: this.lineTreatment.id,
+                lineId: this.lineTreatment.lineId,
                 reason: this.form.value.reasonSuspension.name,
                 suspensionDate: new Date(this.form.value.dateSuspension).toISOString(),
             };

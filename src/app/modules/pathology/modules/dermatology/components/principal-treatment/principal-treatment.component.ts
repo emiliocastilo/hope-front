@@ -125,8 +125,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     public async showModalSuspend(index: number) {
-        const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.id === this.tableData[index].treatmentId);
-        const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.id === this.tableData[index].lineId);
+        const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
+        const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
 
         this.formatDates(treatment);
         this.formatDates(line);
@@ -147,8 +147,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     public async showModalEdit(index: number) {
-        const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.id === this.tableData[index].treatmentId);
-        const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.id === this.tableData[index].lineId);
+        const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
+        const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
 
         this.formatDates(treatment);
         this.formatDates(line);
@@ -170,8 +170,8 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     private showModalConfirmDelete(index: number) {
-        const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.id === this.tableData[index].treatmentId);
-        const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.id === this.tableData[index].lineId);
+        const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
+        const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
         const modalRef = this._modalService.open(ConfirmModalComponent);
 
         modalRef.componentInstance.title = this._translate.instant('btn.delete');
@@ -180,7 +180,7 @@ export class PrincipalTreatmentComponent implements OnInit {
             modalRef.close();
         });
         modalRef.componentInstance.accept.subscribe((event: any) => {
-            this._dermaTreatmentsService.deleteTreatment(line.id.toString()).subscribe(() => {
+            this._dermaTreatmentsService.deleteTreatment(line.lineId.toString()).subscribe(() => {
                 modalRef.close();
                 this.getTreatments(this.makeQueryPaginator());
             });
@@ -219,11 +219,11 @@ export class PrincipalTreatmentComponent implements OnInit {
         treatments.forEach((treatment: DermaTreatmentModel) => {
             treatment.lines.forEach((line: LineTreatment) => {
                 dataTable.push({
-                    lineId: line.id,
+                    lineId: line.lineId,
                     treatmentId: line.patientTreatment,
                     indication: this.indication,
-                    principle: line.medicine.actIngredients,
-                    brand: line.medicine.brand,
+                    principle: line.medicine?.actIngredients,
+                    brand: line.medicine?.brand,
                     dose: line.dose,
                     dateStart: treatment.initDate,
                     datePrescription: treatment.datePrescription,

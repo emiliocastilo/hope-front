@@ -2,7 +2,7 @@ import { MedicineModel } from 'src/app/modules/management/models/medicines/medic
 import { PatientDiagnoseModel } from '../../../models/patient-diagnose.model';
 
 export class DermaTreatmentModel {
-    id?: number;
+    treatmentId?: number;
     patientDiagnose?: PatientDiagnoseModel;
     active?: boolean = true;
     type?: string;
@@ -31,7 +31,7 @@ export class DermaTreatmentModel {
 }
 
 export interface LineTreatment {
-    id?: number;
+    lineId?: number;
     treatmentId?: number;
     patientTreatment?: number;
     modificationCount?: number;

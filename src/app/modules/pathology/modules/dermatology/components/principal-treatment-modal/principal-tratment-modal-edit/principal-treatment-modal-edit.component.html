@@ -52,7 +52,7 @@
         <div *ngIf="isTreatmentTopicSelected()" class="col-6">
             <fieldset class="radioButtons">
                 <label>
-                    <input id="opcionMedicamento" (click)="setRadioValues('opcionMedicamento')" type="radio" name="opcionBiologica" />
+                    <input id="opcionMedicamento" (click)="setRadioValues('opcionMedicamento')" type="radio" name="opcionBiologica" value="opcionMedicamento" formControlName="opcionBiologica" />
                     {{ 'opcionMedicamento' | translate }}
                 </label>
             </fieldset>
@@ -60,7 +60,7 @@
         <div *ngIf="isTreatmentTopicSelected()" class="col-6">
             <fieldset class="radioButtons">
                 <label>
-                    <input id="opcionFormulaMagistral" (click)="setRadioValues('opcionFormulaMagistral')" type="radio" name="opcionBiologica" />
+                    <input id="opcionFormulaMagistral" (click)="setRadioValues('opcionFormulaMagistral')" type="radio" name="opcionBiologica" value="opcionFormulaMagistral" formControlName="opcionBiologica" />
                     {{ 'opcionFormulaMagistral' | translate }}
                 </label>
             </fieldset>
@@ -146,7 +146,7 @@
                 [form]="form"
                 [labelValue]="'regimenTreatment' | translate"
                 [options]="regimenTreatmentOptions"
-                [currentValue]="regimenTreatmentSelected"
+                [optionSelected]="regimenTreatmentSelectedId"
                 [placeholder]="'regimenTreatment' | translate"
                 [selectMultiple]="false"
                 [form]="form"
