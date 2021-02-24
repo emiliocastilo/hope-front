@@ -33,8 +33,9 @@ export class PrincipalTreatmentComponent implements OnInit {
     public tableDataFilter: any[] = [];
 
     public patient: PatientModel;
-    private indication = '';
-    private currentPage = 0;
+    private indication: string = '';
+    private currentPage: number = 0;
+    private itemsPerPage: number = 5;
     private colOrder: any;
     private typeOrder: any;
     public paginationData: PaginationModel;
@@ -90,7 +91,12 @@ export class PrincipalTreatmentComponent implements OnInit {
             this.dataBackUp = treatments?.content;
             if (this.dataBackUp) {
                 this.tableData = this.treatmentsToDataTable(this.dataBackUp);
-                this.paginationData = treatments;
+                // this.paginationData = treatments;
+
+                this.paginationData.totalElements = treatments.totalElements;
+                if (this.paginationData.totalPages !== treatments.totalPages) {
+                    this.paginationData = treatments;
+                }
             }
         });
     }
@@ -103,7 +109,6 @@ export class PrincipalTreatmentComponent implements OnInit {
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
         modalRef.componentInstance.save.subscribe((treatment: DermaTreatmentModel) => {
-            debugger;
             if (!treatment.masterFormula) {
                 this._dermaTreatmentsService.isMedicineRepeated(this.patient.id, treatment.medicine.id.toString()).subscribe((isRepeated: boolean) => {
                     !isRepeated ? this.createTreatment(treatment, modalRef) : this._notification.showErrorToast('duplicatedTreatment');
@@ -209,6 +214,11 @@ export class PrincipalTreatmentComponent implements OnInit {
         }
     }
 
+    public selectItemsPerPage(number: number) {
+        this.itemsPerPage = number;
+        this.getTreatments(this.makeQueryPaginator());
+    }
+
     public selectPage(page: number) {
         if (this.currentPage !== page) {
             this.currentPage = page;
@@ -253,7 +263,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     private makeQueryPaginator(): string {
-        let query: string = `&page=${this.currentPage}`;
+        let query: string = `&page=${this.currentPage}&size=${this.itemsPerPage}`;
         if (this.colOrder && this.typeOrder) {
             query += `&sort=${this.colOrder},${this.typeOrder}`;
         } else {
