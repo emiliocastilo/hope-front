@@ -1,16 +1,4 @@
 {
-    "Inicio preferente": [
-        "BIC/FTC/TAF",
-        "DTG/ABC/3TC",
-        "DTG+FTC/TAF",
-        "RAL+FTC/TAF",
-        "DTG+3TC",
-        "EVG/c/FTC/TAF",
-        "DRV/c/FTC/TAF",
-        "DRV/r+FTC/TAF",
-        "DOR+FTC/TAF",
-        "RPV/FTC/TAF"
-    ],
     "Cambio recomendadas": [
         "3TC/TDF/DOR",
         "DTG+3TC/FTC",
@@ -42,6 +30,18 @@
         "RAL+FTC/TAF",
         "RAL+FTC/ZDV",
         "RAL+ZDV/TAF"
+    ],
+    "Inicio preferente": [
+        "BIC/FTC/TAF",
+        "DTG/ABC/3TC",
+        "DTG+FTC/TAF",
+        "RAL+FTC/TAF",
+        "DTG+3TC",
+        "EVG/c/FTC/TAF",
+        "DRV/c/FTC/TAF",
+        "DRV/r+FTC/TAF",
+        "DOR+FTC/TAF",
+        "RPV/FTC/TAF"
     ],
     "Otras de cambio": [
         "TC+ATV/COBI",

@@ -14,7 +14,7 @@ import { IndicationService } from 'src/app/modules/management/services/indicatio
 import { JSONTemplateModel } from 'src/app/modules/pathology/models/JSON-template.model';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { VIHTreatmentModel } from '../../models/vih-treatment.model';
-import { VIHTreatmentService } from '../../services/VIH-treatment.service';
+import { VIHTreatmentService } from '../../services/vih-treatment.service';
 import { VIHTreatmentModalComponent } from './vih-treatment-modal/vih-treatment-modal.component';
 
 @Component({
