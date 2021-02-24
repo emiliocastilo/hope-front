@@ -355,6 +355,7 @@
     "API-001": "Algo ha ido mal",
     "duplicatedTreatment": "El paciente ya tiene un tratamiento activo con este medicamento",
     "treatmentAlreadySuspend": "Este medicamento se encuentra suspendido",
+    "noDiagnosis": "Este paciente no tiene diagnostico",
     "elementCreated": "Elemento creado correctamente",
     "elementDeleted": "Elemento eliminado correctamente",
     "elementUpdated": "Elemento editado correctamente",

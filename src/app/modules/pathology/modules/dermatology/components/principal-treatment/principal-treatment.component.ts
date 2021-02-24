@@ -31,6 +31,7 @@ export class PrincipalTreatmentComponent implements OnInit {
     public tableData: any[] = [];
     public dataBackUp: DermaTreatmentModel[] = [];
     public tableDataFilter: any[] = [];
+    public hasTreatment: boolean = false;
 
     public patient: PatientModel;
     private indication: string = '';
@@ -73,11 +74,17 @@ export class PrincipalTreatmentComponent implements OnInit {
                 if (!this._indicationService.indications || this._indicationService.indications.length === 0) {
                     this._indicationService.getList().subscribe((response) => {
                         this.currentIndication = response.find((f) => f.code === data);
-                        this.indication = this._translate.instant(this.currentIndication.description);
+                        if (this.currentIndication) {
+                            this.indication = this._translate.instant(this.currentIndication.description);
+                            this.hasTreatment = true;
+                        }
                     });
                 } else {
                     this.indication = this._translate.instant(this._indicationService.indications.filter((f) => f.code === data)[0].description);
                     this.currentIndication = this._indicationService.indications.find((f) => f.code === data);
+                }
+                if (this.indication) {
+                    this.hasTreatment = true;
                 }
             },
             ({ error }) => {
@@ -102,21 +109,23 @@ export class PrincipalTreatmentComponent implements OnInit {
     }
 
     public showModalCreate(): void {
-        let modalRef: NgbModalRef = this._modalService.open(PrincipalTreatmentModalCreateComponent, { size: 'lg' });
+        if (this.hasTreatment) {
+            let modalRef: NgbModalRef = this._modalService.open(PrincipalTreatmentModalCreateComponent, { size: 'lg' });
 
-        modalRef.componentInstance.indication = this.currentIndication;
-        modalRef.componentInstance.patientId = this.patient.id;
-        modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
+            modalRef.componentInstance.indication = this.currentIndication;
+            modalRef.componentInstance.patientId = this.patient.id;
+            modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
-        modalRef.componentInstance.save.subscribe((treatment: DermaTreatmentModel) => {
-            if (!treatment.masterFormula) {
-                this._dermaTreatmentsService.isMedicineRepeated(this.patient.id, treatment.medicine.id.toString()).subscribe((isRepeated: boolean) => {
-                    !isRepeated ? this.createTreatment(treatment, modalRef) : this._notification.showErrorToast('duplicatedTreatment');
-                });
-            } else {
-                this.createTreatment(treatment, modalRef);
-            }
-        });
+            modalRef.componentInstance.save.subscribe((treatment: DermaTreatmentModel) => {
+                if (!treatment.masterFormula) {
+                    this._dermaTreatmentsService.isMedicineRepeated(this.patient.id, treatment.medicine.id.toString()).subscribe((isRepeated: boolean) => {
+                        !isRepeated ? this.createTreatment(treatment, modalRef) : this._notification.showErrorToast('duplicatedTreatment');
+                    });
+                } else {
+                    this.createTreatment(treatment, modalRef);
+                }
+            });
+        }
     }
 
     private createTreatment(treatment: DermaTreatmentModel, modalRef: NgbModalRef): void {
@@ -133,8 +142,9 @@ export class PrincipalTreatmentComponent implements OnInit {
     public async showModalSuspend(index: number) {
         const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
         const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
-
-        if (line.suspensionDate) {
+        if (!this.hasTreatment) {
+            this._notification.showErrorToast('noDiagnosis');
+        } else if (line.suspensionDate) {
             this._notification.showErrorToast('treatmentAlreadySuspend');
         } else {
             this.formatDates(treatment);
@@ -159,7 +169,9 @@ export class PrincipalTreatmentComponent implements OnInit {
     public async showModalEdit(index: number) {
         const treatment: DermaTreatmentModel = this.dataBackUp.find((treatment) => treatment.treatmentId === this.tableData[index].treatmentId);
         const line: LineTreatment = treatment.lines.find((line: LineTreatment) => line.lineId === this.tableData[index].lineId);
-        if (line.suspensionDate) {
+        if (!this.hasTreatment) {
+            this._notification.showErrorToast('noDiagnosis');
+        } else if (line.suspensionDate) {
             this._notification.showErrorToast('treatmentAlreadySuspend');
         } else {
             this.formatDates(treatment);

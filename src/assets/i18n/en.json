@@ -356,6 +356,7 @@
         "API-001": "Something went wrong",
         "duplicatedTreatment": "Medicine already exists on an active patient treatment",
         "treatmentAlreadySuspend": "This medicine is suspend",
+        "noDiagnosis": "This patient has no diagnosis",
         "elementCreated": "Element created correctly",
         "elementDeleted": "Element removed correctly",
         "elementUpdated": "Element updated correctly",
