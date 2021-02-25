@@ -9,13 +9,16 @@ import { environment } from 'src/environments/environment';
 export class InterceptorService implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const reqUrl = environment.URL_API;
+        const partialUrl: String = req.url;
+
         if (req.url.includes('/users/request-password-changes')) {
             localStorage.setItem('token', '');
         }
         req = req.clone({
             headers: req.headers.set('Authorization', this._setAuthorizations()).set('Content-Type', 'application/json'),
-            url: reqUrl + '' + req.url,
+            url: partialUrl.includes('/assets/') ? '' : reqUrl + req.url,
         });
+
         return next.handle(req);
     }
 

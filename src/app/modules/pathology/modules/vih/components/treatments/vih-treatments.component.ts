@@ -8,13 +8,12 @@ import { ConfirmModalComponent } from 'src/app/core/components/modals/confirm-mo
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
-import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { IndicationService } from 'src/app/modules/management/services/indications/indication.service';
 import { JSONTemplateModel } from 'src/app/modules/pathology/models/JSON-template.model';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { VIHTreatmentModel } from '../../models/vih-treatment.model';
-import { VIHTreatmentService } from '../../services/VIH-treatment.service';
+import { VIHTreatmentService } from '../../services/vih-treatment.service';
+// import { VIHTreatmentService } from 'src/app/modules/pathology/modules/vih/services/vih-treatment.service';
 import { VIHTreatmentModalComponent } from './vih-treatment-modal/vih-treatment-modal.component';
 
 @Component({

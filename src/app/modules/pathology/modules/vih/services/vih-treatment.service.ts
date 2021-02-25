@@ -5,8 +5,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class VIHTreatmentService {
-    // private vihDataPath: string = '../../../../../../assets/data/vih';
-    private vihDataPath: string = '/data/vih';
+    private vihDataPath: string = '/assets/data/vih';
     constructor(private _httpClient: HttpClient) {}
 
     public getGuidelines() {

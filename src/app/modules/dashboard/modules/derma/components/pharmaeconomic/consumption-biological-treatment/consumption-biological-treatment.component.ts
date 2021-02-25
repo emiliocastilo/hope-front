@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { GraphsService } from '../../../services/graphs.service';
+import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 
 export interface SelectOption {
     code: string;
@@ -18,7 +17,7 @@ export interface SelectOption {
 @Component({
     selector: 'app-consumption-biological-treatment',
     templateUrl: './consumption-biological-treatment.component.html',
-    styleUrls: ['./consumption-biological-treatment.component.scss', '../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'],
+    styleUrls: ['./consumption-biological-treatment.component.scss', '../../../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'],
 })
 export class ConsumptionBiologicalTreatmentComponent implements OnInit {
     private yearlyGoalValue: number = 2;
@@ -57,7 +56,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         yearlyGoalValue: new FormControl(),
     });
 
-    constructor(private _graphService: GraphsService, private _notification: NotificationService, private fb: FormBuilder, private _translate: TranslateService) {}
+    constructor(private _graphService: GraphsService, private _notification: NotificationService, private _translate: TranslateService, private fb: FormBuilder) {}
 
     ngOnInit(): void {
         this.form = this.fb.group({

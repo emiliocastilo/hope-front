@@ -1,3 +1,3 @@
-export const CleanOnInitTemplates: string[] = ['pasi-bsa-pga', 'physical-condition', 'napsi', 'leukocyte-antibody-antigen'];
+export const CleanOnInitTemplates: string[] = ['adherence-to-treatment-haynes', 'adherence-to-treatment-morisky', 'dlqi', 'leukocyte-antibody-antigen', 'napsi', 'pasi-bsa-pga', 'physical-condition'];
 
 export const AvoidSaveMessageTemplates: string[] = ['personal-information'];
