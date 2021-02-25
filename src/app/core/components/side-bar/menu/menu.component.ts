@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { Subscription } from 'rxjs';
@@ -62,7 +62,16 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     goUrl(section: MenuItemModel) {
-        this._menuService.setCurrentSection(section);
+        if (this.hasSectionUrl(section)) {
+            this._menuService.closeMenu();
+            this._menuService.setCurrentSection(section);
+        } else {
+            this.toggleColapseMenu(section);
+        }
+    }
+
+    private hasSectionUrl(section: MenuItemModel): boolean {
+        return section && section.url && section.url !== '#';
     }
 
     updateCollapseState(menu: Array<MenuItemModel>) {

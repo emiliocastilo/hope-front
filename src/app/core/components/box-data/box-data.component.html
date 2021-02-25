@@ -1,14 +1,54 @@
 <section class="col-md-12 col-lg-12 box-data-section">
-    <div class="col-md-1 back-button" (click)="back()">
+    <div class="col-md-1 back-button m-0" (click)="back()" *ngIf="!isMobileScreen">
         <i-feather name="arrow-left" class="feather-icon"></i-feather>
     </div>
-    <div class="col-md-11 data-box" [ngbTooltip]="parserDataToShowInTooltip()" placement="bottom">
+    <div class="col-md-11 data-box" [ngbTooltip]="parserDataToShowInTooltip()" placement="bottom" *ngIf="!isMobileScreen">
         <div *ngFor="let key of keysToShow" class="dataCell">
             <div class="header">
                 {{ showKey(key) | translate }}
             </div>
             <div class="data">
                 {{ parsedata(currentData, key) | translate }}
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isMobileScreen" class="row total-width">
+        <div class="col-1 back-button m-0" (click)="back()">
+            <i-feather name="arrow-left" class="feather-icon"></i-feather>
+        </div>
+        <div class="col-7 data-box" [ngbTooltip]="parserDataToShowInTooltip()" placement="bottom">
+            <div *ngFor="let key of keysToShowMobile" class="dataCell">
+                <div class="header">
+                    {{ showKey(key) | translate }}
+                </div>
+                <div class="data">
+                    {{ parsedata(currentData, key) | translate }}
+                </div>
+            </div>
+        </div>
+        <div class="col-1 back-button m-0" (click)="showHideItems()">
+            <i-feather *ngIf="!showHiddenItems" name="plus" class="feather-icon"></i-feather>
+            <i-feather *ngIf="showHiddenItems" name="minus" class="feather-icon"></i-feather>
+        </div>
+        <div class="col-12 data-box" *ngIf="showHiddenItems">
+            <div *ngFor="let key of keysToHideMobile | slice: 0:keysToHideMobile.length / 2" class="dataCell">
+                <div class="header">
+                    {{ showKey(key) | translate }}
+                </div>
+                <div class="data">
+                    {{ parsedata(currentData, key) | translate }}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 data-box" *ngIf="showHiddenItems">
+            <div *ngFor="let key of keysToHideMobile | slice: keysToHideMobile.length / 2" class="dataCell">
+                <div class="header">
+                    {{ showKey(key) | translate }}
+                </div>
+                <div class="data">
+                    {{ parsedata(currentData, key) | translate }}
+                </div>
             </div>
         </div>
     </div>

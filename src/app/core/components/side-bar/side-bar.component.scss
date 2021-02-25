@@ -20,6 +20,10 @@
 
     .logo {
       margin: 0 auto;
+
+      &.logo-mobile {
+        margin-left: 86px;
+      }
     }
 
     .toggler {
@@ -31,7 +35,7 @@
 
     .logo,
     .logo-img {
-      height: 1.9rem;
+      height: 30px;
     }
 
     .logo-hidden {
@@ -139,4 +143,14 @@
 
 .current {
   background-color: rgb(45, 131, 181);
+}
+
+.menu-mobile {
+  width: 100%;
+}
+
+.cross-mobile {
+  position: fixed;
+  top: 18px;
+  left: 48px;
 }
