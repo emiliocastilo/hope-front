@@ -12,12 +12,14 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     private currentSectionSubscription: Subscription;
     private fullMenu: MenuItemModel;
     public homeUrl = '/hopes';
+    public isMobileScreen: boolean;
+    private indexBreadcrumb: number = 0;
 
     selectedSection: MenuItemModel;
     crumbs: MenuItemModel[];
     menu: Array<MenuItemModel>;
 
-    constructor(private _sidebar: MenuService) {}
+    constructor(private _sidebar: MenuService, private _menuService: MenuService) {}
 
     ngOnInit() {
         this.crumbs = [];
@@ -25,12 +27,17 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         this.selectedSection = JSON.parse(localStorage.getItem('section'));
         this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
 
-        if (this.selectedSection) this.crumbs = this.buildBreadcrumb(this.selectedSection).reverse();
+        if (this.selectedSection) {
+            this.crumbs = this.buildBreadcrumb(this.selectedSection).reverse();
+            this.indexBreadcrumb = this.crumbs.length - 1;
+        }
 
         this.currentSectionSubscription = this._sidebar.getCurrentSection().subscribe((currentSection: MenuItemModel) => {
             this.selectedSection = currentSection;
             this.crumbs = this.buildBreadcrumb(currentSection).reverse();
+            this.indexBreadcrumb = this.crumbs.length - 1;
         });
+        this.isMobileScreen = this._menuService.isMobileScreen();
     }
 
     private buildBreadcrumb(section: MenuItemModel, breadcrumbs?: MenuItemModel[]): MenuItemModel[] {
@@ -44,8 +51,40 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         return breadcrumbs;
     }
 
-    navigate(section?: MenuItemModel) {
+    public navigate(section?: MenuItemModel): void {
         this._sidebar.setCurrentSection(section);
+    }
+
+    public openMenu(): void {
+        this._menuService.openMenu();
+    }
+
+    public decreaseIndexBreadcrums(): void {
+        if (this.indexBreadcrumb > 0) {
+            this.indexBreadcrumb--;
+        }
+    }
+
+    public increaseIndexBreadcrums(): void {
+        if (this.indexBreadcrumb < this.crumbs.length) {
+            this.indexBreadcrumb++;
+        }
+    }
+
+    public indexIsLastElement(): boolean {
+        return this.crumbs.length === this.indexBreadcrumb + 1;
+    }
+
+    public indexIsFirstElement(): boolean {
+        return this.indexBreadcrumb <= 0;
+    }
+
+    public getCrumbSelectedTitle(): string {
+        return this.crumbs.length > 0 ? this.crumbs[this.indexBreadcrumb].title : '';
+    }
+
+    public navigateCrumbSelected(): void {
+        this.navigate(this.crumbs[this.indexBreadcrumb]);
     }
 
     ngOnDestroy() {

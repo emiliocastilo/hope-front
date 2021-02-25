@@ -4,11 +4,13 @@
   backdrop-filter: blur(5px);
   background-color: rgba($app-color-white, 50%);
   border-bottom: 1px solid $app-color-blue-border;
-  height: 5rem;
+  height: 6rem;
   padding-left: 0;
+  padding-right: 0;
 
   section {
     padding-left: 0;
+    padding-right: 0;
 
     .banner {
       height: 1.9rem;

@@ -1,7 +1,8 @@
-<nav [ngClass]="{ collapsed: collapsed, 'side-bar': true }">
+<nav [ngClass]="{ collapsed: collapsed && !isMobileScreen, 'side-bar': true, 'menu-mobile': isMobileScreen }">
     <div class="brand">
         <span class="toggler" (click)="toggleCollapse()">
-            <i-feather name="menu"></i-feather>
+            <i-feather *ngIf="!isMobileScreen" name="menu"></i-feather>
+            <i-feather *ngIf="isMobileScreen" class="cross-mobile" name="x"></i-feather>
         </span>
         <a class="logo" href="">
             <img

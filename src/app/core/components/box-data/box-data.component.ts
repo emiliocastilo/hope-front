@@ -1,3 +1,4 @@
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormsService } from 'src/app/core/services/forms/forms.service';
@@ -15,14 +16,24 @@ export class BoxDataComponent implements OnInit {
     @Input() keysToShow: string[] = [];
     public gender: string;
 
-    constructor(public _translate: TranslateService, private _formService: FormsService, private _modalService: NgbModal) {}
+    public isMobileScreen: boolean;
+    public showHiddenItems: boolean;
+    public keysToShowMobile: string[] = [];
+    public keysToHideMobile: string[] = [];
+
+    constructor(public _translate: TranslateService, private _formService: FormsService, private _modalService: NgbModal, private _menuService: MenuService) {}
 
     public currentData: PatientModel;
     private keysNotShow: any = {
         fullName: true,
     };
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.isMobileScreen = this._menuService.isMobileScreen();
+        this.showHiddenItems = false;
+        this.keysToShowMobile = this.keysToShow.slice(0, 2);
+        this.keysToHideMobile = this.keysToShow.slice(2, this.keysToShow.length);
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         this.currentData = changes.data ? changes.data.currentValue : JSON.parse(localStorage.getItem('selectedPatient') || '{}');
@@ -72,6 +83,11 @@ export class BoxDataComponent implements OnInit {
             return true;
         }
     }
+
+    public showHideItems(): void {
+        this.showHiddenItems = !this.showHiddenItems;
+    }
+
     private showModalConfirm() {
         const modalRef = this._modalService.open(ConfirmModalComponent);
         modalRef.componentInstance.title = 'Aviso de cambios';
