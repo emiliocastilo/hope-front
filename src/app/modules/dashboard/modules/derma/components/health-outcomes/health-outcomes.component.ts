@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagination.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
-import { GraphsService } from '../../services/graphs.service';
+import { GraphsService } from '../../../../services/graphs.service';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
 import { NotificationService } from 'src/app/core/services/notification.service';
 

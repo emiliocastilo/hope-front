@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItemModel } from 'src/app/core/models/menu-item/menu-item.model';
-import { GraphsService } from '../../../services/graphs.service';
+import { GraphsService } from '../../../../../services/graphs.service';
 import { HomeDashboardModule } from 'src/app/core/models/home-dashboard/home-dashboard-module.model';
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';

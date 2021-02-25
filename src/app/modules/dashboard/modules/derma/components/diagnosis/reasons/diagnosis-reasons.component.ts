@@ -7,7 +7,7 @@ import { PaginationModel } from 'src/app/core/models/pagination/pagination/pagin
 import { TableActionsModel } from 'src/app/core/models/table/table-actions-model';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import TableActionsBuilder from 'src/app/core/utils/TableActionsBuilder';
-import { GraphsService } from '../../../services/graphs.service';
+import { GraphsService } from '../../../../../services/graphs.service';
 
 export interface SelectOption {
     code: string;

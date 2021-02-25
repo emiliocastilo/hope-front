@@ -5,8 +5,8 @@ import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model'
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 import { MedicineModel } from 'src/app/modules/management/models/medicines/medicines.model';
-import { GraphsService } from '../../../services/graphs.service';
 
 export interface SelectOption {
     code: string;
@@ -18,7 +18,7 @@ export interface SelectOption {
 @Component({
     selector: 'app-total-expenses-biological-treatment',
     templateUrl: './total-expenses-biological-treatment.component.html',
-    styleUrls: ['./total-expenses-biological-treatment.component.scss', '../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'],
+    styleUrls: ['./total-expenses-biological-treatment.component.scss', '../../../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'],
 })
 export class TotalExpensesBiologicalTreatmentComponent {
     private title: string;
@@ -42,7 +42,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
         selectMedicine: new FormControl(),
     });
 
-    constructor(private _graphService: GraphsService, private _notification: NotificationService, private _medicinesService: MedicinesServices, private fb: FormBuilder) {}
+    constructor(private _graphService: GraphsService, private _medicinesService: MedicinesServices, private _notification: NotificationService, private fb: FormBuilder) {}
 
     ngOnInit(): void {
         this.getMedicines();
