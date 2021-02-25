@@ -34,7 +34,7 @@ export class MenuService {
         else this.initialSetUp();
     }
 
-    private initialSetUp() {
+    private initialSetUp () {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             this.currentPathology = user.rolSelected.pathology;
@@ -45,7 +45,7 @@ export class MenuService {
         }
     }
 
-    private setPathology(user?: any) {
+    private setPathology (user?: any) {
         // TODO limpiar asignaciones code pathology
         if (!user) user = JSON.parse(localStorage.getItem('user'));
         this.currentPathology = user.rolSelected.pathology;
@@ -55,7 +55,7 @@ export class MenuService {
         this.pathologyRoot = `/hopes/pathology/`;
     }
 
-    private assignParentAndCollapseStatus(menu: MenuItemModel, root?: string) {
+    private assignParentAndCollapseStatus (menu: MenuItemModel, root?: string) {
         menu.collapsed = true;
         menu.path = `${root ? root : ''}/${menu.id}`;
         this.thereIsPatientSelected = localStorage.getItem('selectedPatient') !== undefined && localStorage.getItem('selectedPatient') !== null;
@@ -73,7 +73,7 @@ export class MenuService {
         return menu;
     }
 
-    private findSectionByUrl(menu: Array<MenuItemModel>, url: string): MenuItemModel {
+    private findSectionByUrl (menu: Array<MenuItemModel>, url: string): MenuItemModel {
         menu.forEach((item) => {
             if (url.indexOf('hopes') < 0) {
                 if (!url.startsWith('/')) url = '/hopes/' + url;
@@ -86,7 +86,7 @@ export class MenuService {
         return this.current;
     }
 
-    public fillSections(section: MenuItemModel) {
+    public fillSections (section: MenuItemModel) {
         if (!this.allSections) this.allSections = [];
         if (section) {
             section.visible = true;
@@ -99,12 +99,12 @@ export class MenuService {
         }
     }
 
-    public checkVisibleSection(item: MenuItemModel) {
+    public checkVisibleSection (item: MenuItemModel) {
         if (!this.pathologyPath) this.pathologyPath = this.setPathologyPath();
         return !item.path.includes(this.pathologyPath) || (item.path.includes(this.pathologyPath) && this.thereIsPatientSelected);
     }
 
-    private setPathologyPath(): string {
+    private setPathologyPath (): string {
         let path = undefined;
         if (!this.allSections || this.allSections.length === 0) this.fillSections(this.fullMenu);
 
@@ -115,7 +115,7 @@ export class MenuService {
         return path;
     }
 
-    public setCurrentSection(section?: MenuItemModel) {
+    public setCurrentSection (section?: MenuItemModel) {
         // if (!this._formService.getMustBeSaved() || (this._formService.getMustBeSaved() && this._formService.getSavedForm())) {
         if (this._formService.getSavedForm()) {
             // * SE PROCEDE AL CAMBIO DE SECCIÓN * //
@@ -142,16 +142,16 @@ export class MenuService {
         }
     }
 
-    public setCurrentSectionByUrl(url: string) {
+    public setCurrentSectionByUrl (url: string) {
         const menu: MenuItemModel = JSON.parse(localStorage.getItem('completeMenu'));
         if (menu) this.setCurrentSection(this.findSectionByUrl(menu.children, url));
     }
 
-    public getCurrentSection(): Observable<MenuItemModel> {
+    public getCurrentSection (): Observable<MenuItemModel> {
         return this.currentSection.asObservable();
     }
 
-    public getMenu(rolChanged?: boolean): Observable<MenuItemModel> {
+    public getMenu (rolChanged?: boolean): Observable<MenuItemModel> {
         return new Observable<MenuItemModel>((obs) => {
             if (this.fullMenu && !rolChanged) obs.next(this.fullMenu);
             else {
@@ -176,7 +176,7 @@ export class MenuService {
 
         return;
     }
-    private showModalConfirm(section?: MenuItemModel) {
+    private showModalConfirm (section?: MenuItemModel) {
         const modalRef = this._modalService.open(ConfirmModalComponent);
         modalRef.componentInstance.title = this.translate.instant('saveWarning');
         modalRef.componentInstance.messageModal = this.translate.instant('saveWarningMessage');
@@ -184,6 +184,13 @@ export class MenuService {
         modalRef.componentInstance.cancel.subscribe((event) => {
             modalRef.close();
             this._formService.setSavedStatusForm(false);
+        });
+
+        modalRef.componentInstance.dismiss.subscribe(() => {
+            this._formService.setMustBeSaved(false);
+            this._formService.setSavedStatusForm(true);
+            modalRef.close();
+            section ? this.setCurrentSection(section) : this.setCurrentSection();
         });
 
         modalRef.componentInstance.accept.subscribe((event) => {

@@ -10,18 +10,24 @@ export class ConfirmModalComponent implements OnInit {
     @Input() messageModal: string;
     @Input() cancelText: string;
     @Input() acceptText: string;
+    @Input() dismissText: string;
     @Output() cancel: EventEmitter<any> = new EventEmitter();
+    @Output() dismiss: EventEmitter<any> = new EventEmitter();
     @Output() accept: EventEmitter<any> = new EventEmitter();
 
-    constructor() {}
+    constructor() { }
 
-    ngOnInit(): void {}
+    ngOnInit (): void { }
 
-    public onCancel() {
+    public onCancel () {
         this.cancel.emit(null);
     }
 
-    public onAccept() {
+    public onDismiss () { 
+        this.dismiss.emit(null);
+    }
+
+    public onAccept () {
         this.accept.emit('on accept');
     }
 }
