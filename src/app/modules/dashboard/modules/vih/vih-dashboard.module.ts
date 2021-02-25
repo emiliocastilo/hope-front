@@ -15,13 +15,7 @@ import { TreatmentInfoVihComponent } from './components/treatment-info-vih/treat
 import { VIHDashboardRoutingModule } from './vih-dashboard-routing.module';
 
 @NgModule({
-    declarations: [
-        GuidelinesExpensesVihComponent,
-        PatientExpensesVihComponent,
-        PatientsVihLevelsComponent,
-        PatientTreatmentsVihChangeComponent,
-        TreatmentInfoVihComponent,
-    ],
+    declarations: [GuidelinesExpensesVihComponent, PatientExpensesVihComponent, PatientsVihLevelsComponent, PatientTreatmentsVihChangeComponent, TreatmentInfoVihComponent],
     imports: [
         CommonModule,
         CoreModule,
@@ -38,4 +32,4 @@ import { VIHDashboardRoutingModule } from './vih-dashboard-routing.module';
         }),
     ],
 })
-export class VIHDashboardModule { }
+export class VIHDashboardModule {}

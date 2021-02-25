@@ -26,19 +26,19 @@ export class LineChartComponent implements OnInit {
         curve: shape.curveBasis,
     };
 
-    constructor() { }
+    constructor() {}
 
-    ngOnInit (): void {
+    ngOnInit(): void {
         Object.keys(this.defaultValues).forEach((key: string) => {
             this.config[key] = this.config[key] !== undefined ? this.config[key] : this.defaultValues[key];
         });
     }
 
-    public onSelect (value: any) {
+    public onSelect(value: any) {
         this.select.emit(value);
     }
 
-    public formatDate (date: string | Date): string | Date {
+    public formatDate(date: string | Date): string | Date {
         let formatedDate = date;
 
         if (date && Object.prototype.toString.call(date) === '[object Date]') {

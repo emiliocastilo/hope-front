@@ -84,4 +84,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class DermaDashboardRoutingModule { }
+export class DermaDashboardRoutingModule {}

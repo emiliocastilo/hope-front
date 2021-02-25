@@ -25,4 +25,4 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
         }),
     ],
 })
-export class DashboardModule { }
+export class DashboardModule {}

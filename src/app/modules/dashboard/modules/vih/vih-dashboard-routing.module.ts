@@ -30,7 +30,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'treatments-vih',
+        path: 'treatments',
         component: TreatmentInfoVihComponent,
         canActivate: [AuthGuard],
     },
@@ -40,4 +40,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class VIHDashboardRoutingModule { }
+export class VIHDashboardRoutingModule {}

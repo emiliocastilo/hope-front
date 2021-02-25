@@ -52,4 +52,4 @@ import { TreatmentsPatientsComponent } from './components/treatment/treatments-p
         }),
     ],
 })
-export class DermaDashboardModule { }
+export class DermaDashboardModule {}
