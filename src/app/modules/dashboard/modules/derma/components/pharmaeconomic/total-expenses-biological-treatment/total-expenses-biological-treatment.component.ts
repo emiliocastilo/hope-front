@@ -5,8 +5,8 @@ import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model'
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { MedicinesServices } from 'src/app/core/services/medicines/medicines.services';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 import { MedicineModel } from 'src/app/modules/management/models/medicines/medicines.model';
-import { GraphsService } from '../../../services/graphs.service';
 
 export interface SelectOption {
     code: string;
@@ -18,7 +18,10 @@ export interface SelectOption {
 @Component({
     selector: 'app-total-expenses-biological-treatment',
     templateUrl: './total-expenses-biological-treatment.component.html',
-    styleUrls: ['./total-expenses-biological-treatment.component.scss', '../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'],
+    styleUrls: [
+        './total-expenses-biological-treatment.component.scss', 
+        '../../../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'
+    ],
 })
 export class TotalExpensesBiologicalTreatmentComponent {
     private title: string;
@@ -42,9 +45,14 @@ export class TotalExpensesBiologicalTreatmentComponent {
         selectMedicine: new FormControl(),
     });
 
-    constructor(private _graphService: GraphsService, private _notification: NotificationService, private _medicinesService: MedicinesServices, private fb: FormBuilder) {}
+    constructor(
+        private _graphService: GraphsService,
+        private _medicinesService: MedicinesServices,
+        private _notification: NotificationService,
+        private fb: FormBuilder,
+    ) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.getMedicines();
         this.accumulatedForm = this.fb.group({
             switchValue: [false],
@@ -52,7 +60,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
         this.onChanges();
     }
 
-    private onChanges() {
+    private onChanges () {
         this.accumulatedForm.valueChanges.subscribe((val) => {
             this.accumulated = val.switchValue;
             this.selectedOption.accumulated = val.switchValue;
@@ -60,7 +68,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
         });
     }
 
-    private getData(): Observable<any> {
+    private getData (): Observable<any> {
         const query = `code=${this.currenMedicine.codeAct}`;
         return new Observable<any>((observer) => {
             if (this.selectedOption.accumulated) {
@@ -95,7 +103,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
         });
     }
 
-    private loadData(): void {
+    private loadData (): void {
         this.loadingData = true;
         if (!this.selectedOption) this.selectedOption = this.options[0];
         this.getData().subscribe(
@@ -113,7 +121,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
         );
     }
 
-    private parseDataChart(data: any): ChartObjectModel[] {
+    private parseDataChart (data: any): ChartObjectModel[] {
         const arrayData = Object.keys(data.ene).map((keyYear: string) => {
             const object = {
                 name: keyYear,
@@ -133,7 +141,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
         return arrayData;
     }
 
-    private sortByMonth(arr: any): any {
+    private sortByMonth (arr: any): any {
         var months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
         const object = {};
         months.forEach((month: string) => {
@@ -143,7 +151,7 @@ export class TotalExpensesBiologicalTreatmentComponent {
         return object;
     }
 
-    private getMedicines(): void {
+    private getMedicines (): void {
         const query = 'size=1000&groupby=actIngredients';
         this._medicinesService.getAllGrupedBy(query).subscribe(
             (data) => {
@@ -156,13 +164,13 @@ export class TotalExpensesBiologicalTreatmentComponent {
         );
     }
 
-    private addNameToMedicine(array: any[]): void {
+    private addNameToMedicine (array: any[]): void {
         array.forEach((value: any, key: number) => {
             array[key].name = array[key].actIngredients;
         });
     }
 
-    private formatMedicines(medicines: any): Array<MedicineModel> {
+    private formatMedicines (medicines: any): Array<MedicineModel> {
         const medicinesFormated: Array<MedicineModel> = [];
         Object.keys(medicines).forEach((key: string) => {
             let medicine: MedicineModel = new MedicineModel();
@@ -174,17 +182,17 @@ export class TotalExpensesBiologicalTreatmentComponent {
         return medicinesFormated;
     }
 
-    public onFormSubmit(): void {
+    public onFormSubmit (): void {
         this.dataChart = null;
         this.loadData();
     }
 
-    public onSelectMedicine(event: any): void {
+    public onSelectMedicine (event: any): void {
         this.currenMedicine = event;
         this.loadData();
     }
 
-    public onSelectChange(index: number) {
+    public onSelectChange (index: number) {
         this.selectedOption = this.options[index];
         this.selectedOption.accumulated = this.accumulated;
         this.loadData();

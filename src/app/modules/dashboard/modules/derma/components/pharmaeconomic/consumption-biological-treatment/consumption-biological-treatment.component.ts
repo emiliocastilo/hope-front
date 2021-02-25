@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ChartObjectModel } from 'src/app/core/models/graphs/chart-object.model';
 import { ColumnChartModel } from 'src/app/core/models/graphs/column-chart.model';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { GraphsService } from '../../../services/graphs.service';
+import { GraphsService } from 'src/app/modules/dashboard/services/graphs.service';
 
 export interface SelectOption {
     code: string;
@@ -18,7 +17,10 @@ export interface SelectOption {
 @Component({
     selector: 'app-consumption-biological-treatment',
     templateUrl: './consumption-biological-treatment.component.html',
-    styleUrls: ['./consumption-biological-treatment.component.scss', '../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'],
+    styleUrls: [
+        './consumption-biological-treatment.component.scss',
+        '../../../../../../../core/components/basics/entry-menu-select/entry-menu-select.component.scss'
+    ],
 })
 export class ConsumptionBiologicalTreatmentComponent implements OnInit {
     private yearlyGoalValue: number = 2;
@@ -57,9 +59,14 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         yearlyGoalValue: new FormControl(),
     });
 
-    constructor(private _graphService: GraphsService, private _notification: NotificationService, private fb: FormBuilder, private _translate: TranslateService) {}
+    constructor(
+        private _graphService: GraphsService,
+        private _notification: NotificationService,
+        private _translate: TranslateService,
+        private fb: FormBuilder,
+    ) { }
 
-    ngOnInit(): void {
+    ngOnInit (): void {
         this.form = this.fb.group({
             switchValue: [false],
         });
@@ -67,7 +74,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         this.loadData();
     }
 
-    private onChanges() {
+    private onChanges () {
         this.form.valueChanges.subscribe((val) => {
             this.accumulated = val.switchValue;
             this.selectedOption.accumulated = val.switchValue;
@@ -75,7 +82,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         });
     }
 
-    private getData(): Observable<any> {
+    private getData (): Observable<any> {
         const query: string = `lastYears=${this.yearlyGoalValue}`;
         return new Observable<any>((observer) => {
             if (this.selectedOption.accumulated) {
@@ -114,7 +121,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         });
     }
 
-    private loadData(): void {
+    private loadData (): void {
         this.loadingData = true;
         if (!this.selectedOption) this.selectedOption = this.options[0];
         this.getData().subscribe(
@@ -134,7 +141,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         );
     }
 
-    private parseDataChart(data: any): ChartObjectModel[] {
+    private parseDataChart (data: any): ChartObjectModel[] {
         const arrayData = Object.keys(data.ene).map((keyYear: string) => {
             const object = {
                 name: keyYear,
@@ -154,7 +161,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         return arrayData;
     }
 
-    private parseDataTable(data: any): any[] {
+    private parseDataTable (data: any): any[] {
         const arrayData = Object.keys(data.ene).map((key: string) => {
             const object = {
                 months: key,
@@ -168,7 +175,7 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         return arrayData;
     }
 
-    private sortByMonth(arr: any): any {
+    private sortByMonth (arr: any): any {
         var months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
         const object = {};
         months.forEach((month: string) => {
@@ -178,13 +185,13 @@ export class ConsumptionBiologicalTreatmentComponent implements OnInit {
         return object;
     }
 
-    public onSelectChange(index: number) {
+    public onSelectChange (index: number) {
         this.selectedOption = this.options[index];
         this.selectedOption.accumulated = this.accumulated;
         this.loadData();
     }
 
-    public onFormSubmit(): void {
+    public onFormSubmit (): void {
         this.dataChart = null;
         this.yearlyGoalValue = this.formYearlyGoal.controls.yearlyGoalValue.value;
         this.loadData();
