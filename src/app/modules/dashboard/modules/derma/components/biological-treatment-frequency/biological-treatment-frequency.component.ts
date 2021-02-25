@@ -11,7 +11,7 @@ import { ValueKeyModel } from 'src/app/core/models/forms/value-key.model';
 import { TranslateService } from '@ngx-translate/core';
 import { PatientsTreatmentsService } from 'src/app/modules/management/services/patients-treatments/patients-treatments.service';
 import { MedicineModel } from 'src/app/modules/management/models/medicines/medicines.model';
-import { GroupedBarChartItem } from '../../vih/clinical-information/patients-vih/patients-vih-levels/patients-vih-levels.component';
+import { GroupedBarChartItem } from '../../../vih/components/clinic/patients-vih-levels/patients-vih-levels.component';
 
 export interface MedicineRegimeModel {
     actIngredient: string;
