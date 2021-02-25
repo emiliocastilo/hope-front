@@ -53,14 +53,32 @@
 }
 
 .logo {
-  margin-left: 22%;
+  margin-left: 26%;
 }
 
 .menu-icon {
-  stroke: #29a9e0;
+  stroke: $app-color-blue-main;
   margin: 15px 0;
 }
 
 .more-horizontal {
   stroke-width: 1px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  background-color: $app-color-white;
+  color: $app-color-blue-dark;
+  padding-bottom: 5px;
+
+  .logo {
+    margin-left: 35px;
+    padding-top: 4px;
+  }
+
+  .logo,
+  .logo-img {
+    height: 30px;
+  }
 }
