@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MenuItemModel } from '../../models/menu-item/menu-item.model';
 import { ConfirmModalComponent } from '../../components/modals/confirm-modal/confirm-modal.component';
@@ -26,12 +26,15 @@ export class MenuService {
     public currentSection = new Subject<MenuItemModel>();
     public allSections: MenuItemModel[] = [];
     public thereIsPatientSelected: boolean = false;
+    private _isMobileScreen: boolean = false;
+    private open$ = new BehaviorSubject(false);
 
     constructor(private _httpClient: HttpClient, private _formService: FormsService, private _modalService: NgbModal, private _notificationService: NotificationService, private translate: TranslateService, private _router: Router) {
         this.fullMenu = JSON.parse(localStorage.getItem('completeMenu'));
         this.thereIsPatientSelected = localStorage.getItem('selectedPatient') !== undefined && localStorage.getItem('selectedPatient') !== null;
         if (!this.fullMenu) this.getMenu().subscribe((response: MenuItemModel) => this.initialSetUp());
         else this.initialSetUp();
+        this._isMobileScreen = window.screen.width <= 940;
     }
 
     private initialSetUp () {
@@ -204,5 +207,21 @@ export class MenuService {
                 () => modalRef.close()
             );
         });
+    }
+
+    public isMobileScreen(): boolean {
+        return this._isMobileScreen;
+    }
+
+    public openMenu(): void {
+        this.open$.next(true);
+    }
+
+    public closeMenu(): void {
+        this.open$.next(false);
+    }
+
+    public getIsOpen(): BehaviorSubject<boolean> {
+        return this.open$;
     }
 }

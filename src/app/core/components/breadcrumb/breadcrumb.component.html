@@ -1,25 +1,50 @@
+<div *ngIf="isMobileScreen" class="brand">
+    <span class="toggler" (click)="openMenu()">
+        <i-feather name="menu" class="menu-icon"></i-feather>
+    </span>
+    <a class="logo" href="">
+        <img class="logo-img" src="assets/img/hopes-logo.png" alt="Hopes image, click here and it takes you home." />
+    </a>
+</div>
 <ul class="breadcrumbs_list">
-    <li class="breadcrumbs_list-item">
+    <li class="breadcrumbs_list-item" [ngClass]="{ 'breadcrumbs_list-item-mobile': isMobileScreen }">
         <a (click)="navigate()">
             <i-feather name="home" class="feather breadcrumbs_list-item_home"></i-feather>
         </a>
         <i-feather name="chevron-right" class="chevron-right"></i-feather>
     </li>
 
-    <li
-        [ngClass]="{
-            'breadcrumbs_list-item': true,
-            'breadcrumbs_list-item-active': i === crumbs.length - 1
-        }"
-        *ngFor="let crumb of crumbs; let i = index"
-        [attr.data-index]="i"
-    >
-        <a (click)="navigate(crumb)" *ngIf="crumb.description === 'Home'">
-            <i-feather *ngIf="crumb.description === 'Home'" name="home" class="feather breadcrumbs_list-item_home"> </i-feather>
-        </a>
-        <a (click)="navigate(crumb)" *ngIf="crumb.description !== 'Home'">
-            {{ crumb.title }}
-        </a>
-        <i-feather *ngIf="i !== crumbs.length - 1" name="chevron-right" class="feather chevron-right"></i-feather>
-    </li>
+    <ng-container *ngIf="!isMobileScreen">
+        <li
+            [ngClass]="{
+                'breadcrumbs_list-item': true,
+                'breadcrumbs_list-item-active': i === crumbs.length - 1
+            }"
+            *ngFor="let crumb of crumbs; let i = index"
+            [attr.data-index]="i"
+        >
+            <a (click)="navigate(crumb)" *ngIf="crumb.description === 'Home'">
+                <i-feather *ngIf="crumb.description === 'Home'" name="home" class="feather breadcrumbs_list-item_home"> </i-feather>
+            </a>
+            <a (click)="navigate(crumb)" *ngIf="crumb.description !== 'Home'">
+                {{ crumb.title }}
+            </a>
+            <i-feather *ngIf="i !== crumbs.length - 1" name="chevron-right" class="feather chevron-right"></i-feather>
+        </li>
+    </ng-container>
+    <ng-container *ngIf="isMobileScreen">
+        <li class="breadcrumbs_list-item breadcrumbs_list-item-mobile" [hidden]="indexIsFirstElement()" (click)="decreaseIndexBreadcrums()">
+            <i-feather name="more-horizontal" class="feather more-horizontal"></i-feather>
+            <i-feather name="chevron-right" class="feather chevron-right"></i-feather>
+        </li>
+        <li class="breadcrumbs_list-item breadcrumbs_list-item-mobile" [ngClass]="{ 'breadcrumbs_list-item-active': indexIsLastElement() }">
+            <a (click)="navigateCrumbSelected()">
+                {{ getCrumbSelectedTitle() }}
+            </a>
+            <i-feather [hidden]="indexIsLastElement()" name="chevron-right" class="feather chevron-right"></i-feather>
+        </li>
+        <li class="breadcrumbs_list-item breadcrumbs_list-item-mobile" [hidden]="indexIsLastElement()" (click)="increaseIndexBreadcrums()">
+            <i-feather name="more-horizontal" class="feather more-horizontal"></i-feather>
+        </li>
+    </ng-container>
 </ul>

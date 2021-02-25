@@ -1,6 +1,6 @@
 <section class="container-flex">
     <div class="app-main_container m-0 p-0">
-        <div class="m-0 p-0" *ngIf="!showOnlyMainContainer">
+        <div class="m-0 p-0" *ngIf="!showOnlyMainContainer" [ngClass]="{ 'mobile-menu': isMobileScreen, 'mobile-menu-open': isMenuOpen, 'mobile-menu-close': !isMenuOpen }">
             <side-bar [currentMenuId]="menuId" [level]="level" (collapse)="onCollapse($event)"></side-bar>
         </div>
         <div

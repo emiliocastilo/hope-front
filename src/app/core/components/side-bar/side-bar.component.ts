@@ -27,6 +27,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
     public collapsed = false;
     public loaded: Boolean = false;
+    public isMobileScreen: boolean;
 
     constructor(private _router: Router, private _modalService: NgbModal, private loginService: LoginService, private _menuService: MenuService, private _roleListener: CurrentRoleListenerService) {}
 
@@ -52,6 +53,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
             this.rol = response.name;
             this.getMenu(true);
         });
+        this.isMobileScreen = this._menuService.isMobileScreen();
     }
 
     private getMenu(roleChanged: boolean) {
@@ -68,8 +70,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
     }
 
     toggleCollapse(): void {
-        this.collapsed = !this.collapsed;
-        this.collapse.emit(this.collapsed);
+        if (this.isMobileScreen) {
+            this._menuService.closeMenu();
+        } else {
+            this.collapsed = !this.collapsed;
+            this.collapse.emit(this.collapsed);
+        }
     }
 
     logout(): void {
@@ -83,6 +89,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         modalRef.componentInstance.accept.subscribe((event) => {
             localStorage.clear();
             modalRef.close();
+            this._menuService.closeMenu();
             this.loginService.logout();
         });
     }
