@@ -10,6 +10,7 @@ import { ScriptLoaderService } from 'angular-google-charts';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
+import moment from 'moment';
 
 @Component({
     selector: 'app-dermathology-dashboard-patients',
@@ -27,7 +28,6 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
     public dataChart: ChartObjectModel[];
     public configChart: ColumnChartModel;
     public configGantt: any;
-    public noData: boolean;
     public noTreatmentData: boolean;
     private firstDate: string = '';
     private lastDate: string = '';
@@ -79,7 +79,6 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.noData = false;
         this.selectedPatient = JSON.parse(localStorage.getItem('selectedPatient'));
         if (!this.selectedPatient) {
             this._menuService.setCurrentSectionByUrl('pathology/patients');
@@ -114,17 +113,14 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
                             )
                         )
                     );
+                    if (this.globalDates.length === 0) {
+                        this.globalDates = [moment().format('YYYY-MM-DD'), moment().add('days', -7).format('YYYY-MM-DD')];
+                    }
 
                     this.firstDate = this.globalDates[0];
                     this.lastDate = this.globalDates[this.globalDates.length - 1];
                     this.setConfigGannt();
                     this.dataChart = this.parseDataChart(this.data);
-                    this.noData = true;
-                    this.dataChart.forEach((evolutionIndex) => {
-                        if (evolutionIndex.series.length > 0) {
-                            this.noData = false;
-                        }
-                    });
                     this.loadChart(this.data);
                     this.loadLines();
                 }
@@ -189,11 +185,6 @@ export class DermathologyDashboardPatientsComponent implements OnInit {
             });
         });
         this.dataChart = this.parseDataChart(newData);
-        if (this.dataChart[0].series.length === 0 && this.dataChart[1].series.length === 0) {
-            this.noData = true;
-        } else {
-            this.noData = false;
-        }
         this.loadChart(newData);
         this.configChart = { ...this.configChart, results: this.dataChart };
     }
