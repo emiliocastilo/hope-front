@@ -213,10 +213,18 @@ const routes: Routes = [
         },
         canActivate: [AuthGuard],
     },
+    {
+        path: 'consent-vih',
+        component: TemplateFormComponent,
+        resolve: {
+            patients: PatientsResolverService,
+        },
+        canActivate: [AuthGuard],
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class VIHRoutingModule {}
+export class VIHRoutingModule { }
