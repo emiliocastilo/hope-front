@@ -189,6 +189,13 @@ export class MenuService {
             this._formService.setSavedStatusForm(false);
         });
 
+        modalRef.componentInstance.dismiss.subscribe(() => {
+            this._formService.setMustBeSaved(false);
+            this._formService.setSavedStatusForm(true);
+            modalRef.close();
+            section ? this.setCurrentSection(section) : this.setCurrentSection();
+        });
+
         modalRef.componentInstance.accept.subscribe((event) => {
             this._formService.updateForm(this._formService.currentForm).subscribe(
                 (response) => {

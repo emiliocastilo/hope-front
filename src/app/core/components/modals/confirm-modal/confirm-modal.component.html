@@ -13,6 +13,10 @@
             <i-feather name="check"></i-feather>
             {{ 'btn.accept' | translate }}
         </button>
+        <button class="btn btn-primary" (click)="onDismiss()">
+            <i-feather name="alert-circle"></i-feather>
+            {{ 'btn.dismiss' | translate }}
+        </button>
         <button class="btn btn-danger" (click)="onCancel()">
             <i-feather name="x"></i-feather>
             {{ 'btn.cancel' | translate }}

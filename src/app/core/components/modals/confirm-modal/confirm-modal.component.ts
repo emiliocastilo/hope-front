@@ -10,7 +10,9 @@ export class ConfirmModalComponent implements OnInit {
     @Input() messageModal: string;
     @Input() cancelText: string;
     @Input() acceptText: string;
+    @Input() dismissText: string;
     @Output() cancel: EventEmitter<any> = new EventEmitter();
+    @Output() dismiss: EventEmitter<any> = new EventEmitter();
     @Output() accept: EventEmitter<any> = new EventEmitter();
 
     constructor() {}
@@ -19,6 +21,10 @@ export class ConfirmModalComponent implements OnInit {
 
     public onCancel() {
         this.cancel.emit(null);
+    }
+
+    public onDismiss() {
+        this.dismiss.emit(null);
     }
 
     public onAccept() {

@@ -129,8 +129,13 @@ export class PatientsVihLevelsComponent implements OnInit {
         );
     }
 
+    private updateColumnName(name: string) {
+        this.columHeaders[0] = name;
+    }
+
     onSelect(event: any) {
-        this.selectedOption = this.options.filter((f) => f.name === event.target.value)[0];
+        this.selectedOption = this.options.find((f) => f.name === event.target.value);
+        this.updateColumnName(this.selectedOption.name);
         this.getData(`type=${this.selectedOption.param}`);
     }
 
