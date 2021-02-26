@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
             username: ['', Validators.required],
             password: ['', Validators.required],
         });
+        localStorage.clear();
     }
 
     get formControl() {
