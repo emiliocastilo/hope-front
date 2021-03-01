@@ -13,7 +13,7 @@
     <input
         [attr.id]="config.name"
         [attr.name]="config.name"
-        [attr.placeholder]="config.placeholder"
+        attr.placeholder="{{ config.placeholder | translate }}"
         [formControlName]="config.name"
         [attr.disabled]="config.calculated_front"
         [attr.readOnly]="config.readonly"

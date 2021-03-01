@@ -685,5 +685,14 @@
     "lbl": {
         "search": "Search"
     },
-    "treatmentChangesNumber": "Treatment changes number"
+    "treatmentChangesNumber": "Treatment changes number",
+    "abortion": "Abortion",
+    "pregnancyWeeks": "Gestational age (weeks)",
+    "abortionType": "Abortion type",
+    "spontaneous": "Spontaneous",
+    "therapeutic": "Therapeutic",
+    "voluntary": "Voluntary",
+    "malformations": "Malformations",
+    "specifyMalformations": "Specify malformations",
+    "reasonChangeOrSuspension": "Reason"
 }
