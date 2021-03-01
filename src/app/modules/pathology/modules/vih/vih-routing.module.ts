@@ -1,3 +1,4 @@
+import { PrincipalTreatmentComponent } from './components/principal-treatment/principal-treatment.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TemplateFormComponent } from 'src/app/core/components/dynamic/template-form/template-form.component';
@@ -13,6 +14,11 @@ const routes: Routes = [
         resolve: {
             patients: PatientsResolverService,
         },
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'principal-treatment',
+        component: PrincipalTreatmentComponent,
         canActivate: [AuthGuard],
     },
     {

@@ -1,0 +1,111 @@
+<div class="modal-content">
+    <app-generic-modal-header [title]="title | translate" (close)="onClose()"> </app-generic-modal-header>
+
+    <form class="row" [formGroup]="form">
+        <div class="col-12">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="regimeTar"
+                form="form"
+                [form]="form"
+                [labelValue]="'treatmentType' | translate"
+                [options]="regimeTarOptions"
+                [placeholder]="'treatmentType' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+                [required]="true"
+            >
+            </app-input-select>
+        </div>
+
+        <div class="col-12">
+            <app-input-typeahead
+                id="medicine"
+                formControlName="medicine"
+                [label]="'medicine' | translate"
+                [controlForm]="form.controls['medicine']"
+                [placeholder]="'medicinePlaceholder' | translate"
+                [invalidLabel]="getInvalidLabel('medicine')"
+                [isDisabled]="false"
+                [search]="search"
+                [inputFormatter]="formatter"
+                [resultFormatter]="formatter"
+                (selectTypeahead)="onSelectMedicine($event)"
+            >
+            </app-input-typeahead>
+        </div>
+        <div class="col-6">
+            <app-input id="family" formControlName="family" [label]="'family' | translate" [placeholder]="'family' | translate" type="text" [invalidLabel]="getInvalidLabel('family')" [required]="true" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6">
+            <app-input id="atc" formControlName="atc" [label]="'atc' | translate" [placeholder]="'atc' | translate" type="text" [invalidLabel]="getInvalidLabel('atc')" [required]="true" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6">
+            <app-input id="cn" formControlName="cn" [label]="'cn' | translate" [placeholder]="'cn' | translate" type="text" [invalidLabel]="getInvalidLabel('cn')" [required]="true" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6">
+            <app-input id="tract" formControlName="tract" [label]="'tract' | translate" [placeholder]="'tract' | translate" type="text" [invalidLabel]="getInvalidLabel('tract')" [required]="true" [isDisabled]="true"> </app-input>
+        </div>
+        <div class="col-6">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="dose"
+                [form]="form"
+                [labelValue]="'dose' | translate"
+                [options]="doseOptions"
+                [placeholder]="'dose' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+                [required]="true"
+                (selectTrigger)="onDoseSelect($event)"
+            >
+            </app-input-select>
+        </div>
+        <div class="col-6">
+            <app-input
+                id="otherDosis"
+                formControlName="otherDosis"
+                [label]="'otherDosis' | translate"
+                [placeholder]="'otherDosis' | translate"
+                type="text"
+                [invalidLabel]="getInvalidLabel('otherDosis')"
+                [required]="isOtherDoseSelected"
+                [hidden]="!isOtherDoseSelected"
+            >
+            </app-input>
+        </div>
+
+        <div class="col-6">
+            <app-input
+                id="datePrescription"
+                formControlName="datePrescription"
+                [label]="'datePrescription' | translate"
+                [placeholder]="'datePrescription' | translate"
+                type="date"
+                [required]="true"
+                [invalidLabel]="getInvalidLabel('datePrescription')"
+            >
+            </app-input>
+        </div>
+        <div class="col-6">
+            <app-input id="dateStart" formControlName="dateStart" [label]="'dateStart' | translate" [placeholder]="'dateStart' | translate" type="date" [required]="true" [invalidLabel]="getInvalidLabel('dateStart')"> </app-input>
+        </div>
+        <div class="col-6">
+            <app-input id="expectedEndDate" formControlName="expectedEndDate" [label]="'expectedEndDate' | translate" [placeholder]="'expectedEndDate' | translate" type="date" [invalidLabel]="getInvalidLabel('expectedEndDate')"> </app-input>
+        </div>
+        <div class="col-12">
+            <app-input-textarea id="observations" class="col-12" formControlName="observations" [label]="'observations' | translate" type="textarea" [placeholder]="'observations' | translate" [invalidLabel]="getInvalidLabel('observations')">
+            </app-input-textarea>
+        </div>
+    </form>
+    <div class="row">
+        <label class="requiredLegend">
+            {{ 'requiredLegendText' | translate }}
+        </label>
+    </div>
+
+    <section class="modal-content_button-container">
+        <app-button clasesBtn="btn btn-primary mr-4" (click)="onSave()" icono="plus-circle" texto="btn.save" type="button" [disabledButton]="!validForm"> </app-button>
+        <app-button clasesBtn="btn btn-danger" (click)="onClose()" icon="x" type="button" texto="btn.close"> </app-button>
+    </section>
+</div>

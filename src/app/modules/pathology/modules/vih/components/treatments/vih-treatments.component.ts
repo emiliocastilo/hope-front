@@ -1,3 +1,4 @@
+import { VIHTreatmentModel } from './../../models/vih-treatment.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,9 +12,7 @@ import { FormsService } from 'src/app/core/services/forms/forms.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { JSONTemplateModel } from 'src/app/modules/pathology/models/JSON-template.model';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
-import { VIHTreatmentModel } from '../../models/vih-treatment.model';
-import { VIHTreatmentService } from '../../services/vih-treatment.service';
-// import { VIHTreatmentService } from 'src/app/modules/pathology/modules/vih/services/vih-treatment.service';
+import { VihTreatmentsService } from '../../services/vih-treatment.service';
 import { VIHTreatmentModalComponent } from './vih-treatment-modal/vih-treatment-modal.component';
 
 @Component({
@@ -67,7 +66,7 @@ export class VIHTreatmentsComponent implements OnInit {
     constructor(
         private _formService: FormsService,
         private _modalService: NgbModal,
-        private _vihTreatmentService: VIHTreatmentService,
+        private _vihTreatmentService: VihTreatmentsService,
         private _formBuilder: FormBuilder,
         private _notification: NotificationService,
         private _translate: TranslateService,

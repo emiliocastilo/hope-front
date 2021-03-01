@@ -1,3 +1,7 @@
+import { PrincipalTreatmentModalCreateComponent } from './components/principal-treatment/principal-treatment-modal/principal-tratment-modal-create/principal-treatment-modal-create.component';
+import { PrincipalTreatmentModalEditComponent } from './components/principal-treatment/principal-treatment-modal/principal-tratment-modal-edit/principal-treatment-modal-edit.component';
+import { PrincipalTreatmentModalSuspendComponent } from './components/principal-treatment/principal-treatment-modal/principal-tratment-modal-suspend/principal-treatment-modal-suspend.component';
+import { PrincipalTreatmentComponent } from './components/principal-treatment/principal-treatment.component';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -12,7 +16,16 @@ import { VIHRoutingModule } from './vih-routing.module';
 import { VihDashboardPatientsComponent } from './components/vih-dashboard-patients/vih-dashboard-patients.component';
 
 @NgModule({
-    declarations: [VIHTreatmentsComponent, VIHTreatmentModalComponent, VIHTreatmentChangeModalComponent, VihDashboardPatientsComponent],
+    declarations: [
+        VIHTreatmentsComponent,
+        VIHTreatmentModalComponent,
+        VIHTreatmentChangeModalComponent,
+        VihDashboardPatientsComponent,
+        PrincipalTreatmentComponent,
+        PrincipalTreatmentModalSuspendComponent,
+        PrincipalTreatmentModalEditComponent,
+        PrincipalTreatmentModalCreateComponent,
+    ],
     imports: [
         CommonModule,
         CoreModule,
