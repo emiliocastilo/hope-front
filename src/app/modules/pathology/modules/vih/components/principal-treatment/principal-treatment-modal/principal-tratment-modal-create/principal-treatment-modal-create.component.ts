@@ -59,9 +59,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
         this.form = this._formBuilder.group({
             medicine: ['', Validators.required],
             gesidaGuideline: ['', Validators.required],
-            presentation: ['', Validators.required],
             regimeTar: ['', Validators.required],
-            interventionType: ['', Validators.required],
 
             family: ['', Validators.required],
             atc: ['', Validators.required],
@@ -70,7 +68,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
             dose: ['', Validators.required],
             otherDosis: ['', this.requiredOtherDose.bind(this)],
             datePrescription: [moment().format('YYYY-MM-DD'), Validators.required],
-            expectedEndDate: ['', Validators.required],
+            expectedEndDate: [''],
             dateStart: [moment().format('YYYY-MM-DD'), Validators.required],
             observations: [''],
         });
@@ -82,23 +80,14 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
             const patientTreatment: VihTreatmentModel = {
                 datePrescription: treatmentData.datePrescription ? new Date(treatmentData.datePrescription).toISOString() : '',
                 expectedEndDate: treatmentData.expectedEndDate ? new Date(treatmentData.expectedEndDate).toISOString() : '',
-                type: treatmentData.treatmentType.id,
-                patientDiagnose: { indication: this.indication, patient: { id: this.patientId } },
-                regimen: treatmentData.regimenTreatment?.name,
+                patientDiagnose: { patient: { id: this.patientId } },
+                regimen: treatmentData.regimeTar?.name,
                 active: true,
                 medicine: treatmentData.medicine,
                 dose: treatmentData.dose?.name,
-                masterFormula: treatmentData.descripcionFormulaMagistral,
-                masterFormulaDose: treatmentData.dosisFormulaMagistral,
                 initDate: treatmentData.dateStart ? new Date(treatmentData.dateStart).toISOString() : '',
-                psychologicalImpact: treatmentData.bigPsychologicalImpact,
                 observations: treatmentData.observations,
                 otherDose: treatmentData.otherDosis,
-                treatmentContinue: treatmentData.treatmentContinue,
-                visibleInjury: treatmentData.visibleInjury,
-                pulsatileTreatment: treatmentData.treatmentPulsatil,
-                other: treatmentData.others,
-                specialIndication: treatmentData.specialIndication,
             };
 
             this.save.emit(patientTreatment);
@@ -122,10 +111,10 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
         this.form.controls.cn.setValue(medicine.nationalCode);
         this.form.controls.tract.setValue(medicine.viaAdministration);
 
-        this._medicinesService.getDosesByMedicine(`medicineId=${medicine.id}`).subscribe(
+        /*  this._medicinesService.getDosesByMedicine(`medicineId=${medicine.id}`).subscribe(
             (doses: DoseModel[]) => this.setDoses(doses),
             (error) => this._notification.showErrorToast('Ha ocurrido un error recuperando las dosis')
-        );
+        );*/
     }
 
     public onDoseSelect(event: any) {
@@ -159,7 +148,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
             debounceTime(200),
             distinctUntilChanged(),
             switchMap((term) =>
-                this._medicinesService.getByText(`search=${term}&treatmentType=${this.getTreatmentType()}`).pipe(
+                this._medicinesService.getByText(`search=${term}`).pipe(
                     map((response: any) => {
                         return response.content;
                     }),
@@ -175,8 +164,4 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
     };
 
     formatter = (state) => state.name;
-
-    private getTreatmentType() {
-        return this.form.get('regimeTar').value.id ? this.form.get('regimeTar').value.id : this.form.get('regimeTar').value[0]?.id ? this.form.get('regimeTar').value[0].id : this.form.get('regimeTar').value;
-    }
 }

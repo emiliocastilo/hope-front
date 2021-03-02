@@ -3,22 +3,6 @@
 
     <form class="row" [formGroup]="form">
         <div class="col-12">
-            <app-input-select
-                class="select-combo margin-firefox"
-                id="regimeTar"
-                form="form"
-                [form]="form"
-                [labelValue]="'treatmentType' | translate"
-                [options]="regimeTarOptions"
-                [placeholder]="'treatmentType' | translate"
-                [selectMultiple]="false"
-                [form]="form"
-                [required]="true"
-            >
-            </app-input-select>
-        </div>
-
-        <div class="col-12">
             <app-input-typeahead
                 id="medicine"
                 formControlName="medicine"
@@ -33,6 +17,21 @@
                 (selectTypeahead)="onSelectMedicine($event)"
             >
             </app-input-typeahead>
+        </div>
+        <div class="col-12">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="gesidaGuideline"
+                form="form"
+                [form]="form"
+                [labelValue]="'gesidaGuideline' | translate"
+                [options]="gesidaGuidelineOptions"
+                [placeholder]="'gesidaGuideline' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+                [required]="true"
+            >
+            </app-input-select>
         </div>
         <div class="col-6">
             <app-input id="family" formControlName="family" [label]="'family' | translate" [placeholder]="'family' | translate" type="text" [invalidLabel]="getInvalidLabel('family')" [required]="true" [isDisabled]="true"> </app-input>
@@ -89,6 +88,21 @@
         </div>
         <div class="col-6">
             <app-input id="dateStart" formControlName="dateStart" [label]="'dateStart' | translate" [placeholder]="'dateStart' | translate" type="date" [required]="true" [invalidLabel]="getInvalidLabel('dateStart')"> </app-input>
+        </div>
+        <div class="col-6">
+            <app-input-select
+                class="select-combo margin-firefox"
+                id="regimeTar"
+                form="form"
+                [form]="form"
+                [labelValue]="'treatmentType' | translate"
+                [options]="regimeTarOptions"
+                [placeholder]="'treatmentType' | translate"
+                [selectMultiple]="false"
+                [form]="form"
+                [required]="true"
+            >
+            </app-input-select>
         </div>
         <div class="col-6">
             <app-input id="expectedEndDate" formControlName="expectedEndDate" [label]="'expectedEndDate' | translate" [placeholder]="'expectedEndDate' | translate" type="date" [invalidLabel]="getInvalidLabel('expectedEndDate')"> </app-input>

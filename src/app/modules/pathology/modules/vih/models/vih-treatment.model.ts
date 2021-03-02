@@ -18,16 +18,10 @@ export class VihTreatmentModel {
     lines?: LineTreatment[];
     suspensionDate?: Date | string;
     // ? Los que faltan
-    psychologicalImpact: boolean = false;
     datePrescription: Date | string;
     expectedEndDate: Date | string;
     observations: string;
     otherDose: string;
-    treatmentContinue: boolean = false;
-    visibleInjury: boolean = false;
-    pulsatileTreatment: boolean = false;
-    specialIndication: boolean = false;
-    other: string;
 }
 
 export interface LineTreatment {
