@@ -33,22 +33,22 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
     form: FormGroup;
     public f: any;
 
-    get controls () {
+    get controls() {
         return this.config.filter(({ type }) => type !== 'button' || 'title');
     }
-    get changes () {
+    get changes() {
         return this.form.valueChanges;
     }
-    get valid () {
+    get valid() {
         return this.form.valid;
     }
-    get value () {
+    get value() {
         return this.form.value;
     }
 
-    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService, private readonly calculatedBackService: CalculatedBackService) { }
+    constructor(private fb: FormBuilder, private _modalService: NgbModal, private _formsService: FormsService, private _dynamicFormService: DynamicFormService, private readonly calculatedBackService: CalculatedBackService) {}
 
-    ngOnInit () {
+    ngOnInit() {
         this.onLoad = true;
         if (this.isAccordion) this.form = this._dynamicFormService.form;
         else this.form = new FormGroup({});
@@ -82,7 +82,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         } else this._dynamicFormService.addControls(this.controls, this.config, this.isModal);
     }
 
-    ngOnChanges () {
+    ngOnChanges() {
         if (this.form) {
             if (this.key === 'personal-information') this.config = FormUtils.getLocalStoragePatientData(this.config);
             const controls = Object.keys(this.form.controls);
@@ -115,7 +115,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
-    public handleSubmit (event: Event): void {
+    public handleSubmit(event: Event): void {
         event.preventDefault();
         event.stopPropagation();
         if (this.valid && this.validationHistoric(event)) {
@@ -126,19 +126,19 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
-    public cleanClick (event: Event): void {
+    public cleanClick(event: Event): void {
         this.form.reset();
     }
 
-    public cancelClick (): void {
+    public cancelClick(): void {
         if (this.isModal) {
             this.cancel.emit(true);
         }
     }
 
-    public showChartFront (event: Event): void {
+    public showChartFront(event: Event): void {
         let parseData = [];
-        if (this.controls.find(f => f.type === 'historic')) {
+        if (this.controls.find((f) => f.type === 'historic')) {
             this.controls.forEach((control) => {
                 if (control.type === 'historic' && control.historic && control.name !== 'date') {
                     const object = {
@@ -148,15 +148,15 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
                     parseData.push(object);
                 }
             });
-        } else if (this.controls.find(f => f.type === 'table')) {
+        } else if (this.controls.find((f) => f.type === 'table')) {
             const charts = [];
-            const tableRows = this.controls.find(f => f.type === 'table').value;
+            const tableRows = this.controls.find((f) => f.type === 'table').value;
 
             tableRows.forEach((row) => {
-                Object.keys(row).forEach(field => {
+                Object.keys(row).forEach((field) => {
                     if (field !== 'date') {
-                        if (!charts.find(f => f.name === field)) charts.push({ name: field, values: [] });
-                        charts.find(f => f.name === field).values.push({ date: new Date(row.date), value: row[field] });
+                        if (!charts.find((f) => f.name === field)) charts.push({ name: field, values: [] });
+                        charts.find((f) => f.name === field).values.push({ date: new Date(row.date), value: row[field] });
                     }
                 });
             });
@@ -166,7 +166,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         this.showModal(parseData);
     }
 
-    public async showChartFromBack (): Promise<any> {
+    public async showChartFromBack(): Promise<any> {
         const patient = JSON.parse(localStorage.getItem('selectedPatient'));
         const dataGraph: any = await this._formsService.retrieveFormGraph(this.key, patient.id);
 
@@ -182,7 +182,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         this.showModal(dataGraph);
     }
 
-    private isNormalType (type: string): boolean {
+    private isNormalType(type: string): boolean {
         const isArray = ['table', 'historic', 'title', 'button'];
         const found = isArray.find((e) => e === type);
         if (found) {
@@ -192,7 +192,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
-    private detectCalculated (): void {
+    private detectCalculated(): void {
         this.changes.subscribe((change: any) => {
             const params = [];
             // Calculated front
@@ -213,7 +213,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         });
     }
 
-    private enabledThen (config: Array<FieldConfig>): void {
+    private enabledThen(config: Array<FieldConfig>): void {
         const calculatedFields = config.filter((e) => e.enableWhen && e.enableWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
@@ -240,7 +240,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
-    private detectCalculatedBack (): void {
+    private detectCalculatedBack(): void {
         this.changes.pipe(debounceTime(800)).subscribe((change) => {
             const calculatedField: FieldConfig = this.config.find((e) => e.calculated_back); //TODO: actualmente solo funciona con un campo calculado en back por formulario (find)
             if (calculatedField) {
@@ -258,16 +258,16 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         });
     }
 
-    private validFields (fields: string[]): boolean {
+    private validFields(fields: string[]): boolean {
         return fields.filter((field: string) => this.form.get(field).invalid).length === 0;
     }
 
-    private dirtyFields (fields: string[]): boolean {
+    private dirtyFields(fields: string[]): boolean {
         const a = fields.filter((field: string) => this.form.get(field).dirty);
         return a.length > 0;
     }
 
-    private displayElement (config: Array<FieldConfig>): void {
+    private displayElement(config: Array<FieldConfig>): void {
         const calculatedFields = config.filter((e) => e.hiddenWhen && e.hiddenWhen.length >= 2);
         if (calculatedFields && calculatedFields.length > 0) {
             calculatedFields.forEach((field) => {
@@ -290,7 +290,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
-    showWhen (field: FieldConfig) {
+    showWhen(field: FieldConfig) {
         // ? Cuando devuelve true el objeto es visible ? //
         if (field.hiddenWhen[0] === 'patientGender') {
             return this.currentPatient.genderCode !== field.hiddenWhen[1];
@@ -308,7 +308,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
-    private createControl (config: FieldConfig): FormControl {
+    private createControl(config: FieldConfig): FormControl {
         if (config.calculated_front) {
             const params = [];
             config.params.forEach((e, i) => {
@@ -322,7 +322,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         return this.fb.control({ disabled, value }, validation);
     }
 
-    private createArray (config: FieldConfig): FormArray {
+    private createArray(config: FieldConfig): FormArray {
         const group: FormGroup = this.fb.group({});
         config.fields.forEach((field) => {
             group.addControl(field.name, this.fb.control(''));
@@ -330,7 +330,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         return this.fb.array([group]);
     }
 
-    private createHistoric (config: FieldConfig): FormArray {
+    private createHistoric(config: FieldConfig): FormArray {
         const { validation } = config;
         const group = this.fb.group({});
         group.addControl('date', this.fb.control('', validation));
@@ -338,7 +338,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         return this.fb.array([group]);
     }
 
-    private parseIsoToDate (array: any[]): any[] {
+    private parseIsoToDate(array: any[]): any[] {
         const parseArrayData = array
             .filter((object) => object.date && object.value)
             .map((object: any) => {
@@ -348,7 +348,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         return parseArrayData;
     }
 
-    private showModal (data: any[]) {
+    private showModal(data: any[]) {
         const modalRef = this._modalService.open(ManyChartModalComponent, {
             size: 'lg',
         });
@@ -359,7 +359,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         });
     }
 
-    private setDisabled (name: string, disable: boolean): FieldConfig {
+    private setDisabled(name: string, disable: boolean): FieldConfig {
         if (this.form.controls[name]) {
             const method = disable ? 'disable' : 'enable';
             this.form.controls[name][method]({ emitEvent: false });
@@ -374,7 +374,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         });
     }
 
-    private validationHistoric (event: Event): boolean {
+    private validationHistoric(event: Event): boolean {
         let isValid: boolean = true;
         let historicWithValidations = this.config.filter((e) => e.validation && e.type === 'historic');
         if (historicWithValidations && historicWithValidations.length > 0) {
@@ -389,7 +389,7 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         return isValid;
     }
 
-    private setValueToEmptyHistoricInput (event: Event): any {
+    private setValueToEmptyHistoricInput(event: Event): any {
         const object = {
             date: '',
             value: '',
@@ -410,11 +410,11 @@ export class DynamicFormComponent implements OnChanges, OnDestroy, OnInit {
         return this.value;
     }
 
-    private isStringEmpty (text: string): boolean {
+    private isStringEmpty(text: string): boolean {
         return !text || text === null || text === undefined || text === '';
     }
 
-    ngOnDestroy () {
+    ngOnDestroy() {
         this.formValueChangeSubscription.unsubscribe();
         this.formObserver.unsubscribe();
     }

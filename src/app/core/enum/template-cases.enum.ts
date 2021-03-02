@@ -14,7 +14,7 @@ export const CleanOnInitTemplates: string[] = [
 
 export const PartialCleanOnInitTemplates: string[] = [
     // * VIH * //
-    'cardiovascular-risk'
+    'cardiovascular-risk',
 ];
 
 export const AvoidSaveMessageTemplates: string[] = ['personal-information'];

@@ -9,15 +9,21 @@ import { AccordionPanel, FieldConfig } from 'src/app/core/interfaces/dynamic-for
 })
 export class FormAccordionComponent implements OnInit {
     config: FieldConfig;
-    name: string;
-    id: string;
+    currentPanel: number;
     group: FormGroup;
+    id: string;
+    name: string;
     optionSelected: boolean;
-    required = false;
     panels: AccordionPanel[];
+    required = false;
 
     ngOnInit() {
         this.panels = this.config.accordion.panels;
         this.name = this.config.name;
+    }
+
+    setCurrentPanel(panelIndex: number) {
+        if (this.currentPanel === panelIndex) this.currentPanel = -1;
+        else this.currentPanel = panelIndex;
     }
 }

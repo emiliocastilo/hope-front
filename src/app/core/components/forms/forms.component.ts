@@ -8,7 +8,7 @@ import { NotificationService } from '../../services/notification.service';
 import { PatientModel } from 'src/app/modules/pathology/models/patient.model';
 import { HttpClient } from '@angular/common/http';
 import { HealthOutcomeService } from 'src/app/modules/pathology/modules/dermatology/services/health-outcome.service';
-import { CleanOnInitTemplates } from '../../enum/template-cases.enum';
+import { CleanOnInitTemplates, PartialCleanOnInitTemplates } from '../../enum/template-cases.enum';
 import { FieldConfigModel } from '../../models/forms/field-config.model';
 import moment from 'moment';
 
@@ -37,6 +37,18 @@ export class FormsComponent implements OnInit, OnDestroy {
         this.patient = JSON.parse(localStorage.getItem('selectedPatient'));
     }
 
+    setDefaultFormStatus(fullReset: boolean) {
+        console.log('setDefaultFormStatus', fullReset);
+        const defaultValuedField = this.emptyForm.find((f) => f.defaultValue !== undefined);
+        if (defaultValuedField?.value != moment(new Date()).format('YYYY-MM-DD')) {
+            this.config.forEach((item) => {
+                if (fullReset || (!fullReset && item.resetOnLoad)) item.value = item.type === 'checkbox' ? false : undefined;
+            });
+
+            this.config.find((f) => f.name === defaultValuedField.name).value = moment(new Date()).format('YYYY-MM-DD');
+        }
+    }
+
     getAndParseForm() {
         this._formsService.retrieveForm(this.key, this.patient.id).subscribe((retrievedForm: any) => {
             if (retrievedForm && retrievedForm.data && retrievedForm.data.length > 0) {
@@ -52,17 +64,8 @@ export class FormsComponent implements OnInit, OnDestroy {
                     const defaultFields = this.emptyForm.filter((f) => f.defaultValue === 'today');
 
                     this.config = FormUtils.createFieldConfig(this.emptyForm, this.filledForm);
+                    if (CleanOnInitTemplates.includes(this.key) || PartialCleanOnInitTemplates.includes(this.key)) this.setDefaultFormStatus(CleanOnInitTemplates.includes(this.key) ? true : false);
 
-                    if (CleanOnInitTemplates.includes(this.key)) {
-                        const defaultValuedField = this.emptyForm.find((f) => f.defaultValue !== undefined);
-                        if (defaultValuedField?.value != moment(new Date()).format('YYYY-MM-DD')) {
-                            // TODO :: Hacer un cribado más exhaustivo de campos tipo fecha que tengan defaultValue == today
-                            this.config.forEach((item) => {
-                                if (!item.disabled) item.value = undefined;
-                            });
-                            this.config.find((f) => f.name === defaultValuedField.name).value = moment(new Date()).format('YYYY-MM-DD');
-                        }
-                    }
                     const buttons = this._parseStringToJSON(data.buttons);
                     this.buttons = FormUtils.createButtons(buttons);
 

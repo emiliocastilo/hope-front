@@ -1,19 +1,19 @@
-@import './assets/styles/variables.scss';
-@import '~angular-tree-component/dist/angular-tree-component.css';
-@import './assets/styles/button-boostrap-theme.scss';
+@import "./assets/styles/variables.scss";
+@import "~angular-tree-component/dist/angular-tree-component.css";
+@import "./assets/styles/button-boostrap-theme.scss";
 
 @font-face {
-  font-family: 'Raleway-light';
+  font-family: "Raleway-light";
   src: url(assets/fonts/Raleway/Raleway-Light.ttf);
 }
 
 @font-face {
-  font-family: 'Raleway-thin';
+  font-family: "Raleway-thin";
   src: url(assets/fonts/Raleway/Raleway-Thin.ttf);
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .app {
@@ -57,6 +57,11 @@ body {
   .inactive {
     color: rgb(170, 170, 170);
   }
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .dropdown.ngx-contextmenu {
@@ -140,15 +145,15 @@ body {
 }
 
 .required-label::after {
-  content: ' *';
+  content: " *";
   color: red;
   font-size: 1.2rem;
 }
 
 button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
+[type="button"],
+[type="reset"],
+[type="submit"] {
   -webkit-appearance: none;
 }
 

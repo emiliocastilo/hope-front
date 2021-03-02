@@ -2,8 +2,20 @@
     <div class="card" *ngFor="let panel of panels; let i = index">
         <div class="card-header" id="heading{{ i }}">
             <h2 class="mb-0">
-                <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'#collapse' + i">
+                <button
+                    class="btn btn-block text-left collapsed d-flex justify-content-between"
+                    type="button"
+                    (click)="setCurrentPanel(i)"
+                    data-toggle="collapse"
+                    [attr.data-target]="'#collapse' + i"
+                    aria-expanded="false"
+                    [attr.aria-controls]="'#collapse' + i"
+                >
                     {{ panel.header | translate }}
+                    <span>
+                        <i-feather [hidden]="currentPanel !== i" name="chevron-up"></i-feather>
+                        <i-feather [hidden]="currentPanel === i" name="chevron-down"></i-feather>
+                    </span>
                 </button>
             </h2>
         </div>

@@ -62,6 +62,7 @@ export interface FieldConfig {
     readonly?: boolean;
     rows?: number;
     selectMultiple?: boolean;
+    resetOnLoad?: boolean;
     table?: {
         hiddenColumn?: boolean;
     };
