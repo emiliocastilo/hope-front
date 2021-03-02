@@ -11,7 +11,6 @@ import { VihTreatmentModel } from '../../../../models/vih-treatment.model';
     styleUrls: ['./principal-treatment-modal-suspend.component.scss'],
 })
 export class PrincipalTreatmentModalSuspendComponent implements OnInit {
-    @Input() indication: string;
     @Input() treatment: VihTreatmentModel;
     @Input() lineTreatment: LineTreatment;
     @Output() cancel: EventEmitter<any> = new EventEmitter();
@@ -30,7 +29,6 @@ export class PrincipalTreatmentModalSuspendComponent implements OnInit {
 
     ngOnInit(): void {
         this.buildForm();
-        this.isFormulaMagistral = this.treatment.masterFormula !== null;
 
         this.reasonSuspensionOptions = [
             { id: 0, name: this._translate.instant('reasonSuspensionList.motive1') },
@@ -49,19 +47,15 @@ export class PrincipalTreatmentModalSuspendComponent implements OnInit {
     private buildForm(): void {
         this.form = this._formBuilder.group({
             reasonSuspension: ['', Validators.required],
-            medicine: [this.lineTreatment.medicine?.description, this.requiredIfNotFormulaMagistral.bind(this)],
-            family: [this.lineTreatment.medicine?.family, this.requiredIfNotFormulaMagistral.bind(this)],
-            atc: [this.lineTreatment.medicine?.codeAtc, this.requiredIfNotFormulaMagistral.bind(this)],
-            cn: [this.lineTreatment.medicine?.nationalCode, this.requiredIfNotFormulaMagistral.bind(this)],
-            tract: [this.lineTreatment.medicine?.viaAdministration, this.requiredIfNotFormulaMagistral.bind(this)],
-            dose: [this.lineTreatment.dose, this.requiredIfNotFormulaMagistral.bind(this)],
+            medicine: [this.lineTreatment.medicine?.description, Validators.required],
+            family: [this.lineTreatment.medicine?.family, Validators.required],
+            atc: [this.lineTreatment.medicine?.codeAtc, Validators.required],
+            cn: [this.lineTreatment.medicine?.nationalCode, Validators.required],
+            tract: [this.lineTreatment.medicine?.viaAdministration, Validators.required],
+            dose: [this.lineTreatment.dose, Validators.required],
             otherDosis: [this.lineTreatment.otherDose],
             regimenTreatment: [this.lineTreatment.regimen, Validators.required],
             dateSuspension: [moment().format('yyyy-MM-DD')],
-            descripcionFormulaMagistral: [this.treatment.masterFormula, this.requiredIfFormulaMagistral.bind(this)],
-            dosisFormulaMagistral: [this.treatment.masterFormulaDose],
-            opcionMedicamento: [''],
-            opcionFormulaMagistral: [''],
         });
     }
 
@@ -84,20 +78,5 @@ export class PrincipalTreatmentModalSuspendComponent implements OnInit {
         const errors = this.form ? this.form.get(formKey).errors : undefined;
         const label = errors ? Object.keys(errors).filter((key: string) => errors[key]) : undefined;
         return label ? `form.validate.${label[0]}` : 'form.validate.required';
-    }
-
-    private requiredIfNotFormulaMagistral(formControl: FormControl): ValidationErrors {
-        let errors: ValidationErrors = null;
-        if (!this.isFormulaMagistral && !formControl.value) {
-            errors = { required: true };
-        }
-        return errors;
-    }
-    private requiredIfFormulaMagistral(formControl: FormControl): ValidationErrors {
-        let errors: ValidationErrors = null;
-        if (this.isFormulaMagistral && !formControl.value) {
-            errors = { required: true };
-        }
-        return errors;
     }
 }

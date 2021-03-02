@@ -26,7 +26,7 @@ import { PrincipalTreatmentModalCreateComponent } from './principal-treatment-mo
 export class PrincipalTreatmentComponent implements OnInit {
     private currentIndication: IndicationModel;
     key = constants.farmacologiesTreatments;
-    public columHeaders = ['indication', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension', 'treatmentType'];
+    public columHeaders = ['gesidaGuideline', 'principle', 'brand', 'dose', 'dateStart', 'datePrescription', 'dateSuspension', 'treatmentType'];
     public actions: TableActionsModel[] = [new TableActionsModel('suspend', 'edit-3'), new TableActionsModel('edit', 'edit-2'), new TableActionsModel('delete', 'trash')];
     public tableData: any[] = [];
     public dataBackUp: DermaTreatmentModel[] = [];
@@ -111,7 +111,6 @@ export class PrincipalTreatmentComponent implements OnInit {
     public showModalCreate(): void {
         let modalRef: NgbModalRef = this._modalService.open(PrincipalTreatmentModalCreateComponent, { size: 'lg' });
 
-        modalRef.componentInstance.indication = this.currentIndication;
         modalRef.componentInstance.patientId = this.patient.id;
         modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
 
@@ -180,7 +179,6 @@ export class PrincipalTreatmentComponent implements OnInit {
             modalRef.componentInstance.treatment = treatment;
             modalRef.componentInstance.lineTreatment = line;
 
-            modalRef.componentInstance.indication = this.currentIndication;
             modalRef.componentInstance.title = 'editTreatment';
             modalRef.componentInstance.cancel.subscribe((event: any) => modalRef.close());
             modalRef.componentInstance.save.subscribe((treatment: EditTreatmentModel) => {

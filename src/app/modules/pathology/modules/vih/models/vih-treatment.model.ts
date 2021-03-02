@@ -5,18 +5,16 @@ export class VihTreatmentModel {
     treatmentId?: number;
     patientDiagnose?: PatientDiagnoseModel;
     active?: boolean = true;
-    type?: string;
     medicine?: MedicineModel;
     dose?: string; // ! Debería ser DoseModel
-    masterFormula?: string;
-    masterFormulaDose?: string;
     regimen?: string;
     initDate?: Date | string;
     finalDate?: Date | string;
     endCause?: string;
     reason?: string;
-    lines?: LineTreatment[];
+    lines?: VihLineTreatment[];
     suspensionDate?: Date | string;
+    gesidaGuideline?: string;
     // ? Los que faltan
     datePrescription: Date | string;
     expectedEndDate: Date | string;
@@ -24,33 +22,25 @@ export class VihTreatmentModel {
     otherDose: string;
 }
 
-export interface LineTreatment {
-    specialIndication: boolean;
-    psychologicalImpact: boolean;
-    visibleInjury: boolean;
-    other: string;
+export interface VihLineTreatment {
     otherDose: string;
     datePrescription: Date | string;
     initDate: Date | string;
     expectedEndDate: Date | string;
     observations: string;
-    treatmentContinue: boolean;
-    pulsatileTreatment: boolean;
     lineId?: number;
     treatmentId?: number;
     patientTreatment?: number;
     modificationCount?: number;
-    type?: string;
     medicine?: MedicineModel;
     dose?: string;
-    masterFormula?: string;
-    masterFormulaDose?: string;
     regimen?: string;
     reason?: string;
     hadMedicineChange?: boolean;
     active?: boolean;
     suspensionDate?: Date | string;
     deleted?: boolean;
+    gesidaGuideline?: string;
 }
 
 export interface SuspendTreatmentModel {
@@ -59,30 +49,22 @@ export interface SuspendTreatmentModel {
     reason: string;
 }
 
-export interface EditTreatmentModel {
+export interface VihEditTreatmentModel {
     lineId: number;
     patientTreatment: number;
     hadMedicineChange?: boolean;
     modificationCount?: number;
     reason?: string;
-    type?: string;
     medicine?: MedicineModel;
     dose?: string;
-    masterFormula?: string;
-    masterFormulaDose?: string;
     regimen?: string;
 
     datePrescription?: Date | string;
     expectedEndDate?: Date | string;
     initDate?: Date | string;
     observations?: string;
-    other?: string;
     otherDose?: string;
-    psychologicalImpact?: boolean;
-    treatmentContinue?: boolean;
-    visibleInjury?: boolean;
-    pulsatileTreatment?: boolean;
-    specialIndication?: boolean;
+    gesidaGuideline?: string;
 }
 
 export interface ValueKeyModel {

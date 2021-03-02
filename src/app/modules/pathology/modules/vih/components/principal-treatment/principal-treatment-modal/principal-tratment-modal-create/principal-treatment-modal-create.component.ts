@@ -26,7 +26,6 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
     public doseOptions: Array<{ id: string; name: string }>;
     public gesidaGuidelineOptions: Array<{ id: number; name: string }>;
     public regimeTarOptions: Array<{ id: number; name: string }>;
-    public regimenTreatmentOptions: Array<{ name: string }>;
     public isOtherDoseSelected: boolean = false;
     public form: FormGroup;
 
@@ -88,6 +87,7 @@ export class PrincipalTreatmentModalCreateComponent implements OnInit {
                 initDate: treatmentData.dateStart ? new Date(treatmentData.dateStart).toISOString() : '',
                 observations: treatmentData.observations,
                 otherDose: treatmentData.otherDosis,
+                gesidaGuideline: treatmentData.gesidaGuideline.name,
             };
 
             this.save.emit(patientTreatment);

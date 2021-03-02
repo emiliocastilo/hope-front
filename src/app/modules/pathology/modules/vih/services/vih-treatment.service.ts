@@ -1,4 +1,4 @@
-import { VihTreatmentModel, EditTreatmentModel, SuspendTreatmentModel } from './../models/vih-treatment.model';
+import { VihTreatmentModel, VihEditTreatmentModel, SuspendTreatmentModel } from './../models/vih-treatment.model';
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -33,7 +33,7 @@ export class VihTreatmentsService {
         return this._http.post<void>(`${this.endPoint}/new`, treatment);
     }
 
-    public updateTreatment(treatment: EditTreatmentModel): Observable<void> {
+    public updateTreatment(treatment: VihEditTreatmentModel): Observable<void> {
         return this._http.post<void>(`${this.endPoint}/update`, treatment);
     }
 

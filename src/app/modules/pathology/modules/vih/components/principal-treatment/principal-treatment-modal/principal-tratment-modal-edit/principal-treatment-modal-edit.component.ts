@@ -1,3 +1,4 @@
+import { VihEditTreatmentModel, VihLineTreatment } from './../../../../models/vih-treatment.model';
 import { Input, Output, EventEmitter, OnInit, Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,15 +9,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { IndicationModel } from 'src/app/modules/management/models/indication/indication.model';
 import { DoseModel } from 'src/app/modules/management/models/medicines/dose.model';
 import { MedicineModel } from 'src/app/modules/management/models/medicines/medicines.model';
-import { LineTreatment, EditTreatmentModel } from 'src/app/modules/pathology/modules/dermatology/models/derma-treatment.model';
 import { VihTreatmentModel } from '../../../../models/vih-treatment.model';
-
-enum TREATMENT_TYPE {
-    BIOLOGICO = 'BIOLOGICO',
-    QUIMICO = 'QUIMICO',
-    TOPICO = 'TOPICO',
-}
-
 @Component({
     selector: 'app-principal-treatment-modal-edit',
     templateUrl: './principal-treatment-modal-edit.component.html',
@@ -26,20 +19,19 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
     @Input() indication: IndicationModel;
     @Input() patientId: string;
     @Input() treatment: VihTreatmentModel;
-    @Input() lineTreatment: LineTreatment;
+    @Input() lineTreatment: VihLineTreatment;
     @Output() cancel: EventEmitter<any> = new EventEmitter();
-    @Output() save: EventEmitter<EditTreatmentModel> = new EventEmitter();
+    @Output() save: EventEmitter<VihEditTreatmentModel> = new EventEmitter();
 
     public title: string = 'editTreatment';
-    public treatmentTypeOptions: Array<{ id: TREATMENT_TYPE; name: string }>;
     public doseOptions: Array<{ id: string; name: string }>;
+    public gesidaGuidelineOptions: Array<{ id: number; name: string }>;
+    public regimeTarOptions: Array<{ id: number; name: string }>;
     public reasonChangeOptions: Array<{ id: number; name: string }>;
-    public regimenTreatmentOptions: Array<{ id: number; name: string }>;
-    public isFormulaMagistral: boolean = false;
     public isOtherDoseSelected: boolean = false;
     public form: FormGroup;
 
-    public treatmentTypeSelectedId;
+    public gesidaGuidelineSelectedId;
     public doseSelectedId;
     public regimenTreatmentSelectedId;
 
@@ -52,10 +44,24 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.treatmentTypeOptions = [
-            { id: TREATMENT_TYPE.BIOLOGICO, name: this._translate.instant('biological') },
-            { id: TREATMENT_TYPE.QUIMICO, name: this._translate.instant('chemical') },
-            { id: TREATMENT_TYPE.TOPICO, name: this._translate.instant('topical') },
+        this.fillSelectOptions();
+        this.buildForm();
+        if (this.lineTreatment.medicine) {
+            this.originalMedicineId = this.lineTreatment.medicine.id;
+            this.getDosesByMedicine(this.lineTreatment.medicine);
+        }
+    }
+    private fillSelectOptions() {
+        this.gesidaGuidelineOptions = [
+            { id: 1, name: this._translate.instant('gesidaGuideline.preferenteStartGuideline') },
+            { id: 2, name: this._translate.instant('gesidaGuideline.alternativeStartGuideline') },
+            { id: 3, name: this._translate.instant('gesidaGuideline.recommendedChangeGuideline') },
+            { id: 4, name: this._translate.instant('gesidaGuideline.otherGuidelineChange') },
+        ];
+        this.regimeTarOptions = [
+            { id: 1, name: this._translate.instant('regimeTar.simplification') },
+            { id: 2, name: this._translate.instant('regimeTar.standardScheme') },
+            { id: 3, name: this._translate.instant('regimeTar.intensifiedScheme') },
         ];
         this.reasonChangeOptions = [
             { id: 0, name: this._translate.instant('reasonSuspensionList.motive1') },
@@ -69,84 +75,48 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
             { id: 8, name: this._translate.instant('reasonSuspensionList.motive9') },
             { id: 9, name: this._translate.instant('reasonSuspensionList.motive10') },
         ];
-        this.regimenTreatmentOptions = [
-            { id: 1, name: this._translate.instant('intensificada') },
-            { id: 2, name: this._translate.instant('standard') },
-            { id: 3, name: this._translate.instant('reduced') },
-        ];
-        this.buildForm();
-        if (this.lineTreatment.medicine) {
-            this.originalMedicineId = this.lineTreatment.medicine.id;
-            this.getDosesByMedicine(this.lineTreatment.medicine);
-        }
     }
 
     private buildForm(): void {
-        const treatmentTypeSelected = this.treatmentTypeOptions.find((type: { id: string; name: string }) => type.id.toUpperCase() === this.lineTreatment.type);
-        this.treatmentTypeSelectedId = treatmentTypeSelected.id;
-        this.regimenTreatmentSelectedId = this.regimenTreatmentOptions.find((regimen: { id: number; name: string }) => regimen.name === this.treatment.regimen).id;
-        let opcionBiologica: string = '';
+        this.gesidaGuidelineSelectedId = this.gesidaGuidelineOptions.find((type: { id: number; name: string }) => type.name === this.lineTreatment.gesidaGuideline).id;
+        this.regimenTreatmentSelectedId = this.regimeTarOptions.find((regimen: { id: number; name: string }) => regimen.name === this.treatment.regimen).id;
 
-        if (this.lineTreatment.type === TREATMENT_TYPE.TOPICO) {
-            this.isFormulaMagistral = !this.lineTreatment.medicine;
-            opcionBiologica = this.isFormulaMagistral ? 'opcionFormulaMagistral' : 'opcionMedicamento';
-        }
         this.form = this._formBuilder.group({
+            gesidaGuideline: ['', Validators.required],
             reasonChange: [''],
-            indication: [this.indication.description, Validators.required],
-            specialIndication: [this.lineTreatment.specialIndication],
-            bigPsychologicalImpact: [this.lineTreatment.psychologicalImpact],
-            visibleInjury: [this.lineTreatment.visibleInjury],
-            others: [this.lineTreatment.other],
-            treatmentType: [treatmentTypeSelected, Validators.required],
-            opcionMedicamento: [''],
-            opcionFormulaMagistral: [''],
-            opcionBiologica: [opcionBiologica],
-            medicine: [this.lineTreatment.medicine ? { ...this.lineTreatment.medicine, name: this.lineTreatment.medicine?.description } : '', this.requiredIfNotFormulaMagistral.bind(this)],
-            family: [this.lineTreatment.medicine?.family, this.requiredIfNotFormulaMagistral.bind(this)],
-            atc: [this.lineTreatment.medicine?.codeAtc, this.requiredIfNotFormulaMagistral.bind(this)],
-            cn: [this.lineTreatment.medicine?.nationalCode, this.requiredIfNotFormulaMagistral.bind(this)],
-            tract: [this.lineTreatment.medicine?.viaAdministration, this.requiredIfNotFormulaMagistral.bind(this)],
-            descripcionFormulaMagistral: [this.lineTreatment.masterFormula, this.requiredIfFormulaMagistral.bind(this)],
-            dosisFormulaMagistral: [this.lineTreatment.masterFormulaDose],
-            dose: [this.lineTreatment.dose, this.requiredIfNotFormulaMagistral.bind(this)],
+            medicine: [this.lineTreatment.medicine ? { ...this.lineTreatment.medicine, name: this.lineTreatment.medicine?.description } : '', Validators.required],
+            family: [this.lineTreatment.medicine?.family, Validators.required],
+            atc: [this.lineTreatment.medicine?.codeAtc, Validators.required],
+            cn: [this.lineTreatment.medicine?.nationalCode, Validators.required],
+            tract: [this.lineTreatment.medicine?.viaAdministration, Validators.required],
+            dose: [this.lineTreatment.dose, Validators.required],
             otherDosis: [this.lineTreatment.otherDose, this.requiredOtherDose.bind(this)],
-            regimenTreatment: [this.lineTreatment.regimen, Validators.required],
+            regimeTar: [this.lineTreatment.regimen, Validators.required],
             datePrescription: [this.lineTreatment.datePrescription, Validators.required],
             dateStart: [this.lineTreatment.initDate, Validators.required],
             expectedEndDate: [this.lineTreatment.expectedEndDate],
             observations: [this.lineTreatment.observations],
-            treatmentContinue: [this.lineTreatment.treatmentContinue],
-            treatmentPulsatil: [this.lineTreatment.pulsatileTreatment],
         });
     }
 
     public onSave() {
         if (this.validForm) {
             const treatmentData = this.form.value;
-            const patientTreatment: EditTreatmentModel = {
+            const patientTreatment: VihEditTreatmentModel = {
                 lineId: this.lineTreatment.lineId,
                 patientTreatment: this.treatment.treatmentId,
                 datePrescription: treatmentData.datePrescription ? new Date(treatmentData.datePrescription).toISOString() : '',
                 expectedEndDate: treatmentData.expectedEndDate ? new Date(treatmentData.expectedEndDate).toISOString() : '',
-                type: treatmentData.treatmentType.id,
                 regimen: treatmentData.regimenTreatment?.name || treatmentData.regimenTreatment,
                 medicine: treatmentData.medicine,
                 dose: treatmentData.dose?.name || treatmentData.dose,
-                masterFormula: treatmentData.descripcionFormulaMagistral,
-                masterFormulaDose: treatmentData.dosisFormulaMagistral,
                 initDate: treatmentData.dateStart ? new Date(treatmentData.dateStart).toISOString() : '',
-                psychologicalImpact: treatmentData.bigPsychologicalImpact,
                 observations: treatmentData.observations,
                 otherDose: treatmentData.otherDosis,
-                treatmentContinue: treatmentData.treatmentContinue,
-                visibleInjury: treatmentData.visibleInjury,
-                pulsatileTreatment: treatmentData.treatmentPulsatil,
-                other: treatmentData.others,
                 hadMedicineChange: this.originalMedicineId !== treatmentData.medicine?.id,
                 reason: treatmentData.reasonChange.name,
                 modificationCount: this.lineTreatment.modificationCount,
-                specialIndication: treatmentData.specialIndication,
+                gesidaGuideline: treatmentData.gesidaGuideline?.name || treatmentData.gesidaGuideline,
             };
 
             this.save.emit(patientTreatment);
@@ -161,14 +131,6 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
         const errors = this.form ? this.form.get(formKey).errors : undefined;
         const label = errors ? Object.keys(errors).filter((key: string) => errors[key]) : undefined;
         return label ? `form.validate.${label[0]}` : 'form.validate.required';
-    }
-
-    public onSelectTreatmentType(treatmentSelected: { id: TREATMENT_TYPE; name: string }): void {
-        if (treatmentSelected.id === TREATMENT_TYPE.BIOLOGICO || treatmentSelected.id === TREATMENT_TYPE.QUIMICO || treatmentSelected.id === TREATMENT_TYPE.TOPICO) {
-            this.form.get('opcionMedicamento').setValue('opcionMedicamento');
-            this.resetFields(['family', 'atc', 'cn', 'tract', 'medicine', 'descripcionFormulaMagistral', 'dosisFormulaMagistral']);
-        }
-        this.isFormulaMagistral = false;
     }
 
     public onSelectMedicine(medicine: MedicineModel): void {
@@ -203,45 +165,6 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
         this.isOtherDoseSelected = this.lineTreatment.dose === 'Otra';
     }
 
-    public isTreatmentTopicSelected(): boolean {
-        return this.form.get('treatmentType')?.value?.id === TREATMENT_TYPE.TOPICO;
-    }
-
-    public setRadioValues(key: string) {
-        if (key === 'opcionFormulaMagistral') {
-            this.form.get('opcionFormulaMagistral').setValue(key);
-            this.form.get('opcionMedicamento').setValue('');
-            this.isFormulaMagistral = true;
-            this.resetFields(['family', 'atc', 'cn', 'tract', 'medicine', 'dose', 'otherDosis']);
-        } else if (key === 'opcionMedicamento') {
-            this.form.get('opcionFormulaMagistral').setValue('');
-            this.form.get('opcionMedicamento').setValue(key);
-            this.isFormulaMagistral = false;
-            this.resetFields(['descripcionFormulaMagistral', 'dosisFormulaMagistral']);
-        }
-    }
-
-    private resetFields(keys: any[]) {
-        keys.forEach((key) => {
-            this.form.get(key).reset();
-        });
-    }
-
-    private requiredIfNotFormulaMagistral(formControl: FormControl): ValidationErrors {
-        let errors: ValidationErrors = null;
-        if (!this.isFormulaMagistral && !formControl.value) {
-            errors = { required: true };
-        }
-        return errors;
-    }
-    private requiredIfFormulaMagistral(formControl: FormControl): ValidationErrors {
-        let errors: ValidationErrors = null;
-        if (this.isFormulaMagistral && !formControl.value) {
-            errors = { required: true };
-        }
-        return errors;
-    }
-
     private requiredOtherDose(formControl: FormControl): ValidationErrors {
         let errors: ValidationErrors = null;
         if (this.isOtherDoseSelected && !formControl.value) {
@@ -255,23 +178,17 @@ export class PrincipalTreatmentModalEditComponent implements OnInit {
             debounceTime(200),
             distinctUntilChanged(),
             switchMap((term) =>
-                this._medicinesService
-                    .getByText(
-                        `search=${term}&treatmentType=${
-                            this.form.get('treatmentType').value.id ? this.form.get('treatmentType').value.id : this.form.get('treatmentType').value[0]?.id ? this.form.get('treatmentType').value[0].id : this.form.get('treatmentType').value
-                        }`
-                    )
-                    .pipe(
-                        map((response: any) => {
-                            return response.content;
-                        }),
-                        tap((data) => {
-                            data.forEach((element) => (element.name = element.description));
-                        }),
-                        catchError(() => {
-                            return of([]);
-                        })
-                    )
+                this._medicinesService.getByText(`search=${term}`).pipe(
+                    map((response: any) => {
+                        return response.content;
+                    }),
+                    tap((data) => {
+                        data.forEach((element) => (element.name = element.description));
+                    }),
+                    catchError(() => {
+                        return of([]);
+                    })
+                )
             )
         );
     };
